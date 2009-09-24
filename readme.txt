@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/
 Tags: login, restriction, membership
 Requires at least: 1.5
 Tested up to: 2.8.4
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 
 This is a plugin to restrict content to be viewable by registered members. 
 
@@ -51,3 +51,14 @@ Make sure you log out of the admin before you test.  If you are logged in as adm
 = How can I show the login status on the sidebar? = 
 
 If your theme is widget enabled, activate the widgets plugin, then add the WP-Members widget to your sidebar.  If you do not have widgets, you can call the function by adding this to your sidebar: `<?php wpmem_inc_sidebar(); ?>`
+
+
+== Changelog ==
+
+= 2.1.1 =
+* Udates for the 2.1.0 release that were not completed.
+* updated variables for some function calls.
+* changed `<--` to `&laquo;`
+* eliminated unnecessary $table_prefix globals.
+* updated some queries to better utilize the $wpdb class.
+* custom fields admin is now managed as an array (cuts the lines of code by 75%, and makes way for user defined custom fields).
