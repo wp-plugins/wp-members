@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI: http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.
-Version: 2.1.0
+Version: 2.1.1
 Author: Chad Butler
 Author URI: http://butlerblog.com/
 */
@@ -209,11 +209,11 @@ function wpmem_securify ($content)
 				switch($wpmem_regchk) {
 					
 				case "pwdreseterr":
-					wpmem_inc_regmessage("pwdreseterr");
+					wpmem_inc_regmessage($wpmem_regchk);
 					break;
 						
 				case "pwdresetsuccess":
-					wpmem_inc_regmessage("pwdresetsuccess");
+					wpmem_inc_regmessage($wpmem_regchk);
 					break;
 						
 				default:
@@ -262,13 +262,13 @@ function wpmem_securify ($content)
 				switch ($wpmem_regchk) {
 				
 				case "pwdchangerr":
-					wpmem_inc_regmessage("pwdchangerr");
+					wpmem_inc_regmessage($wpmem_regchk);
 					wpmem_inc_changepassword();
 					$content = '';
 					break;
 				
 				case "pwdchangesuccess":
-					wpmem_inc_regmessage("pwdchangesuccess");
+					wpmem_inc_regmessage($wpmem_regchk);
 					break;
 				
 				default:
@@ -296,7 +296,7 @@ function wpmem_securify ($content)
 // login function
 function wpmem_login()
 {
-	global $wpdb,$table_prefix;
+	global $wpdb;
 	
 	$redirect_to = $_REQUEST['redirect_to'];
 	if (!$redirect_to) {
@@ -360,7 +360,7 @@ function wpmem_register()
 	require_once( ABSPATH . WPINC . '/registration-functions.php');
 	
 	global $wpmem_regchk, $wpmem_themsg;
-	global $wpdb,$table_prefix;
+	global $wpdb;
 	global $username,$password,$fname,$lname,$addr1,$addr2,$city,
 		$thecity,$thestate,$zip,$country,$phone1,$email;
 
@@ -400,7 +400,7 @@ function wpmem_register()
 			
 		} else {
 		
-			$email_exists = $wpdb->get_row("SELECT user_email FROM $wpdb->users WHERE user_email = '$email'");
+			$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$email'");
 			if ( $email_exists) {
 				
 				$wpmem_regchk = "email";
@@ -408,6 +408,8 @@ function wpmem_register()
 			} else {
 			
 			//everything checks out, so go ahead and insert
+			
+				//The insertion process was taken from the WP core.
 			
 				$password = substr( md5( uniqid( microtime() ) ), 0, 7);
 				$hashpassword = md5($password);
@@ -450,7 +452,7 @@ function wpmem_register()
 
 function wpmem_change_password()
 { 
-	global $wpdb, $table_prefix;
+	global $wpdb;
 	global $user_ID, $userdata;
 	global $wpmem_regchk;
 	if ($_POST['formsubmit']) {
@@ -465,9 +467,8 @@ function wpmem_change_password()
 		} else {
 		
 			//update password in wpdb
-			$new_pass = md5($password1);
-			$query = "UPDATE $wpdb->users SET user_pass = '$new_pass' WHERE ID = $user_ID";
-			$wpdb->query( $query );
+			$new_pass = md5($password1);			
+			$wpdb->update( $wpdb->users, array( 'user_pass' => $new_pass ), array( 'ID' => $user_ID ), array( '%s' ), array( '%d' ) );
 			
 			$wpmem_regchk = "pwdchangesuccess";
 		
@@ -482,7 +483,7 @@ function wpmem_reset_password()
 	// make sure native WP registration functions are loaded
 	require_once( ABSPATH . WPINC . '/registration-functions.php');
 	
-	global $wpdb, $table_prefix;
+	global $wpdb;
 	global $wpmem_regchk;
 	if ($_POST['formsubmit']) {
 	
@@ -508,11 +509,9 @@ function wpmem_reset_password()
 					// everything checks out, go ahead and reset
 					$new_pass     = substr( md5( uniqid( microtime() ) ), 0, 7);
 					$hashpassword = md5($new_pass);
-					$query = "UPDATE $wpdb->users SET user_pass='{$hashpassword}' WHERE user_login = '{$user}'";
-					$wpdb->query( $query );
-					$query = "SELECT ID FROM $wpdb->users WHERE user_login = '{$user}'";
-					$the_id = $wpdb->get_var($query);	
-									
+					$wpdb->update( $wpdb->users, array( 'user_pass' => $hashpassword ), array( 'user_login' => $user ), array( '%s' ), array( '%s' ) );
+					$the_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '{$user}'");
+
 					wpmem_inc_regemail($the_id,$new_pass,'true');
 					$wpmem_regchk = "pwdresetsuccess";
 					//return;
@@ -532,7 +531,7 @@ function wpmem_reset_password()
 function wpmem_update()
 {
 	global $wpmem_regchk, $wpmem_themsg;
-	global $wpdb,$table_prefix;
+	global $wpdb;
 	global $user_ID, $userdata;
 	global $username,$password,$fname,$lname,$addr1,$addr2,$city,
 		$thecity,$thestate,$zip,$country,$phone1,$email;
@@ -566,8 +565,7 @@ function wpmem_update()
 		
 	} else {
 		
-		$query = "UPDATE $wpdb->users SET user_email = '$email' WHERE ID = $user_ID";
-		$wpdb->query( $query );
+		$wpdb->update( $wpdb->users, array( 'user_email' => $email ), array( 'ID' => $user_ID ), array( '%s' ), array( '%d' ) );
 			
 		update_usermeta( $user_ID, 'first_name', $fname);
 		update_usermeta( $user_ID, 'last_name', $lname);
@@ -864,7 +862,7 @@ function wpmem_inc_sidebar()
 function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 {
 
-	global $wpdb, $table_prefix; 
+	global $wpdb; 
 	global $user_ID, $userdata;
 	global $securify,$wpmem_regchk;
 	global $username,$fname,$lname,$addr1,$addr2,
@@ -1183,7 +1181,7 @@ function wpmem_inc_regmessage($toggle,$themsg='')
 		?>
 		<div class="wpmem_msg" align="center">
 			<p>Passwords did not match</p>
-			<p>Please <a href="javascript:history.back(1)"><--Go Back</a> and try again</p>
+			<p>Please <a href="javascript:history.back(1)">&laquo;Go Back</a> and try again</p>
 		</div>
 		<?php
 		break;
@@ -1203,7 +1201,7 @@ function wpmem_inc_regmessage($toggle,$themsg='')
 		?>
 		<div class="wpmem_msg" align="center">
 			<p>Either the username or email address do not exist in our records.</p>
-			<p>Please <a href="javascript:history.back(1)"><--Go Back</a> and try again</p>
+			<p>Please <a href="javascript:history.back(1)">&laquo;Go Back</a> and try again</p>
 		</div>
 		<?php
 		break;
@@ -1303,53 +1301,31 @@ BEGIN ADMIN FEATURES
 add_action('edit_user_profile', 'wpmem_admin_fields');
 function wpmem_admin_fields()
 {
-	$user_id = $_REQUEST['user_id'];
-
-    echo "<h3>WP-Members Additional Fields</h3>\n";
+	$user_id = $_REQUEST['user_id']; ?>
 	
-	echo "<table class=\"form-table\">\n";
-	echo "<tr>\n";
-	echo "	<th><label>Address 1:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"addr1\" value=\"".get_usermeta($user_id,'addr1')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>Address 2:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"addr2\" value=\"".get_usermeta($user_id,'addr2')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>City:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"city\" value=\"".get_usermeta($user_id,'city')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>State:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"thestate\" value=\"".get_usermeta($user_id,'thestate')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>Zip:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"zip\" value=\"".get_usermeta($user_id,'zip')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>Country:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"country\" value=\"".get_usermeta($user_id,'country')."\" size=\"25\" /></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "	<th><label>Phone:</label></th>\n";
-	echo "	<td><input type=\"text\" class=\"input\" name=\"phone1\" value=\"".get_usermeta($user_id,'phone1')."\" size=\"25\" /></td>\n";
-    echo "</tr>\n";
-	echo "</table>\n";
+	<h3>WP-Members Additional Fields</h3>
+	<table class="form-table">
+	<?php
+		$wpmem_customfields = array('addr1','addr2','city','thestate','zip','country','phone1');
+		foreach($wpmem_customfields as $field) {
+	?>    
+        <tr>
+        	<th><label><?php echo $field; ?></label></th>
+        	<td><input id="<?php echo $field; ?>" type="text" class="input" name="<?php echo $field; ?>" value="<?php echo get_usermeta($user_id, $field);?>" size="25" /></td>
+        </tr>
+		<?php } ?>
+
+	</table><?php
 }
+
 add_action('profile_update', wpmem_admin_update);
 function wpmem_admin_update()
 {
-	$user_id = $_REQUEST['user_id'];
-	
-	if($_POST['addr1']){update_usermeta($user_id,'addr1',$_POST['addr1']);}
-	if($_POST['addr2']){update_usermeta($user_id,'addr2',$_POST['addr2']);}
-	if($_POST['city']){update_usermeta($user_id,'city',$_POST['city']);}
-	if($_POST['thestate']){update_usermeta($user_id,'thestate',$_POST['thestate']);}
-	if($_POST['zip']){update_usermeta($user_id,'zip',$_POST['zip']);}
-	if($_POST['country']){update_usermeta($user_id,'country',$_POST['country']);}
-	if($_POST['phone1']){update_usermeta($user_id,'phone1',$_POST['phone1']);}
+	$user_id = $_REQUEST['user_id'];	
+	$wpmem_customfields = array('addr1','addr2','city','thestate','zip','country','phone1');
+	foreach($wpmem_customfields as $field) {
+		if($_POST[$field]){update_usermeta($user_id,$field,$_POST[$field]);}
+	}
 }
 
 /*add_action('admin_menu', 'wpmem_admin_options');
