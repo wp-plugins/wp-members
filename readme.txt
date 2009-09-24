@@ -1,6 +1,6 @@
 === WP-Members ===
 Contributors: cbutlerjr
-Donate link: http://butlerblog/wp-members/
+Donate link: http://butlerblog/wp-members
 Tags: access, community, content, login, password, register, registration, security, users, membership
 Requires at least: 1.5
 Tested up to: 2.8.4
