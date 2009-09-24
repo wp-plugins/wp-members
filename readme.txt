@@ -1,7 +1,7 @@
 === WP-Members ===
 Contributors: cbutlerjr
-Donate link: http://butlerblog.com/
-Tags: login, restriction, membership
+Donate link: http://butlerblog/wp-members/
+Tags: access, community, content, login, password, register, registration, security, users, membership
 Requires at least: 1.5
 Tested up to: 2.8.4
 Stable tag: 2.1.1
@@ -16,7 +16,7 @@ By default, WordPress allows all content to be "open" and viewable by anyone and
 
 The plugin adds fields to the registration process to include name, address, phone, and email.
 
-WP-Members 2.0 is a quantum leap forward from the 1.x. It was rebuilt from the ground up to be easier to install and allow more scalability.  Unlike the previous 1.x versions, 2.0 is designed to use the WP users and usermeta tables.  This allows it to be compatible with other login based plugins/addons such as a forum.
+WP-Members 2.0 is a quantum leap forward from the 1.x. It was rebuilt from the ground up to be easier to install and allow more scalability.  Unlike the previous 1.x versions, 2.0 is designed to use the WP users and usermeta tables.  This allows it to be compatible with other login based plugins/addons such as a forum.  NOTE: upgrading from WP-Members 1.x requires the use of a migration script to get your users into the WordPress format.  Download the migration script at http://butlerblog/wp-members/
 
 
 == Installation ==
