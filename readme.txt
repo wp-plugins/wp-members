@@ -4,7 +4,7 @@ Donate link: http://butlerblog/wp-members
 Tags: access, community, content, login, password, register, registration, security, users, membership
 Requires at least: 1.5
 Tested up to: 2.8.4
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
 This is a plugin to restrict content to be viewable by registered members. 
 
@@ -54,6 +54,9 @@ If your theme is widget enabled, activate the widgets plugin, then add the WP-Me
 
 
 == Changelog ==
+
+= 2.1.2 =
+* Added fix to set new registrations as the default role
 
 = 2.1.1 =
 * Udates for the 2.1.0 release that were not completed.

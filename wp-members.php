@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI: http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.
-Version: 2.1.1
+Version: 2.1.2
 Author: Chad Butler
 Author URI: http://butlerblog.com/
 */
@@ -422,6 +422,10 @@ function wpmem_register()
 				$query = apply_filters('create_user_query', $query);
 				$wpdb->query( $query );
 				$user_id = $wpdb->insert_id;
+				
+				//Sets the user to the default role.
+				$user = new WP_User($user_id);
+				$user->set_role(get_option('default_role'));
 		
 				update_usermeta( $user_id, 'first_name', $fname);
 				update_usermeta( $user_id, 'last_name', $lname);
