@@ -35,7 +35,7 @@ That's it!  You are ready to begin using WP-Members.  Follow the instructions ti
 Locking down your site:
 
 * To begin restricting posts, you will need to be using the `<!--more-->` link.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.
-* If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in()) { $post->post_password = wpmem_generatePassword(); } ?>`
+* If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in() && !get_post_custom_values('unblock')) { $post->post_password = wpmem_generatePassword(); } ?>`
 * To further protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members.
 * If you want to display the user's login status, and the following function call to your template: `<?php wpmem_login_status(); ?>`
@@ -55,19 +55,19 @@ Also, be sure you are using the `<!--more-->` tag.  The blocking only takes plac
 
 If your theme is widget enabled, activate the widgets plugin, then add the WP-Members widget to your sidebar.  If you do not have widgets, you can call the function by adding this to your sidebar: `<?php wpmem_inc_sidebar(); ?>`
 
-= I'm really only using this to add user fields and have the login integrated into the site. I would rather that posts be unblocked by default.  How do I do that?
+= I'm really only using this to add user fields and have the login integrated into the site. I would rather that posts be unblocked by default.  How do I do that? = 
 
 New in version 2.2 is the ability to change the settings for how WP-Members blocks content.  The default is to block posts and allow individual posts to be set to unblock at the post level.  If you change this to "no," then all posts will be viewable by default.  If you then have a post that you want blocked to registered members only, you can set the post to block at the post level.
 
-= How do I block (or unblock) an individual post (or page)?
+= How do I block (or unblock) an individual post (or page)? = 
 
 If you are using the default settings (as mentioned above), and you have a post that you want to be unblocked (viewable by any user, not just logged in users), on the Edit Post page add a Custom Field with the name "block" and set the value to "true" or "1" (either will work).  This post will be now be viewable by anyone.  If you have set WP-Members to unblock by default and you want to block an individual post, use a Custom Field with the name "unblock" and set the value to "true" or "1".
 
-= How to I change the registration fields that are used and which are required?
+= How to I change the registration fields that are used and which are required? = 
 
 These settings can be managed on the WP-Members admin panel found under Settings > WP-Members
 
-= Where do I find the users registration information?
+= Where do I find the users registration information? = 
 
 WP-Members was designed to fully integrate with WordPress to allow maximum compatiblity not only with WP, but also with other plugins that rely on WP user registration information, such as discussion forums, email newsletters, etc.  The user information is in the main WP users page under Users > Users, then click "Edit" under an individual user.  Any non-native WP fields (WP-Members custom fields) are added to the bottom of this page and are fully editable.  (Note: if you don't have any registered users yet, i.e. a clean install, these fields will not display until there is data in them.)
 
@@ -76,6 +76,7 @@ WP-Members was designed to fully integrate with WordPress to allow maximum compa
 
 = 2.2 =
 The #1 request with the plugin is to simply be able to change the required fields.  I have greatly simplified the process so it can be managed from within the WP admin panel.  Additionally, I added the ability to determine what fields will show in the registration form (both native WP fields, and additional WP-Members fields).  Also, the error/dialog messages can now be managed from with the admin panel as well.
+
 * Added new customization features and an admin panel
 * Can set fields that will display
 * Can set fields to be required
