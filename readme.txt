@@ -35,7 +35,7 @@ That's it!  You are ready to begin using WP-Members.  Follow the instructions ti
 Locking down your site:
 
 * To begin restricting posts, you will need to be using the `<!--more-->` link.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.
-* If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in()) { $post->post_password = wpmem_generatePassword(); } ?>`
+* If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in() && !get_post_custom_values('unblock')) { $post->post_password = wpmem_generatePassword(); } ?>`
 * To further protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members.
 * If you want to display the user's login status, and the following function call to your template: `<?php wpmem_login_status(); ?>`
