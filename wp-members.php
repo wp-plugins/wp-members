@@ -1327,7 +1327,7 @@ function wpmem_admin()
 	
 	<?php } ?>
 	
-	<p><strong><a href="http://butlerblog.com/wp-members/" target="_blank">WP-Members</a> Version: <?php echo WP_MEM_VERSION; ?></strong>
+	<p><strong><a href="http://butlerblog.com/wp-members/" target="_blank">WP-Members</a> Version: <?php echo $wpmem_settings[0]; ?></strong>
 		[ Follow ButlerBlog: <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a> ]
 		<br />
 		If you find this plugin useful, please consider making a donation <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -1488,6 +1488,19 @@ function wpmem_install()
 		);
 		
 		add_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
+	
+	} else {
+		
+		//update version, keep other settings
+		$wpmem_settings = get_option('wpmembers_settings');
+		$wpmem_newsettings = array(
+			WP_MEM_VERSION,
+			$wpmem_settings[1],
+			$wpmem_settings[2],
+			$wpmem_settings[3],
+		);
+		update_option('wpmembers_settings',$wpmem_newsettings);
+		
 	}
 }
 
