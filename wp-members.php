@@ -3,9 +3,10 @@
 Plugin Name: WP-Members
 Plugin URI: http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>.  View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>.
-Version: 2.2
+Version: 2.2.1
 Author: Chad Butler
 Author URI: http://butlerblog.com/
+License: GPL2
 */
 
 
@@ -13,9 +14,8 @@ Author URI: http://butlerblog.com/
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,8 +24,7 @@ Author URI: http://butlerblog.com/
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-	
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 	
 	You may also view the license here:
 	http://www.gnu.org/licenses/gpl.html#SEC1
@@ -33,6 +32,19 @@ Author URI: http://butlerblog.com/
 
 
 /*
+A NOTE ABOUT LICENSE:
+
+	While this plugin is released as free and open-source under the GPL2
+	license, that does not mean it is "public domain." You are free to modify
+	and redistribute as long as you comply with the license. This includes
+	keeping a derivative work available as open source and also giving proper
+	attribution to the original author and copyright holder.  This means you 
+	cannot change two lines of code and claim copyright of the entire work as
+	your own.  If you are unsure or have questions about how a derivative work
+	you are developing complies with the license and copyright, contact the 
+	original author at plugins@butlerblog.com.
+
+
 INSTALLATION PROCEDURE:
 	
 	* Save wp-members.php to your plugins directory
@@ -42,7 +54,6 @@ INSTALLATION PROCEDURE:
 	
 	For more complete installation and usage instructions,
 	visit http://butlerblog.com/wp-members/
-
 */
 
 
@@ -51,7 +62,7 @@ add_action('init', 'wpmem');  // runs the wpmem() function right away, allows fo
 add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
 add_filter('the_content', 'wpmem_securify', $content);  // runs the wpmem_securify on the $content.
 add_action('wp_head', 'wpmem_head');
-define("WP_MEM_VERSION", "2.2");
+define("WP_MEM_VERSION", "2.2.1");
 
 // Generally, the plugin uses a/wpmem_a to define an action that it is passing from page to page.  
 // It usese wpmem_regchk to pass what it is doing between functions (specifically, the init and the_content).
@@ -363,115 +374,13 @@ function wpmem_logout()
 
 function wpmem_login_status()
 {
-	if (is_user_logged_in()) {	
-		echo wpmem_inc_status();
-	}
+	if (is_user_logged_in()) {	echo wpmem_inc_status(); }
 }
-
-
-// registration
-function  wpmem_register()
-{
-	// make sure native WP registration functions are loaded
-	require_once( ABSPATH . WPINC . '/registration-functions.php');
-	
-	global $wpdb;
-	global $wpmem_regchk, $wpmem_themsg;
-	global $username,$user_email,$wpmem_fieldval_arr;
-
-	$username   = $_POST['log'];
-	$user_email = $_POST['user_email'];
-	
-	//build array of the posts
-	$wpmem_fields = get_option('wpmembers_fields');
-	for ($row = 0; $row < count($wpmem_fields); $row++) {
-	
-		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
-	
-	}
-	
-	// check for required fields, get reversed arrays so user views errors in order
-	$wpmem_fields_rev = array_reverse($wpmem_fields);
-	$wpmem_fieldval_arr_rev = array_reverse($wpmem_fieldval_arr);
-	
-	for ($row = 0; $row < count($wpmem_fields); $row++) {
-		if ( $wpmem_fields_rev[$row][4] == 'y' && $wpmem_fields_rev[$row][5] == 'y' ) {
-			if ( !$wpmem_fieldval_arr_rev[$row] ) { $wpmem_themsg = $wpmem_fields_rev[$row][1]." is a required field."; }
-		}
-	} 
-	if ( !$username ) { $wpmem_themsg = "username is a required field"; }
-	
-	if ( $wpmem_themsg ) {
-	
-		$wpmem_regchk = "empty";
-	
-	} else {
-	
-		if (username_exists($username)) {
-			
-			$wpmem_regchk = "user";
-			
-		} else {
-		
-			$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$user_email'");
-			if ( $email_exists) {
-				
-				$wpmem_regchk = "email";
-				
-			} else {
-			
-			//everything checks out, so go ahead and insert
-			
-				//The main insertion process was taken from the WP core, the rest is modified to accomodate WP-Members user defined fields.
-			
-				$password = substr( md5( uniqid( microtime() ) ), 0, 7);
-				$hashpassword = md5($password);
-				$user_registered = gmdate('Y-m-d H:i:s');
-				
-				$query = "INSERT INTO $wpdb->users 
-					(user_login, user_pass, user_email, user_registered, user_nicename, display_name) VALUES 
-					('$username', '$hashpassword', '$user_email', '$user_registered', '$username', '$username')";
-				
-				$query = apply_filters('create_user_query', $query);
-				$wpdb->query( $query );
-				$user_id = $wpdb->insert_id;
-				
-				//Sets the user to the default role.
-				$user = new WP_User($user_id);
-				$user->set_role(get_option('default_role'));
-				
-				update_usermeta( $user_id, 'nickname', $username); // gotta have this whether it's used or not; if it's included w/ custom, value should be overwritten below.
-				for ($row = 0; $row < count($wpmem_fields); $row++) {
-					
-					/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
-					  they go into the wp_users table.  email is already done above, we need to then screen for putting in 
-					  website, if used, and screen out email, since it's already done. */
-					if ($wpmem_fields[$row][2] == 'user_url') {
-						$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_id) );
-					} else {
-						if ($wpmem_fields[$row][2] != 'user_email') {update_usermeta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);}
-					}
-				} 
-			
-				//if this was successful, and you have email properly
-				//configured, send a notification email to the user
-				wpmem_inc_regemail($user_id,$password);
-	
-				// successful registration message
-				$wpmem_regchk = "success";											
-				
-			}
-		}
-	}
-	
-} // end of registration function
 
 
 function wpmem_change_password()
 { 
-	global $wpdb;
-	global $user_ID, $userdata;
-	global $wpmem_regchk;
+	global $wpdb,$user_ID,$userdata,$wpmem_regchk;
 	if ($_POST['formsubmit']) {
 	
 		$pass1 = $_POST['pass1'];
@@ -484,7 +393,7 @@ function wpmem_change_password()
 		} else {
 		
 			//update password in wpdb
-			$new_pass = md5($password1);			
+			$new_pass = md5($pass1);			
 			$wpdb->update( $wpdb->users, array( 'user_pass' => $new_pass ), array( 'ID' => $user_ID ), array( '%s' ), array( '%d' ) );
 			
 			$wpmem_regchk = "pwdchangesuccess";
@@ -500,8 +409,7 @@ function wpmem_reset_password()
 	// make sure native WP registration functions are loaded
 	require_once( ABSPATH . WPINC . '/registration-functions.php');
 	
-	global $wpdb;
-	global $wpmem_regchk;
+	global $wpdb,$wpmem_regchk;
 	if ($_POST['formsubmit']) {
 	
 		$user  = $_POST['user'];
@@ -545,21 +453,38 @@ function wpmem_reset_password()
 }
 
 
+function wpmem_head()
+{
+	echo "<!-- WP-Members version ".WP_MEM_VERSION.", available at http://butlerblog.com/wp-members -->";
+}
+
+
+function  wpmem_register()
+{
+	wpmem_registration('register');
+}
+
+
 function wpmem_update()
 {
-	global $wpmem_regchk, $wpmem_themsg;
-	global $wpdb;
-	global $user_ID, $userdata;
-	global $username,$user_email,$wpmem_fieldval_arr;
+	wpmem_registration('update');
+}
 
-	$user_email = $_POST['email'];
+
+function wpmem_registration($toggle)
+{
+	// make sure native WP registration functions are loaded
+	require_once( ABSPATH . WPINC . '/registration-functions.php');
+
+	global $wpdb,$user_ID,$userdata,$wpmem_regchk,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
+	
+	if($toggle=='register'){ $username = $_POST['log']; }
+	$user_email = $_POST['user_email'];
 	
 	//build array of the posts
 	$wpmem_fields = get_option('wpmembers_fields');
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
-	
 		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
-	
 	}
     
 	// check for required fields	
@@ -572,42 +497,115 @@ function wpmem_update()
 		}
 	} 
 	
-	if ( $wpmem_themsg ) {
+	switch($toggle) {
 	
-		$wpmem_regchk = "updaterr";
+	case "register":
+	
+		if ( !$username ) { $wpmem_themsg = "username is a required field"; } 
+		if ( $wpmem_themsg ) {
+	
+			$wpmem_regchk = "empty";
 		
-	} else {
-			
-		for ($row = 0; $row < count($wpmem_fields); $row++) {
-			
-			/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
-			  they go into the wp_users table.  we need to then screen for these and put them in a different way*/
-			switch ($wpmem_fields[$row][2]) {
-			
-			case ('user_url'):
-				$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
-				break;
-			
-			case ('user_email'):
-				$wpdb->update( $wpdb->users, array('user_email'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
-				break;
+		} else {
+		
+			if (username_exists($username)) {
 				
-			default:
-				update_usermeta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
-				break;
-			}
-		} 
-	
-		$wpmem_regchk = "editsuccess";
+				$wpmem_regchk = "user";
+				
+			} else {
+			
+				$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$user_email'");
+				if ( $email_exists) {
+					
+					$wpmem_regchk = "email";
+					
+				} else {
+				
+				//everything checks out, so go ahead and insert
+				
+					//The main insertion process was taken from the WP core, the rest is modified to accomodate WP-Members user defined fields.
+				
+					$password = substr( md5( uniqid( microtime() ) ), 0, 7);
+					$hashpassword = md5($password);
+					$user_registered = gmdate('Y-m-d H:i:s');
+					
+					$query = "INSERT INTO $wpdb->users 
+						(user_login, user_pass, user_email, user_registered, user_nicename, display_name) VALUES 
+						('$username', '$hashpassword', '$user_email', '$user_registered', '$username', '$username')";
+					
+					$query = apply_filters('create_user_query', $query);
+					$wpdb->query( $query );
+					$user_id = $wpdb->insert_id;
+					
+					//Sets the user to the default role.
+					$user = new WP_User($user_id);
+					$user->set_role(get_option('default_role'));
+					
+					update_usermeta( $user_id, 'nickname', $username); // gotta have this whether it's used or not; if it's included w/ custom, value should be overwritten below.
+					for ($row = 0; $row < count($wpmem_fields); $row++) {
+						
+						/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
+						  they go into the wp_users table.  email is already done above, we need to then screen for putting in 
+						  website, if used, and screen out email, since it's already done. */
+						if ($wpmem_fields[$row][2] == 'user_url') {
+							$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_id) );
+						} else {
+							if ($wpmem_fields[$row][2] != 'user_email') {update_usermeta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);}
+						}
+					} 
+				
+					//if this was successful, and you have email properly
+					//configured, send a notification email to the user
+					wpmem_inc_regemail($user_id,$password);
 		
+					// successful registration message
+					$wpmem_regchk = "success";											
+					
+				}
+			}
+		}
+		
+		break;
+		
+	case "update":
+	
+		if ( $wpmem_themsg ) {
+	
+			$wpmem_regchk = "updaterr";
+		
+		} else {
+				
+			for ($row = 0; $row < count($wpmem_fields); $row++) {
+				
+				/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
+				  they go into the wp_users table.  we need to then screen for these and put them in a different way*/
+				switch ($wpmem_fields[$row][2]) {
+				
+				case ('user_url'):
+					$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					break;
+				
+				case ('user_email'):
+					$wpdb->update( $wpdb->users, array('user_email'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					break;
+					
+				default:
+					update_usermeta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
+					break;
+				}
+			} 
+		
+			$wpmem_regchk = "editsuccess";
+			
+		}
+
+		break;
+	
 	}
-}
 
-
-function wpmem_head()
-{
-	echo "<!-- WP-Members version ".WP_MEM_VERSION.", available at http://butlerblog.com/wp-members -->";
-}
+	
+	
+} // end registration function
 
 
 /*****************************************************
@@ -625,9 +623,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 	switch ($type) {
 	
 	case "checkbox":
-		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" ";
-		wpmem_selected($value,$valtochk,$type);
-		echo " />\n";
+		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
 		break;
 		
 	case "text":
@@ -647,6 +643,12 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 		break;
 	
 	}
+}
+
+
+function wpmem_selected($value,$valtochk,$type=null)
+{
+	if($value == $valtochk){ echo "checked"; }
 }
 
 
@@ -895,10 +897,7 @@ function wpmem_inc_sidebar()
 function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 {
 
-	global $wpdb;
-	global $user_ID, $userdata;
-	global $securify,$wpmem_regchk;
-	global $username,$wpmem_fieldval_arr;
+	global $wpdb,$user_ID, $userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr;
 		
 	if (!$heading) { $heading = "<h2>New Users Registration</h2>"; }
 	if (is_user_logged_in()) { get_currentuserinfo(); }	?>
@@ -1191,7 +1190,7 @@ function wpmem_admin_fields()
 	
 	<h3>WP-Members Additional Fields</h3>
  	<table class="form-table">
-	<?php
+		<?php
 		$wpmem_fields = get_option('wpmembers_fields');
 		for ($row = 0; $row < count($wpmem_fields); $row++) {
 		
@@ -1202,9 +1201,9 @@ function wpmem_admin_fields()
 					<td><input id="<?php echo $wpmem_fields[$row][2]; ?>" type="text" class="input" name="<?php echo $wpmem_fields[$row][2]; ?>" value="<?php echo get_usermeta($user_id,$wpmem_fields[$row][2]);?>" size="25" /></td>
 				</tr>
 			
-		<?php } 
+			<?php } 
 		
-	} ?>
+		} ?>
 	</table><?php
 }
 
@@ -1219,7 +1218,6 @@ function wpmem_admin_update()
 	}
 }
 
-
 add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
@@ -1229,21 +1227,22 @@ function wpmem_admin_options()
 
 function wpmem_admin()
 {
-	$wpmem_settings = get_option('wpmembers_settings');
-	$wpmem_fields = get_option('wpmembers_fields');
+	$wpmem_settings         = get_option('wpmembers_settings');
+	$wpmem_fields           = get_option('wpmembers_fields');
+	$wpmem_dialogs          = get_option('wpmembers_dialogs');
 	$wpmem_dialog_title_arr = wpmem_inc_dialog_title(); 
-	$wpmem_dialogs = get_option('wpmembers_dialogs');
 	
 	switch ($_POST['wpmem_admin_a']) {
 	
 	case ("update_settings"):
 		
+		check_admin_referer('wpmem-update-settings');
+		
 		$wpmem_newsettings = array(
 			WP_MEM_VERSION,
 			$_POST['wpmem_settings_block_posts'],
 			$_POST['wpmem_settings_block_pages'],
-			$_POST['wpmem_settings_ignore_warnings'],
-			0
+			$_POST['wpmem_settings_ignore_warnings']
 		);
 		
 		update_option('wpmembers_settings',$wpmem_newsettings);
@@ -1253,13 +1252,14 @@ function wpmem_admin()
 	
 	case ("update_fields"):
 	
+		check_admin_referer('wpmem-update-fields');
+	
 		//rebuild the array, don't touch user_email - it's always mandatory
 		for ($row = 0; $row < count($wpmem_fields); $row++) {
-	
-			$wpmem_newfields[$row][0] = $wpmem_fields[$row][0];
-			$wpmem_newfields[$row][1] = $wpmem_fields[$row][1];
-			$wpmem_newfields[$row][2] = $wpmem_fields[$row][2];
-			$wpmem_newfields[$row][3] = $wpmem_fields[$row][3];
+			
+			for ($i = 0; $i < 4; $i++) {
+				$wpmem_newfields[$row][$i] = $wpmem_fields[$row][$i];
+			}
 			
 			$display_field = $wpmem_fields[$row][2]."_display"; 
 			$require_field = $wpmem_fields[$row][2]."_required";
@@ -1282,6 +1282,8 @@ function wpmem_admin()
 		break;
 		
 	case ("update_dialogs"):
+	
+		check_admin_referer('wpmem-update-dialogs');
 	
 		for ($row = 0; $row < count($wpmem_dialogs); $row++) {
 			$dialog = "dialogs_".$row;
@@ -1336,7 +1338,8 @@ function wpmem_admin()
 	</form>
 	</p>
 	<h3>Manage Options</h3>
-		<form name="settings" id="settings" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+		<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+		<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-settings'); } ?>
 		<table class="form-table">
 		<?php $arr = array(
 			array('Block Posts by default?','wpmem_settings_block_posts'),
@@ -1366,7 +1369,8 @@ function wpmem_admin()
 	<p>&nbsp;</p>
 	<h3><?php _e('Manage Fields'); ?></h3>
     <p><?php _e('Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields.  (Note: Email is always mandatory. and cannot be changed.)'); ?></p>
-    <form name="createfieldform" id="createfieldform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+    <form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-fields'); } ?>
 	<table class="widefat">
 		<thead><tr class="head">
         	<th scope="col" align="right"><?php _e('Field Label') ?></th>
@@ -1389,9 +1393,9 @@ function wpmem_admin()
 				if ($wpmem_fields[$row][5] == 'y'){ ?><font color="red">*</font><?php }
 				?>
             </td>
-			<td><?php if ($wpmem_fields[$row][2]!='user_email'){ ?><input type="checkbox" name="<?php echo $wpmem_fields[$row][2]; ?>_display" <?php if($wpmem_fields[$row][4]=='y'){echo 'checked';} ?> /><?php } ?></td>
-            <td><?php if ($wpmem_fields[$row][2]!='user_email'){ ?><input type="checkbox" name="<?php echo $wpmem_fields[$row][2]; ?>_required" <?php if($wpmem_fields[$row][5]=='y'){echo 'checked';} ?> /><?php } ?></td>
-            <td><?php if ($wpmem_fields[$row][6] == 'y') { echo "yes"; }?></td>
+			<td><?php if ($wpmem_fields[$row][2]!='user_email'){ wpmem_create_formfield($wpmem_fields[$row][2]."_display",'checkbox', 'y', $wpmem_fields[$row][4]); } ?></td>
+            <td><?php if ($wpmem_fields[$row][2]!='user_email'){ wpmem_create_formfield($wpmem_fields[$row][2]."_required",'checkbox', 'y', $wpmem_fields[$row][5]); } ?></td>
+			<td><?php if ($wpmem_fields[$row][6] == 'y') { echo "yes"; }?></td>
           </tr><?php
 	}	?>
     	<tr>
@@ -1404,7 +1408,8 @@ function wpmem_admin()
     </form>
 	<p>&nbsp;</p>
 	<h3>WP-Members Dialogs and Error Messages</h3>
-	<form method="post" action=""> 
+	<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php"> 
+	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-dialogs'); } ?>
 		<table class="form-table">
 		<tr>
 			<td colspan="2">You can customize the following text.  Simple HTML is allowed - &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, etc.</td>
