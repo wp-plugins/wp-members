@@ -3,20 +3,20 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog/wp-members/
 Tags: authentication, community, content, login, password, register, registration, security, users, membership, access, block, permissions, members, 
 Requires at least: 2.7
-Tested up to: 3.0
-Stable tag: 2.2.1
+Tested up to: 3.0.1
+Stable tag: 2.2.2
 
 This is a plugin to restrict content to be viewable by registered members. 
 
 == Description ==
 
-WP-Members is a plugin to restrict WP content to be viewable by registered site members.  It also puts the registration process inline with your content rather than use the native WP registration process.  It is designed to work "out-of-the-box" with no modifications to your theme, but also to be scalable for those that want to customize the look and feel, or want to restrict only some content.
+WP-Members is a plugin to restrict WP content to be viewable by registered site members.  It also puts the registration process inline with your content rather than using the native WP registration process.  It is designed to work "out-of-the-box" with no modifications to your theme, but it is scalable for those that want to customize the look and feel, or want to restrict only some content.
 
-By default, WordPress allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members operates with the reverse assumption.  It restricts all content by default and allows the site owner to "unblock" content as desired.  New in version 2.2 is the ability to change the default settings of WP-Members.  For those that simply want utilize the member management features and possibly restrict some content, the default setting can easily be toggled to accomodate this.
+By default, WordPress allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members operates with the reverse assumption.  It restricts all content by default and allows the site owner to "unblock" content as desired.  New in version 2.2 is the ability to change the default settings of WP-Members.  For those that simply want utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked as well.
 
-The plugin adds fields to the registration process to include name, address, phone, and email.  New in version 2.2 is an admin panel to manage the fields that will be used (both WP native fields and teh additional WP-Members fields).  Setting which fields are required is also now manageble through the admin panel.
+The plugin adds fields to the registration process to include name, address, phone, and email.  New in version 2.2 is an admin panel to manage the fields that will be used (both WP native fields and teh additional WP-Members fields).  Setting which fields are required is now manageble through the admin panel.
 
-Version 2.2 is our biggest change since the move to 2.0.  WP-Members 2.x is a quantum leap forward from the 1.x. It was rebuilt from the ground up to be easier to install and allow more scalability.  Unlike the previous 1.x versions, 2.x is designed to use the WP users and usermeta tables.  This allows it to be compatible with other login based plugins/addons such as a forum.  NOTE: upgrading from WP-Members 1.x requires the use of a migration script to get your users into the WordPress format.  Download the migration script at http://butlerblog/wp-members/
+Version 2.2 is our biggest change since the move to 2.0.  WP-Members 2.x is a quantum leap forward from the 1.x versions. It was rebuilt from the ground up to be easier to install and allow more scalability.  Unlike the previous 1.x versions, 2.x is designed to use the WP users and usermeta tables.  This allows it to be compatible with other login based plugins/addons such as a forum or newsletter.  NOTE: upgrading from WP-Members 1.x requires the use of a migration script to get your users into the WordPress format.  Download the migration script at http://butlerblog/wp-members/
 
 
 == Installation ==
@@ -74,12 +74,21 @@ WP-Members was designed to fully integrate with WordPress to allow maximum compa
 
 == Changelog ==
 
+= 2.2.2 =
+This release is all code-side cleanup to make the plugin more efficient:
+
+* Rewrote _securify function to remove redundancies
+* Merged Login, Password Change, and Password Reset forms into _login_form
+* Added uninstall/delete process to empty settings from database on plugin deletion
+* Broke out install and admin scripts to separate file only loaded when needed
+* Continued improvement of admin functions
+
 = 2.2.1 =
 * Bug fix change password
 * Merged registration and user update functions to eliminate redundancy
 * Added nonce security to the options admin
 
-= 2.2 =
+= 2.2.0 =
 The #1 request with the plugin is to simply be able to change the required fields.  I have greatly simplified the process so it can be managed from within the WP admin panel.  Additionally, I added the ability to determine what fields will show in the registration form (both native WP fields, and additional WP-Members fields).  Also, the error/dialog messages can now be managed from with the admin panel as well.
 
 * Added new customization features and an admin panel
