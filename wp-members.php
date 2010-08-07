@@ -136,11 +136,11 @@ function wpmem_securify ($content)
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 
-	if ($wpmem_regchk == "loginfailed") {
+	/*if ($wpmem_regchk == "loginfailed") {
 		wpmem_inc_loginfailed();
 		$content = '';
 		return $content;
-	}
+	}*/
 
 	//check settings
 	$wpmem_settings = get_option('wpmembers_settings');
@@ -302,7 +302,7 @@ function wpmem_securify ($content)
 // login function
 function wpmem_login()
 {
-	global $wpdb;
+	global $wpdb, $wpmem_regchk;
 
 	$redirect_to = $_REQUEST['redirect_to'];
 	if (!$redirect_to) {
@@ -327,6 +327,8 @@ function wpmem_login()
 			do_action('wp_login', $user_login);
 			wp_redirect($redirect_to);
 			exit();
+		} else {
+			$wpmem_regchk = "loginfailed";
 		}
 
 	} else {
