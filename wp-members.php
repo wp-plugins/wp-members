@@ -136,7 +136,7 @@ function wpmem_securify ($content)
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 
-	if ($wpmem_regchk == "login_failed") {
+	if ($wpmem_regchk == "loginfailed") {
 		wpmem_inc_loginfailed();
 		$content = '';
 		return $content;
