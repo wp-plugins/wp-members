@@ -53,7 +53,7 @@ function wpmem_admin_fields()
 
 		// see if reg is moderated, and if the user has been activated		
 		if (WPMEM_MOD_REG == 1) { 
-			if (get_usermeta($user_id, 'active') != 1) { ?>
+			if (get_usermeta($user_id,'active') != 1) { ?>
 
 				<tr>
 					<th><label>Activate this user?</label></th>
@@ -61,45 +61,6 @@ function wpmem_admin_fields()
 				</tr>
 
 			<?php }
-		}
-		
-		// if using subscription model, show expiration
-		// if registration is moderated, this doesn't show if user is not active yet.		
-		if (WPMEM_USE_EXP == 1) {
-			if ( (WPMEM_MOD_REG == 1 &&  get_user_meta($user_id, 'active', 'true') == 1) || (WPMEM_MOD_REG != 1) ) { ?>
-
-				<tr>
-					<th><label><?php echo ucfirst( get_user_meta($user_id, 'exp_type', 'true') ); ?> expires:</label></th>
-					<td><?php echo get_user_meta($user_id, 'expires', 'true'); ?></td>
-				</tr>
-				<tr>
-					<th><label>Extend user:</label></th>
-					<td>
-					<select name="wpmem_extend">
-						<option value="" selected>--</option>
-						<?php for ($i = 1; $i < 13; $i++) { wpmem_create_formfield($i, 'option', $i); } ?>
-					</select>
-					<?php 
-						$tmp = get_option('wpmembers_experiod'); 
-						switch ( $tmp['subscription_per'] ) {
-						case 'd':
-							echo "Day(s)";
-							break;
-						case 'w':
-							echo "Week(s)";
-							break;
-						case 'm':
-							echo "Month(s)";
-							break;
-						case 'y':
-							echo "Year(s)";
-							break;
-						}
-					?>
-					</td>
-				</tr>
-				<?php
-			} 
 		} ?>
 	</table><?php
 }
@@ -111,7 +72,7 @@ function wpmem_admin_update()
 	$user_id = $_REQUEST['user_id'];	
 	$wpmem_fields = get_option('wpmembers_fields');
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
-		if ($wpmem_fields[$row][6] == "n") {update_user_meta($user_id,$wpmem_fields[$row][2],$_POST[$wpmem_fields[$row][2]]);}
+		if ($wpmem_fields[$row][6] == "n") {update_usermeta($user_id,$wpmem_fields[$row][2],$_POST[$wpmem_fields[$row][2]]);}
 	}
 	if (WPMEM_MOD_REG == 1) {
 
@@ -122,32 +83,11 @@ function wpmem_admin_update()
 
 			global $wpdb;
 			$wpdb->update( $wpdb->users, array( 'user_pass' => $hashpassword ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
-			
-			// new in 2.3 for user expiration
-			if (WPMEM_USE_EXP == 1) { wpmem_set_exp($user_id); }
 
 			require_once('wp-members-email.php');
 
 			wpmem_inc_regemail($user_id,$new_pass,2);
-			update_user_meta($user_id,'active',$wpmem_activate_user); 
-		}
-	}
-	
-	// new in 2.3 for user expiration
-	//		this is a truncated version of wpmem_set_exp in wp-members-core.php until i can rework that function accordingly...
-	if (WPMEM_USE_EXP == 1) { 
-	
-		if ($_POST['wpmem_extend'] > 0) {
-
-			// get the expiration periods
-			$exp_arr = get_option('wpmembers_experiod');
-
-			$exp_num = $_POST['wpmem_extend'];
-			$exp_per = $exp_arr["subscription_per"];
-
-			$wpmem_exp = wpmem_exp_date( $exp_num, $exp_per ); 
-			update_user_meta( $user_id, 'expires', $wpmem_exp );
-			update_user_meta( $user_id, 'exp_type', 'subscription');
+			update_usermeta($user_id,'active',$wpmem_activate_user); 
 		}
 	}
 }
@@ -245,17 +185,8 @@ function wpmem_a_build_fields ($wpmem_fields)
 
 function wpmem_a_build_dialogs($wpmem_dialogs)
 { 
-	$wpmem_dialog_title_arr = array(
-    	"Restricted post (or page), displays above the login/registration form",
-        "Username is taken",
-        "Email is registered",
-        "Registration completed",
-        "User update",
-        "Passwords did not match",
-        "Password changes",
-        "Username or email do not exist when trying to reset forgotten password",
-        "Password reset"  
-    ); ?>
+	$wpmem_dialog_title_arr = wpmem_inc_dialog_title(); 
+	?>
 	<h3>WP-Members Dialogs and Error Messages</h3>
 	<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php"> 
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-dialogs'); } ?>
@@ -265,7 +196,7 @@ function wpmem_a_build_dialogs($wpmem_dialogs)
 		</tr>        
         <?php for ($row = 0; $row < count($wpmem_dialog_title_arr); $row++) { ?>
 			<tr valign="top"> 
-				<th scope="row"><?php echo $wpmem_dialog_title_arr[$row]; ?></th>
+				<th scope="row"><?php echo $wpmem_dialog_title_arr[$row]; ?></th> 
 				<td><textarea name="<?php echo "dialogs_".$row; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo $wpmem_dialogs[$row]; ?></textarea></td> 
 			</tr>
 		<?php } ?>
@@ -282,69 +213,16 @@ function wpmem_a_build_dialogs($wpmem_dialogs)
 }
 
 
-function wpmem_a_build_expiration($wpmem_experiod, $trial, $expire)
-{	?>
-	<h3>Trial & Subscription Period</h3>
-	<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
-		<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-exp'); } ?>
-		<table class="form-table">
-		<?php 
-			
-			if ($trial == 1) { wpmem_a_build_exp_table($wpmem_experiod, 'Trial'); }
-	
-			if ($expire == 1) { wpmem_a_build_exp_table($wpmem_experiod, 'Subscription'); }
-		
-		?>
-			<tr>
-				<td>&nbsp;</td>
-				<td>
-					<input type="hidden" name="wpmem_admin_a" value="update_exp" />
-                    <input type="submit" name="save"  class="button-primary" value="<?php _e('Update'); ?> &raquo;" />
-				</td>
-			</tr>
-		</table>
-	</form>	
-	<?php
-    	
-}
-
-
-function wpmem_a_build_exp_table($wpmem_experiod, $title)
-{ 
-	$fld_name = strtolower($title);
-	?>
-	<tr valign="top">
-		<th align="left" scope="row">Set <?php echo $title; ?> Period</th>
-		<td><select name="<?php echo $fld_name; ?>_num">
-        <?php for ($i = 1; $i < 13; $i++) {
-			wpmem_create_formfield($i, 'option', $i, $wpmem_experiod[$fld_name."_num"]);
-		} ?>
-            </select>
-			<select name="<?php echo $fld_name; ?>_period"><?php 
-				wpmem_create_formfield('Day(s)','option','d',$wpmem_experiod[$fld_name."_per"]);
-				wpmem_create_formfield('Week(s)','option','w',$wpmem_experiod[$fld_name."_per"]);
-				wpmem_create_formfield('Month(s)','option','m',$wpmem_experiod[$fld_name."_per"]);
-				wpmem_create_formfield('Year(s)','option','y',$wpmem_experiod[$fld_name."_per"]);
-				?>
-			</select>
-		</td>
-	</tr>
-    <?php 
-}
-
-
 function wpmem_admin()
 {
-	$wpmem_settings = get_option('wpmembers_settings');
-	$wpmem_fields   = get_option('wpmembers_fields');
-	$wpmem_dialogs  = get_option('wpmembers_dialogs');
-	$wpmem_experiod = get_option('wpmembers_experiod');
+	$wpmem_settings         = get_option('wpmembers_settings');
+	$wpmem_fields           = get_option('wpmembers_fields');
+	$wpmem_dialogs          = get_option('wpmembers_dialogs');
 
 	switch ($_POST['wpmem_admin_a']) {
 
 	case ("update_settings"):
 
-		//check nonce
 		check_admin_referer('wpmem-update-settings');
 
 		//keep things clean
@@ -369,7 +247,6 @@ function wpmem_admin()
 
 	case ("update_fields"):
 
-		//check nonce
 		check_admin_referer('wpmem-update-fields');
 
 		//rebuild the array, don't touch user_email - it's always mandatory
@@ -401,7 +278,6 @@ function wpmem_admin()
 
 	case ("update_dialogs"):
 
-		//check nonce
 		check_admin_referer('wpmem-update-dialogs');
 
 		for ($row = 0; $row < count($wpmem_dialogs); $row++) {
@@ -412,22 +288,6 @@ function wpmem_admin()
 		update_option('wpmembers_dialogs',$wpmem_newdialogs);
 		$wpmem_dialogs = $wpmem_newdialogs;
 		$did_update = "true";		
-		break;
-		
-	case ("update_exp"):
-	
-		//check nonce
-		check_admin_referer('wpmem-update-exp');
-		
-		$wpmem_newexperiod = array( 'subscription_num' => $_POST['subscription_num'],
-									'subscription_per' => $_POST['subscription_period'],
-									'trial_num' 	   => $_POST['trial_num'],
-									'trial_per' 	   => $_POST['trial_period'],
-									
-								);
-		update_option('wpmembers_experiod',$wpmem_newexperiod);
-		$wpmem_experiod = $wpmem_newexperiod; if (WPMEM_DEBUG == true) { var_dump($wpmem_experiod); }
-		$did_update = "true";
 		break;
 
 	}
@@ -499,15 +359,6 @@ function wpmem_admin()
 	<?php wpmem_a_build_options($wpmem_settings); ?>
 
 	<p>&nbsp;</p>
-    
-    <?php
-	if ($wpmem_settings[7] == 1 || $wpmem_settings[8] == 1) { ?>
-    
-    <?php wpmem_a_build_expiration( $wpmem_experiod, $wpmem_settings[8], $wpmem_settings[7] ); ?>
-    
-    <p>&nbsp;</p>
-    
-    <?php } ?>
 
 	<?php wpmem_a_build_fields($wpmem_fields); ?>
 

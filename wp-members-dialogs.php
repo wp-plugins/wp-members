@@ -218,7 +218,7 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 			<tr>
 			  <td>&nbsp;</td>
 			  <td align="center"><!-- Attribution keeps this plugin free!! -->
-				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a><small>
+				<small>Membership management by <br /><a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a><small>
 			  </td>
 			</tr>
 		  </table>

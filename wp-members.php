@@ -75,8 +75,6 @@ define('WPMEM_SHOW_EXCERPT', $wpmem_settings[3]);
 define('WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]);
 define('WPMEM_MOD_REG',      $wpmem_settings[5]);
 define('WPMEM_NO_REG',       $wpmem_settings[6]);
-define('WPMEM_USE_EXP',      $wpmem_settings[7]);
-define('WPMEM_USE_TRL',      $wpmem_settings[8]);
 
 add_action('init', 'wpmem');  // runs the wpmem() function right away, allows for setting cookies
 add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
@@ -92,7 +90,7 @@ function wpmem_chk_admin()
 add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
-	add_options_page('WP-Members', 'WP-Members', 'manage_options', basename(__FILE__), 'wpmem_admin');
+	add_options_page('WP-Members', 'WP-Members', 8, basename(__FILE__), 'wpmem_admin');
 }
 
 register_activation_hook(__FILE__, 'wpmem_install');
