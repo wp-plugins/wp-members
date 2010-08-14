@@ -178,7 +178,7 @@ function wpmem_a_build_options($wpmem_settings)
 				<?php if($arr[$row][2]) { ?><span class="description"><?php echo $arr[$row][2]; ?></span><?php } ?>
 			</td>
 		  </tr>
-		  <?php // } ?>
+		  <?php } ?>
 		  <?php } ?>
 		  <tr valign="top">
 			<td>&nbsp;</td>
