@@ -170,7 +170,7 @@ function wpmem_a_build_options($wpmem_settings)
 			array('Trial period','wpmem_settings_trial','Allows for a trial period'),
 			array('Ignore warning messages','wpmem_settings_ignore_warnings','Ignores WP-Members warning messages in the admin panel') ); ?>
 		<?php for ($row = 0; $row < count($arr); $row++) { ?>
-		<?php //if ($row < 6 || $row > 7) {  // this is here until we finish time based expiration ?>
+		<?php if ($row < 6 || $row > 7) {  // this is here until we finish time based expiration ?>
 		  <tr valign="top">
 			<th align="left" scope="row"><?php echo $arr[$row][0]; ?></th>
 			<td><?php if (WPMEM_DEBUG == true) { echo $wpmem_settings[$row+1]; } ?>
