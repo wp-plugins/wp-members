@@ -92,9 +92,9 @@ function wpmem_securify ($content)
 
 	// Block/unblock Posts
 	if ( !is_user_logged_in() && $not_mem_area == 1 && $chk_securify == "block" ) {
-	
+		
 		include_once('wp-members-dialogs.php');
-
+		
 		// show the login and registration forms
 		if ($wpmem_regchk) {
 
@@ -204,7 +204,6 @@ function wpmem_securify ($content)
 
 					//case "editsuccess":
 					wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
-					
 					$output = wpmem_inc_memberlinks();
 
 				}
@@ -230,24 +229,9 @@ function wpmem_securify ($content)
 					break;				
 				}
 				break;
-				
-			// new for 2.3 expirations
-			case "renew":
-				$content = "insert the renewal process...";
-				//wpmem_renew;
-				break;
 
 			default:
-			// new for 2.3 expirations
-				if (WPMEM_USE_EXP == 1) {
-					global $user_ID;
-					$output = "<p>".ucfirst(get_usermeta( $user_ID, 'exp_type')).
-						" expires: ".get_usermeta( $user_ID, 'expires');
-					$link = wpmem_chk_qstr();
-					$output.= "&nbsp;&nbsp;[ <a href=\"".$link."a=renew\">renew</a> ]</p>";
-				}
-					
-				$output .= wpmem_inc_memberlinks();
+				$output = wpmem_inc_memberlinks();
 				break;					  
 			}
 
@@ -418,44 +402,6 @@ function wpmem_update()
 }
 
 
-// new in 2.4
-function wpmem_renew()
-{
-	// insert the renewal process...
-}
-
-
-// new in 2.4
-function wpmem_set_exp($user_id)
-{
-	// get the expiration periods
-	$exp_arr = get_option('wpmembers_experiod');
-
-	if (WPMEM_USE_TRL == 1) {
-
-		// if there is a trial period, use that
-		$exp_num = $exp_arr['trial_num'];
-		$exp_per = $exp_arr["trial_per"];
-
-	} else { 
-
-		// otherwise, use the subscription period
-		$exp_num = $exp_arr['subscription_num'];
-		$exp_per = $exp_arr["subscription_per"];
-
-	}
-
-	$wpmem_exp = wpmem_exp_date( $exp_num, $exp_per ); 
-	update_user_meta( $user_id, 'expires', $wpmem_exp );
-	
-	if (WPMEM_USE_TRL == 1) {
-		update_user_meta( $user_id, 'exp_type', 'trial');
-	} else {
-		update_user_meta( $user_id, 'exp_type', 'subscription');
-	}
-}
-
-
 /*****************************************************
 END PRIMARY FUNCTIONS
 *****************************************************/
@@ -479,7 +425,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 		break;
 
 	case "textarea":
-		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\">$value</textarea>";
+		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\">$val</textarea>";
 		break;
 
 	case "password":
@@ -489,9 +435,6 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 	case "hidden":
 		echo "<input name=\"$name\" type=\"$type\" value=\"$value\" />\n";
 		break;
-		
-	case "option":
-		echo "<option value=\"$value\" "; wpmem_selected($value, $valtochk, 'select'); echo " >$name</option>";
 
 	}
 }
@@ -499,21 +442,16 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 
 function wpmem_selected($value,$valtochk,$type=null)
 {
-	if($type == 'select') {
-		$issame = 'selected';
-	} else {
-		$issame = 'checked';
-	}
-	if($value == $valtochk){ echo $issame; }
+	if($value == $valtochk){ echo "checked"; }
 }
 
 
 function wpmem_chk_qstr()
 {
-	$permalink = get_option('permalink_structure');
+	$permalink = get_settings('permalink_structure');
 	if (!$permalink) {
 		// no fancy permalinks.  Append to ?=
-		$return_url = get_option('home') . "/?" . $_SERVER['QUERY_STRING'] . "&amp;";
+		$return_url = get_settings('home') . "/?" . $_SERVER['QUERY_STRING'] . "&amp;";
 	} else {
 		// permalinks in use.  Add a ?
 		$return_url = get_permalink() . "?";
@@ -525,32 +463,6 @@ function wpmem_chk_qstr()
 function wpmem_generatePassword()
 {	
 	return substr( md5( uniqid( microtime() ) ), 0, 7);
-}
-
-
-function wpmem_exp_date ( $exp_num, $exp_per )
-{
-	switch ( $exp_per ) {
-
-	case "d":
-		$wpmem_exp = date("m/d/y", mktime( 0, 0, 0, date("m"), date("d") + $exp_num, date("Y") ));
-		break;
-
-	case "w":
-		$exp_num = $exp_num * 7;
-		$wpmem_exp = date("m/d/y", mktime( 0, 0, 0, date("m"), date("d") + $exp_num, date("Y") ));
-		break;
-
-	case "m":
-		$wpmem_exp = date("m/d/y", mktime( 0, 0, 0, date("m") + $exp_num, date("d"), date("Y") ));
-		break;
-
-	case "y":
-		$wpmem_exp = date("m/d/y", mktime( 0, 0, 0, date("m"), date("d"), date("Y") + $exp_num ));
-		break;
-	}
-
-	return $wpmem_exp;
 }
 
 
@@ -580,10 +492,8 @@ function widget_wpmemwidget_init()
 			echo $before_title . $title . $after_title;
 
 			// The Widget
-			if (function_exists('wpmem')) { 
-				include_once('wp-members-sidebar.php');
-				wpmem_inc_sidebar($widget);
-			}
+			include_once('wp-members-sidebar.php');
+			if (function_exists('wpmem')) { wpmem_inc_sidebar($widget);}
 
 		echo $after_widget;
 	}

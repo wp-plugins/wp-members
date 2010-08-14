@@ -1,7 +1,7 @@
 === WP-Members ===
 Contributors: cbutlerjr
 Donate link: http://butlerblog/wp-members/
-Tags: authentication, community, content, login, password, register, registration, security, users, access, block, members, membership, protection, secure
+Tags: authentication, community, content, login, password, register, registration, security, users, membership, access, block, permissions, members, 
 Requires at least: 2.7
 Tested up to: 3.0.1
 Stable tag: 2.3.0
@@ -17,14 +17,12 @@ WP-Members is a plugin to restrict WP content to be viewable by registered site 
 * Can block posts, pages, both, or none by default
 * Can override the default block setting at the individual post/page level
 * Login/Registration inline with content rather than the WP login page
-* Uses native WP user fields
-* Adds additional user fields
-* Set which fields that will display in the registration form
-* Set which fields are required
+* Can set fields that will display in the registration form
+* Can set fields to be required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
 * Turn registration off completely (for admins that want to control registrations in some other way)
-* Show excerpt on pages/posts for better SEO of social network sharing
+* Show excerpt on pages/posts for better SEO
 
 By default, WordPress allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members operates with the reverse assumption.  It restricts all content by default and allows the site owner to "unblock" content as desired.  New in version 2.2 is the ability to change the default settings of WP-Members.  For those that simply want utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked as well.
 
@@ -35,7 +33,7 @@ The plugin adds custom fields to the registration process to include name, addre
 
 WP-Members 2.x is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  There are also optional features that, if implemented, will require you to add some php to your theme.
 
-Basic Install:
+= Basic Install: =
 
 1. Upload `wp-members.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -44,7 +42,7 @@ That's it!  You are ready to begin using WP-Members.  Follow the instructions ti
 
 (Upgrading from 2.1 or earlier: If you are running a previous version "out-of-the-box," you should be able to upgrade without any problems.  If you did any customization to which registration fields are used and/or required, you can simply set this in the new admin panel to match your current usage.  However, if made changes to the code to customize the fields beyond this, i.e. field names or types, you should not upgrade at this time.  Also, if you made code changes to the inline registration and login forms, you should download and compare the new code to your customizations before upgrading.)
 
-Locking down your site:
+= Locking down your site: =
 
 * To begin restricting posts, you will need to be using the `<!--more-->` link.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.
 * If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in() && !get_post_custom_values('unblock')) { $post->post_password = wpmem_generatePassword(); } ?>`
@@ -53,6 +51,12 @@ Locking down your site:
 * If you want to display the user's login status, and the following function call to your template: `<?php wpmem_login_status(); ?>`
 * To add the login box to the sidebar (if desired) - if no widget support, call the function `<?php wpmem_inc_sidebar(); ?>`.  If you do have widget support, you can just drag the WP-Members widget to your sidebar.
 * If you want to have your users be able to edit their login information, add a page (not a post) with a slug of "members-area".  In the body of this page, place `<!--members-area-->` where you want WP-Members to display its content.  (You may place content before and after this if desired.)  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
+
+= Additional Settings and Information = 
+
+A "Quick Start" guide is available at the plugin's homepage: http://butlerblog.com/wp-members
+
+This guide outlines the installation process, and also documents how to use all of the settings.
 
 
 == Frequently Asked Questions ==
@@ -90,6 +94,12 @@ WP-Members uses the native WP function wp_mail to email passwords. This is the s
 You can test this process by creating a new user via the WP admin panel. Go to Users > Add New in the menu and create a new user. Make sure when you do this “Send this password to the new user by email” is checked. If you do not get an email, then wp_mail is not working. If that is the case, you are probably going to have to do some troubleshooting to fix it. Try the WP support forums for this: http://wordpress.org/tags/wp_mail
 
 
+== Upgrade Notice ==
+
+WP-Members 2.3.0 has updates the API calls for the use of the WP-Members sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  
+
+
+
 == Changelog ==
 
 = 2.3.0 =
@@ -100,7 +110,7 @@ Adds a number of features put off from the 2.2 release
 * option to turn registration off (for admins that want to control registrations in some other way)
 * option to show excerpt on pages/posts
 * updated widget calls to wp_register_sidebar_ (register_sidebar_ is deprecated)
-* updated any API calls known to be deprecated
+* updated certain API calls known to be deprecated
 * broke out email related functions to separate file; only loads when needed
 * broke out core and dialog functions to separate files
 
