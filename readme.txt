@@ -1,22 +1,34 @@
 === WP-Members ===
 Contributors: cbutlerjr
 Donate link: http://butlerblog/wp-members/
-Tags: authentication, community, content, login, password, register, registration, security, users, membership, access, block, permissions, members, 
+Tags: authentication, community, content, login, password, register, registration, security, users, access, block, members, membership, protection, secure
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 
 This is a plugin to restrict content to be viewable by registered members. 
 
 == Description ==
 
-WP-Members is a plugin to restrict WP content to be viewable by registered site members.  It also puts the registration process inline with your content rather than using the native WP registration process.  It is designed to work "out-of-the-box" with no modifications to your theme, but it is scalable for those that want to customize the look and feel, or want to restrict only some content.
+WP-Members is a plugin to restrict WP content to be viewable by registered site members.  It also puts the registration process inline with your content rather than using the native WP registration process.  It is designed to work "out-of-the-box" with no modifications to your theme, but it is scalable for those that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+
+= Features: =
+
+* Can block posts, pages, both, or none by default
+* Can override the default block setting at the individual post/page level
+* Login/Registration inline with content rather than the WP login page
+* Uses native WP user fields
+* Adds additional user fields
+* Set which fields that will display in the registration form
+* Set which fields are required
+* Notify admin of new user registrations
+* Hold new registrations for admin approval
+* Turn registration off completely (for admins that want to control registrations in some other way)
+* Show excerpt on pages/posts for better SEO of social network sharing
 
 By default, WordPress allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members operates with the reverse assumption.  It restricts all content by default and allows the site owner to "unblock" content as desired.  New in version 2.2 is the ability to change the default settings of WP-Members.  For those that simply want utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked as well.
 
-The plugin adds fields to the registration process to include name, address, phone, and email.  New in version 2.2 is an admin panel to manage the fields that will be used (both WP native fields and teh additional WP-Members fields).  Setting which fields are required is now manageble through the admin panel.
-
-Version 2.2 is our biggest change since the move to 2.0.  WP-Members 2.x is a quantum leap forward from the 1.x versions. It was rebuilt from the ground up to be easier to install and allow more scalability.  Unlike the previous 1.x versions, 2.x is designed to use the WP users and usermeta tables.  This allows it to be compatible with other login based plugins/addons such as a forum or newsletter.  NOTE: upgrading from WP-Members 1.x requires the use of a migration script to get your users into the WordPress format.  Download the migration script at http://butlerblog/wp-members/
+The plugin adds custom fields to the registration process to include name, address, phone, and email.
 
 
 == Installation ==
@@ -71,8 +83,26 @@ These settings can be managed on the WP-Members admin panel found under Settings
 
 WP-Members was designed to fully integrate with WordPress to allow maximum compatiblity not only with WP, but also with other plugins that rely on WP user registration information, such as discussion forums, email newsletters, etc.  The user information is in the main WP users page under Users > Users, then click "Edit" under an individual user.  Any non-native WP fields (WP-Members custom fields) are added to the bottom of this page and are fully editable.  (Note: if you don't have any registered users yet, i.e. a clean install, these fields will not display until there is data in them.)
 
+= Users are not being emailed their passwords, what is wrong? =
+
+WP-Members uses the native WP function wp_mail to email passwords. This is the same function the WP uses if you are using the WP registration process. If it’s not configured properly or for some other reason not working, neither will WP-Members’ registration process.
+
+You can test this process by creating a new user via the WP admin panel. Go to Users > Add New in the menu and create a new user. Make sure when you do this “Send this password to the new user by email” is checked. If you do not get an email, then wp_mail is not working. If that is the case, you are probably going to have to do some troubleshooting to fix it. Try the WP support forums for this: http://wordpress.org/tags/wp_mail
+
 
 == Changelog ==
+
+= 2.3.0 =
+Adds a number of features put off from the 2.2 release
+
+* option to notify admin of new user registrations
+* option to hold new registrations for admin approval
+* option to turn registration off (for admins that want to control registrations in some other way)
+* option to show excerpt on pages/posts
+* updated widget calls to wp_register_sidebar_ (register_sidebar_ is deprecated)
+* updated any API calls known to be deprecated
+* broke out email related functions to separate file; only loads when needed
+* broke out core and dialog functions to separate files
 
 = 2.2.2 =
 This release is all code-side cleanup to make the plugin more efficient:
@@ -84,7 +114,7 @@ This release is all code-side cleanup to make the plugin more efficient:
 * Continued improvement of admin functions
 
 = 2.2.1 =
-* Bug fix change password
+* Change password bug fix
 * Merged registration and user update functions to eliminate redundancy
 * Added nonce security to the options admin
 

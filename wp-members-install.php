@@ -7,7 +7,7 @@
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as 
+	it under the terms of the GNU General Public License, version 3, as 
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
@@ -20,7 +20,7 @@
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html#SEC1
+	http://www.gnu.org/licenses/gpl.html
 */
 
 
@@ -30,7 +30,7 @@ function wpmem_do_install()
 
 		// this is an upgrade from 2.1 or earlier
 		
-		$wpmem_settings = array(WP_MEM_VERSION,1,0,0);
+		$wpmem_settings = array(WPMEM_VERSION,1,0,1,0,0,0,0,0);
 		add_option('wpmembers_settings', $wpmem_settings, '', 'yes');
 			
 		$wpmem_fields_options_arr = array(
@@ -55,7 +55,7 @@ function wpmem_do_install()
 		add_option('wpmembers_fields',$wpmem_fields_options_arr,'','yes');
 		
 		$wpmem_dialogs_arr = array(
-			"Content is restricted to site members.  Site membership is free, register below. If you are an existing user, please login.",
+			"This content is restricted to site members.  If you are an existing user, please login.  New users may register below.",
 			"Sorry, that username is taken, please try another.",
 			"Sorry, that email address already has an account.<br />Please try another.",
 			"Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.",
@@ -69,16 +69,28 @@ function wpmem_do_install()
 		add_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
 	
 	} else {
-		
-		//update version, keep other settings
+	
 		$wpmem_settings = get_option('wpmembers_settings');
-		$wpmem_newsettings = array(
-			WP_MEM_VERSION,
-			$wpmem_settings[1],
-			$wpmem_settings[2],
-			$wpmem_settings[3],
-		);
-		update_option('wpmembers_settings',$wpmem_newsettings);
+		
+		if ( count($wpmem_settings) == 4 ) {
+		
+			// upgrading from 2.2.x
+			// update version, insert new toggles, keep other settings
+			$wpmem_newsettings = array(
+				WPMEM_VERSION, 			//  0 version
+				$wpmem_settings[1],		//  1 block posts
+				$wpmem_settings[2],		//  2 block pages
+				'0', 					//  3 show excerpts on posts/pages
+				'0',					//  4 notify admin
+				'0',					//  5 moderate registration
+				'0',					//  6 turn off registration
+				'0',					//  7 time based expiration
+				'0',					//  8 offer trial period
+				$wpmem_settings[3]		//  9 ignore warnings
+			);
+			update_option('wpmembers_settings',$wpmem_newsettings);
+		
+		}
 		
 	}
 }
