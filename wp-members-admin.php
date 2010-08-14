@@ -185,8 +185,17 @@ function wpmem_a_build_fields ($wpmem_fields)
 
 function wpmem_a_build_dialogs($wpmem_dialogs)
 { 
-	$wpmem_dialog_title_arr = wpmem_inc_dialog_title(); 
-	?>
+	$wpmem_dialog_title_arr = array(
+    	"Restricted post (or page), displays above the login/registration form",
+        "Username is taken",
+        "Email is registered",
+        "Registration completed",
+        "User update",
+        "Passwords did not match",
+        "Password changes",
+        "Username or email do not exist when trying to reset forgotten password",
+        "Password reset"  
+    ); ?>
 	<h3>WP-Members Dialogs and Error Messages</h3>
 	<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php"> 
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-dialogs'); } ?>
