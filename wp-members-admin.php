@@ -357,12 +357,7 @@ function wpmem_admin()
 
 	<p>&nbsp;</p>
 
-	<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>
-
-	
-	
-	<?php wpmem_admin_users_table(); ?>
-	
+	<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>	
 	
 	<p>&nbsp;</p>
 	<p><i>Thank you for using WP-Members! You are using version <?php echo WPMEM_VERSION; ?>. If you find this plugin useful, please consider a <a href="http://butlerblog.com/wp-members">donation</a>.<br />
