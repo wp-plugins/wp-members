@@ -5,22 +5,6 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html
 */
 
 
@@ -48,11 +32,13 @@ function wpmem()
 		break;
 
 	case ("register"):
-		wpmem_register();
+		include_once('wp-members-register.php');
+		wpmem_registration('register');
 		break;
 	
 	case ("update"):
-		wpmem_update();
+		include_once('wp-members-register.php');
+		wpmem_registration('update');
 		break;
 	
 	case ("pwdchange"):
@@ -84,7 +70,7 @@ function wpmem_securify ($content)
 		if (WPMEM_BLOCK_POSTS == 0 &&  get_post_custom_values('block')) { $chk_securify = "block"; }
 	}
 
-	if (is_page() && !is_page('members-area')) { 
+	if ( is_page() && !is_page('members-area') && !is_page('register') ) { 
 		$not_mem_area = 1; 
 		if (WPMEM_BLOCK_PAGES == 1 && !get_post_custom_values('unblock')) { $chk_securify = "block"; }
 		if (WPMEM_BLOCK_PAGES == 0 &&  get_post_custom_values('block')) { $chk_securify = "block"; }
@@ -135,7 +121,7 @@ function wpmem_securify ($content)
 	// Members Area
 	//   this takes a bit of manipulation to get it all to work on one page.
 	//   make sure if you use this, to set the page slug to "members-area" or change the is_page() below
-	if (is_page('members-area')) {
+	if ( is_page('members-area') || is_page('register') ) {
 	
 		include_once('wp-members-dialogs.php');
 		
@@ -174,14 +160,14 @@ function wpmem_securify ($content)
 
 			} else {
 
-				wpmem_inc_login('members');
+				if (is_page('members-area')) { wpmem_inc_login('members'); }
 				
 				if (WPMEM_NO_REG != 1) { wpmem_inc_registration($fields); } // new in 2.3, toggle to turn off registration process.
 			}
 			$output = '';
 			$content = '';
 
-		} else {
+		} elseif (is_user_logged_in() && is_page('members-area')) {
 
 			switch($wpmem_a) {
 
@@ -235,9 +221,16 @@ function wpmem_securify ($content)
 				break;					  
 			}
 
+		} elseif (is_user_logged_in() && is_page('register')) {
+		
+			$output = wpmem_inc_memberlinks('register');
+		
 		}
 
-		$content = preg_replace("/\<!--members-area-->/", $output, $content);
+		if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
+		if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
+
+		$content = preg_replace( $replacestr, $output, $content );
 
 	}
 
@@ -250,7 +243,7 @@ function wpmem_login()
 {
 	global $wpdb, $wpmem_regchk;
 
-	$redirect_to = $_REQUEST['redirect_to'];
+	$redirect_to = $_POST['redirect_to'];
 	if (!$redirect_to) {
 		$redirect_to = $_SERVER['PHP_SELF'];
 	}
@@ -262,15 +255,15 @@ function wpmem_login()
 	$user_pass  = $_POST['pwd'];
 	$rememberme = $_POST['rememberme'];
 
-	do_action('wp_authenticate', array(&$user_login, &$user_pass));
+	//do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ( $user_login && $user_pass ) {
-		$user = new WP_User(0, $user_login);
+		//$user = new WP_User(0, $user_login);
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
-			do_action('wp_login', $user_login);
+			//do_action('wp_login', $user_login);
 			wp_redirect($redirect_to);
 			exit();
 		} else {
@@ -383,22 +376,8 @@ function wpmem_reset_password()
 
 
 function wpmem_head()
-{
-	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->";
-}
-
-
-function  wpmem_register()
-{
-	include_once('wp-members-register.php');
-	wpmem_registration('register');
-}
-
-
-function wpmem_update()
-{
-	include_once('wp-members-register.php');
-	wpmem_registration('update');
+{ 
+	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
 }
 
 
@@ -448,10 +427,10 @@ function wpmem_selected($value,$valtochk,$type=null)
 
 function wpmem_chk_qstr()
 {
-	$permalink = get_settings('permalink_structure');
+	$permalink = get_option('permalink_structure');
 	if (!$permalink) {
 		// no fancy permalinks.  Append to ?=
-		$return_url = get_settings('home') . "/?" . $_SERVER['QUERY_STRING'] . "&amp;";
+		$return_url = get_option('home') . "/?" . $_SERVER['QUERY_STRING'] . "&amp;";
 	} else {
 		// permalinks in use.  Add a ?
 		$return_url = get_permalink() . "?";
@@ -520,9 +499,6 @@ function widget_wpmemwidget_init()
 		echo '<input type="hidden" id="wpmemwidget-submit" name="wpmemwidget-submit" value="1" />';
 	}
 
-	// register_sidebar_widget('WP Members', 'widget_wpmemwidget');
-	// register_widget_control('WP Members', 'widget_wpmemwidget_control');
-	// updated the above deprecated calls to the calls below in 2.3
 	wp_register_sidebar_widget ( 'WP Members', 'WP Members', 'widget_wpmemwidget', ''); 
 	wp_register_widget_control ( 'WP Members', 'WP Members', 'widget_wpmemwidget_control', '' );	
 }

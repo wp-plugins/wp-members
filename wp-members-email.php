@@ -5,23 +5,12 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html
 */
+
+
+/*****************************************************
+EMAIL FUNCTIONS
+*****************************************************/
 
 
 function wpmem_inc_regemail($user_id,$password,$toggle)
@@ -110,10 +99,15 @@ function wpmem_notify_admin($user_id, $wpmem_fields)
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
 		if ($wpmem_fields[$row][4] == 'y') {
 			$name = $wpmem_fields[$row][1];
-			$val  = get_usermeta($user_id,$wpmem_fields[$row][2]);
+			$val  = get_user_meta($user_id,$wpmem_fields[$row][2],'true');
 			$body.= "$name: $val \r\n";
 		}
 	}
+	
+	if (WPMEM_MOD_REG == 1) { 
+		$body.= "\r\n"."activate user: ".get_bloginfo( 'wpurl' )."/wp-admin/user-edit.php?user_id=".$user_id."\r\n"; 
+	}
+	
 	$body.= "\r\n";
 	$body.= "-----------------------------------\r\n";
 	$body.= "This is an automated message \r\n";

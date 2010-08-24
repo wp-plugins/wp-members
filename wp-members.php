@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>.  View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>.
-Version:     2.3.0
+Version:     2.3.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPL3
@@ -34,7 +34,7 @@ License:     GPL3
 /*
 	A NOTE ABOUT LICENSE:
 
-	While this plugin is released as free and open-source under the GPL2
+	While this plugin is released as free and open-source under the GPL3
 	license, that does not mean it is "public domain." You are free to modify
 	and redistribute as long as you comply with the license. Any derivative 
 	work MUST be GPL licensed and available as open source.  You also MUST give 
@@ -65,7 +65,7 @@ CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
 
 $wpmem_settings = get_option('wpmembers_settings');
 
-define("WPMEM_VERSION",      "2.3.0");
+define("WPMEM_VERSION",      "2.3.1");
 define('WPMEM_DEBUG',        false);
 
 define('WPMEM_VERSION',      $wpmem_settings[0]);
@@ -81,18 +81,22 @@ add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widg
 add_action('wp_head', 'wpmem_head');
 add_filter('the_content', 'wpmem_securify', $content);  // runs the wpmem_securify on the $content.
 
+
+// scripts for admin panels only load for admins - makes the front-end of the plugin lighter
 add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
-	if ( current_user_can('manage_options') ) { require_once('wp-members-admin.php'); }
+	if ( current_user_can('edit_users') ) { require_once('wp-members-admin.php'); }
 }
 
+// admin planel only loads if user has manage_options capabilities
 add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
-	add_options_page('WP-Members', 'WP-Members', 8, basename(__FILE__), 'wpmem_admin');
+	add_options_page('WP-Members', 'WP-Members', 'manage_options', basename(__FILE__), 'wpmem_admin');
 }
 
+// install scripts only load if we are installing, makes the plugin lighter
 register_activation_hook(__FILE__, 'wpmem_install');
 function wpmem_install()
 {
@@ -100,5 +104,6 @@ function wpmem_install()
 	wpmem_do_install();	
 }
 
+// loads the plugin core
 include_once('wp-members-core.php');
 ?>

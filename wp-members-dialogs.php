@@ -5,22 +5,6 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html
 */
 
 
@@ -29,7 +13,7 @@ DIALOG OUTPUT FUNCTIONS
 *****************************************************/
 
 
-function wpmem_inc_login($page='page')
+function wpmem_inc_login($page="page")
 { 	
 	global $wpmem_regchk;
 
@@ -94,7 +78,7 @@ function wpmem_login_form( $page, $wpmem_login_form_arr )
 					<input type="submit" name="Submit" value="<?php echo $wpmem_login_form_arr[8]; ?>" />
 				  </td>
 				</tr>
-			<?php if ( $page = 'members' && $wpmem_login_form_arr[7] == 'login' ) { 
+			<?php if ( $page == 'members' && $wpmem_login_form_arr[7] == 'login' ) { 
 				$link = wpmem_chk_qstr(); ?>
 				<tr>
 				  <td colspan="2">Forgot password? <a href="<?php echo $link; ?>a=pwdreset">Click here to reset</a></td>
@@ -114,7 +98,7 @@ function wpmem_inc_loginfailed()
 
 	You may edit below this line */?>
 
-	<div align="center">
+	<div align="center" id="wpmem_msg">
 		<h2>Login Failed!</h2>
 		<p>You entered an invalid username or password.</p>
 		<p><a href="<?php echo $_SERVER['REQUEST_URI'];?>">Click here to continue.</a></p>
@@ -168,7 +152,7 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 						if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
 							switch ($wpmem_fields[$row][2]) {
 							case('description'):
-								$val = get_usermeta($user_ID,'description');
+								$val = get_user_meta($user_ID,'description','true');
 								break;
 
 							case('user_email'):
@@ -180,7 +164,7 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 								break;
 
 							default:				
-								$val = get_usermeta($user_ID,$wpmem_fields[$row][2]);
+								$val = get_user_meta($user_ID,$wpmem_fields[$row][2],'true');
 								break;
 							}
 
@@ -218,7 +202,7 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 			<tr>
 			  <td>&nbsp;</td>
 			  <td align="center"><!-- Attribution keeps this plugin free!! -->
-				<small>Membership management by <br /><a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a><small>
+				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a><small>
 			  </td>
 			</tr>
 		  </table>
@@ -228,11 +212,21 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 }
 
 
-function wpmem_inc_memberlinks()
+function wpmem_inc_memberlinks($page = 'members')
 {
 	$link = wpmem_chk_qstr();
-	$str  = "<ul>\n<li><a href=\"".$link."a=edit\">Edit My Information</a></li>\n
-			<li><a href=\"".$link."a=pwdchange\">Change Password</a></li>\n</ul>";
+	
+	if ($page == 'members') {
+		$str  = "<ul>\n<li><a href=\"".$link."a=edit\">Edit My Information</a></li>\n
+				<li><a href=\"".$link."a=pwdchange\">Change Password</a></li>\n</ul>";
+	} else {		
+		$str = "<p>You are logged in.</p>
+			<ul>
+				<li><a href=\"".$link."a=logout\">Click here to logout.</a></li>
+				<li><a href=\"".get_option('siteurl')."\">Begin using the site.</a></li>
+			</ul>";
+	}
+	
 	return $str;
 }
 

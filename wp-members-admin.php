@@ -5,22 +5,6 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html
 */
 
 
@@ -44,7 +28,7 @@ function wpmem_admin_fields()
 			
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
-					<td><input id="<?php echo $wpmem_fields[$row][2]; ?>" type="text" class="input" name="<?php echo $wpmem_fields[$row][2]; ?>" value="<?php echo get_usermeta($user_id,$wpmem_fields[$row][2]);?>" size="25" /></td>
+					<td><input id="<?php echo $wpmem_fields[$row][2]; ?>" type="text" class="input" name="<?php echo $wpmem_fields[$row][2]; ?>" value="<?php echo get_user_meta($user_id,$wpmem_fields[$row][2],'true');?>" size="25" /></td>
 				</tr>
 			
 			<?php } 
@@ -53,7 +37,7 @@ function wpmem_admin_fields()
 
 		// see if reg is moderated, and if the user has been activated		
 		if (WPMEM_MOD_REG == 1) { 
-			if (get_usermeta($user_id,'active') != 1) { ?>
+			if (get_user_meta($user_id,'active','true') != 1) { ?>
 
 				<tr>
 					<th><label>Activate this user?</label></th>
@@ -72,7 +56,7 @@ function wpmem_admin_update()
 	$user_id = $_REQUEST['user_id'];	
 	$wpmem_fields = get_option('wpmembers_fields');
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
-		if ($wpmem_fields[$row][6] == "n") {update_usermeta($user_id,$wpmem_fields[$row][2],$_POST[$wpmem_fields[$row][2]]);}
+		if ($wpmem_fields[$row][6] == "n") {update_user_meta($user_id,$wpmem_fields[$row][2],$_POST[$wpmem_fields[$row][2]]);}
 	}
 	if (WPMEM_MOD_REG == 1) {
 
@@ -87,7 +71,7 @@ function wpmem_admin_update()
 			require_once('wp-members-email.php');
 
 			wpmem_inc_regemail($user_id,$new_pass,2);
-			update_usermeta($user_id,'active',$wpmem_activate_user); 
+			update_user_meta($user_id,'active',$wpmem_activate_user); 
 		}
 	}
 }
@@ -96,7 +80,7 @@ function wpmem_admin_update()
 function wpmem_a_build_options($wpmem_settings)
 { ?>
 	<h3>Manage Options</h3>
-		<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+		<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 		<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-settings'); } ?>
 		<table class="form-table">
 		<?php $arr = array(
@@ -138,7 +122,7 @@ function wpmem_a_build_fields ($wpmem_fields)
 	<h3><?php _e('Manage Fields'); ?></h3>
     <p><?php _e('Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields.'); ?>
 		&nbsp;<strong><?php _e('(Note: Email is always mandatory. and cannot be changed.)'); ?></strong></p>
-    <form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php">
+    <form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-fields'); } ?>
 	<table class="widefat">
 		<thead><tr class="head">
@@ -197,7 +181,7 @@ function wpmem_a_build_dialogs($wpmem_dialogs)
         "Password reset"  
     ); ?>
 	<h3>WP-Members Dialogs and Error Messages</h3>
-	<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=wp-members.php"> 
+	<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-dialogs'); } ?>
 		<table class="form-table">
 		<tr>
@@ -375,6 +359,11 @@ function wpmem_admin()
 
 	<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>
 
+	
+	
+	<?php wpmem_admin_users_table(); ?>
+	
+	
 	<p>&nbsp;</p>
 	<p><i>Thank you for using WP-Members! You are using version <?php echo WPMEM_VERSION; ?>. If you find this plugin useful, please consider a <a href="http://butlerblog.com/wp-members">donation</a>.<br />
 	  WP-Members is copyright &copy; 2006-2010 by Chad Butler, <a href="http://butlerblog.com">butlerblog.com</a> | 

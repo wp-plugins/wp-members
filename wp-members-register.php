@@ -5,23 +5,12 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-	You may also view the license here:
-	http://www.gnu.org/licenses/gpl.html
 */
+
+
+/*****************************************************
+REGISTRATION FUNCTIONS
+*****************************************************/
 
 
 function wpmem_registration($toggle)
@@ -97,7 +86,7 @@ function wpmem_registration($toggle)
 						$user = new WP_User($user_id);
 						$user->set_role(get_option('default_role'));
 
-						update_usermeta( $user_id, 'nickname', $username); // gotta have this whether it's used or not; if it's included w/ custom, value should be overwritten below.
+						update_user_meta( $user_id, 'nickname', $username); // gotta have this whether it's used or not; if it's included w/ custom, value should be overwritten below.
 						for ($row = 0; $row < count($wpmem_fields); $row++) {
 
 							/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
@@ -106,7 +95,7 @@ function wpmem_registration($toggle)
 							if ($wpmem_fields[$row][2] == 'user_url') {
 								$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_id) );
 							} else {
-								if ($wpmem_fields[$row][2] != 'user_email') {update_usermeta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);}
+								if ($wpmem_fields[$row][2] != 'user_email') {update_user_meta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);}
 							}
 						} 
 
@@ -152,7 +141,7 @@ function wpmem_registration($toggle)
 					break;
 
 				default:
-					update_usermeta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
+					update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
 					break;
 				}
 			} 
