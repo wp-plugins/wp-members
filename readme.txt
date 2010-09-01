@@ -50,6 +50,7 @@ That's it!  You are ready to begin using WP-Members.  Follow the instructions ti
 * If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in() && !get_post_custom_values('unblock')) { $post->post_password = wpmem_generatePassword(); } ?>`
 * To further protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members.
+* Under Settings > Reading, we recommend that "For each article in a feed, show" is set to "Summary."
 
 
 = Additional Settings and Information = 
