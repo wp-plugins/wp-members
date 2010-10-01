@@ -106,6 +106,15 @@ Yes!  There are three IDs available for customized CSS specifications - wpmem_lo
 The wpmem_login and wpmem_reg IDs wrap the login and registration tables.  The dialog messages that display on form validation or registration success are wrapped with the wpmem_msg ID.  This allows you to set things like cell spacing, padding, borders, backgrounds, and more via CSS.
 
 
+== Other Notes ==
+
+= Statement regarding wp-Members from SmartMediaPro =
+
+WP-Members is in no way associated with SmartMediaPro and should not be confused with their commercial plugin wp-Member.  WP-Members has been available since 2006, a full two years before the release of SmartMediaPro's wp-Member.  Furthermore, their plugin is not open source making it, in our opinion, in violation of WordPress's GPL license.
+
+An official statement is available here: http://butlerblog.com/regarding-smartmediapro
+
+
 == Upgrade Notice ==
 
 WP-Members 2.3.x updates the API calls for the use of the WP-Members sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  (There is no change to this for upgrading from 2.3.0 to 2.3.1.)  
