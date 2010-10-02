@@ -108,11 +108,11 @@ The wpmem_login and wpmem_reg IDs wrap the login and registration tables.  The d
 
 == Other Notes ==
 
-= Statement regarding wp-Members from SmartMediaPro =
+= Statement regarding the name WP-Members =
 
-WP-Members is in no way associated with SmartMediaPro and should not be confused with their commercial plugin wp-Member.  WP-Members has been available since 2006, a full two years before the release of SmartMediaPro's wp-Member.  Furthermore, their plugin is not open source making it, in our opinion, in violation of WordPress's GPL license.
+There are a number of commercial vendors offering products called WP-Members or a derivative thereof.  These products are neither free, nor open source.  The original plugin hosted here has been publicly available since 2006 and in no way associated with any of these vendors.  Tagging your support request in the wordpress.org forums attaches it to this plugin.  If you are seeking support for one of these commercial products, you should seek support from the vendor.
 
-An official statement is available here: http://butlerblog.com/regarding-smartmediapro
+An official statement is available here: http://butlerblog.com/regarding-wp-members
 
 
 == Upgrade Notice ==
