@@ -110,6 +110,8 @@ The wpmem_login and wpmem_reg IDs wrap the login and registration tables.  The d
 
 = Statement regarding the name WP-Members =
 
+WP-Members is a Trademark of butlerblog.com.
+
 There are a number of commercial vendors offering products called WP-Members or a derivative thereof.  These products are neither free, nor open source.  The original plugin hosted here has been publicly available since 2006 and in no way associated with any of these vendors.  Tagging your support request in the wordpress.org forums attaches it to this plugin.  If you are seeking support for one of these commercial products, you should seek support from the vendor.
 
 An official statement is available here: http://butlerblog.com/regarding-wp-members

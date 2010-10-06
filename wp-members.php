@@ -6,12 +6,14 @@ Description: WP access restriction and user registration.  For more information 
 Version:     2.3.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
-License:     GPL3
+License:     GPLv2
 */
 
 
 /*  
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+
+	The name WP-Members is a trademark of butlerblog.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 3, as 
