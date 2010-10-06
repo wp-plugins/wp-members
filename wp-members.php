@@ -6,7 +6,7 @@ Description: WP access restriction and user registration.  For more information 
 Version:     2.3.0
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
-License:     GPL3
+License:     GPLv2
 */
 
 
@@ -14,7 +14,7 @@ License:     GPL3
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
+	it under the terms of the GNU General Public License, version 2, as 
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
