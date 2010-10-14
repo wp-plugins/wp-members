@@ -16,7 +16,7 @@ License:     GPLv2
 	The name WP-Members is a trademark of butlerblog.com
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
+	it under the terms of the GNU General Public License, version 2, as 
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
