@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 
@@ -142,7 +144,7 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 			for ($row = 0; $row < count($wpmem_fields); $row++)
 			{ 
 				if ($wpmem_fields[$row][4] == 'y') { ?>
-					<tr<?php if( $wpmem_fields[$row][2] == 'description' ){ echo " valign=\"top\""; } ?>>
+					<tr<?php if( $wpmem_fields[$row][3] == 'textarea' ){ echo " valign=\"top\""; } ?>>
 						<td align="right"><?php 
 							echo $wpmem_fields[$row][1].":";
 							if ($wpmem_fields[$row][5] == 'y') { ?><font color="red">*</font><?php } ?>

@@ -2,19 +2,21 @@
 /*
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
-Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>.  View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>.
-Version:     2.3.1
+Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>.  View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
+Version:     2.3.2
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
-License:     GPL3
+License:     GPLv2
 */
 
 
 /*  
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
 
+	The name WP-Members(tm) is a trademark of butlerblog.com
+
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 3, as 
+	it under the terms of the GNU General Public License, version 2, as 
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
@@ -34,16 +36,17 @@ License:     GPL3
 /*
 	A NOTE ABOUT LICENSE:
 
-	While this plugin is released as free and open-source under the GPL3
+	While this plugin is released as free and open-source under the GPL2
 	license, that does not mean it is "public domain." You are free to modify
 	and redistribute as long as you comply with the license. Any derivative 
 	work MUST be GPL licensed and available as open source.  You also MUST give 
-	proper attribution to the original author and copyright holder.  This means 
-	you cannot change two lines of code and claim copyright of the entire work 
-	as your own.  If you are unsure or have questions about how a derivative work
-	you are developing complies with the license and copyright, or do not
-	understand the difference between open source and public domain, contact the 
-	original author at plugins@butlerblog.com.
+	proper attribution to the original author, copyright holder, and trademark
+	owner.  This means you cannot change two lines of code and claim copyright 
+	of the entire work as your own.  If you are unsure or have questions about 
+	how a derivative work you are developing complies with the license, 
+	copyright, trademark, or do not	understand the difference between open 
+	source and public domain, contact the original author at:
+	plugins@butlerblog.com.
 
 
 	INSTALLATION PROCEDURE:
@@ -65,7 +68,7 @@ CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
 
 $wpmem_settings = get_option('wpmembers_settings');
 
-define("WPMEM_VERSION",      "2.3.1");
+define("WPMEM_VERSION",      "2.3.2");
 define('WPMEM_DEBUG',        false);
 
 define('WPMEM_VERSION',      $wpmem_settings[0]);

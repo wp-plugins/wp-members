@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 
@@ -42,7 +44,7 @@ function wpmem_inc_sidebar()
 	login status. Typically used for a sidebar.		
 	You can call this directly, or with the widget
 	*/
-	global $user_login;
+	global $user_login, $wpmem_regchk;
 	$url = get_bloginfo('url');
 	$logout = $url."/?a=logout";
 
@@ -59,6 +61,7 @@ function wpmem_inc_sidebar()
 	You may edit below this line, but do not
 	change the <?php ?> tags or their contents */?>
 	<ul>
+		<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { echo "<p>Login Failed!<br />You entered an invalid username or password.</p>"; }?>
 		<p>You are not currently logged in.<br />
 			<form name="form" method="post" action="<?php echo $post_to; ?>">
 			Username<br />
@@ -68,6 +71,7 @@ function wpmem_inc_sidebar()
 			<input type="hidden" name="rememberme" value="forever" />
 			<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
 			<input type="hidden" name="a" value="login" />
+			<input type="hidden" name="slog" value="true" />
 			<input type="submit" name="Submit" value="login" style="font:10px verdana,sans-serif;" />
 			</form>
 		</p>

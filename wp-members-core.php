@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 
@@ -124,6 +126,11 @@ function wpmem_securify ($content)
 	if ( is_page('members-area') || is_page('register') ) {
 	
 		include_once('wp-members-dialogs.php');
+		
+		if ($wpmem_regchk == "loginfailed") {
+			wpmem_inc_loginfailed();
+			return;
+		}
 		
 		if (!is_user_logged_in()) {
 			if ($wpmem_a == 'register') {
@@ -404,7 +411,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 		break;
 
 	case "textarea":
-		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\">$val</textarea>";
+		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\">$value</textarea>";
 		break;
 
 	case "password":

@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 
@@ -357,12 +359,7 @@ function wpmem_admin()
 
 	<p>&nbsp;</p>
 
-	<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>
-
-	
-	
-	<?php wpmem_admin_users_table(); ?>
-	
+	<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>	
 	
 	<p>&nbsp;</p>
 	<p><i>Thank you for using WP-Members! You are using version <?php echo WPMEM_VERSION; ?>. If you find this plugin useful, please consider a <a href="http://butlerblog.com/wp-members">donation</a>.<br />

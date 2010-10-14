@@ -2,9 +2,9 @@
 Contributors: cbutlerjr
 Donate link: http://butlerblog/wp-members/
 Tags: authentication, community, content, login, password, register, registration, security, users, membership, access, block, permissions, members, 
-Requires at least: 2.7
+Requires at least: 3.0
 Tested up to: 3.0.1
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 
 This is a plugin to restrict content to be viewable by registered members. 
 
@@ -50,6 +50,7 @@ That's it!  You are ready to begin using WP-Members.  Follow the instructions ti
 * If you want to restrict comments from being viewed along with posts, add the following at the top your comments.php template file: `<?php if (!is_user_logged_in() && !get_post_custom_values('unblock')) { $post->post_password = wpmem_generatePassword(); } ?>`
 * To further protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members.
+* Under Settings > Reading, we recommend that "For each article in a feed, show" is set to "Summary."
 
 
 = Additional Settings and Information = 
@@ -105,6 +106,17 @@ Yes!  There are three IDs available for customized CSS specifications - wpmem_lo
 The wpmem_login and wpmem_reg IDs wrap the login and registration tables.  The dialog messages that display on form validation or registration success are wrapped with the wpmem_msg ID.  This allows you to set things like cell spacing, padding, borders, backgrounds, and more via CSS.
 
 
+== Other Notes ==
+
+= Statement regarding the name WP-Members =
+
+WP-Members is a trademark of butlerblog.com.
+
+There are a number of commercial vendors offering products called WP-Members or a derivative thereof.  These products are neither free, nor open source.  The original plugin hosted here has been publicly available since 2006 and in no way associated with any of these vendors.  Tagging your support request in the wordpress.org forums attaches it to this plugin.  If you are seeking support for one of these commercial products, you should seek support from the vendor.
+
+An official statement is available here: http://butlerblog.com/regarding-wp-members
+
+
 == Upgrade Notice ==
 
 WP-Members 2.3.x updates the API calls for the use of the WP-Members sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  (There is no change to this for upgrading from 2.3.0 to 2.3.1.)  
@@ -116,6 +128,13 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.3.2 =
+Bug Fix Release
+* fixed login failed message for sidebar widget
+* fixed login failed message for members area page
+* fixed email to include user_url field properly
+* changed cell alignment for 'textarea' field type in reg form
 
 = 2.3.1 =
 Code Improvements

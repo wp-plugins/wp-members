@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 

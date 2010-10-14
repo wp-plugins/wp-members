@@ -5,6 +5,8 @@
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
 	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
 */
 
 
@@ -99,7 +101,15 @@ function wpmem_notify_admin($user_id, $wpmem_fields)
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
 		if ($wpmem_fields[$row][4] == 'y') {
 			$name = $wpmem_fields[$row][1];
-			$val  = get_user_meta($user_id,$wpmem_fields[$row][2],'true');
+			
+			if ($wpmem_fields[$row][2] != 'user_email') {
+				if ($wpmem_fields[$row][2] == 'user_url') {
+					$val  = $user->user_url;
+				} else {
+					$val  = get_user_meta($user_id,$wpmem_fields[$row][2],'true');
+				}
+			}
+			
 			$body.= "$name: $val \r\n";
 		}
 	}
