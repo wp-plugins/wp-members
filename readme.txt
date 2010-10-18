@@ -83,7 +83,9 @@ WP-Members gives you the ability to change the settings for how the plugin block
 
 = How do I block (or unblock) an individual post (or page)? = 
 
-If you are using the default settings (as mentioned above), and you have a post that you want to be unblocked (viewable by any user, not just logged in users), on the Edit Post page add a Custom Field with the name "block" and set the value to "true" or "1" (either will work).  This post will be now be viewable by anyone.  If you have set WP-Members to unblock by default and you want to block an individual post, use a Custom Field with the name "unblock" and set the value to "true" or "1".
+If you are using the default settings (as mentioned above), and you have a post that you want to be unblocked (viewable by any user, not just logged in users), on the Edit Post page add a Custom Field with the name "unblock" and set the value to "true" or "1" (either will work).  This post will be now be viewable by anyone.  
+
+Likewise, if you have set WP-Members to unblock by default and you want to block an individual post, use a Custom Field with the name "block" and set the value to "true" or "1".
 
 = How to I change the registration fields that are used and which are required? = 
 
@@ -131,6 +133,7 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 = 2.3.2 =
 Bug Fix Release
+
 * fixed login failed message for sidebar widget
 * fixed login failed message for members area page
 * fixed email to include user_url field properly
