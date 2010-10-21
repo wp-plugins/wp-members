@@ -1,7 +1,7 @@
 === WP-Members ===
 Contributors: cbutlerjr
 Donate link: http://butlerblog/wp-members/
-Tags: authentication, community, content, login, password, register, registration, security, users, membership, access, block, permissions, members, 
+Tags: authentication, community, content, login, password, register, registration, restriction, security, users, membership, access, block, permissions, members, 
 Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 2.3.2
