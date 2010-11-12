@@ -1,0 +1,31 @@
+beta release of wp-members 2.4.0
+
+files with changes for recaptcha
+
+wp-members-register.php
+wp-members-dialogs.php
+wp-members-core.php
+wp-members-admin.php
+wp-members-install.php
+
+
+added recaptcha to the initial registration
+
+bug fixes:
+added stripslashes to dialogs
+fixed sidebar bug
+changed registration process, update process, and admin update user process to not use unused custom fields
+
+added localization support:
+wp-members-install.php
+wp-members-sidebar.php
+wp-members-core.php
+wp-members-admin.php
+wp-members-dialogs-admin.php
+wp-members-dialogs.php
+wp-members-register.php
+
+updated uninstall.php
+
+other
+wp-members-email.php
