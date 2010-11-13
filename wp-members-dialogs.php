@@ -302,6 +302,7 @@ function wpmem_inc_regmessage($toggle,$themsg='')
 }
 
 
+/* 
 function wpmem_inc_dialog_title() //this may be deprecated
 {
 	$wpmem_dialog_title_arr = array(
@@ -316,7 +317,8 @@ function wpmem_inc_dialog_title() //this may be deprecated
         __("Password reset")  
     );
 	return $wpmem_dialog_title_arr;
-}
+} 
+*/
 
 
 /*****************************************************
