@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.4.0 beta 1
+Version:     2.4.0 beta 3
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -44,8 +44,8 @@ License:     GPLv2
 	owner.  This means you cannot change two lines of code and claim copyright 
 	of the entire work as your own.  If you are unsure or have questions about 
 	how a derivative work you are developing complies with the license, 
-	copyright, trademark, or do not	understand the difference between open 
-	source and public domain, contact the original author at:
+	copyright, trademark, or if you do not understand the difference between
+	open source and public domain, contact the original author at:
 	plugins@butlerblog.com.
 
 
@@ -65,10 +65,23 @@ License:     GPLv2
 CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
 *****************************************************/
 
+// preload any custom functions, if available
+if (file_exists(WP_PLUGIN_DIR."/wp-members/wp-members-custom.php")) {
+	include('wp-members-custom.php');
+}
 
+// preload the expiration module, if available
+if (file_exists(WP_PLUGIN_DIR."/wp-members/wp-members-exp-module.php")) {
+	include('wp-members-exp-module.php');
+} else {
+	define('WPMEM_EXP_MODULE', false);
+}
+
+// load existing options if any
 $wpmem_settings = get_option('wpmembers_settings');
 
-define("WPMEM_VERSION",      "2.4.0");
+// define constants based on option settings
+define('WPMEM_VERSION',      "2.4.0");
 define('WPMEM_DEBUG',        false);
 
 define('WPMEM_VERSION',      $wpmem_settings[0]);
@@ -80,10 +93,16 @@ define('WPMEM_MOD_REG',      $wpmem_settings[5]);
 define('WPMEM_CAPTCHA',      $wpmem_settings[6]);
 define('WPMEM_NO_REG',       $wpmem_settings[7]);
 
+if (WPMEM_EXP_MODULE == true) {
+	define('WPMEM_USE_EXP',  $wpmem_settings[8]);
+	define('WPMEM_USE_TRL',  $wpmem_settings[9]);
+}
+
+// actions and the content filter
 add_action('init', 'wpmem');  							// runs the wpmem() function right away, allows for setting cookies
 add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
 add_action('wp_head', 'wpmem_head');					// runs header functions
-add_filter('the_content', 'wpmem_securify', $content);  // runs securifies the $content.
+add_filter('the_content', 'wpmem_securify', $content);  // securifies the_content.
 
 // scripts for admin panels only load for admins - makes the front-end of the plugin lighter
 add_action('admin_init', 'wpmem_chk_admin');

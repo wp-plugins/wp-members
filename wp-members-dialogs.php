@@ -186,7 +186,8 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 		<?php 		
 		if (WPMEM_CAPTCHA == 1) {
 			
-			$wpmem_captcha = get_option('wpmembers_captcha'); ?>
+			$wpmem_captcha = get_option('wpmembers_captcha'); 
+			if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
             
             <tr>
             	<td colspan="2" align="right">			
@@ -204,7 +205,9 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 				</td>
             </tr>
             
-        <?php } ?>
+        <?php } 
+		
+		} ?>
             
 			<tr><td colspan="2">&nbsp;</td></tr>
 			<tr> 

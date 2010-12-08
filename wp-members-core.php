@@ -56,7 +56,7 @@ function wpmem()
 }
 
 
-function wpmem_securify ($content) 
+function wpmem_securify ($content = null, $wpmem_sc_page = null) 
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	
@@ -118,12 +118,34 @@ function wpmem_securify ($content)
 
 		//return empty content			
 		$content = "";
+	//}
+	// new 2.4 for expirations
+	//		NOTE: there is some reworking needed as some of this is trying to override various comments.php scenarios
+	} elseif ( is_user_logged_in() && $chk_securify == 'block' ){
+		if (WPMEM_USE_EXP == 1) {
+			if(wpmem_chk_exp() == true){
+				include_once('wp-members-dialogs.php');
+				wpmem_inc_expmessage();
+				$content = '';
+				
+				// this disables the expired user from posting a comment if users must be logged in
+				global $user_ID;
+				$user_ID = '';
+			}
+		}
+	} elseif ( is_user_logged_in() && get_option('comment_registration') == 1 ) {
+		global $user_ID;
+		$user_ID = '';
 	}
 
 	// Members Area
 	//   this takes a bit of manipulation to get it all to work on one page.
 	//   make sure if you use this, to set the page slug to "members-area" or change the is_page() below
-	if ( is_page('members-area') || is_page('register') ) {
+	
+	if ($wpmem_sc_page == 'members-area' || is_page('members-area')) { $wpmem_page = "members-area"; }
+	if ($wpmem_sc_page == 'register' || is_page('register')) { $wpmem_page = "register"; }
+	
+	if ( $wpmem_page == 'members-area' || $wpmem_page == 'register' ) {
 	
 		include_once('wp-members-dialogs.php');
 		
@@ -167,14 +189,14 @@ function wpmem_securify ($content)
 
 			} else {
 
-				if (is_page('members-area')) { wpmem_inc_login('members'); }
+				if ($wpmem_page == 'members-area') { wpmem_inc_login('members'); }
 				
 				if (WPMEM_NO_REG != 1) { wpmem_inc_registration($fields); } // new in 2.3, toggle to turn off registration process.
 			}
 			$output = '';
 			$content = '';
 
-		} elseif (is_user_logged_in() && is_page('members-area')) {
+		} elseif (is_user_logged_in() && $wpmem_page == 'members-area') {
 
 			switch($wpmem_a) {
 
@@ -223,26 +245,58 @@ function wpmem_securify ($content)
 				}
 				break;
 
+			// new for 2.4 expirations
+			case "renew":
+				$content = "insert the renewal process...";
+				//wpmem_renew;
+				break;
+
 			default:
+			// new for 2.4 expirations
+				if (WPMEM_USE_EXP == 1) { $output = wpmem_user_page_detail(); }
+
 				$output = wpmem_inc_memberlinks();
 				break;					  
 			}
 
-		} elseif (is_user_logged_in() && is_page('register')) {
+		} elseif (is_user_logged_in() && $wpmem_page == 'register') {
 		
 			$output = wpmem_inc_memberlinks('register');
+			
+			if ($wpmem_sc_page == 'register') {
+				echo $output;
+				return;
+			}
 		
 		}
+		
+		if ($wpmem_sc_page == 'members-area') { 
+		
+			echo $output; 
+			return;
+			
+		} else {		
 
-		if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
-		if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
-
-		$content = preg_replace( $replacestr, $output, $content );
-
+			if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
+			if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
+			
+			// the conditional here is allow for use of either the legacy version or 
+			// the shortcode on members-area or register pages without preg_replace error
+			if ( !$wpmem_sc_page ) { $content = preg_replace( $replacestr, $output, $content ); }
+			
+		}
+			
 	}
 
 	return $content;
 } // end wpmem_securify
+
+
+add_shortcode ('wp-members', 'wpmem_shortcode');
+function wpmem_shortcode($attr)
+{
+	wpmem_securify('', $attr['page']);
+}
 
 
 // login function
@@ -262,11 +316,14 @@ function wpmem_login()
 	$user_pass  = $_POST['pwd'];
 	$rememberme = $_POST['rememberme'];
 
+	// not sure this is needed
 	//do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ( $user_login && $user_pass ) {
+		// is this line needed?
 		//$user = new WP_User(0, $user_login);
 
+		// wp_login is deprecated, use wp_signon
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);

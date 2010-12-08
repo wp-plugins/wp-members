@@ -47,6 +47,32 @@ function wpmem_admin_fields()
 				</tr>
 
 			<?php }
+		} 
+		
+		// if using subscription model, show expiration
+		// if registration is moderated, this doesn't show if user is not active yet.		
+		if (WPMEM_USE_EXP == 1) {
+			if ( (WPMEM_MOD_REG == 1 &&  get_user_meta($user_id, 'active', 'true') == 1) || (WPMEM_MOD_REG != 1) ) { ?>
+
+				<tr>
+					<th><label><?php echo ucfirst( get_user_meta($user_id, 'exp_type', 'true') ); ?> <?php _e('expires'); ?>:</label></th>
+					<td><?php $exp = get_user_meta($user_id, 'expires', 'true'); echo $exp;?></td>
+				</tr>
+				<tr>
+					<th><label><?php _e('Extend user:'); ?></label></th>
+					<td>
+					<select name="wpmem_extend">
+						<option value="" selected>--</option>
+						<?php for ($i = 1; $i < 13; $i++) { wpmem_create_formfield($i, 'option', $i); } ?>
+					</select>
+					<?php 
+						$tmp = get_option('wpmembers_experiod'); 
+						echo ucfirst($tmp['subscription_per'])."(s)";
+					?>
+					</td>
+				</tr>
+				<?php
+			} 
 		} ?>
 	</table><?php
 }
@@ -71,10 +97,42 @@ function wpmem_admin_update()
 			global $wpdb;
 			$wpdb->update( $wpdb->users, array( 'user_pass' => $hashpassword ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
 
+			// new in 2.4 for user expiration
+			if (WPMEM_USE_EXP == 1) { wpmem_set_exp($user_id); }
+			
 			require_once('wp-members-email.php');
 
 			wpmem_inc_regemail($user_id,$new_pass,2);
 			update_user_meta($user_id,'active',$wpmem_activate_user); 
+		}
+	}
+	
+	// new in 2.4 for user expiration
+	//		this is a truncated version of wpmem_set_exp in wp-members-core.php until i can rework that function accordingly...
+	// CONSIDER BREAKING THIS OUT TO wp-members-exp-module.php
+	if (WPMEM_USE_EXP == 1) { 
+	
+		if ($_POST['wpmem_extend'] > 0) {
+
+			// get the expiration periods
+			$exp_arr = get_option('wpmembers_experiod');
+
+			$exp_num = $_POST['wpmem_extend'];
+			$exp_per = $exp_arr["subscription_per"];
+			
+			// if expiration is in the past, extend from today
+			// otherwise extend from expiration date
+			$tmp = get_user_meta( $user_id, 'expires', true );
+			
+			if ( strtotime($tmp) > strtotime(date("m/d/Y")) ) {
+				$exp_from = $tmp;
+			} else {
+				$exp_from = date("m/d/Y");
+			}
+			
+			$wpmem_exp = wpmem_exp_date( $exp_num, $exp_per, $exp_from ); 
+			update_user_meta( $user_id, 'expires', $wpmem_exp );
+			update_user_meta( $user_id, 'exp_type', 'subscription');
 		}
 	}
 }
@@ -95,11 +153,11 @@ function wpmem_a_build_options($wpmem_settings)
 			array(__('Use reCAPTCHA'),'wpmem_settings_captcha',__('Turns on CAPTCHA for registration')),
 			array(__('Turn off registration'),'wpmem_settings_turnoff',__('Turns off the registration process, only allows login')),	
 			array(__('Time-based expiration'),'wpmem_settings_time_exp',__('Allows for access to expire')),
-			array(__('Trial period','wpmem_settings_trial'),__('Allows for a trial period')),
+			array(__('Trial period'),'wpmem_settings_trial',__('Allows for a trial period')),
 			array(__('Ignore warning messages'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel'))
 			); ?>
 		<?php for ($row = 0; $row < count($arr); $row++) { ?>
-		<?php if ($row < 7 || $row > 8) {  // this is here until we finish time based expiration ?>
+		<?php if ( ( $row < 7 || $row > 8 ) || ( WPMEM_EXP_MODULE == true ) ) { ?>
 		  <tr valign="top">
 			<th align="left" scope="row"><?php echo $arr[$row][0]; ?></th>
 			<td><?php if (WPMEM_DEBUG == true) { echo $wpmem_settings[$row+1]; } ?>
@@ -216,6 +274,10 @@ function wpmem_admin()
 	$wpmem_settings = get_option('wpmembers_settings');
 	$wpmem_fields   = get_option('wpmembers_fields');
 	$wpmem_dialogs  = get_option('wpmembers_dialogs');
+	
+	if (WPMEM_EXP_MODULE == true) {
+		$wpmem_experiod = get_option('wpmembers_experiod');
+	}
 
 	switch ($_POST['wpmem_admin_a']) {
 
@@ -236,6 +298,10 @@ function wpmem_admin()
 				} else {
 					$wpmem_newsettings[$row] = $_POST[$post_arr[$row]];
 				}
+			}
+			
+			if (WPMEM_DEBUG == true) {
+				echo $post_arr[$row]." ".$_POST[$post_arr[$row]]."<br />";
 			}
 		}
 
@@ -306,6 +372,22 @@ function wpmem_admin()
 		$did_update = "true";
 		break;
 
+	case ("update_exp"):
+	
+		//check nonce
+		check_admin_referer('wpmem-update-exp');
+		
+		$wpmem_newexperiod = array( 'subscription_num' => $_POST['subscription_num'],
+									'subscription_per' => $_POST['subscription_period'],
+									'trial_num' 	   => $_POST['trial_num'],
+									'trial_per' 	   => $_POST['trial_period'],
+									
+								);
+		update_option('wpmembers_experiod',$wpmem_newexperiod);
+		$wpmem_experiod = $wpmem_newexperiod; if (WPMEM_DEBUG == true) { var_dump($wpmem_experiod); }
+		$did_update = "true";
+		break;
+
 	}
 
 	?>
@@ -317,7 +399,7 @@ function wpmem_admin()
 	if ($did_update == "true") {
 
 		if ($chkreq == "err") { ?>
-			<div class="error"><p><strong><?php _e('Settings were saved, but you have required field that are not set to display!'); ?></strong><br /><br />
+			<div class="error"><p><strong><?php _e('Settings were saved, but you have required fields that are not set to display!'); ?></strong><br /><br />
 				<?php _e('Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that 
 				your displayed and required fields match up.  Mismatched fields are highlighted below.'); ?></p></div>
 		<?php } else { ?>
@@ -362,7 +444,15 @@ function wpmem_admin()
 			wpmem_a_warning_msg(5);
 		}  
 	}
-
+	
+	// haven't entered recaptcha api keys
+	if ( $wpmem_settings[10] == 0 && $wpmem_settings[6] == 1 ) {
+		$wpmem_captcha = get_option('wpmembers_captcha');
+		if ( !$wpmem_captcha[0]  || !$wpmem_captcha[1] ) {
+			include_once('wp-members-dialogs-admin.php');
+			wpmem_a_warning_msg(6);
+		}
+	}
 	
 	/*************************************************************************
 		END WARNING MESSAGES
@@ -387,6 +477,13 @@ function wpmem_admin()
     <?php if ($wpmem_settings[6] == 1) { ?>
     
     <?php wpmem_a_build_captcha_options(); ?>
+	
+	<p>&nbsp;</p>
+	
+	<?php }
+	if ( (WPMEM_EXP_MODULE == true) && ($wpmem_settings[8] == 1 || $wpmem_settings[9] == 1) ) { ?>
+    
+    <?php wpmem_a_build_expiration( $wpmem_experiod, $wpmem_settings[9], $wpmem_settings[8] ); ?>
     
     <p>&nbsp;</p>
     

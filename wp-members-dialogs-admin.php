@@ -56,8 +56,15 @@ function wpmem_a_warning_msg($msg)
 		$remain_msg = ", but you also set to moderate and/or email admin new registrations.  Turning registrations off overrides the other two settings since no registrations are allowed.";	
 
 		break;
+		
+	case 6:
+	
+		$strong_msg = __("You have turned on reCAPTCHA");
+		$remain_msg = ", however, you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included.";
+		
+		break;
 
-	} 
+	}
 	
 	if ( $span_msg ) { $span_msg = " [<span title=\"".$span_msg."\">why is this?</span>]"; }
 	echo "<div class=\"error\"><p><strong>".$strong_msg."</strong> ".$remain_msg.$span_msg."</div>";

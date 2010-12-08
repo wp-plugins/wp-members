@@ -43,8 +43,11 @@ function wpmem_registration($toggle)
 
 	// if captcha is on, check for captcha
 	if (WPMEM_CAPTCHA == 1) {
-		if (!$_POST["recaptcha_response_field"]) {
-			$wpmem_themsg = __("you must complete the CAPTCHA form.");
+		$wpmem_captcha = get_option('wpmembers_captcha'); // get the captcha settings (api keys) 
+		if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {   // if there is no api key, the captcha never displayed to the end user
+			if (!$_POST["recaptcha_response_field"]) {
+				$wpmem_themsg = __("you must complete the CAPTCHA form.");
+			}
 		}
 	}
 	
@@ -80,11 +83,10 @@ function wpmem_registration($toggle)
 
 						// if captcha is on, check the captcha
 							
-						if (WPMEM_CAPTCHA == 1) {
+						if (WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1]) {
 							
 							require_once('lib/recaptchalib.php');
 
-							$wpmem_captcha = get_option('wpmembers_captcha');
 							$publickey  = $wpmem_captcha[0];
 							$privatekey = $wpmem_captcha[1];
 
@@ -178,6 +180,9 @@ function wpmem_registration($toggle)
 				update_user_meta( $user_id, 'wpmem_reg_url', $the_permalink );
 			}
 
+			// new in 2.4 for user expiration
+			if (WPMEM_USE_EXP == 1) { wpmem_set_exp($user_id); }
+			
 			require_once('wp-members-email.php');
 
 			//if this was successful, and you have email properly
