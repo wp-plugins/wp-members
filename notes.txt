@@ -1,11 +1,11 @@
-WP-Members 2.3.0 beta release information
+WP-Members 2.4.0 beta release information
 
-Thank you for offering to beta test the WP-Members WordPress plugin version 2.3.  Please note that that this is a beta release and as such, there may be bugs that made it past the alpha stage.  As such, this is not recommended for use on a production site.  If you choose to use it in that fashion, you do so at your own risk.
+Thank you for offering to beta test the WP-Members WordPress plugin version 2.4.  Please note that that this is a beta release and as such, there may be bugs that made it past the alpha stage.  As such, this is not recommended for use on a production site.  If you choose to use it in that fashion, you do so at your own risk.
 
 If you do become aware of any bugs, please keep a list during your test and try to email me a list rather than one at a time.  Also, include any information related to your testing, such as:
 
-What version of WordPress are you using?
-Did you install WP-Members 2.3 as a clean install, or did you upgrade from a previous version?
+What version of WordPress are you using? (WP-Members 2.4 requires WP 3.0 or higher)
+Did you install WP-Members 2.4 as a clean install, or did you upgrade from a previous version?
 If you upgraded, what version did you upgrade from?
 Is there location that I can view the test site with any bugs or errors?
 
@@ -20,27 +20,49 @@ There will be new documentation and a new readme file for this version because t
 * added "turn off registration" option
 * changed widget to use wp_register_sidebar_widget and wp_register_sidebar_control
 
+
 Notes about new features:
 
-Show Excerpts
 
-This was added in order to show the excerpted text before the 'more' tag above the login/registration form when the user is not logged in.  This should help with SEO and linking to social media as there will be more than just the login/registration form when going directly to a blocked page/post.  If you use this feature, you should update your dialog text for restricted posts/pages accordingly (the clean default install does this already, but an upgrade leave show excerpts off by defualt and leaves the custom dialog alone in case it had been changed).
+* Updated the Admin area with tabs for the various settings. This should make the panel more manageable.
 
-Notify Admin
+* Added recaptcha to the initial registration
+WP-Memebers will make use of the reCAPTCHA API for CAPTCHA support.  You can read more about this here:
+https://www.google.com/recaptcha
+When you turn this feature on in the settings, you will get a new tab for the reCAPTCHA settings.  You will need to enter an API key on this panel for it to work.
 
-This notifies the site admin of each new registration.  It uses the admin email that you have specified in your WP settings (see Settings > General).  It is turned off by default.
+* Added agree to Terms of Service to registration 
+This is on new registrations only, but will show on user update if the user has not previously agreed - as in existing users registered prior to this activating this feature
 
-Moderate Registration
+* Shortcode for members area and register pages 
+This is an early adaption, not yet fully functional in all cases. Most specifically, it does not work with excerpts so you will need to turn off the WP-Members setting for show excerpts if you use this.  To use in the visual editor, the shortcode is [wpmembers] with a "page" tag.  So for the members area you would use [wp-members page="members-area"] and for a registration page [wp-members page="register"].  The big advantage of this over the legacy <!--members-area--> is that you can slug the page whatever you want and are not restricted to certain page names and you don't have to enter it in the html editor.  Also, multiple instances should work as well if needed.
 
-Turned off by default.  This holds all new registrations for approval by an admin.  It can be used in conjunction with Notify Admin above.  At present, users are approved individually as it is assumed that the user info should be reviewed prior to approval (also, I have yet to build a table for bulk processing).  If the user has not been approved, there is a check box at the bottom of the Edit User page (Users > Users, then select Edit under an individual user).  Once the user is approved, a random password is set and then emailed to the user (rather than at registration).
+* Contextual help in admin panels
+I haven't written all the help panels yet, but the start of it is there.
 
-Turn Off Registration
+* Custom users panel for managing bulk user activation, export, and viewing users by not activated, trials, subscriptions, expired, and not exported (subscriptions require the not yet released expiration module).  This is found under the Users menu in the admin. Using this should be self explanatory.
 
-This turns off all of the registration forms.  This may be useful to site admins that manage their users in some other fashion and do not want to provide a registration process, but rather simply use WP-Members login process inline with the content.  Note that this toggle over-rides Moderate Registration and Notify Admin.  You could have all of these checked off, but with registration turned off, there will be no registrations to moderate.  There is a warning message if either of those conditions are true, but it will only show if the admin has not turned off warning messages.
 
-Sidebar widget
+Code Improvements
 
-The login widget now uses wp_register_sidebar_widget and wp_register_sidebar_control, replacing the use of the deprecated register_sidebar_widget and register_sidebar_control.  You will likely need to update your widgets accordingly if this is an upgrade.  A clean install won't matter as you would be applying the widget anyway.
+
+* Cleaned up the email process to include a link back to the page the user registered on.
+
+* Capture users IP address at registration
+
+* Sets the logged in admin as activated when selecting to moderate registrations (prevents activating yourself and thus reseting your password)
+
+* Added a toggle to the install script to force a clean update of all settings.  In wp-members-install.php line 32 change $chk_force to true (use with caution).
+
+* Improved uninstall process to make sure we are cleaning all options.
+
+
+Bug Fixes:
+
+* Added stripslashes to dialogs
+* Fixed sidebar bug
+* Changed registration process, update process, and admin update user process to not use unused custom fields (however, WP does put in empty values for native WP fields).
+
 
 Thanks again for your willingness to test my beta version.  I appreciate the effort.
 
@@ -48,107 +70,4 @@ Thanks again for your willingness to test my beta version.  I appreciate the eff
 
 plugins@butlerblog.com
 
-
-beta release of wp-members 2.4.0
-
-
-New features:
-added recaptcha to the initial registration
-added agree to Terms of Service to registration (new reg only, but will show on user update if the user has not previously agreed - as in registrations prior to this feature)
-shortcode for members area and register pages (early adaption, not yet fully functional in all cases)
-contextual help in admin panels
-custom users panel for managing bulk user activation, export, and viewing users by not activated, trials, subscriptions, expired, and not exported (subscriptions require the expiration module)
-
-
-code improvement
-cleaned up the email process to include a link back to the page the user registered on
-capture users IP address at registration
-sets the logged in admin as activated when selecting to moderate registrations (prevents activating yourself and thus reseting your password)
-added a toggle to the install script to force a clean update of all settings (use with caution)
-improved uninstall process to make sure we are cleaning all options
-
-
-bug fixes:
-added stripslashes to dialogs
-fixed sidebar bug
-changed registration process, update process, and admin update user process to not use unused custom fields (these are still showing up TEST THIS)
-
-added localization support:
-wp-members-install.php
-wp-members-sidebar.php
-wp-members-core.php
-wp-members-admin.php
-wp-members-dialogs-admin.php
-wp-members-dialogs.php
-wp-members-register.php
-
-
-other
-wp-members-email.php (actually, no changes done yet for localization)
-wp-members-dialogs-admin.php (need to write help and and localize)
-
-
-PROJECT LIST
-
-Features
-
-* admin add new user extra fields?
-
-* auto-load custom file and css (create dummy files and if/then to check load) 
-
-
-PayPal
-
-Privacy Policy
-
-Custom fields
-
-
-Admin/Users
-- create/tag user notes
-
-
-
-http://codex.wordpress.org/Writing_a_Plugin
-http://planetozh.com/blog/2009/09/top-10-most-common-coding-mistakes-in-wordpress-plugins/
-http://markjaquith.wordpress.com/2006/06/02/wordpress-203-nonces/
-http://codex.wordpress.org/Settings_API
-http://www.presscoders.com/wordpress-settings-api-explained/
-
-
-Add table to the admin to include an iframe for ads
-
-
-
-
-
-Possible RSS filters to help deal with excerpts
-
-
-add_filter('excerpt_length', 'chg_excerpt_length');
-function chg_excerpt_length($length) 
-{
-	// set the number to whatever number of 
-	// words you want the excerpt to be.
-	return 20;
-}
-
-
-add_filter('the_excerpt_rss', 'get_excerpt_len');
-function get_excerpt_len()
-{
-	$content = the_content;
-	$len = strpos($content, 'more');
-	$len = $len-10;
-	return $len;
-}
-
-
-
-
-
-this was the tag used for the admin to pump ads
-
-     <!--/* OpenX iFrame Tag v2.8.5 */-->
-<iframe id='a257c829' name='a257c829' src='http://ads.butlerblog.com/www/delivery/afr.php?zoneid=14&amp;cb=INSERT_RANDOM_NUMBER_HERE' frameborder='0' scrolling='no' width='125' height='125'><a href='http://ads.butlerblog.com/www/delivery/ck.php?n=a7d034a7&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.butlerblog.com/www/delivery/avw.php?zoneid=14&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a7d034a7' border='0' alt='' /></a></iframe>
 
