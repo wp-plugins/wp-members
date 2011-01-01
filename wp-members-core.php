@@ -4,7 +4,7 @@
 	
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
-	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
 	
 	WP-Members(tm) is a trademark of butlerblog.com
 */
@@ -123,8 +123,10 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 	//		NOTE: there is some reworking needed as some of this is trying to override various comments.php scenarios
 	} elseif ( is_user_logged_in() && $chk_securify == 'block' ){
 		if (WPMEM_USE_EXP == 1) {
+		
+		// THIS SHOULD BREAK OUT TO THE MODULE AS A FUNCTION AND RETURN CONTENT
 			if(wpmem_chk_exp() == true){
-				include_once('wp-members-dialogs.php');
+			
 				wpmem_inc_expmessage();
 				$content = '';
 				
@@ -132,6 +134,8 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 				global $user_ID;
 				$user_ID = '';
 			}
+		// END BREAKOUT
+		
 		}
 	} elseif ( is_user_logged_in() && get_option('comment_registration') == 1 ) {
 		global $user_ID;
@@ -198,10 +202,12 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 
 		} elseif (is_user_logged_in() && $wpmem_page == 'members-area') {
 
+			$edit_heading = __('Edit Your Information', 'wp-members');
+		
 			switch($wpmem_a) {
 
 			case "edit":
-				wpmem_inc_registration($fields,'edit',__("Edit Your Information"));
+				wpmem_inc_registration($fields, 'edit', $edit_heading);
 				$content = '';
 				break;
 
@@ -212,7 +218,7 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 				if ($wpmem_regchk == "updaterr") {
 
 					wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
-					wpmem_inc_registration($fields,'edit',__("Edit Your Information"));
+					wpmem_inc_registration($fields, 'edit', $edit_heading);
 					$content = '';
 
 				} else {
@@ -252,10 +258,13 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 				break;
 
 			default:
-			// new for 2.4 expirations
-				if (WPMEM_USE_EXP == 1) { $output = wpmem_user_page_detail(); }
-
 				$output = wpmem_inc_memberlinks();
+				
+				// new for 2.4 expirations
+				if (WPMEM_USE_EXP == 1) {
+					$addto  = wpmem_user_page_detail(); 
+					$output = $output.$addto;
+				}
 				break;					  
 			}
 
@@ -316,14 +325,14 @@ function wpmem_login()
 	$user_pass  = $_POST['pwd'];
 	$rememberme = $_POST['rememberme'];
 
-	// not sure this is needed
+	// not sure this is needed anymore
 	//do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ( $user_login && $user_pass ) {
 		// is this line needed?
 		//$user = new WP_User(0, $user_login);
 
-		// wp_login is deprecated, use wp_signon
+		// wp_login is deprecated, should convert to wp_signon
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
@@ -475,7 +484,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 	switch ($type) {
 
 	case "checkbox":
-		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
+		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
 		break;
 
 	case "text":

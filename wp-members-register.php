@@ -4,7 +4,7 @@
 	
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
-	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
 	
 	WP-Members(tm) is a trademark of butlerblog.com
 */
@@ -61,7 +61,7 @@ function wpmem_registration($toggle)
 		// new in 2.3, toggle off registration
 		if (WPMEM_NO_REG != 1) {
 
-			if ( !$username ) { $wpmem_themsg = __("username is a required field"); } 
+			if ( !$username ) { $wpmem_themsg = __('username is a required field', 'wp-members'); } 
 			if ( $wpmem_themsg ) {
 
 				$wpmem_regchk = "empty";
@@ -164,7 +164,7 @@ function wpmem_registration($toggle)
 					$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_id) );
 				} else {
 					if ($wpmem_fields[$row][2] != 'user_email') {
-						// new in 2.3.3 - code improvement
+						// new in 2.4 - code improvement
 						// check to see if we are using this field or not
 						if ( $wpmem_fields[$row][4] == 'y' ) {
 							update_user_meta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
@@ -173,7 +173,10 @@ function wpmem_registration($toggle)
 				}
 			} 
 			
-			// NEW in 2.3.3 - if registration is moderated, we will store
+			// new in 2.4 - capture IP address of user at registration
+			update_user_meta( $user_id, 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
+			
+			// NEW in 2.4 - if registration is moderated, we will store
 			// the registration url for sending when approved
 			if ( WPMEM_MOD_REG == 1 ) {
 				$the_permalink = $_REQUEST['redirect_to'];
@@ -181,7 +184,7 @@ function wpmem_registration($toggle)
 			}
 
 			// new in 2.4 for user expiration
-			if (WPMEM_USE_EXP == 1) { wpmem_set_exp($user_id); }
+			if ( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp($user_id); }
 			
 			require_once('wp-members-email.php');
 
@@ -244,31 +247,31 @@ function wpmem_get_captcha_err($wpmem_captcha_err)
 	switch ($wpmem_captcha_err) {
 	
 	case "invalid-site-public-key":
-		$wpmem_captcha_err = __("We were unable to validate the public key.");
+		$wpmem_captcha_err = __('We were unable to validate the public key.', 'wp-members');
 		break;
 		
 	case "invalid-site-public-key":
-		$wpmem_captcha_err = __("We were unable to validate the private key.");
+		$wpmem_captcha_err = __('We were unable to validate the private key.', 'wp-members');
 		break;
 	
 	case "invalid-request-cookie":
-		$wpmem_captcha_err = __("The challenge parameter of the verify script was incorrect.");
+		$wpmem_captcha_err = __('The challenge parameter of the verify script was incorrect.', 'wp-members');
 		break;
 		
 	case "incorrect-captcha-sol":
-		$wpmem_captcha_err = __("The CAPTCHA solution was incorrect.");
+		$wpmem_captcha_err = __('The CAPTCHA solution was incorrect.', 'wp-members');
 		break;
 	
 	case "verify-params-incorrect":
-		$wpmem_captcha_err = __("The parameters to verify were incorrect");
+		$wpmem_captcha_err = __('The parameters to verify were incorrect', 'wp-members');
 		break;
 		
 	case "invalid-referrer":
-		$wpmem_captcha_err = __("reCAPTCHA API keys are tied to a specific domain name for security reasons.");
+		$wpmem_captcha_err = __('reCAPTCHA API keys are tied to a specific domain name for security reasons.', 'wp-members');
 		break;
 		
 	case "recaptcha-not-reachable":
-		$wpmem_captcha_err = __("The reCAPTCHA server was not reached.  Please try to resubmit.");
+		$wpmem_captcha_err = __('The reCAPTCHA server was not reached.  Please try to resubmit.', 'wp-members');
 		break;
 	}
 	

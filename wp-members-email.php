@@ -4,7 +4,7 @@
 	
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
-	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
 	
 	WP-Members(tm) is a trademark of butlerblog.com
 */
@@ -22,25 +22,34 @@ function wpmem_inc_regemail($user_id,$password,$toggle)
 	$user_email    = stripslashes($user->user_email);
 	$blogname      = get_option('blogname');
 	$the_permalink = $_REQUEST['redirect_to'];
+	
+	// NEW in 2.4 for expirations
+	if (WPMEM_USE_EXP == 1) {
+		$exp_type = get_user_meta($user_id, 'exp_type', 'true');
+		$exp_date = get_user_meta($user_id, 'expires', 'true');
+	}
 
 	switch ($toggle) {
 	
 	case 0: 
 		//this is a new registration
-		$subj = "Your registration info for $blogname";
+		$subj = sprintf(__('Your registration info for %s', 'wp-members'), $blogname);
 		
-		$body = "Thank you for registering for $blogname \r\n\r\n";
-		$body.= "Your registration information is below.\r\n\r\n";
-		$body.= "You may wish to retain a copy for your records.\r\n\r\n";
-		$body.= "username: $user_login \r\n";
-		$body.= "password: $password \r\n\r\n";
-		$body.= "You may login here:\r\n";
+		$body = sprintf(__('Thank you for registering for %s', 'wp-members'), $blogname)." \r\n\r\n";
+		$body.= sprintf(__('Your registration information is below.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('You may wish to retain a copy for your records.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('username: %s', 'wp-members'), $user_login)."\r\n";
+		$body.= sprintf(__('password: %s', 'wp-members'), $password)."\r\n\r\n";
+		
+		if (WPMEM_USE_EXP == 1) { $body.= "Your $exp_type will expire $exp_date \r\n\r\n"; }
+		
+		$body.= sprintf(__('You may login here:', 'wp-members'))."\r\n";
 		$body.= "$the_permalink \r\n\r\n";
 		break;
 		
 	case 1:
 		//registration is moderated
-		$subj = "Thank you for registering for $blogname";
+		$subj = sprintf(__('Thank you for registering for %s', 'wp-members'), $blogname);
 		
 		$body = "Thank you for registering for $blogname \r\n\r\n";
 		$body.= "Your registration has been received\r\n";
@@ -52,26 +61,30 @@ function wpmem_inc_regemail($user_id,$password,$toggle)
 	case 2:
 		//registration is moderated, user is approved
 		$url  = get_option('siteurl');
-		$subj = "Your registration for $blogname has been approved";
+		$subj = sprintf(__('Your registration for %s has been approved', 'wp-members'), $blogname);
 		
 		$body = "Your registration for $blogname has been approved\r\n\r\n";
-		$body.= "Your registration information is below.\r\n\r\n";
-		$body.= "You may wish to retain a copy for your records.\r\n\r\n";
-		$body.= "username: $user_login \r\n";
-		$body.= "password: $password \r\n\r\n";
-		$body.= "You may login at: $url \r\n\r\n";
+		$body.= sprintf(__('Your registration information is below.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('You may wish to retain a copy for your records.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('username: %s', 'wp-members'), $user_login)."\r\n";
+		$body.= sprintf(__('password: %s', 'wp-members'), $password)."\r\n\r\n";
 		
-		// new in 2.3.3
+		if (WPMEM_USE_EXP == 1) { $body.= "Your $exp_type will expire $exp_date \r\n\r\n"; }
+		
+		$body.= sprintf(__('You may login at: %s', 'wp-members'), $url)."\r\n\r\n";
+		
+		// new in 2.4
 		$orig = get_user_meta($user_id,'wpmem_reg_url');
-				delete_user_meta($user_id, 'wpmem_reg_url');
-		$body.= "You originally registered at:\r\n";
+				// not sure about deleting this... it could be useful for some
+				// delete_user_meta($user_id, 'wpmem_reg_url');
+		$body.= sprintf(__('You originally registered at:', 'wp-members'))."\r\n";
 		$body.= $orig[0]."\r\n\r\n";
 		
 		break;
 
 	case 3:
 		//this is a password reset
-		$subj = "Password reset for $blogname";
+		$subj = sprintf(__('Password reset for %s', 'wp-members'), $blogname);
 		
 		$body = "Your password has been reset for $blogname \r\n\r\n";
 		$body.= "Your new password is included below.\r\n\r\n";
@@ -97,11 +110,13 @@ function wpmem_notify_admin($user_id, $wpmem_fields)
 {
 	$user			= new WP_User($user_id);
 	$blogname		= get_option('blogname');
-	$the_permalink	= $_REQUEST['redirect_to'];  //NEW for 2.3.3
+	$the_permalink	= $_REQUEST['redirect_to'];  //NEW for 2.4
 	
-	$body = "The following user registered for $blogname\r\n";
+	$subj = sprintf(__('New user registration for %s', 'wp-members'), $blogname);
 	
-	if (WPMEM_MOD_REG == 1) { $body.= "and is pending admin approval\r\n"; } 	
+	$body = sprintf(__('The following user registered for %s', 'wp-members'), $blogname)."\r\n";
+	
+	if (WPMEM_MOD_REG == 1) { $body.= sprintf(__('and is pending admin approval', 'wp-members')."\r\n"); } 	
 	
 	$body.= "\r\n";
 	$body.= "username: ".$user->user_login."\r\n";
@@ -122,7 +137,7 @@ function wpmem_notify_admin($user_id, $wpmem_fields)
 		}
 	}
 	
-	$body.= "user registered at: $the_permalink \r\n\r\n";  //NEW for 2.3.3
+	$body.= "user registered at: $the_permalink \r\n\r\n";  //NEW for 2.4
 	
 	if (WPMEM_MOD_REG == 1) { 
 		$body.= "\r\n"."activate user: ".get_bloginfo( 'wpurl' )."/wp-admin/user-edit.php?user_id=".$user_id."\r\n"; 

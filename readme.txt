@@ -4,7 +4,7 @@ Donate link: http://butlerblog/wp-members/
 Tags: authentication, community, content, login, password, register, registration, restriction, security, users, membership, access, block, permissions, members, 
 Requires at least: 3.0
 Tested up to: 3.0.1
-Stable tag: 2.4.0
+Stable tag: 2.4.0 beta 4
 
 This is a plugin to restrict content to be viewable by registered members. 
 
