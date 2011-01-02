@@ -71,7 +71,7 @@ function wpmem_do_install()
 			__("Passwords did not match.<br /><br />Please try again.", 'wp-members'),
 			__("Password successfully changed!<br /><br />You will need to re-login with your new password.", 'wp-members'),
 			__("Either the username or email address do not exist in our records.", 'wp-members'),
-			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your accont. You may change this random password when re-login with your new password.", 'wp-members')
+			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password when re-login with your new password.", 'wp-members')
 		);
 		
 		//add_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
