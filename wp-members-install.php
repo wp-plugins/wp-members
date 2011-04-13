@@ -18,7 +18,7 @@ INSTALLATION PROCESS
 function wpmem_do_install()
 {
 	/*
-		if you need to force an install, set $chk_force == true
+		if you need to force an install, set $chk_force = true
 		
 		IMPORTANT NOTES: 
 		
@@ -29,7 +29,7 @@ function wpmem_do_install()
 			users.
 	*/
 	
-	$chk_force = true;
+	$chk_force = false;
 
 	if( !get_option('wpmembers_settings') || $chk_force == true ) {
 
