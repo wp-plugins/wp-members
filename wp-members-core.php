@@ -4,7 +4,7 @@
 	
 	You can find out more about this plugin at http://butlerblog.com/wp-members
   
-	Copyright (c) 2006-2010  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
 	
 	WP-Members(tm) is a trademark of butlerblog.com
 */
@@ -56,26 +56,26 @@ function wpmem()
 }
 
 
-function wpmem_securify ($content) 
+function wpmem_securify ($content = null, $wpmem_sc_page = null) 
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
-
-	/*if ($wpmem_regchk == "loginfailed") {
-		wpmem_inc_loginfailed();
-		$content = '';
-		return $content;
-	}*/
+	
+	//NEW FOR RECAPTCHA
+	if ($wpmem_regchk == "captcha") {
+		global $wpmem_captcha_err;
+		$wpmem_themsg = __("There was an error with the CAPTCHA form.")."<br /><br />".$wpmem_captcha_err;
+	}
 
 	if (is_single()) {
 		$not_mem_area = 1; 
 		if (WPMEM_BLOCK_POSTS == 1 && !get_post_custom_values('unblock')) { $chk_securify = "block"; }
-		if (WPMEM_BLOCK_POSTS == 0 &&  get_post_custom_values('block')) { $chk_securify = "block"; }
+		if (WPMEM_BLOCK_POSTS == 0 &&  get_post_custom_values('block'))   { $chk_securify = "block"; }
 	}
 
 	if ( is_page() && !is_page('members-area') && !is_page('register') ) { 
 		$not_mem_area = 1; 
 		if (WPMEM_BLOCK_PAGES == 1 && !get_post_custom_values('unblock')) { $chk_securify = "block"; }
-		if (WPMEM_BLOCK_PAGES == 0 &&  get_post_custom_values('block')) { $chk_securify = "block"; }
+		if (WPMEM_BLOCK_PAGES == 0 &&  get_post_custom_values('block'))   { $chk_securify = "block"; }
 	}
 
 	// Block/unblock Posts
@@ -118,12 +118,29 @@ function wpmem_securify ($content)
 
 		//return empty content			
 		$content = "";
+	//}
+	// new 2.4 for expirations
+	//		NOTE: there is some reworking needed before exp module final release
+	} elseif ( is_user_logged_in() && $chk_securify == 'block' ){
+		
+		if (WPMEM_USE_EXP == 1) { wpmem_do_expmessage($content); }
+		
+	} elseif ( is_user_logged_in() && get_option('comment_registration') == 1 ) {
+	
+		global $user_ID;
+		$user_ID = '';
+		
 	}
 
 	// Members Area
 	//   this takes a bit of manipulation to get it all to work on one page.
 	//   make sure if you use this, to set the page slug to "members-area" or change the is_page() below
-	if ( is_page('members-area') || is_page('register') ) {
+	
+	if ($wpmem_sc_page == 'members-area' || is_page('members-area')) { $wpmem_page = "members-area"; }
+	if ($wpmem_sc_page == 'register' || is_page('register')) { $wpmem_page = "register"; }
+	if ($wpmem_sc_page == 'login') { $wpmem_page = "login"; }
+	
+	if ( $wpmem_page == 'members-area' || $wpmem_page == 'register' ) {
 	
 		include_once('wp-members-dialogs.php');
 		
@@ -167,19 +184,21 @@ function wpmem_securify ($content)
 
 			} else {
 
-				if (is_page('members-area')) { wpmem_inc_login('members'); }
+				if ($wpmem_page == 'members-area') { wpmem_inc_login('members'); }
 				
 				if (WPMEM_NO_REG != 1) { wpmem_inc_registration($fields); } // new in 2.3, toggle to turn off registration process.
 			}
 			$output = '';
 			$content = '';
 
-		} elseif (is_user_logged_in() && is_page('members-area')) {
+		} elseif (is_user_logged_in() && $wpmem_page == 'members-area') {
 
+			$edit_heading = __('Edit Your Information', 'wp-members');
+		
 			switch($wpmem_a) {
 
 			case "edit":
-				wpmem_inc_registration($fields,'edit',"Edit Your Information");
+				wpmem_inc_registration($fields, 'edit', $edit_heading);
 				$content = '';
 				break;
 
@@ -190,7 +209,7 @@ function wpmem_securify ($content)
 				if ($wpmem_regchk == "updaterr") {
 
 					wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
-					wpmem_inc_registration($fields,'edit',"Edit Your Information");
+					wpmem_inc_registration($fields, 'edit', $edit_heading);
 					$content = '';
 
 				} else {
@@ -223,26 +242,79 @@ function wpmem_securify ($content)
 				}
 				break;
 
+			// new for 2.4 expirations
+			case "renew":
+				$content = "insert the renewal process...";
+				//wpmem_renew;
+				break;
+
 			default:
 				$output = wpmem_inc_memberlinks();
+				
+				// new for 2.4 expirations
+				if (WPMEM_USE_EXP == 1) {
+					$addto  = wpmem_user_page_detail(); 
+					$output = $output.$addto;
+				}
 				break;					  
 			}
 
-		} elseif (is_user_logged_in() && is_page('register')) {
+		} elseif (is_user_logged_in() && $wpmem_page == 'register') {
 		
 			$output = wpmem_inc_memberlinks('register');
+			
+			if ($wpmem_sc_page == 'register') {
+				echo $output;
+				return;
+			}
 		
 		}
+		
+		if ($wpmem_sc_page == 'members-area') { 
+		
+			echo $output; 
+			return;
+			
+		} else {		
 
-		if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
-		if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
-
-		$content = preg_replace( $replacestr, $output, $content );
-
+			if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
+			if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
+			
+			// the conditional here is allow for use of either the legacy version or 
+			// the shortcode on members-area or register pages without preg_replace error
+			if ( !$wpmem_sc_page ) { $content = preg_replace( $replacestr, $output, $content ); }
+			
+		}
+			
+	}
+	
+	if ( $wpmem_page == 'login' ) {
+	
+		include_once('wp-members-dialogs.php');
+		
+		if ($wpmem_regchk == "loginfailed") {
+			wpmem_inc_loginfailed();
+			return;
+		}
+		
+		if (!is_user_logged_in()) {
+			wpmem_inc_login('login');
+		} else {
+			include_once('wp-members-sidebar.php');
+			wpmem_do_sidebar();
+		}
+		
 	}
 
 	return $content;
 } // end wpmem_securify
+
+
+add_shortcode ('wp-members', 'wpmem_shortcode');
+function wpmem_shortcode($attr)
+{
+	wpmem_securify('', $attr['page']);
+}
 
 
 // login function
@@ -262,15 +334,12 @@ function wpmem_login()
 	$user_pass  = $_POST['pwd'];
 	$rememberme = $_POST['rememberme'];
 
-	//do_action('wp_authenticate', array(&$user_login, &$user_pass));
-
 	if ( $user_login && $user_pass ) {
-		//$user = new WP_User(0, $user_login);
 
+		// wp_login is deprecated, should convert to wp_signon
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
-			//do_action('wp_login', $user_login);
 			wp_redirect($redirect_to);
 			exit();
 		} else {
@@ -303,6 +372,21 @@ function wpmem_login_status()
 {
 	include_once('wp-members-sidebar.php');
 	if (is_user_logged_in()) {	echo wpmem_inc_status(); }
+}
+
+
+function wpmem_inc_sidebar()
+{
+	include_once('wp-members-sidebar.php');
+	wpmem_do_sidebar();
+}
+
+
+function widget_wpmemwidget_init()
+{
+	include_once('wp-members-sidebar.php');
+	wp_register_sidebar_widget ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget', ''); 
+	wp_register_widget_control ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget_control', '' );	
 }
 
 
@@ -347,7 +431,6 @@ function wpmem_reset_password()
 
 			// there was an empty field
 			$wpmem_regchk = "pwdreseterr";
-			//return;
 
 		} else {
 
@@ -357,7 +440,7 @@ function wpmem_reset_password()
 				if($user_info->user_email !== $email) {
 					// the username was there, but the email did not match
 					$wpmem_regchk = "pwdreseterr";
-					//return;
+					
 				} else {
 					// everything checks out, go ahead and reset
 					$new_pass     = substr( md5( uniqid( microtime() ) ), 0, 7);
@@ -368,13 +451,11 @@ function wpmem_reset_password()
 					require_once('wp-members-email.php');
 					wpmem_inc_regemail($the_id,$new_pass,3);
 					$wpmem_regchk = "pwdresetsuccess";
-					//return;
 				}
 			} else {
 
 				// username did not exist
 				$wpmem_regchk = "pwdreseterr";
-				//return;
 			}
 		}
 	}
@@ -403,7 +484,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 	switch ($type) {
 
 	case "checkbox":
-		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
+		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
 		break;
 
 	case "text":
@@ -422,25 +503,33 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null)
 		echo "<input name=\"$name\" type=\"$type\" value=\"$value\" />\n";
 		break;
 
+	case "option":
+		echo "<option value=\"$value\" "; wpmem_selected($value, $valtochk, 'select'); echo " >$name</option>\n";
+
 	}
 }
 
 
 function wpmem_selected($value,$valtochk,$type=null)
 {
-	if($value == $valtochk){ echo "checked"; }
+	if($type == 'select') {
+		$issame = 'selected';
+	} else {
+		$issame = 'checked';
+	}
+	if($value == $valtochk){ echo $issame; }
 }
 
 
-function wpmem_chk_qstr()
+function wpmem_chk_qstr($url = null)
 {
 	$permalink = get_option('permalink_structure');
 	if (!$permalink) {
-		// no fancy permalinks.  Append to ?=
-		$return_url = get_option('home') . "/?" . $_SERVER['QUERY_STRING'] . "&amp;";
+		if (!$url) { $url = get_option('home') . "/?" . $_SERVER['QUERY_STRING']; }
+		$return_url = $url."&amp;";
 	} else {
-		// permalinks in use.  Add a ?
-		$return_url = get_permalink() . "?";
+		if (!$url) { $url = get_permalink(); }
+		$return_url = $url."?";
 	}
 	return $return_url;
 }
@@ -454,64 +543,5 @@ function wpmem_generatePassword()
 
 /*****************************************************
 END UTILITY FUNCTIONS
-*****************************************************/
-
-
-/*****************************************************
-WIDGET FUNCTIONS
-*****************************************************/
-
-
-function widget_wpmemwidget_init()
-{
-	function widget_wpmemwidget($args)
-	{
-		extract($args);
-
-		$options = get_option('widget_wpmemwidget');
-		$title = $options['title'];
-
-		echo $before_widget;
-
-			// Widget Title
-			if (!$title) {$title = "Login Status";}
-			echo $before_title . $title . $after_title;
-
-			// The Widget
-			include_once('wp-members-sidebar.php');
-			if (function_exists('wpmem')) { wpmem_inc_sidebar($widget);}
-
-		echo $after_widget;
-	}
-	
-	function widget_wpmemwidget_control()
-	{
-		// Get our options and see if we're handling a form submission.
-		$options = get_option('widget_wpmemwidget');
-		if ( !is_array($options) )
-			$options = array('title'=>'', 'buttontext'=>__('WP Members', 'widgets'));
-		if ( $_POST['wpmemwidget-submit'] ) {
-
-			// Remember to sanitize and format use input appropriately.
-			$options['title'] = strip_tags(stripslashes($_POST['wpmemwidget-title']));
-			update_option('widget_wpmemwidget', $options);
-		}
-
-		// Be sure you format your options to be valid HTML attributes.
-		$title = htmlspecialchars($options['title'], ENT_QUOTES);
-
-		// Here is our little form segment. Notice that we don't need a
-		// complete form. This will be embedded into the existing form.
-		echo '<p style="text-align:right;"><label for="wpmemwidget-title">' . __('Title:') . ' <input style="width: 200px;" id="wpmemwidget-title" name="wpmemwidget-title" type="text" value="'.$title.'" /></label></p>';
-		echo '<input type="hidden" id="wpmemwidget-submit" name="wpmemwidget-submit" value="1" />';
-	}
-
-	wp_register_sidebar_widget ( 'WP Members', 'WP Members', 'widget_wpmemwidget', ''); 
-	wp_register_widget_control ( 'WP Members', 'WP Members', 'widget_wpmemwidget_control', '' );	
-}
-
-
-/*****************************************************
-END WIDGET FUNCTIONS
 *****************************************************/
 ?>
