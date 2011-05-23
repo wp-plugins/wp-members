@@ -8,7 +8,6 @@
 	WP-Members(tm) is a trademark of butlerblog.com
 */
 
-
 /* JS for admin panel tabs */
 (function($) {
 	$(document).ready(function() {
