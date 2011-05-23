@@ -35,7 +35,7 @@ function wpmem_do_install()
 
 		// this is an upgrade from 2.1 or earlier (including a clean install)
 		
-		$wpmem_settings = array(WPMEM_VERSION,1,0,0,0,0,0,0,0,0,0);
+		$wpmem_settings = array(WPMEM_VERSION,1,0,0,0,0,0,0,0,0,0,0);
 		//add_option('wpmembers_settings', $wpmem_settings, '', 'yes');
 		update_option('wpmembers_settings', $wpmem_settings, '', 'yes');
 			
@@ -55,7 +55,7 @@ function wpmem_do_install()
 			array ( 12, __('AIM', 'wp-members'),                'aim',        'text',     'n', 'n', 'y' ),
 			array ( 13, __('Yahoo IM', 'wp-members'),           'yim',        'text',     'n', 'n', 'y' ),
 			array ( 14, __('Jabber/Google Talk', 'wp-members'), 'jabber',     'text',     'n', 'n', 'y' ),
-			array ( 15, __('Bio', 'wp-members'),                'description','textarea', 'n', 'n', 'y' ),
+			array ( 15, __('Biographical Info', 'wp-members'),  'description','textarea', 'n', 'n', 'y' ),
 			array ( 16, __('TOS', 'wp-members'),                'tos',        'checkbox', 'y', 'y', 'n', 'agree', 'n' )
 			
 			/* how to add checkboxes
@@ -85,7 +85,7 @@ function wpmem_do_install()
 			__("Passwords did not match.<br /><br />Please try again.", 'wp-members'),
 			__("Password successfully changed!<br /><br />You will need to re-login with your new password.", 'wp-members'),
 			__("Either the username or email address do not exist in our records.", 'wp-members'),
-			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password when re-login with your new password.", 'wp-members')
+			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password.", 'wp-members')
 		);
 		
 		//add_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
@@ -110,9 +110,10 @@ function wpmem_do_install()
 				'0',					//  5 moderate registration
 				'0',					//  6 toggle captcha
 				'0',					//  7 turn off registration
-				'0',					//  8 time based expiration
-				'0',					//  9 offer trial period
-				$wpmem_settings[3]		// 10 ignore warnings
+				'1',					//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
+				'0',					//  9 time based expiration
+				'0',					// 10 offer trial period
+				$wpmem_settings[3]		// 11 ignore warnings
 			);
 			update_option('wpmembers_settings',$wpmem_newsettings);
 
@@ -120,7 +121,7 @@ function wpmem_do_install()
 		
 		} elseif ( count($wpmem_settings) > 4 ) {
 		
-			// upgrading from 2.3.0, 2.3.1, or 2.3.2
+			// upgrading from 2.3.0, 2.3.1, 2.3.2, 2.4.0, or 2.5.0
 			// update version, insert captcha toggle, keep other settings
 			$wpmem_newsettings = array(
 				WPMEM_VERSION, 			//  0 version
@@ -131,9 +132,10 @@ function wpmem_do_install()
 				$wpmem_settings[5],		//  5 moderate registration
 				'0',					//  6 toggle captcha
 				$wpmem_settings[6],		//  7 turn off registration
-				$wpmem_settings[7],		//  8 time based expiration
-				$wpmem_settings[8],		//  9 offer trial period
-				$wpmem_settings[9]		// 10 ignore warnings
+				'1',					//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
+				$wpmem_settings[7],		//  9 time based expiration
+				$wpmem_settings[8],		// 10 offer trial period
+				$wpmem_settings[9]		// 11 ignore warnings
 			);
 			update_option('wpmembers_settings',$wpmem_newsettings);
 
@@ -148,7 +150,7 @@ function append_tos( $upgrade )
 {		
 	// check if _tos has been put in before; if not, populate dummy data	
 	if ( !get_option('wpmembers_tos') ) {
-		$dummy_tos = "something here for dummy tos data...";	
+		$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";	
 		update_option('wpmembers_tos', $dummy_tos);
 
 		if ($upgrade == '2.2+') {

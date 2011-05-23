@@ -58,8 +58,8 @@ function wpmem_registration($toggle)
 
 	case "register":
 	
-		// new in 2.3, toggle off registration
-		if (WPMEM_NO_REG != 1) {
+		// new in 2.3, toggle off registration, NEW in 2.5.1 - take this back out, reg doesn't show anyway, and we've added nonce
+		//if (WPMEM_NO_REG != 1) {
 
 			if ( !$username ) { $wpmem_themsg = __('Sorry, username is a required field', 'wp-members'); } 
 			if ( $wpmem_themsg ) {
@@ -74,8 +74,9 @@ function wpmem_registration($toggle)
 
 				} else {
 
-					$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$user_email'");
-					if ( $email_exists) {
+					//$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$user_email'");
+					//if ( $email_exists) {
+					if ( email_exists( $user_email ) ) {
 
 						$wpmem_regchk = "email";
 
@@ -129,7 +130,7 @@ function wpmem_registration($toggle)
 					}
 				}
 			}
-		}
+		//}
 		
 		// moved this in 2.4 to accomodate changes with captcha
 		
@@ -209,6 +210,31 @@ function wpmem_registration($toggle)
 			$wpmem_regchk = "updaterr";
 
 		} else {
+		
+			// doing a check for existing email is not the same as a new reg. 
+			// check first to see if it's different, then check if it exists.
+			global $current_user; get_currentuserinfo();
+			if ( $user_email !=  $current_user->user_email ) {
+		
+				if ( email_exists( $user_email ) ) {
+			
+					$wpmem_regchk = "email";
+					
+				} else {
+				
+					$ok_to_reg = true;
+					
+				}
+				
+			} else {
+			
+				$ok_to_reg = true;
+				
+			}
+			
+		}
+			
+		if ( $ok_to_reg == true ) {
 
 			for ($row = 0; $row < count($wpmem_fields); $row++) {
 
@@ -217,11 +243,13 @@ function wpmem_registration($toggle)
 				switch ($wpmem_fields[$row][2]) {
 
 				case ('user_url'):
-					$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					//$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					wp_update_user( array ('ID' => $user_ID, 'user_url' => $wpmem_fieldval_arr[$row] ) );
 					break;
 
 				case ('user_email'):
-					$wpdb->update( $wpdb->users, array('user_email'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					//$wpdb->update( $wpdb->users, array('user_email'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
+					wp_update_user( array ('ID' => $user_ID, 'user_email' => $wpmem_fieldval_arr[$row] ) );
 					break;
 
 				default:
@@ -235,6 +263,7 @@ function wpmem_registration($toggle)
 		}
 
 		break;
+
 
 	}
 

@@ -55,7 +55,7 @@ function wpmem_inc_regemail($user_id,$password,$toggle)
 		//registration is moderated
 		$subj = sprintf(__('Thank you for registering for %s', 'wp-members'), $blogname);
 		
-		$body = sprintf(__('Thank you for registerding for %s. Your registration has been received and is pending approval.', 'wp-members'), $blogname);
+		$body = sprintf(__('Thank you for registering for %s. Your registration has been received and is pending approval.', 'wp-members'), $blogname);
 		$body.= "\r\n\r\n";
 		$body.= __('You will receive login instructions upon approval of your account', 'wp-members');
 		$body.= "\r\n\r\n";

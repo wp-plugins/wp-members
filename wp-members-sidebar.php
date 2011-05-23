@@ -56,37 +56,73 @@ function wpmem_do_sidebar()
 	}
 
 	if (!is_user_logged_in()){
-	/*
-	This is the login form.
-	You may edit below this line, but do not
-	change the <?php ?> tags or their contents */?>
-	<ul>
-		<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { ?><p><?php _e('Login Failed!<br />You entered an invalid username or password.', 'wp-members'); ?></p><?php }?>
-		<p><?php _e('You are not currently logged in.', 'wp-members'); ?><br />
-			<form name="form" method="post" action="<?php echo $post_to; ?>">
-			<?php _e('Username'); ?><br />
-			<input type="text" name="log" style="font:10px verdana,sans-serif;" /><br />
-			<?php _e('Password'); ?><br />
-			<input type="password" name="pwd" style="font:10px verdana,sans-serif;" /><br />
-			<input type="hidden" name="rememberme" value="forever" />
-			<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
-			<input type="hidden" name="a" value="login" />
-			<input type="hidden" name="slog" value="true" />
-			<input type="submit" name="Submit" value="<?php _e('login', 'wp-members'); ?>" style="font:10px verdana,sans-serif;" />
-			</form>
-		</p>
-	</ul>
+
+		if (WPMEM_OLD_FORMS == 1) {?>
+			<ul>
+				<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { ?><p><?php _e('Login Failed!<br />You entered an invalid username or password.', 'wp-members'); ?></p><?php }?>
+				<p><?php _e('You are not currently logged in.', 'wp-members'); ?><br />
+					<form name="form" method="post" action="<?php echo $post_to; ?>">
+					<?php _e('Username'); ?><br />
+					<input type="text" name="log" style="font:10px verdana,sans-serif;" /><br />
+					<?php _e('Password'); ?><br />
+					<input type="password" name="pwd" style="font:10px verdana,sans-serif;" /><br />
+					<input type="hidden" name="rememberme" value="forever" />
+					<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
+					<input type="hidden" name="a" value="login" />
+					<input type="hidden" name="slog" value="true" />
+					<input type="submit" name="Submit" value="<?php _e('login', 'wp-members'); ?>" style="font:10px verdana,sans-serif;" />
+					<?php 			
+						if ( WPMEM_MSURL != null ) { 
+							$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
+							<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Forgot?', 'wp-members'); ?></a>&nbsp;
+						<?php } 			
+						if ( WPMEM_REGURL != null ) { 
+							$link = wpmem_chk_qstr( WPMEM_REGURL ); ?>
+							<a href="<?php echo $link; ?>"><?php _e('Register', 'wp-members'); ?></a>
+
+						<?php } ?>
+					</form>
+				</p>
+			</ul>
+		<?php } else { ?>
+		  
+			<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { ?><p><?php _e('Login Failed!<br />You entered an invalid username or password.', 'wp-members'); ?></p><?php }?>
+			<fieldset>
+				<form name="form" method="post" action="<?php echo $post_to; ?>">
+				<?php _e('You are not currently logged in.', 'wp-members'); ?>
+					<label for="username"><?php _e('Username'); ?></label>
+					<div class="div_texbox"><input type="text" name="log" class="username" id="username" /></div>
+					<label for="password"><?php _e('Password'); ?></label>
+					<div class="div_texbox"><input type="password" name="pwd" class="password" id="password" /></div>
+					<input type="hidden" name="rememberme" value="forever" />
+					<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
+					<input type="hidden" name="a" value="login" />
+					<input type="hidden" name="slog" value="true" />
+					<div class="button_div"><input type="submit" name="Submit" class="buttons" value="<?php _e('login', 'wp-members'); ?>" />
+					<?php 		
+					if ( WPMEM_MSURL != null ) { 
+						$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
+						<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Forgot?', 'wp-members'); ?></a>&nbsp;
+					<?php } 			
+					if ( WPMEM_REGURL != null ) { 
+						$link = wpmem_chk_qstr( WPMEM_REGURL ); ?>
+						<a href="<?php echo $link; ?>"><?php _e('Register', 'wp-members'); ?></a>
+
+					<?php } ?></div>
+				</form>
+			</fieldset>
+
+		<?php } ?>
+
 	<?php } else { 
 	/*
 	This is the displayed when the user is logged in.
 	You may edit below this line, but do not
 	change the <?php ?> tags or their contents */?>
-	<ul>
 		<p>
 		  <?php printf(__('You are logged in as %s', 'wp-members'), $user_login );?><br />
 		  <a href="<?php echo $logout;?>"><?php _e('click here to logout', 'wp-members'); ?></a>
 		</p>
-	</ul>
 
 	<?php }
 }
@@ -99,7 +135,8 @@ function widget_wpmemwidget($args)
 	$options = get_option('widget_wpmemwidget');
 	$title = $options['title'];
 
-	echo $before_widget;
+	// echo $before_widget;
+	echo "<div id=\"wpmem_login_side\">";
 
 		// Widget Title
 		if (!$title) {$title = __('Login Status', 'wp-members');}
@@ -108,7 +145,8 @@ function widget_wpmemwidget($args)
 		// The Widget
 		if (function_exists('wpmem')) { wpmem_inc_sidebar($widget);}
 
-	echo $after_widget;
+	// echo $after_widget;
+	echo "</div>";
 }
 
 function widget_wpmemwidget_control()
