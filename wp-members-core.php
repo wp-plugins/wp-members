@@ -80,6 +80,13 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 
 	// Block/unblock Posts
 	if ( !is_user_logged_in() && $not_mem_area == 1 && $chk_securify == "block" ) {
+	
+		// NEW in 2.5.1 - try this for comments...
+		global $post;
+		$post->post_password = wpmem_generatePassword();
+		// i think it might work
+	
+	
 		
 		include_once('wp-members-dialogs.php');
 		
@@ -186,7 +193,8 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 
 				if ($wpmem_page == 'members-area') { wpmem_inc_login('members'); }
 				
-				if (WPMEM_NO_REG != 1) { wpmem_inc_registration($fields); } // new in 2.3, toggle to turn off registration process.
+				// NEW in 2.5.1 - updated this to turn off registration on all but the register page.
+				if ( $wpmem_page == 'register' || WPMEM_NO_REG != 1 ) { wpmem_inc_registration($fields); } // new in 2.3, toggle to turn off registration process.
 			}
 			$output = '';
 			$content = '';
@@ -206,7 +214,7 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 
 				// determine if there are any errors/empty fields
 
-				if ($wpmem_regchk == "updaterr") {
+				if ($wpmem_regchk == "updaterr" || $wpmem_regchk == "email") {
 
 					wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
 					wpmem_inc_registration($fields, 'edit', $edit_heading);
@@ -437,8 +445,9 @@ function wpmem_reset_password()
 			if (username_exists($user)) {
 
 				$user_info = get_userdatabylogin($user);
-				if($user_info->user_email !== $email) {
-					// the username was there, but the email did not match
+				
+				if( $user_info->user_email !== $email || ( (WPMEM_MOD_REG == 1) && (get_user_meta($user_info->ID,'active','true') != 1) ) ) {
+					// the username was there, but the email did not match OR the user hasn't been activated
 					$wpmem_regchk = "pwdreseterr";
 					
 				} else {
@@ -463,9 +472,42 @@ function wpmem_reset_password()
 }
 
 
+// NEW in 2.5.1 - when using registration moderation, keeps users not activated from resetting their password via wp-login
+function wpmem_no_reset() {
+
+	if ( strpos($_POST['user_login'], '@') ) {
+		$user_data = get_user_by_email(trim($_POST['user_login']));
+	} else {
+		$login = trim($_POST['user_login']);
+		$user_data = get_userdatabylogin($login);
+	}
+	
+	if (WPMEM_MOD_REG == 1) { 
+		if (get_user_meta($user_data->ID,'active','true') != 1) { 			
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+
 function wpmem_head()
 { 
 	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
+	
+	// new in 2.5.1 , CSS for forms and custom CSS
+	
+	if ( WPMEM_OLD_FORMS != 1 ) {
+		$wpmem_cssurl = get_option('wpmembers_cssurl',null);			
+		if ( $wpmem_cssurl != null ) { 
+			$css_path = $wpmem_cssurl; 
+		} else {
+			$css_path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
+			$css_path = $css_path."css/wp-members.css";
+		}
+		echo "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$css_path\" />";
+	}
 }
 
 
@@ -479,24 +521,26 @@ UTILITY FUNCTIONS
 *****************************************************/
 
 
-function wpmem_create_formfield($name,$type,$value,$valtochk=null)
+function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbox')
 {
 	switch ($type) {
 
 	case "checkbox":
+		if ($class = 'textbox') { $class = "checkbox"; }
 		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" ";wpmem_selected($value,$valtochk,$type);echo " />\n";
 		break;
 
 	case "text":
-		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" />\n";
+		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
 		break;
 
 	case "textarea":
-		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\">$value</textarea>";
+		if ($class = 'textbox') { $class = "textarea"; }
+		echo "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
 		break;
 
 	case "password":
-		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" />\n";
+		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />\n";
 		break;
 
 	case "hidden":

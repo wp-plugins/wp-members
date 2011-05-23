@@ -1,3 +1,13 @@
+/*
+	This file is part of the WP-Members plugin by Chad Butler
+	
+	You can find out more about this plugin at http://butlerblog.com/wp-members
+  
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
+*/
+
 ul.tabs {
 	margin: 0;
 	padding: 0;
@@ -46,4 +56,12 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
 }
 .tab_content {
 	padding: 20px;
+}
+
+
+
+.wpmem_tbl_drag { 
+	background:#fffbcc;
+	font-weight: bold;
+	border: 1px solid #990000;
 }

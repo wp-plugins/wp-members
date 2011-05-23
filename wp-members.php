@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.5.0
+Version:     2.5.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -82,10 +82,10 @@ if ( in_array( $required_plugin , $active_plugins ) ) { define('WPMEM_EXP_MODULE
 $wpmem_settings = get_option('wpmembers_settings');
 
 // define constants based on option settings
-define('WPMEM_VERSION',      "2.5.0");
+define('WPMEM_VERSION',      "2.5.1");
 define('WPMEM_DEBUG',        false);
 
-// define('WPMEM_VERSION',      $wpmem_settings[0]);
+// define('WPMEM_VERSION',   $wpmem_settings[0]);
 define('WPMEM_BLOCK_POSTS',  $wpmem_settings[1]);
 define('WPMEM_BLOCK_PAGES',  $wpmem_settings[2]);
 define('WPMEM_SHOW_EXCERPT', $wpmem_settings[3]);
@@ -93,11 +93,16 @@ define('WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]);
 define('WPMEM_MOD_REG',      $wpmem_settings[5]);
 define('WPMEM_CAPTCHA',      $wpmem_settings[6]);
 define('WPMEM_NO_REG',       $wpmem_settings[7]);
+define('WPMEM_OLD_FORMS',    $wpmem_settings[8]);  // NEW IN 2.5.1
 
 if (WPMEM_EXP_MODULE == true) {
-	define('WPMEM_USE_EXP',  $wpmem_settings[8]);
-	define('WPMEM_USE_TRL',  $wpmem_settings[9]);
+	define('WPMEM_USE_EXP',  $wpmem_settings[9]);
+	define('WPMEM_USE_TRL',  $wpmem_settings[10]);
 }
+
+define('WPMEM_MSURL',  get_option('wpmembers_msurl', null)); // NEW IN 2.5.1
+define('WPMEM_REGURL', get_option('wpmembers_regurl',null)); // NEW IN 2.5.1
+define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null)); // NEW IN 2.5.1
 
 
 // load the core
@@ -108,6 +113,7 @@ include_once('wp-members-core.php');
 add_action('init', 'wpmem');  							// runs the wpmem() function right away, allows for setting cookies
 add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
 add_action('wp_head', 'wpmem_head');					// runs functions for the head
+add_filter('allow_password_reset', 'wpmem_no_reset');   // prevents non-activated users from resetting password via wp-login
 add_filter('the_content', 'wpmem_securify', $content);  // securifies the_content.
 
 
@@ -115,6 +121,7 @@ add_filter('the_content', 'wpmem_securify', $content);  // securifies the_conten
 add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
+	// load the admin functions
 	if ( current_user_can('edit_users') ) { require_once('wp-members-admin.php'); }
 }
 
@@ -125,7 +132,8 @@ function wpmem_admin_options()
 {
 	$plugin_page = 	add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', basename(__FILE__), 'wpmem_admin'       );
 					add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   basename(__FILE__), 'wpmem_admin_users' );
-					add_action       ( 'admin_head-'.$plugin_page, 'wpmem_admin_header' );
+					//add_action       ( 'admin_head-'.$plugin_page, 'wpmem_admin_header' );
+					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' );
 }
 
 
