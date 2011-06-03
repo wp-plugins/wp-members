@@ -53,7 +53,7 @@ function wpmem_a_warning_msg($msg)
 	case 5: 
 
 		$strong_msg = __("You have set WP-Members to turn off the registration process", 'wp-members');
-		$remain_msg = ", but you also set to moderate and/or email admin new registrations.  Turning registrations off overrides the other two settings since no registrations are allowed.";	
+		$remain_msg = ", but you also set to moderate and/or email admin new registrations.  You will need to set up a registration page for users to register.";	
 
 		break;
 		

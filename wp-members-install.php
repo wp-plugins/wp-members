@@ -33,11 +33,10 @@ function wpmem_do_install()
 
 	if( !get_option('wpmembers_settings') || $chk_force == true ) {
 
-		// this is an upgrade from 2.1 or earlier (including a clean install)
+		// this is a clean install (or an upgrade from 2.1 or earlier)
 		
 		$wpmem_settings = array(WPMEM_VERSION,1,0,0,0,0,0,0,0,0,0,0);
-		//add_option('wpmembers_settings', $wpmem_settings, '', 'yes');
-		update_option('wpmembers_settings', $wpmem_settings, '', 'yes');
+		update_option('wpmembers_settings', $wpmem_settings, '', 'yes'); // using update_option to allow for forced update
 			
 		$wpmem_fields_options_arr = array(
 			//     order,   label(localized),      				optionname,   type, display, required, native, checked value, checked by default
@@ -73,8 +72,7 @@ function wpmem_do_install()
 			*/
 		);
 		
-		//add_option('wpmembers_fields',$wpmem_fields_options_arr,'','yes');
-		update_option('wpmembers_fields',$wpmem_fields_options_arr,'','yes');
+		update_option('wpmembers_fields',$wpmem_fields_options_arr,'','yes'); // using update_option to allow for forced update
 		
 		$wpmem_dialogs_arr = array(
 			__("This content is restricted to site members.  If you are an existing user, please login.  New users may register below.", 'wp-members'),
@@ -88,8 +86,7 @@ function wpmem_do_install()
 			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password.", 'wp-members')
 		);
 		
-		//add_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
-		update_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes');
+		update_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes'); // using update_option to allow for forced update
 				
 		append_tos('new');
 		
@@ -97,7 +94,9 @@ function wpmem_do_install()
 	
 		$wpmem_settings = get_option('wpmembers_settings');
 		
-		if ( count($wpmem_settings) == 4 ) {
+		switch ( count ( $wpmem_settings ) ) {
+		
+		  case 4:
 		
 			// upgrading from 2.2.x
 			// update version, insert new toggles, keep other settings
@@ -118,8 +117,31 @@ function wpmem_do_install()
 			update_option('wpmembers_settings',$wpmem_newsettings);
 
 			append_tos('2.2+');
+			
+			break;
+			
+		  case 12:
 		
-		} elseif ( count($wpmem_settings) > 4 ) {
+			// upgrading from 2.5.1
+			$wpmem_newsettings = array(
+				WPMEM_VERSION, 			//  0 version
+				$wpmem_settings[1],		//  1 block posts
+				$wpmem_settings[2],		//  2 block pages
+				$wpmem_settings[3],		//  3 show excerpts on posts/pages
+				$wpmem_settings[4],		//  4 notify admin
+				$wpmem_settings[5],		//  5 moderate registration
+				$wpmem_settings[6],		//  6 toggle captcha
+				$wpmem_settings[7],		//  7 turn off registration
+				$wpmem_settings[8],		//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
+				$wpmem_settings[9],		//  9 time based expiration
+				$wpmem_settings[10],	// 10 offer trial period
+				$wpmem_settings[11]		// 11 ignore warnings		
+			);
+			update_option('wpmembers_settings',$wpmem_newsettings);
+			
+			break;
+		
+		  default: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
 		
 			// upgrading from 2.3.0, 2.3.1, 2.3.2, 2.4.0, or 2.5.0
 			// update version, insert captcha toggle, keep other settings
@@ -140,6 +162,8 @@ function wpmem_do_install()
 			update_option('wpmembers_settings',$wpmem_newsettings);
 
 			append_tos('2.2+');
+			
+			break;
 		
 		}		
 	}

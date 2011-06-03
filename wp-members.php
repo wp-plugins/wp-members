@@ -2,8 +2,8 @@
 /*
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
-Description: WP access restriction and user registration.  For more information and to download the free "quick start guide," visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.5.1
+Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
+Version:     2.5.2
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -62,8 +62,7 @@ CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
 
 
 // start with any potential translation
-$wpmem_textdomain = 'wp-members';
-load_plugin_textdomain($wpmem_textdomain, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/');
+load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 //(see: http://pressedwords.com/6-tips-for-localizing-your-wordpress-plugin/)
 
 // preload any custom functions, if available
@@ -82,7 +81,7 @@ if ( in_array( $required_plugin , $active_plugins ) ) { define('WPMEM_EXP_MODULE
 $wpmem_settings = get_option('wpmembers_settings');
 
 // define constants based on option settings
-define('WPMEM_VERSION',      "2.5.1");
+define('WPMEM_VERSION',      "2.5.2");
 define('WPMEM_DEBUG',        false);
 
 // define('WPMEM_VERSION',   $wpmem_settings[0]);
@@ -93,16 +92,17 @@ define('WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]);
 define('WPMEM_MOD_REG',      $wpmem_settings[5]);
 define('WPMEM_CAPTCHA',      $wpmem_settings[6]);
 define('WPMEM_NO_REG',       $wpmem_settings[7]);
-define('WPMEM_OLD_FORMS',    $wpmem_settings[8]);  // NEW IN 2.5.1
+define('WPMEM_OLD_FORMS',    $wpmem_settings[8]);
+define('WPMEM_IGNORE_WARN',  $wpmem_settings[11]);
 
 if (WPMEM_EXP_MODULE == true) {
 	define('WPMEM_USE_EXP',  $wpmem_settings[9]);
 	define('WPMEM_USE_TRL',  $wpmem_settings[10]);
 }
 
-define('WPMEM_MSURL',  get_option('wpmembers_msurl', null)); // NEW IN 2.5.1
-define('WPMEM_REGURL', get_option('wpmembers_regurl',null)); // NEW IN 2.5.1
-define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null)); // NEW IN 2.5.1
+define('WPMEM_MSURL',  get_option('wpmembers_msurl', null));
+define('WPMEM_REGURL', get_option('wpmembers_regurl',null));
+define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null));
 
 
 // load the core
@@ -121,7 +121,7 @@ add_filter('the_content', 'wpmem_securify', $content);  // securifies the_conten
 add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
-	// load the admin functions
+	// if user has a role that can edit users, load the admin functions
 	if ( current_user_can('edit_users') ) { require_once('wp-members-admin.php'); }
 }
 
@@ -130,12 +130,10 @@ function wpmem_chk_admin()
 add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
-	$plugin_page = 	add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', basename(__FILE__), 'wpmem_admin'       );
-					add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   basename(__FILE__), 'wpmem_admin_users' );
-					//add_action       ( 'admin_head-'.$plugin_page, 'wpmem_admin_header' );
-					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' );
+	$plugin_page = 	add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
+					add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
+					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 }
-
 
 // install scripts only load if we are installing, makes the plugin lighter
 register_activation_hook(__FILE__, 'wpmem_install');

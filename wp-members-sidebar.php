@@ -15,6 +15,7 @@ LOGIN STATUS AND WIDGET FUNCTIONS
 *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_inc_status' ) ):
 function wpmem_inc_status()
 { 	
 	/*
@@ -34,8 +35,10 @@ function wpmem_inc_status()
 
 	return $wpmem_login_status;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_do_sidebar' ) ):
 function wpmem_do_sidebar()
 {
 	/*
@@ -44,16 +47,36 @@ function wpmem_do_sidebar()
 	login status. Typically used for a sidebar.		
 	You can call this directly, or with the widget
 	*/
-	global $user_login, $wpmem_regchk;
-	$url = get_bloginfo('url');
-	$logout = $url."/?a=logout";
+	global $wpmem_regchk;
+	
+	$url = get_bloginfo('url'); // used here and in the logout
 
 	//this returns us to the right place
-	if(is_home()) {
-		$post_to = $_SERVER['PHP_SELF'];
-	}else{
+	if( is_home() ) {
+		$post_to = home_url();
+			
+	} elseif( is_single() ) {
 		$post_to = get_permalink();
-	}
+
+	} elseif( is_page() ) {
+		global $page_id;
+		$post_to = get_page_uri( $page_id );
+
+	} elseif( is_category() ) {
+		global $wp_query;
+		$cat_id = get_query_var('cat');
+		$post_to = get_category_link( $cat_id );
+		
+	} elseif( is_search() ) {
+		$post_to = $url."/?s=".get_search_query();
+
+	//} elseif( is_archive() ) {
+		//$post_to = "archive";
+		
+	} else {
+		$post_to = home_url();
+
+	} echo "post to: ".$post_to;
 
 	if (!is_user_logged_in()){
 
@@ -86,10 +109,11 @@ function wpmem_do_sidebar()
 			</ul>
 		<?php } else { ?>
 		  
-			<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { ?><p><?php _e('Login Failed!<br />You entered an invalid username or password.', 'wp-members'); ?></p><?php }?>
+			<?php if ($wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true') { ?><p class="err"><?php _e('Login Failed!<br />You entered an invalid username or password.', 'wp-members'); ?></p><?php }?>
+			<?php _e('You are not currently logged in.', 'wp-members'); ?><br />
 			<fieldset>
 				<form name="form" method="post" action="<?php echo $post_to; ?>">
-				<?php _e('You are not currently logged in.', 'wp-members'); ?>
+				
 					<label for="username"><?php _e('Username'); ?></label>
 					<div class="div_texbox"><input type="text" name="log" class="username" id="username" /></div>
 					<label for="password"><?php _e('Password'); ?></label>
@@ -115,10 +139,13 @@ function wpmem_do_sidebar()
 		<?php } ?>
 
 	<?php } else { 
-	/*
-	This is the displayed when the user is logged in.
-	You may edit below this line, but do not
-	change the <?php ?> tags or their contents */?>
+	
+		global $user_login; 
+		$logout = $url."/?a=logout";
+		/*
+		This is the displayed when the user is logged in.
+		You may edit below this line, but do not
+		change the <?php ?> tags or their contents */?>
 		<p>
 		  <?php printf(__('You are logged in as %s', 'wp-members'), $user_login );?><br />
 		  <a href="<?php echo $logout;?>"><?php _e('click here to logout', 'wp-members'); ?></a>
@@ -126,6 +153,7 @@ function wpmem_do_sidebar()
 
 	<?php }
 }
+endif;
 
 
 function widget_wpmemwidget($args)
@@ -135,8 +163,7 @@ function widget_wpmemwidget($args)
 	$options = get_option('widget_wpmemwidget');
 	$title = $options['title'];
 
-	// echo $before_widget;
-	echo "<div id=\"wpmem_login_side\">";
+	 echo $before_widget;
 
 		// Widget Title
 		if (!$title) {$title = __('Login Status', 'wp-members');}
@@ -145,8 +172,7 @@ function widget_wpmemwidget($args)
 		// The Widget
 		if (function_exists('wpmem')) { wpmem_inc_sidebar($widget);}
 
-	// echo $after_widget;
-	echo "</div>";
+	 echo $after_widget;
 }
 
 function widget_wpmemwidget_control()
