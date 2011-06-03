@@ -86,7 +86,8 @@ function wpmem_registration($toggle)
 							
 						if (WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1]) {
 							
-							require_once('lib/recaptchalib.php');
+							// check to see if the recaptcha library has been loaded
+							if ( ! function_exists( '_recaptcha_qsencode' ) ) { require_once('lib/recaptchalib.php'); }
 
 							$publickey  = $wpmem_captcha[0];
 							$privatekey = $wpmem_captcha[1];
@@ -270,6 +271,7 @@ function wpmem_registration($toggle)
 } // end registration function
 
 
+if ( ! function_exists( 'wpmem_get_captcha_err' ) ):
 // new captcha error function
 function wpmem_get_captcha_err($wpmem_captcha_err)
 {
@@ -306,5 +308,5 @@ function wpmem_get_captcha_err($wpmem_captcha_err)
 	
 	return $wpmem_captcha_err;
 }
-
+endif;
 ?>

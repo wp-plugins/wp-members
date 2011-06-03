@@ -15,6 +15,7 @@ EMAIL FUNCTIONS
 *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_inc_regemail' ) ):
 function wpmem_inc_regemail($user_id,$password,$toggle)
 {
 	$user          = new WP_User($user_id);
@@ -112,8 +113,10 @@ function wpmem_inc_regemail($user_id,$password,$toggle)
 	wp_mail($user_email, $subj, $body, $headers = '');
 
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_notify_admin' ) ):
 function wpmem_notify_admin($user_id, $wpmem_fields)
 {
 	$user			= new WP_User($user_id);
@@ -164,5 +167,6 @@ function wpmem_notify_admin($user_id, $wpmem_fields)
 	$admin_email = get_option('admin_email');
 	wp_mail($admin_email, $subj, $body, $headers = '');
 }
+endif;
 
 ?>

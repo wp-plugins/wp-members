@@ -14,9 +14,7 @@
 PRIMARY FUNCTIONS
 *****************************************************/
 
-// Generally, the plugin uses a/wpmem_a to define an action that it is passing from page to page.  
-// It usese wpmem_regchk to pass what it is doing between functions (specifically, the init and the_content).
-
+if ( ! function_exists( 'wpmem' ) ):
 function wpmem()
 {
 	global $wpmem_a;
@@ -54,13 +52,14 @@ function wpmem()
 	} // end of switch $a (action)
 
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_securify' ) ):
 function wpmem_securify ($content = null, $wpmem_sc_page = null) 
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	
-	//NEW FOR RECAPTCHA
 	if ($wpmem_regchk == "captcha") {
 		global $wpmem_captcha_err;
 		$wpmem_themsg = __("There was an error with the CAPTCHA form.")."<br /><br />".$wpmem_captcha_err;
@@ -81,13 +80,10 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 	// Block/unblock Posts
 	if ( !is_user_logged_in() && $not_mem_area == 1 && $chk_securify == "block" ) {
 	
-		// NEW in 2.5.1 - try this for comments...
+		// NEW in 2.5.1 - overrides the need to add code snippet to comments.php...
 		global $post;
 		$post->post_password = wpmem_generatePassword();
-		// i think it might work
 	
-	
-		
 		include_once('wp-members-dialogs.php');
 		
 		// show the login and registration forms
@@ -316,6 +312,7 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 
 	return $content;
 } // end wpmem_securify
+endif;
 
 
 add_shortcode ('wp-members', 'wpmem_shortcode');
@@ -325,6 +322,7 @@ function wpmem_shortcode($attr)
 }
 
 
+if ( ! function_exists( 'wpmem_login' ) ):
 // login function
 function wpmem_login()
 {
@@ -335,17 +333,18 @@ function wpmem_login()
 		$redirect_to = $_SERVER['PHP_SELF'];
 	}
 
-	// we are reusing WP's own login scripts here.  there is a reason for this...
-
-	$user_login = $_POST['log'];
-	$user_login = sanitize_user( $user_login );
-	$user_pass  = $_POST['pwd'];
-	$rememberme = $_POST['rememberme'];
-
-	if ( $user_login && $user_pass ) {
-
-		// wp_login is deprecated, should convert to wp_signon
-		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
+	if ( $_POST['log'] && $_POST['pwd'] ) {
+		
+		$user_login = sanitize_user( $_POST['log'] );
+		
+		$creds = array();
+		$creds['user_login']    = $user_login;
+		$creds['user_password'] = $_POST['pwd'];
+		$creds['remember']      = $_POST['rememberme'];
+		
+		$user = wp_signon( $creds, false );
+	
+		if ( !is_wp_error($user) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
 			wp_redirect($redirect_to);
@@ -353,15 +352,17 @@ function wpmem_login()
 		} else {
 			$wpmem_regchk = "loginfailed";
 		}
-
+	
 	} else {
 		//login failed
 		$wpmem_regchk = "loginfailed";
-	}
+	}	
 
 } // end of login function
+endif;
 
 
+if ( ! function_exists( 'wpmem_logout' ) ):
 function wpmem_logout()
 {
 	//take 'em to the blog home page
@@ -374,30 +375,38 @@ function wpmem_logout()
 	wp_redirect($redirect_to);
 	exit();
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_login_status' ) ):
 function wpmem_login_status()
 {
 	include_once('wp-members-sidebar.php');
 	if (is_user_logged_in()) {	echo wpmem_inc_status(); }
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
 function wpmem_inc_sidebar()
 {
 	include_once('wp-members-sidebar.php');
 	wpmem_do_sidebar();
 }
+endif;
 
 
+if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
 function widget_wpmemwidget_init()
 {
 	include_once('wp-members-sidebar.php');
 	wp_register_sidebar_widget ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget', ''); 
 	wp_register_widget_control ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget_control', '' );	
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_change_password' ) ):
 function wpmem_change_password()
 { 
 	global $wpdb,$user_ID,$userdata,$wpmem_regchk;
@@ -422,8 +431,10 @@ function wpmem_change_password()
 	}
 	return;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_reset_password' ) ):
 function wpmem_reset_password()
 { 
 	// make sure native WP registration functions are loaded
@@ -470,8 +481,10 @@ function wpmem_reset_password()
 	}
 	return;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_no_reset' ) ):
 // NEW in 2.5.1 - when using registration moderation, keeps users not activated from resetting their password via wp-login
 function wpmem_no_reset() {
 
@@ -490,8 +503,10 @@ function wpmem_no_reset() {
 	
 	return true;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_head' ) ):
 function wpmem_head()
 { 
 	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
@@ -509,6 +524,7 @@ function wpmem_head()
 		echo "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$css_path\" />";
 	}
 }
+endif;
 
 
 /*****************************************************
@@ -521,6 +537,7 @@ UTILITY FUNCTIONS
 *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_create_formfield' ) ):
 function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbox')
 {
 	switch ($type) {
@@ -552,8 +569,10 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbo
 
 	}
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_selected' ) ):
 function wpmem_selected($value,$valtochk,$type=null)
 {
 	if($type == 'select') {
@@ -563,8 +582,10 @@ function wpmem_selected($value,$valtochk,$type=null)
 	}
 	if($value == $valtochk){ echo $issame; }
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_chk_qstr' ) ):
 function wpmem_chk_qstr($url = null)
 {
 	$permalink = get_option('permalink_structure');
@@ -577,12 +598,15 @@ function wpmem_chk_qstr($url = null)
 	}
 	return $return_url;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_generatePassword' ) ):
 function wpmem_generatePassword()
 {	
 	return substr( md5( uniqid( microtime() ) ), 0, 7);
 }
+endif;
 
 
 /*****************************************************

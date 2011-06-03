@@ -15,6 +15,7 @@ DIALOG OUTPUT FUNCTIONS
 *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_inc_login' ) ):
 function wpmem_inc_login($page="page")
 { 	
 	global $wpmem_regchk;
@@ -33,22 +34,27 @@ function wpmem_inc_login($page="page")
     $wpmem_login_form_arr = array(__('Existing users Login', 'wp-members'), __('Username', 'wp-members'), 'text', 'log', __('Password', 'wp-members'), 'password', 'pwd', 'login', __('Login', 'wp-members'), 'username', 'password');
     wpmem_login_form( $page, $wpmem_login_form_arr );
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
 function wpmem_inc_changepassword()
 { 
 	$wpmem_login_form_arr = array(__('Change Password', 'wp-members'), __('New Password', 'wp-members'), 'password', 'pass1', __('Repeat Password', 'wp-members'), 'password', 'pass2', 'pwdchange', __('Update Password', 'wp-members'), 'password', 'password');
     wpmem_login_form( 'page', $wpmem_login_form_arr );
 }
+endif;
 
-
+if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
 function wpmem_inc_resetpassword()
 { 
 	$wpmem_login_form_arr = array(__('Reset Forgotten Password', 'wp-members'), __('Username', 'wp-members'), 'text', 'user', __('Email', 'wp-members'), 'text', 'email', 'pwdreset', __('Reset Password', 'wp-members'), 'username', 'textbox');
     wpmem_login_form( 'page', $wpmem_login_form_arr );
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_login_form_OLD' ) ):
 function wpmem_login_form_OLD ( $page, $wpmem_login_form_arr ) 
 { ?>	
 	  <div class="wpmem_login">
@@ -96,15 +102,13 @@ function wpmem_login_form_OLD ( $page, $wpmem_login_form_arr )
 		  </form>
 	  </div><?php
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
 function wpmem_inc_loginfailed() 
 { 
-	/* 
-	failed login message.  
-	you can customize this to fit your theme, etc.
-
-	You may edit below this line */?>
+	// failed login message.  ?>
 
 	<div align="center" id="wpmem_msg">
 		<h2><?php _e('Login Failed!', 'wp-members'); ?></h2>
@@ -114,8 +118,10 @@ function wpmem_inc_loginfailed()
 
 	<?php  // end edits for function wpmem_inc_loginfailed()
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
 function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
@@ -235,7 +241,7 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 			} ?>
 		
 		<?php 		
-		if (WPMEM_CAPTCHA == 1) {
+		if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
 			
 			$wpmem_captcha = get_option('wpmembers_captcha'); 
 			if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
@@ -248,7 +254,6 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 						{
 							Recaptcha.create("<?php echo $wpmem_captcha[0]; ?>", element, {
 								theme: "<?php echo $wpmem_captcha[2]; ?>",
-								// callback: Recaptcha.focus_response_field
 								});
 						}
 					</script>
@@ -304,8 +309,10 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 	</div>
 	<?php
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
 function wpmem_inc_memberlinks($page = 'members') 
 {
 	$link = wpmem_chk_qstr();
@@ -323,8 +330,10 @@ function wpmem_inc_memberlinks($page = 'members')
 	
 	return $str;
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
 function wpmem_inc_regmessage($toggle,$themsg='')
 { 
 	$wpmem_dialogs = get_option('wpmembers_dialogs');
@@ -355,6 +364,7 @@ function wpmem_inc_regmessage($toggle,$themsg='')
 
 	<?php }		
 }
+endif;
 
 
 /*****************************************************
@@ -371,6 +381,7 @@ NEW in 2.5.1 - toggle between new table-less forms and legacy table-based forms
 *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_inc_registration' ) ):
 function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
@@ -379,8 +390,10 @@ function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 		wpmem_inc_registration_OLD($fields,$toggle,$heading);
 	}
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_login_form' ) ):
 function wpmem_login_form( $page, $wpmem_login_form_arr ) 
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
@@ -389,8 +402,10 @@ function wpmem_login_form( $page, $wpmem_login_form_arr )
 		wpmem_login_form_OLD( $page, $wpmem_login_form_arr );
 	}
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
 function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
@@ -508,7 +523,7 @@ function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 			}
 			
 			
-			if (WPMEM_CAPTCHA == 1) {
+			if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
 			
 				$wpmem_captcha = get_option('wpmembers_captcha'); 
 				if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
@@ -569,8 +584,10 @@ function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 	</div>
 	<?php
 }
+endif;
 
 
+if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
 function wpmem_login_form_NEW( $page, $wpmem_login_form_arr ) 
 { ?>	
 	<div id="wpmem_login">
@@ -624,4 +641,5 @@ function wpmem_login_form_NEW( $page, $wpmem_login_form_arr )
 		</fieldset>
 	</div><?php
 }
+endif;
 ?>
