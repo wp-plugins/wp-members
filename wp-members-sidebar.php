@@ -76,7 +76,7 @@ function wpmem_do_sidebar()
 	} else {
 		$post_to = home_url();
 
-	} echo "post to: ".$post_to;
+	}
 
 	if (!is_user_logged_in()){
 
