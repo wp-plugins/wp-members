@@ -36,7 +36,7 @@ There are also some special pages available.  There is a Members Area where regi
 
 == Installation ==
 
-WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  There is also a [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in more depth.
+WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  There are also both a [Quick Start and a Users Guide available](http://butlerblog.com/wp-members/) that cover all of the plugin's features in more depth.
 
 = Basic Install: =
 
@@ -58,7 +58,7 @@ You are ready to begin using WP-Members&trade;.  Now follow the instructions tit
 
 = Additional Settings and Information = 
 
-A full Users Guide is available at the plugin's homepage: http://butlerblog.com/wp-members
+An online Quick Start Guide and a downloadable Users Guide are available at the plugin's homepage: http://butlerblog.com/wp-members
 
 The guide outlines the installation process, and also documents how to use all of the settings.
 
@@ -161,7 +161,7 @@ WP-Members&trade; 2.3.x updates the API calls for the use of the WP-Members&trad
 
 == Screenshots ==
 
-Rather than bloat your plugin download with screenshots, we will be offering screenshots and videos at the plugin's homepage: http://butlerblog.com/wp-members
+Screenshots are included in the Quick Start Guide available online: http://butlerblog.com/wp-members/wp-members-quick-start-guide/
 
 
 == Changelog ==
