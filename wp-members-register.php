@@ -1,278 +1,208 @@
 <?php
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-*/
+/**
+ * WP-Members Registration Functions
+ *
+ * Handles new user registration and existing user updates.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @version 2.5.3
+ * @author Chad Butler
+ * @copyright 2006-2011
+ */
 
 
-/*****************************************************
-REGISTRATION FUNCTIONS
-*****************************************************/
-
-
+/**
+ * Register function
+ *
+ * Handles registering new users and updating existing users.
+ */
 function wpmem_registration($toggle)
 {
 	// make sure native WP registration functions are loaded
 	require_once( ABSPATH . WPINC . '/registration-functions.php');
 
-	global $wpdb,$user_ID,$userdata,$wpmem_regchk,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
+	global $user_ID,$userdata,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
 
-	if($toggle=='register'){ $username = $_POST['log']; }
+	if( $toggle=='register' ) { $username = $_POST['log']; }
 	$user_email = $_POST['user_email'];
 
 	// build array of the posts
-	$wpmem_fields = get_option('wpmembers_fields');
-	for ($row = 0; $row < count($wpmem_fields); $row++) {
+	$wpmem_fields = get_option( 'wpmembers_fields' );
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
 	}
 
 	// check for required fields	
-	$wpmem_fields_rev = array_reverse($wpmem_fields);
-	$wpmem_fieldval_arr_rev = array_reverse($wpmem_fieldval_arr);
+	$wpmem_fields_rev = array_reverse( $wpmem_fields );
+	$wpmem_fieldval_arr_rev = array_reverse( $wpmem_fieldval_arr );
 
-	for ($row = 0; $row < count($wpmem_fields); $row++) {
-		if ( $wpmem_fields_rev[$row][5] == 'y' ) {
-			if ( !$wpmem_fieldval_arr_rev[$row] ) { $wpmem_themsg = sprintf(__('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1]); }
+	for( $row = 0; $row < count($wpmem_fields); $row++ ) {
+		if( $wpmem_fields_rev[$row][5] == 'y' ) {
+			if( !$wpmem_fieldval_arr_rev[$row] ) { $wpmem_themsg = sprintf(__('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1]); }
 		}
 	}
 
-	// if captcha is on, check for captcha
-	if (WPMEM_CAPTCHA == 1) {
-		$wpmem_captcha = get_option('wpmembers_captcha'); // get the captcha settings (api keys) 
-		if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {   // if there is no api key, the captcha never displayed to the end user
-			if (!$_POST["recaptcha_response_field"]) {
-				$wpmem_themsg = __("You must complete the CAPTCHA form.");
-			}
-		}
-	}
-	
-	// start from the assumption that it's not ok to register the user
-	$ok_to_reg = false;
-
-	switch($toggle) {
+	switch( $toggle ) {
 
 	case "register":
-	
-		// new in 2.3, toggle off registration, NEW in 2.5.1 - take this back out, reg doesn't show anyway, and we've added nonce
-		//if (WPMEM_NO_REG != 1) {
 
-			if ( !$username ) { $wpmem_themsg = __('Sorry, username is a required field', 'wp-members'); } 
-			if ( $wpmem_themsg ) {
-
-				$wpmem_regchk = "empty";
-
-			} else {
-
-				if (username_exists($username)) {
-
-					$wpmem_regchk = "user";
-
-				} else {
-
-					//$email_exists = $wpdb->get_var("SELECT user_email FROM $wpdb->users WHERE user_email = '$user_email'");
-					//if ( $email_exists) {
-					if ( email_exists( $user_email ) ) {
-
-						$wpmem_regchk = "email";
-
-					} else {
-
-						// if captcha is on, check the captcha
-							
-						if (WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1]) {
-							
-							// check to see if the recaptcha library has been loaded
-							if ( ! function_exists( '_recaptcha_qsencode' ) ) { require_once('lib/recaptchalib.php'); }
-
-							$publickey  = $wpmem_captcha[0];
-							$privatekey = $wpmem_captcha[1];
-
-							// the response from reCAPTCHA
-							$resp = null;
-							// the error code from reCAPTCHA, if any
-							$error = null;
-							
-							if ($_POST["recaptcha_response_field"]) {
-								
-								$resp = recaptcha_check_answer (
-									$privatekey,
-									$_SERVER["REMOTE_ADDR"],
-									$_POST["recaptcha_challenge_field"],
-									$_POST["recaptcha_response_field"]
-								);
-								
-								if ($resp->is_valid) {
-
-									$ok_to_reg = true;
+		if ( !$username ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); } 
+		if ( !validate_username( $username ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); }
+		if ( $wpmem_themsg ) { return "empty"; exit(); }
+		if ( username_exists( $username ) ) { return "user"; exit(); } 
+		if ( email_exists( $user_email ) ) { return "email"; exit(); }
+		
+		$wpmem_captcha = get_option( 'wpmembers_captcha' ); // get the captcha settings (api keys) 
+		if ( WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1] ) { // if captcha is on, check the captcha
 			
-								} else {
-								
-									// set the error code so that we can display it
-									global $wpmem_captcha_err;
-									$wpmem_captcha_err = $resp->error;
-									$wpmem_captcha_err = wpmem_get_captcha_err($wpmem_captcha_err);
-									$wpmem_regchk = "captcha";
-																		
-								}
-							} 
-							
-							// end check recaptcha
-						
-						} else {
-						
-							$ok_to_reg = true;
-						
-						}
-					}
+			if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {   // if there is no api key, the captcha never displayed to the end user
+				if ( !$_POST["recaptcha_response_field"] ) { // validate for empty captcha field
+					$wpmem_themsg = __( "You must complete the CAPTCHA form." );
+					return "empty"; exit();
 				}
 			}
-		//}
+
+			// check to see if the recaptcha library has already been loaded by another plugin
+			if ( ! function_exists( '_recaptcha_qsencode' ) ) { require_once('lib/recaptchalib.php'); }
+
+			$publickey  = $wpmem_captcha[0];
+			$privatekey = $wpmem_captcha[1];
+
+			// the response from reCAPTCHA
+			$resp = null;
+			// the error code from reCAPTCHA, if any
+			$error = null;
+			
+			if ( $_POST["recaptcha_response_field"] ) {
+				
+				$resp = recaptcha_check_answer (
+					$privatekey,
+					$_SERVER["REMOTE_ADDR"],
+					$_POST["recaptcha_challenge_field"],
+					$_POST["recaptcha_response_field"]
+				);
+				
+				if ( ! $resp->is_valid ) {
+
+					// set the error code so that we can display it
+					global $wpmem_captcha_err;
+					$wpmem_captcha_err = $resp->error;
+					$wpmem_captcha_err = wpmem_get_captcha_err($wpmem_captcha_err);
+					
+					return "captcha";
+					exit();
+
+				} 
+			} // end check recaptcha
+		}		
 		
-		// moved this in 2.4 to accomodate changes with captcha
-		
-		if ($ok_to_reg == true) {
 		//everything checks out, so go ahead and insert
 
-			//The main insertion process was taken from the WP core, the rest is modified to accomodate WP-Members user defined fields.
-
-			$password = substr( md5( uniqid( microtime() ) ), 0, 7);
-			$hashpassword = md5($password);
-			$user_registered = gmdate('Y-m-d H:i:s');
-
-			$query = "INSERT INTO $wpdb->users 
-				(user_login, user_pass, user_email, user_registered, user_nicename, display_name) VALUES 
-				('$username', '$hashpassword', '$user_email', '$user_registered', '$username', '$username')";
-
-			$query = apply_filters('create_user_query', $query);
-			$wpdb->query( $query );
-			$user_id = $wpdb->insert_id;
-
-			//Sets the user to the default role.
-			$user = new WP_User($user_id);
-			$user->set_role(get_option('default_role'));
-
-			update_user_meta( $user_id, 'nickname', $username); // gotta have this whether it's used or not; if it's included w/ custom, value should be overwritten below.
-			for ($row = 0; $row < count($wpmem_fields); $row++) {
-
-				/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
-				  they go into the wp_users table.  email is already done above, we need to then screen for putting in 
-				  website, if used, and screen out email, since it's already done. */
-				if ($wpmem_fields[$row][2] == 'user_url') {
-					$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_id) );
-				} else {
-					if ($wpmem_fields[$row][2] != 'user_email') {
-						// new in 2.4 - code improvement
-						// check to see if we are using this field or not
-						if ( $wpmem_fields[$row][4] == 'y' ) {
-							update_user_meta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
-						}
+		$password = substr( md5( uniqid( microtime() ) ), 0, 7);
+		$hashpassword = md5( $password );
+		$user_registered = gmdate( 'Y-m-d H:i:s' );
+		$user_role = get_option( 'default_role' );
+		
+		// new in 2.5.3, using wp_insert_user to replace using $wpdb->query
+		$user_id = wp_insert_user( array (
+			'user_pass'       => $hashpassword, 
+			'user_login'      => $username,
+			'user_nicename'   => $username,
+			'user_email'      => $user_email,
+			'display_name'    => $username,
+			'nickname'        => $username,
+			'user_registered' => $user_registered,
+			'role'            => $user_role
+		) );
+		
+		// set remaining fields
+		for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+			if ( $wpmem_fields[$row][2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
+				wp_update_user( array ( 'ID' => $user_id, 'user_url' => $wpmem_fieldval_arr[$row] ) );
+			} else {
+				if ( $wpmem_fields[$row][2] != 'user_email' ) { // email is already done above, so if it's not email...
+					if ( $wpmem_fields[$row][4] == 'y' ) { // are we using this field?
+						update_user_meta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row] );
 					}
 				}
-			} 
-			
-			// new in 2.4 - capture IP address of user at registration
-			update_user_meta( $user_id, 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
-			
-			// NEW in 2.4 - if registration is moderated, we will store
-			// the registration url for sending when approved
-			if ( WPMEM_MOD_REG == 1 ) {
-				$the_permalink = $_REQUEST['redirect_to'];
-				update_user_meta( $user_id, 'wpmem_reg_url', $the_permalink );
 			}
-
-			// new in 2.4 for user expiration
-			if ( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp($user_id); }
-			
-			require_once('wp-members-email.php');
-
-			//if this was successful, and you have email properly
-			//configured, send a notification email to the user
-			wpmem_inc_regemail($user_id,$password,WPMEM_MOD_REG);
-			
-			//notify admin of new reg, if needed;
-			if (WPMEM_NOTIFY_ADMIN == 1) { wpmem_notify_admin($user_id, $wpmem_fields); }
-
-			// successful registration message
-			$wpmem_regchk = "success";
-
+		} 
+		
+		// capture IP address of user at registration
+		update_user_meta( $user_id, 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
+		
+		// if registration is moderated, we will store
+		// the registration url for sending when approved
+		if ( WPMEM_MOD_REG == 1 ) {
+			$the_permalink = $_REQUEST['redirect_to'];
+			update_user_meta( $user_id, 'wpmem_reg_url', $the_permalink );
 		}
 
+		// set user expiration, if used
+		if ( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp($user_id); }
+		
+		require_once('wp-members-email.php');
+
+		//if this was successful, and you have email properly
+		//configured, send a notification email to the user
+		wpmem_inc_regemail( $user_id,$password,WPMEM_MOD_REG );
+		
+		//notify admin of new reg, if needed;
+		if ( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin($user_id, $wpmem_fields); }
+
+		// successful registration message
+		return "success"; exit();
 		break;
 
 	case "update":
 
-		if ( $wpmem_themsg ) {
-
-			$wpmem_regchk = "updaterr";
-
-		} else {
+		if ( $wpmem_themsg ) { return "updaterr"; exit(); }
 		
-			// doing a check for existing email is not the same as a new reg. 
-			// check first to see if it's different, then check if it exists.
-			global $current_user; get_currentuserinfo();
-			if ( $user_email !=  $current_user->user_email ) {
+		// doing a check for existing email is not the same as a new reg. 
+		// check first to see if it's different, then check if it exists.
+		global $current_user; get_currentuserinfo();
+		if ( $user_email !=  $current_user->user_email ) {
+	
+			if ( email_exists( $user_email ) ) { return "email"; exit; } 
+			
+		}
+
+		for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		
-				if ( email_exists( $user_email ) ) {
-			
-					$wpmem_regchk = "email";
-					
-				} else {
-				
-					$ok_to_reg = true;
-					
-				}
-				
-			} else {
-			
-				$ok_to_reg = true;
-				
+			switch ( $wpmem_fields[$row][2] ) {
+
+			case ( 'user_url' ): // user_url goes into wp_users
+				wp_update_user( array ('ID' => $user_ID, 'user_url' => $wpmem_fieldval_arr[$row] ) );
+				break;
+
+			case ( 'user_email' ): // user_email goes into wp_users
+				wp_update_user( array ('ID' => $user_ID, 'user_email' => $wpmem_fieldval_arr[$row] ) );
+				break;
+
+			default: // everything else goes into wp_usermeta
+				update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
+				break;
 			}
-			
-		}
-			
-		if ( $ok_to_reg == true ) {
+		} 
 
-			for ($row = 0; $row < count($wpmem_fields); $row++) {
-
-				/*there are two native wp fields that throw a sticky wicket into our clean array - email and website.
-				  they go into the wp_users table.  we need to then screen for these and put them in a different way*/
-				switch ($wpmem_fields[$row][2]) {
-
-				case ('user_url'):
-					//$wpdb->update( $wpdb->users, array('user_url'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
-					wp_update_user( array ('ID' => $user_ID, 'user_url' => $wpmem_fieldval_arr[$row] ) );
-					break;
-
-				case ('user_email'):
-					//$wpdb->update( $wpdb->users, array('user_email'=>$wpmem_fieldval_arr[$row]), array('ID'=>$user_ID) );
-					wp_update_user( array ('ID' => $user_ID, 'user_email' => $wpmem_fieldval_arr[$row] ) );
-					break;
-
-				default:
-					update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
-					break;
-				}
-			} 
-
-			$wpmem_regchk = "editsuccess";
-
-		}
-
+		return "editsuccess"; exit();
 		break;
-
-
 	}
-
 } // end registration function
 
 
 if ( ! function_exists( 'wpmem_get_captcha_err' ) ):
-// new captcha error function
+/**
+ * Outputs reCAPTCHA errors
+ *
+ * @since 2.4
+ */
 function wpmem_get_captcha_err($wpmem_captcha_err)
 {
 	switch ($wpmem_captcha_err) {

@@ -1,23 +1,40 @@
 <?php
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-*/
+/**
+ * WP-Members Core Functions
+ *
+ * Handles primary functions that are carried out in most
+ * situations. Includes commonly used utility functions.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @version 2.5.3
+ * @author Chad Butler 
+ * @copyright 2006-2011
+ */
 
 
 /*****************************************************
-PRIMARY FUNCTIONS
-*****************************************************/
+ * PRIMARY FUNCTIONS
+ *****************************************************/
+ 
 
 if ( ! function_exists( 'wpmem' ) ):
+/**
+ * The Main Action Function
+ *
+ * Does actions required at initialization
+ * prior to headers being sent.
+ *
+ * @since 0.1 
+ */
 function wpmem()
 {
-	global $wpmem_a;
+	global $wpmem_a, $wpmem_regchk;
 
 	$wpmem_a = trim($_REQUEST['a']);
 
@@ -33,16 +50,16 @@ function wpmem()
 
 	case ("register"):
 		include_once('wp-members-register.php');
-		wpmem_registration('register');
+		$wpmem_regchk = wpmem_registration('register');
 		break;
 	
 	case ("update"):
 		include_once('wp-members-register.php');
-		wpmem_registration('update');
+		$wpmem_regchk = wpmem_registration('update');
 		break;
 	
 	case ("pwdchange"):
-		wpmem_change_password();
+		$wpmem_regchk = wpmem_change_password();
 		break;
 	
 	case ("pwdreset"):
@@ -56,29 +73,40 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_securify' ) ):
-function wpmem_securify ($content = null, $wpmem_sc_page = null) 
+/**
+ * The Securify Content Filter
+ *
+ * This is the primary function that picks up where wpmem() leaves off.
+ * Determines whether content is shown or hidden for both post and
+ * pages, and handles special pages such as Member Settings, Register,
+ * and Login.
+ *
+ * @since 2.0
+ * @return $content
+ */
+function wpmem_securify( $content = null, $wpmem_sc_page = null ) 
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	
-	if ($wpmem_regchk == "captcha") {
+	if( $wpmem_regchk == "captcha" ) {
 		global $wpmem_captcha_err;
 		$wpmem_themsg = __("There was an error with the CAPTCHA form.")."<br /><br />".$wpmem_captcha_err;
 	}
 
-	if (is_single()) {
+	if( is_single() ) {
 		$not_mem_area = 1; 
 		if (WPMEM_BLOCK_POSTS == 1 && !get_post_custom_values('unblock')) { $chk_securify = "block"; }
 		if (WPMEM_BLOCK_POSTS == 0 &&  get_post_custom_values('block'))   { $chk_securify = "block"; }
 	}
 
-	if ( is_page() && !is_page('members-area') && !is_page('register') ) { 
+	if( is_page() && !is_page('members-area') && !is_page('register') ) { 
 		$not_mem_area = 1; 
 		if (WPMEM_BLOCK_PAGES == 1 && !get_post_custom_values('unblock')) { $chk_securify = "block"; }
 		if (WPMEM_BLOCK_PAGES == 0 &&  get_post_custom_values('block'))   { $chk_securify = "block"; }
 	}
 
 	// Block/unblock Posts
-	if ( !is_user_logged_in() && $not_mem_area == 1 && $chk_securify == "block" ) {
+	if( !is_user_logged_in() && $not_mem_area == 1 && $chk_securify == "block" ) {
 	
 		// NEW in 2.5.1 - overrides the need to add code snippet to comments.php...
 		global $post;
@@ -87,7 +115,7 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 		include_once('wp-members-dialogs.php');
 		
 		// show the login and registration forms
-		if ($wpmem_regchk) {
+		if( $wpmem_regchk ) {
 
 			switch($wpmem_regchk) {
 
@@ -127,11 +155,6 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 	} elseif ( is_user_logged_in() && $chk_securify == 'block' ){
 		
 		if (WPMEM_USE_EXP == 1) { wpmem_do_expmessage($content); }
-		
-	} elseif ( is_user_logged_in() && get_option('comment_registration') == 1 ) {
-	
-		global $user_ID;
-		$user_ID = '';
 		
 	}
 
@@ -228,6 +251,11 @@ function wpmem_securify ($content = null, $wpmem_sc_page = null)
 			case "pwdchange":
 
 				switch ($wpmem_regchk) {
+				
+				case "pwdchangempty":
+					wpmem_inc_regmessage( '', __('Password fields cannot be empty', 'wp-members') );
+					wpmem_inc_changepassword();
+					break;
 
 				case "pwdchangerr":
 					wpmem_inc_regmessage($wpmem_regchk);
@@ -316,6 +344,11 @@ endif;
 
 
 add_shortcode ('wp-members', 'wpmem_shortcode');
+/**
+ * Adds shortcodes for settings, register, and login pages
+ *
+ * @since 2.4 
+ */
 function wpmem_shortcode($attr)
 {
 	wpmem_securify('', $attr['page']);
@@ -323,7 +356,13 @@ function wpmem_shortcode($attr)
 
 
 if ( ! function_exists( 'wpmem_login' ) ):
-// login function
+/**
+ * Logs in the user
+ *
+ * updated in 2.5.2 to use wp_signon
+ *
+ * @since 0.1 
+ */
 function wpmem_login()
 {
 	global $wpdb, $wpmem_regchk;
@@ -363,6 +402,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_logout' ) ):
+/**
+ * Logs the user out
+ *
+ * @since 2.0
+ */
 function wpmem_logout()
 {
 	//take 'em to the blog home page
@@ -379,6 +423,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_login_status' ) ):
+/**
+ * Displays the user's login status
+ *
+ * @since 2.0
+ */
 function wpmem_login_status()
 {
 	include_once('wp-members-sidebar.php');
@@ -388,6 +437,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
+/**
+ * Displays the sidebar
+ *
+ * @since 2.0
+ */
 function wpmem_inc_sidebar()
 {
 	include_once('wp-members-sidebar.php');
@@ -397,6 +451,11 @@ endif;
 
 
 if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
+/**
+ * Initializes the widget
+ *
+ * @since 2.0
+ */
 function widget_wpmemwidget_init()
 {
 	include_once('wp-members-sidebar.php');
@@ -407,6 +466,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_change_password' ) ):
+/**
+ * Handles user password change (not reset)
+ *
+ * @since 2.1
+ */
 function wpmem_change_password()
 { 
 	global $wpdb,$user_ID,$userdata,$wpmem_regchk;
@@ -414,10 +478,14 @@ function wpmem_change_password()
 
 		$pass1 = $_POST['pass1'];
 		$pass2 = $_POST['pass2'];
+		
+		if ( !$pass1 && !$pass2 ) {
+		
+			return "pwdchangempty";
 
-		if ( ($pass1 != $pass2) || (!$pass1 && !$pass2) ) {
+		} elseif ( $pass1 != $pass2 ) {
 
-			$wpmem_regchk = "pwdchangerr";
+			return "pwdchangerr";
 
 		} else {
 
@@ -425,7 +493,7 @@ function wpmem_change_password()
 			$new_pass = md5($pass1);			
 			$wpdb->update( $wpdb->users, array( 'user_pass' => $new_pass ), array( 'ID' => $user_ID ), array( '%s' ), array( '%d' ) );
 
-			$wpmem_regchk = "pwdchangesuccess";
+			return "pwdchangesuccess";
 
 		}
 	}
@@ -435,6 +503,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_reset_password' ) ):
+/**
+ * Resets a forgotten password
+ *
+ * @since 2.1
+ */
 function wpmem_reset_password()
 { 
 	// make sure native WP registration functions are loaded
@@ -485,7 +558,12 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_no_reset' ) ):
-// NEW in 2.5.1 - when using registration moderation, keeps users not activated from resetting their password via wp-login
+/**
+ * Keeps users not activated from resetting their password 
+ * via wp-login when using registration moderation.
+ *
+ * @since 2.5.1
+ */
 function wpmem_no_reset() {
 
 	if ( strpos($_POST['user_login'], '@') ) {
@@ -507,6 +585,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_head' ) ):
+/**
+ * Anything that gets added to the the <html> <head>
+ *
+ * @since 2.2
+ */
 function wpmem_head()
 { 
 	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
@@ -528,16 +611,21 @@ endif;
 
 
 /*****************************************************
-END PRIMARY FUNCTIONS
-*****************************************************/
+ * END PRIMARY FUNCTIONS
+ *****************************************************/
 
 
 /*****************************************************
-UTILITY FUNCTIONS
-*****************************************************/
+ * UTILITY FUNCTIONS
+ *****************************************************/
 
 
 if ( ! function_exists( 'wpmem_create_formfield' ) ):
+/**
+ * Creates form fields
+ *
+ * @since 1.8
+ */
 function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbox')
 {
 	switch ($type) {
@@ -548,6 +636,7 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbo
 		break;
 
 	case "text":
+		$value = stripslashes($value);
 		echo "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
 		break;
 
@@ -573,6 +662,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_selected' ) ):
+/**
+ * Determines if a form field is selected (i.e. lists & checkboxes)
+ *
+ * @since 0.1
+ */
 function wpmem_selected($value,$valtochk,$type=null)
 {
 	if($type == 'select') {
@@ -586,6 +680,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_chk_qstr' ) ):
+/**
+ * Checks querystrings'
+ *
+ * @since 2.0
+ */
 function wpmem_chk_qstr($url = null)
 {
 	$permalink = get_option('permalink_structure');
@@ -602,14 +701,14 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_generatePassword' ) ):
+/**
+ * Generates a random password 
+ *
+ * @since 2.0
+ */
 function wpmem_generatePassword()
 {	
 	return substr( md5( uniqid( microtime() ) ), 0, 7);
 }
 endif;
-
-
-/*****************************************************
-END UTILITY FUNCTIONS
-*****************************************************/
 ?>

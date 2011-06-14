@@ -1,21 +1,29 @@
 <?php
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-*/
-
-
-/*****************************************************
-DIALOG OUTPUT FUNCTIONS
-*****************************************************/
+/**
+ * WP-Members Dialog Functions
+ *
+ * Handles functions that output front-end dialogs to
+ * end users.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @version 2.5.3
+ * @author Chad Butler
+ * @copyright 2006-2011
+ */
 
 
 if ( ! function_exists( 'wpmem_inc_login' ) ):
+/**
+ * Login Dialog
+ *
+ * Loads the login form for user login
+ */
 function wpmem_inc_login($page="page")
 { 	
 	global $wpmem_regchk;
@@ -38,6 +46,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
+/**
+ * Change Password Dialog
+ *
+ * Loads the form for changing password.
+ */
 function wpmem_inc_changepassword()
 { 
 	$wpmem_login_form_arr = array(__('Change Password', 'wp-members'), __('New Password', 'wp-members'), 'password', 'pass1', __('Repeat Password', 'wp-members'), 'password', 'pass2', 'pwdchange', __('Update Password', 'wp-members'), 'password', 'password');
@@ -45,7 +58,13 @@ function wpmem_inc_changepassword()
 }
 endif;
 
+
 if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
+/**
+ * Reset Password Dialog
+ *
+ * Loads the form for resetting password.
+ */
 function wpmem_inc_resetpassword()
 { 
 	$wpmem_login_form_arr = array(__('Reset Forgotten Password', 'wp-members'), __('Username', 'wp-members'), 'text', 'user', __('Email', 'wp-members'), 'text', 'email', 'pwdreset', __('Reset Password', 'wp-members'), 'username', 'textbox');
@@ -55,6 +74,12 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_login_form_OLD' ) ):
+/**
+ * Login Form Dialog (Legacy)
+ *
+ * Builds the table-based form used for
+ * login, change password, and reset password.
+ */
 function wpmem_login_form_OLD ( $page, $wpmem_login_form_arr ) 
 { ?>	
 	  <div class="wpmem_login">
@@ -106,6 +131,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
+/**
+ * Login Failed Dialog
+ *
+ * Outputs the login failed error message.
+ */
 function wpmem_inc_loginfailed() 
 { 
 	// failed login message.  ?>
@@ -122,6 +152,12 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
+/**
+ * Registration Form Dialog (Legacy)
+ *
+ * Outputs the table-based form for new user
+ * registration and existing user edits.
+ */
 function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
@@ -144,7 +180,7 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 			<?php } else { ?>
 			<tr> 
 			  <td width="49%" align="right"><?php _e('Choose a Username', 'wp-members'); ?><font color="red">*</font></td>
-			  <td width="51%"><input name="log" type="text" value="<?php echo $username;?>" /></td>
+			  <td width="51%"><input name="log" type="text" value="<?php echo stripslashes( $username );?>" /></td>
 			</tr>
 			<?php } ?>
 			<tr> 
@@ -313,6 +349,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
+/**
+ * Member Links Dialog
+ *
+ * Outputs the links used on the members area.
+ */
 function wpmem_inc_memberlinks($page = 'members') 
 {
 	$link = wpmem_chk_qstr();
@@ -334,6 +375,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
+/**
+ * Message Dialog
+ *
+ * Outputs various dialogs and error messages.
+ */
 function wpmem_inc_regmessage($toggle,$themsg='')
 { 
 	$wpmem_dialogs = get_option('wpmembers_dialogs');
@@ -367,21 +413,25 @@ function wpmem_inc_regmessage($toggle,$themsg='')
 endif;
 
 
-/*****************************************************
-END DIALOG OUTPUT FUNCTIONS
-*****************************************************/
-
-
-/*****************************************************
-NEW in 2.5.1 - toggle between new table-less forms and legacy table-based forms
-	- this will move into the code structure and possibly fine-tune the functions
-	  at a later time.
-	- we are trying to accomodate those users that want to upgrade, but have already
-	  done work integrating the old forms into their site (and might not want to change)
-*****************************************************/
+/**
+ * Table-less forms
+ *
+ * Toggle between new table-less forms and legacy table-based forms
+ * - this will move into the code structure and possibly fine-tune the functions
+ *   at a later time.
+ * - we are trying to accomodate those users that want to upgrade, but have already
+ *   done work integrating the old forms into their site (and might not want to change)
+ *
+ * @since 2.5.1
+ */
 
 
 if ( ! function_exists( 'wpmem_inc_registration' ) ):
+/**
+ * Registration Form Include
+ *
+ * Calls the appropriate set of forms.
+ */
 function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
@@ -394,6 +444,11 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_login_form' ) ):
+/**
+ * Login Form Include
+ *
+ * Calls the appropriate set of forms.
+ */
 function wpmem_login_form( $page, $wpmem_login_form_arr ) 
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
@@ -406,6 +461,14 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
+/**
+ * Registration Form Dialog
+ *
+ * Outputs the table-less form for new user
+ * registration and existing user edits.
+ *
+ * @since 2.5.1
+ */
 function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
@@ -430,7 +493,7 @@ function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 			
 				<label for="username" class="text"><?php _e('Choose a Username', 'wp-members'); ?><font class="req">*</font></label>
 				<div class="div_text">
-					<input name="log" type="text" value="<?php echo $username;?>" class="username" id="username" />
+					<input name="log" type="text" value="<?php echo stripslashes( $username );?>" class="username" id="username" />
 				</div>
 			
 			<?php } 
@@ -523,7 +586,7 @@ function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
 			}
 			
 			
-			if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
+			if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) { // 2.5.3 bug fix, don't show on edit page!
 			
 				$wpmem_captcha = get_option('wpmembers_captcha'); 
 				if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
@@ -588,6 +651,14 @@ endif;
 
 
 if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
+/**
+ * Login Form Dialog
+ *
+ * Builds the table-less form used for
+ * login, change password, and reset password.
+ *
+ * @since 2.5.1
+ */
 function wpmem_login_form_NEW( $page, $wpmem_login_form_arr ) 
 { ?>	
 	<div id="wpmem_login">

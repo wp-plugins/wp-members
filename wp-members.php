@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.5.2
+Version:     2.5.3
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -56,32 +56,45 @@ License:     GPLv2
 */
 
 
-/*****************************************************
-CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
-*****************************************************/
+/**
+ * CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
+ */
 
 
-// start with any potential translation
+/**
+ * start with any potential translation
+ */
 load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 //(see: http://pressedwords.com/6-tips-for-localizing-your-wordpress-plugin/)
 
-// preload any custom functions, if available
+
+/**
+ * preload any custom functions, if available
+ */
 if (file_exists(WP_PLUGIN_DIR."/wp-members/wp-members-custom.php")) {
 	include('wp-members-custom.php');
 }
 
-// preload the expiration module, if available
+
+/**
+ * preload the expiration module, if available
+ */
 $active_plugins  = get_option('active_plugins');
 $required_plugin = 'wp-members-exp-module/wp-members-exp-module.php';
 define('WPMEM_EXP_MODULE', false);
 if ( in_array( $required_plugin , $active_plugins ) ) { define('WPMEM_EXP_MODULE', true); }
 
 
-// load options
+/**
+ * load options
+ */
 $wpmem_settings = get_option('wpmembers_settings');
 
-// define constants based on option settings
-define('WPMEM_VERSION',      "2.5.2");
+
+/**
+ * define constants based on option settings
+ */
+define('WPMEM_VERSION',      "2.5.3");
 define('WPMEM_DEBUG',        false);
 
 // define('WPMEM_VERSION',   $wpmem_settings[0]);
@@ -105,11 +118,15 @@ define('WPMEM_REGURL', get_option('wpmembers_regurl',null));
 define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null));
 
 
-// load the core
+/**
+ * load the core
+ */
 include_once('wp-members-core.php');
 
 
-// actions and the content filter
+/**
+ * actions and the content filter
+ */
 add_action('init', 'wpmem');  							// runs the wpmem() function right away, allows for setting cookies
 add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
 add_action('wp_head', 'wpmem_head');					// runs functions for the head
@@ -117,7 +134,9 @@ add_filter('allow_password_reset', 'wpmem_no_reset');   // prevents non-activate
 add_filter('the_content', 'wpmem_securify', $content);  // securifies the_content.
 
 
-// scripts for admin panels only load for admins - makes the front-end of the plugin lighter
+/**
+ * scripts for admin panels only load for admins - makes the front-end of the plugin lighter
+ */
 add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
@@ -126,7 +145,9 @@ function wpmem_chk_admin()
 }
 
 
-// admin panel only loads if user has manage_options capabilities
+/**
+ * admin panel only loads if user has manage_options capabilities
+ */
 add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
@@ -135,7 +156,9 @@ function wpmem_admin_options()
 					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 }
 
-// install scripts only load if we are installing, makes the plugin lighter
+/**
+ * install scripts only load if we are installing, makes the plugin lighter
+ */
 register_activation_hook(__FILE__, 'wpmem_install');
 function wpmem_install()
 {

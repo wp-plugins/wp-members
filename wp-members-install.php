@@ -1,20 +1,25 @@
 <?php
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-*/
+/**
+ * WP-Members Installation Functions
+ *
+ * Functions to install and upgrade WP-Members
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @version 2.5.3
+ * @author Chad Butler
+ * @copyright 2006-2011
+ */
 
 
-/*****************************************************
-INSTALLATION PROCESS
-*****************************************************/
-
-
+/**
+ * Installs or upgrades the plugin
+ */
 function wpmem_do_install()
 {
 	/*
@@ -122,7 +127,7 @@ function wpmem_do_install()
 			
 		  case 12:
 		
-			// upgrading from 2.5.1
+			// upgrading from 2.5.1 or 2.5.3
 			$wpmem_newsettings = array(
 				WPMEM_VERSION, 			//  0 version
 				$wpmem_settings[1],		//  1 block posts
@@ -170,6 +175,9 @@ function wpmem_do_install()
 }
 
 
+/**
+ * Adds TOS field to upgrades if appropriate
+ */
 function append_tos( $upgrade )
 {		
 	// check if _tos has been put in before; if not, populate dummy data	

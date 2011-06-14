@@ -1,13 +1,20 @@
 <?php
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-*/
+/**
+ * WP-Members TOS Page
+ *
+ * Generates teh Terms of Service pop-up.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @version 2.5.3
+ * @author Chad Butler
+ * @copyright 2006-2011
+ */
 
 define('WP_USE_THEMES', false);
 require('../../../wp-blog-header.php');
