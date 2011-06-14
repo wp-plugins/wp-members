@@ -4,9 +4,9 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.0
 Tested up to: 3.1.2
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 
-WP-Members&trade; is a free membership management system for WordPress&reg; restricts content to registered users.
+WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
@@ -36,7 +36,7 @@ There are also some special pages available.  There is a Members Area where regi
 
 == Installation ==
 
-WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  There is also a [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in more depth.
+WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  There are also both a [Quick Start and a Users Guide available](http://butlerblog.com/wp-members/) that cover all of the plugin's features in more depth.
 
 = Basic Install: =
 
@@ -58,7 +58,7 @@ You are ready to begin using WP-Members&trade;.  Now follow the instructions tit
 
 = Additional Settings and Information = 
 
-A full Users Guide is available at the plugin's homepage: http://butlerblog.com/wp-members
+An online Quick Start Guide and a downloadable Users Guide are available at the plugin's homepage: http://butlerblog.com/wp-members
 
 The guide outlines the installation process, and also documents how to use all of the settings.
 
@@ -66,15 +66,15 @@ The guide outlines the installation process, and also documents how to use all o
 * To add the login box to the sidebar (if desired) you can just drag the WP-Members&trade; widget to your sidebar. If your theme has no widget support, call the function `<?php wpmem_inc_sidebar(); ?>`.
 * If you want to have your users be able to edit their login information, add a page (not a post) with a slug of "members-area".  In the body of this page, place `<!--members-area-->` where you want WP-Members&trade; to display its content.  (You may place content before and after this if desired.)  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
 * If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a page (not a post) with a slug of "register".  In the body of the page, put the placeholder `<!--reg-area-->` (Just like the members area, if you are using default permalinks, you must title this page "Register".)
-* New in 2.5, you may now use shortcodes to call the Members Area and Register pages rather than the above method.  This is desireable for those that are using default permalinks of if you need a different page slug. In order to use a shortcode to display the Members Area, Registration, or the login form, insert the following shortcode into the page with the parameter for what page you are calling:
+* You may use shortcodes to call the Members Area and Register pages rather than the above method.  This is desireable for those that are using default permalinks of if you need a different page slug. In order to use a shortcode to display the Members Area, Registration, or the login form, insert the following shortcode into the page with the parameter for what page you are calling:
 
 	* [wp-members page="members-area"]
 	* [wp-members page="register"]
 	* [wp-members page="login"]
 	
-* New in 2.5 is reCAPTCHA support for the initial registration process.  If you use reCAPTCHA, you will need a [valid API key](http://www.google.com/recaptcha).  The CAPTCHA form will not display if you have not entered a valid API key in the WP-Members&trade; settings. (Note: the settings tab for reCAPTCHA will only show if you've turned this option on in the settings tab.)
-* New in 2.5 is the addition of a Terms of Service checkbox.  This is turned on by default in new installations.  If you don't need it, you can turn it off.  If you use the TOS checkbox, there is a place for you to insert your Terms of Service in the WP-Members&trade; Dialogs and Error Messages.  This text is used to generate a link for the user to read the TOS in a popup.  The TOS content can be HTML; in fact, it is recommended for sizeable TOS documents that you use `<h1>`, `<h2>`, `<p>`, etc.
-* New in 2.5.1, you may now specify the location of the members area and register pages. This will display a "forgot password" and "register" link in the login form.
+* CAPTCHA for the registration process is available via reCAPTCHA.  If you use reCAPTCHA, you will need a [valid API key](http://www.google.com/recaptcha).  The CAPTCHA form will not display if you have not entered a valid API key in the WP-Members&trade; settings. (Note: the settings tab for reCAPTCHA will only show if you've turned this option on in the settings tab.)
+* There is a Terms of Service checkbox available for the registration process.  This is turned on by default in new installations.  If you don't need it, you can turn it off.  If you use the TOS checkbox, there is a place for you to insert your Terms of Service in the WP-Members&trade; Dialogs and Error Messages.  This text is used to generate a link for the user to read the TOS in a popup.  The TOS content can be HTML; in fact, it is recommended for sizeable TOS documents that you use `<h1>`, `<h2>`, `<p>`, etc.
+* In order to display a "forgot password" and "register" link in the login form, specify the location of the members area and register pages in the plugin options.
 
 
 
@@ -161,10 +161,26 @@ WP-Members&trade; 2.3.x updates the API calls for the use of the WP-Members&trad
 
 == Screenshots ==
 
-Rather than bloat your plugin download with screenshots, we will be offering screenshots and videos at the plugin's homepage: http://butlerblog.com/wp-members
+Screenshots are included in the Quick Start Guide available online: http://butlerblog.com/wp-members/wp-members-quick-start-guide/
 
 
 == Changelog ==
+
+= 2.5.3 =
+This is primarily a bug fix release.
+
+Bug fixes:
+
+* Fixed reCAPTCHA from trying to validate on the User Edit page even though reCAPTCHA is not used on this page.
+* Added validation to change password page to not allow double empty fields.
+* Added additional username validation to prevent invalid (non-alphanumeric) characters in the username.
+* Fixed comments reply link which did not allow a registered user to reply on an unblocked page/post.
+
+Other changes:
+
+* Rebuild of registration function
+* Review of comments process
+* Added stripslashes to front-end user registration validation
 
 = 2.5.2 =
 This is predominately a release of fixes and improvements:
