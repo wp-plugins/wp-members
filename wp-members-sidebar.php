@@ -36,7 +36,7 @@ function wpmem_inc_status()
 	//You may edit below this line
 
 	$wpmem_login_status = "
-	<p>".sprintf(__('You are logged in as %s', $user_login), 'wp-members')."  | <a href=\"".$logout."\">".__('click here to logout', 'wp-members')."</a></p>";
+	<p>".sprintf(__('You are logged in as %s', 'wp-members'), $user_login)."  | <a href=\"".$logout."\">".__('click here to logout', 'wp-members')."</a></p>";
 
 	// end edits for function wpmem_inc_status()
 
