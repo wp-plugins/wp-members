@@ -11,7 +11,6 @@
  *
  * @package WordPress
  * @subpackage WP-Members
- * @version 2.5.3
  * @author Chad Butler
  * @copyright 2006-2011
  */
@@ -104,14 +103,16 @@ function wpmem_registration($toggle)
 		
 		//everything checks out, so go ahead and insert
 
-		$password = substr( md5( uniqid( microtime() ) ), 0, 7);
-		$hashpassword = md5( $password );
+		//$password = substr( md5( uniqid( microtime() ) ), 0, 7);
+		//$hashpassword = md5( $password );
+		$password        = wp_generate_password();
 		$user_registered = gmdate( 'Y-m-d H:i:s' );
-		$user_role = get_option( 'default_role' );
+		$user_role       = get_option( 'default_role' );
 		
 		// new in 2.5.3, using wp_insert_user to replace using $wpdb->query
+		// 2.5.4 corrects a double hashed password bug
 		$user_id = wp_insert_user( array (
-			'user_pass'       => $hashpassword, 
+			'user_pass'       => $password, 
 			'user_login'      => $username,
 			'user_nicename'   => $username,
 			'user_email'      => $user_email,

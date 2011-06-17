@@ -11,7 +11,6 @@
  *
  * @package WordPress
  * @subpackage WP-Members
- * @version 2.5.3
  * @author Chad Butler
  * @copyright 2006-2011
  */
@@ -29,7 +28,7 @@ function wpmem_admin_plugin_links($links, $file)
 	static $wpmem_plugin;
 	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename('wp-members/wp-members.php');
 	if( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wp-members.php">' . __('Settings') . '</a>';
+		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links);
 	}
 	return $links;

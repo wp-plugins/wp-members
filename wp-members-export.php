@@ -11,7 +11,6 @@
  *
  * @package WordPress
  * @subpackage WP-Members
- * @version 2.5.3
  * @author Chad Butler
  * @copyright 2006-2011
  */

@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.0
 Tested up to: 3.1.2
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -158,6 +158,10 @@ WP-Members&trade; 2.3.x updates the API calls for the use of the WP-Members&trad
 
 2.5.2 Changed the sidebar widget - this actually is a rollback to pre 2.5.1 so that it puts the appropriate <li> tag into the sidebar area.  This should only be a factor for those users that customized css.  In this case, you'll need to update your stylesheet for ID #wpmem_login_side to #wp-members
 
+2.5.3 fixes certain bugs for changing passwords, admin settings, username validation.
+
+2.5.4 is a necessary bug fix release if you are using 2.5.3 in a production environment. 2.5.3 sends an invalid password to a new user.
+
 
 == Screenshots ==
 
@@ -165,6 +169,9 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.5.4 =
+This is a bug fix release. 2.5.3 introduced a bug where the random password sent to a new user was invalid. While the fix is simple, the nature of the bug related to the functionality of the plugin dictates a full update so that users unaware of the bug will be notified via their WP admin panel.
 
 = 2.5.3 =
 This is primarily a bug fix release.
