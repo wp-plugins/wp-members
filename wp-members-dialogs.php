@@ -323,7 +323,7 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 			<tr>
 			  <td>&nbsp;</td>
 			  <td align="center"><!-- Attribution keeps this plugin free!! -->
-				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a><small>
+				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
 				<?php
 				/*
 					Taking this out?  That's ok.  But please consider making a donation
