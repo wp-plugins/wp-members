@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.0
-Tested up to: 3.1.2
-Stable tag: 2.5.4
+Tested up to: 3.2.1
+Stable tag: 2.6.0
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -23,7 +23,7 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Can set fields to be required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
-* Turn registration off completely (for admins that want to control registrations in some other way)
+* Turn registration off completely (for admins that want to control registration in some other way)
 * Show excerpt on pages/posts for better SEO
 * Optional CAPTCHA for registration
 
@@ -36,9 +36,11 @@ There are also some special pages available.  There is a Members Area where regi
 
 == Installation ==
 
-WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  There is also a [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in more depth.
+WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  
 
 = Basic Install: =
+
+We recommend following the instructions in the [Quick Start Guide](http://butlerblog.com/wp-members/wp-members-quick-start-guide/).  There is also a [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in more depth.
 
 1. Upload the `/wp-members/` directory and its contents to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress&reg;
@@ -58,83 +60,22 @@ You are ready to begin using WP-Members&trade;.  Now follow the instructions tit
 
 = Additional Settings and Information = 
 
-A full Users Guide is available at the plugin's homepage: http://butlerblog.com/wp-members
-
-The guide outlines the installation process, and also documents how to use all of the settings.
+A full Users Guide is available at the [plugin's homepage](http://butlerblog.com/wp-members).  The guide outlines the installation process, and also documents how to use all of the settings.
 
 * If you want to display the user's login status, and the following function call to your template: `<?php wpmem_login_status(); ?>`
 * To add the login box to the sidebar (if desired) you can just drag the WP-Members&trade; widget to your sidebar. If your theme has no widget support, call the function `<?php wpmem_inc_sidebar(); ?>`.
-* If you want to have your users be able to edit their login information, add a page (not a post) with a slug of "members-area".  In the body of this page, place `<!--members-area-->` where you want WP-Members&trade; to display its content.  (You may place content before and after this if desired.)  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
-* If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a page (not a post) with a slug of "register".  In the body of the page, put the placeholder `<!--reg-area-->` (Just like the members area, if you are using default permalinks, you must title this page "Register".)
-* You may use shortcodes to call the Members Area and Register pages rather than the above method.  This is desireable for those that are using default permalinks of if you need a different page slug. In order to use a shortcode to display the Members Area, Registration, or the login form, insert the following shortcode into the page with the parameter for what page you are calling:
-
-	* [wp-members page="members-area"]
-	* [wp-members page="register"]
-	* [wp-members page="login"]
-	
+* If you want to have your users be able to edit their login information, add a new page (not a post) and in the body of this page, place the shortcode [wp-members page="members-area"] where you want WP-Members&trade; to display its content.  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  This page also handles forgotten password reset for users who are not logged in.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
+* If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a new page (not a post) and in the body of the page, put the shortcode [wp-members page="register"] (Just like the members area, if you are using default permalinks, you must title this page "Register".)
+* There is also a shortcode to create an optional login page.  Use [wp-members page="login"] for this.	
 * CAPTCHA for the registration process is available via reCAPTCHA.  If you use reCAPTCHA, you will need a [valid API key](http://www.google.com/recaptcha).  The CAPTCHA form will not display if you have not entered a valid API key in the WP-Members&trade; settings. (Note: the settings tab for reCAPTCHA will only show if you've turned this option on in the settings tab.)
 * There is a Terms of Service checkbox available for the registration process.  This is turned on by default in new installations.  If you don't need it, you can turn it off.  If you use the TOS checkbox, there is a place for you to insert your Terms of Service in the WP-Members&trade; Dialogs and Error Messages.  This text is used to generate a link for the user to read the TOS in a popup.  The TOS content can be HTML; in fact, it is recommended for sizeable TOS documents that you use `<h1>`, `<h2>`, `<p>`, etc.
-* In order to display a "forgot password" and "register" link in the login form, specify the location of the members area and register pages in the plugin options.
+* In order to display a "forgot password" and "register" link in the login form (and sidebar widget), specify the location of the members area and register pages in the plugin options.
 
 
 
 == Frequently Asked Questions ==
 
-= I activated the plugin and went to test it and it didn't block my post? =
-
-Make sure you log out of the admin before you test.  If you are logged in as admin, you will be able to click through to view the post.  (To know if you are logged in, we suggest using the WP-Members&trade; login widget, included in the installation. However, you must have the widgets plugin and a widget enabled theme to use this feature.)
-
-Also, for posts, be sure you are using the `<!--more-->` tag.  The blocking only takes place on single posts.  Without this tag, a full post would display on your home page or on an archive/category page.
-
-For pages, the `<!--more-->` tag is not required, but if you have enabled excerpts, you *must* use this tag on pages.
-
-Double check your settings for both posts and pages. The default installation is to block posts by default but not pages.
-
-= How can I show the login status on the sidebar? = 
-
-If your theme is widget enabled, activate the widgets plugin, then add the WP-Members&trade; widget to your sidebar.  If you do not have widgets, you can call the function by adding this to your sidebar: `<?php wpmem_inc_sidebar(); ?>`
-
-= I'm really only using this to add user fields and have the login integrated into the site. I would rather that posts be unblocked by default.  How do I do that? = 
-
-WP-Members&trade; gives you the ability to change the settings for how the plugin blocks content.  The default setting is to block posts and allow individual posts to be set to unblock at the post level.  You can change this setting so that all posts will be viewable by default.  If you then have a post that you want blocked to registered members only, you can set the post to block at the post level.
-
-= How do I block (or unblock) an individual post (or page)? = 
-
-If you are using the default settings (as mentioned above), and you have a post that you want to be unblocked (viewable by any user, not just logged in users), on the Edit Post page add a Custom Field with the name "block" and set the value to "true" or "1" (either will work).  This post will be now be viewable by anyone.  If you have set WP-Members&trade; to unblock by default and you want to block an individual post, use a Custom Field with the name "unblock" and set the value to "true" or "1".  Important: custom fields are case sensitive!  Be certain that you use all lowercase or it will not work.
-
-= How to I change the registration fields that are used and which are required? = 
-
-These settings can be managed on the WP-Members&trade; admin panel found under Settings > WP-Members
-
-= Where do I find the users registration information? = 
-
-WP-Members&trade; was designed to fully integrate with WordPress&reg; to allow maximum compatiblity not only with WP, but also with other plugins that rely on WP user registration information, such as discussion forums, email newsletters, etc.  The user information is in the main WP users page under Users > Users, then click "Edit" under an individual user.  Any non-native WP fields (WP-Members&trade; custom fields) are added to the bottom of this page and are fully editable.  (Note: if you don't have any registered users yet, i.e. a clean install, these fields will not display until there is data in them.)
-
-New in 2.5: There is now a WP-Members&trade; bulk user edit panel where you can see a list of users, view key details such as email, phone, and country, as well as do bulk activations and exports.  This is found under the WP Users menu: Users > WP-Members.  For bulk user export, WP-Members&trade; keeps track of users that are exported so that you don't have to export the full user list just to get a few new subscribers, but you can also export the full list.
-
-= Users are not being emailed their passwords, what is wrong? =
-
-WP-Members&trade; uses the native WP function wp_mail to email passwords. This is the same function the WP uses if you are using the WP registration process. If it's not configured properly or for some other reason not working, neither will WP-Members&trade;' registration process.
-
-You can test this process by creating a new user via the WP admin panel. Go to Users > Add New in the menu and create a new user. Make sure when you do this "Send this password to the new user by email" is checked. If you do not get an email, then wp_mail is not working. If that is the case, you are probably going to have to do some troubleshooting to fix it. Try the WP support forums for this: http://wordpress.org/tags/wp_mail
-
-= Can I customize the way the login and registration forms look? =
-
-Yes!  If you are using the new tableless forms, you can create a custom stylesheet and specify this in the plugin settings. The default stylesheet can be used to give you an idea of what is possible, but it is not limited by that.  The default stylesheet is in the plugin's /css/ folder.
-
-If you are using the legacy table-based forms, there are two classes available for customized CSS specifications - wpmem_login, wpmem_reg.  There is also and ID for error messages: wpmem_msg.  The wpmem_login and wpmem_reg classes wrap the login and registration tables.  The dialog messages that display on form validation or registration success are wrapped with the wpmem_msg ID.  This allows you to set things like cell spacing, padding, borders, backgrounds, and more via CSS.
-
-= Can I customize the plugin =
-
-It is not recommended to make direct code changes as they would need to be reimplemented in the event of a plugin upgrade. 
-
-= I only want the login form to show in place of protected content and have a separate registration page.  How can I do that? =
-
-If you turn off the registration in the plugin options, the registration form will not show on protected content posts/pages or the members area. Specify a registration page following the plugin instructions and set this page's location in the plugin settings.
-
-= I need customized registration fields. How can I add/subtract fields? =
-
-The registration fields used by the plugin are stored in an array in the WP options table.  A description of [how to customize the fields programmatically is available in this post](http://butlerblog.com/2010/09/27/adding-custom-fields-in-wp-members/).
+The FAQs are maintained at http://butlerblog.com/wp-members/wp-members-faqs/
 
 
 == Other Notes ==
@@ -150,17 +91,13 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-Care was taken in the building of version 2.5 to consider various upgrade scenarios.  Unless you have made customizations to the code itself, you should be able to upgrade without overriding any previous settings.  Some changes were made to the install that could affect users of the 2.4.0 public beta release, so if you are one of those users, please make sure you have a proper backup prior to upgrade so you can rollback if necessary.
+As always, care was taken in the building of version 2.6 to consider various upgrade scenarios.  Unless you have made customizations to the code itself, you should be able to upgrade without overriding any previous settings.  Some changes were made to the install that could affect users of the 2.4.0 public beta release, so if you are one of those users, please make sure you have a proper backup prior to upgrade so you can rollback if necessary.
 
-WP-Members&trade; 2.3.x updates the API calls for the use of the WP-Members&trade; sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  (There is no change to this for upgrading from 2.3.0 to 2.3.1.)
+WP-Members&trade; 2.3.x updated the API calls for the use of the WP-Members&trade; sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  (There is no change to this for upgrading from 2.3.0 to 2.3.1.)
 
-2.5.1 introduces new table-less forms.  If for any reason you want to continue to use the legacy table-based forms, there is a toggle to do so.  If you are upgrading, the upgrade will install with the toggle set to the old forms.  New installs default to the new forms.  You can specify the location of a custom stylesheet for the new forms.
+2.5.1 introduced new table-less forms.  If for any reason you want to continue to use the legacy table-based forms, there is a toggle to do so.  If you are upgrading, the upgrade should install with the toggle set to the old forms.  New installs default to the new forms.  You can specify the location of a custom stylesheet for the new forms.
 
 2.5.2 Changed the sidebar widget - this actually is a rollback to pre 2.5.1 so that it puts the appropriate <li> tag into the sidebar area.  This should only be a factor for those users that customized css.  In this case, you'll need to update your stylesheet for ID #wpmem_login_side to #wp-members
-
-2.5.3 fixes certain bugs for changing passwords, admin settings, username validation.
-
-2.5.4 is a necessary bug fix release if you are using 2.5.3 in a production environment. 2.5.3 sends an invalid password to a new user.
 
 
 == Screenshots ==
@@ -169,6 +106,23 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.6.0 =
+This version is a feature release that also includes some rebuilt functions and other code improvements.
+
+New Features:
+
+* Front-end now uses enqueue_style to load CSS, so advanced users can directly load their own styles for the plugin without using the plugin settings.
+* Improved use of shortcodes.  Old-style HTML comment shortcodes will continue to work in certain instances, but will no longer be supported in future versions.  Upgrade to the new shortcodes.  Major rewrite of the way WP-Members handles the_content() so that it will return a value rather than echo it.  Working to better integrate with other shortcodes so they are propery parsed.  New WP-Members shortcodes will added in future versions.
+* Registration fields can now be customized via the admin panel.  This includes adding new fields and deleting non-native fields, and also changing the field order.
+
+Code Improvements
+
+* eliminated unused globals
+* updated certain functions to use more up-to-date native WP functions.
+* core now checks to see if the action variable 'a' is set before requesting it.
+* wpmem_securify now scans for 'more' tag so that it will not truncate if the work "more" exists in the excerpt.
+* updated email validation/error message to registration process to use is_email().
 
 = 2.5.4 =
 This is a bug fix release. 2.5.3 introduced a bug where the random password sent to a new user was invalid. While the fix is simple, the nature of the bug related to the functionality of the plugin dictates a full update so that users unaware of the bug will be notified via their WP admin panel.
@@ -235,6 +189,8 @@ Bug Fixes
 * corrected a bug introduced in the 2.3.x widget update that caused the widget to be undraggable in certain instances
 
 = 2.4.0 =
+This was never a full production release, but was released as a public beta.  The production completion of this project was 2.5
+
 New Features
 
 * added reCAPTCHA support for registration

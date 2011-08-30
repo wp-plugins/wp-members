@@ -14,28 +14,28 @@
  * @author Chad Butler
  * @copyright 2006-2011
  */
+ 
 
-
-/*****************************************************
-	BEGIN ADMIN FEATURES
-*****************************************************/
-
-
-// add link to settings from plugin panel
 add_filter('plugin_action_links', 'wpmem_admin_plugin_links', 10, 2); 
+/**
+ * filter to add link to settings from plugin panel
+ */
 function wpmem_admin_plugin_links($links, $file)
 {
 	static $wpmem_plugin;
 	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename('wp-members/wp-members.php');
 	if( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __('Settings') . '</a>';
+		$settings_link = '<a href="options-general.php?page=wp-members.php">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links);
 	}
 	return $links;
 }
 
 
-// add contextual help
+/**
+ * include contextual help
+ * @todo finish writing the contextual help in wp-members-dialogs-admin.php
+ */
 add_filter('contextual_help', 'wpmem_a_help_msg', 10, 2);
 include_once('wp-members-dialogs-admin.php');
 
@@ -45,8 +45,10 @@ include_once('wp-members-dialogs-admin.php');
 *****************************************************/
 
 
-// add WP-Members fields to the WP user profile screen
 add_action('edit_user_profile', 'wpmem_admin_fields');
+/**
+ * add WP-Members fields to the WP user profile screen
+ */
 function wpmem_admin_fields()
 {
 	$user_id = $_REQUEST['user_id']; ?>
@@ -67,7 +69,7 @@ function wpmem_admin_fields()
 							$valtochk = $val; 
 							$val = $wpmem_fields[$row][7];
 						}
-						wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
+						echo wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
 						$valtochk = '';
 					?></td>
 				</tr>
@@ -103,8 +105,10 @@ function wpmem_admin_fields()
 }
 
 
-// updates WP-Members fields from the WP user profile screen
-add_action('profile_update', wpmem_admin_update);
+add_action('profile_update', 'wpmem_admin_update');
+/**
+ * updates WP-Members fields from the WP user profile screen
+ */
 function wpmem_admin_update()
 {
 	$user_id = $_REQUEST['user_id'];	
@@ -136,6 +140,9 @@ function wpmem_admin_update()
 *****************************************************/
 
 
+/**
+ * builds the settings panel
+ */
 function wpmem_a_build_options($wpmem_settings)
 { ?>
 	<h3><?php _e('Manage Options'); ?></h3>
@@ -199,19 +206,25 @@ function wpmem_a_build_options($wpmem_settings)
 }
 
 
-function wpmem_a_build_fields ($wpmem_fields) 
+/**
+ * builds the fields panel
+ */
+function wpmem_a_build_fields( $wpmem_fields ) 
 { ?>
 	<h3><?php _e('Manage Fields', 'wp-members'); ?></h3>
     <p><?php _e('Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields.', 'wp-members'); ?>
 		&nbsp;<strong><?php _e('(Note: Email is always mandatory. and cannot be changed.)', 'wp-members'); ?></strong></p>
     <form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('wpmem-update-fields'); } ?>
-	<table class="widefat" id="wpmem-fields" >
+	<table class="widefat" id="wpmem-fields">
 		<thead><tr class="head">
-        	<th scope="col" align="right"><?php _e('Field Label', 'wp-members') ?></th>
-			<th scope="col" align="center"><?php _e('Display?', 'wp-members') ?></th>
-            <th scope="col" align="center"><?php _e('Required?', 'wp-members') ?></th>
-            <th scope="col" align="center"><?php _e('WP Native?', 'wp-members') ?></th>
+        	<th scope="col"><?php _e( 'Add/Delete',  'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'Field Label', 'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'Option Name', 'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'Field Type',  'wp-members' ) ?></th>
+			<th scope="col"><?php _e( 'Display?',    'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'Required?',   'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'WP Native?',  'wp-members' ) ?></th>
         </tr></thead>
 	<?php
 	// order, label, optionname, input type, display, required, native
@@ -223,20 +236,47 @@ function wpmem_a_build_fields ($wpmem_fields)
 			$class = ($class == 'alternate') ? '' : 'alternate';
 		}
 		?><tr class="<?php echo $class; ?>" valign="top" id="<?php echo $wpmem_fields[$row][0];?>">
-        	<td><?php 
+        	<td width="80"><?php 
+				if( $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> Delete<?php } ?></td>
+            <td width="180"><?php 
 				echo $wpmem_fields[$row][1];
-				if ($wpmem_fields[$row][5] == 'y'){ ?><font color="red">*</font><?php }
+				if( $wpmem_fields[$row][5] == 'y' ){ ?><font color="red">*</font><?php }
 				?>
             </td>
-		  <?php if ($wpmem_fields[$row][2]!='user_email'){ ?>
-			<td><?php wpmem_create_formfield($wpmem_fields[$row][2]."_display",'checkbox', 'y', $wpmem_fields[$row][4]); ?></td>
-            <td><?php wpmem_create_formfield($wpmem_fields[$row][2]."_required",'checkbox', 'y', $wpmem_fields[$row][5]); ?></td>
+            <td width="180"><?php echo $wpmem_fields[$row][2]; ?></td>
+            <td width="80"><?php echo $wpmem_fields[$row][3]; ?></td>
+		  <?php if( $wpmem_fields[$row][2]!='user_email' ) { ?>
+			<td width="80"><?php echo wpmem_create_formfield($wpmem_fields[$row][2]."_display", 'checkbox', 'y', $wpmem_fields[$row][4]); ?></td>
+            <td width="80"><?php echo wpmem_create_formfield($wpmem_fields[$row][2]."_required",'checkbox', 'y', $wpmem_fields[$row][5]); ?></td>
 		  <?php } else { ?>
-			<td colspan="2"><small><i><?php _e('(The email field is mandatory and cannot be removed)', 'wp-members'); ?></i></small></td>
+			<td colspan="2" width="160"><small><i><?php _e('(Email cannot be removed)', 'wp-members'); ?></i></small></td>
 		  <?php } ?>
-			<td><?php if ($wpmem_fields[$row][6] == 'y') { echo "yes"; } ?></td>
+			<td width="80"><?php if( $wpmem_fields[$row][6] == 'y' ) { echo "yes"; } ?></td>
           </tr><?php
 	}	?>
+	</table><br />
+    <table class="widefat">	
+        <tr>
+        	<td width="80"><input type="checkbox" name="add_field" value="add" /> Add</td>
+            <td width="180"><input type="text" name="add_name" value="New field label" /></td>
+            <td width="180"><input type="text" name="add_option" value="new_option_name" /></td>
+            <td width="80">
+            	<select name="add_type">
+            		<option value="text">text</option>
+                    <option value="textarea">textarea</option>
+                    <option value="checkbox">checkbox</option>
+                </select>
+            </td>
+			<td width="80"><?php echo wpmem_create_formfield("add_display", 'checkbox', 'y', $wpmem_fields[$row][4]); ?></td>
+            <td width="80"><?php echo wpmem_create_formfield("add_required",'checkbox', 'y', $wpmem_fields[$row][5]); ?></td>
+			<td width="80">&nbsp;</td>
+          </tr>
+          <tr>
+        	<td colspan="3" align="right">Additional parameters for checkboxes</td>
+            <td><input type="text" name="add_checked_value" value="value" class="small-text" /></td>
+			<td colspan="2"><input type="checkbox" name="add_checked_default" value="y" /> Checked by default?</td>
+            <td>&nbsp;</td>
+          </tr>
 
     </table><br />
 	<input type="hidden" name="wpmem_admin_a" value="update_fields" />
@@ -246,6 +286,9 @@ function wpmem_a_build_fields ($wpmem_fields)
 }
 
 
+/**
+ * builds the dialogs panel
+ */
 function wpmem_a_build_dialogs($wpmem_dialogs)
 { 
 	$wpmem_dialog_title_arr = array(
@@ -291,6 +334,9 @@ function wpmem_a_build_dialogs($wpmem_dialogs)
 }
 
 
+/**
+ * primary admin function
+ */
 function wpmem_admin()
 {
 	$wpmem_settings = get_option('wpmembers_settings');
@@ -357,9 +403,6 @@ function wpmem_admin()
 				}
 			}			
 		}
-
-		update_option('wpmembers_settings',$wpmem_newsettings);
-		$wpmem_settings = $wpmem_newsettings;
 		
 		// new in 2.5
 		$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
@@ -375,6 +418,8 @@ function wpmem_admin()
 			update_option('wpmembers_cssurl', $wpmem_settings_cssurl);
 		}
 
+		update_option('wpmembers_settings',$wpmem_newsettings);
+		$wpmem_settings = $wpmem_newsettings;
 		$did_update = __('WP-Members settings were updated', 'wp-members');
 		break;
 
@@ -383,32 +428,65 @@ function wpmem_admin()
 		//check nonce
 		check_admin_referer('wpmem-update-fields');
 
-		//rebuild the array, don't touch user_email - it's always mandatory
-		for ($row = 0; $row < count($wpmem_fields); $row++) {
+		// rebuild the array, don't touch user_email - it's always mandatory
+		$nrow = 0;
+		for( $row = 0; $row < count($wpmem_fields); $row++ ) {
 
-			for ($i = 0; $i < 4; $i++) {
-				$wpmem_newfields[$row][$i] = $wpmem_fields[$row][$i];
+			// check to see if the field is checked for deletion, and if not, add it to the new array.
+			$delete_field = "del_".$wpmem_fields[$row][2];
+			$delete_field = $_POST[$delete_field];
+			if( $delete_field != "delete" ) {
+
+				for ($i = 0; $i < 4; $i++) {
+					$wpmem_newfields[$nrow][$i] = $wpmem_fields[$row][$i];
+				}
+				
+				$wpmem_newfields[$nrow][0] = $nrow + 1;
+	
+				$display_field = $wpmem_fields[$row][2]."_display"; 
+				$require_field = $wpmem_fields[$row][2]."_required";
+	
+				if ($wpmem_fields[$row][2]!='user_email'){
+					//if ($_POST[$display_field] == "on") {$wpmem_newfields[$row][4] = 'y';}
+					//if ($_POST[$require_field] == "on") {$wpmem_newfields[$row][5] = 'y';}
+					$wpmem_newfields[$nrow][4] = $_POST[$display_field];
+					$wpmem_newfields[$nrow][5] = $_POST[$require_field];
+				} else {
+					$wpmem_newfields[$nrow][4] = 'y';
+					$wpmem_newfields[$nrow][5] = 'y';		
+				}
+	
+				if ($wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y') { $chkreq = "err"; }
+				$wpmem_newfields[$nrow][6] = $wpmem_fields[$row][6];
+				if ($wpmem_fields[$row][7]) { $wpmem_newfields[$nrow][7] = $wpmem_fields[$row][7]; }
+				if ($wpmem_fields[$row][8]) { $wpmem_newfields[$nrow][8] = $wpmem_fields[$row][8]; }
+			
+				$nrow = $nrow + 1;
 			}
-
-			$display_field = $wpmem_fields[$row][2]."_display"; 
-			$require_field = $wpmem_fields[$row][2]."_required";
-
-			if ($wpmem_fields[$row][2]!='user_email'){
-				//if ($_POST[$display_field] == "on") {$wpmem_newfields[$row][4] = 'y';}
-				//if ($_POST[$require_field] == "on") {$wpmem_newfields[$row][5] = 'y';}
-				$wpmem_newfields[$row][4] = $_POST[$display_field];
-				$wpmem_newfields[$row][5] = $_POST[$require_field];
-			} else {
-				$wpmem_newfields[$row][4] = 'y';
-				$wpmem_newfields[$row][5] = 'y';		
-			}
-
-			if ($wpmem_newfields[$row][4] != 'y' && $wpmem_newfields[$row][5] == 'y') { $chkreq = "err"; }
-			$wpmem_newfields[$row][6] = $wpmem_fields[$row][6];
-			if ($wpmem_fields[$row][7]) { $wpmem_newfields[$row][7] = $wpmem_fields[$row][7]; }
-			if ($wpmem_fields[$row][8]) { $wpmem_newfields[$row][8] = $wpmem_fields[$row][8]; }
+			
 		}
+		
+		if( $_POST['add_field'] == 'add' ) {
+		
+			// error check option name for spaces and replace with underscores
+			$us_option = $_POST['add_option'];
+			$us_option = preg_replace("/ /", '_', $us_option);
+				
+				$wpmem_newfields[$nrow][0] = $nrow + 1;
+				$wpmem_newfields[$nrow][1] = $_POST['add_name'];
+				$wpmem_newfields[$nrow][2] = $us_option;
+				$wpmem_newfields[$nrow][3] = $_POST['add_type'];
+				$wpmem_newfields[$nrow][4] = $_POST['add_display'];
+				$wpmem_newfields[$nrow][5] = $_POST['add_required'];
+				$wpmem_newfields[$nrow][6] = 'n';
+				
+				if( $_POST['add_type'] == 'checkbox' ) { 
+					$wpmem_newfields[$nrow][7] = $_POST['add_checked_value'];
+					$wpmem_newfields[$nrow][8] = $_POST['add_checked_default'];
+				}
 
+		}
+		
 		if ( WPMEM_DEBUG == true ) { echo "<pre>"; print_r($wpmem_newfields); echo "</pre>"; }
 		
 		update_option('wpmembers_fields',$wpmem_newfields);
@@ -466,7 +544,7 @@ function wpmem_admin()
 
 	?>
     <div class="wrap">
-	<div id="icon-options-general" class="icon32"><br /></div>
+	<?php screen_icon( 'options-general' ); ?>
     <h2>WP-Members <?php _e('Settings', 'wp-members'); ?></h2>
 
     <?php
@@ -488,31 +566,31 @@ function wpmem_admin()
 	**************************************************************************/
 
 	// settings allow anyone to register
-	if ( get_option('users_can_register') != 0 && $wpmem_settings[11] == 0 ) { 
+	if ( get_option('users_can_register') != 0 && $wpmem_settings[10] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(1);
 	}
 
 	// settings allow anyone to comment
-	if ( get_option('comment_registration') !=1 && $wpmem_settings[11] == 0 ) { 
+	if ( get_option('comment_registration') !=1 && $wpmem_settings[10] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(2);
 	} 
 	
 	// rss set to full text feeds
-	if ( get_option('rss_use_excerpt') !=1 && $wpmem_settings[11] == 0 ) { 
+	if ( get_option('rss_use_excerpt') !=1 && $wpmem_settings[10] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(3);
 	} 
 
 	// holding registrations but haven't changed default successful registration message
-	if ( $wpmem_settings[11] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
+	if ( $wpmem_settings[10] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(4);
 	}  
 
 	// turned off registration but also have set to moderate and/or email new registrations
-	if ( $wpmem_settings[11] == 0 && $wpmem_settings[7] == 1 ) { 
+	if ( $wpmem_settings[10] == 0 && $wpmem_settings[7] == 1 ) { 
 		if ( $wpmem_settings[5] == 1 || $wpmem_settings[4] ==1 ) { 
 			include_once('wp-members-dialogs-admin.php');
 			wpmem_a_warning_msg(5);
@@ -520,7 +598,7 @@ function wpmem_admin()
 	}
 	
 	// haven't entered recaptcha api keys
-	if ( $wpmem_settings[11] == 0 && $wpmem_settings[6] == 1 ) {
+	if ( $wpmem_settings[10] == 0 && $wpmem_settings[6] == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
 		if ( !$wpmem_captcha[0]  || !$wpmem_captcha[1] ) {
 			include_once('wp-members-dialogs-admin.php');
@@ -615,6 +693,9 @@ function wpmem_admin()
 }
 
 
+/**
+ * builds the captcha options
+ */
 function wpmem_a_build_captcha_options()
 { 
 	$wpmem_captcha = get_option('wpmembers_captcha');
@@ -644,12 +725,12 @@ function wpmem_a_build_captcha_options()
         	<th scope="row"><?php _e('Choose Theme'); ?></th>
             <td>
             	<select name="wpmem_captcha_theme">
-					<!--<?php wpmem_create_formfield(__('WP-Members', 'wp-members'), 'option', 'custom', $wpmem_captcha[2]); ?>--><?php
-					wpmem_create_formfield(__('Red', 'wp-members'), 'option', 'red', $wpmem_captcha[2]); 
-					wpmem_create_formfield(__('White', 'wp-members'), 'option', 'white', $wpmem_captcha[2]);
-					wpmem_create_formfield(__('Black Glass', 'wp-members'), 'option', 'blackglass', $wpmem_captcha[2]); 
-					wpmem_create_formfield(__('Clean', 'wp-members'), 'option', 'clean', $wpmem_captcha[2]); ?>
-					<!--<?php wpmem_create_formfield(__('Custom', 'wp-members'), 'option', 'custom', $wpmem_captcha[2]); ?>-->
+					<!--<?php echo wpmem_create_formfield(__('WP-Members', 'wp-members'), 'option', 'custom', $wpmem_captcha[2]); ?>--><?php
+					echo wpmem_create_formfield(__('Red', 'wp-members'), 'option', 'red', $wpmem_captcha[2]); 
+					echo wpmem_create_formfield(__('White', 'wp-members'), 'option', 'white', $wpmem_captcha[2]);
+					echo wpmem_create_formfield(__('Black Glass', 'wp-members'), 'option', 'blackglass', $wpmem_captcha[2]); 
+					echo wpmem_create_formfield(__('Clean', 'wp-members'), 'option', 'clean', $wpmem_captcha[2]); ?>
+					<!--<?php echo wpmem_create_formfield(__('Custom', 'wp-members'), 'option', 'custom', $wpmem_captcha[2]); ?>-->
                 </select>
             </td>
         </tr><!--
@@ -679,6 +760,9 @@ function wpmem_a_build_captcha_options()
 	Bulk User Management Screen
 *****************************************************/
 
+/**
+ * handles user management
+ */
 function wpmem_admin_users()
 {	
 	// check to see if we need phone and country columns
@@ -711,11 +795,8 @@ function wpmem_admin_users()
 		case "activate":
 			$x = 0;
 			foreach ($users as $user) {
-				// check to see if the user is already activated, if not, activate
-				if ( ! get_user_meta($user, 'active', true) ) {
-					wpmem_a_activate_user($user);
-					$x++;
-				}
+				wpmem_a_activate_user($user);
+				$x++;
 			}
 			$user_action_msg = sprintf( __('%d users were activated.', 'wp-members'), $x );
 			break;
@@ -753,7 +834,7 @@ function wpmem_admin_users()
 			for ($row = 0; $row < count($tmp); $row++)
 			{
 				
-				$link = "users.php?page=wpmem-users";
+				$link = "users.php?page=wp-members.php";
 				if ($row != 0) {
 				
 					$lcas = strtolower($tmp[$row]);
@@ -896,6 +977,10 @@ function wpmem_admin_users()
 <?php
 }
 
+
+/**
+ * activates a user
+ */
 function wpmem_a_activate_user($user_id)
 {
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
@@ -914,6 +999,9 @@ function wpmem_a_activate_user($user_id)
 }
 
 
+/**
+ * builds the user action dropdown
+ */
 function wpmem_a_build_user_action($x = '')
 { ?>
 
@@ -935,6 +1023,9 @@ function wpmem_a_build_user_action($x = '')
 }
 
 
+/**
+ * builds the user management table heading
+ */
 function wpmem_a_build_user_tbl_head($col_phone,$col_country)
 {
 	$tbl_head_arr = array('Username', 'Name', 'E-mail', 'Phone', 'Country', 'Activated?', 'Subscription', 'Expires'); ?>
@@ -980,13 +1071,13 @@ function wpmem_a_build_user_tbl_head($col_phone,$col_country)
 
 
 /*****************************************************
-	END ADMIN FEATURES
+	New features associated with field management
 *****************************************************/
 
 
-
-// experimental....
-
+/**
+ * loads the admin javascript file
+ */
 function wpmem_load_admin_js()
 {
 	// queue up admin ajax and styles 
@@ -995,6 +1086,10 @@ function wpmem_load_admin_js()
 	wp_enqueue_style ( 'wpmem-admin-css', $plugin_path.'css/wp-members-styles-admin.css', '', WPMEM_VERSION );
 }
 
+
+/**
+ * reorders the fields on DnD
+ */
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_field_reorder' );
 function wpmem_a_field_reorder()
 {
@@ -1025,6 +1120,5 @@ function wpmem_a_field_reorder()
 	die(); // this is required to return a proper result
 }
 
-
-
+// end of the admin features...
 ?>

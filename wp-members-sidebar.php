@@ -22,6 +22,12 @@ LOGIN STATUS AND WIDGET FUNCTIONS
 
 
 if ( ! function_exists( 'wpmem_inc_status' ) ):
+/**
+ * Generate users login status if logged in and give logout link
+ *
+ * @since ?.?
+ * @deprecated
+ */
 function wpmem_inc_status()
 { 	
 	/*
@@ -34,39 +40,41 @@ function wpmem_inc_status()
 
 	//You may edit below this line
 
-	$wpmem_login_status = "
+	$status = "
 	<p>".sprintf(__('You are logged in as %s', 'wp-members'), $user_login)."  | <a href=\"".$logout."\">".__('click here to logout', 'wp-members')."</a></p>";
 
 	// end edits for function wpmem_inc_status()
 
-	return $wpmem_login_status;
+	return $status;
 }
 endif;
 
 
 if ( ! function_exists( 'wpmem_do_sidebar' ) ):
+/**
+ * Creates the sidebar login form and status
+ *
+ * This function determines if the user is logged in
+ * and displays either a login form, or the user's 
+ * login status. Typically used for a sidebar.		
+ * You can call this directly, or with the widget
+ *
+ * @since 2.4
+ *
+ * @global string $wpmem_regchk
+ */
 function wpmem_do_sidebar()
 {
-	/*
-	This function determines if the user is logged in
-	and displays either a login form, or the user's 
-	login status. Typically used for a sidebar.		
-	You can call this directly, or with the widget
-	*/
 	global $wpmem_regchk;
 	
 	$url = get_bloginfo('url'); // used here and in the logout
 
 	//this returns us to the right place
 	if( is_home() ) {
-		$post_to = home_url();
+		$post_to = $_SERVER['PHP_SELF'];
 			
-	} elseif( is_single() ) {
+	} elseif( is_single() || is_page() ) {
 		$post_to = get_permalink();
-
-	} elseif( is_page() ) {
-		global $page_id;
-		$post_to = get_page_uri( $page_id );
 
 	} elseif( is_category() ) {
 		global $wp_query;
@@ -75,12 +83,10 @@ function wpmem_do_sidebar()
 		
 	} elseif( is_search() ) {
 		$post_to = $url."/?s=".get_search_query();
-
-	//} elseif( is_archive() ) {
-		//$post_to = "archive";
 		
 	} else {
-		$post_to = home_url();
+		
+		$post_to = $_SERVER['PHP_SELF'];
 
 	}
 
@@ -147,11 +153,8 @@ function wpmem_do_sidebar()
 	<?php } else { 
 	
 		global $user_login; 
-		$logout = $url."/?a=logout";
-		/*
-		This is the displayed when the user is logged in.
-		You may edit below this line, but do not
-		change the <?php ?> tags or their contents */?>
+		$logout = $url."/?a=logout"; 
+		?>
 		<p>
 		  <?php printf(__('You are logged in as %s', 'wp-members'), $user_login );?><br />
 		  <a href="<?php echo $logout;?>"><?php _e('click here to logout', 'wp-members'); ?></a>

@@ -22,24 +22,33 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * Login Dialog
  *
  * Loads the login form for user login
+ *
+ * @since 1.8
+ *
+ * @uses wpmem_login_form()
+ *
+ * @param string $page
+ * @return string
  */
 function wpmem_inc_login($page="page")
 { 	
 	global $wpmem_regchk;
 
-	$wpmem_dialogs = get_option('wpmembers_dialogs');
+	$arr = get_option('wpmembers_dialogs');
 
 	if($page == "page"){
 	     if($wpmem_regchk!="success"){
 		
-		//this shown above blocked content ?>
-		<p><?php echo stripslashes($wpmem_dialogs[0]); ?></p>
+			//this shown above blocked content
+			$str = '<p>' . stripslashes($arr[0]) . '</p>';
 
-	<?php } 	
+		} 	
 	} 
 
-    $wpmem_login_form_arr = array(__('Existing users Login', 'wp-members'), __('Username', 'wp-members'), 'text', 'log', __('Password', 'wp-members'), 'password', 'pwd', 'login', __('Login', 'wp-members'), 'username', 'password');
-    wpmem_login_form( $page, $wpmem_login_form_arr );
+    $arr = array(__('Existing users Login', 'wp-members'), __('Username', 'wp-members'), 'text', 'log', __('Password', 'wp-members'), 'password', 'pwd', 'login', __('Login', 'wp-members'), 'username', 'password');
+	
+	$str = $str . wpmem_login_form( $page, $arr );
+	return $str;
 }
 endif;
 
@@ -49,11 +58,18 @@ if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
  * Change Password Dialog
  *
  * Loads the form for changing password.
+ *
+ * @since 2.0
+ *
+ * @uses wpmem_login_form()
+ *
+ * @return string
  */
 function wpmem_inc_changepassword()
 { 
-	$wpmem_login_form_arr = array(__('Change Password', 'wp-members'), __('New Password', 'wp-members'), 'password', 'pass1', __('Repeat Password', 'wp-members'), 'password', 'pass2', 'pwdchange', __('Update Password', 'wp-members'), 'password', 'password');
-    wpmem_login_form( 'page', $wpmem_login_form_arr );
+	$arr = array(__('Change Password', 'wp-members'), __('New Password', 'wp-members'), 'password', 'pass1', __('Repeat Password', 'wp-members'), 'password', 'pass2', 'pwdchange', __('Update Password', 'wp-members'), 'password', 'password');
+    $str = wpmem_login_form( 'page', $arr );
+	return $str;
 }
 endif;
 
@@ -63,11 +79,18 @@ if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
  * Reset Password Dialog
  *
  * Loads the form for resetting password.
+ *
+ * @since 2.1
+ *
+ * @uses wpmem_login_form()
+ *
+ * @return string
  */
 function wpmem_inc_resetpassword()
 { 
-	$wpmem_login_form_arr = array(__('Reset Forgotten Password', 'wp-members'), __('Username', 'wp-members'), 'text', 'user', __('Email', 'wp-members'), 'text', 'email', 'pwdreset', __('Reset Password', 'wp-members'), 'username', 'textbox');
-    wpmem_login_form( 'page', $wpmem_login_form_arr );
+	$arr = array(__('Reset Forgotten Password', 'wp-members'), __('Username', 'wp-members'), 'text', 'user', __('Email', 'wp-members'), 'text', 'email', 'pwdreset', __('Reset Password', 'wp-members'), 'username', 'textbox');
+    $str = wpmem_login_form( 'page', $arr );
+	return $str;
 }
 endif;
 
@@ -78,53 +101,69 @@ if ( ! function_exists( 'wpmem_login_form_OLD' ) ):
  *
  * Builds the table-based form used for
  * login, change password, and reset password.
+ *
+ * @param string $page
+ * @param array $arr
+ * @return string $form
  */
-function wpmem_login_form_OLD ( $page, $wpmem_login_form_arr ) 
-{ ?>	
-	  <div class="wpmem_login">
-		  <form name="form" method="post" action="<?php the_permalink();?>">
-			  <table width="400" border="0" cellspacing="0" cellpadding="4">
-				<tr align="left"> 
-				  <td colspan="2"><h2><?php echo $wpmem_login_form_arr[0]; ?></h2></td>
-				</tr>
-				<tr> 
-				  <td width="118" align="right"><?php echo $wpmem_login_form_arr[1]; ?></td>
-				  <td width="166"><?php wpmem_create_formfield( $wpmem_login_form_arr[3], $wpmem_login_form_arr[2], '' ); ?></td>
-				</tr>
-				<tr> 
-				  <td width="118" align="right"><?php echo $wpmem_login_form_arr[4]; ?></td>
-				  <td width="166"><?php wpmem_create_formfield( $wpmem_login_form_arr[6], $wpmem_login_form_arr[5], '' ); ?></td>
-				</tr>
-			<?php if ( $wpmem_login_form_arr[7] == 'login' ) { ?>
-				<tr>
-				  <td width="118">&nbsp;</td>
-				  <td width="166"><input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;<?php _e('Remember me', 'wp-members'); ?></td>
-				</tr>
-			<?php } ?>
-				<tr> 
-				  <td width="118">&nbsp;</td>
-				  <td width="166">
-					<input type="hidden" name="redirect_to" value="<?php the_permalink(); ?>" /><?php
-					if ( $wpmem_login_form_arr[7] != 'login' ) { wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
-					wpmem_create_formfield( 'a', 'hidden', $wpmem_login_form_arr[7] ); ?>
-					<input type="submit" name="Submit" value="<?php echo $wpmem_login_form_arr[8]; ?>" />
-				  </td>
-				</tr>
-			<?php if ( ( WPMEM_MSURL != null || $page == 'members' ) && $wpmem_login_form_arr[7] == 'login' ) { 
-				$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
-				<tr>
-				  <td colspan="2"><?php _e('Forgot password?', 'wp-members'); ?>&nbsp;<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Click here to reset', 'wp-members'); ?></a></td>
-				</tr>
-			<?php } ?>
-			<?php if ( WPMEM_REGURL != null && $wpmem_login_form_arr[7] == 'login' ) { 
-				$link = wpmem_chk_qstr( WPMEM_REGURL ); ?>
-				<tr>
-				  <td colspan="2"><?PHP _e('New User?', 'wp-members'); ?>&nbsp;<a href="<?php echo $link; ?>"><?php _e('Click here to register', 'wp-members'); ?></a></td>
-				</tr>
-			<?php } ?>
-			  </table> 
-		  </form>
-	  </div><?php
+function wpmem_login_form_OLD ( $page, $arr ) 
+{ 
+	$form = '<div class="wpmem_login">
+	<form name="form" method="post" action="' . get_permalink() . '">
+	  <table width="400" border="0" cellspacing="0" cellpadding="4">
+		<tr align="left"> 
+		  <td colspan="2"><h2>' . $arr[0] . '</h2></td>
+		</tr>
+		<tr> 
+		  <td width="118" align="right">' . $arr[1] . '</td>
+		  <td width="166">' . wpmem_create_formfield( $arr[3], $arr[2], '' ) . '</td>
+		</tr>
+		<tr> 
+		  <td width="118" align="right">' . $arr[4] . '</td>
+		  <td width="166">' . wpmem_create_formfield( $arr[6], $arr[5], '' ) . '</td>
+		</tr>';
+	
+	if ( $arr[7] == 'login' ) {
+		$form = $form . '<tr>
+		  <td width="118">&nbsp;</td>
+		  <td width="166"><input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '</td>
+		</tr>';
+	}
+	
+	$form = $form . '<tr> 
+		<td width="118">&nbsp;</td>
+		<td width="166">
+			<input type="hidden" name="redirect_to" value="' . get_permalink() . '" />';
+	
+	if ( $arr[7] != 'login' ) { wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
+	
+	$form = $form . wpmem_create_formfield( 'a', 'hidden', $arr[7] ) . '
+			<input type="submit" name="Submit" value="' . $arr[8] . '" />
+		  </td>
+		</tr>';
+	
+	if ( ( WPMEM_MSURL != null || $page == 'members' ) && $arr[7] == 'login' ) { 
+
+		$link = wpmem_chk_qstr( WPMEM_MSURL );
+		$form = $form . '<tr>
+		  <td colspan="2">' . __('Forgot password?', 'wp-members') . '&nbsp;<a href="' . $link . 'a=pwdreset">' . __('Click here to reset', 'wp-members') . '</a></td>
+		</tr>';
+	
+	}
+	
+	if ( WPMEM_REGURL != null && $arr[7] == 'login' ) { 
+	
+		$link = wpmem_chk_qstr( WPMEM_REGURL );
+		$form = $form . '<tr>
+			<td colspan="2">' . __('New User?', 'wp-members') . '&nbsp;<a href="'. $link . '">' . __('Click here to register', 'wp-members') . '</a></td>
+		</tr>';
+	}
+	
+	$form = $form . '</table> 
+	  </form>
+	</div>';
+	
+	return $form;
 }
 endif;
 
@@ -133,19 +172,21 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
 /**
  * Login Failed Dialog
  *
- * Outputs the login failed error message.
+ * Returns the login failed error message.
+ *
+ * @since 1.8
+ *
+ * @return string
  */
 function wpmem_inc_loginfailed() 
 { 
-	// failed login message.  ?>
+	$str = '<div align="center" id="wpmem_msg">
+		<h2>' . __('Login Failed!', 'wp-members') . '</h2>
+		<p>' . __('You entered an invalid username or password.', 'wp-members') . '</p>
+		<p><a href="' . $_SERVER['REQUEST_URI'] . '">' . __('Click here to continue.', 'wp-members') . '</a></p>
+	</div>';
 
-	<div align="center" id="wpmem_msg">
-		<h2><?php _e('Login Failed!', 'wp-members'); ?></h2>
-		<p><?php _e('You entered an invalid username or password.', 'wp-members'); ?></p>
-		<p><a href="<?php echo $_SERVER['REQUEST_URI'];?>"><?php _e('Click here to continue.', 'wp-members'); ?></a></p>
-	</div>
-
-	<?php  // end edits for function wpmem_inc_loginfailed()
+	return $str;
 }
 endif;
 
@@ -157,160 +198,154 @@ if ( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
  * Outputs the table-based form for new user
  * registration and existing user edits.
  */
-function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
+function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
 
 	if (!$heading) { $heading = "<h2>".__('New Users Registration', 'wp-members')."</h2>"; }
-	if (is_user_logged_in()) { global $current_user; get_currentuserinfo(); } // do we need this AND $userdata? re-evaluate to reduce db calls ?>
+	if (is_user_logged_in()) { global $current_user; get_currentuserinfo(); } // do we need this AND $userdata? re-evaluate to reduce db calls 
 
-	<div class="wpmem_reg">
-		<form name="form2" method="post" action="<?php the_permalink();//wpmem_chk_qstr();?>">
+	$form = '<div class="wpmem_reg">
+		<form name="form2" method="post" action="' . get_permalink() . '">
 
 		  <table width="400" border="0" cellspacing="0" cellpadding="4">
 			<tr align="left"> 
-			  <td colspan="2"><?php echo $heading; ?></td>
-			</tr>
-			<?php if ($toggle == 'edit') { ?>
-			<tr> 
-			  <td width="49%" align="right"><?php _e('Username', 'wp-members'); ?>:</td>
-			  <td width="51%" align="left"><?php echo $userdata->user_login?></td>
-			</tr>			
-			<?php } else { ?>
-			<tr> 
-			  <td width="49%" align="right"><?php _e('Choose a Username', 'wp-members'); ?><font color="red">*</font></td>
-			  <td width="51%"><input name="log" type="text" value="<?php echo stripslashes( $username );?>" /></td>
-			</tr>
-			<?php } ?>
-			<tr> 
+			  <td colspan="2">' . $heading . '</td>
+			</tr>';
+	
+	if ($toggle == 'edit') {
+		$form = $form . '<tr> 
+			  <td width="49%" align="right">' . __('Username', 'wp-members') . ':</td>
+			  <td width="51%" align="left">' . $userdata->user_login . '</td>
+			</tr>';			
+	} else {
+		$form = $form . '<tr> 
+			  <td width="49%" align="right">' . __('Choose a Username', 'wp-members') . '<font color="red">*</font></td>
+			  <td width="51%"><input name="log" type="text" value="' . stripslashes( $username ) . '" /></td>
+			</tr>';
+	}
+	
+	$form = $form . '<tr> 
 			  <td colspan="2">&nbsp;</td>
-			</tr>
+			</tr>';
 
-			<?php
-			$wpmem_fields = get_option('wpmembers_fields');
-			for ($row = 0; $row < count($wpmem_fields); $row++)
-			{ 
-				$do_row = true;
-				if ($wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && (get_user_meta($userdata->ID, 'tos', true))) { 
-					// makes tos field hidden on user edit page, unless they haven't got a value for tos
-					$do_row = false; 
-					wpmem_create_formfield($wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true));
-				}			
-				if ($wpmem_fields[$row][4] == 'y' && $do_row == true ) {
-				?>
-					<tr<?php if( $wpmem_fields[$row][3] == 'textarea' || $wpmem_fields[$row][2] == 'tos' ) { echo " valign=\"top\""; } ?>>
-						<td align="right"><?php 
-						if ($wpmem_fields[$row][2] == 'tos') {
-							
-							if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
-								$chk_tos;  // HUH?
-							} else {
-								$val = $wpmem_fieldval_arr[$row];
-							}
-							
-							// should be checked by default? and only if form hasn't been submitted
-							if(!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $wpmem_fields[$row][7]; }
-							
-							wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$wpmem_fields[$row][7],$val);
-							
-						} else {
-						
-							echo $wpmem_fields[$row][1].":";
-							if ($wpmem_fields[$row][5] == 'y') { ?><font color="red">*</font><?php } 
-							
-						} ?>
-						</td>
-						<td<?php if ($wpmem_fields[$row][2] == 'tos' || $wpmem_fields[$row][3] == 'checkbox') { echo " align=\"left\""; }?>>
-						<?php 
-						if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) { 
-						
-							if (WPMEM_DEBUG == true) { echo $wpmem_fields[$row][2]."&nbsp;"; }
-						
-							switch ($wpmem_fields[$row][2]) {
-							case('description'):
-								$val = get_user_meta($userdata->ID,'description','true');
-								break;
+	
+	$wpmem_fields = get_option('wpmembers_fields');
+	for ($row = 0; $row < count($wpmem_fields); $row++)
+	{ 
+		$do_row = true;
+		if ($wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && (get_user_meta($userdata->ID, 'tos', true))) { 
+			// makes tos field hidden on user edit page, unless they haven't got a value for tos
+			$do_row = false; 
+			$form = $form . wpmem_create_formfield($wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true));
+		}			
+		if ($wpmem_fields[$row][4] == 'y' && $do_row == true ) {
 
-							case('user_email'):
-								$val = $userdata->user_email;
-								break;
-
-							case('user_url'):
-								$val = $userdata->user_url;
-								break;
-
-							default:
-								$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
-								break;
-							}
-
-						} else {
-
-							$val = $wpmem_fieldval_arr[$row];
-
-						}
-						
-						if ($wpmem_fields[$row][2] == 'tos') { 
-						
-							if ($wpmem_fields[$row][5] == 'y') { echo "<font color=\"red\">*</font>"; }
+			$form = $form . '<tr'; if( $wpmem_fields[$row][3] == 'textarea' || $wpmem_fields[$row][2] == 'tos' ) { $form = $form . ' valign="top"'; } $form = $form . '>';
+			$form = $form . '<td align="right">';
+			if ($wpmem_fields[$row][2] == 'tos') {
 							
-							$tos_pop = "<a href=\"#\" onClick=\"window.open('".WP_PLUGIN_URL."/wp-members/wp-members-tos.php','mywindow');\">";
-							printf( __('Please indicate that you have read and agree to the %s Terms of Service %s', 'wp-members'), $tos_pop, '</a>');
-						
-						} else {
-						
-							/*  for possible checkbox inclusion in the future.  needs to be tested */
-							if ($wpmem_fields[$row][3] == 'checkbox') { 
-								$valtochk = $val;
-								$val = $wpmem_fields[$row][7]; 
-								
-								// if it should it be checked by default (& only if form not submitted), then override above...
-								if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
-							} 
+				if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
+					$chk_tos;  // HUH?
+				} else {
+					$val = $wpmem_fieldval_arr[$row];
+				}
 							
-							wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
-						} ?>
-						</td>
-					</tr>
-				<?php }
-			} ?>
-		
-		<?php 		
-		if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
+				// should be checked by default? and only if form hasn't been submitted
+				if(!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $wpmem_fields[$row][7]; }
+							
+				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$wpmem_fields[$row][7],$val);
+							
+			} else {
+						
+				$form = $form . $wpmem_fields[$row][1].":";
+				if ($wpmem_fields[$row][5] == 'y') { $form = $form . '<font color="red">*</font>'; } 
+							
+			} 
 			
-			$wpmem_captcha = get_option('wpmembers_captcha'); 
-			if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
-            
-            <tr>
-            	<td colspan="2" align="right">			
-					<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-					<script type="text/javascript">
-						function showRecaptcha(element) 
-						{
-							Recaptcha.create("<?php echo $wpmem_captcha[0]; ?>", element, {
-								theme: "<?php echo $wpmem_captcha[2]; ?>",
-								});
-						}
-					</script>
-					<div id="recaptcha_div"></div>
-					<script type="text/javascript">showRecaptcha('recaptcha_div');</script>
-				</td>
-            </tr>
-            
-        <?php } 
+			$form = $form . '</td>
+			<td'; if ($wpmem_fields[$row][2] == 'tos' || $wpmem_fields[$row][3] == 'checkbox') { $form = $form . ' align="left"'; } $form = $form . '>';
+
+			if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) { 
+						
+				//if (WPMEM_DEBUG == true) { $form = $form . $wpmem_fields[$row][2]."&nbsp;"; }
+			
+				switch ($wpmem_fields[$row][2]) {
+				case('description'):
+					$val = get_user_meta($userdata->ID,'description','true');
+					break;
+
+				case('user_email'):
+					$val = $userdata->user_email;
+					break;
+
+				case('user_url'):
+					$val = $userdata->user_url;
+					break;
+
+				default:
+					$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
+					break;
+				}
+
+			} else {
+
+				$val = $wpmem_fieldval_arr[$row];
+
+			}
+						
+			if ($wpmem_fields[$row][2] == 'tos') { 
+			
+				if ($wpmem_fields[$row][5] == 'y') { $form = $form . "<font color=\"red\">*</font>"; }
+				
+				$tos_pop = "<a href=\"#\" onClick=\"window.open('".WP_PLUGIN_URL."/wp-members/wp-members-tos.php','mywindow');\">";
+				$form = $form . sprintf( __('Please indicate that you have read and agree to the %s Terms of Service %s', 'wp-members'), $tos_pop, '</a>');
+			
+			} else {
+			
+				/*  for possible checkbox inclusion in the future.  needs to be tested */
+				if ($wpmem_fields[$row][3] == 'checkbox') { 
+					$valtochk = $val;
+					$val = $wpmem_fields[$row][7]; 
+					
+					// if it should it be checked by default (& only if form not submitted), then override above...
+					if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
+				} 
+				
+				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
+			}
+			
+			$form = $form . '</td>
+					</tr>';
+		}
+	}
+			
+	if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
+			
+		$wpmem_captcha = get_option('wpmembers_captcha'); 
+		if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
 		
-		} ?>
+			$form = $form . '<tr>
+				<td colspan="2" align="right">';
+			$form = $form . wpmem_inc_recaptcha( $wpmem_captcha[0], $wpmem_captcha[2] );
+			$form = $form . '</td>
+			</tr>';
             
-			<tr><td colspan="2">&nbsp;</td></tr>
+		} 
+		
+	} 
+            
+	$form = $form . '<tr><td colspan="2">&nbsp;</td></tr>
 			<tr> 
 			  <td align="right">&nbsp;</td>
-			  <td>
-			  <?php if ($toggle == 'edit') { ?>
-				<input name="a" type="hidden" value="update" />
-			  <?php } else { ?>
-				<input name="a" type="hidden" value="register" />
-			  <?php } ?>
-				<input name="redirect_to" type="hidden" value="<?php the_permalink();?>" />
+			  <td>';
+	if ($toggle == 'edit') {
+		$form = $form . '<input name="a" type="hidden" value="update" />';
+	} else {
+		$form = $form . '<input name="a" type="hidden" value="register" />';
+	}
+	$form = $form . '
+				<input name="redirect_to" type="hidden" value="' . get_permalink() . '" />
 				<input name="Submit" type="submit" value="submit" /> 
 				&nbsp;&nbsp; 
 				<input name="Reset" type="reset" value="Clear Form" />
@@ -318,31 +353,18 @@ function wpmem_inc_registration_OLD($fields,$toggle = 'new',$heading = '')
 			</tr>
 			<tr>
 			  <td>&nbsp;</td>
-			  <td><font color="red">*</font> <?php _e('Required field', 'wp-members'); ?></td>
-			</tr>
-			<tr>
-			  <td>&nbsp;</td>
-			  <td align="center"><!-- Attribution keeps this plugin free!! -->
-				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
-				<?php
-				/*
-					Taking this out?  That's ok.  But please consider making a donation
-					to support the further development of this plugin.  Many hours of
-					work have gone into it.
-					
-					If you are a developer using this for a client site, you see 
-					value in not having to do this from scratch.
-					Please consider a larger amount.
-					
-					If you are a donor, I thank you for your support!  
-				*/
-				?>
-			  </td>
-			</tr>
+			  <td><font color="red">*</font> ' . __('Required field', 'wp-members') . '</td>
+			</tr>';
+	
+	$form = $form . wpmem_inc_attribution();
+	
+	$form = $form . '
 		  </table>
 		</form>
-	</div>
-	<?php
+	</div>';
+
+	return $form;
+	
 }
 endif;
 
@@ -352,20 +374,48 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  * Member Links Dialog
  *
  * Outputs the links used on the members area.
+ *
+ * @since 2.0
+ *
+ * @param string $page
+ * @return string $str
  */
-function wpmem_inc_memberlinks($page = 'members') 
+function wpmem_inc_memberlinks( $page = 'members' ) 
 {
+	global $user_login; 
+	
 	$link = wpmem_chk_qstr();
 	
-	if ($page == 'members') {
-		$str  = "<ul>\n<li><a href=\"".$link."a=edit\">".__('Edit My Information', 'wp-members')."</a></li>\n
-				<li><a href=\"".$link."a=pwdchange\">".__('Change Password', 'wp-members')."</a></li>\n</ul>";
-	} else {		
-		$str = "<p>".__('You are logged in.', 'wp-members')."</p>
+	switch( $page ) {
+	
+	case 'members':
+		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __('Edit My Information', 'wp-members') . '</a></li>
+				<li><a href="' . $link . 'a=pwdchange">' . __('Change Password', 'wp-members') . '</a></li></ul>';
+		break;
+		
+	case 'register':	
+		$str = '<p>' .sprintf( __('You are logged in as %s', 'wp-members'), $user_login ) . '</p>
 			<ul>
-				<li><a href=\"".$link."a=logout\">".__('Click here to logout.', 'wp-members')."</a></li>
-				<li><a href=\"".get_option('siteurl')."\">".__('Begin using the site.', 'wp-members')."</a></li>
-			</ul>";
+				<li><a href="' . $link . 'a=logout">' . __('Click here to logout.', 'wp-members') . '</a></li>
+				<li><a href="' . get_option('siteurl') . '">' . __('Begin using the site.', 'wp-members') . '</a></li>
+			</ul>';
+		break;	
+	
+	case 'login':
+
+		$str = '<p>
+		  	' . sprintf( __('You are logged in as %s', 'wp-members'), $user_login ) . '<br />
+		  	<a href="' . $link . 'a=logout">' . __('click here to logout', 'wp-members') . '</a>
+			</p>';
+		break;	
+			
+	case 'status':
+		$str ='<p>
+			' . sprintf( __('You are logged in as %s', 'wp-members'), $user_login ) . '  | 
+			<a href="' . $link . 'a=logout">' . __('click here to logout', 'wp-members') . '</a>
+			</p>';
+		break;
+	
 	}
 	
 	return $str;
@@ -377,37 +427,45 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
 /**
  * Message Dialog
  *
- * Outputs various dialogs and error messages.
+ * Returns various dialogs and error messages.
+ *
+ * @since 1.8
+ *
+ * @param var $toggle
+ * @param string $msg
+ * @return string
  */
-function wpmem_inc_regmessage($toggle,$themsg='')
+function wpmem_inc_regmessage($toggle,$msg='')
 { 
 	$wpmem_dialogs = get_option('wpmembers_dialogs');
-	$wpmem_dialogs_toggle = array('user','email','success','editsuccess','pwdchangerr','pwdchangesuccess','pwdreseterr','pwdresetsuccess');
+	$arr = array('user','email','success','editsuccess','pwdchangerr','pwdchangesuccess','pwdreseterr','pwdresetsuccess');
 
-	for ($row = 0; $row < count($wpmem_dialogs_toggle); $row++) {
+	for ($r = 0; $r < count($arr); $r++) {
 
-		if ($toggle == $wpmem_dialogs_toggle[$row]) { ?>
+		if ($toggle == $arr[$r]) {
 
-			<div class="wpmem_msg" align="center">
+			$str = '<div class="wpmem_msg" align="center">
 				<p>&nbsp;</p>
-				<p><b><?php echo $wpmem_dialogs[$row+1]; ?></b></p>
+				<p><b>' . $wpmem_dialogs[$r+1] . '</b></p>
 				<p>&nbsp;</p>
-			</div>
+			</div>';
 
-			<?php
-			$didtoggle = "true";
+			$done = true;
 		}	
 	}
 
-	if ($didtoggle != "true") { ?>
+	if ($done != true) { 
 
-		<div class="wpmem_msg" align="center">
+		$str = '<div class="wpmem_msg" align="center">
 			<p>&nbsp;</p>
-			<p><b><?php echo $themsg; ?></b></p>
+			<p><b>' . $msg . '</b></p>
 			<p>&nbsp;</p>
-		</div>
+		</div>';
 
-	<?php }		
+	}
+	
+	return $str;
+		
 }
 endif;
 
@@ -429,15 +487,26 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
 /**
  * Registration Form Include
  *
- * Calls the appropriate set of forms.
+ * Calls the appropriate set of forms and passes back string containing the form
+ *
+ * @since 2.5.1
+ *
+ * @uses wpmem_inc_registration_NEW()
+ * @uses wpmem_inc_registration_OLD()
+ *
+ * @param var $toggle
+ * @param string $heading
+ * @return string
  */
-function wpmem_inc_registration($fields,$toggle = 'new',$heading = '')
+function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
-		wpmem_inc_registration_NEW($fields,$toggle,$heading);
+		$str = wpmem_inc_registration_NEW( $toggle, $heading );
 	} else {
-		wpmem_inc_registration_OLD($fields,$toggle,$heading);
+		$str = wpmem_inc_registration_OLD( $toggle, $heading );
 	}
+	
+	return $str;
 }
 endif;
 
@@ -447,14 +516,26 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * Login Form Include
  *
  * Calls the appropriate set of forms.
+ *
+ * @since 2.5.1
+ *
+ * @uses wpmem_login_form_NEW()
+ * @uses wpmem_login_form_OLD()
+ *
+ * @param string $page 
+ * @param array $arr array of the login form pieces
+ * @var string the html of the form
+ * @return string the html of the form in $str
  */
-function wpmem_login_form( $page, $wpmem_login_form_arr ) 
+function wpmem_login_form( $page, $arr ) 
 {
 	if ( WPMEM_OLD_FORMS != 1 ) { 
-		wpmem_login_form_NEW( $page, $wpmem_login_form_arr );
+		$str = wpmem_login_form_NEW( $page, $arr );
 	} else {
-		wpmem_login_form_OLD( $page, $wpmem_login_form_arr );
+		$str = wpmem_login_form_OLD( $page, $arr );
 	}
+	
+	return $str;
 }
 endif;
 
@@ -463,188 +544,162 @@ if ( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
 /**
  * Registration Form Dialog
  *
+ * @since 2.5.1
+ *
  * Outputs the table-less form for new user
  * registration and existing user edits.
- *
- * @since 2.5.1
  */
-function wpmem_inc_registration_NEW($fields,$toggle = 'new',$heading = '')
+function wpmem_inc_registration_NEW( $toggle = 'new', $heading = ' ')
 {
 	global $wpdb,$user_ID,$userdata,$securify,$wpmem_regchk,$username,$wpmem_fieldval_arr; // can maybe ditch $user_ID if using userdata or current_user
 
 	if (!$heading) { $heading = __('New Users Registration', 'wp-members'); }
-	if (is_user_logged_in()) { global $current_user; get_currentuserinfo(); } // do we need this AND $userdata? re-evaluate to reduce db calls ?>
+	if (is_user_logged_in()) { global $current_user; get_currentuserinfo(); } // do we need this AND $userdata? re-evaluate to reduce db calls 
 
-
-	<div id="wpmem_reg">
+	$form = '<div id="wpmem_reg">
 		<fieldset>
-			<legend><?php echo $heading; ?></legend>
-			<form name="form" method="post" action="<?php the_permalink();//wpmem_chk_qstr();?>" class="form">
+			<legend>' . $heading . '</legend>
+			<form name="form" method="post" action="' . get_permalink() . '" class="form">';
 
-			<?php if ($toggle == 'edit') { ?>
+	if ($toggle == 'edit') {
 			
-				<label for="username" class="text"><?php _e('Username', 'wp-members'); ?></label>
+		$form = $form . '<label for="username" class="text">' . __('Username', 'wp-members') . '</label>
+				<div class="div_text">' .
+					$userdata->user_login . 
+				'</div>';
+			
+	} else {
+	
+		$form = $form . '<label for="username" class="text">' . __('Choose a Username', 'wp-members') . '<font class="req">*</font></label>
 				<div class="div_text">
-					<?php echo $userdata->user_login; ?>
-				</div>
+					<input name="log" type="text" value="' . stripslashes( $username ) . '" class="username" id="username" />
+				</div>';
 			
-			<?php } else { ?>
-			
-				<label for="username" class="text"><?php _e('Choose a Username', 'wp-members'); ?><font class="req">*</font></label>
-				<div class="div_text">
-					<input name="log" type="text" value="<?php echo stripslashes( $username );?>" class="username" id="username" />
-				</div>
-			
-			<?php } 
+	}
 						
-			$wpmem_fields = get_option('wpmembers_fields');
-			for ($row = 0; $row < count($wpmem_fields); $row++)
-			{ 
-				$do_row = true;
-				if ($wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && (get_user_meta($userdata->ID, 'tos', true))) { 
-					// makes tos field hidden on user edit page, unless they haven't got a value for tos
-					$do_row = false; 
-					wpmem_create_formfield($wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true));
-				}					
+	$wpmem_fields = get_option('wpmembers_fields');
+	for ($row = 0; $row < count($wpmem_fields); $row++)
+	{ 
+		$do_row = true;
+		if ($wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && (get_user_meta($userdata->ID, 'tos', true))) { 
+			// makes tos field hidden on user edit page, unless they haven't got a value for tos
+			$do_row = false; 
+			$form = $form . wpmem_create_formfield($wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true));
+		}					
 				
-				if ($wpmem_fields[$row][4] == 'y' && $do_row == true ) {
-
-				
-						if ($wpmem_fields[$row][2] != 'tos') {
-
-							echo "<label for=\"".$wpmem_fields[$row][2]."\" class=\"".$wpmem_fields[$row][3]."\">".$wpmem_fields[$row][1];
-							if ($wpmem_fields[$row][5] == 'y') { ?><font class="req">*</font><?php } 
-							echo "</label>\n";
-						
-						} 
-						
-						echo "<div class=\"div_".$wpmem_fields[$row][3]."\">\n";
-
-						if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) { 
-						
-							if (WPMEM_DEBUG == true) { echo $wpmem_fields[$row][2]."&nbsp;"; }
-						
-							switch ($wpmem_fields[$row][2]) {
-							case('description'):
-								$val = get_user_meta($userdata->ID,'description','true');
-								break;
-
-							case('user_email'):
-								$val = $userdata->user_email;
-								break;
-
-							case('user_url'):
-								$val = $userdata->user_url;
-								break;
-
-							default:
-								$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
-								break;
-							}
-
-						} else {
-
-							$val = $wpmem_fieldval_arr[$row];
-
-						}
-
-						if ($wpmem_fields[$row][2] == 'tos') { 
-						
-							if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
-								$chk_tos;  // HUH?
-							} else {
-								$val = $wpmem_fieldval_arr[$row];
-							}
-							
-							// should be checked by default? and only if form hasn't been submitted
-							if(!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $wpmem_fields[$row][7]; }
-							
-							wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$wpmem_fields[$row][7],$val);
-						
-							if ($wpmem_fields[$row][5] == 'y') { echo "<font color=\"red\">*</font>"; }
-							
-							$tos_pop = "<a href=\"#\" onClick=\"window.open('".WP_PLUGIN_URL."/wp-members/wp-members-tos.php','mywindow');\">";
-							printf( __('Please indicate that you agree to the %s TOS %s', 'wp-members'), $tos_pop, '</a>');
-						
-						} else {
-						
-							/*  for possible checkbox inclusion in the future.  needs to be tested */
-							if ($wpmem_fields[$row][3] == 'checkbox') { 
-								$valtochk = $val;
-								$val = $wpmem_fields[$row][7]; 
-								
-								// if it should it be checked by default (& only if form not submitted), then override above...
-								if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
-							}
-							
-							wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
-						} ?>
-					
-					</div><?php 
-				}
-			}
-			
-			
-			if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) { // 2.5.3 bug fix, don't show on edit page!
-			
-				$wpmem_captcha = get_option('wpmembers_captcha'); 
-				if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) { ?>
-						
-					<div class="clear"></div>
-					<div align="right" >
-						<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-						<script type="text/javascript">
-							function showRecaptcha(element) 
-							{
-								Recaptcha.create("<?php echo $wpmem_captcha[0]; ?>", element, {
-									theme: "<?php echo $wpmem_captcha[2]; ?>",
-									//callback: Recaptcha.focus_response_field
-									});
-							}
-						</script>
-						<div id="recaptcha_div"></div>
-						<script type="text/javascript">showRecaptcha('recaptcha_div');</script>
-					</div>
-            
-				<?php } 
+		if ($wpmem_fields[$row][4] == 'y' && $do_row == true ) {
 		
-			} ?>
+			if ($wpmem_fields[$row][2] != 'tos') {
 
-			<?php if ($toggle == 'edit') { ?>
-				<input name="a" type="hidden" value="update" />
-			 <?php } else { ?>
-				<input name="a" type="hidden" value="register" />
-			<?php } ?>
-				<input name="redirect_to" type="hidden" value="<?php the_permalink();?>" />
-				<div class="button_div">
-					<input name="reset" type="reset" value="Clear Form" class="buttons" />
-					<input name="submit" type="submit" value="Submit" class="buttons" />
-				</div>
+				$form = $form . "<label for=\"".$wpmem_fields[$row][2]."\" class=\"".$wpmem_fields[$row][3]."\">".$wpmem_fields[$row][1];
+				if ($wpmem_fields[$row][5] == 'y') { $form = $form . '<font class="req">*</font>'; } 
+				$form = $form . "</label>";
+
+			} 
+
+			$form = $form . "<div class=\"div_".$wpmem_fields[$row][3]."\">";
+
+			if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) { 
+
+				if (WPMEM_DEBUG == true) { $form = $form .  $wpmem_fields[$row][2]."&nbsp;"; }
+
+				switch ($wpmem_fields[$row][2]) {
+					case('description'):
+						$val = get_user_meta($userdata->ID,'description','true');
+						break;
+
+					case('user_email'):
+						$val = $userdata->user_email;
+						break;
+
+					case('user_url'):
+						$val = $userdata->user_url;
+						break;
+
+					default:
+						$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
+						break;
+				}
+
+			} else {
+
+				$val = $wpmem_fieldval_arr[$row];
+
+			}
+
+			if ($wpmem_fields[$row][2] == 'tos') { 
+	
+				if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
+					$chk_tos;  // HUH?
+				} else {
+					$val = $wpmem_fieldval_arr[$row];
+				}
+
+				// should be checked by default? and only if form hasn't been submitted
+				if(!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $wpmem_fields[$row][7]; }
+
+					$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$wpmem_fields[$row][7],$val);
+
+					if ($wpmem_fields[$row][5] == 'y') { $form = $form . "<font color=\"red\">*</font>"; }
+						
+					$tos_pop = "<a href=\"#\" onClick=\"window.open('".WP_PLUGIN_URL."/wp-members/wp-members-tos.php','mywindow');\">";
+					$form = $form . sprintf( __('Please indicate that you agree to the %s TOS %s', 'wp-members'), $tos_pop, '</a>');
+					
+				} else {
+					
+					/*  for possible checkbox inclusion in the future.  needs to be tested */
+					if ($wpmem_fields[$row][3] == 'checkbox') { 
+						$valtochk = $val;
+						$val = $wpmem_fields[$row][7]; 
+							
+						// if it should it be checked by default (& only if form not submitted), then override above...
+						if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
+					}
+						
+					$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
+				}
 				
-<?php // find a place to put this ?>
-<font class="req">*</font> <?php _e('Required field', 'wp-members'); ?>			
+				$form = $form . '</div>'; 
+			}
+		}
+				
+		if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) { // 2.5.3 bug fix, don't show on edit page!
+
+			$wpmem_captcha = get_option('wpmembers_captcha'); 
+			if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
+						
+				$form = $form . '<div class="clear"></div>
+					<div align="right" >';
+				$form = $form . wpmem_inc_recaptcha( $wpmem_captcha[0], $wpmem_captcha[2] );
+				$form = $form . '</div>';
+            
+			} 
+		
+		}
+
+		if ($toggle == 'edit') {
+			$form = $form . '<input name="a" type="hidden" value="update" />';
+		} else {
+			$form = $form . '<input name="a" type="hidden" value="register" />';
+		}
+		
+		$form = $form . '<input name="redirect_to" type="hidden" value="' . get_permalink() . '" />
+			<div class="button_div">
+				<input name="reset" type="reset" value="Clear Form" class="buttons" />
+				<input name="submit" type="submit" value="Submit" class="buttons" />
+			</div>';
+				
+		// find a place to put this
+		$form = $form . '<font class="req">*</font>' . __('Required field', 'wp-members') . '			
 
 			</form>
-		</fieldset>
-		<!-- Attribution keeps this plugin free!! -->
-		<div align="center">
-			<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
-		</div>
-		<?php
-		/*
-			Taking this out?  That's ok.  But please consider making a donation
-			to support the further development of this plugin.  Many hours of
-			work have gone into it.
-			
-			If you are a developer using this for a client site, you see 
-			value in not having to do this from scratch.
-			Please consider a larger amount.
-			
-			If you are a donor, I thank you for your support!  
-		*/
-		?>
-	</div>
-	<?php
+		</fieldset>';
+		
+	$form = $form . wpmem_inc_attribution();
+	
+	$form = $form . '</div>';
+	
+	return $form;
 }
 endif;
 
@@ -657,59 +712,157 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  * login, change password, and reset password.
  *
  * @since 2.5.1
+ *
+ * @param string $page
+ * @param array $arr
+ * @return string $form
  */
-function wpmem_login_form_NEW( $page, $wpmem_login_form_arr ) 
-{ ?>	
-	<div id="wpmem_login">
+function wpmem_login_form_NEW( $page, $arr ) 
+{	
+	$form = '<div id="wpmem_login">
 		<fieldset>
-			<legend><?php echo $wpmem_login_form_arr[0]; ?></legend>
-			<form action="<?php the_permalink();?>" method="POST" class="form">
+			<legend>' . $arr[0] . '</legend>
+			<form action="' . get_permalink() . '" method="POST" class="form">
 				
-			<label for="username"><?php echo $wpmem_login_form_arr[1]; ?></label>
+			<label for="username">' . $arr[1] . '</label>
 			<div class="div_text">
-				<?php wpmem_create_formfield( $wpmem_login_form_arr[3], $wpmem_login_form_arr[2], '', '', $wpmem_login_form_arr[9] ); ?>
+				' . wpmem_create_formfield( $arr[3], $arr[2], '', '', $arr[9] ) . '
 			</div>
 			
-			<label for="password"><?php echo $wpmem_login_form_arr[4]; ?></label>
+			<label for="password">' . $arr[4] . '</label>
 			<div class="div_text">
-				<?php wpmem_create_formfield( $wpmem_login_form_arr[6], $wpmem_login_form_arr[5], '', '', $wpmem_login_form_arr[10] ); ?>
+				' . wpmem_create_formfield( $arr[6], $arr[5], '', '', $arr[10] ) . '
 			</div>
 				
-			<input type="hidden" name="redirect_to" value="<?php the_permalink(); ?>" />
-			<?php if ( $wpmem_login_form_arr[7] != 'login' ) { wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
-				wpmem_create_formfield( 'a', 'hidden', $wpmem_login_form_arr[7] ); ?>
+			<input type="hidden" name="redirect_to" value="' . get_permalink() . '" />';
+	if ( $arr[7] != 'login' ) { $form = $form . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
+	
+	$form = $form . wpmem_create_formfield( 'a', 'hidden', $arr[7] );
 				
-			<div class="button_div">
-			<?php if ( $wpmem_login_form_arr[7] == 'login' ) { ?>
-				<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;<?php _e('Remember me', 'wp-members'); ?>
-			<?php } ?>
-				<input type="submit" name="Submit" value="<?php echo $wpmem_login_form_arr[8]; ?>" class="buttons" />
+	$form = $form . '<div class="button_div">';
+	
+	if ( $arr[7] == 'login' ) {
+		
+		$form = $form . '<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members');
+	
+	}
+	
+	$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />
 			</div>
 
 			<div class="clear"></div>
-			<div align="right">
-			<?php 	
-			if ( ( WPMEM_MSURL != null || $page == 'members' ) && $wpmem_login_form_arr[7] == 'login' ) { 
+			<div align="right">';
+				
+	if ( ( WPMEM_MSURL != null || $page == 'members' ) && $arr[7] == 'login' ) { 
+		
+		$link = wpmem_chk_qstr( WPMEM_MSURL );	
+		$form = $form . __('Forgot password?', 'wp-members') . '&nbsp;<a href="' . $link . 'a=pwdreset">' . __('Click here to reset', 'wp-members') . '</a>';
 
-				$link = wpmem_chk_qstr( WPMEM_MSURL );	
-				_e('Forgot password?', 'wp-members'); ?>&nbsp;<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Click here to reset', 'wp-members'); ?></a>
+	}
+	
+	$form = $form . '</div>
+			<div align="right">';
+ 			
+	if ( ( WPMEM_REGURL != null ) && $arr[7] == 'login' ) { 
 
-			<?php } ?>
-			</div>
-			<div align="right">
-			<?php 			
-			if ( ( WPMEM_REGURL != null ) && $wpmem_login_form_arr[7] == 'login' ) { 
+		$link = wpmem_chk_qstr( WPMEM_REGURL );	
+		$form = $form . __('New User?', 'wp-members') . '&nbsp;<a href="' . $link . '">' . __('Click here to register', 'wp-members') . '</a>';
 
-				$link = wpmem_chk_qstr( WPMEM_REGURL );	
-				_e('New User?', 'wp-members'); ?>&nbsp;<a href="<?php echo $link; ?>"><?php _e('Click here to register', 'wp-members'); ?></a>
-
-			<?php } ?>			
-			</div>	
+	}			
+	
+	$form = $form. '</div>	
 				
 			</form>
 			<div class="clear"></div>
 		</fieldset>
-	</div><?php
+	</div>';
+	
+	return $form;
 }
 endif;
+
+
+/**
+ * Create reCAPTCHA form
+ *
+ * @since 2.6.0
+ * @param string $key
+ * @param string $theme
+ * @return string
+ */
+function wpmem_inc_recaptcha( $key, $theme )
+{
+	$str = '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+			<script type="text/javascript">
+				function showRecaptcha(element) 
+				{
+					Recaptcha.create("' . $key . '", element, {
+						theme: "' . $theme . '",
+						});
+				}
+			</script>
+		<div id="recaptcha_div"></div>
+		<script type="text/javascript">showRecaptcha(\'recaptcha_div\');</script>';
+			
+/*	$str = $str . '<script type="text/javascript"
+		   src="http://www.google.com/recaptcha/api/challenge?k=' . $key . '">
+		</script>
+		<noscript>
+		   <iframe src="http://www.google.com/recaptcha/api/noscript?k=' . $key . '"
+			   height="300" width="500" frameborder="0"></iframe><br>
+		   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+		   </textarea>
+		   <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+		</noscript>';*/
+	
+	return $str;
+}
+
+
+/**
+ * Create an attribution link in the form
+ *
+ * @since 2.6.0
+ * @return $str string
+ */
+function wpmem_inc_attribution()
+{
+	/*
+		Taking this out?  That's ok.  But please consider making a donation
+		to support the further development of this plugin.  Many hours of
+		work have gone into its development and ongoing support.
+		
+		If you are a developer using this for a client site, you see 
+		value in not having to do this from scratch.
+		Please consider a larger amount.
+		
+		If you are a donor, I thank you for your support!  
+	*/
+	
+	$show_attribution = true;
+
+	if( WPMEM_OLD_FORMS != 1 && $show_attribution == true ) { // NEW FORMS
+	
+		$str = '
+		<!-- Attribution keeps this plugin free!! -->
+		<div align="center">
+			<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
+		</div>';
+
+
+	} elseif( $show_attribution == true ) {  // LEGACY FORMS
+
+		$str = '
+			<tr>
+			  <td>&nbsp;</td>
+			  <td align="center"><!-- Attribution keeps this plugin free!! -->
+				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
+			  </td>
+			</tr>';
+			
+	}
+	
+	return $str;
+	
+}
 ?>

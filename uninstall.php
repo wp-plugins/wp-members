@@ -15,7 +15,9 @@
  * @copyright 2006-2011
  */
  
-
+/**
+ * Unistall process removes WP-Members settings from the WordPress database (_options table)
+ */
 if ( WP_UNINSTALL_PLUGIN ) {
 
 	delete_option( 'wpmembers_settings' );
