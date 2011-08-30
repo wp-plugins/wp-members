@@ -53,6 +53,7 @@ function wpmem_registration($toggle)
 
 		if ( !$username ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); } 
 		if ( !validate_username( $username ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); }
+		if ( !is_email( $user_email) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); }
 		if ( $wpmem_themsg ) { return "empty"; exit(); }
 		if ( username_exists( $username ) ) { return "user"; exit(); } 
 		if ( email_exists( $user_email ) ) { return "email"; exit(); }

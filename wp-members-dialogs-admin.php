@@ -84,7 +84,7 @@ function wpmem_a_help_msg($contextual_help, $screen_id)
   
 	switch ($screen_id) {
 
-	case 'settings_page_wp-members':
+	case 'settings_page_wpmem-settings':
 		$contextual_help = "this is custom for WP-Members";
 		break;
 
@@ -98,7 +98,7 @@ function wpmem_a_help_msg($contextual_help, $screen_id)
 		<p><strong>Protecting a post</strong> - 
 		Use the 'more' tag to protect a post. In the post editor tool bar, click the 
 		'Insert more tag' button.  Everything before the 'more' tag is viewable by 
-		anyone. Everthing after is protected.</p>
+		anyone. Everything after is protected.</p>
 		<p><strong>Block/Unblock a specific post</strong> - 
 		No matter what your default settings for blocking/unblocking posts, you can 
 		override this at the post level by using a custom field. If you have set 
