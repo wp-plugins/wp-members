@@ -1,23 +1,24 @@
-/**
- * WP-Members Custom CSS
- *
- * This stylesheet is designed to integrate WP-Members with the 
- * Intrepidity 1.5.1 Theme by Top Blog Formula.
- * 
- * This file for the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://butlerblog.com/wp-members
- * WP-Members(tm) is a trademark of butlerblog.com
- *
- * @package WordPress
- * @subpackage WP-Members
- * @subpackage Intrepidity
- * @author Chad Butler 
- */
+/*
+	This file is part of the WP-Members plugin by Chad Butler
+	
+	You can find out more about this plugin at http://butlerblog.com/wp-members
+  
+	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+	
+	WP-Members(tm) is a trademark of butlerblog.com
+	
+	
+	This stylesheet is designed to integrate WP-Members with the twentyten theme.
+	There are quite a few examples in here of what you can do with with the new
+	table-less forms.  You can build off of this or start from scratch and set
+	your own custom css for the plugin (set the location in the admin panel).
+	
+*/
 
 /* Error and Dialog Messages */
 
 #wpmem_msg, .wpmem_msg {
-	width:580px;
+	width:630px;
     padding-top: 10px;
     border: 1px #000 solid;
     background-color:#E6E6E6;
@@ -60,39 +61,36 @@
 /* Login Form and Registration Form */
 
 #wpmem_reg, #wpmem_login {
-	width:580px;
+	width:630px;
 	padding-top:30px;
 	float:left;
 }
 
 #wpmem_reg fieldset, #wpmem_login fieldset {
-	/*border:1px dashed #ccc;*/
-	padding:0px;
+	border:1px dashed #ccc;
+	padding:10px;
 	margin-top:20px;
 	margin-bottom:20px;
 }
 #wpmem_reg legend, #wpmem_login legend {
-/*	font-family: "Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
+	font-family: "Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
 	font-weight: bold;
-	font-size: 20px;*/
-	font-family: Arial,Helvetica,sans-serif;
-	color: #E26D27;
-    font-size: 16px;
-/*	background: #c4c4c4;
-	border: 1px solid #333;*/
+	font-size: 20px;
+	background: #c4c4c4;
+	border: 1px solid #333;
 	padding: 8px;
 }
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
 #wpmem_reg label.textarea , #wpmem_login label {
-	width:200px;
+	width:230px;
 	margin-top:3px;
 	margin-right:2px;
 	padding-top:11px;
 	padding-left:6px;
-/*	background-color:#ccc;*/
+	background-color:#ccc;
 	float:left;
 	display: block;
-/*	font-family: "Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;*/
+	font-family: "Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
 	font-size: 115%;
 	line-height: 1.1;
 	color:#666;
@@ -117,7 +115,7 @@
 #wpmem_reg .div_textarea, #wpmem_login .div_text {
 	width:360px;
 	float:right;
-/*	background-color:#E6E6E6;*/
+	background-color:#E6E6E6;
 	margin-top:3px;
 	padding-top:5px;
 	padding-bottom:3px;
