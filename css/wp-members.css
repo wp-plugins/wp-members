@@ -1,3 +1,21 @@
+<<<<<<< .mine
+/*
+This file is part of the WP-Members plugin by Chad Butler
+	
+You can find out more about this plugin at http://butlerblog.com/wp-members
+ 
+Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+
+WP-Members(tm) is a trademark of butlerblog.com
+	
+	
+This stylesheet is designed to integrate WP-Members with the twentyten theme.
+There are quite a few examples in here of what you can do with with the new
+table-less forms.  You can build off of this or start from scratch and set
+your own custom css for the plugin (set the location in the admin panel).
+	
+*/
+=======
 /**
  * WP-Members Custom CSS
  *
@@ -13,11 +31,16 @@
  * @subpackage Intrepidity
  * @author Chad Butler 
  */
+>>>>>>> .r434087
 
 /* Error and Dialog Messages */
 
 #wpmem_msg, .wpmem_msg {
+<<<<<<< .mine
+    width:630px;
+=======
 	width:580px;
+>>>>>>> .r434087
     padding-top: 10px;
     border: 1px #000 solid;
     background-color:#E6E6E6;

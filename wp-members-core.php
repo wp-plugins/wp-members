@@ -93,14 +93,14 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @param string $contnet
  * @return $content
  *
- * @todo update/evaluate for cleaner shortcode, shortcode executes twice due to mmembers area/register legacy shortcodes.
- * @todo continue testing wpmem_do_excerpt
+ * @todo update/evaluate for cleaner shortcode, shortcode used to execute twice due to mmembers area/register legacy shortcodes; wpmem_test_shortcode should prevent that/
+ * @todo continue testing wpmem_do_excerpt - designed to insert an excerpt if no 'more' tag is found.
  */
 function wpmem_securify( $content = null ) 
 { 
 
 	// this is being tested...
-	$content = wpmem_do_excerpt( $content );
+	// $content = wpmem_do_excerpt( $content );
 
 
 	if ( ! wpmem_test_shortcode() ) {
@@ -358,11 +358,6 @@ if ( ! function_exists( 'wpmem_login' ) ):
  * is returned.
  *
  * @since 0.1 
- *
- * @todo @2.6 updates
- 	- removed $wpdb global, no longer used (not sure when it was used)
- 	- removed $wpmem_regchk global
-	- return value (for $wpmem_regchk to pick up in wpmem_a)
  */
 function wpmem_login()
 {
@@ -476,11 +471,6 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
  *
  * @global $user_ID
  * @return string the value for $wpmem_regchk
- 
- 2.6 updates
-	-changed hash to wp_hash_password
-	-changed update from $wpdb->update to wp_update_user
-	-removed $wpdb, $userdata, and $wpmem_regchk from global
  */
 function wpmem_change_password()
 {
@@ -492,7 +482,7 @@ function wpmem_change_password()
 		
 		if ( ! $pass1 && ! $pass2 ) { // check for both fields being empty
 		
-			return "pwdchangempty"; echo "empty";
+			return "pwdchangempty";
 
 		} elseif ( $pass1 != $pass2 ) { // make sure the fields match
 
@@ -515,17 +505,6 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  * Resets a forgotten password
  *
  * @since 2.1
- 
- 
- 2.6 updates
-  	- removed $wpmem_regchk global
-	- return value (for $wpmem_regchk to pick up in wpmem_a)
-	- need to evaluate need for wpdb - can we change update to something else?
-	- we did change from wpdb to wp_update_user, which eliminates the need for hashing the password
-	- changed to wp_generate_password 
-	- no need for wpdb anymore...
-	
-	- changes checked and seem to work ok.
  */
 function wpmem_reset_password()
 { 
@@ -713,7 +692,7 @@ endif;
 
 
 /*************************************************************************
-	New 2.6 features (these functions may be moved kater(
+	New 2.6 features (these functions may be moved later
 **************************************************************************/
 
 
@@ -780,7 +759,7 @@ function wpmem_do_sc_pages( $page )
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	
-	if ( $page == 'members-area' || $page == 'register' ) {
+	if ( $page == 'members-area' || $page == 'register' ) { 
 	
 		include_once( 'wp-members-dialogs.php' );
 		
@@ -902,7 +881,9 @@ function wpmem_do_sc_pages( $page )
 
 		} elseif( is_user_logged_in() && $page == 'register' ) {
 
-			return wpmem_inc_memberlinks( 'register' );
+			//return wpmem_inc_memberlinks( 'register' );
+			
+			$content = $content . wpmem_inc_memberlinks( 'register' );
 		
 		}
 			
@@ -965,7 +946,7 @@ function wpmem_do_excerpt( $content )
 		$test = stristr( $content, 'class="more-link"' );
 		if( $test ) { 
 			
-		} else {
+		} else {	
 			$content = substr( $content, 0, 300 );
 		}
     }

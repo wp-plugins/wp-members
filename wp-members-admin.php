@@ -25,7 +25,7 @@ function wpmem_admin_plugin_links($links, $file)
 	static $wpmem_plugin;
 	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename('wp-members/wp-members.php');
 	if( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wp-members.php">' . __('Settings') . '</a>';
+		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links);
 	}
 	return $links;
@@ -566,31 +566,31 @@ function wpmem_admin()
 	**************************************************************************/
 
 	// settings allow anyone to register
-	if ( get_option('users_can_register') != 0 && $wpmem_settings[10] == 0 ) { 
+	if ( get_option('users_can_register') != 0 && $wpmem_settings[11] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(1);
 	}
 
 	// settings allow anyone to comment
-	if ( get_option('comment_registration') !=1 && $wpmem_settings[10] == 0 ) { 
+	if ( get_option('comment_registration') !=1 && $wpmem_settings[11] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(2);
 	} 
 	
 	// rss set to full text feeds
-	if ( get_option('rss_use_excerpt') !=1 && $wpmem_settings[10] == 0 ) { 
+	if ( get_option('rss_use_excerpt') !=1 && $wpmem_settings[11] == 0 ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(3);
 	} 
 
 	// holding registrations but haven't changed default successful registration message
-	if ( $wpmem_settings[10] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
+	if ( $wpmem_settings[11] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
 		include_once('wp-members-dialogs-admin.php');
 		wpmem_a_warning_msg(4);
 	}  
 
 	// turned off registration but also have set to moderate and/or email new registrations
-	if ( $wpmem_settings[10] == 0 && $wpmem_settings[7] == 1 ) { 
+	if ( $wpmem_settings[11] == 0 && $wpmem_settings[7] == 1 ) { 
 		if ( $wpmem_settings[5] == 1 || $wpmem_settings[4] ==1 ) { 
 			include_once('wp-members-dialogs-admin.php');
 			wpmem_a_warning_msg(5);
@@ -598,7 +598,7 @@ function wpmem_admin()
 	}
 	
 	// haven't entered recaptcha api keys
-	if ( $wpmem_settings[10] == 0 && $wpmem_settings[6] == 1 ) {
+	if ( $wpmem_settings[11] == 0 && $wpmem_settings[6] == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
 		if ( !$wpmem_captcha[0]  || !$wpmem_captcha[1] ) {
 			include_once('wp-members-dialogs-admin.php');
@@ -795,8 +795,11 @@ function wpmem_admin_users()
 		case "activate":
 			$x = 0;
 			foreach ($users as $user) {
-				wpmem_a_activate_user($user);
-				$x++;
+				// check to see if the user is already activated, if not, activate
+				if ( ! get_user_meta($user, 'active', true) ) {
+					wpmem_a_activate_user($user);
+					$x++;
+				}
 			}
 			$user_action_msg = sprintf( __('%d users were activated.', 'wp-members'), $x );
 			break;
@@ -834,7 +837,7 @@ function wpmem_admin_users()
 			for ($row = 0; $row < count($tmp); $row++)
 			{
 				
-				$link = "users.php?page=wp-members.php";
+				$link = "users.php?page=wpmem-users";
 				if ($row != 0) {
 				
 					$lcas = strtolower($tmp[$row]);

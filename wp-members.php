@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. View the live demo at <a href="http://butlerblog.com/wpmembers">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.6.0
+Version:     2.6.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -71,8 +71,8 @@ load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ 
 /**
  * preload any custom functions, if available
  */
-if (file_exists(WP_PLUGIN_DIR."/wp-members/wp-members-custom.php")) {
-	include('wp-members-custom.php');
+if (file_exists(WP_PLUGIN_DIR."/wp-members/wp-members-pluggable.php")) {
+	include('wp-members-pluggable.php');
 }
 
 
@@ -94,7 +94,7 @@ $wpmem_settings = get_option('wpmembers_settings');
 /**
  * define constants based on option settings
  */
-define('WPMEM_VERSION',      "2.6.0");
+define('WPMEM_VERSION',      "2.6.1");
 define('WPMEM_DEBUG',        false);
 
 // define('WPMEM_VERSION',   $wpmem_settings[0]);
