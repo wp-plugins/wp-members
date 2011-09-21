@@ -141,22 +141,22 @@ function wpmem_registration($toggle)
 		
 		// if registration is moderated, we will store
 		// the registration url for sending when approved
-		if ( WPMEM_MOD_REG == 1 ) {
+		if( WPMEM_MOD_REG == 1 ) {
 			$the_permalink = $_REQUEST['redirect_to'];
 			update_user_meta( $user_id, 'wpmem_reg_url', $the_permalink );
 		}
 
 		// set user expiration, if used
-		if ( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp($user_id); }
+		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $user_id ); }
 		
-		require_once('wp-members-email.php');
+		require_once( 'wp-members-email.php' );
 
 		//if this was successful, and you have email properly
 		//configured, send a notification email to the user
-		wpmem_inc_regemail( $user_id,$password,WPMEM_MOD_REG );
+		wpmem_inc_regemail( $user_id, $password, WPMEM_MOD_REG );
 		
 		//notify admin of new reg, if needed;
-		if ( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin($user_id, $wpmem_fields); }
+		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
 
 		// successful registration message
 		return "success"; exit();

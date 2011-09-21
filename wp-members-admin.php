@@ -36,8 +36,8 @@ function wpmem_admin_plugin_links($links, $file)
  * include contextual help
  * @todo finish writing the contextual help in wp-members-dialogs-admin.php
  */
-add_filter('contextual_help', 'wpmem_a_help_msg', 10, 2);
-include_once('wp-members-dialogs-admin.php');
+// add_filter('contextual_help', 'wpmem_a_help_msg', 10, 2);
+// include_once('wp-members-dialogs-admin.php');
 
 
 /*****************************************************
@@ -57,19 +57,19 @@ function wpmem_admin_fields()
  	<table class="form-table">
 		<?php
 		$wpmem_fields = get_option('wpmembers_fields');
-		for ($row = 0; $row < count($wpmem_fields); $row++) {
+		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		
-			if($wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][4] == "y") { ?>    
+			if( $wpmem_fields[$row][6] == "n" ) { ?>    
 			
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
 					<td><?php
-						$val = get_user_meta($user_id, $wpmem_fields[$row][2], 'true');
-						if ($wpmem_fields[$row][3] == 'checkbox') { 
+						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
+						if( $wpmem_fields[$row][3] == 'checkbox' ) { 
 							$valtochk = $val; 
 							$val = $wpmem_fields[$row][7];
 						}
-						echo wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
+						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val,$valtochk );
 						$valtochk = '';
 					?></td>
 				</tr>
@@ -79,11 +79,11 @@ function wpmem_admin_fields()
 		}
 
 		// see if reg is moderated, and if the user has been activated		
-		if (WPMEM_MOD_REG == 1) { 
-			if (get_user_meta($user_id,'active','true') != 1) { ?>
+		if( WPMEM_MOD_REG == 1 ) { 
+			if( get_user_meta( $user_id, 'active', 'true' ) != 1 ) { ?>
 
 				<tr>
-					<th><label><?php _e('Activate this user?', 'wp-members'); ?></label></th>
+					<th><label><?php _e( 'Activate this user?', 'wp-members' ); ?></label></th>
 					<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="1" /></td>
 				</tr>
 
@@ -92,14 +92,14 @@ function wpmem_admin_fields()
 		
 		// if using subscription model, show expiration
 		// if registration is moderated, this doesn't show if user is not active yet.		
-		if (WPMEM_USE_EXP == 1) {
-			if ( (WPMEM_MOD_REG == 1 &&  get_user_meta($user_id, 'active', 'true') == 1) || (WPMEM_MOD_REG != 1) ) { 
-				wpmem_a_extenduser($user_id);
+		if( WPMEM_USE_EXP == 1 ) {
+			if( ( WPMEM_MOD_REG == 1 &&  get_user_meta( $user_id, 'active', 'true' ) == 1 ) || ( WPMEM_MOD_REG != 1 ) ) { 
+				wpmem_a_extenduser( $user_id );
 			} 
 		} ?>
 		<tr>
-			<th><label><?php _e('IP @ registration', 'wp-members'); ?></label></th>
-			<td><?php echo get_user_meta($user_id, 'wpmem_reg_ip', 'true'); ?></td>
+			<th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
+			<td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', 'true' ); ?></td>
 		</tr>
 	</table><?php
 }
@@ -115,7 +115,7 @@ function wpmem_admin_update()
 	$wpmem_fields = get_option('wpmembers_fields');
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
 		// new in 2.4 - does not include custom fields that are not used (note: WP does include its own fields even if empty)
-		if ($wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][4] == "y") {
+		if( $wpmem_fields[$row][6] == "n" ) {
 			update_user_meta($user_id,$wpmem_fields[$row][2],$_POST[$wpmem_fields[$row][2]]);
 		}
 	}
@@ -224,6 +224,7 @@ function wpmem_a_build_fields( $wpmem_fields )
             <th scope="col"><?php _e( 'Field Type',  'wp-members' ) ?></th>
 			<th scope="col"><?php _e( 'Display?',    'wp-members' ) ?></th>
             <th scope="col"><?php _e( 'Required?',   'wp-members' ) ?></th>
+            <th scope="col"><?php _e( 'Checked?',   'wp-members' ) ?></th>
             <th scope="col"><?php _e( 'WP Native?',  'wp-members' ) ?></th>
         </tr></thead>
 	<?php
@@ -237,7 +238,7 @@ function wpmem_a_build_fields( $wpmem_fields )
 		}
 		?><tr class="<?php echo $class; ?>" valign="top" id="<?php echo $wpmem_fields[$row][0];?>">
         	<td width="80"><?php 
-				if( $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> Delete<?php } ?></td>
+				if( $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> <?php _e( 'Delete', 'wp-members' ); } ?></td>
             <td width="180"><?php 
 				echo $wpmem_fields[$row][1];
 				if( $wpmem_fields[$row][5] == 'y' ){ ?><font color="red">*</font><?php }
@@ -251,31 +252,34 @@ function wpmem_a_build_fields( $wpmem_fields )
 		  <?php } else { ?>
 			<td colspan="2" width="160"><small><i><?php _e('(Email cannot be removed)', 'wp-members'); ?></i></small></td>
 		  <?php } ?>
+          	<td width="80"><?php if( $wpmem_fields[$row][3] == 'checkbox' ) { 
+				echo wpmem_create_formfield( $wpmem_fields[$row][2]."_checked", 'checkbox', 'y', $wpmem_fields[$row][8]); } ?>
+            </td>
 			<td width="80"><?php if( $wpmem_fields[$row][6] == 'y' ) { echo "yes"; } ?></td>
           </tr><?php
 	}	?>
 	</table><br />
     <table class="widefat">	
         <tr>
-        	<td width="80"><input type="checkbox" name="add_field" value="add" /> Add</td>
+        	<td width="80"><input type="checkbox" name="add_field" value="add" /> <?php _e( 'Add', 'wp-members' ); ?></td>
             <td width="180"><input type="text" name="add_name" value="New field label" /></td>
             <td width="180"><input type="text" name="add_option" value="new_option_name" /></td>
             <td width="80">
             	<select name="add_type">
-            		<option value="text">text</option>
-                    <option value="textarea">textarea</option>
-                    <option value="checkbox">checkbox</option>
+            		<option value="text"><?php _e( 'text', 'wp-members' ); ?></option>
+                    <option value="textarea"><?php _e( 'textarea', 'wp-members' ); ?></option>
+                    <option value="checkbox"><?php _e( 'checkbox', 'wp-members' ); ?></option>
                 </select>
             </td>
 			<td width="80"><?php echo wpmem_create_formfield("add_display", 'checkbox', 'y', $wpmem_fields[$row][4]); ?></td>
             <td width="80"><?php echo wpmem_create_formfield("add_required",'checkbox', 'y', $wpmem_fields[$row][5]); ?></td>
-			<td width="80">&nbsp;</td>
+			<td width="80"><input type="checkbox" name="add_checked_default" value="y" /></td>
+            <td width="80">&nbsp;</td>
           </tr>
           <tr>
-        	<td colspan="3" align="right">Additional parameters for checkboxes</td>
+        	<td colspan="3" align="right"><?php _e('For checkbox, stored value if checked:', 'wp-members' ); ?></td>
             <td><input type="text" name="add_checked_value" value="value" class="small-text" /></td>
-			<td colspan="2"><input type="checkbox" name="add_checked_default" value="y" /> Checked by default?</td>
-            <td>&nbsp;</td>
+			<td colspan="3">&nbsp;</td>
           </tr>
 
     </table><br />
@@ -336,6 +340,8 @@ function wpmem_a_build_dialogs($wpmem_dialogs)
 
 /**
  * primary admin function
+ *
+ * @todo check for duplicate field names in the add field process
  */
 function wpmem_admin()
 {
@@ -421,6 +427,10 @@ function wpmem_admin()
 		update_option('wpmembers_settings',$wpmem_newsettings);
 		$wpmem_settings = $wpmem_newsettings;
 		$did_update = __('WP-Members settings were updated', 'wp-members');
+		
+		// sets the options tab as active - can remove if we change to another layout
+		$active_tab = 'options';
+		
 		break;
 
 	case ("update_fields"):
@@ -437,7 +447,7 @@ function wpmem_admin()
 			$delete_field = $_POST[$delete_field];
 			if( $delete_field != "delete" ) {
 
-				for ($i = 0; $i < 4; $i++) {
+				for( $i = 0; $i < 4; $i++ ) {
 					$wpmem_newfields[$nrow][$i] = $wpmem_fields[$row][$i];
 				}
 				
@@ -445,8 +455,9 @@ function wpmem_admin()
 	
 				$display_field = $wpmem_fields[$row][2]."_display"; 
 				$require_field = $wpmem_fields[$row][2]."_required";
+				$checked_field = $wpmem_fields[$row][2]."_checked";
 	
-				if ($wpmem_fields[$row][2]!='user_email'){
+				if( $wpmem_fields[$row][2] != 'user_email' ){
 					//if ($_POST[$display_field] == "on") {$wpmem_newfields[$row][4] = 'y';}
 					//if ($_POST[$require_field] == "on") {$wpmem_newfields[$row][5] = 'y';}
 					$wpmem_newfields[$nrow][4] = $_POST[$display_field];
@@ -456,10 +467,16 @@ function wpmem_admin()
 					$wpmem_newfields[$nrow][5] = 'y';		
 				}
 	
-				if ($wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y') { $chkreq = "err"; }
+				if( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) { $chkreq = "err"; }
 				$wpmem_newfields[$nrow][6] = $wpmem_fields[$row][6];
-				if ($wpmem_fields[$row][7]) { $wpmem_newfields[$nrow][7] = $wpmem_fields[$row][7]; }
-				if ($wpmem_fields[$row][8]) { $wpmem_newfields[$nrow][8] = $wpmem_fields[$row][8]; }
+				if( $wpmem_fields[$row][7] ) { $wpmem_newfields[$nrow][7] = $wpmem_fields[$row][7]; }
+				if( $wpmem_fields[$row][3] == 'checkbox' ) { 
+					if( $_POST[$checked_field] == 'y' ) { echo "checked: " . $_POST[$checked_field];
+						$wpmem_newfields[$nrow][8] = 'y';
+					} else {
+						$wpmem_newfields[$nrow][8] = 'n';
+					}
+				}
 			
 				$nrow = $nrow + 1;
 			}
@@ -467,6 +484,12 @@ function wpmem_admin()
 		}
 		
 		if( $_POST['add_field'] == 'add' ) {
+		
+			// error check that field label and option name are included and unique
+			if( ! $_POST['add_name'] )   { $add_field_err_msg = __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ); }
+			if( ! $_POST['add_option'] ) { $add_field_err_msg = __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ); }
+			// @todo check for duplicate field names
+
 		
 			// error check option name for spaces and replace with underscores
 			$us_option = $_POST['add_option'];
@@ -489,9 +512,17 @@ function wpmem_admin()
 		
 		if ( WPMEM_DEBUG == true ) { echo "<pre>"; print_r($wpmem_newfields); echo "</pre>"; }
 		
-		update_option('wpmembers_fields',$wpmem_newfields);
-		$wpmem_fields = $wpmem_newfields; 
-		$did_update = __('WP-Members fields were updated', 'wp-members');
+		if( ! $add_field_err_msg ) {
+			update_option('wpmembers_fields',$wpmem_newfields);
+			$wpmem_fields = $wpmem_newfields; 
+			$did_update = __('WP-Members fields were updated', 'wp-members');
+		} else {
+			$did_update = $add_field_err_msg;
+		}
+		
+		// sets the fields tab as active - can remove if we change to another layout
+		$active_tab = 'fields';
+		
 		break;
 
 	case ("update_dialogs"):
@@ -510,7 +541,11 @@ function wpmem_admin()
 		// new in 2.4 for Terms of Service
 		update_option('wpmembers_tos', $_POST['dialogs_tos']);		
 		
-		$did_update = __('WP-Members dialogs were updated', 'wp-members');		
+		$did_update = __('WP-Members dialogs were updated', 'wp-members');
+		
+		// sets the dialogs tab as active - can remove if we change to another layout
+		$active_tab = 'dialogs';
+				
 		break;
 		
 	case ("update_captcha"):
@@ -526,6 +561,10 @@ function wpmem_admin()
 		
 		update_option('wpmembers_captcha',$wpmem_captcha);
 		$did_update = __('reCAPTCHA was updated for WP-Members', 'wp-members');
+		
+		// sets the captcha tab as active - can remove if we change to another layout
+		$active_tab = 'captcha';
+		
 		break;
 
 	case ("update_exp"):
@@ -538,6 +577,10 @@ function wpmem_admin()
 		
 		$wpmem_experiod = $wpmem_newexperiod; if (WPMEM_DEBUG == true) { var_dump($wpmem_experiod); }
 		$did_update = __('WP-Members expiration periods were updated', 'wp-members');
+		
+		// sets the exp tab as active - can remove if we change to another layout
+		$active_tab = 'exp';
+		
 		break;
 
 	}
@@ -554,7 +597,9 @@ function wpmem_admin()
 			<div class="error"><p><strong><?php _e('Settings were saved, but you have required fields that are not set to display!', 'wp-members'); ?></strong><br /><br />
 				<?php _e('Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that 
 				your displayed and required fields match up.  Mismatched fields are highlighted below.', 'wp-members'); ?></p></div>
-		<?php } else { ?>
+		<?php } elseif( $add_field_err_msg ) { ?>
+        	<div class="error"><p><strong><?php echo $add_field_err_msg; ?></p></div>
+        <?php } else { ?>
 			<div id="message" class="updated fade"><p><strong><?php echo $did_update; ?></strong></p></div>
 		<?php }
 
@@ -632,14 +677,14 @@ function wpmem_admin()
 	?>
 	
 	<ul class="tabs">
-		<li><a href="#tab1"><?php _e('Options', 'wp-members'); ?></a></li>
-		<li><a href="#tab2"><?php _e('Fields', 'wp-members'); ?></a></li>
-		<li><a href="#tab3"><?php _e('Dialogs', 'wp-members'); ?></a></li>
+		<li<?php if( $active_tab == 'options' || ! $active_tab ) { echo ' class="active"'; } ?>><a href="#tab1"><?php _e('Options', 'wp-members'); ?></a></li>
+		<li<?php if( $active_tab == 'fields' ) { echo ' class="active"'; } ?>><a href="#tab2"><?php _e('Fields', 'wp-members'); ?></a></li>
+		<li<?php if( $active_tab == 'dialogs' ) { echo ' class="active"'; } ?>><a href="#tab3"><?php _e('Dialogs', 'wp-members'); ?></a></li>
 		<?php if ($show_recaptcha == true ) { ?>
-		<li><a href="#tab4"><?php _e('reCAPTCHA', 'wp-members'); ?></a></li>
+		<li<?php if( $active_tab == 'captcha' ) { echo ' class="active"'; } ?>><a href="#tab4"><?php _e('reCAPTCHA', 'wp-members'); ?></a></li>
 		<?php }
 		if ($show_subscriptions == true ) { ?> 
-		<li><a href="#tab5"><?php _e('Subscriptions', 'wp-members'); ?></a></li>
+		<li<?php if( $active_tab == 'exp' ) { echo ' class="active"'; } ?>><a href="#tab5"><?php _e('Subscriptions', 'wp-members'); ?></a></li>
 		<?php }
 		if ($show_paypal == true ) { ?>
 		<li><a href="#tab6"><?php _e('PayPal Settings', 'wp-members'); ?></a></li>
@@ -648,26 +693,26 @@ function wpmem_admin()
 
 	<div class="tab_container">
 
-		<div id="tab1" class="tab_content">
+		<div id="tab1" class="tab_content<?php if( $active_tab == 'options' || ! $active_tab ) { echo ' active'; } ?>">
 			<?php wpmem_a_build_options($wpmem_settings); ?>
 		</div>
 
-		<div id="tab2" class="tab_content">
+		<div id="tab2" class="tab_content<?php if( $active_tab == 'fields' ) { echo ' active'; } ?>">
 			<?php wpmem_a_build_fields($wpmem_fields); ?>
 		</div>
 
-		<div id="tab3" class="tab_content">
+		<div id="tab3" class="tab_content<?php if( $active_tab == 'dialogs' ) { echo ' active'; } ?>">
 			<?php wpmem_a_build_dialogs($wpmem_dialogs); ?>	
 		</div>
 		
 		<?php if ($show_recaptcha == true ) { ?>
-		<div id="tab4" class="tab_content">
+		<div id="tab4" class="tab_content<?php if( $active_tab == 'captcha' ) { echo ' active'; } ?>">
 			<?php wpmem_a_build_captcha_options(); ?>
 		</div>
 		<?php } 
 		
 		if ($show_subscriptions == true ) { ?>
-		<div id="tab5" class="tab_content">
+		<div id="tab5" class="tab_content<?php if( $active_tab == 'exp' ) { echo ' active'; } ?>">
 			<?php wpmem_a_build_expiration( $wpmem_experiod, $wpmem_settings[9], $wpmem_settings[8] ); ?>
 		</div>
 		<?php }

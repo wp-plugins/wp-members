@@ -25,7 +25,7 @@ require_once('../../../wp-admin/admin.php');
 if ( !current_user_can('list_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-if (!get_option('wpmembers_export')) {
+if ( !get_option('wpmembers_export') ) {
 	wp_die(__('there was an error and no users were exported', 'wp-members'));
 }
 
@@ -45,9 +45,7 @@ $wpmem_fields = get_option('wpmembers_fields');
 // do the header row
 $hrow = "User ID,Username,";
 for ($row = 0; $row < count($wpmem_fields); $row++) {
-	if ($wpmem_fields[$row][4] == 'y') {
 		$hrow.= $wpmem_fields[$row][1].",";
-	}
 }
 
 if (WPMEM_MOD_REG == 1) {
@@ -72,12 +70,10 @@ foreach ($user_arr as $user) {
 
  	$data.= $user_info->ID.",".$user_info->user_login.",";
 	for ($row = 0; $row < count($wpmem_fields); $row++) {
-		if ($wpmem_fields[$row][4] == 'y') {
-			if ($wpmem_fields[$row][2] == 'user_email') {
-				$data.= $user_info->user_email.",";
-			} else {
-				$data.= get_user_meta($user, $wpmem_fields[$row][2], true).",";
-			}
+		if ($wpmem_fields[$row][2] == 'user_email') {
+			$data.= $user_info->user_email.",";
+		} else {
+			$data.= get_user_meta($user, $wpmem_fields[$row][2], true).",";
 		}
 	}
 	

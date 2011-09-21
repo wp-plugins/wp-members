@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -19,8 +19,8 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Login/Registration inline with content rather than the WP login page
 * User registration and member information management integrated into your theme
 * Sidebar login widget
-* Can set fields that will display in the registration form
-* Can set fields to be required
+* Create custom registration fields
+* Can set which fields display and which are required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
 * Turn registration off completely (for admins that want to control registration in some other way)
@@ -107,8 +107,28 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 == Changelog ==
 
+= 2.6.2 =
+This is a bug fix release with some additional improvements.
+
+Bug fixes
+
+* Fixed checkbox that is set to be checked by default remains checked in the update user settings front end even if the user unchecked it.
+* Fixed legacy form password reset bug
+
+Improvements
+
+* Registration fields that are not selected to be displayed on the front end will still display on the admin side and be exported. This provides fields that can be used by the admin only for additional user information.
+* Checkbox field can be edited in the Manage Fields panel to be checked by default or not.
+* Keep the active tab active when editing various plugin settings.
+
 = 2.6.1 =
 Bug fix release
+
+* Corrected the settings link in the WP installed plugins panel.
+* Fixed the view menu links for the bulk user management.
+* Fixed ignore warning messages on the WP-Members settings.
+* Fixed bulk activate users so already activated users would not be inadvertently reactivated.
+* Deactivated auto-excerpt function (was not to be activated in 2.6 production version).
 
 = 2.6.0 =
 This version is a feature release that also includes some rebuilt functions and other code improvements.

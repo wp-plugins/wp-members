@@ -135,7 +135,7 @@ function wpmem_login_form_OLD ( $page, $arr )
 		<td width="166">
 			<input type="hidden" name="redirect_to" value="' . get_permalink() . '" />';
 	
-	if ( $arr[7] != 'login' ) { wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
+	if ( $arr[7] != 'login' ) { $form = $form . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ); }
 	
 	$form = $form . wpmem_create_formfield( 'a', 'hidden', $arr[7] ) . '
 			<input type="submit" name="Submit" value="' . $arr[8] . '" />
@@ -309,7 +309,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 					$val = $wpmem_fields[$row][7]; 
 					
 					// if it should it be checked by default (& only if form not submitted), then override above...
-					if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
+					if( $wpmem_fields[$row][8] == 'y' && ( ! $_POST && $toggle != 'edit' ) ) { $val = $valtochk = $wpmem_fields[$row][7]; }
 				} 
 				
 				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
@@ -653,7 +653,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = ' ')
 						$val = $wpmem_fields[$row][7]; 
 							
 						// if it should it be checked by default (& only if form not submitted), then override above...
-						if (!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $valtochk = $wpmem_fields[$row][7]; }
+						if( $wpmem_fields[$row][8] == 'y' && ( ! $_POST && $toggle != 'edit' ) ) { $val = $valtochk = $wpmem_fields[$row][7]; }
 					}
 						
 					$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);

@@ -32,8 +32,9 @@
 
 		//When page loads...
 		$(".tab_content").hide(); //Hide all content
-		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-		$(".tab_content:first").show(); //Show first tab content
+		//$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		//$(".tab_content:first").show(); //Show first tab content
+		$(".active").show(); //Show first tab content
 
 		//On Click Event
 		$("ul.tabs li").click(function() {

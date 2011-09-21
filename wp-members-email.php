@@ -122,10 +122,10 @@ function wpmem_inc_regemail($user_id,$password,$toggle)
 endif;
 
 
-if ( ! function_exists( 'wpmem_notify_admin' ) ):
-function wpmem_notify_admin($user_id, $wpmem_fields)
+if( ! function_exists( 'wpmem_notify_admin' ) ):
+function wpmem_notify_admin( $user_id, $wpmem_fields )
 {
-	$user			= new WP_User($user_id);
+	$user			= new WP_User( $user_id );
 	$blogname		= get_option('blogname');
 	$the_permalink	= $_REQUEST['redirect_to'];  //NEW for 2.4
 	
