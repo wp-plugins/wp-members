@@ -838,12 +838,13 @@ function wpmem_admin_users()
 	
 	// here is where we handle actions on the table...
 	
-	if( $_POST['doaction'] ) { 
-		$action = $_POST['action'];
-		$doaction = true;
-	} 
+	if( $_POST ) { 
 	
-	if( $doaction ) {	
+		if( $_POST['action'] ) { 
+			$action = $_POST['action']; 
+		} elseif( $_POST['action2'] ) { 
+			$action = $_POST['action2']; 
+		}	
 		
 		$users = $_POST['users'];
 
@@ -930,14 +931,12 @@ function wpmem_admin_users()
 		</div>
 
 		<?php // NOT YET... ?><!--
-		<form class="search-form" action="" method="get">
 			<p class="search-box">
 				<label class="screen-reader-text" for="user-search-input">Search Users:</label>
 				<input type="text" id="user-search-input" name="usersearch" value="" />
 
 				<input type="submit" value="Search Users" class="button" />
-			</p>
-		</form>-->
+			</p>-->
 	<?php
 	
 		// done with the action items, now build the page
@@ -1116,7 +1115,7 @@ function wpmem_a_build_user_action( $top, $arr )
 { ?>
 	<div class="tablenav<?php if( $top ){ echo ' top'; }?>">
 		<div class="alignleft actions">
-			<select name="action">
+			<select name="action<?php if( !$top ) { echo '2'; } ?>">
 				<option value="" selected="selected"><?php _e('Bulk Actions', 'wp-members'); ?></option>
 			<?php if (WPMEM_MOD_REG == 1) { ?>
 				<option value="activate"><?php _e('Activate', 'wp-members'); ?></option>
