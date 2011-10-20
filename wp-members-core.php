@@ -90,7 +90,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @global string $wpmem_themsg
  * @global string $wpmem_captcha_err
  * @global array $post
- * @param string $contnet
+ * @param string $content
  * @return $content
  *
  * @todo update/evaluate for cleaner shortcode, shortcode used to execute twice due to mmembers area/register legacy shortcodes; wpmem_test_shortcode should prevent that/
@@ -611,24 +611,34 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
 /**
  * Creates form fields
  *
+ * Creates various form fields and returns them as a string.
+ *
  * @since 1.8
+ *
+ * @param string $name the name of the field
+ * @param string $type the field type
+ * @param string $value the default value for the field
+ * @param string $valtochk optional for comparing the default value of the field
+ * @param string $class optional for setting a specific CSS class for the field 
+ * @return string $str the field returned as a string
  */
-function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbox')
+function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' )
 {
-	switch ($type) {
+	switch( $type ) {
 
 	case "checkbox":
-		if ($class = 'textbox') { $class = "checkbox"; }
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected($value,$valtochk,$type) . " />\n";
+		if( $class = 'textbox' ) { $class = "checkbox"; }
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected( $value, $valtochk, $type ) . " />\n";
 		break;
 
 	case "text":
-		$value = stripslashes($value);
+		$value = stripslashes( $value );
 		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
 		break;
 
 	case "textarea":
-		if ($class = 'textbox') { $class = "textarea"; }
+		$value = stripslashes( $value );
+		if( $class = 'textbox' ) { $class = "textarea"; }
 		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
 		break;
 
@@ -641,7 +651,18 @@ function wpmem_create_formfield($name,$type,$value,$valtochk=null,$class='textbo
 		break;
 
 	case "option":
-		$str = "<option value=\"$value\" " . wpmem_selected($value, $valtochk, 'select') . " >$name</option>\n";
+		$str = "<option value=\"$value\" " . wpmem_selected( $value, $valtochk, 'select' ) . " >$name</option>\n";
+		break;
+
+	case "select":
+		if( $class = 'textbox' ) { $class = "dropdown"; }
+		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
+		foreach( $value as $option ) {
+			$pieces = explode( '|', $option );
+			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">$pieces[0]</option>\n";
+		}
+		$str = $str . "</select>\n";
+		break;
 
 	}
 	

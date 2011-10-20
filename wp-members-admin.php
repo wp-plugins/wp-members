@@ -16,17 +16,24 @@
  */
  
 
-add_filter('plugin_action_links', 'wpmem_admin_plugin_links', 10, 2); 
+add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 ); 
 /**
  * filter to add link to settings from plugin panel
+ *
+ * @since 2.4
+ *
+ * @param  array  $links
+ * @param  string $file
+ * @static string $wpmem_plugin
+ * @return array  $links
  */
-function wpmem_admin_plugin_links($links, $file)
+function wpmem_admin_plugin_links( $links, $file )
 {
 	static $wpmem_plugin;
-	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename('wp-members/wp-members.php');
+	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
 	if( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __('Settings') . '</a>';
-		$links = array_merge( array($settings_link), $links);
+		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings' ) . '</a>';
+		$links = array_merge( array( $settings_link ), $links );
 	}
 	return $links;
 }
@@ -45,40 +52,42 @@ function wpmem_admin_plugin_links($links, $file)
 *****************************************************/
 
 
-add_action('edit_user_profile', 'wpmem_admin_fields');
+add_action( 'edit_user_profile', 'wpmem_admin_fields' );
 /**
  * add WP-Members fields to the WP user profile screen
+ *
+ * @since 2.1
  */
 function wpmem_admin_fields()
 {
 	$user_id = $_REQUEST['user_id']; ?>
-	
+
 	<h3><?php _e('WP-Members Additional Fields'); ?></h3>   
  	<table class="form-table">
 		<?php
 		$wpmem_fields = get_option('wpmembers_fields');
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		
+
 			if( $wpmem_fields[$row][6] == "n" ) { ?>    
-			
+
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
 					<td><?php
 						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
-						if( $wpmem_fields[$row][3] == 'checkbox' ) { 
+						if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
 							$valtochk = $val; 
 							$val = $wpmem_fields[$row][7];
 						}
 						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val,$valtochk );
-						$valtochk = '';
+						$valtochk = ''; // empty for the next field in the loop
 					?></td>
 				</tr>
-			
+
 			<?php } 
-		
+
 		}
 
-		// see if reg is moderated, and if the user has been activated		
+		// see if reg is moderated, and if the user has been activated
 		if( WPMEM_MOD_REG == 1 ) { 
 			if( get_user_meta( $user_id, 'active', 'true' ) != 1 ) { ?>
 
@@ -89,9 +98,9 @@ function wpmem_admin_fields()
 
 			<?php }
 		} 
-		
+
 		// if using subscription model, show expiration
-		// if registration is moderated, this doesn't show if user is not active yet.		
+		// if registration is moderated, this doesn't show if user is not active yet.
 		if( WPMEM_USE_EXP == 1 ) {
 			if( ( WPMEM_MOD_REG == 1 &&  get_user_meta( $user_id, 'active', 'true' ) == 1 ) || ( WPMEM_MOD_REG != 1 ) ) { 
 				wpmem_a_extenduser( $user_id );
@@ -108,6 +117,8 @@ function wpmem_admin_fields()
 add_action('profile_update', 'wpmem_admin_update');
 /**
  * updates WP-Members fields from the WP user profile screen
+ *
+ * @since 2.1
  */
 function wpmem_admin_update()
 {
@@ -806,52 +817,53 @@ function wpmem_a_build_captcha_options()
 *****************************************************/
 
 /**
- * handles user management
+ * User management panel
+ *
+ * Creates the bulk user management panel for the
+ * Users > WP-Members page.
+ *
+ * @since 2.4
  */
 function wpmem_admin_users()
 {	
 	// check to see if we need phone and country columns
-	$wpmem_fields = get_option('wpmembers_fields');
-	for ($row = 0; $row < count($wpmem_fields); $row++)
+	$wpmem_fields = get_option( 'wpmembers_fields' );
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ )
 	{ 
-		if ($wpmem_fields[$row][2] == 'country' && $wpmem_fields[$row][4] == 'y') { $col_country = true; }
-		if ($wpmem_fields[$row][2] == 'phone1' && $wpmem_fields[$row][4] == 'y') { $col_phone = true; }
+		if( $wpmem_fields[$row][2] == 'country' && $wpmem_fields[$row][4] == 'y' ) { $col_country = true; }
+		if( $wpmem_fields[$row][2] == 'phone1' && $wpmem_fields[$row][4] == 'y' ) { $col_phone = true; }
 	}
 	
 	// should run other checks for expiration, activation, etc...
 	
-	
 	// here is where we handle actions on the table...
 	
-	if ( $_POST['doaction'] ) { 
+	if( $_POST['doaction'] ) { 
 		$action = $_POST['action'];
 		$doaction = true;
-	} elseif ( $_POST['doaction2'] ) {
-		$action = $_POST['action2'];
-		$doaction = true;
-	}
+	} 
 	
-	if ($doaction) {	
+	if( $doaction ) {	
 		
 		$users = $_POST['users'];
 
-		switch ($action) {
+		switch( $action ) {
 		
 		case "activate":
 			$x = 0;
-			foreach ($users as $user) {
+			foreach( $users as $user ) {
 				// check to see if the user is already activated, if not, activate
-				if ( ! get_user_meta($user, 'active', true) ) {
-					wpmem_a_activate_user($user);
+				if( ! get_user_meta( $user, 'active', true ) ) {
+					wpmem_a_activate_user( $user );
 					$x++;
 				}
 			}
-			$user_action_msg = sprintf( __('%d users were activated.', 'wp-members'), $x );
+			$user_action_msg = sprintf( __( '%d users were activated.', 'wp-members' ), $x );
 			break;
 			
 		case "export":
-			update_option('wpmembers_export',$users);
-			$user_action_msg = sprintf( __('Users ready to export, %s click here %s to generate and download a CSV.', 'wp-members'),  "<a href=\"".WP_PLUGIN_URL."/wp-members/wp-members-export.php\" target=\"_blank\">", "</a>" );
+			update_option( 'wpmembers_export', $users );
+			$user_action_msg = sprintf( __( 'Users ready to export, %s click here %s to generate and download a CSV.', 'wp-members' ),  "<a href=\"".WP_PLUGIN_URL."/wp-members/wp-members-export.php\" target=\"_blank\">", "</a>" );
 			break;
 		
 		}
@@ -861,16 +873,17 @@ function wpmem_admin_users()
 	<div class="wrap">
 
 		<div id="icon-users" class="icon32"><br /></div>
-		<h2><?php _e('WP-Members Users', 'wp-members'); ?>  <a href="user-new.php" class="button add-new-h2"><?php _e('Add New', 'wp-members'); ?></a></h2>
+		<h2><?php _e( 'WP-Members Users', 'wp-members' ); ?>  <a href="user-new.php" class="button add-new-h2"><?php _e( 'Add New', 'wp-members' ); ?></a></h2>
 		
-	<?php if ($user_action_msg) { ?>
+	<?php if( $user_action_msg ) { ?>
 
 		<div id="message" class="updated fade"><p><strong><?php echo $user_action_msg; ?></strong></p></div>
 
 	<?php } ?>
-		
+
+		<form id="posts-filter" action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
+	
 		<div class="filter">
-			<form id="" action="" method="get">
 			<ul class="subsubsub">
 			
 			<?php
@@ -878,42 +891,42 @@ function wpmem_admin_users()
 			// For now, I don't see a good way of working this for localization without a 
 			// huge amount of additional programming (like a multi-dimensional array)
 			
-			$tmp  = array("All", "Not Active", "Trial", "Subscription", "Expired", "Not Exported");
-			for ($row = 0; $row < count($tmp); $row++)
+			$tmp  = array( "All", "Not Active", "Trial", "Subscription", "Expired", "Not Exported" );
+			if( isset( $_GET['show'] ) ) { $show = $_GET['show']; }
+			for( $row = 0; $row < count( $tmp ); $row++ )
 			{
 				
 				$link = "users.php?page=wpmem-users";
-				if ($row != 0) {
+				if( $row != 0 ) {
 				
-					$lcas = strtolower($tmp[$row]);
-					$lcas = str_replace (" ", "", $lcas);
+					$lcas = strtolower( $tmp[$row] );
+					$lcas = str_replace( " ", "", $lcas );
 					$link.= "&#038;show=";
 					$link.= $lcas;
 					
 					$curr = "";
-					if ($_GET['show'] == $lcas) { $curr = " class=\"current\""; }
+						if( $show == $lcas ) { $curr = " class=\"current\""; }
 					
 				} else {
 				
-					if (!$_GET['show']) { $curr = " class=\"current\""; }
+					if( ! $show ) { $curr = " class=\"current\""; }
 					
 				}
 				
 				$end = "";
-				if ($row != 5) { $end = " |"; }
+				if( $row != 5 ) { $end = " |"; }
 
 				$echolink = true;
-				if ($lcas == "notactive" && WPMEM_MOD_REG != 1) { $echolink = false; }
-				if ($lcas == "trial"     && WPMEM_USE_TRL != 1) { $echolink = false; }
+				if( $lcas == "notactive" && WPMEM_MOD_REG != 1 ) { $echolink = false; }
+				if( $lcas == "trial"     && WPMEM_USE_TRL != 1 ) { $echolink = false; }
 				
-				if (($lcas == "subscription" || $lcas == "expired") && WPMEM_USE_EXP != 1) { $echolink = false; }
+				if( ( $lcas == "subscription" || $lcas == "expired" ) && WPMEM_USE_EXP != 1 ) { $echolink = false; }
 				
-				if ($echolink) { echo "<li><a href=\"$link\"$curr>$tmp[$row] <span class=\"count\"></span></a>$end</li>"; }
+				if( $echolink ) { echo "<li><a href=\"$link\"$curr>$tmp[$row] <span class=\"count\"></span></a>$end</li>"; }
 			}
-			
+
 			?>
 			</ul>
-			</form>
 		</div>
 
 		<?php // NOT YET... ?><!--
@@ -925,101 +938,145 @@ function wpmem_admin_users()
 				<input type="submit" value="Search Users" class="button" />
 			</p>
 		</form>-->
-		
-		<form id="posts-filter" action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
+	<?php
+	
+		// done with the action items, now build the page
+		$users_per_page = 10;
 
-		<?php wpmem_a_build_user_action(); ?>
+		// workout the different queries, etc...
+		if( ! $show ) {
+
+			$result = count_users();
+
+			if( isset( $_REQUEST['paged'] ) ) { 
+				$paged = $_REQUEST['paged']; 
+			} else {
+				$paged = 1;
+			}
+
+			$arr = array(
+				'show' => 'Total Users',
+				'show_num' => $users_per_page,
+				'total_users' =>  $result['total_users'],
+				'pages' => ( ceil( ( $result['total_users'] ) / $users_per_page ) ),
+				'paged' => $paged,
+				'link' => "users.php?page=wpmem-users"
+				);
+
+			if( $paged == 1 ) { 
+				$offset = 0;
+			} else {
+				$offset = ( ( $arr['paged'] * $users_per_page ) - $users_per_page );
+			}
+			
+			$args = array(
+				'offset' => $offset,
+				'number' => $users_per_page,
+				'fields' => 'all'
+				);
+		
+		} elseif( $show == 'notactive' ) {
+
+			/*global $wpdb;
+			
+			$sql = "SELECT user_id FROM `wp32`.`wp_usermeta` WHERE meta_key = 'active' AND meta_value = 1;";
+			$user = $wpdb->get_results($sql, OBJECT);
+			
+			*/
+
+		} elseif( $show == 'notexported' ) {
+
+		}
+		// http://codex.wordpress.org/Function_Reference/get_users
+			
+		$users = get_users( $args ); // get_users_of_blog(); ?>		
+
+
+		<?php wpmem_a_build_user_action( true, $arr ); ?>
 
 		<table class="widefat fixed" cellspacing="0">
 			<thead>
-			<?php $colspan = wpmem_a_build_user_tbl_head($col_phone,$col_country); ?>
+			<?php //$colspan = wpmem_a_build_user_tbl_head( $col_phone, $col_country ); ?>
+			<?php $colspan = wpmem_a_build_user_tbl_head( array( 'phone'=>$col_phone, 'country'=>$col_country ) ); ?>
 			</thead>
 
 			<tfoot>
-			<?php $colspan = wpmem_a_build_user_tbl_head($col_phone,$col_country); ?>
+			<?php //$colspan = wpmem_a_build_user_tbl_head( $col_phone, $col_country ); ?>
+			<?php $colspan = wpmem_a_build_user_tbl_head( array( 'phone'=>$col_phone, 'country'=>$col_country ) ); ?>
 			</tfoot>
 
 			<tbody id="users" class="list:user user-list">
 
 			<?php	
-
-			$blogusers = get_users_of_blog();
-
-			if(WPMEM_DEBUG == true) { echo "<pre>\n";print_r($blogusers);echo "</pre>\n"; }
-			$show = $_GET['show']; $x = 0;
-			for ($row = 0; $row < count($blogusers); $row++)
+			if( WPMEM_DEBUG == true ) { echo "<pre>\n"; print_r( $users ); echo "</pre>\n"; }
+			$show = $_GET['show']; $x=0;
+			foreach( $users as $user )
 			{
 				// are we filtering results? (active, trials, etc...)
 				
 				$chk_show = false; 
-				switch ($show) {
+				switch( $show ) {
 				case "notactive":
-					if (get_user_meta($blogusers[$row]->user_id,'active','true') != 1) { $chk_show = true; }
+					if( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) { $chk_show = true; }
 					break;
 				case "trial":
-					$chk_exp_type = get_user_meta($blogusers[$row]->user_id,'exp_type','true');
-					if ($chk_exp_type == 'trial') { $chk_show = true; }
+					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
+					if( $chk_exp_type == 'trial' ) { $chk_show = true; }
 					break;
 				case "subscription":
-					$chk_exp_type = get_user_meta($blogusers[$row]->user_id,'exp_type','true');
-					if ($chk_exp_type == 'subscription') { $chk_show = true; }
+					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
+					if( $chk_exp_type == 'subscription' ) { $chk_show = true; }
 					break;
 				case "expired":
-					if (wpmem_chk_exp($blogusers[$row]->user_id)) { $chk_show = true; }
+					if( wpmem_chk_exp( $user->ID ) ) { $chk_show = true; }
 					break;
 				case "notexported":
-					if (get_user_meta($blogusers[$row]->user_id,'exported','true') != 1) { $chk_show = true; }
+					if( get_user_meta( $user->ID, 'exported', 'true' ) != 1 ) { $chk_show = true; }
 					break;
 				}
 
-				if (!$show || $chk_show == true) {
+				if( !$show || $chk_show == true ) {
 					
-					$class = ($class == 'alternate') ? '' : 'alternate';
-					
-					$theid = $blogusers[$row]->user_id;
-					$fname = get_user_meta($blogusers[$row]->user_id,'first_name','true');
-					$lname = get_user_meta($blogusers[$row]->user_id,'last_name','true');
+					$class = ( $class == 'alternate' ) ? '' : 'alternate';
 
-					echo "<tr id=\"".$blogusers[$row]->user_id."\" class=\"$class\">\n";
-					echo "	<th scope='row' class='check-column'><input type='checkbox' name='users[]' id=\"user_$theid\" class='administrator' value=\"$theid\" /></th>\n";
+					echo "<tr id=\"{$user->ID}\" class=\"$class\">\n";
+					echo "	<th scope='row' class='check-column'><input type='checkbox' name='users[]' id=\"user_{$user->ID}\" class='administrator' value=\"{$user->ID}\" /></th>\n";
 					echo "	<td class=\"username column-username\" nowrap>\n";
-					echo "		<strong><a href=\"user-edit.php?user_id=$theid&#038;wp_http_referer=%2Fwp%2Fwp-admin%2Fusers.php\">".$blogusers[$row]->user_login."</a></strong><br />\n";
+					echo "		<strong><a href=\"user-edit.php?user_id={$user->ID}&#038;wp_http_referer=%2Fwp%2Fwp-admin%2Fusers.php\">" . $user->user_login . "</a></strong><br />\n";
 					echo "	</td>\n";
-					echo "	<td class=\"name column-name\" nowrap>$fname $lname</td>\n";
-					echo "	<td class=\"email column-email\" nowrap><a href='mailto:".$blogusers[$row]->user_email."' title='E-mail: ".$blogusers[$row]->user_email."'>".$blogusers[$row]->user_email."</a></td>\n";
+					echo "	<td class=\"name column-name\" nowrap>" . get_user_meta( $user->ID, 'first_name', 'true' ) . "&nbsp" . get_user_meta( $user->ID, 'last_name', 'true' ) . "</td>\n";
+					echo "	<td class=\"email column-email\" nowrap><a href='mailto:" . $user->user_email . "' title='E-mail: " . $user->user_email . "'>" . $user->user_email . "</a></td>\n";
 					
-					if ($col_phone == true) {
-						$phone = get_user_meta($blogusers[$row]->user_id,'phone1','true');
-						echo "	<td class=\"email column-email\" nowrap>$phone</td>\n";
+					if( $col_phone == true ) {
+						echo "	<td class=\"email column-email\" nowrap>" . get_user_meta( $user->ID, 'phone1', 'true' ) . "</td>\n";
 					}
 					
-					if ($col_country == true) {
-						$country = get_user_meta($blogusers[$row]->user_id,'country','true');
-						echo "	<td class=\"email column-email\" nowrap>$country</td>\n";
+					if( $col_country == true ) {
+						echo "	<td class=\"email column-email\" nowrap>" . get_user_meta( $user->ID, 'country', 'true' ) . "</td>\n";
 					}
 					
-					if (WPMEM_MOD_REG == 1) { 
+					if( WPMEM_MOD_REG == 1 ) { 
 						echo "	<td class=\"role column-role\" nowrap>";
-						if (get_user_meta($theid,'active','true') != 1) { _e('No'); }
+						if( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) { _e( 'No', 'wp-members' ); }
 						echo "</td>\n";
 					}
 					
-					if (WPMEM_USE_EXP == 1) {
-						if (WPMEM_USE_TRL == 1) {
-							echo "	<td class=\"email column-email\" nowrap>";echo ucfirst( get_user_meta($theid, 'exp_type', 'true') );echo "</td>\n";
+					if( WPMEM_USE_EXP == 1 ) {
+						if( WPMEM_USE_TRL == 1 ) {
+							echo "	<td class=\"email column-email\" nowrap>"; echo ucfirst( $user->exp_type ); echo "</td>\n";
 						}
-						echo "	<td class=\"email column-email\" nowrap>";echo get_user_meta($theid, 'expires', 'true');echo "</td>\n";
+						echo "	<td class=\"email column-email\" nowrap>"; echo $user->expires; echo "</td>\n";
 					}
 					echo "</tr>\n"; $x++;
 				}
 			} 
 			
-			if ($x == 0) { echo "<tr><td colspan=\"$colspan\">"; _e('No users matched your criteria', 'wp-members'); echo "</td></tr>"; } ?>
+			if( $x == 0 ) { echo "<tr><td colspan=\"$colspan\">"; _e( 'No users matched your criteria', 'wp-members' ); echo "</td></tr>"; } ?>
 
 		</table>
 		
-		<?php wpmem_a_build_user_action('2'); ?>
-		
+		<?php wpmem_a_build_user_action( false, $arr ); ?>
+
 		</form>
 	</div>
 <?php
@@ -1027,89 +1084,110 @@ function wpmem_admin_users()
 
 
 /**
- * activates a user
+ * Activates a user
+ *
+ * @since 2.4
+ *
+ * @param int $user_id
  */
-function wpmem_a_activate_user($user_id)
+function wpmem_a_activate_user( $user_id )
 {
-	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
-	$hashpassword = md5($new_pass);
+	$new_pass = wp_generate_password();
+	wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_pass ) );
 
-	global $wpdb;
-	$wpdb->update( $wpdb->users, array( 'user_pass' => $hashpassword ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
 
-	// new in 2.4 for user expiration
-	if (WPMEM_USE_EXP == 1) { wpmem_set_exp($user_id); }
-	
-	require_once('wp-members-email.php');
+	require_once( 'wp-members-email.php' );
 
-	wpmem_inc_regemail($user_id,$new_pass,2);
-	update_user_meta($user_id,'active',1); 
+	wpmem_inc_regemail( $user_id, $new_pass, 2 );
+	update_user_meta( $user_id, 'active', 1 ); 
 }
 
 
 /**
  * builds the user action dropdown
+ *
+ * @param bool  $top
+ * @param array $arr
+ *
+ * @since 2.4
  */
-function wpmem_a_build_user_action($x = '')
+function wpmem_a_build_user_action( $top, $arr )
 { ?>
-
-		<div class="tablenav">
-			<div class="alignleft actions">
-				<select name="action<?php echo $x; ?>">
-					<option value="" selected="selected"><?php _e('Bulk Actions', 'wp-members'); ?></option>
-				<?php if (WPMEM_MOD_REG == 1) { ?>
-					<option value="activate"><?php _e('Activate', 'wp-members'); ?></option>
-				<?php } ?>
-					<option value="export"><?php _e('Export', 'wp-members'); ?></option>
-				</select>
-				<input type="submit" value="<?php _e('Apply', 'wp-members'); ?>" name="doaction<?php echo $x; ?>" id="doaction<?php echo $x; ?>"" class="button-secondary action" />
-			</div>
-			<br class="clear" />
+	<div class="tablenav<?php if( $top ){ echo ' top'; }?>">
+		<div class="alignleft actions">
+			<select name="action">
+				<option value="" selected="selected"><?php _e('Bulk Actions', 'wp-members'); ?></option>
+			<?php if (WPMEM_MOD_REG == 1) { ?>
+				<option value="activate"><?php _e('Activate', 'wp-members'); ?></option>
+			<?php } ?>
+				<option value="export"><?php _e('Export', 'wp-members'); ?></option>
+			</select>
+			<input type="submit" value="<?php _e('Apply', 'wp-members'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 		</div>
-
+		<?php if( $arr['show'] == 'Total Users' ) { ?>
+		<div class="tablenav-pages">
+			<span class="displaying-num"><?php echo $arr['show'] . ': ' . $arr['total_users']; ?></span>
+		<?php if( $arr['total_users'] > $arr['show_num'] ) { ?>
+			<span class="pagination-links">
+				<a class="first-page<?php if( $arr['paged'] == 1 ){ echo ' disabled'; } ?>" title="Go to the first page" href="<?php echo $arr['link']; ?>">&laquo;</a>
+				<a class="prev-page<?php if( $arr['paged'] == 1 ){ echo ' disabled'; } ?>" title="Go to the previous page" href="<?php echo $arr['link']; ?>&#038;paged=<?php echo ( $arr['paged'] - 1 ); ?>">&lsaquo;</a>
+				
+				<span class="paging-input"><input class="current-page" title="Current page" type="text" name="paged" value="<?php echo $arr['paged']; ?>" size="1" /> of <span class="total-pages"><?php echo $arr['pages']; ?></span></span>
+				
+				<a class="next-page<?php if( $arr['paged'] == $arr['pages'] ){ echo ' disabled'; } ?>" title="Go to the next page" href="<?php echo $arr['link']; ?>&#038;paged=<?php echo ( $arr['paged'] + 1 ); ?>">&rsaquo;</a>
+				<a class="last-page<?php if( $arr['paged'] == $arr['pages'] ){ echo ' disabled'; } ?>" title="Go to the last page" href="<?php echo $arr['link']; ?>&#038;paged=<?php echo $arr['pages']; ?>">&raquo;</a>
+			</span>
+		<?php } ?>
+		</div>
+		<?php } ?>
+		<br class="clear" />
+	</div>
 <?php 	
 }
 
 
 /**
  * builds the user management table heading
+ *
+ * @since 2.4
  */
-function wpmem_a_build_user_tbl_head($col_phone,$col_country)
+function wpmem_a_build_user_tbl_head( $args )
 {
-	$tbl_head_arr = array('Username', 'Name', 'E-mail', 'Phone', 'Country', 'Activated?', 'Subscription', 'Expires'); ?>
+	$arr = array( 'Username', 'Name', 'E-mail', 'Phone', 'Country', 'Activated?', 'Subscription', 'Expires' ); ?>
 
 	<tr class="thead">
 		<th scope="col" class="manage-column column-cb check-column" style=""><input type="checkbox" /></th>
-	<?php $colspan = 1; 
-	foreach ($tbl_head_arr as $val) { 
+	<?php $c = 1; 
+	foreach( $arr as $val ) { 
 
 		$showcol = false;
 		switch ($val) {
 		case "Phone":
-			if ($col_phone == true) { $showcol = true; $colspan++; }
+			if( $args['phone'] == true ) { $showcol = true; $c++; }
 			break;
 		case "Country":
-			if ($col_country == true) { $showcol = true; $colspan++; }
+			if( $args['country'] == true ) { $showcol = true; $c++; }
 			break;
 		case "Activated?":
-			if (WPMEM_MOD_REG == 1) { $showcol = true; $colspan++; }
+			if( WPMEM_MOD_REG == 1 ) { $showcol = true; $c++; }
 			break;
 		case "Subscription":
-			if (WPMEM_USE_EXP == 1 && WPMEM_USE_TRL == true) { $showcol = true; $colspan++; }
+			if( WPMEM_USE_EXP == 1 && WPMEM_USE_TRL == true ) { $showcol = true; $c++; }
 			break;
 		case "Expires":
-			if (WPMEM_USE_EXP == 1) { $showcol = true; $colspan++; }
+			if( WPMEM_USE_EXP == 1 ) { $showcol = true; $c++; }
 			break;
 		default:
-			$showcol = true; $colspan++; 
+			$showcol = true; $c++; 
 			break;
 		} 		
-		if ($showcol == true) { ?>
+		if( $showcol == true ) { ?>
 		<th scope="col" class="manage-column" style=""><?php echo $val ?></th>
 	<?php } 
 	} ?>
 	</tr><?php 
-	return $colspan;
+	return $c;
 }
 
 

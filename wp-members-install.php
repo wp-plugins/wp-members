@@ -35,31 +35,31 @@ function wpmem_do_install()
 	
 	$chk_force = false;
 
-	if( !get_option('wpmembers_settings') || $chk_force == true ) {
+	if( !get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
 		// this is a clean install (or an upgrade from 2.1 or earlier)
 		
-		$wpmem_settings = array(WPMEM_VERSION,1,0,0,0,0,0,0,0,0,0,0);
-		update_option('wpmembers_settings', $wpmem_settings, '', 'yes'); // using update_option to allow for forced update
+		$wpmem_settings = array( WPMEM_VERSION, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
+		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // using update_option to allow for forced update
 			
 		$wpmem_fields_options_arr = array(
 			//     order,   label(localized),      				optionname,   type, display, required, native, checked value, checked by default
-			array ( 1,  __('First Name', 'wp-members'),         'first_name', 'text',     'y', 'y', 'y' ),	
-			array ( 2,  __('Last Name', 'wp-members'),          'last_name',  'text',     'y', 'y', 'y' ),
-			array ( 3,  __('Address 1', 'wp-members'),          'addr1',      'text',     'y', 'y', 'n' ),
-			array ( 4,  __('Address 2', 'wp-members'),          'addr2',      'text',     'y', 'n', 'n' ),	
-			array ( 5,  __('City', 'wp-members'),               'city',       'text',     'y', 'y', 'n' ),
-			array ( 6,  __('State', 'wp-members'),              'thestate',   'text',     'y', 'y', 'n' ),
-			array ( 7,  __('Zip', 'wp-members'),                'zip',        'text',     'y', 'y', 'n' ),
-			array ( 8,  __('Country', 'wp-members'),            'country',    'text',     'y', 'y', 'n' ),
-			array ( 9,  __('Day Phone', 'wp-members'),          'phone1',     'text',     'y', 'y', 'n' ),
-			array ( 10, __('Email', 'wp-members'),              'user_email', 'text',     'y', 'y', 'y' ),
-			array ( 11, __('Website', 'wp-members'),            'user_url',   'text',     'n', 'n', 'y' ),
-			array ( 12, __('AIM', 'wp-members'),                'aim',        'text',     'n', 'n', 'y' ),
-			array ( 13, __('Yahoo IM', 'wp-members'),           'yim',        'text',     'n', 'n', 'y' ),
-			array ( 14, __('Jabber/Google Talk', 'wp-members'), 'jabber',     'text',     'n', 'n', 'y' ),
-			array ( 15, __('Biographical Info', 'wp-members'),  'description','textarea', 'n', 'n', 'y' ),
-			array ( 16, __('TOS', 'wp-members'),                'tos',        'checkbox', 'y', 'y', 'n', 'agree', 'n' )
+			array( 1,  __( 'First Name', 'wp-members' ),         'first_name', 'text',     'y', 'y', 'y' ),	
+			array( 2,  __( 'Last Name', 'wp-members' ),          'last_name',  'text',     'y', 'y', 'y' ),
+			array( 3,  __( 'Address 1', 'wp-members' ),          'addr1',      'text',     'y', 'y', 'n' ),
+			array( 4,  __( 'Address 2', 'wp-members' ),          'addr2',      'text',     'y', 'n', 'n' ),	
+			array( 5,  __( 'City', 'wp-members' ),               'city',       'text',     'y', 'y', 'n' ),
+			array( 6,  __( 'State', 'wp-members' ),              'thestate',   'text',     'y', 'y', 'n' ),
+			array( 7,  __( 'Zip', 'wp-members' ),                'zip',        'text',     'y', 'y', 'n' ),
+			array( 8,  __( 'Country', 'wp-members' ),            'country',    'text',     'y', 'y', 'n' ),
+			array( 9,  __( 'Day Phone', 'wp-members' ),          'phone1',     'text',     'y', 'y', 'n' ),
+			array( 10, __( 'Email', 'wp-members' ),              'user_email', 'text',     'y', 'y', 'y' ),
+			array( 11, __( 'Website', 'wp-members' ),            'user_url',   'text',     'n', 'n', 'y' ),
+			array( 12, __( 'AIM', 'wp-members' ),                'aim',        'text',     'n', 'n', 'y' ),
+			array( 13, __( 'Yahoo IM', 'wp-members' ),           'yim',        'text',     'n', 'n', 'y' ),
+			array( 14, __( 'Jabber/Google Talk', 'wp-members' ), 'jabber',     'text',     'n', 'n', 'y' ),
+			array( 15, __( 'Biographical Info', 'wp-members' ),  'description','textarea', 'n', 'n', 'y' ),
+			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'y', 'y', 'n', 'agree', 'n' )
 			
 			/* how to add checkboxes
 				- uncomment the lines below
@@ -71,34 +71,46 @@ function wpmem_do_install()
 			*/ 
 			/*
 			, 
-			array ( 17, 'checked by default', 'checkedbydefault', 'checkbox', 'y', 'n', 'n', 'checked value', 'y' ),
-			array ( 18, 'unchecked',          'unchecked',        'checkbox', 'y', 'n', 'n', 'checked value', 'n' )
+			array( 17, 'checked by default', 'checkedbydefault', 'checkbox', 'y', 'n', 'n', 'checked value', 'y' ),
+			array( 18, 'unchecked',          'unchecked',        'checkbox', 'y', 'n', 'n', 'checked value', 'n' )
+			*/
+			/* how to add dropdowns
+				- uncomment the lines below
+				- commas separating arrays are included but depending on what you've changed above, you may need to double check this
+				- this installs a select dropdown with some examples of selectable and non-selectable options
+				- The "|" character separates the displayed item and the item's value
+			*/
+			/*
+			,
+			array( 19, 'dropdown select', 'dropdown_select', 'select', 'y', 'n', 'n', 
+				array( '<---- Select One ---->|', 'Choice One|choice1', 'Choice Two|choice_two', '|', 'Example After Spacer|after_spacer' )
+			)
 			*/
 		);
 		
-		update_option('wpmembers_fields',$wpmem_fields_options_arr,'','yes'); // using update_option to allow for forced update
+		update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
 		
 		$wpmem_dialogs_arr = array(
-			__("This content is restricted to site members.  If you are an existing user, please login.  New users may register below.", 'wp-members'),
-			__("Sorry, that username is taken, please try another.", 'wp-members'),
-			__("Sorry, that email address already has an account.<br />Please try another.", 'wp-members'),
-			__("Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.", 'wp-members'),
-			__("Your information was updated!", 'wp-members'),
-			__("Passwords did not match.<br /><br />Please try again.", 'wp-members'),
-			__("Password successfully changed!<br /><br />You will need to re-login with your new password.", 'wp-members'),
-			__("Either the username or email address do not exist in our records.", 'wp-members'),
-			__("Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password.", 'wp-members')
+			__( "This content is restricted to site members.  If you are an existing user, please login.  New users may register below.", 'wp-members' ),
+			__( "Sorry, that username is taken, please try another.", 'wp-members' ),
+			__( "Sorry, that email address already has an account.<br />Please try another.", 'wp-members' ),
+			__( "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.", 'wp-members' ),
+			__( "Your information was updated!", 'wp-members' ),
+			__( "Passwords did not match.<br /><br />Please try again.", 'wp-members' ),
+			__( "Password successfully changed!<br /><br />You will need to re-login with your new password.", 'wp-members' ),
+			__( "Either the username or email address do not exist in our records.", 'wp-members' ),
+			__( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password.", 'wp-members' )
 		);
 		
-		update_option('wpmembers_dialogs',$wpmem_dialogs_arr,'','yes'); // using update_option to allow for forced update
+		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 				
-		append_tos('new');
+		append_tos( 'new' );
 		
 	} else {
 	
-		$wpmem_settings = get_option('wpmembers_settings');
+		$wpmem_settings = get_option( 'wpmembers_settings' );
 		
-		switch ( count ( $wpmem_settings ) ) {
+		switch( count ( $wpmem_settings ) ) {
 		
 		  case 4:
 		
@@ -118,10 +130,8 @@ function wpmem_do_install()
 				'0',					// 10 offer trial period
 				$wpmem_settings[3]		// 11 ignore warnings
 			);
-			update_option('wpmembers_settings',$wpmem_newsettings);
-
-			append_tos('2.2+');
-			
+			update_option( 'wpmembers_settings', $wpmem_newsettings );
+			append_tos( '2.2+' );
 			break;
 			
 		  case 12:
@@ -141,8 +151,7 @@ function wpmem_do_install()
 				$wpmem_settings[10],	// 10 offer trial period
 				$wpmem_settings[11]		// 11 ignore warnings		
 			);
-			update_option('wpmembers_settings',$wpmem_newsettings);
-			
+			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			break;
 		
 		  default: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
@@ -163,12 +172,9 @@ function wpmem_do_install()
 				$wpmem_settings[8],		// 10 offer trial period
 				$wpmem_settings[9]		// 11 ignore warnings
 			);
-			update_option('wpmembers_settings',$wpmem_newsettings);
-
-			append_tos('2.2+');
-			
+			update_option( 'wpmembers_settings', $wpmem_newsettings );
+			append_tos( '2.2+');
 			break;
-		
 		}		
 	}
 }

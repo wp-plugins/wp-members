@@ -104,14 +104,11 @@ function wpmem_registration($toggle)
 		
 		//everything checks out, so go ahead and insert
 
-		//$password = substr( md5( uniqid( microtime() ) ), 0, 7);
-		//$hashpassword = md5( $password );
 		$password        = wp_generate_password();
 		$user_registered = gmdate( 'Y-m-d H:i:s' );
 		$user_role       = get_option( 'default_role' );
 		
-		// new in 2.5.3, using wp_insert_user to replace using $wpdb->query
-		// 2.5.4 corrects a double hashed password bug
+		// inserts to wp_users table
 		$user_id = wp_insert_user( array (
 			'user_pass'       => $password, 
 			'user_login'      => $username,
@@ -123,7 +120,7 @@ function wpmem_registration($toggle)
 			'role'            => $user_role
 		) );
 		
-		// set remaining fields
+		// set remaining fields to wp_usermeta table
 		for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 			if ( $wpmem_fields[$row][2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
 				wp_update_user( array ( 'ID' => $user_id, 'user_url' => $wpmem_fieldval_arr[$row] ) );

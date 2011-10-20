@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -91,14 +91,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-As always, care was taken in the building of version 2.6 to consider various upgrade scenarios.  Unless you have made customizations to the code itself, you should be able to upgrade without overriding any previous settings.  Some changes were made to the install that could affect users of the 2.4.0 public beta release, so if you are one of those users, please make sure you have a proper backup prior to upgrade so you can rollback if necessary.
-
-WP-Members&trade; 2.3.x updated the API calls for the use of the WP-Members&trade; sidebar login widget.  Double check your sidebar after upgrading to determine if you need to reapply the widget.  (There is no change to this for upgrading from 2.3.0 to 2.3.1.)
-
-2.5.1 introduced new table-less forms.  If for any reason you want to continue to use the legacy table-based forms, there is a toggle to do so.  If you are upgrading, the upgrade should install with the toggle set to the old forms.  New installs default to the new forms.  You can specify the location of a custom stylesheet for the new forms.
-
-2.5.2 Changed the sidebar widget - this actually is a rollback to pre 2.5.1 so that it puts the appropriate <li> tag into the sidebar area.  This should only be a factor for those users that customized css.  In this case, you'll need to update your stylesheet for ID #wpmem_login_side to #wp-members
-
+= 2.6.3 =
+Incremental code improvement release. See plugin page for more details.
 
 == Screenshots ==
 
@@ -106,6 +100,17 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.6.3 =
+This is primarily a code improvement release
+
+* Localized "Clear Form" and "Submit" buttons for translation
+* Updated reCAPTCHA noscript (for loading when the browser has js turned off)
+* Fixed front-end error messages that did not have stripslashes
+* Updated bulk user management to paginate users when displaying all users
+* Introduced dropdown support (must be added programmatically at this time)
+* Cleaned up unused globals from the registration forms
+* Updated the location of the pluggable function file to be outside the plugin folder
 
 = 2.6.2 =
 This is a bug fix release with some additional improvements.
