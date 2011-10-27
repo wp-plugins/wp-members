@@ -1092,14 +1092,17 @@ function wpmem_admin_users()
 function wpmem_a_activate_user( $user_id )
 {
 	$new_pass = wp_generate_password();
-	wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_pass ) );
-
+	$new_hash = wp_hash_password( $new_pass );
+	
+	global $wpdb;
+	$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	
 	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
 
 	require_once( 'wp-members-email.php' );
 
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
-	update_user_meta( $user_id, 'active', 1 ); 
+	update_user_meta( $user_id, 'active', 1 );
 }
 
 

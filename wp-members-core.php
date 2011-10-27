@@ -710,6 +710,43 @@ function wpmem_chk_qstr($url = null)
 endif;
 
 
+if ( ! function_exists( 'wpmem_generatePassword' ) ):
+/**
+ * Generates a random password 
+ *
+ * @since 2.0
+ */
+function wpmem_generatePassword()
+{	
+	return substr( md5( uniqid( microtime() ) ), 0, 7);
+}
+endif;
+
+
+/**
+ * Overrides the wptexturize filter
+ *
+ * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me"
+ *
+ * @since 2.6.4
+ */
+function wpmem_texturize( $content ) 
+{
+	$new_content = '';
+	$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
+	$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
+	$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+	foreach( $pieces as $piece ) {
+		if( preg_match( $pattern_contents, $piece, $matches ) ) {
+			$new_content .= $matches[1];
+		} else {
+			$new_content .= wptexturize( wpautop( $piece ) );
+		}
+	}
+
+	return $new_content;
+}
 
 
 /*************************************************************************
