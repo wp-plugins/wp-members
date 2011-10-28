@@ -732,7 +732,14 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  * @return string $form
  */
 function wpmem_login_form_NEW( $page, $arr ) 
-{	
+{
+	// fix the wptexturize
+	if ( $arr[7] == 'login' ) { 
+		remove_filter( 'the_content', 'wpautop' );
+		remove_filter( 'the_content', 'wptexturize' );
+		add_filter('the_content', 'wpmem_texturize', 99); 
+	}
+	
 	$form = '<div id="wpmem_login">
 		<fieldset>
 			<legend>' . $arr[0] . '</legend>
@@ -756,13 +763,14 @@ function wpmem_login_form_NEW( $page, $arr )
 	$form = $form . '<div class="button_div">';
 	
 	if ( $arr[7] == 'login' ) {
-		
-		$form = $form . '<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members');
-	
+		$form = $form . '[wpmem_txt]<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;';
 	}
 	
-	$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />
-			</div>
+	$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />';
+	
+	if( $arr[7] == 'login' ) { $form = $form . '[/wpmem_txt]'; }
+	
+	$form = $form . '</div>
 
 			<div class="clear"></div>
 			<div align="right">';

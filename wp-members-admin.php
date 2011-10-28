@@ -838,12 +838,13 @@ function wpmem_admin_users()
 	
 	// here is where we handle actions on the table...
 	
-	if( $_POST['doaction'] ) { 
-		$action = $_POST['action'];
-		$doaction = true;
-	} 
+	if( $_POST ) { 
 	
-	if( $doaction ) {	
+		if( $_POST['action'] ) { 
+			$action = $_POST['action']; 
+		} elseif( $_POST['action2'] ) { 
+			$action = $_POST['action2']; 
+		}	
 		
 		$users = $_POST['users'];
 
@@ -930,14 +931,12 @@ function wpmem_admin_users()
 		</div>
 
 		<?php // NOT YET... ?><!--
-		<form class="search-form" action="" method="get">
 			<p class="search-box">
 				<label class="screen-reader-text" for="user-search-input">Search Users:</label>
 				<input type="text" id="user-search-input" name="usersearch" value="" />
 
 				<input type="submit" value="Search Users" class="button" />
-			</p>
-		</form>-->
+			</p>-->
 	<?php
 	
 		// done with the action items, now build the page
@@ -1093,14 +1092,17 @@ function wpmem_admin_users()
 function wpmem_a_activate_user( $user_id )
 {
 	$new_pass = wp_generate_password();
-	wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_pass ) );
-
+	$new_hash = wp_hash_password( $new_pass );
+	
+	global $wpdb;
+	$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	
 	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
 
 	require_once( 'wp-members-email.php' );
 
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
-	update_user_meta( $user_id, 'active', 1 ); 
+	update_user_meta( $user_id, 'active', 1 );
 }
 
 
@@ -1116,7 +1118,7 @@ function wpmem_a_build_user_action( $top, $arr )
 { ?>
 	<div class="tablenav<?php if( $top ){ echo ' top'; }?>">
 		<div class="alignleft actions">
-			<select name="action">
+			<select name="action<?php if( !$top ) { echo '2'; } ?>">
 				<option value="" selected="selected"><?php _e('Bulk Actions', 'wp-members'); ?></option>
 			<?php if (WPMEM_MOD_REG == 1) { ?>
 				<option value="activate"><?php _e('Activate', 'wp-members'); ?></option>
