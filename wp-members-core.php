@@ -1012,4 +1012,74 @@ function wpmem_do_excerpt( $content )
 	return $content;
 	
 }
+
+
+/**
+ * add WP-Members fields to the WP user profile screen
+ *
+ * @since 2.6.5
+ */
+function wpmem_update_fields()
+{
+	global $user_id; ?>
+
+	<h3><?php _e('Additional Info'); ?></h3>   
+ 	<table class="form-table">
+		<?php
+		$wpmem_fields = get_option('wpmembers_fields');
+		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+		
+			$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
+		
+			$chk_tos = true;
+			if ($wpmem_fields[$row][2] == 'tos' && $val != 'agree' ) { $chk_tos = false; }
+		
+			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos ) { 
+			?>    
+				<tr>
+					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
+					<td><?php
+					
+						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
+						if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
+							$valtochk = $val; 
+							$val = $wpmem_fields[$row][7];
+						}
+						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
+						if ($wpmem_fields[$row][5] == 'y') { echo "<font color=\"red\">*</font>"; }
+						$valtochk = ''; // empty for the next field in the loop
+					?></td>
+				</tr>
+			<?php } 
+		} ?>
+	</table><?php
+}
+
+
+/**
+ * updates WP-Members fields from the WP user profile screen
+ *
+ * @since 2.6.5
+ */
+function wpmem_profile_update()
+{
+	global $user_id;
+	$wpmem_fields = get_option('wpmembers_fields');
+	for ($row = 0; $row < count($wpmem_fields); $row++) {
+
+		// if the field is user editable, 
+		if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" ) {
+		
+			// check for required fields
+			$chk = '';
+			if( $wpmem_fields[$row][5] == "n" || ( ! $wpmem_fields[$row][5] ) ) { $chk = 'ok'; }
+			if( $wpmem_fields[$row][5] == "y" && $_POST[$wpmem_fields[$row][2]] != '' ) { $chk = 'ok'; }
+
+			if( $chk == 'ok' ) { 
+				update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ); 
+			} 
+		}
+
+	} 
+}
 ?>

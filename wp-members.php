@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. A <a href="http://butlerblog.com/wp-members/wp-members-quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.6.4
+Version:     2.6.5
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -94,7 +94,7 @@ $wpmem_settings = get_option('wpmembers_settings');
 /**
  * define constants based on option settings
  */
-define('WPMEM_VERSION',      "2.6.4");
+define('WPMEM_VERSION',      "2.6.5");
 define('WPMEM_DEBUG',        false);
 
 // define('WPMEM_VERSION',   $wpmem_settings[0]);
@@ -149,7 +149,14 @@ add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
 	// if user has a role that can edit users, load the admin functions
-	if ( current_user_can('edit_users') ) { require_once('wp-members-admin.php'); }
+	if ( current_user_can('edit_users') ) { 
+		require_once('wp-members-admin.php');
+	} else {
+		// user profile actions for non-admins
+		add_action( 'show_user_profile', 'wpmem_update_fields'  );
+		add_action( 'edit_user_profile', 'wpmem_update_fields'  );
+		add_action( 'profile_update',    'wpmem_profile_update' );
+	}
 }
 
 

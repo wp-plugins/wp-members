@@ -153,9 +153,8 @@ function wpmem_login_form_OLD ( $page, $arr )
 	
 	if ( WPMEM_REGURL != null && $arr[7] == 'login' ) { 
 	
-		$link = wpmem_chk_qstr( WPMEM_REGURL );
 		$form = $form . '<tr>
-			<td colspan="2">' . __('New User?', 'wp-members') . '&nbsp;<a href="'. $link . '">' . __('Click here to register', 'wp-members') . '</a></td>
+			<td colspan="2">' . __('New User?', 'wp-members') . '&nbsp;<a href="'. WPMEM_REGURL . '">' . __('Click here to register', 'wp-members') . '</a></td>
 		</tr>';
 	}
 	
@@ -565,14 +564,19 @@ if ( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  */
 function wpmem_inc_registration_NEW( $toggle = 'new', $heading = ' ')
 {
+	// fix the wptexturize
+	remove_filter( 'the_content', 'wpautop' );
+	remove_filter( 'the_content', 'wptexturize' );
+	add_filter( 'the_content', 'wpmem_texturize', 99 );
+	
 	global $userdata, $wpmem_regchk, $username, $wpmem_fieldval_arr;
 
 	if( !$heading ) { $heading = __( 'New Users Registration', 'wp-members' ); }
 
-	$form = '<div id="wpmem_reg">
+	$form = '[wpmem_txt]<div id="wpmem_reg">
+		<form name="form" method="post" action="' . get_permalink() . '" class="form">
 		<fieldset>
-			<legend>' . $heading . '</legend>
-			<form name="form" method="post" action="' . get_permalink() . '" class="form">';
+			<legend>' . $heading . '</legend>';
 
 	if( $toggle == 'edit' ) {
 
@@ -708,10 +712,9 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = ' ')
 	// find a place to put this
 	$form = $form . '<font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '			
 
-		</form>
-	</fieldset>';
+	</fieldset></form>';
 	$form = $form . wpmem_inc_attribution();
-	$form = $form . '</div>';
+	$form = $form . '</div>[/wpmem_txt]';
 
 	return $form;
 }
@@ -734,16 +737,14 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
 function wpmem_login_form_NEW( $page, $arr ) 
 {
 	// fix the wptexturize
-	if ( $arr[7] == 'login' ) { 
-		remove_filter( 'the_content', 'wpautop' );
-		remove_filter( 'the_content', 'wptexturize' );
-		add_filter('the_content', 'wpmem_texturize', 99); 
-	}
+	remove_filter( 'the_content', 'wpautop' );
+	remove_filter( 'the_content', 'wptexturize' );
+	add_filter('the_content', 'wpmem_texturize', 99); 
 	
-	$form = '<div id="wpmem_login">
+	$form = '[wpmem_txt]<div id="wpmem_login">
+		<form action="' . get_permalink() . '" method="POST" class="form">
 		<fieldset>
 			<legend>' . $arr[0] . '</legend>
-			<form action="' . get_permalink() . '" method="POST" class="form">
 				
 			<label for="username">' . $arr[1] . '</label>
 			<div class="div_text">
@@ -763,12 +764,10 @@ function wpmem_login_form_NEW( $page, $arr )
 	$form = $form . '<div class="button_div">';
 	
 	if ( $arr[7] == 'login' ) {
-		$form = $form . '[wpmem_txt]<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;';
+		$form = $form . '<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;';
 	}
 	
 	$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />';
-	
-	if( $arr[7] == 'login' ) { $form = $form . '[/wpmem_txt]'; }
 	
 	$form = $form . '</div>
 
@@ -787,17 +786,14 @@ function wpmem_login_form_NEW( $page, $arr )
  			
 	if ( ( WPMEM_REGURL != null ) && $arr[7] == 'login' ) { 
 
-		$link = wpmem_chk_qstr( WPMEM_REGURL );	
-		$form = $form . __('New User?', 'wp-members') . '&nbsp;<a href="' . $link . '">' . __('Click here to register', 'wp-members') . '</a>';
+		$form = $form . __('New User?', 'wp-members') . '&nbsp;<a href="' . WPMEM_REGURL . '">' . __('Click here to register', 'wp-members') . '</a>';
 
 	}			
 	
 	$form = $form. '</div>	
-				
-			</form>
 			<div class="clear"></div>
-		</fieldset>
-	</div>';
+		</fieldset></form>
+	</div>[/wpmem_txt]';
 	
 	return $form;
 }
@@ -814,24 +810,15 @@ endif;
  */
 function wpmem_inc_recaptcha( $key, $theme )
 {
-	$str = '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-			<script type="text/javascript">
-				function showRecaptcha(element) 
-				{
-					Recaptcha.create("' . $key . '", element, {
-						theme: "' . $theme . '",
-						});
-				}
-			</script>
-		<div id="recaptcha_div"></div>
-		<script type="text/javascript">showRecaptcha(\'recaptcha_div\');</script>
+	$str = "<script type='text/javascript'>
+			var RecaptchaOptions = { theme : '$theme' };
+		</script>
+		<script type=\"text/javascript\" src=\"http://www.google.com/recaptcha/api/challenge?k=$key\"></script>
 		<noscript>
-		   <iframe src="http://www.google.com/recaptcha/api/noscript?k=' . $key . '"
-			   height="300" width="500" frameborder="0"></iframe><br>
-		   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-		   </textarea>
-		   <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
-		</noscript>';
+			<iframe src=\"http://www.google.com/recaptcha/api/noscript?k=$key\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br/>
+			<textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
+			<input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\"/>
+		</noscript>";
 	return $str;
 }
 

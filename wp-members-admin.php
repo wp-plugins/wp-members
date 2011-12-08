@@ -52,6 +52,7 @@ function wpmem_admin_plugin_links( $links, $file )
 *****************************************************/
 
 
+add_action( 'show_user_profile', 'wpmem_admin_fields' );
 add_action( 'edit_user_profile', 'wpmem_admin_fields' );
 /**
  * add WP-Members fields to the WP user profile screen

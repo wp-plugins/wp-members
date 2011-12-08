@@ -111,9 +111,8 @@ function wpmem_do_sidebar()
 							$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
 							<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Forgot?', 'wp-members'); ?></a>&nbsp;
 						<?php } 			
-						if ( WPMEM_REGURL != null ) { 
-							$link = wpmem_chk_qstr( WPMEM_REGURL ); ?>
-							<a href="<?php echo $link; ?>"><?php _e('Register', 'wp-members'); ?></a>
+						if ( WPMEM_REGURL != null ) { ?>
+							<a href="<?php echo WPMEM_REGURL; ?>"><?php _e('Register', 'wp-members'); ?></a>
 
 						<?php } ?>
 					</form>
@@ -140,9 +139,8 @@ function wpmem_do_sidebar()
 						$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
 						<a href="<?php echo $link; ?>a=pwdreset"><?php _e('Forgot?', 'wp-members'); ?></a>&nbsp;
 					<?php } 			
-					if ( WPMEM_REGURL != null ) { 
-						$link = wpmem_chk_qstr( WPMEM_REGURL ); ?>
-						<a href="<?php echo $link; ?>"><?php _e('Register', 'wp-members'); ?></a>
+					if ( WPMEM_REGURL != null ) { ?>
+						<a href="<?php echo WPMEM_REGURL; ?>"><?php _e('Register', 'wp-members'); ?></a>
 
 					<?php } ?></div>
 				</form>
