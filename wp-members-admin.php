@@ -61,7 +61,13 @@ add_action( 'edit_user_profile', 'wpmem_admin_fields' );
  */
 function wpmem_admin_fields()
 {
-	$user_id = $_REQUEST['user_id']; ?>
+	global $current_screen;
+	if( $current_screen->id == 'profile' ) {
+		$current_user = wp_get_current_user();
+		$user_id = $current_user->ID;
+	} else {
+		$user_id = $_REQUEST['user_id']; 
+	} ?>
 
 	<h3><?php _e('WP-Members Additional Fields'); ?></h3>   
  	<table class="form-table">
