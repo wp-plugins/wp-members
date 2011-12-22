@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.2.1
-Stable tag: 2.6.5
+Tested up to: 3.3
+Stable tag: 2.6.6
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -91,8 +91,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.6.5 =
-A fix release correcting reCAPTCHA issues with IE. See plugin page for more details.
+= 2.6.6 =
+A bug fix release correcting an issue where admin side user fields are cleared when a user updates their registration info.
 
 == Screenshots ==
 
@@ -101,7 +101,13 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 == Changelog ==
 
+= 2.6.6 =
+Bug fix release
+
+* Fixes as bug where admin side user fields are cleared when a user updates their registration info.
+
 = 2.6.5 =
+Fix and code improvement release
 
 * Rewrite of the reCAPTCHA script to address IE compatibility issues.
 * Expansion of the wptexturize fix in 2.6.4, now wraps all of the login and registration forms.
