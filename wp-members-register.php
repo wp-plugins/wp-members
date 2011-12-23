@@ -185,7 +185,9 @@ function wpmem_registration($toggle)
 				break;
 
 			default: // everything else goes into wp_usermeta
-				update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row]);
+				if( $wpmem_fields[$row][4] == 'y' ) {
+					update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row] );
+				}
 				break;
 			}
 		} 
