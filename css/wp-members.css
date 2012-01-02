@@ -1,18 +1,27 @@
-/*
-	This file is part of the WP-Members plugin by Chad Butler
-	
-	You can find out more about this plugin at http://butlerblog.com/wp-members
-  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
-	
-	WP-Members(tm) is a trademark of butlerblog.com
-	
-	
-	This stylesheet is designed to integrate WP-Members with the twentyten theme.
-	There are quite a few examples in here of what you can do with with the new
-	table-less forms.  You can build off of this or start from scratch and set
-	your own custom css for the plugin (set the location in the admin panel).
-	
+/**
+ * WP-Members Admin Styles CSS
+ *
+ * CSS for the WP-Members admin panels
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * Copyright (c) 2006-2012 Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler 
+ * @copyright 2006-2012
+ */
+
+/*	
+This stylesheet is designed to integrate WP-Members with the twentyten theme.
+There are quite a few examples in here of what you can do with the new
+table-less forms.  You can build off of this or start from scratch and set
+your own custom css for the plugin (set the location in the admin panel).
+
+See http://butlerblog.com/2011/07/25/customize-the-wp-members-stylesheet/
+for information on how to set up the plugin with a cusotm stylesheet.
 */
 
 /* Error and Dialog Messages */

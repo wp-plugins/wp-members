@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. A <a href="http://butlerblog.com/wp-members/wp-members-quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.6.6
+Version:     2.7.0
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -11,7 +11,7 @@ License:     GPLv2
 
 
 /*  
-	Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
 
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
@@ -65,15 +65,6 @@ License:     GPLv2
  * start with any potential translation
  */
 load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
-//(see: http://pressedwords.com/6-tips-for-localizing-your-wordpress-plugin/)
-
-
-/**
- * preload any custom functions, if available
- */
-if( file_exists( WP_PLUGIN_DIR . '/wp-members-pluggable.php' ) ) {
-	include( WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
-}
 
 
 /**
@@ -94,7 +85,7 @@ $wpmem_settings = get_option('wpmembers_settings');
 /**
  * define constants based on option settings
  */
-define('WPMEM_VERSION',      "2.6.6");
+define('WPMEM_VERSION',      "2.7.0");
 define('WPMEM_DEBUG',        false);
 
 // define('WPMEM_VERSION',   $wpmem_settings[0]);
@@ -113,9 +104,22 @@ if (WPMEM_EXP_MODULE == true) {
 	define('WPMEM_USE_TRL',  $wpmem_settings[10]);
 }
 
+// @todo define('WPMEM_USE_EXP',  $wpmem_settings[9]);
+// @todo define('WPMEM_USE_TRL',  $wpmem_settings[10]);
+
 define('WPMEM_MSURL',  get_option('wpmembers_msurl', null));
 define('WPMEM_REGURL', get_option('wpmembers_regurl',null));
 define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null));
+
+
+/**
+ * preload any custom functions, if available
+ *
+ * @todo Does moving this after wpmem_settings load, but before core load break the plugs?
+ */
+if( file_exists( WP_PLUGIN_DIR . '/wp-members-pluggable.php' ) ) {
+	include( WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
+}
 
 
 /**
@@ -132,6 +136,7 @@ add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widg
 add_action('wp_head', 'wpmem_head');					// runs functions for the head
 add_filter('allow_password_reset', 'wpmem_no_reset');   // prevents non-activated users from resetting password via wp-login
 add_filter('the_content', 'wpmem_securify', $content);  // securifies the_content.
+// @todo add_filter( 'the_content', 'wpmem_securify', 1, 1 );
 
 
 /**
@@ -153,8 +158,8 @@ function wpmem_chk_admin()
 		require_once('wp-members-admin.php');
 	} else {
 		// user profile actions for non-admins
-		add_action( 'show_user_profile', 'wpmem_update_fields'  );
-		add_action( 'edit_user_profile', 'wpmem_update_fields'  );
+		add_action( 'show_user_profile', 'wpmem_user_profile'   );
+		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
 	}
 }

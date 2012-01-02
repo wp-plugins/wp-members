@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
- * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2011
+ * @copyright 2006-2012
  */
  
 /**
@@ -30,6 +30,15 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'wpmembers_msurl'    );
 	delete_option( 'wpmembers_regurl'   );
 	delete_option( 'wpmembers_cssurl'   );
+	
+	delete_option( 'wpmembers_email_newreg' );
+	delete_option( 'wpmembers_email_newmod' );
+	delete_option( 'wpmembers_email_appmod' );
+	delete_option( 'wpmembers_email_repass' );
+	delete_option( 'wpmembers_email_footer' );
+	delete_option( 'wpmembers_email_notify' );
+	delete_option( 'wpmembers_email_wpfrom' );
+	delete_option( 'wpmembers_email_wpname' );
 	
 	if (WPMEM_EXP_MODULE == true) {
 		delete_option( 'wpmembers_experiod' );
