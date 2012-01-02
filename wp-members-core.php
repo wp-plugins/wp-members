@@ -181,7 +181,6 @@ function wpmem_securify( $content = null )
 		if (is_page('members-area')) { $wpmem_page = "members-area"; }
 		if (is_page('register')) { $wpmem_page = "register"; }
 		
-		// @todo if ( isset( $wpmem_page ) && ( $wpmem_page == 'members-area' || $wpmem_page == 'register') ) {
 		if ( $wpmem_page == 'members-area' || $wpmem_page == 'register' ) {
 		
 			include_once('wp-members-dialogs.php');
@@ -336,12 +335,10 @@ add_shortcode ('wp-members', 'wpmem_shortcode');
  */
 function wpmem_shortcode( $attr, $content = null )
 {
-	// @todo if( isset( $attr['page'] ) ) {
 	if( $attr['page'] ) {
 		return wpmem_do_sc_pages( $attr['page'] ); 
 	}
 	
-	// @todo if( isset( $attr['status'] ) ) {
 	if( $attr['status'] ) {
 		if( $attr['status'] == 'in' && is_user_logged_in() ) {
 			return $content;
@@ -459,8 +456,9 @@ if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
  */
 function widget_wpmemwidget_init()
 {
-	include_once( 'wp-members-sidebar.php' );
-	register_widget( 'widget_wpmemwidget' );
+	include_once('wp-members-sidebar.php');
+	wp_register_sidebar_widget ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget', ''); 
+	wp_register_widget_control ( 'WP-Members', 'WP-Members', 'widget_wpmemwidget_control', '' );	
 }
 endif;
 
@@ -1021,32 +1019,23 @@ function wpmem_do_excerpt( $content )
  *
  * @since 2.6.5
  */
-function wpmem_user_profile()
+function wpmem_update_fields()
 {
 	global $user_id; ?>
 
-	<h3><?php _e( 'Additional Info', 'wp-members' ); ?></h3>   
+	<h3><?php _e('Additional Info'); ?></h3>   
  	<table class="form-table">
 		<?php
-		$wpmem_fields = get_option( 'wpmembers_fields' );
+		$wpmem_fields = get_option('wpmembers_fields');
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		
 			$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
 		
 			$chk_tos = true;
-			if( $wpmem_fields[$row][2] == 'tos' && $val == 'agree' ) { 
-				$chk_tos = false; 
-				echo wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', $val );
-			}
-			
-			$chk_pass = true;
-			if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = false; }
+			if ($wpmem_fields[$row][2] == 'tos' && $val != 'agree' ) { $chk_tos = false; }
 		
-			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos && $chk_pass ) { 
-			
-				// if there are any required fields, set a toggle to show indicator in last line
-				if( $wpmem_fields[$row][5] == 'y' ) { $has_req = true; } ?>  
-				
+			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos ) { 
+			?>    
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
 					<td><?php
@@ -1057,18 +1046,11 @@ function wpmem_user_profile()
 							$val = $wpmem_fields[$row][7];
 						}
 						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
-						if( $wpmem_fields[$row][5] == 'y' ) { echo '<font color="red">*</font>'; }
+						if ($wpmem_fields[$row][5] == 'y') { echo "<font color=\"red\">*</font>"; }
 						$valtochk = ''; // empty for the next field in the loop
 					?></td>
 				</tr>
 			<?php } 
-		}
-		
-		if( $has_req ) { ?>
-				<tr>
-					<th>&nbsp;</th>
-					<td><font color="red">*</font> <?php _e( 'Indicates a required field', 'wp-members' ); ?></td>
-				</tr><?php
 		} ?>
 	</table><?php
 }
@@ -1082,11 +1064,11 @@ function wpmem_user_profile()
 function wpmem_profile_update()
 {
 	global $user_id;
-	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+	$wpmem_fields = get_option('wpmembers_fields');
+	for ($row = 0; $row < count($wpmem_fields); $row++) {
 
 		// if the field is user editable, 
-		if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
+		if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" ) {
 		
 			// check for required fields
 			$chk = '';
@@ -1097,6 +1079,7 @@ function wpmem_profile_update()
 				update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ); 
 			} 
 		}
+
 	} 
 }
 ?>

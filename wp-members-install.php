@@ -6,20 +6,18 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2011
  */
 
 
 /**
  * Installs or upgrades the plugin
- *
- * @since 2.2.2
  */
 function wpmem_do_install()
 {
@@ -108,8 +106,6 @@ function wpmem_do_install()
 				
 		append_tos( 'new' );
 		
-		append_email( 'new' );
-		
 	} else {
 	
 		$wpmem_settings = get_option( 'wpmembers_settings' );
@@ -129,19 +125,18 @@ function wpmem_do_install()
 				'0',					//  5 moderate registration
 				'0',					//  6 toggle captcha
 				'0',					//  7 turn off registration
-				'1',					//  8 add use legacy forms (tables)
+				'1',					//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
 				'0',					//  9 time based expiration
 				'0',					// 10 offer trial period
 				$wpmem_settings[3]		// 11 ignore warnings
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+' );
-			append_email( '2.2+' );
 			break;
 			
 		  case 12:
 		
-			// upgrading from 2.5.1 or higher
+			// upgrading from 2.5.1 or 2.5.3
 			$wpmem_newsettings = array(
 				WPMEM_VERSION, 			//  0 version
 				$wpmem_settings[1],		//  1 block posts
@@ -151,13 +146,12 @@ function wpmem_do_install()
 				$wpmem_settings[5],		//  5 moderate registration
 				$wpmem_settings[6],		//  6 toggle captcha
 				$wpmem_settings[7],		//  7 turn off registration
-				$wpmem_settings[8],		//  8 add use legacy forms (tables)
+				$wpmem_settings[8],		//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
 				$wpmem_settings[9],		//  9 time based expiration
 				$wpmem_settings[10],	// 10 offer trial period
 				$wpmem_settings[11]		// 11 ignore warnings		
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			append_email( '2.5.1+' );
 			break;
 		
 		  default: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
@@ -173,165 +167,40 @@ function wpmem_do_install()
 				$wpmem_settings[5],		//  5 moderate registration
 				'0',					//  6 toggle captcha
 				$wpmem_settings[6],		//  7 turn off registration
-				'1',					//  8 add use legacy forms (tables)
+				'1',					//  8 add use legacy forms (tables) - NEW in 2.5.1 (introduction of new table-less forms)
 				$wpmem_settings[7],		//  9 time based expiration
 				$wpmem_settings[8],		// 10 offer trial period
 				$wpmem_settings[9]		// 11 ignore warnings
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+');
-			append_email( '2.2+' );
 			break;
-		}
+		}		
 	}
 }
 
 
 /**
  * Adds TOS field to upgrades if appropriate
- *
- * @since 2.4
  */
 function append_tos( $upgrade )
 {		
 	// check if _tos has been put in before; if not, populate dummy data	
-	if( !get_option('wpmembers_tos') ) {
+	if ( !get_option('wpmembers_tos') ) {
 		$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";	
-		update_option( 'wpmembers_tos', $dummy_tos );
+		update_option('wpmembers_tos', $dummy_tos);
 
-		if( $upgrade == '2.2+' ) {
+		if ($upgrade == '2.2+') {
 			// append a TOS field to the end of the fields array
-			$fields = get_option( 'wpmembers_fields' );
+			$fields = get_option('wpmembers_fields');
 
-			$x = count( $fields );
+			$x = count($fields);
 			$x = $x + 1;
 
-			$fields[] = array( $x, __( 'TOS', 'wp-members' ), 'tos', 'checkbox', 'y', 'y', 'n', 'agree', 'n' );
+			$fields[] = array ($x,__('TOS', 'wp-members'),'tos','checkbox','y','y','n','agree','n' );
 
-			update_option( 'wpmembers_fields', $fields );
+			update_option('wpmembers_fields', $fields);
 		}
 	}
-}
-
-
-/**
- * Adds the fields for email messages
- *
- * @since 2.7
- */
-function append_email( $upgrade )
-{
-
-	//this is a new registration
-	$subj = 'Your registration info for [blogname]';
-		
-	$body = 'Thank you for registering for [blogname]
-
-Your registration information is below.
-You may wish to retain a copy for your records.
-
-username: [username]
-password: [password]
-
-You may login here:
-[reglink]
-
-You may change your password here:
-[members-area]
-';
-		
-	$arr = array( 
-		"subj" => $subj,
-		"body" => $body
-	);
-	update_option( 'wpmembers_email_newreg', $arr, false );
-	
-	$arr = $subj = $body = '';
-	
-	$subj = 'Thank you for registering for [blogname]';
-	$body =	'Thank you for registering for [blogname]. 
-Your registration has been received and is pending approval.
-You will receive login instructions upon approval of your account
-';
-
-	$arr = array( 
-		"subj" => $subj,
-		"body" => $body
-	);
-	update_option( 'wpmembers_email_newmod', $arr, false );
-	
-	$arr = $subj = $body = '';
-	
-	$subj = 'Your registration for [blogname] has been approved';
-	$body = 'Your registration for [blogname] has been approved.
-
-Your registration information is below.
-You may wish to retain a copy for your records.
-
-username: [username]
-password: [password]
-
-You may login and change your password here:
-[members-area]
-
-You originally registered at:
-[reglink]
-';
-	
-	$arr = array( 
-		"subj" => $subj,
-		"body" => $body
-	);
-	update_option( 'wpmembers_email_appmod', $arr, false );
-	
-	$arr = $subj = $body = '';
-	
-	$subj = 'Your password reset for [blogname]';
-	$body = 'Your password for [blogname] has been reset
-
-Your new password is included below. You may wish to retain a copy for your records.
-
-password: [password]
-';
-
-	$arr = array( 
-		"subj" => $subj,
-		"body" => $body
-	);
-	update_option( 'wpmembers_email_repass', $arr, false );
-	
-	$arr = $subj = $body = '';
-
-	
-	$subj = 'New user registration for [blogname]';
-	
-	$body = 'The following user registered for [blogname] (and is pending approval)
-	
-username: [username]
-email: [email]
-
-[fields]
-This user registered here:
-[reglink]
-
-user IP: [user-ip]
-	
-activate user: [activate-user]
-';
-	
-		$arr = array( 
-		"subj" => $subj,
-		"body" => $body
-	);
-	update_option( 'wpmembers_email_notify', $arr, false );
-	
-	
-	$arr = $subj = $body = '';
-
-	$body = '----------------------------------
-This is an automated message from [blogname]
-Please do not reply to this address';
-
-	update_option( 'wpmembers_email_footer', $body, false );
 }
 ?>

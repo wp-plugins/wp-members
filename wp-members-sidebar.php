@@ -163,50 +163,44 @@ function wpmem_do_sidebar()
 endif;
 
 
-/**
- * Class for the sidebar login widget
- *
- * @since 2.7
- */
-class widget_wpmemwidget extends WP_Widget {
+function widget_wpmemwidget($args)
+{
+	extract($args);
 
-    //process the new widget
-    function widget_wpmemwidget() {
-        $widget_ops = array( 
-			'classname'   => 'widget_wpmemwidget_class', 
-			'description' => 'Display the WP-Members sidebar login.' 
-			); 
-        $this->WP_Widget( 'widget_wpmemwidget', 'WP-Members Login', $widget_ops );
-    }
- 
-     //build the widget settings form
-    function form( $instance ) {
-        ?><p>There are no settings for this widget</p><?php
-    }
- 
-    //save the widget settings
-    function update( $new_instance, $old_instance ) {
-        $instance = $old_instance;
-        return $instance;
-    }
- 
-    //display the widget
-    function widget( $args, $instance ) {
-		extract( $args );
+	$options = get_option('widget_wpmemwidget');
+	$title = $options['title'];
 
-		$options = get_option( 'widget_wpmemwidget' );
-		$title = $options['title'];
+	 echo $before_widget;
 
-		 echo $before_widget;
+		// Widget Title
+		if (!$title) {$title = __('Login Status', 'wp-members');}
+		echo $before_title . $title . $after_title;
 
-			// Widget Title
-			if( ! $title ) { $title = __( 'Login Status', 'wp-members' ); }
-			echo $before_title . $title . $after_title;
+		// The Widget
+		if (function_exists('wpmem')) { wpmem_inc_sidebar($widget);}
 
-			// The Widget
-			if( function_exists( 'wpmem' ) ) { wpmem_inc_sidebar( $widget ); }
+	 echo $after_widget;
+}
 
-		 echo $after_widget;
-    }
+function widget_wpmemwidget_control()
+{
+	// Get our options and see if we're handling a form submission.
+	$options = get_option('widget_wpmemwidget');
+	if ( !is_array($options) )
+		$options = array('title'=>'', 'buttontext'=>__('WP-Members', 'widgets'));
+	if ( $_POST['wpmemwidget-submit'] ) {
+
+		// Remember to sanitize and format use input appropriately.
+		$options['title'] = strip_tags(stripslashes($_POST['wpmemwidget-title']));
+		update_option('widget_wpmemwidget', $options);
+	}
+
+	// Be sure you format your options to be valid HTML attributes.
+	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+
+	// Here is our little form segment. Notice that we don't need a
+	// complete form. This will be embedded into the existing form.
+	echo '<p style="text-align:left;"><label for="wpmemwidget-title">' . __('Title:') . ' <input style="width: 200px;" id="wpmemwidget-title" name="wpmemwidget-title" type="text" value="'.$title.'" /></label></p>';
+	echo '<input type="hidden" id="wpmemwidget-submit" name="wpmemwidget-submit" value="1" />';
 }
 ?>

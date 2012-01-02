@@ -4,13 +4,13 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 2.7.0
+Stable tag: 2.6.6
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
-WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, private blogs, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  Unlike other registration plugins and WordPress&reg; itself, WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, private blogs, premium content sites, and more!  The plugin restricts selected WP content to be viewable by registered site members.  Unlike other registration plugins and WordPress&reg; itself, it puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is fully scalable for those that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
 = Features: =
 
@@ -29,9 +29,9 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all content by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
-The plugin installs with additional custom fields to the registration process including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can create additional fields and delete existing ones as well as drag-and-drop the order of fields.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
+The plugin adds provides additional custom fields to the registration process to include name, address, phone, and email.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
 
-There are also some special pages available.  There is a Members Area where registered members can edit their information and change/reset their password.  Although a registration form is included in place of blocked content, there is a registration page available for those that need a specific URL for registrations (such as email marketing or banner ads).  You can now also establish a specific login page as well.
+There are also some special pages available.  There is a Members Area where registered members can edit their information and change/reset their password.  Although a registration form is included in place of blocked content, there is a registration page available for those that need a specific URL for registrations (such as email marketing or banner ads).  NEW in 2.5, you can now also establish a specific login page as well.
 
 
 == Installation ==
@@ -40,14 +40,14 @@ WP-Members&trade; is designed to run "out-of-the-box" with no modifications to y
 
 = Basic Install: =
 
-We recommend following the instructions in the [Quick Start Guide](http://butlerblog.com/wp-members/wp-members-quick-start-guide/).  There is also a complete [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in depth.
+We recommend following the instructions in the [Quick Start Guide](http://butlerblog.com/wp-members/wp-members-quick-start-guide/).  There is also a [Users Guide available](http://butlerblog.com/wp-members/) that covers all of the plugin's features in more depth.
 
 1. Upload the `/wp-members/` directory and its contents to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress&reg;
 
 You are ready to begin using WP-Members&trade;.  Now follow the instructions titled "Locking down your site" below.
 
-(When upgrading, if you made code changes to the inline registration and login forms, you should download and compare the new code to your customizations before upgrading.)
+(Upgrading from 2.1 or earlier: If you are running a previous version "out-of-the-box," you should be able to upgrade without any problems.  If you did any customization to which registration fields are used and/or required, you can simply set this in the new admin panel to match your current usage.  However, if you have made changes to the code to customize the fields beyond this, i.e. field names or types, you will need to make some changes to the install script to customize the registration fields accordingly.  Also, if you made code changes to the inline registration and login forms, you should download and compare the new code to your customizations before upgrading.)
 
 = Locking down your site: =
 
@@ -91,8 +91,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.6.5 =
-A fix release correcting reCAPTCHA issues with IE. See plugin page for more details.
+= 2.6.6 =
+A bug fix release correcting an issue where admin side user fields are cleared when a user updates their registration info.
 
 == Screenshots ==
 
@@ -101,25 +101,13 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 == Changelog ==
 
-= 2.7.0 =
-This is new feature release with the following features and improvements:
-
-* Customized email messages
-* Add dropdown fields in the field managment panel
-* Moved location of pluggable file load so that constants may be used without loading twice
-* Registration stores the url the user registered on for all registrations, not just if registration is moderated
-* Trim trailing whitespace on members area, register, and custom css urls
-* Added wp_specialchars_decode to blogname in emails to decode any special characters (such as &amp;) in the title
-* Registration function is now pluggable
-* Updated sidebar widget to be multi-widget compatible
-* TOS can be stored in dialogs OR be a WP page (set in dialogs with shortcode)
-
 = 2.6.6 =
 Bug fix release
 
 * Fixes as bug where admin side user fields are cleared when a user updates their registration info.
 
 = 2.6.5 =
+Fix and code improvement release
 
 * Rewrite of the reCAPTCHA script to address IE compatibility issues.
 * Expansion of the wptexturize fix in 2.6.4, now wraps all of the login and registration forms.

@@ -6,181 +6,173 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2011
  */
+
+
+/*****************************************************
+EMAIL FUNCTIONS
+*****************************************************/
 
 
 if ( ! function_exists( 'wpmem_inc_regemail' ) ):
-/**
- * Builds emails for the user
- *
- * @since 1.8
- */
-function wpmem_inc_regemail( $user_id, $password, $toggle )
+function wpmem_inc_regemail($user_id,$password,$toggle)
 {
-	$user       = new WP_User( $user_id );
-	$user_login = stripslashes( $user->user_login );
-	$user_email = stripslashes( $user->user_email );
-	$blogname   = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
+	$user          = new WP_User($user_id);
+	$user_login    = stripslashes($user->user_login);
+	$user_email    = stripslashes($user->user_email);
+	$blogname      = get_option('blogname');
+	$the_permalink = $_REQUEST['redirect_to'];
 	
-	if( WPMEM_USE_EXP == 1 ) {
-		$exp_type = get_user_meta( $user_id, 'exp_type', 'true' );
-		$exp_date = get_user_meta( $user_id, 'expires', 'true' );
+	// NEW in 2.4 for expirations
+	if (WPMEM_USE_EXP == 1) {
+		$exp_type = get_user_meta($user_id, 'exp_type', 'true');
+		$exp_date = get_user_meta($user_id, 'expires', 'true');
 	}
 	
-	$wpmem_msurl = get_option( 'wpmembers_msurl', null );
-	$reg_link    = get_user_meta( $user_id, 'wpmem_reg_url', true );
-
-	$shortcd = array( '[blogname]', '[username]', '[password]', '[reglink]', '[members-area]', '[exp-type]', '[exp-data]' );
-	$replace = array( $blogname, $user_login, $password, $reg_link, $wpmem_msurl, $exp_type, $exp_date );
+	$wpmem_msurl = get_option('wpmembers_msurl',null);
+	if ($wpmem_msurl) { $wpmem_msurl = sprintf(__('You may change your password here: %s', 'wp-members'), $wpmem_msurl)."\r\n\r\n"; }
 
 	switch ($toggle) {
 	
 	case 0: 
 		//this is a new registration
-		$arr = get_option( 'wpmembers_email_newreg' );
+		$subj = sprintf(__('Your registration info for %s', 'wp-members'), $blogname);
+		
+		$body = sprintf(__('Thank you for registering for %s', 'wp-members'), $blogname)." \r\n\r\n";
+		$body.= sprintf(__('Your registration information is below.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('You may wish to retain a copy for your records.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('username: %s', 'wp-members'), $user_login)."\r\n";
+		$body.= sprintf(__('password: %s', 'wp-members'), $password)."\r\n\r\n";
+		
+		if (WPMEM_USE_EXP == 1) { $body.= "Your $exp_type will expire $exp_date \r\n\r\n"; }
+		
+		$body.= sprintf(__('You may login here:', 'wp-members'));
+		$body.= "$the_permalink \r\n\r\n";
+		$body.= "$wpmem_msurl";
 		break;
 		
 	case 1:
 		//registration is moderated
-		$arr = get_option( 'wpmembers_email_newmod' );
+		$subj = sprintf(__('Thank you for registering for %s', 'wp-members'), $blogname);
+		
+		$body = sprintf(__('Thank you for registering for %s. Your registration has been received and is pending approval.', 'wp-members'), $blogname);
+		$body.= "\r\n\r\n";
+		$body.= __('You will receive login instructions upon approval of your account', 'wp-members');
+		$body.= "\r\n\r\n";
 		break;
 
 	case 2:
 		//registration is moderated, user is approved
-		$arr = get_option( 'wpmembers_email_appmod' );
+		$url  = get_option('siteurl');
+		$subj = sprintf(__('Your registration for %s has been approved', 'wp-members'), $blogname);
+		
+		$body = sprintf(__('Your registration for %s has been approved.', 'wp-members'), $blogname);
+		$body.= "\r\n\r\n";
+		$body.= sprintf(__('Your registration information is below.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('You may wish to retain a copy for your records.', 'wp-members'))."\r\n\r\n";
+		$body.= sprintf(__('username: %s', 'wp-members'), $user_login)."\r\n";
+		$body.= sprintf(__('password: %s', 'wp-members'), $password)."\r\n\r\n";
+		
+		if (WPMEM_USE_EXP == 1) { $body.= "Your $exp_type will expire $exp_date \r\n\r\n"; }
+		
+		$body.= sprintf(__('You may login at: %s', 'wp-members'), $url)."\r\n\r\n";
+		$body.= "$wpmem_msurl";
+		
+		// new in 2.4
+		$orig = get_user_meta($user_id,'wpmem_reg_url');
+				// not sure about deleting this... it could be useful for some people...
+				// delete_user_meta($user_id, 'wpmem_reg_url');
+		$body.= sprintf(__('You originally registered at:', 'wp-members'))."\r\n";
+		$body.= $orig[0]."\r\n\r\n";
+		
 		break;
 
 	case 3:
 		//this is a password reset
-		$arr = get_option( 'wpmembers_email_repass' );
+		$subj = sprintf(__('Password reset for %s', 'wp-members'), $blogname);
+		
+		$body = sprintf(__('Your password for %s has been reset', 'wp-members'), $blogname); 
+		$body.= "\r\n\r\n";
+		$body.= __('Your new password is included below. You may wish to retain a copy for your records.', 'wp-members');
+		$body.= "\r\n\r\n";
+		$body.= sprintf(__('password: %s', 'wp-members'), $password ); 
+		$body.= "\r\n\r\n";
 		break;
 		
 	}
 	
-	$subj = str_replace( $shortcd, $replace, $arr['subj'] );
-	$body = str_replace( $shortcd, $replace, $arr['body'] );
-	
-	$foot = get_option ( 'wpmembers_email_footer' );
-	$foot = str_replace( $shortcd, $replace, $foot );
-	
-	$body.= $foot;
+	$body.= "-----------------------------------\r\n";
+	$body.= sprintf(__('This is an automated message from %s', 'wp-members'), $blogname);
+	$body.= "\r\n";
+	$body.= __('Please do not reply to this address', 'wp-members');
+	$body.= "\r\n";
 
-	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
+	// end edits for function wpmem_inc_regemail()
+
+	wp_mail($user_email, $subj, $body, $headers = '');
 
 }
 endif;
 
 
 if( ! function_exists( 'wpmem_notify_admin' ) ):
-/**
- * Builds the email for admin notification of new user registration
- *
- * @since 2.3
- */
 function wpmem_notify_admin( $user_id, $wpmem_fields )
 {
-	$user     = new WP_User( $user_id );
-	$blogname = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
+	$user			= new WP_User( $user_id );
+	$blogname		= get_option('blogname');
+	$the_permalink	= $_REQUEST['redirect_to'];  //NEW for 2.4
 	
-	$user_ip  = get_user_meta( $user_id, 'wpmem_reg_ip', true );
-	$reg_link = get_user_meta( $user_id, 'wpmem_reg_url', true );
-	$act_link = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
-
-	if( WPMEM_USE_EXP == 1 ) {
-		$exp_type = get_user_meta( $user_id, 'exp_type', 'true' );
-		$exp_date = get_user_meta( $user_id, 'expires', 'true' );
-	}	
+	$subj = sprintf(__('New user registration for %s', 'wp-members'), $blogname);
 	
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields[$row][4] == 'y' ) {
+	$body = sprintf(__('The following user registered for %s', 'wp-members'), $blogname)."\r\n";
+	
+	if (WPMEM_MOD_REG == 1) { $body.= sprintf(__('and is pending admin approval', 'wp-members')."\r\n"); } 	
+	
+	$body.= "\r\n";
+	$body.= "username: ".$user->user_login."\r\n";
+	$body.= "email:    ".$user->user_email."\r\n\r\n";
+	for ($row = 0; $row < count($wpmem_fields); $row++) {
+		if ($wpmem_fields[$row][4] == 'y') {
 			$name = $wpmem_fields[$row][1];
 			
-			if( $wpmem_fields[$row][2] != 'user_email' ) {
-				if( $wpmem_fields[$row][2] == 'user_url' ) {
+			if ($wpmem_fields[$row][2] != 'user_email') {
+				if ($wpmem_fields[$row][2] == 'user_url') {
 					$val  = $user->user_url;
 				} else {
-					$val  = get_user_meta( $user_id,$wpmem_fields[$row][2], 'true' );
+					$val  = get_user_meta($user_id,$wpmem_fields[$row][2],'true');
 				}
 			
-				$field_str.= "$name: $val \r\n";
+				$body.= "$name: $val \r\n";
 			}
 		}
 	}
 	
-	$shortcd = array( 
-		'[blogname]', 
-		'[username]',
-		'[email]',
-		'[reglink]',  
-		'[exp-type]', 
-		'[exp-data]',
-		'[user-ip]',
-		'[activate-user]',
-		'[fields]'
-	);
+	$body.= "user registered at: $the_permalink \r\n\r\n";  //NEW for 2.4
 	
-	$replace = array( 
-		$blogname, 
-		$user->user_login, 
-		$user->user_email,
-		$reg_link,  
-		$exp_type, 
-		$exp_date,
-		$user_ip,
-		$act_link,
-		$field_str
-	);
+	$user_ip = get_user_meta($user_id, 'wpmem_reg_ip', 'true');
+	$body.= "user IP: $user_ip \r\n\r\n";
 	
-	$arr  = get_option( 'wpmembers_email_notify' );
+	if (WPMEM_MOD_REG == 1) { 
+		$body.= "\r\n"."activate user: ".get_bloginfo( 'wpurl' )."/wp-admin/user-edit.php?user_id=".$user_id."\r\n"; 
+	}
 	
-	$subj = str_replace( $shortcd, $replace, $arr['subj'] );
-	$body = str_replace( $shortcd, $replace, $arr['body'] );
+	$body.= "\r\n";
+	$body.= "-----------------------------------\r\n";
+	$body.= sprintf(__('This is an automated message from %s', 'wp-members'), $blogname);
+	$body.= "\r\n";
+	$body.= __('Please do not reply to this address', 'wp-members');
+	$body.= "\r\n";
 	
-	$foot = get_option ( 'wpmembers_email_footer' );
-	$foot = str_replace( $shortcd, $replace, $foot );
-	
-	$body.= $foot;
-	
-	$admin_email = get_option( 'admin_email' );
-	wp_mail($admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '');
-
+	$admin_email = get_option('admin_email');
+	wp_mail($admin_email, $subj, $body, $headers = '');
 }
 endif;
 
-
-add_filter( 'wp_mail_from', 'wpmem_mail_from' );
-/**
- * Filters the wp_mail from address (if set)
- *
- * @since 2.7
- */
-function wpmem_mail_from( $email )
-{
-	if( get_option( 'wpmembers_email_wpfrom' ) ) {
-		$email = get_option( 'wpmembers_email_wpfrom' );
-	}
-    return $email;
-}
-
-
-add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
-/**
- * Filters the wp_mail from name (if set)
- *
- * @since 2.7
- */
-function wpmem_mail_from_name( $name )
-{
-	if( get_option( 'wpmembers_email_wpname' ) ) {
-		$name = get_option( 'wpmembers_email_wpname' );
-	}
-    return $name;
-}
 ?>

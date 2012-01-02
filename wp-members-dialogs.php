@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2011
  */
 
 
@@ -47,7 +47,6 @@ function wpmem_inc_login($page="page")
 
     $arr = array(__('Existing users Login', 'wp-members'), __('Username', 'wp-members'), 'text', 'log', __('Password', 'wp-members'), 'password', 'pwd', 'login', __('Login', 'wp-members'), 'username', 'password');
 	
-	// @todo $str = wpmem_login_form( $page, $arr );
 	$str = $str . wpmem_login_form( $page, $arr );
 	return $str;
 }
@@ -191,7 +190,7 @@ function wpmem_inc_loginfailed()
 endif;
 
 
-if( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
+if ( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
 /**
  * Registration Form Dialog (Legacy)
  *
@@ -204,12 +203,14 @@ if( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
  * @param  string $toggle
  * @param  string $heading
  * @return string $form
+ *
+ * @todo check for unnecessary globals
  */
 function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 {
 	global $userdata, $wpmem_regchk, $username, $wpmem_fieldval_arr;
 
-	if( !$heading ) { $heading = "<h2>" . __( 'New Users Registration', 'wp-members' ) . "</h2>"; }
+	if (!$heading) { $heading = "<h2>".__('New Users Registration', 'wp-members')."</h2>"; }
 
 	$form = '<div class="wpmem_reg">
 		<form name="form2" method="post" action="' . get_permalink() . '">
@@ -219,14 +220,14 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 			  <td colspan="2">' . $heading . '</td>
 			</tr>';
 
-	if( $toggle == 'edit' ) {
+	if ($toggle == 'edit') {
 		$form = $form . '<tr> 
-			  <td width="49%" align="right">' . __( 'Username', 'wp-members' ) . ':</td>
+			  <td width="49%" align="right">' . __('Username', 'wp-members') . ':</td>
 			  <td width="51%" align="left">' . $userdata->user_login . '</td>
 			</tr>';
 	} else {
 		$form = $form . '<tr> 
-			  <td width="49%" align="right">' . __( 'Choose a Username', 'wp-members' ) . '<font color="red">*</font></td>
+			  <td width="49%" align="right">' . __('Choose a Username', 'wp-members') . '<font color="red">*</font></td>
 			  <td width="51%"><input name="log" type="text" value="' . stripslashes( $username ) . '" /></td>
 			</tr>';
 	}
@@ -235,59 +236,56 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 			  <td colspan="2">&nbsp;</td>
 			</tr>';
 
-	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count($wpmem_fields); $row++ )
+	$wpmem_fields = get_option('wpmembers_fields');
+	for ($row = 0; $row < count($wpmem_fields); $row++)
 	{ 
 		$do_row = true;
-		
-		if( $toggle == 'edit' && $wpmem_fields[$row][2] == 'password' ) { $do_row = false; }
-		
-		if( $wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
+		if ($wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && (get_user_meta($userdata->ID, 'tos', true))) { 
 			// makes tos field hidden on user edit page, unless they haven't got a value for tos
 			$do_row = false; 
-			$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
+			$form = $form . wpmem_create_formfield($wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true));
 		}
-		if( $wpmem_fields[$row][4] == 'y' && $do_row == true ) {
+		if ($wpmem_fields[$row][4] == 'y' && $do_row == true ) {
 
 			$form = $form . '<tr'; if( $wpmem_fields[$row][3] == 'textarea' || $wpmem_fields[$row][2] == 'tos' ) { $form = $form . ' valign="top"'; } $form = $form . '>';
 			$form = $form . '<td align="right">';
-			if( $wpmem_fields[$row][2] == 'tos' ) {
+			if ($wpmem_fields[$row][2] == 'tos') {
 
-				if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) {
+				if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) {
 					$chk_tos;  // HUH?
 				} else {
 					$val = $wpmem_fieldval_arr[$row];
 				}
 
 				// should be checked by default? and only if form hasn't been submitted
-				if( ! $_POST && $wpmem_fields[$row][8] == 'y' ) { $val = $wpmem_fields[$row][7]; }
+				if(!$_POST && $wpmem_fields[$row][8] == 'y') { $val = $wpmem_fields[$row][7]; }
 
-				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
+				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$wpmem_fields[$row][7],$val);
 
 			} else {
 
 				$form = $form . $wpmem_fields[$row][1].":";
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font color="red">*</font>'; } 
+				if ($wpmem_fields[$row][5] == 'y') { $form = $form . '<font color="red">*</font>'; } 
 
 			} 
 			
 			$form = $form . '</td>
-			<td'; if( $wpmem_fields[$row][2] == 'tos' || $wpmem_fields[$row][3] == 'checkbox' ) { $form = $form . ' align="left"'; } $form = $form . '>';
+			<td'; if ($wpmem_fields[$row][2] == 'tos' || $wpmem_fields[$row][3] == 'checkbox') { $form = $form . ' align="left"'; } $form = $form . '>';
 
-			if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
+			if (($toggle == 'edit') && ($wpmem_regchk != 'updaterr')) { 
 
 				//if (WPMEM_DEBUG == true) { $form = $form . $wpmem_fields[$row][2]."&nbsp;"; }
 
-				switch( $wpmem_fields[$row][2] ) {
-				case( 'description' ):
+				switch ($wpmem_fields[$row][2]) {
+				case('description'):
 					$val = get_user_meta($userdata->ID,'description','true');
 					break;
 
-				case( 'user_email' ):
+				case('user_email'):
 					$val = $userdata->user_email;
 					break;
 
-				case( 'user_url' ):
+				case('user_url'):
 					$val = $userdata->user_url;
 					break;
 
@@ -302,30 +300,17 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 			}
 
-			if( $wpmem_fields[$row][2] == 'tos' ) { 
+			if ($wpmem_fields[$row][2] == 'tos') { 
 
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font color="red">*</font>'; }
+				if ($wpmem_fields[$row][5] == 'y') { $form = $form . "<font color=\"red\">*</font>"; }
 				
-				// determine if TOS is a WP page or not...
-				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-				if( strstr( $tos_content, '[wp-members page="tos"' ) ) {
-					
-					$tos_content = " " . $tos_content;
-					$ini = strpos( $tos_content, 'url="' );
-					$ini += strlen( 'url="' );
-					$len = strpos( $tos_content, '"]', $ini ) - $ini;
-					$link = substr( $tos_content, $ini, $len );
-					$tos_pop = '<a href="' . $link . '" target="_blank">';
-
-				} else { 
-					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
-				}
-				$form = $form . sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>');
+				$tos_pop = "<a href=\"#\" onClick=\"window.open('".WP_PLUGIN_URL."/wp-members/wp-members-tos.php','mywindow');\">";
+				$form = $form . sprintf( __('Please indicate that you have read and agree to the %s Terms of Service %s', 'wp-members'), $tos_pop, '</a>');
 
 			} else {
 
 				// for checkboxes
-				if( $wpmem_fields[$row][3] == 'checkbox' ) { 
+				if ($wpmem_fields[$row][3] == 'checkbox') { 
 					$valtochk = $val;
 					$val = $wpmem_fields[$row][7]; 
 					// if it should it be checked by default (& only if form not submitted), then override above...
@@ -338,7 +323,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 					$val = $wpmem_fields[$row][7];
 				}
 
-				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
+				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
 			}
 
 			$form = $form . '</td>
@@ -346,10 +331,10 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 		}
 	}
 
-	if( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
+	if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) {
 
-		$wpmem_captcha = get_option( 'wpmembers_captcha' ); 
-		if( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
+		$wpmem_captcha = get_option('wpmembers_captcha'); 
+		if ( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
 		
 			$form = $form . '<tr>
 				<td colspan="2" align="right">';
@@ -365,7 +350,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 			<tr> 
 			  <td align="right">&nbsp;</td>
 			  <td>';
-	if( $toggle == 'edit' ) {
+	if ($toggle == 'edit') {
 		$form = $form . '<input name="a" type="hidden" value="update" />';
 	} else {
 		$form = $form . '<input name="a" type="hidden" value="register" />';
@@ -562,7 +547,7 @@ function wpmem_login_form( $page, $arr )
 endif;
 
 
-if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
+if ( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
 /**
  * Registration Form Dialog
  *
@@ -574,8 +559,10 @@ if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  * @param  string $toggle
  * @param  string $heading
  * @return string $form
+ *
+ * @todo check for unnecessary globals
  */
-function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
+function wpmem_inc_registration_NEW( $toggle = 'new', $heading = ' ')
 {
 	// fix the wptexturize
 	remove_filter( 'the_content', 'wpautop' );
@@ -611,7 +598,6 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 	for( $row = 0; $row < count($wpmem_fields); $row++ )
 	{ 
 		$do_row = true;
-		if( $toggle == 'edit' && $wpmem_fields[$row][2] == 'password' ) { $do_row = false; }
 		if( $wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && ( get_user_meta($userdata->ID, 'tos', true ) ) ) { 
 			// makes tos field hidden on user edit page, unless they haven't got a value for tos
 			$do_row = false; 
@@ -622,19 +608,13 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			if( $wpmem_fields[$row][2] != 'tos' ) {
 
-				if( $wpmem_fields[$row][3] == 'password' ) { 
-					$class = 'text'; 
-				} else {
-					$class = $wpmem_fields[$row][3];
-				}
-				
-				$form = $form . '<label for="' . $wpmem_fields[$row][2] . '" class="' . $class . '">' . $wpmem_fields[$row][1];
+				$form = $form . "<label for=\"".$wpmem_fields[$row][2]."\" class=\"".$wpmem_fields[$row][3]."\">".$wpmem_fields[$row][1];
 				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font class="req">*</font>'; } 
-				$form = $form . '</label>';
+				$form = $form . "</label>";
 
 			} 
 
-			$form = $form . '<div class="div_' . $class . '">';
+			$form = $form . "<div class=\"div_" . $wpmem_fields[$row][3] . "\">";
 
 			if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
 
@@ -677,22 +657,9 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
 
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font color="red">*</font>'; }
+				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . "<font color=\"red\">*</font>"; }
 
-				// determine if TOS is a WP page or not...
-				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-				if( strstr( $tos_content, '[wp-members page="tos"' ) ) {
-					
-					$tos_content = " " . $tos_content;
-					$ini = strpos( $tos_content, 'url="' );
-					$ini += strlen( 'url="' );
-					$len = strpos( $tos_content, '"]', $ini ) - $ini;
-					$link = substr( $tos_content, $ini, $len );
-					$tos_pop = '<a href="' . $link . '" target="_blank">';
-
-				} else { 
-					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
-				}
+				$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
 				$form = $form . sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>');
 
 			} else {
@@ -710,8 +677,6 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 					$valtochk = $val;
 					$val = $wpmem_fields[$row][7];
 				}
-				
-				// @todo if( ! isset( $valtochk ) ) { $valtochk = ''; }
 
 				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
 			}
@@ -879,7 +844,6 @@ function wpmem_inc_attribution()
 	*/
 	
 	$show_attribution = true;
-	if( defined( 'WPMEM_REMOVE_ATTR' ) ) { $show_attribution = false; }
 
 	if( WPMEM_OLD_FORMS != 1 && $show_attribution == true ) { // NEW FORMS
 	
