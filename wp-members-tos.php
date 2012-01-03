@@ -21,7 +21,7 @@ require( '../../../wp-blog-header.php' );
 
 <html>
 <head>
-	<title>Terms of Service | <?php bloginfo( 'name' ); ?></title>
+	<title><?php _e( 'Terms of Service', 'wp-members' ); ?> | <?php bloginfo( 'name' ); ?></title>
 </head>
 
 <body>
@@ -32,9 +32,11 @@ $wpmem_tos = get_option( 'wpmembers_tos' );
 
 echo $wpmem_tos;
 
-echo "[<a href=\"javascript:self.close()\">close</a>]\r\n";
-echo "&nbsp;&nbsp;";
-echo "[<a href=\"javascript:window.print()\">print</a>]\r\n";
+print ( '<br /><br />' );
+printf( __('%sclose%s', 'wp-members'), '[<a href="javascript:self.close()">', '</a>]' );
+print ( '&nbsp;&nbsp;' );
+printf( __('%sprint%s', 'wp-members'), '[<a href="javascript:window.print()">', '</a>]' );
+
 ?>
 
 </body>

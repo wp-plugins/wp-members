@@ -304,7 +304,7 @@ function wpmem_a_build_fields( $wpmem_fields )
         	<td colspan="3" align="right">
 				<?php _e( 'For dropdown, array of values:', 'wp-members' ); ?><br />
 				<span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
-				<a href="#"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
+				<a href="http://butlerblog.com/wp-members/users-guide/add-fields/"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
 			</td>
             <td colspan="2"><textarea name="add_dropdown_value" rows="5" cols="40"><---- Select One ---->|, 
 Choice One|choice1value, 
@@ -1371,8 +1371,9 @@ function wpmem_a_build_emails( $wpmem_settings )
 	
 	<h3>WP-Members <?php _e( 'Email Messages', 'wp-members' ); ?></h3>
 	<p>
-	<?php _e( 'You can customize the content of the emails sent by the plugin', 'wp-members' ); ?><br />
-	<?php _e( 'Click here for a list of available shortcodes', 'wp-members' ); ?>
+	<?php _e( 'You can customize the content of the emails sent by the plugin.', 'wp-members' ); ?><br />
+	<a href="http://butlerblog.com/wp-members/users-guide/shortcodes/" target="_blank">
+	<?php _e( 'A list of shortcodes is available here.', 'wp-members' ); ?></a>
 	</p>
 	<hr />
 	<form name="updateemailform" id="updateemailform" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 

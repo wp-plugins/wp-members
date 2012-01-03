@@ -69,6 +69,7 @@ A full Users Guide is available at the [plugin's homepage](http://butlerblog.com
 * There is also a shortcode to create an optional login page.  Use [wp-members page="login"] for this.	
 * CAPTCHA for the registration process is available via reCAPTCHA.  If you use reCAPTCHA, you will need a [valid API key](http://www.google.com/recaptcha).  The CAPTCHA form will not display if you have not entered a valid API key in the WP-Members&trade; settings. (Note: the settings tab for reCAPTCHA will only show if you've turned this option on in the settings tab.)
 * There is a Terms of Service checkbox available for the registration process.  This is turned on by default in new installations.  If you don't need it, you can turn it off.  If you use the TOS checkbox, there is a place for you to insert your Terms of Service in the WP-Members&trade; Dialogs and Error Messages.  This text is used to generate a link for the user to read the TOS in a popup.  The TOS content can be HTML; in fact, it is recommended for sizeable TOS documents that you use `<h1>`, `<h2>`, `<p>`, etc.
+* To direct the TOS link to a WordPress&reg; page, set the TOS dialog to be a shortcode [wp-members page="tos" url="http://mydomain.com/my-tos-page"] (where the URL is the URL of your page.
 * In order to display a "forgot password" and "register" link in the login form (and sidebar widget), specify the location of the members area and register pages in the plugin options.
 
 
@@ -91,8 +92,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.6.5 =
-A fix release correcting reCAPTCHA issues with IE. See plugin page for more details.
+= 2.7.0 =
+There are some changes to the sidebar widget. You'll need to reapply the widget to any sidebars after upgrading.
 
 == Screenshots ==
 
@@ -104,15 +105,16 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 = 2.7.0 =
 This is new feature release with the following features and improvements:
 
-* Customized email messages
-* Add dropdown fields in the field managment panel
-* Moved location of pluggable file load so that constants may be used without loading twice
-* Registration stores the url the user registered on for all registrations, not just if registration is moderated
-* Trim trailing whitespace on members area, register, and custom css urls
-* Added wp_specialchars_decode to blogname in emails to decode any special characters (such as &amp;) in the title
-* Registration function is now pluggable
-* Updated sidebar widget to be multi-widget compatible
-* TOS can be stored in dialogs OR be a WP page (set in dialogs with shortcode)
+* Email messages can be customized via the plugin admin panel.
+* Dropdown fields can be added via the field managment panel.
+* Moved location of pluggable file load so that constants may be used without loading twice.
+* Registration stores the url the user registered on for all registrations, not just if registration is moderated.
+* Trim trailing whitespace on members area, register, and custom css urls.
+* Added wp_specialchars_decode to blogname in emails to decode any special characters (such as &amp;) in the title.
+* Registration function is now pluggable.
+* Updated sidebar widget to be multi-widget compatible.
+* TOS can be stored in dialogs OR be a WP page (set in dialogs with a shortcode).
+* Plugin can be set up for users to select their own passwords at registration (cannot be used with moderated registration).
 
 = 2.6.6 =
 Bug fix release
