@@ -24,9 +24,6 @@ if( ! function_exists( 'wpmem_registration' ) ):
  */
 function wpmem_registration( $toggle )
 {
-	// make sure native WP registration functions are loaded
-	require_once( ABSPATH . WPINC . '/registration-functions.php');
-
 	global $user_ID,$userdata,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
 
 	if( $toggle=='register' ) { $username = $_POST['log']; }

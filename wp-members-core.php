@@ -817,7 +817,7 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  */
 function wpmem_do_sc_pages( $page )
 {
-	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
+	global $wpmem_regchk, $wpmem_themsg, $wpmem_a, $content;
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
 	

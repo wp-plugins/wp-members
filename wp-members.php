@@ -97,15 +97,9 @@ define('WPMEM_MOD_REG',      $wpmem_settings[5]);
 define('WPMEM_CAPTCHA',      $wpmem_settings[6]);
 define('WPMEM_NO_REG',       $wpmem_settings[7]);
 define('WPMEM_OLD_FORMS',    $wpmem_settings[8]);
+define('WPMEM_USE_EXP',      $wpmem_settings[9]);
+define('WPMEM_USE_TRL',      $wpmem_settings[10]);
 define('WPMEM_IGNORE_WARN',  $wpmem_settings[11]);
-
-if (WPMEM_EXP_MODULE == true) {
-	define('WPMEM_USE_EXP',  $wpmem_settings[9]);
-	define('WPMEM_USE_TRL',  $wpmem_settings[10]);
-}
-
-// @todo define('WPMEM_USE_EXP',  $wpmem_settings[9]);
-// @todo define('WPMEM_USE_TRL',  $wpmem_settings[10]);
 
 define('WPMEM_MSURL',  get_option('wpmembers_msurl', null));
 define('WPMEM_REGURL', get_option('wpmembers_regurl',null));
@@ -114,8 +108,6 @@ define('WPMEM_CSSURL', get_option('wpmembers_cssurl',null));
 
 /**
  * preload any custom functions, if available
- *
- * @todo Does moving this after wpmem_settings load, but before core load break the plugs?
  */
 if( file_exists( WP_PLUGIN_DIR . '/wp-members-pluggable.php' ) ) {
 	include( WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
@@ -131,12 +123,11 @@ include_once('wp-members-core.php');
 /**
  * actions and the content filter
  */
-add_action('init', 'wpmem');  							// runs the wpmem() function right away, allows for setting cookies
-add_action('widgets_init', 'widget_wpmemwidget_init');  // if you are using widgets, this initializes the widget
-add_action('wp_head', 'wpmem_head');					// runs functions for the head
-add_filter('allow_password_reset', 'wpmem_no_reset');   // prevents non-activated users from resetting password via wp-login
-add_filter('the_content', 'wpmem_securify', $content);  // securifies the_content.
-// @todo add_filter( 'the_content', 'wpmem_securify', 1, 1 );
+add_action( 'init', 'wpmem' );                           // runs the wpmem() function right away, allows for setting cookies
+add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // if you are using widgets, this initializes the widget
+add_action( 'wp_head', 'wpmem_head' );                   // runs functions for the head
+add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
+add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content 
 
 
 /**

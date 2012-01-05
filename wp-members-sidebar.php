@@ -204,7 +204,7 @@ class widget_wpmemwidget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 
 			// The Widget
-			if( function_exists( 'wpmem' ) ) { wpmem_inc_sidebar( $widget ); }
+			if( function_exists( 'wpmem' ) ) { wpmem_do_sidebar(); }
 
 		 echo $after_widget;
     }
