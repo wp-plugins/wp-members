@@ -31,8 +31,8 @@ if ( ! function_exists( 'wpmem' ) ):
  *
  * @since 0.1 
  *
- * @global $wpmem_a the action variable also used in wpmem_securify
- * @global $wpmem_regchk contains messages returned from $wpmem_a action functions, used in wpmem_securify
+ * @global string $wpmem_a the action variable also used in wpmem_securify
+ * @global string $wpmem_regchk contains messages returned from $wpmem_a action functions, used in wpmem_securify
  */
 function wpmem()
 {	
@@ -87,9 +87,9 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * @global var $wpmem_a the action variable received from wpmem()
  * @global string $wpmem_regchk contains messages returned from wpmem() action functions
- * @global string $wpmem_themsg
- * @global string $wpmem_captcha_err
- * @global array $post
+ * @global string $wpmem_themsg contains messages to be output
+ * @global string $wpmem_captcha_err contains error message for reCAPTCHA
+ * @global array $post needed for protecting comments
  * @param string $content
  * @return $content
  *
@@ -99,7 +99,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
 function wpmem_securify( $content = null ) 
 { 
 
-	// this is being tested...
+	// @todo this is being tested...
 	// $content = wpmem_do_excerpt( $content );
 
 
@@ -167,7 +167,7 @@ function wpmem_securify( $content = null )
 
 		// For expirations
 		// NOTE: there is some reworking needed before exp module final release
-		} elseif ( is_user_logged_in() && $chk_securify == 'block' ){
+		} elseif ( is_user_logged_in() && wpmem_block() == true ){
 			
 			if (WPMEM_USE_EXP == 1) { $content = wpmem_do_expmessage( $content ); }
 			
@@ -178,10 +178,10 @@ function wpmem_securify( $content = null )
 		// This version is the final version to update these - they will be deprecated and 
 		// most likely removed in future versions. Start updating to new shortcode versions.
 		
+		$wpmem_page = '';
 		if (is_page('members-area')) { $wpmem_page = "members-area"; }
 		if (is_page('register')) { $wpmem_page = "register"; }
 		
-		// @todo if ( isset( $wpmem_page ) && ( $wpmem_page == 'members-area' || $wpmem_page == 'register') ) {
 		if ( $wpmem_page == 'members-area' || $wpmem_page == 'register' ) {
 		
 			include_once('wp-members-dialogs.php');
@@ -324,31 +324,54 @@ function wpmem_securify( $content = null )
 endif;
 
 
-add_shortcode ('wp-members', 'wpmem_shortcode');
+add_shortcode( 'wp-members', 'wpmem_shortcode' );
 /**
  * Executes shortcode for settings, register, and login pages
  *
  * @since 2.4 
  *
  * @param array $attr page and status
+ * @param array $content
  * @return string returns the result of wpmem_do_sc_pages
  * @return string returns $content between open and closing tags
  */
 function wpmem_shortcode( $attr, $content = null )
 {
-	// @todo if( isset( $attr['page'] ) ) {
-	if( $attr['page'] ) {
+	if( isset( $attr['page'] ) ) {
 		return wpmem_do_sc_pages( $attr['page'] ); 
 	}
 	
-	// @todo if( isset( $attr['status'] ) ) {
-	if( $attr['status'] ) {
+	if( isset( $attr['status'] ) ) {
 		if( $attr['status'] == 'in' && is_user_logged_in() ) {
 			return $content;
 		} elseif ( $attr['status'] == 'out' && ! is_user_logged_in() ) {
 			return $content;
 		}
 	}
+}
+
+
+if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+/**
+ * Checks if a user is activated
+ *
+ * @since 2.7.1
+ *
+ * @param int $user
+ * @param string $username
+ * @param string $password
+ * @return int $user
+ */
+function wpmem_check_activated( $user, $username, $password ) 
+{    
+	$user = get_userdatabylogin( $username ); 
+	
+	$active = get_user_meta( $user->ID, 'active', 1 );
+
+	if( $active != 1 ) {
+		return null;
+	}
+	return $user;
 }
 
 
@@ -360,13 +383,23 @@ if ( ! function_exists( 'wpmem_login' ) ):
  * is successful, it redirects and exits; otherwise "loginfailed"
  * is returned.
  *
- * @since 0.1 
+ * @since 0.1
+ *
+ * @uses wp_signon
+ * @uses wp_redirect
+ * @return string returns "loginfailed" if the login fails, otherwise redirect
  */
 function wpmem_login()
 {
 	$redirect_to = $_POST['redirect_to'];
-	if (!$redirect_to) {
+	if( !$redirect_to ) {
 		$redirect_to = $_SERVER['PHP_SELF'];
+	}
+	
+	if( $_POST['rememberme'] == 'forever' ) {
+		$rememberme = true;
+	} else {
+		$rememberme = false;
 	}
 
 	if ( $_POST['log'] && $_POST['pwd'] ) {
@@ -376,22 +409,22 @@ function wpmem_login()
 		$creds = array();
 		$creds['user_login']    = $user_login;
 		$creds['user_password'] = $_POST['pwd'];
-		$creds['remember']      = $_POST['rememberme'];
+		$creds['remember']      = $rememberme;
 		
 		$user = wp_signon( $creds, false );
 	
 		if ( !is_wp_error($user) ) {
 			if ( !$using_cookie )
-				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
-			wp_redirect($redirect_to);
+				wp_setcookie( $user_login, $user_pass, false, '', '', $rememberme );
+			wp_redirect( $redirect_to );
 			exit();
 		} else {
-			return "loginfailed"; // $wpmem_regchk = "loginfailed";
+			return "loginfailed";
 		}
 	
 	} else {
 		//login failed
-		return "loginfailed"; // $wpmem_regchk = "loginfailed";
+		return "loginfailed";
 	}	
 
 } // end of login function
@@ -403,6 +436,11 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  * Logs the user out, puts user on home page
  *
  * @since 2.0
+ *
+ * @uses wp_clearcookie
+ * @uses wp_logout
+ * @uses nocache_headers
+ * @uses wp_redirect
  */
 function wpmem_logout()
 {
@@ -456,6 +494,8 @@ if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
  * Initializes the widget
  *
  * @since 2.0
+ *
+ * @uses register_widget
  */
 function widget_wpmemwidget_init()
 {
@@ -507,6 +547,8 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  * Resets a forgotten password
  *
  * @since 2.1
+ *
+ * @return string value for $wpmem_regchk
  */
 function wpmem_reset_password()
 { 
@@ -678,15 +720,20 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  * Determines if a form field is selected (i.e. lists & checkboxes)
  *
  * @since 0.1
+ *
+ * @param string $value
+ * @param string $valtochk
+ * @param string $type
+ * @return string $issame
  */
-function wpmem_selected($value,$valtochk,$type=null)
+function wpmem_selected( $value, $valtochk, $type=null )
 {
-	if($type == 'select') {
+	if( $type == 'select' ) {
 		$issame = 'selected';
 	} else {
 		$issame = 'checked';
 	}
-	if($value == $valtochk){ return $issame; }
+	if( $value == $valtochk ){ return $issame; }
 }
 endif;
 
@@ -696,16 +743,20 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  * Checks querystrings
  *
  * @since 2.0
+ *
+ * @uses get_permalink
+ * @param string $url
+ * @return string $return_url
  */
-function wpmem_chk_qstr($url = null)
+function wpmem_chk_qstr( $url = null )
 {
-	$permalink = get_option('permalink_structure');
-	if (!$permalink) {
-		if (!$url) { $url = get_option('home') . "/?" . $_SERVER['QUERY_STRING']; }
-		$return_url = $url."&amp;";
+	$permalink = get_option( 'permalink_structure' );
+	if( ! $permalink ) {
+		if( ! $url ) { $url = get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING']; }
+		$return_url = $url . "&amp;";
 	} else {
-		if (!$url) { $url = get_permalink(); }
-		$return_url = $url."?";
+		if( !$url ) { $url = get_permalink(); }
+		$return_url = $url . "?";
 	}
 	return $return_url;
 }
@@ -717,6 +768,8 @@ if ( ! function_exists( 'wpmem_generatePassword' ) ):
  * Generates a random password 
  *
  * @since 2.0
+ *
+ * @return string the random password
  */
 function wpmem_generatePassword()
 {	
@@ -731,6 +784,9 @@ endif;
  * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me"
  *
  * @since 2.6.4
+ *
+ * @param string $content
+ * @return string $new_content
  */
 function wpmem_texturize( $content ) 
 {
@@ -762,6 +818,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  *
  * @since 2.6
  *
+ * @global string $post
  * @return bool 
  */
 function wpmem_test_shortcode()
@@ -813,6 +870,10 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * @since 2.6
  *
  * @param string $page
+ * @global string $wpmem_regchk
+ * @global string $wpmem_themsg
+ * @global string $wpmem_a
+ * @global string $content
  * @return $content 
  */
 function wpmem_do_sc_pages( $page )
@@ -975,6 +1036,9 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  * Loads the stylesheet for tableless forms
  *
  * @since 2.6
+ *
+ * @uses wp_register_style
+ * @uses wp_enqueue_style
  */
 function wpmem_enqueue_style()
 {		
@@ -997,6 +1061,9 @@ endif;
  * Creates an excerpt on the fly if there is no 'more' tag
  *
  * @since 2.6
+ *
+ * @param string $content
+ * @return string $content
  */
 function wpmem_do_excerpt( $content )
 {
@@ -1020,6 +1087,8 @@ function wpmem_do_excerpt( $content )
  * add WP-Members fields to the WP user profile screen
  *
  * @since 2.6.5
+ *
+ * @global int $user_id
  */
 function wpmem_user_profile()
 {
@@ -1078,6 +1147,8 @@ function wpmem_user_profile()
  * updates WP-Members fields from the WP user profile screen
  *
  * @since 2.6.5
+ *
+ * @global int $user_id
  */
 function wpmem_profile_update()
 {

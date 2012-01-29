@@ -58,6 +58,8 @@ add_action( 'edit_user_profile', 'wpmem_admin_fields' );
  * add WP-Members fields to the WP user profile screen
  *
  * @since 2.1
+ *
+ * @global array $current_screen
  */
 function wpmem_admin_fields()
 {
@@ -96,15 +98,32 @@ function wpmem_admin_fields()
 
 		// see if reg is moderated, and if the user has been activated
 		if( WPMEM_MOD_REG == 1 ) { 
-			if( get_user_meta( $user_id, 'active', 'true' ) != 1 ) { ?>
+			$user_active_flag = get_user_meta( $user_id, 'active', 'true' );
+			switch( $user_active_flag ) {
+			
+				case '':
+					$label  = __( 'Activate this user?', 'wp-members' );
+					$action = 1;
+					break;
+				
+				case 0: 
+					$label  = __( 'Reactivate this user?', 'wp-members' );
+					$action = 1;
+					break;
+				
+				case 1:
+					$label  = __( 'Deactivate this user?', 'wp-members' );
+					$action = 0;
+					break;
+				
+			}?>
 
-				<tr>
-					<th><label><?php _e( 'Activate this user?', 'wp-members' ); ?></label></th>
-					<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="1" /></td>
-				</tr>
+			<tr>
+				<th><label><?php echo $label; ?></label></th>
+				<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
+			</tr>
 
-			<?php }
-		} 
+		<?php }  
 
 		// if using subscription model, show expiration
 		// if registration is moderated, this doesn't show if user is not active yet.
@@ -132,7 +151,8 @@ function wpmem_admin_update()
 	$user_id = $_REQUEST['user_id'];	
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
+		if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = true; }
+		if( $wpmem_fields[$row][6] == "n" && ! $chk_pass ) {
 			update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
 		}
 	}
@@ -141,7 +161,9 @@ function wpmem_admin_update()
 
 		$wpmem_activate_user = $_POST['activate_user'];
 		if( $wpmem_activate_user == 1 ) {
-			wpmem_a_activate_user( $user_id );
+			wpmem_a_activate_user( $user_id, $chk_pass );
+		} elseif( $wpmem_activate_user == 0 ) {
+			wpmem_a_deactivate_user( $user_id );
 		}
 	}
 	
@@ -158,8 +180,10 @@ function wpmem_admin_update()
 
 /**
  * builds the settings panel
+ *
+ * @param array $wpmem_settings
  */
-function wpmem_a_build_options($wpmem_settings)
+function wpmem_a_build_options( $wpmem_settings )
 { ?>
 	<h3><?php _e( 'Manage Options', 'wp-members' ); ?></h3>
 		<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
@@ -224,6 +248,8 @@ function wpmem_a_build_options($wpmem_settings)
 
 /**
  * builds the fields panel
+ *
+ * @param string $wpmem_fields
  */
 function wpmem_a_build_fields( $wpmem_fields ) 
 { ?>
@@ -324,8 +350,10 @@ Example After Spacer|after_spacer</textarea></td>
 
 /**
  * builds the dialogs panel
+ *
+ * @param array $wpmem_dialogs
  */
-function wpmem_a_build_dialogs($wpmem_dialogs)
+function wpmem_a_build_dialogs( $wpmem_dialogs )
 { 
 	$wpmem_dialog_title_arr = array(
     	__("Restricted post (or page), displays above the login/registration form", 'wp-members'),
@@ -933,11 +961,16 @@ function wpmem_admin_users()
 		switch( $action ) {
 		
 		case "activate":
+			// find out if we need to set passwords
+			$wpmem_fields = get_option( 'wpmembers_fields' );
+			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+				if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = true; }
+			}
 			$x = 0;
 			foreach( $users as $user ) {
 				// check to see if the user is already activated, if not, activate
 				if( ! get_user_meta( $user, 'active', true ) ) {
-					wpmem_a_activate_user( $user );
+					wpmem_a_activate_user( $user, $chk_pass );
 					$x++;
 				}
 			}
@@ -1167,24 +1200,58 @@ function wpmem_admin_users()
 /**
  * Activates a user
  *
+ * If registration is moderated, sets the activated flag 
+ * in the usermeta. Flag prevents login when WPMEM_MOD_REG
+ * is true (1). Function is fired from bulk user edit or
+ * user profile update.
+ *
  * @since 2.4
+ *
+ * @param int  $user_id
+ * @param bool $chk_pass
+ * @global $wpdb
+ */
+function wpmem_a_activate_user( $user_id, $chk_pass = false )
+{
+	// define new_pass
+	$new_pass = '';
+	
+	// If passwords are user defined skip this
+	if( ! $chk_pass ) {
+		// generates a password to send the user
+		$new_pass = wp_generate_password();
+		$new_hash = wp_hash_password( $new_pass );
+		
+		// update the user with the new password
+		global $wpdb;
+		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	}
+	
+	// if subscriptions can expire, set the user's expiration date
+	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
+
+	// generate and send user approved email to user
+	require_once( 'wp-members-email.php' );
+	wpmem_inc_regemail( $user_id, $new_pass, 2 );
+	
+	// set the active flag in usermeta
+	update_user_meta( $user_id, 'active', 1 );
+}
+
+
+/**
+ * Deactivates a user
+ *
+ * Reverses the active flag from the activation process
+ * preventing login when registration is moderated.
+ *
+ * @since 2.7.1
  *
  * @param int $user_id
  */
-function wpmem_a_activate_user( $user_id )
+function wpmem_a_deactivate_user( $user_id )
 {
-	$new_pass = wp_generate_password();
-	$new_hash = wp_hash_password( $new_pass );
-	
-	global $wpdb;
-	$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
-	
-	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
-
-	require_once( 'wp-members-email.php' );
-
-	wpmem_inc_regemail( $user_id, $new_pass, 2 );
-	update_user_meta( $user_id, 'active', 1 );
+	update_user_meta( $user_id, 'active', 0 );
 }
 
 
@@ -1235,6 +1302,8 @@ function wpmem_a_build_user_action( $top, $arr )
  * builds the user management table heading
  *
  * @since 2.4
+ *
+ * @param array $args
  */
 function wpmem_a_build_user_tbl_head( $args )
 {
@@ -1297,10 +1366,10 @@ function wpmem_load_admin_js()
 }
 
 
+add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_field_reorder' );
 /**
  * reorders the fields on DnD
  */
-add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_field_reorder' );
 function wpmem_a_field_reorder()
 {
 	// start fresh
@@ -1340,6 +1409,8 @@ function wpmem_a_field_reorder()
  * builds the emails panel
  *
  * @since 2.7
+ *
+ * @param array $wpmem_settings
  */
 function wpmem_a_build_emails( $wpmem_settings )
 { 

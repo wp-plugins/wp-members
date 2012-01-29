@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. A <a href="http://butlerblog.com/wp-members/wp-members-quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.7.0
+Version:     2.7.1 rc1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -138,10 +138,10 @@ if( WPMEM_OLD_FORMS != 1 ) {
 }
 
 
+add_action('admin_init', 'wpmem_chk_admin');
 /**
  * scripts for admin panels only load for admins - makes the front-end of the plugin lighter
  */
-add_action('admin_init', 'wpmem_chk_admin');
 function wpmem_chk_admin()
 {
 	// if user has a role that can edit users, load the admin functions
@@ -156,10 +156,10 @@ function wpmem_chk_admin()
 }
 
 
+add_action('admin_menu', 'wpmem_admin_options');
 /**
  * admin panel only loads if user has manage_options capabilities
  */
-add_action('admin_menu', 'wpmem_admin_options');
 function wpmem_admin_options()
 {
 	$plugin_page = 	add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
@@ -167,10 +167,11 @@ function wpmem_admin_options()
 					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 }
 
+
+register_activation_hook(__FILE__, 'wpmem_install');
 /**
  * install scripts only load if we are installing, makes the plugin lighter
  */
-register_activation_hook(__FILE__, 'wpmem_install');
 function wpmem_install()
 {
 	require_once("wp-members-install.php");

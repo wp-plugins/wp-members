@@ -168,45 +168,72 @@ endif;
  *
  * @since 2.7
  */
-class widget_wpmemwidget extends WP_Widget {
+class widget_wpmemwidget extends WP_Widget 
+{
 
-    //process the new widget
-    function widget_wpmemwidget() {
+    /**
+	 * Sets up the WP-Members login widget.
+	 */
+    function widget_wpmemwidget() 
+	{
         $widget_ops = array( 
-			'classname'   => 'widget_wpmemwidget_class', 
+			'classname'   => 'wp-members', 
 			'description' => 'Display the WP-Members sidebar login.' 
 			); 
         $this->WP_Widget( 'widget_wpmemwidget', 'WP-Members Login', $widget_ops );
     }
  
-     //build the widget settings form
-    function form( $instance ) {
-        ?><p>There are no settings for this widget</p><?php
+    /**
+	 * Displays the WP-Members login widget settings 
+	 * controls on the widget panel.
+	 */
+    function form( $instance ) 
+	{
+	
+		/* Default widget settings. */
+		$defaults = array( 'title' => __('Login Status', 'wp-members') );
+		$instance = wp_parse_args( ( array ) $instance, $defaults );
+		
+		/* Title input */ ?>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'wp-members'); ?></label>
+			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
+		</p>
+		<?php
     }
  
-    //save the widget settings
-    function update( $new_instance, $old_instance ) {
-        $instance = $old_instance;
+	/**
+	 * Update the WP-Members login widget settings.
+	 */
+    function update( $new_instance, $old_instance ) 
+	{
+		$instance = $old_instance;
+		
+		/* Strip tags for title to remove HTML. */
+		$instance['title'] = strip_tags( $new_instance['title'] );
+		
         return $instance;
     }
  
-    //display the widget
-    function widget( $args, $instance ) {
+    /**
+	 * Displays the WP-Members login widget.
+	 */
+    function widget( $args, $instance ) 
+	{
 		extract( $args );
 
-		$options = get_option( 'widget_wpmemwidget' );
-		$title = $options['title'];
+		$title = apply_filters('widget_title', $instance['title'] );
 
-		 echo $before_widget;
-
+		echo $before_widget;
+		echo '<div id="wp-members">';
 			// Widget Title
 			if( ! $title ) { $title = __( 'Login Status', 'wp-members' ); }
 			echo $before_title . $title . $after_title;
 
 			// The Widget
 			if( function_exists( 'wpmem' ) ) { wpmem_do_sidebar(); }
-
-		 echo $after_widget;
+		echo '</div>';
+		echo $after_widget;
     }
 }
 ?>

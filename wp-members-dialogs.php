@@ -28,16 +28,17 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @uses wpmem_login_form()
  *
  * @param string $page
- * @return string
+ * @return string the generated html for the login form
  */
-function wpmem_inc_login($page="page")
+function wpmem_inc_login( $page="page" )
 { 	
 	global $wpmem_regchk;
 
-	$arr = get_option('wpmembers_dialogs');
+	$str = '';
+	$arr = get_option( 'wpmembers_dialogs' );
 
-	if($page == "page"){
-	     if($wpmem_regchk!="success"){
+	if( $page == "page" ){
+	     if( $wpmem_regchk!="success" ){
 		
 			//this shown above blocked content
 			$str = '<p>' . stripslashes($arr[0]) . '</p>';
@@ -45,9 +46,8 @@ function wpmem_inc_login($page="page")
 		} 	
 	} 
 
-    $arr = array(__('Existing users Login', 'wp-members'), __('Username', 'wp-members'), 'text', 'log', __('Password', 'wp-members'), 'password', 'pwd', 'login', __('Login', 'wp-members'), 'username', 'password');
+    $arr = array( __( 'Existing users Login', 'wp-members' ), __( 'Username', 'wp-members' ), 'text', 'log', __( 'Password', 'wp-members' ), 'password', 'pwd', 'login', __( 'Login', 'wp-members' ), 'username', 'password' );
 	
-	// @todo $str = wpmem_login_form( $page, $arr );
 	$str = $str . wpmem_login_form( $page, $arr );
 	return $str;
 }
@@ -711,7 +711,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 					$val = $wpmem_fields[$row][7];
 				}
 				
-				// @todo if( ! isset( $valtochk ) ) { $valtochk = ''; }
+				if( ! isset( $valtochk ) ) { $valtochk = ''; }
 
 				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
 			}
