@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
- * Copyright (c) 2006-2011  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2011
+ * @copyright 2006-2012
  */
 
 
@@ -385,7 +385,7 @@ function wpmem_check_activated( $user, $username, $password )
 }
 
 
-if ( ! function_exists( 'wpmem_login' ) ):
+if( ! function_exists( 'wpmem_login' ) ):
 /**
  * Logs in the user
  *
@@ -395,9 +395,11 @@ if ( ! function_exists( 'wpmem_login' ) ):
  *
  * @since 0.1
  *
+ * @uses apply_filters Calls 'wpmem_login_redirect' hook to get $redirect_to
+ *
  * @uses wp_signon
  * @uses wp_redirect
- * @return string returns "loginfailed" if the login fails, otherwise redirect
+ * @return string Returns "loginfailed" if the login fails
  */
 function wpmem_login()
 {
@@ -406,6 +408,8 @@ function wpmem_login()
 	} else {
 		$redirect_to = $_SERVER['PHP_SELF'];
 	}
+	
+	$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to );
 
 	if( isset( $_POST['rememberme'] ) == 'forever' ) {
 		$rememberme = true;

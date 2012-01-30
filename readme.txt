@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 2.7.1
+Stable tag: 2.7.1 rc3
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 

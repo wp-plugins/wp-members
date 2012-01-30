@@ -24,6 +24,8 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
+ * @uses do_action Calls 'wpmem_reg_redirect' hook
+ *
  * @param string $toggle toggles the function between 'register' and 'update'.
  * @global int $user_ID
  * @global array $userdata
@@ -160,12 +162,15 @@ function wpmem_registration( $toggle )
 		
 		require_once( 'wp-members-email.php' );
 
-		//if this was successful, and you have email properly
-		//configured, send a notification email to the user
+		// if this was successful, and you have email properly
+		// configured, send a notification email to the user
 		wpmem_inc_regemail( $user_id, $password, WPMEM_MOD_REG );
 		
-		//notify admin of new reg, if needed;
+		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
+		
+		// add action for redirection
+		do_action( 'wpmem_reg_redirect' );
 
 		// successful registration message
 		return "success"; exit();
