@@ -1209,7 +1209,7 @@ function wpmem_admin_users()
  *
  * @param int  $user_id
  * @param bool $chk_pass
- * @global $wpdb
+ * @uses $wpdb WordPress Database object
  */
 function wpmem_a_activate_user( $user_id, $chk_pass = false )
 {

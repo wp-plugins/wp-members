@@ -217,21 +217,30 @@ class widget_wpmemwidget extends WP_Widget
  
     /**
 	 * Displays the WP-Members login widget.
+	 *
+	 * @param array $args
+	 * @param array $instance
 	 */
     function widget( $args, $instance ) 
 	{
 		extract( $args );
 
-		$title = apply_filters('widget_title', $instance['title'] );
-
+		// Get the Widget Title
+		if( array_key_exists( 'title', $instance ) ) {
+			$title = apply_filters('widget_title', $instance['title'] );
+		} else {
+			$title = __( 'Login Status', 'wp-members' ); 
+		}
+		
 		echo $before_widget;
 		echo '<div id="wp-members">';
-			// Widget Title
-			if( ! $title ) { $title = __( 'Login Status', 'wp-members' ); }
+
+			// The Widget Title
 			echo $before_title . $title . $after_title;
 
 			// The Widget
 			if( function_exists( 'wpmem' ) ) { wpmem_do_sidebar(); }
+
 		echo '</div>';
 		echo $after_widget;
     }

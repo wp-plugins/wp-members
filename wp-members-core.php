@@ -360,17 +360,27 @@ if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 
  * @param int $user
  * @param string $username
  * @param string $password
+ * @uses wp_check_password
  * @return int $user
  */
 function wpmem_check_activated( $user, $username, $password ) 
-{    
-	$user = get_userdatabylogin( $username ); 
+{
+	// get the user data by username
+	$user = get_user_by( 'login', $username ); 
 	
+	// password must be validated
+	$pass = wp_check_password( $password, $user->user_pass, $user->ID );
+	if( ! $pass ) { 
+		return null; 
+	}
+	
+	// activation flag must be validated
 	$active = get_user_meta( $user->ID, 'active', 1 );
-
 	if( $active != 1 ) {
 		return null;
 	}
+	
+	// if the user is validated, return $user
 	return $user;
 }
 
@@ -391,18 +401,19 @@ if ( ! function_exists( 'wpmem_login' ) ):
  */
 function wpmem_login()
 {
-	$redirect_to = $_POST['redirect_to'];
-	if( !$redirect_to ) {
+	if( isset( $_POST['redirect_to'] ) ) {
+		$redirect_to = $_POST['redirect_to'];
+	} else {
 		$redirect_to = $_SERVER['PHP_SELF'];
 	}
-	
-	if( $_POST['rememberme'] == 'forever' ) {
+
+	if( isset( $_POST['rememberme'] ) == 'forever' ) {
 		$rememberme = true;
 	} else {
 		$rememberme = false;
 	}
 
-	if ( $_POST['log'] && $_POST['pwd'] ) {
+	if( $_POST['log'] && $_POST['pwd'] ) {
 		
 		$user_login = sanitize_user( $_POST['log'] );
 		
@@ -412,9 +423,9 @@ function wpmem_login()
 		$creds['remember']      = $rememberme;
 		
 		$user = wp_signon( $creds, false );
-	
-		if ( !is_wp_error($user) ) {
-			if ( !$using_cookie )
+
+		if( ! is_wp_error( $user ) ) {
+			if( ! $using_cookie )
 				wp_setcookie( $user_login, $user_pass, false, '', '', $rememberme );
 			wp_redirect( $redirect_to );
 			exit();
@@ -542,36 +553,35 @@ function wpmem_change_password()
 endif;
 
 
-if ( ! function_exists( 'wpmem_reset_password' ) ):
+if( ! function_exists( 'wpmem_reset_password' ) ):
 /**
  * Resets a forgotten password
  *
  * @since 2.1
  *
+ * @uses wp_generate_password
+ * @uses wp_update_user
  * @return string value for $wpmem_regchk
  */
 function wpmem_reset_password()
 { 
-	// make sure native WP registration functions are loaded
-	require_once( ABSPATH . WPINC . '/registration-functions.php');
-
-	if ($_POST['formsubmit']) {
+	if( isset( $_POST['formsubmit'] ) ) {
 
 		$username = $_POST['user'];
 		$email    = $_POST['email'];
 
-		if (!$username || !$email) { 
+		if( ! $username || ! $email ) { 
 
 			// there was an empty field
 			return "pwdreseterr";
 
 		} else {
 
-			if (username_exists($username)) {
+			if( username_exists( $username ) ) {
 
-				$user = get_userdatabylogin($username);
+				$user = get_user_by( 'login', $username );
 				
-				if( $user->user_email !== $email || ( (WPMEM_MOD_REG == 1) && (get_user_meta($user->ID,'active','true') != 1) ) ) {
+				if( $user->user_email !== $email || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
 					// the username was there, but the email did not match OR the user hasn't been activated
 					return "pwdreseterr";
 					
@@ -584,8 +594,8 @@ function wpmem_reset_password()
 					wp_update_user( array ( 'ID' => $user->ID, 'user_pass' => $new_pass ) );
 
 					// send it in an email
-					require_once('wp-members-email.php');
-					wpmem_inc_regemail($user->ID,$new_pass,3);
+					require_once( 'wp-members-email.php' );
+					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
 					
 					return "pwdresetsuccess";
 				}
@@ -601,7 +611,7 @@ function wpmem_reset_password()
 endif;
 
 
-if ( ! function_exists( 'wpmem_no_reset' ) ):
+if( ! function_exists( 'wpmem_no_reset' ) ):
 /**
  * Keeps users not activated from resetting their password 
  * via wp-login when using registration moderation.
@@ -612,15 +622,15 @@ if ( ! function_exists( 'wpmem_no_reset' ) ):
  */
 function wpmem_no_reset() {
 
-	if ( strpos($_POST['user_login'], '@') ) {
-		$user_data = get_user_by_email(trim($_POST['user_login']));
+	if( strpos( $_POST['user_login'], '@' ) ) {
+		$user = get_user_by_email( trim( $_POST['user_login'] ) );
 	} else {
-		$login = trim($_POST['user_login']);
-		$user_data = get_userdatabylogin($login);
+		$username = trim( $_POST['user_login'] );
+		$user     = get_user_by( 'login', $username );
 	}
-	
-	if (WPMEM_MOD_REG == 1) { 
-		if (get_user_meta($user_data->ID,'active','true') != 1) { 			
+
+	if( WPMEM_MOD_REG == 1 ) { 
+		if( get_user_meta( $user->ID, 'active', true ) != 1 ) { 			
 			return false;
 		}
 	}
@@ -819,7 +829,10 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * @since 2.6
  *
  * @global string $post
- * @return bool 
+ * @uses get_shortcode_regex
+ * @return bool
+ *
+ * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
  */
 function wpmem_test_shortcode()
 {
@@ -827,9 +840,9 @@ function wpmem_test_shortcode()
 	
 	$pattern = get_shortcode_regex();
 	
-    preg_match('/'.$pattern.'/s', $post->post_content, $matches);
+	preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches );
 	
-    if (is_array($matches) && $matches[2] == 'wp-members') {
+	if( is_array( $matches ) && array_key_exists( 2, $matches ) && in_array( 'wp-members', $matches[2] ) ) {
 		return true;
     }
 }
