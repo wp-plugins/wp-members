@@ -398,7 +398,7 @@ if( ! function_exists( 'wpmem_login' ) ):
  * @uses apply_filters Calls 'wpmem_login_redirect' hook to get $redirect_to
  *
  * @uses wp_signon
- * @uses wp_redirect
+ * @uses wp_redirect Redirects to $redirect_to if login is successful
  * @return string Returns "loginfailed" if the login fails
  */
 function wpmem_login()

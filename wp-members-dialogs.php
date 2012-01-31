@@ -403,6 +403,10 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  *
  * @since 2.0
  *
+ * @uses apply_filters Calls 'wpmem_member_links'
+ * @uses apply_filters Calls 'wpmem_register_links'
+ * @uses apply_filters Calls 'wpmem_login_links'
+ *
  * @param string $page
  * @return string $str
  */
@@ -417,6 +421,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __('Edit My Information', 'wp-members') . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __('Change Password', 'wp-members') . '</a></li></ul>';
+		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
 		
 	case 'register':	
@@ -425,6 +430,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 				<li><a href="' . $link . 'a=logout">' . __('Click here to logout.', 'wp-members') . '</a></li>
 				<li><a href="' . get_option('siteurl') . '">' . __('Begin using the site.', 'wp-members') . '</a></li>
 			</ul>';
+		$str = apply_filters( 'wpmem_register_links', $str );
 		break;	
 	
 	case 'login':
@@ -433,6 +439,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		  	' . sprintf( __('You are logged in as %s', 'wp-members'), $user_login ) . '<br />
 		  	<a href="' . $link . 'a=logout">' . __('click here to logout', 'wp-members') . '</a>
 			</p>';
+		$str = apply_filters( 'wpmem_login_links', $str );
 		break;	
 			
 	case 'status':

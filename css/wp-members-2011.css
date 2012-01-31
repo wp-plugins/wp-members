@@ -15,7 +15,7 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the twentyten theme.
+This stylesheet is designed to integrate WP-Members with the twentyeleven theme.
 There are quite a few examples in here of what you can do with the new
 table-less forms.  You can build off of this or start from scratch and set
 your own custom css for the plugin (set the location in the admin panel).
@@ -46,10 +46,22 @@ for information on how to set up the plugin with a cusotm stylesheet.
 /* Sidebar Login Widget */
 
 #wp-members  { 
-	width: 77%;
-	margin-bottom: 20px; 
+	width: 100%;
+	margin-bottom: 20px;
+	font-weight: bold;
+	color: #1982D1;
 }
-#wp-members label { color: #000; }
+#wp-members p {
+	font-weight: normal;
+	color: #777;
+}
+#wp-members fieldset {
+	margin-top: 10px;
+}
+#wp-members label { 
+	font-weight: normal;
+	color: #777;
+}
 #wp-members input {
 	color: #888;
 	font-size: 14px;
@@ -64,7 +76,7 @@ for information on how to set up the plugin with a cusotm stylesheet.
 	width: 174px;
 }
 #wp-members .div_text { padding-top: 4px; }
-#wp-members .button_div { margin-top:3px; }
+#wp-members .button_div { margin-top:10px; }
 #wp-members .buttons {
 	height: 30px;
 	background: #222;

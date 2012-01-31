@@ -149,13 +149,14 @@ function wpmem_do_sidebar()
 	
 		global $user_login; 
 		$logout = $url . '/?a=logout'; 
-		?>
-		<p>
-		  <?php printf( __( 'You are logged in as %s', 'wp-members' ), $user_login );?><br />
-		  <a href="<?php echo $logout;?>"><?php _e( 'click here to logout', 'wp-members' ); ?></a>
-		</p>
-
-	<?php }
+		
+		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
+		  <a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a></p>';
+		
+		$str = apply_filters( 'wpmem_sidebar_status', $str );
+		
+		echo $str;
+	}
 }
 endif;
 

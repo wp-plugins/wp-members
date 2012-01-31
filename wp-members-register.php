@@ -24,7 +24,7 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @uses do_action Calls 'wpmem_reg_redirect' hook
+ * @uses do_action Calls 'wpmem_register_redirect' hook
  *
  * @param string $toggle toggles the function between 'register' and 'update'.
  * @global int $user_ID
@@ -170,7 +170,7 @@ function wpmem_registration( $toggle )
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
 		
 		// add action for redirection
-		do_action( 'wpmem_reg_redirect' );
+		do_action( 'wpmem_register_redirect' );
 
 		// successful registration message
 		return "success"; exit();
