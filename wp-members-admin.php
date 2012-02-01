@@ -1156,7 +1156,7 @@ function wpmem_admin_users()
 					echo "<tr id=\"{$user->ID}\" class=\"$class\">\n";
 					echo "	<th scope='row' class='check-column'><input type='checkbox' name='users[]' id=\"user_{$user->ID}\" class='administrator' value=\"{$user->ID}\" /></th>\n";
 					echo "	<td class=\"username column-username\" nowrap>\n";
-					echo "		<strong><a href=\"user-edit.php?user_id={$user->ID}&#038;wp_http_referer=%2Fwp%2Fwp-admin%2Fusers.php\">" . $user->user_login . "</a></strong><br />\n";
+					echo "		<strong><a href=\"user-edit.php?user_id={$user->ID}&#038;" . esc_attr( stripslashes( $_SERVER['REQUEST_URI'] ) ) . "\">" . $user->user_login . "</a></strong><br />\n";
 					echo "	</td>\n";
 					echo "	<td class=\"name column-name\" nowrap>" . get_user_meta( $user->ID, 'first_name', 'true' ) . "&nbsp" . get_user_meta( $user->ID, 'last_name', 'true' ) . "</td>\n";
 					echo "	<td class=\"email column-email\" nowrap><a href='mailto:" . $user->user_email . "' title='E-mail: " . $user->user_email . "'>" . $user->user_email . "</a></td>\n";

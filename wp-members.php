@@ -162,9 +162,9 @@ add_action( 'admin_menu', 'wpmem_admin_options' );
  */
 function wpmem_admin_options()
 {
-	$plugin_page = 	add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
-					add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
-					add_action 		 ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
+	$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
+	               add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
+	               add_action       ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 }
 
 
@@ -175,6 +175,6 @@ register_activation_hook( __FILE__, 'wpmem_install' );
 function wpmem_install()
 {
 	require_once( 'wp-members-install.php' );
-	wpmem_do_install();	
+	wpmem_do_install();
 }
 ?>
