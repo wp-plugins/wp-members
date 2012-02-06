@@ -343,9 +343,9 @@ function wpmem_shortcode( $attr, $content = null )
 	
 	if( isset( $attr['status'] ) ) {
 		if( $attr['status'] == 'in' && is_user_logged_in() ) {
-			return $content;
+			return do_shortcode( $content );
 		} elseif ( $attr['status'] == 'out' && ! is_user_logged_in() ) {
-			return $content;
+			return do_shortcode( $content );
 		}
 	}
 }

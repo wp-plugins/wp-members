@@ -110,6 +110,7 @@ if ( ! function_exists( 'wpmem_login_form_OLD' ) ):
 function wpmem_login_form_OLD ( $page, $arr ) 
 { 
 	$form = '<div class="wpmem_login">
+	<a name="login"></a>
 	<form name="form" method="post" action="' . get_permalink() . '">
 	  <table width="400" border="0" cellspacing="0" cellpadding="4">
 		<tr align="left"> 
@@ -212,6 +213,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 	if( !$heading ) { $heading = "<h2>" . __( 'New Users Registration', 'wp-members' ) . "</h2>"; }
 
 	$form = '<div class="wpmem_reg">
+		<a name="register"></a>
 		<form name="form2" method="post" action="' . get_permalink() . '">
 
 		  <table width="400" border="0" cellspacing="0" cellpadding="4">
@@ -594,6 +596,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 	if( !$heading ) { $heading = __( 'New Users Registration', 'wp-members' ); }
 
 	$form = '[wpmem_txt]<div id="wpmem_reg">
+		<a name="register"></a>
 		<form name="form" method="post" action="' . get_permalink() . '" class="form">
 		<fieldset>
 			<legend>' . $heading . '</legend>';
@@ -784,6 +787,7 @@ function wpmem_login_form_NEW( $page, $arr )
 	add_filter('the_content', 'wpmem_texturize', 99); 
 	
 	$form = '[wpmem_txt]<div id="wpmem_login">
+		<a name="login"></a>
 		<form action="' . get_permalink() . '" method="POST" class="form">
 		<fieldset>
 			<legend>' . $arr[0] . '</legend>
@@ -806,10 +810,10 @@ function wpmem_login_form_NEW( $page, $arr )
 	$form = $form . '<div class="button_div">';
 	
 	if ( $arr[7] == 'login' ) {
-		$form = $form . '<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;';
+		$form = $form . '<input name="rememberme" type="checkbox" id="rememberme" value="forever" />&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />';
+	} else {
+		$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />';
 	}
-	
-	$form = $form . '<input type="submit" name="Submit" value="' . $arr[8] . '" class="buttons" />';
 	
 	$form = $form . '</div>
 

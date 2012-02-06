@@ -1,5 +1,5 @@
 /**
- * WP-Members Admin Styles CSS
+ * WP-Members Styles CSS
  *
  * CSS for the WP-Members plugin using TwentyEleven Theme
  * 
@@ -90,7 +90,7 @@ for information on how to set up the plugin with a cusotm stylesheet.
 	cursor: pointer;
 	font-size: 15px;
 	margin-left: 0px;
-	padding: 5px 42px 5px 22px;
+	padding: 5px 28px 5px 22px;
 	position: relative;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
