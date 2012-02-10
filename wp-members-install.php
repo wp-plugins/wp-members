@@ -61,7 +61,7 @@ function wpmem_do_install()
 			array( 13, __( 'Yahoo IM', 'wp-members' ),           'yim',        'text',     'n', 'n', 'y' ),
 			array( 14, __( 'Jabber/Google Talk', 'wp-members' ), 'jabber',     'text',     'n', 'n', 'y' ),
 			array( 15, __( 'Biographical Info', 'wp-members' ),  'description','textarea', 'n', 'n', 'y' ),
-			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'y', 'y', 'n', 'agree', 'n' )
+			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'n', 'y', 'n', 'agree', 'n' )
 			
 			/* how to add checkboxes
 				- uncomment the lines below

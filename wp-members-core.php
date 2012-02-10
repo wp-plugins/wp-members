@@ -448,10 +448,11 @@ endif;
 
 if ( ! function_exists( 'wpmem_logout' ) ):
 /**
- * Logs the user out, puts user on home page
+ * Logs the user out then redirects
  *
  * @since 2.0
  *
+ * @uses apply_filters Calls wpmem_login_redirect
  * @uses wp_clearcookie
  * @uses wp_logout
  * @uses nocache_headers
@@ -459,14 +460,13 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  */
 function wpmem_logout()
 {
-	//take 'em to the blog home page
-	$redirect_to = get_bloginfo('url');
+	$redirect_to = apply_filters( 'wpmem_logout_redirect', get_bloginfo( 'url' ) );
 
 	wp_clearcookie();
-	do_action('wp_logout');
+	do_action( 'wp_logout' );
 	nocache_headers();
 
-	wp_redirect($redirect_to);
+	wp_redirect( $redirect_to );
 	exit();
 }
 endif;

@@ -15,10 +15,10 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the twentyeleven theme.
-There are quite a few examples in here of what you can do with the new
-table-less forms.  You can build off of this or start from scratch and set
-your own custom css for the plugin (set the location in the admin panel).
+This stylesheet is designed to integrate WP-Members with the TwentyEleven theme.
+There are quite a few examples in here of what you can do with the table-less 
+forms.  You can build off of this or start from scratch and setyour own 
+custom css for the plugin (set the location in the admin panel).
 
 See http://butlerblog.com/2011/07/25/customize-the-wp-members-stylesheet/
 for information on how to set up the plugin with a cusotm stylesheet.
@@ -181,16 +181,33 @@ for information on how to set up the plugin with a cusotm stylesheet.
 #wpmem_reg input[type="text"] {
 	height: 26px;
 }
-#wpmem_reg .div_textarea {
-	height:200px;
-}
 #wpmem_reg .dropdown,
 #wpmem_reg .textbox, #wpmem_login .textbox,
 #wpmem_reg .username, #wpmem_login .username,
 #wpmem_reg .password, #wpmem_login .password {
-	display: block;
 	height: 24px;
+}
+#wpmem_reg .div_textarea textarea,
+#wpmem_reg .textbox, #wpmem_login .textbox,
+#wpmem_reg .username, #wpmem_login .username,
+#wpmem_reg .password, #wpmem_login .password {
+	display: block;
 	width: 75%;
+	background-color:white;
+	border: 4px solid #eee;
+	border-radius: 5px;
+	width:340px;
+	-webkit-box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
+	box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
+	color: #888;
+	padding: 10px;
+	font: 15px; "Helvetica Neue", Arial, sans serif;
+	font-weight: 300;
+	line-height: 1.625;
+}
+#wpmem_reg .dropdown {
+	height: 53px;
+	width: 280px;
 	background-color:white;
 	border: 4px solid #eee;
 	border-radius: 5px;

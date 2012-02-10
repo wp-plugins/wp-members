@@ -687,7 +687,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
 
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font color="red">*</font>'; }
+				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font class="req">*</font>'; }
 
 				// determine if TOS is a WP page or not...
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
