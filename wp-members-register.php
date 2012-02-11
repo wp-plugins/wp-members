@@ -21,6 +21,19 @@ if( ! function_exists( 'wpmem_registration' ) ):
  * Register function
  *
  * Handles registering new users and updating existing users.
+ *
+ * @since 2.2.1
+ *
+ * @uses do_action Calls 'wpmem_register_redirect' hook
+ *
+ * @param string $toggle toggles the function between 'register' and 'update'.
+ * @global int $user_ID
+ * @global array $userdata
+ * @global string $wpmem_themsg
+ * @global string $username
+ * @global string $user_mail
+ * @global array $wpmem_fieldval_arr
+ * @return string $wpmem_themsg|success|editsuccess
  */
 function wpmem_registration( $toggle )
 {
@@ -50,9 +63,9 @@ function wpmem_registration( $toggle )
 
 	case "register":
 
-		if( !$username ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); } 
-		if( !validate_username( $username ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); }
-		if( !is_email( $user_email) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); }
+		if( !$username ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); return $wpmem_themsg; exit(); } 
+		if( !validate_username( $username ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); return $wpmem_themsg; exit(); }
+		if( !is_email( $user_email) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); return $wpmem_themsg; exit(); }
 		if( $wpmem_themsg ) { return "empty"; exit(); }
 		if( username_exists( $username ) ) { return "user"; exit(); } 
 		if( email_exists( $user_email ) ) { return "email"; exit(); }
@@ -149,12 +162,15 @@ function wpmem_registration( $toggle )
 		
 		require_once( 'wp-members-email.php' );
 
-		//if this was successful, and you have email properly
-		//configured, send a notification email to the user
+		// if this was successful, and you have email properly
+		// configured, send a notification email to the user
 		wpmem_inc_regemail( $user_id, $password, WPMEM_MOD_REG );
 		
-		//notify admin of new reg, if needed;
+		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
+		
+		// add action for redirection
+		do_action( 'wpmem_register_redirect' );
 
 		// successful registration message
 		return "success"; exit();
@@ -206,40 +222,43 @@ endif;
 
 if( ! function_exists( 'wpmem_get_captcha_err' ) ):
 /**
- * Outputs reCAPTCHA errors
+ * Generate reCAPTCHA error messages
  *
  * @since 2.4
+ *
+ * @param string $wpmem_captcha_err the response from the reCAPTCHA API
+ * @return string $wpmem_captcha_err the appropriate error message
  */
-function wpmem_get_captcha_err($wpmem_captcha_err)
+function wpmem_get_captcha_err( $wpmem_captcha_err )
 {
-	switch ($wpmem_captcha_err) {
+	switch( $wpmem_captcha_err ) {
 	
 	case "invalid-site-public-key":
-		$wpmem_captcha_err = __('We were unable to validate the public key.', 'wp-members');
+		$wpmem_captcha_err = __( 'We were unable to validate the public key.', 'wp-members' );
 		break;
 		
 	case "invalid-site-public-key":
-		$wpmem_captcha_err = __('We were unable to validate the private key.', 'wp-members');
+		$wpmem_captcha_err = __( 'We were unable to validate the private key.', 'wp-members' );
 		break;
 	
 	case "invalid-request-cookie":
-		$wpmem_captcha_err = __('The challenge parameter of the verify script was incorrect.', 'wp-members');
+		$wpmem_captcha_err = __( 'The challenge parameter of the verify script was incorrect.', 'wp-members' );
 		break;
 		
 	case "incorrect-captcha-sol":
-		$wpmem_captcha_err = __('The CAPTCHA solution was incorrect.', 'wp-members');
+		$wpmem_captcha_err = __( 'The CAPTCHA solution was incorrect.', 'wp-members' );
 		break;
 	
 	case "verify-params-incorrect":
-		$wpmem_captcha_err = __('The parameters to verify were incorrect', 'wp-members');
+		$wpmem_captcha_err = __( 'The parameters to verify were incorrect', 'wp-members' );
 		break;
 		
 	case "invalid-referrer":
-		$wpmem_captcha_err = __('reCAPTCHA API keys are tied to a specific domain name for security reasons.', 'wp-members');
+		$wpmem_captcha_err = __( 'reCAPTCHA API keys are tied to a specific domain name for security reasons.', 'wp-members' );
 		break;
 		
 	case "recaptcha-not-reachable":
-		$wpmem_captcha_err = __('The reCAPTCHA server was not reached.  Please try to resubmit.', 'wp-members');
+		$wpmem_captcha_err = __( 'The reCAPTCHA server was not reached.  Please try to resubmit.', 'wp-members' );
 		break;
 	}
 	

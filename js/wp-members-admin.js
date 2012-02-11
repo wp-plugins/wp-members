@@ -19,7 +19,7 @@
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2011
+ * @copyright 2006-2012
  */
 
 /**

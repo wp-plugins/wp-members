@@ -1,7 +1,7 @@
 /**
- * WP-Members Admin Styles CSS
+ * WP-Members CSS
  *
- * CSS for the WP-Members admin panels
+ * CSS for the WP-Members plugin using TwentyTen Theme
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://butlerblog.com/wp-members
@@ -15,10 +15,10 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the twentyten theme.
-There are quite a few examples in here of what you can do with the new
-table-less forms.  You can build off of this or start from scratch and set
-your own custom css for the plugin (set the location in the admin panel).
+This stylesheet is designed to integrate WP-Members with the TwentyTen theme.
+There are quite a few examples in here of what you can do with the table-less 
+forms.  You can build off of this or start from scratch and setyour own 
+custom css for the plugin (set the location in the admin panel).
 
 See http://butlerblog.com/2011/07/25/customize-the-wp-members-stylesheet/
 for information on how to set up the plugin with a cusotm stylesheet.

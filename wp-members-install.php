@@ -61,7 +61,7 @@ function wpmem_do_install()
 			array( 13, __( 'Yahoo IM', 'wp-members' ),           'yim',        'text',     'n', 'n', 'y' ),
 			array( 14, __( 'Jabber/Google Talk', 'wp-members' ), 'jabber',     'text',     'n', 'n', 'y' ),
 			array( 15, __( 'Biographical Info', 'wp-members' ),  'description','textarea', 'n', 'n', 'y' ),
-			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'y', 'y', 'n', 'agree', 'n' )
+			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'n', 'y', 'n', 'agree', 'n' )
 			
 			/* how to add checkboxes
 				- uncomment the lines below
@@ -108,9 +108,11 @@ function wpmem_do_install()
 				
 		append_tos( 'new' );
 		
-		append_email( 'new' );
+		append_email();
 		
 	} else {
+	
+		append_email();
 	
 		$wpmem_settings = get_option( 'wpmembers_settings' );
 		
@@ -136,7 +138,6 @@ function wpmem_do_install()
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+' );
-			append_email( '2.2+' );
 			break;
 			
 		  case 12:
@@ -157,7 +158,6 @@ function wpmem_do_install()
 				$wpmem_settings[11]		// 11 ignore warnings		
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			append_email( '2.5.1+' );
 			break;
 		
 		  default: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
@@ -180,7 +180,6 @@ function wpmem_do_install()
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+');
-			append_email( '2.2+' );
 			break;
 		}
 	}
@@ -219,12 +218,11 @@ function append_tos( $upgrade )
  *
  * @since 2.7
  */
-function append_email( $upgrade )
+function append_email()
 {
 
-	//this is a new registration
-	$subj = 'Your registration info for [blogname]';
-		
+	//email for a new registration
+	$subj = 'Your registration info for [blogname]';		
 	$body = 'Thank you for registering for [blogname]
 
 Your registration information is below.
@@ -244,10 +242,14 @@ You may change your password here:
 		"subj" => $subj,
 		"body" => $body
 	);
-	update_option( 'wpmembers_email_newreg', $arr, false );
+	
+	if( ! get_option( 'wpmembers_email_newreg' ) ) { 
+		update_option( 'wpmembers_email_newreg', $arr, false ); 
+	}
 	
 	$arr = $subj = $body = '';
 	
+	// email for new registration, registration is moderated
 	$subj = 'Thank you for registering for [blogname]';
 	$body =	'Thank you for registering for [blogname]. 
 Your registration has been received and is pending approval.
@@ -258,10 +260,14 @@ You will receive login instructions upon approval of your account
 		"subj" => $subj,
 		"body" => $body
 	);
-	update_option( 'wpmembers_email_newmod', $arr, false );
+	
+	if( ! get_option( 'wpmembers_email_newmod' ) ) { 
+		update_option( 'wpmembers_email_newmod', $arr, false );
+	}
 	
 	$arr = $subj = $body = '';
 	
+	// email for registration is moderated, user is approved
 	$subj = 'Your registration for [blogname] has been approved';
 	$body = 'Your registration for [blogname] has been approved.
 
@@ -282,10 +288,14 @@ You originally registered at:
 		"subj" => $subj,
 		"body" => $body
 	);
-	update_option( 'wpmembers_email_appmod', $arr, false );
+	
+	if( ! get_option( 'wpmembers_email_appmod' ) ) { 
+		update_option( 'wpmembers_email_appmod', $arr, false );
+	}
 	
 	$arr = $subj = $body = '';
 	
+	// email for password reset
 	$subj = 'Your password reset for [blogname]';
 	$body = 'Your password for [blogname] has been reset
 
@@ -298,13 +308,15 @@ password: [password]
 		"subj" => $subj,
 		"body" => $body
 	);
-	update_option( 'wpmembers_email_repass', $arr, false );
+	
+	if( ! get_option( 'wpmembers_email_repass' ) ) { 
+		update_option( 'wpmembers_email_repass', $arr, false );
+	}
 	
 	$arr = $subj = $body = '';
 
-	
+	// email for admin notification
 	$subj = 'New user registration for [blogname]';
-	
 	$body = 'The following user registered for [blogname] (and is pending approval)
 	
 username: [username]
@@ -323,15 +335,22 @@ activate user: [activate-user]
 		"subj" => $subj,
 		"body" => $body
 	);
-	update_option( 'wpmembers_email_notify', $arr, false );
 	
+	if( ! get_option( 'wpmembers_email_notify' ) ) { 
+		update_option( 'wpmembers_email_notify', $arr, false );
+	}
 	
 	$arr = $subj = $body = '';
 
+	// email footer (no subject)
 	$body = '----------------------------------
 This is an automated message from [blogname]
 Please do not reply to this address';
 
-	update_option( 'wpmembers_email_footer', $body, false );
+	if( ! get_option( 'wpmembers_email_footer' ) ) { 
+		update_option( 'wpmembers_email_footer', $body, false );
+	}
+	
+	return true;
 }
 ?>

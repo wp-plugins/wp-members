@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -92,8 +92,9 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.7.0 =
-There are some changes to the sidebar widget. You'll need to reapply the widget to any sidebars after upgrading.
+= 2.7.1 =
+There are some changes to the sidebar widget. You may need to reapply the widget to any sidebars after upgrading.
+If upgrading, please check the plugin's email tab to make sure the default emails loaded.
 
 == Screenshots ==
 
@@ -101,6 +102,32 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.7.1 =
+This release contains some new features that didn't get completed for 2.7.0 and some fixes
+
+New features:
+* Deactivate/reactivate users
+* Registration moderation added for user defined passwords
+* Include an optional stylesheet based on TwentyEleven Theme
+* Include an optional stylesheet based on Kubrick (for narrower content areas)
+* Added wpmem_register_redirect action hook
+* Added wpmem_login_redirect filter hook
+* Added wpmem_logout_redirect filter hook
+* Added wpmem_sidebar_status filter hook
+* Added wpmem_register_links filter hook
+* Added wpmem_member_links filter hook
+* Added wpmem_login_links filter hook
+
+
+Fixes:
+* rebuilt default email install function
+* skip password in [fields] shortcode (changes in wpmem_notify_admin)
+* fixed widget sidebar div tag (changes in class widget_wpmemwidget) 
+* fixed form field validation for invalid email still registered user (changes in wpmem_registration)
+* fixed rememberme in login process (changes in wpmem_login)
+* moved send from filters to just the wp-members email processes (changes in wpmem_inc_regemail && wpmem_notify_admin)
+
 
 = 2.7.0 =
 This is new feature release with the following features and improvements:

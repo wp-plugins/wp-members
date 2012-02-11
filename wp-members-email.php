@@ -64,14 +64,20 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 		
 	}
 	
+	/* Get the subject and body, filter shortcodes */
 	$subj = str_replace( $shortcd, $replace, $arr['subj'] );
 	$body = str_replace( $shortcd, $replace, $arr['body'] );
 	
+	/* Get the email footer and append to the $body */
 	$foot = get_option ( 'wpmembers_email_footer' );
 	$foot = str_replace( $shortcd, $replace, $foot );
-	
 	$body.= $foot;
+	
+	/* Apply filters (if set) for the sending email address */
+	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
+	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
+	/* Send the message */
 	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
 
 }
@@ -102,7 +108,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 		if( $wpmem_fields[$row][4] == 'y' ) {
 			$name = $wpmem_fields[$row][1];
 			
-			if( $wpmem_fields[$row][2] != 'user_email' ) {
+			if( ( $wpmem_fields[$row][2] != 'user_email' ) && ( $wpmem_fields[$row][2] != 'password' ) ) {
 				if( $wpmem_fields[$row][2] == 'user_url' ) {
 					$val  = $user->user_url;
 				} else {
@@ -148,14 +154,20 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	
 	$body.= $foot;
 	
+	/* Apply filters (if set) for the sending email address */
+	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
+	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
+
+	/* Get the admin's email address */
 	$admin_email = get_option( 'admin_email' );
+	
+	/* Send the message */
 	wp_mail($admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '');
 
 }
 endif;
 
 
-add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 /**
  * Filters the wp_mail from address (if set)
  *
@@ -170,7 +182,6 @@ function wpmem_mail_from( $email )
 }
 
 
-add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 /**
  * Filters the wp_mail from name (if set)
  *
