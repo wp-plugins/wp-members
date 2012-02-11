@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://butlerblog.com/wp-members/
 Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. A <a href="http://butlerblog.com/wp-members/wp-members-quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.7.1 rc5
+Version:     2.7.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -68,15 +68,6 @@ load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ 
 
 
 /**
- * preload the expiration module, if available
- */
-$active_plugins  = get_option( 'active_plugins' );
-$required_plugin = 'wp-members-exp-module/wp-members-exp-module.php';
-define( 'WPMEM_EXP_MODULE', false );
-if( in_array( $required_plugin , $active_plugins ) ) { define( 'WPMEM_EXP_MODULE', true ); }
-
-
-/**
  * load options
  */
 $wpmem_settings = get_option( 'wpmembers_settings' );
@@ -111,6 +102,16 @@ define( 'WPMEM_CSSURL', get_option( 'wpmembers_cssurl',null ) );
  */
 if( file_exists( WP_PLUGIN_DIR . '/wp-members-pluggable.php' ) ) {
 	include( WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
+}
+
+
+/**
+ * preload the expiration module, if available
+ */
+if( in_array( 'wp-members-exp-module/wp-members-exp-module.php' , get_option( 'active_plugins' ) ) ) { 
+	define( 'WPMEM_EXP_MODULE', true ); 
+} else {
+	define( 'WPMEM_EXP_MODULE', false ); 
 }
 
 

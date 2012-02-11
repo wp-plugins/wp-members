@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 2.7.1 rc5
+Stable tag: 2.7.1
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -107,10 +107,18 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 This release contains some new features that didn't get completed for 2.7.0 and some fixes
 
 New features:
-* Deactivate users
+* Deactivate/reactivate users
 * Registration moderation added for user defined passwords
 * Include an optional stylesheet based on TwentyEleven Theme
 * Include an optional stylesheet based on Kubrick (for narrower content areas)
+* Added wpmem_register_redirect action hook
+* Added wpmem_login_redirect filter hook
+* Added wpmem_logout_redirect filter hook
+* Added wpmem_sidebar_status filter hook
+* Added wpmem_register_links filter hook
+* Added wpmem_member_links filter hook
+* Added wpmem_login_links filter hook
+
 
 Fixes:
 * rebuilt default email install function
