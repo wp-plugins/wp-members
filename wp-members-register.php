@@ -24,7 +24,11 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @uses do_action Calls 'wpmem_register_redirect' hook
+ * @uses do_action Calls 'wpmem_pre_register_data' action
+ * @uses do_action Calls 'wpmem_post_register_data' action
+ * @uses do_action Calls 'wpmem_register_redirect' action
+ * @uses do_action Calls 'wpmem_pre_update_data' action
+ * @uses do_action Calls 'wpmem_post_update_data' action
  *
  * @param string $toggle toggles the function between 'register' and 'update'.
  * @global int $user_ID
@@ -39,15 +43,25 @@ function wpmem_registration( $toggle )
 {
 	global $user_ID,$userdata,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
 
-	if( $toggle=='register' ) { $username = $_POST['log']; }
+	if( $toggle=='register' ) { 
+		$username = $_POST['log'];
+		// add for _data hooks	
+		$fields['username'] = $username;
+	}
 	$user_email = $_POST['user_email'];
+	// add for _data hooks
+	$fields['user_email'] = $user_email; 
 
 	// build array of the posts
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
+		// add for _data hooks
+		if( $wpmem_fields[$row][2] != 'password' && $wpmem_fields[$row][4] == 'y' ) {
+			$fields[$wpmem_fields[$row][2]] = $wpmem_fieldval_arr[$row];
+		}
 	}
-
+	
 	// check for required fields	
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
 	$wpmem_fieldval_arr_rev = array_reverse( $wpmem_fieldval_arr );
@@ -124,6 +138,14 @@ function wpmem_registration( $toggle )
 		$user_registered = gmdate( 'Y-m-d H:i:s' );
 		$user_role       = get_option( 'default_role' );
 		
+		// add for _data hooks	
+		$fields['user_registered'] = $user_registered;
+		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
+		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];
+		
+		// _data hook is before any insertion/emails
+		do_action( 'wpmem_pre_register_data', $fields );
+	
 		// inserts to wp_users table
 		$user_id = wp_insert_user( array (
 			'user_pass'       => $password, 
@@ -169,6 +191,10 @@ function wpmem_registration( $toggle )
 		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
 		
+		// _data hook after insertion/emails
+		$fields['ID'] = $user_id;
+		do_action( 'wpmem_post_register_data', $fields );
+		
 		// add action for redirection
 		do_action( 'wpmem_register_redirect' );
 
@@ -188,6 +214,10 @@ function wpmem_registration( $toggle )
 			if( email_exists( $user_email ) ) { return "email"; exit; } 
 			
 		}
+		
+		// _data hook is before any insertion/emails
+		$fields['ID'] = $user_ID;
+		do_action( 'wpmem_pre_update_data', $fields );
 
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		
@@ -211,7 +241,10 @@ function wpmem_registration( $toggle )
 				}
 				break;
 			}
-		} 
+		}
+		
+		// _data hook is before any insertion/emails
+		do_action( 'wpmem_post_update_data', $fields );
 
 		return "editsuccess"; exit();
 		break;
