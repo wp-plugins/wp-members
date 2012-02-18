@@ -4,7 +4,7 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -26,6 +26,7 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Turn registration off completely (for admins that want to control registration in some other way)
 * Show excerpt on pages/posts for better SEO
 * Optional CAPTCHA for registration
+* Several action and filter hooks for extensibility
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all content by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
@@ -47,7 +48,7 @@ We recommend following the instructions in the [Quick Start Guide](http://butler
 
 You are ready to begin using WP-Members&trade;.  Now follow the instructions titled "Locking down your site" below.
 
-(When upgrading, if you made code changes to the inline registration and login forms, you should download and compare the new code to your customizations before upgrading.)
+NOTE: Please follow instructions for installation. We have found that the vast majority of people that have marked the plugin as "broken" in the plugin compatibility form simply did not follow installation instructions. If something is unclear, ask for assistance.
 
 = Locking down your site: =
 
@@ -62,14 +63,8 @@ You are ready to begin using WP-Members&trade;.  Now follow the instructions tit
 
 A full Users Guide is available at the [plugin's homepage](http://butlerblog.com/wp-members).  The guide outlines the installation process, and also documents how to use all of the settings.
 
-* If you want to display the user's login status, and the following function call to your template: `<?php wpmem_login_status(); ?>`
-* To add the login box to the sidebar (if desired) you can just drag the WP-Members&trade; widget to your sidebar. If your theme has no widget support, call the function `<?php wpmem_inc_sidebar(); ?>`.
 * If you want to have your users be able to edit their login information, add a new page (not a post) and in the body of this page, place the shortcode [wp-members page="members-area"] where you want WP-Members&trade; to display its content.  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  This page also handles forgotten password reset for users who are not logged in.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
 * If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a new page (not a post) and in the body of the page, put the shortcode [wp-members page="register"] (Just like the members area, if you are using default permalinks, you must title this page "Register".)
-* There is also a shortcode to create an optional login page.  Use [wp-members page="login"] for this.	
-* CAPTCHA for the registration process is available via reCAPTCHA.  If you use reCAPTCHA, you will need a [valid API key](http://www.google.com/recaptcha).  The CAPTCHA form will not display if you have not entered a valid API key in the WP-Members&trade; settings. (Note: the settings tab for reCAPTCHA will only show if you've turned this option on in the settings tab.)
-* There is a Terms of Service checkbox available for the registration process.  This is turned on by default in new installations.  If you don't need it, you can turn it off.  If you use the TOS checkbox, there is a place for you to insert your Terms of Service in the WP-Members&trade; Dialogs and Error Messages.  This text is used to generate a link for the user to read the TOS in a popup.  The TOS content can be HTML; in fact, it is recommended for sizeable TOS documents that you use `<h1>`, `<h2>`, `<p>`, etc.
-* To direct the TOS link to a WordPress&reg; page, set the TOS dialog to be a shortcode [wp-members page="tos" url="http://mydomain.com/my-tos-page"] (where the URL is the URL of your page.
 * In order to display a "forgot password" and "register" link in the login form (and sidebar widget), specify the location of the members area and register pages in the plugin options.
 
 
@@ -92,9 +87,9 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.7.1 =
-There are some changes to the sidebar widget. You may need to reapply the widget to any sidebars after upgrading.
-If upgrading, please check the plugin's email tab to make sure the default emails loaded.
+= 2.7.2 =
+Primarily a bug fix release. No critical changes requiring any user action.
+
 
 == Screenshots ==
 
@@ -102,6 +97,15 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.7.2 =
+This is primarily a bug fix release
+* Fixed a bug where, when using moderated registration, updating a user's backend profile deactivates the user.
+* Improved the login error message for login via wp-login.php.
+* Added wpmem_pre_register_data action hook.
+* Added wpmem_post_register_data action hook.
+* Added wpmem_pre_update_data action hook.
+* Added wpmem_post_update_data action hook.
 
 = 2.7.1 =
 This release contains some new features that didn't get completed for 2.7.0 and some fixes

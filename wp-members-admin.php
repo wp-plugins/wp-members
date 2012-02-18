@@ -156,17 +156,18 @@ function wpmem_admin_update()
 			update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
 		}
 	}
-	
-	if (WPMEM_MOD_REG == 1) {
 
+	if (WPMEM_MOD_REG == 1) {
+	
 		$wpmem_activate_user = $_POST['activate_user'];
+		if( $wpmem_activate_user == '' ) { $wpmem_activate_user = -1; }
 		if( $wpmem_activate_user == 1 ) {
 			wpmem_a_activate_user( $user_id, $chk_pass );
 		} elseif( $wpmem_activate_user == 0 ) {
 			wpmem_a_deactivate_user( $user_id );
 		}
 	}
-	
+
 	if( WPMEM_USE_EXP == 1 ) { 
 		wpmem_a_extend_user( $user_id );
 	}

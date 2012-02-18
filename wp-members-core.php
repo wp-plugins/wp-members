@@ -351,7 +351,7 @@ function wpmem_shortcode( $attr, $content = null )
 }
 
 
-if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+//if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
 /**
  * Checks if a user is activated
  *
@@ -362,25 +362,22 @@ if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 
  * @param string $password
  * @uses wp_check_password
  * @return int $user
- */
+ */ 
 function wpmem_check_activated( $user, $username, $password ) 
 {
-	// get the user data by username
-	$user = get_user_by( 'login', $username ); 
-	
 	// password must be validated
 	$pass = wp_check_password( $password, $user->user_pass, $user->ID );
 	if( ! $pass ) { 
-		return null; 
+		return $user; 
 	}
-	
+
 	// activation flag must be validated
 	$active = get_user_meta( $user->ID, 'active', 1 );
 	if( $active != 1 ) {
-		return null;
+		return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
 	}
-	
-	// if the user is validated, return $user
+
+	// if the user is validated, return the $user object
 	return $user;
 }
 
