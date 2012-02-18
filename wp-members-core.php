@@ -351,7 +351,7 @@ function wpmem_shortcode( $attr, $content = null )
 }
 
 
-//if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
 /**
  * Checks if a user is activated
  *
