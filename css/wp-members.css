@@ -191,3 +191,10 @@ for information on how to set up the plugin with a cusotm stylesheet.
 	font-weight:bold;
 }
 #wpmem_reg .req { color: red; }
+#wpmem_reg .captcha { margin: 5px 0px; }
+#wpmem_reg .noinput{ 
+	height: 32px;
+	padding-top: 4px;
+	padding-left: 6px;
+}
+#wpmem_reg input[type="checkbox"] { margin-top: 9px; }

@@ -25,6 +25,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  *
  * @since 1.8
  *
+ * @uses apply_filters Calls wpmem_restricted_msg filters message content
  * @uses wpmem_login_form()
  *
  * @param string $page
@@ -40,8 +41,11 @@ function wpmem_inc_login( $page="page" )
 	if( $page == "page" ){
 	     if( $wpmem_regchk!="success" ){
 		
-			//this shown above blocked content
+			// this shown above blocked content
 			$str = '<p>' . stripslashes($arr[0]) . '</p>';
+			
+			// filter blocked content message
+			$str = apply_filters( 'wpmem_restricted_msg', $str );
 
 		} 	
 	} 
@@ -177,6 +181,8 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  *
  * @since 1.8
  *
+ * @uses apply_filters Calls wpmem_login_failed which filters the failed login dialog
+ *
  * @return string
  */
 function wpmem_inc_loginfailed() 
@@ -186,6 +192,8 @@ function wpmem_inc_loginfailed()
 		<p>' . __('You entered an invalid username or password.', 'wp-members') . '</p>
 		<p><a href="' . $_SERVER['REQUEST_URI'] . '">' . __('Click here to continue.', 'wp-members') . '</a></p>
 	</div>';
+	
+	$str = apply_filters( 'wpmem_login_failed', $str );
 
 	return $str;
 }
@@ -604,9 +612,9 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 	if( $toggle == 'edit' ) {
 
 		$form = $form . '<label for="username" class="text">' . __( 'Username', 'wp-members' ) . '</label>
-			<div class="div_text">' .
+			<div class="div_text"><p class="noinput">' .
 				$userdata->user_login . 
-			'</div>';
+			'</p></div>';
 
 	} else {
 
@@ -736,7 +744,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 		if( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
 
 			$form = $form . '<div class="clear"></div>
-				<div align="right" >';
+				<div align="right" class="captcha">';
 			$form = $form . wpmem_inc_recaptcha( $wpmem_captcha[0], $wpmem_captcha[2] );
 			$form = $form . '</div>';
 		} 
@@ -754,7 +762,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 			<input name="submit" type="submit" value="' . __( 'Submit', 'wp-members' ) . '" class="buttons" />
 		</div>';
 			
-	// find a place to put this
+	// @todo find a better place to put this
 	$form = $form . '<font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '			
 
 	</fieldset></form>';

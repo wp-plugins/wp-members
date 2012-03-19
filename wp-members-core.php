@@ -284,11 +284,11 @@ function wpmem_securify( $content = null )
 					}
 					break;
 	
-				// placeholder for expirations
-				//case "renew":
-					//$content = "insert the renewal process...";
-					//wpmem_renew;
-					//break;
+				// Handle expirations
+				case "renew":
+					$content = "insert the renewal process...";
+					wpmem_renew;
+					break;
 	
 				default:
 					$content = $content . wpmem_inc_memberlinks();
@@ -337,10 +337,12 @@ add_shortcode( 'wp-members', 'wpmem_shortcode' );
  */
 function wpmem_shortcode( $attr, $content = null )
 {
+	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
 		return wpmem_do_sc_pages( $attr['page'] ); 
 	}
 	
+	// handles the 'status' attribute
 	if( isset( $attr['status'] ) ) {
 		if( $attr['status'] == 'in' && is_user_logged_in() ) {
 			return do_shortcode( $content );
@@ -348,10 +350,17 @@ function wpmem_shortcode( $attr, $content = null )
 			return do_shortcode( $content );
 		}
 	}
+	
+	// handles the 'field' attribute
+	if( isset( $attr['field'] ) ) {
+		global $user_ID;
+		$user_info = get_userdata( $user_ID );
+		return $user_info->$attr['field'] . do_shortcode( $content );
+	}
 }
 
 
-//if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
 /**
  * Checks if a user is activated
  *
@@ -997,17 +1006,16 @@ function wpmem_do_sc_pages( $page )
 				}
 				break;
 
-			// placeholder for expirations...
-			//case "renew":
-				//$content = "insert the renewal process...";
-				//wpmem_renew;
-				//break;
+			// Handle expirations...
+			case "renew":
+				$content = wpmem_renew();
+				break;
 
 			default:
 				$content = wpmem_inc_memberlinks();
 				
-				// placeholder for expirations...
-				if (WPMEM_USE_EXP == 1) {
+				// inserts a renew link if the exp module is activated
+				if( WPMEM_USE_EXP == 1 ) {
 					$addto   = wpmem_user_page_detail(); 
 					$content = $content . $addto;
 				}
