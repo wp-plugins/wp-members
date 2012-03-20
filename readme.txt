@@ -4,13 +4,13 @@ Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
-WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, private blogs, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  Unlike other registration plugins and WordPress&reg; itself, WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  Unlike other registration plugins and WordPress&reg; itself, WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
 = Features: =
 
@@ -28,16 +28,20 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Optional CAPTCHA for registration
 * Several action and filter hooks for extensibility
 
-By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all content by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
+By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
 The plugin installs with additional custom fields to the registration process including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can create additional fields and delete existing ones as well as drag-and-drop the order of fields.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
 
-There are also some special pages available.  There is a Members Area where registered members can edit their information and change/reset their password.  Although a registration form is included in place of blocked content, there is a registration page available for those that need a specific URL for registrations (such as email marketing or banner ads).  You can now also establish a specific login page as well.
+There are also some special pages that can be created with simple shortcodes:
+
+* A Members Area where registered members can edit their information and change/reset their password.  
+* A registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages.  
+* A login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
 
 
 == Installation ==
 
-WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not following directions.  
+WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not reading/following directions.  
 
 = Basic Install: =
 
@@ -48,7 +52,7 @@ We recommend following the instructions in the [Quick Start Guide](http://butler
 
 You are ready to begin using WP-Members&trade;.  Now follow the instructions titled "Locking down your site" below.
 
-NOTE: Please follow instructions for installation. We have found that the vast majority of people that have marked the plugin as "broken" in the plugin compatibility form simply did not follow installation instructions. If something is unclear, ask for assistance.
+NOTE: Please follow instructions for installation. We have found that the vast majority of people that have marked the plugin as "broken" in the plugin compatibility form simply did not read/follow installation instructions. If something is unclear, ask for assistance.
 
 = Locking down your site: =
 
@@ -63,9 +67,13 @@ NOTE: Please follow instructions for installation. We have found that the vast m
 
 A full Users Guide is available at the [plugin's homepage](http://butlerblog.com/wp-members).  The guide outlines the installation process, and also documents how to use all of the settings.
 
+= Special and Optional Shortcode Pages =
+
 * If you want to have your users be able to edit their login information, add a new page (not a post) and in the body of this page, place the shortcode [wp-members page="members-area"] where you want WP-Members&trade; to display its content.  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  This page also handles forgotten password reset for users who are not logged in.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
 * If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a new page (not a post) and in the body of the page, put the shortcode [wp-members page="register"] (Just like the members area, if you are using default permalinks, you must title this page "Register".)
 * In order to display a "forgot password" and "register" link in the login form (and sidebar widget), specify the location of the members area and register pages in the plugin options.
+
+Note: the above shortcodes CANNOT be used on the same page!
 
 
 
@@ -87,8 +95,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.7.2 =
-Primarily a bug fix release. No critical changes requiring any user action.
+= 2.7.3 =
+Code improvement release - no major changes to functionality. This release does also include some additional shortcodes. See the Changelog for complete details.
 
 
 == Screenshots ==
@@ -97,6 +105,19 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.7.3 =
+This is a code improvement release (see [release announcement](http://butlerblog.com/2012/3/19/wp-members-2-7-3-release-announcement) for full details.)
+* Improved a number of functions in various files for improved functionality.
+* Added p tag with class .noinput to the username field when updating profile, added property definition to the stylesheet as well to better align the username.
+* Added css property to better align checkboxes in the reg form (a change to wp-members.css).
+* Added a class to captcha, and a cooresponding css property in wp-members.css for top/bottom margin of captcha form.
+
+New features (shortcodes and hooks):
+* Added 'field' shortcode for displaying user data with a shortcode - currently considered experimental and subject to changes.
+* Added wpmem_restricted_msg filter hook to filter the restricted post message.
+* Added wpmem_login_failed filter hook to filter the login failed message (includes filtering display markup).
+* Added wpmem_login_failed_sb filter hook to filter the login failed message in the sidebar (filters message only, not formatting).
 
 = 2.7.2 =
 This is primarily a bug fix release
