@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.3.1
-Stable tag: 2.7.4 RC1
+Tested up to: 3.3.2
+Stable tag: 2.7.4
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -26,7 +26,7 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Turn registration off completely (for admins that want to control registration in some other way)
 * Show excerpt on pages/posts for better SEO
 * Optional CAPTCHA for registration
-* Several action and filter hooks for extensibility
+* Action and filter hooks for extensibility
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
@@ -56,7 +56,7 @@ NOTE: Please follow instructions for installation. We have found that the vast m
 
 = Locking down your site: =
 
-* To begin restricting posts, you will need to be using the `<!--more-->` link.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post. 
+* To begin restricting posts, you will need to be using the `<!--more-->` link in your posts.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.
 * To begin restricting pages, change the plugin default setting for pages to be blocked. The `<!--more-->` link is not necessary in the blocking of pages, but must be used if you have the "show excerpts" setting turned on.
 * To protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members&trade;, especially if you are using any of the WP-Members&trade; additional registration fields.
@@ -95,8 +95,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.7.3 =
-Code improvement release - no major changes to functionality. This release does also include some additional shortcodes. See the Changelog for complete details.
+= 2.7.4 =
+Code improvement release - no major changes to functionality. This release does also include some new filter hooks. See the Changelog for complete details.
 
 
 == Screenshots ==
@@ -106,21 +106,33 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 == Changelog ==
 
+= 2.7.4 =
+
+* Added 14 new filter hooks
+* Added full user export function
+* Force email in password reset to be non-case sensitive (changes to wpmem_reset_password in wp-members-core.php)
+* Changed "Existing users Login" to "Existing Users Login" in wpmem_inc_login in wp-members-dialogs.php
+
 = 2.7.3 =
+
 This is a code improvement release (see [release announcement](http://butlerblog.com/2012/3/19/wp-members-2-7-3-release-announcement) for full details.)
+
 * Improved a number of functions in various files for improved functionality.
 * Added p tag with class .noinput to the username field when updating profile, added property definition to the stylesheet as well to better align the username.
 * Added css property to better align checkboxes in the reg form (a change to wp-members.css).
 * Added a class to captcha, and a cooresponding css property in wp-members.css for top/bottom margin of captcha form.
 
 New features (shortcodes and hooks):
+
 * Added 'field' shortcode for displaying user data with a shortcode - currently considered experimental and subject to changes.
 * Added wpmem_restricted_msg filter hook to filter the restricted post message.
 * Added wpmem_login_failed filter hook to filter the login failed message (includes filtering display markup).
 * Added wpmem_login_failed_sb filter hook to filter the login failed message in the sidebar (filters message only, not formatting).
 
 = 2.7.2 =
+
 This is primarily a bug fix release
+
 * Fixed a bug where, when using moderated registration, updating a user's backend profile deactivates the user.
 * Improved the login error message for login via wp-login.php.
 * Added wpmem_pre_register_data action hook.
@@ -129,9 +141,11 @@ This is primarily a bug fix release
 * Added wpmem_post_update_data action hook.
 
 = 2.7.1 =
+
 This release contains some new features that didn't get completed for 2.7.0 and some fixes
 
 New features:
+
 * Deactivate/reactivate users
 * Registration moderation added for user defined passwords
 * Include an optional stylesheet based on TwentyEleven Theme
@@ -146,6 +160,7 @@ New features:
 
 
 Fixes:
+
 * rebuilt default email install function
 * skip password in [fields] shortcode (changes in wpmem_notify_admin)
 * fixed widget sidebar div tag (changes in class widget_wpmemwidget) 
@@ -155,6 +170,7 @@ Fixes:
 
 
 = 2.7.0 =
+
 This is new feature release with the following features and improvements:
 
 * Email messages can be customized via the plugin admin panel.
@@ -169,6 +185,7 @@ This is new feature release with the following features and improvements:
 * Plugin can be set up for users to select their own passwords at registration (cannot be used with moderated registration).
 
 = 2.6.6 =
+
 Bug fix release
 
 * Fixes as bug where admin side user fields are cleared when a user updates their registration info.
@@ -182,6 +199,7 @@ Bug fix release
 * WPMEM_REGURL no longer sent to wpmem_chk_qstr as it is a direct URL.
 
 = 2.6.4 =
+
 Bug fix release with the following changes:
 
 * Fixes the activate user bug, rolling back from wp_update_user to $wpdb->update.
@@ -189,6 +207,7 @@ Bug fix release with the following changes:
 * Added an override in the login form for the wptexturize function so as to remove the <br> tag that WP puts into the generated form.
 
 = 2.6.3 =
+
 This is primarily a code improvement release
 
 * Localized "Clear Form" and "Submit" buttons for translation
@@ -200,6 +219,7 @@ This is primarily a code improvement release
 * Updated the location of the pluggable function file to be outside the plugin folder
 
 = 2.6.2 =
+
 This is a bug fix release with some additional improvements.
 
 Bug fixes
@@ -214,6 +234,7 @@ Improvements
 * Keep the active tab active when editing various plugin settings.
 
 = 2.6.1 =
+
 Bug fix release
 
 * Corrected the settings link in the WP installed plugins panel.
@@ -223,6 +244,7 @@ Bug fix release
 * Deactivated auto-excerpt function (was not to be activated in 2.6 production version).
 
 = 2.6.0 =
+
 This version is a feature release that also includes some rebuilt functions and other code improvements.
 
 New Features:
@@ -240,9 +262,11 @@ Code Improvements
 * updated email validation/error message to registration process to use is_email().
 
 = 2.5.4 =
+
 This is a bug fix release. 2.5.3 introduced a bug where the random password sent to a new user was invalid. While the fix is simple, the nature of the bug related to the functionality of the plugin dictates a full update so that users unaware of the bug will be notified via their WP admin panel.
 
 = 2.5.3 =
+
 This is primarily a bug fix release.
 
 Bug fixes:
@@ -259,6 +283,7 @@ Other changes:
 * Added stripslashes to front-end user registration validation
 
 = 2.5.2 =
+
 This is predominately a release of fixes and improvements:
 
 * Fixed the admin menus so that the user menu isn't open by default.
@@ -273,6 +298,7 @@ This is predominately a release of fixes and improvements:
 * *Strictly Experimental* - Introducing pluggable functions - laying the ground work, won't be official yet, so some functions may be deprecated and/or modified.
 
 = 2.5.1 =
+
 Exanding on the features added in 2.5.0, this release adds setting for the register page, new tableless forms, and custom CSS
 
 New Features
@@ -290,6 +316,7 @@ Fixes and Code Improvements
 * Fixed some security issues.
 
 = 2.5.0 =
+
 WP-Members&trade; 2.5 is essentially a pre-3.0 release and extention of the 2.4 release, which was only released as a public beta. In addition to the list below, see the list of features, improvements, and fixes for 2.4.0.
 
 New Features
@@ -304,6 +331,7 @@ Bug Fixes
 * corrected a bug introduced in the 2.3.x widget update that caused the widget to be undraggable in certain instances
 
 = 2.4.0 =
+
 This was never a full production release, but was released as a public beta.  The production completion of this project was 2.5
 
 New Features
@@ -331,6 +359,7 @@ Bug Fixes
 * fixed sidebar login for non-widget use (bug from 2.3.x)
 
 = 2.3.2 =
+
 Bug Fix Release
 
 * fixed login failed message for sidebar widget
@@ -339,6 +368,7 @@ Bug Fix Release
 * changed cell alignment for 'textarea' field type in reg form
 
 = 2.3.1 =
+
 Code Improvements
 
 * updated deprecated call get_usermeta to get_user_meta, update_usermeta to update_user_meta
@@ -355,6 +385,7 @@ New Features
 * added optional registration page
 
 = 2.3.0 =
+
 Adds a number of features put off from the 2.2 release
 
 * option to notify admin of new user registrations
@@ -367,6 +398,7 @@ Adds a number of features put off from the 2.2 release
 * broke out core and dialog functions to separate files
 
 = 2.2.2 =
+
 This release is all code-side cleanup to make the plugin more efficient:
 
 * Rewrote _securify function to remove redundancies
@@ -376,11 +408,13 @@ This release is all code-side cleanup to make the plugin more efficient:
 * Continued improvement of admin functions
 
 = 2.2.1 =
+
 * Change password bug fix
 * Merged registration and user update functions to eliminate redundancy
 * Added nonce security to the options admin
 
 = 2.2.0 =
+
 The #1 request with the plugin is to simply be able to change the required fields.  I have greatly simplified the process so it can be managed from within the WP admin panel.  Additionally, I added the ability to determine what fields will show in the registration form (both native WP fields, and additional WP-Members&trade; fields).  Also, the error/dialog messages can now be managed from with the admin panel as well.
 
 * Added new customization features and an admin panel
@@ -389,9 +423,11 @@ The #1 request with the plugin is to simply be able to change the required field
 * Can manage error/dialog messages from admin
 
 = 2.1.2 =
+
 * Added fix to set new registrations as the default role
 
 = 2.1.1 =
+
 * Udates for the 2.1.0 release that were not completed.
 * updated variables for some function calls.
 * eliminated unnecessary $table_prefix globals.

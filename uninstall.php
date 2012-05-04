@@ -14,9 +14,16 @@
  * @author Chad Butler
  * @copyright 2006-2012
  */
+
+/**
+ * If uninstall is not called from WordPress, kill the uninstall
+ */
+if( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	die( 'invalid uninstall' );
+}
  
 /**
- * Unistall process removes WP-Members settings from the WordPress database (_options table)
+ * Uninstall process removes WP-Members settings from the WordPress database (_options table)
  */
 if ( WP_UNINSTALL_PLUGIN ) {
 
