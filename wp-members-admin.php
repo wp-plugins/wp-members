@@ -414,6 +414,8 @@ function wpmem_admin()
 	$show_recaptcha     = ''; 
 	$show_subscriptions = ''; 
 	$show_paypal        = '';
+	$chkreq             = '';
+	$add_field_err_msg  = '';
 
 	if( isset( $_POST['wpmem_admin_a'] ) ) {
 	
@@ -940,6 +942,9 @@ function wpmem_a_build_captcha_options()
  */
 function wpmem_admin_users()
 {	
+	// define variables
+	$col_phone = ''; $col_country = ''; $user_action_msg = '';
+	
 	// check to see if we need phone and country columns
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ )
@@ -1195,6 +1200,12 @@ function wpmem_admin_users()
 		
 		<?php wpmem_a_build_user_action( false, $arr ); ?>
 
+		</form>
+		
+		<br />
+		<p>This button exports the full user list. To export based on other criteria, use the form above.</p>
+		<form method="link" action="../wp-content/plugins/wp-members/wp-members-export-full.php">
+			<input type="submit" class="button-secondary" value="Export All Users">
 		</form>
 	</div>
 <?php

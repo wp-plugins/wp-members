@@ -21,6 +21,16 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * Builds emails for the user
  *
  * @since 1.8
+ *
+ * @uses apply_filters Calls 'wpmem_email_newreg' filters the new registration email
+ * @uses apply_filters Calls 'wpmem_email_newmod' filters the new moderated registration email
+ * @uses apply_filters Calls 'wpmem_email_appmod' filters the approved registration email
+ * @uses apply_filters Calls 'wpmem_email_repass' filters the reset password email
+ * @uses wp_mail
+ *
+ * @param int $user_id
+ * @param string $password
+ * @param string $toggle
  */
 function wpmem_inc_regemail( $user_id, $password, $toggle )
 {
@@ -45,21 +55,25 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	case 0: 
 		//this is a new registration
 		$arr = get_option( 'wpmembers_email_newreg' );
+		$arr['body'] = apply_filters( 'wpmem_email_newreg', $arr['body'] );
 		break;
 		
 	case 1:
 		//registration is moderated
 		$arr = get_option( 'wpmembers_email_newmod' );
+		$arr['body'] = apply_filters( 'wpmem_email_newmod', $arr['body'] );
 		break;
 
 	case 2:
 		//registration is moderated, user is approved
 		$arr = get_option( 'wpmembers_email_appmod' );
+		$arr['body'] = apply_filters( 'wpmem_email_appmod', $arr['body'] );
 		break;
 
 	case 3:
 		//this is a password reset
 		$arr = get_option( 'wpmembers_email_repass' );
+		$arr['body'] = apply_filters( 'wpmem_email_repass', $arr['body'] );
 		break;
 		
 	}
@@ -89,6 +103,12 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  * Builds the email for admin notification of new user registration
  *
  * @since 2.3
+ *
+ * @uses apply_filters Calls 'wpmem_email_notify'
+ * @uses wp_mail
+ *
+ * @param int $user_id
+ * @param array $wpmem_fields
  */
 function wpmem_notify_admin( $user_id, $wpmem_fields )
 {
@@ -146,6 +166,8 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	
 	$arr  = get_option( 'wpmembers_email_notify' );
 	
+	$arr['body'] = apply_filters( 'wpmem_email_notify', $arr['body'] );
+	
 	$subj = str_replace( $shortcd, $replace, $arr['subj'] );
 	$body = str_replace( $shortcd, $replace, $arr['body'] );
 	
@@ -172,6 +194,9 @@ endif;
  * Filters the wp_mail from address (if set)
  *
  * @since 2.7
+ *
+ * @param string $email
+ * @return string $email
  */
 function wpmem_mail_from( $email )
 {
@@ -186,6 +211,9 @@ function wpmem_mail_from( $email )
  * Filters the wp_mail from name (if set)
  *
  * @since 2.7
+ *
+ * @param string $name
+ * @return string $name
  */
 function wpmem_mail_from_name( $name )
 {

@@ -53,6 +53,10 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  *
  * @since 2.4
  *
+ * @uses apply_filters Calls 'wpmem_sidebar_form'
+ * @uses apply_filters Calls 'wpmem_sidebar_status'
+ * @uses apply_filters Calls 'wpmem_login_failed_sb'
+ *
  * @global string $wpmem_regchk
  * @global string $user_login
  */
@@ -113,39 +117,49 @@ function wpmem_do_sidebar()
 					</form>
 				</p>
 			</ul>
-		<?php } else { ?>
-		  
-			<?php if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) { ?>
-				<p class="err"><?php _e( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ); ?></p>
-			<?php }?>
-			<?php _e( 'You are not currently logged in.', 'wp-members' ); ?><br />
+		
+		<?php } else {
+
+			$str = '';
+			if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) {
+				$str = '<p class="err">' . __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ) . '</p>';
+				$str = apply_filters( 'wpmem_login_failed_sb', $str );
+			}
+			
+			$str.= __( 'You are not currently logged in.', 'wp-members' ) . '<br />
 			<fieldset>
-				<form name="form" method="post" action="<?php echo $post_to; ?>">
+				<form name="form" method="post" action="' . $post_to . '">
 				
-					<label for="username"><?php _e( 'Username', 'wp-members' ); ?></label>
+					<label for="username">' . __( 'Username', 'wp-members' ) . '</label>
 					<div class="div_texbox"><input type="text" name="log" class="username" id="username" /></div>
-					<label for="password"><?php _e( 'Password', 'wp-members' ); ?></label>
+					<label for="password">' . __( 'Password', 'wp-members' ) . '</label>
 					<div class="div_texbox"><input type="password" name="pwd" class="password" id="password" /></div>
 					<input type="hidden" name="rememberme" value="forever" />
-					<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
+					<input type="hidden" name="redirect_to" value="' . $post_to . '" />
 					<input type="hidden" name="a" value="login" />
 					<input type="hidden" name="slog" value="true" />
-					<div class="button_div"><input type="submit" name="Submit" class="buttons" value="<?php _e( 'login', 'wp-members' ); ?>" />
-					<?php 		
-					if( WPMEM_MSURL != null ) { 
-						$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
-						<a href="<?php echo $link; ?>a=pwdreset"><?php _e( 'Forgot?', 'wp-members' ); ?></a>&nbsp;
-					<?php } 			
-					if( WPMEM_REGURL != null ) { ?>
-						<a href="<?php echo WPMEM_REGURL; ?>"><?php _e( 'Register', 'wp-members' ); ?></a>
-
-					<?php } ?></div>
+					<div class="button_div"><input type="submit" name="Submit" class="buttons" value="' . __( 'login', 'wp-members' ) . '" />';
+			 		
+			if( WPMEM_MSURL != null ) { 
+				$link = wpmem_chk_qstr( WPMEM_MSURL );
+				$str.= ' <a href="' . $link . 'a=pwdreset">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+			} 			
+			
+			if( WPMEM_REGURL != null ) {
+				$str.= ' <a href="' . WPMEM_REGURL . '">' . __( 'Register', 'wp-members' ) . '</a>';
+			}
+					
+			$str.= '</div>
 				</form>
-			</fieldset>
+			</fieldset>';
+			
+			$str = apply_filters( 'wpmem_sidebar_form', $str );
+			
+			echo $str;
 
-		<?php } ?>
+		}
 
-	<?php } else { 
+	} else { 
 	
 		global $user_login; 
 		$logout = $url . '/?a=logout'; 

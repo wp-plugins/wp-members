@@ -591,7 +591,7 @@ function wpmem_reset_password()
 
 				$user = get_user_by( 'login', $username );
 				
-				if( $user->user_email !== $email || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
+				if( strtolower( $user->user_email ) !== strtolower( $email ) || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
 					// the username was there, but the email did not match OR the user hasn't been activated
 					return "pwdreseterr";
 					

@@ -182,6 +182,10 @@ function wpmem_registration( $toggle )
 		// set user expiration, if used
 		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $user_id ); }
 		
+		// _data hook after insertion but before email
+		$fields['ID'] = $user_id;
+		do_action( 'wpmem_post_register_data', $fields );
+		
 		require_once( 'wp-members-email.php' );
 
 		// if this was successful, and you have email properly
@@ -190,10 +194,6 @@ function wpmem_registration( $toggle )
 		
 		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
-		
-		// _data hook after insertion/emails
-		$fields['ID'] = $user_id;
-		do_action( 'wpmem_post_register_data', $fields );
 		
 		// add action for redirection
 		do_action( 'wpmem_register_redirect' );
@@ -215,7 +215,7 @@ function wpmem_registration( $toggle )
 			
 		}
 		
-		// _data hook is before any insertion/emails
+		// _data hook is before data insertion
 		$fields['ID'] = $user_ID;
 		do_action( 'wpmem_pre_update_data', $fields );
 
@@ -243,7 +243,7 @@ function wpmem_registration( $toggle )
 			}
 		}
 		
-		// _data hook is before any insertion/emails
+		// _data hook is after insertion
 		do_action( 'wpmem_post_update_data', $fields );
 
 		return "editsuccess"; exit();
