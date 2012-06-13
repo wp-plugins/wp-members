@@ -1,0 +1,632 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Members 2.4.0 beta 1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
+"POT-Creation-Date: 2010-11-12 20:12+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Djohnson M. Lima <joelima1310@gmail.com>\n"
+"Language-Team: Brazilian-portuguese <joelima1310@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: wp-members-admin.php:23
+msgid "WP-Members Additional Fields"
+msgstr "Campos Adicionais do WP-Members"
+
+#: wp-members-admin.php:45
+msgid "Activate this user?"
+msgstr "Ativar usuário?"
+
+#: wp-members-admin.php:85
+msgid "Manage Options"
+msgstr "Opções de Gerenciamento"
+
+#: wp-members-admin.php:90
+msgid "Block Posts by default"
+msgstr "Bloquear Posts por Padrão:"
+
+#: wp-members-admin.php:90
+msgid "Note: Posts can still be individually blocked or unblocked at the article level"
+msgstr "Nota: Posts ainda podem ser bloqueados ou desbloqueados individualmente."
+
+#: wp-members-admin.php:91
+msgid "Block Pages by default"
+msgstr "Bloquear Páginas por Padrão:"
+
+#: wp-members-admin.php:91
+msgid "Note: Pages can still be individually blocked or unblocked at the article level"
+msgstr "Nota: Páginas ainda podem ser bloqueadas e desbloqueadas individualmente."
+
+#: wp-members-admin.php:92
+msgid "Show excerpts"
+msgstr "Exibir Trechos:"
+
+#: wp-members-admin.php:92
+msgid "Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr "Exibir trechos de conteúdo bloqueado em Posts e Páginas."
+
+#: wp-members-admin.php:93
+msgid "Notify admin"
+msgstr "Notificar Administrador:"
+
+#: wp-members-admin.php:93
+msgid "Sends email to admin for each new registration?"
+msgstr "Enviar email para administrador para cada novo registro?"
+
+#: wp-members-admin.php:94
+msgid "Moderate registration"
+msgstr "Moderar Registro:"
+
+#: wp-members-admin.php:94
+msgid "Holds new registrations for admin approval"
+msgstr "Intercepta novos registros para aprovação do administrador."
+
+#: wp-members-admin.php:95
+msgid "Use reCAPTCHA"
+msgstr "Usar reCAPTCHA"
+
+#: wp-members-admin.php:95
+msgid "Turns on CAPTCHA for registration"
+msgstr "Ativa a solicitação de CAPTCHA durante o processo de registro."
+
+#: wp-members-admin.php:96
+msgid "Turn off registration"
+msgstr "Desativar Registro de Usuário:"
+
+#: wp-members-admin.php:96
+msgid "Turns off the registration process, only allows login"
+msgstr "Desativa o processo de registro, permite somente logins."
+
+#: wp-members-admin.php:97
+msgid "Time-based expiration"
+msgstr "Expirar Acesso:"
+
+#: wp-members-admin.php:97
+msgid "Allows for access to expire"
+msgstr "Permite que o acesso expire por tempo."
+
+#: wp-members-admin.php:98
+msgid "Trial period"
+msgstr "Período de Experiência:"
+
+#: wp-members-admin.php:98
+msgid "Allows for a trial period"
+msgstr "Permite período de experiência."
+
+#: wp-members-admin.php:99
+msgid "Ignore warning messages"
+msgstr "Ignorar Mensagens de Advertência:"
+
+#: wp-members-admin.php:99
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignora as mensagens de advertência do WP-Members no painel administrativo."
+
+#: wp-members-admin.php:127
+msgid "Manage Fields"
+msgstr "Gerenciar Campos"
+
+#: wp-members-admin.php:128
+msgid "Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields."
+msgstr "Determine quais campos serão exibidos e quais são obrigatórios.  Isto inclui todos os campos, tanto os nativos do WordPress quanto os inseridos pelo WP-Members."
+
+#: wp-members-admin.php:129
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Nota: Campo de email é sempre obrigatório e não pode ser alterado.)"
+
+#: wp-members-admin.php:134
+msgid "Field Label"
+msgstr "Campo"
+
+#: wp-members-admin.php:135
+msgid "Display?"
+msgstr "Exibir?"
+
+#: wp-members-admin.php:136
+msgid "Required?"
+msgstr "Requerido?"
+
+#: wp-members-admin.php:137
+msgid "WP Native?"
+msgstr "Nativo do WP?"
+
+#: wp-members-admin.php:158
+msgid "(The email field is mandatory and cannot be removed)"
+msgstr "(O campo de email é obrigatório e não pode ser removido)"
+
+#: wp-members-admin.php:166
+msgid "Update Fields"
+msgstr "Atualizar Campos"
+
+#: wp-members-admin.php:178
+#: wp-members-dialogs.php:308
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr "Aviso para posts ou páginas restritos, exibido acima do formulário de login:"
+
+#: wp-members-admin.php:179
+#: wp-members-dialogs.php:309
+msgid "Username is taken"
+msgstr "Aviso para nome de usuário já utilizado:"
+
+#: wp-members-admin.php:180
+#: wp-members-dialogs.php:310
+msgid "Email is registered"
+msgstr "Aviso de email já registrado:"
+
+#: wp-members-admin.php:181
+#: wp-members-dialogs.php:311
+msgid "Registration completed"
+msgstr "Aviso de processo de registro completo:"
+
+#: wp-members-admin.php:182
+#: wp-members-dialogs.php:312
+msgid "User update"
+msgstr "Aviso de confirmação de atualização de dados do usuário:"
+
+#: wp-members-admin.php:183
+#: wp-members-dialogs.php:313
+msgid "Passwords did not match"
+msgstr "Aviso de diferença nas senhas digitadas:"
+
+#: wp-members-admin.php:184
+#: wp-members-dialogs.php:314
+msgid "Password changes"
+msgstr "Aviso de confirmação de alteração de senha:"
+
+#: wp-members-admin.php:185
+#: wp-members-dialogs.php:315
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr "Aviso para nome de usuário ou email não encontrado durante tentativa de reiniciar uma senha esquecida:"
+
+#: wp-members-admin.php:186
+#: wp-members-dialogs.php:316
+msgid "Password reset"
+msgstr "Aviso de confirmação de reinicialização de senha:"
+
+#: wp-members-admin.php:188
+msgid "Dialogs and Error Messages"
+msgstr "Notificações e Mensagens de Erro"
+
+#: wp-members-admin.php:193
+msgid "You can customize the following text.  Simple HTML is allowed"
+msgstr "Você pode customizar os textos a seguir. HTML simples é permitido."
+
+#: wp-members-admin.php:193
+msgid "etc."
+msgstr "etc."
+
+#: wp-members-admin.php:205
+msgid "Update Dialogs"
+msgstr "Notificações de Atualização"
+
+#: wp-members-admin.php:314
+msgid "Settings"
+msgstr "Configurações"
+
+#: wp-members-admin.php:320
+msgid "Settings were saved, but you have required field that are not set to display!"
+msgstr "Configurações foram salvas, mas existe um campo requerido que não está marcado para exibição."
+
+#: wp-members-admin.php:321
+msgid ""
+"Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that \r\n"
+"\t\t\t\tyour displayed and required fields match up.  Mismatched fields are highlighted below."
+msgstr ""
+"Nota: Isto não irá causar um erro para o usuário, uma vez que somente campos exibidos são validados. Entretanto, você deveria corrigir isto de \r\n"
+"\t\t\t\tforma que haja coerência nos campos marcados para exibição e também como obrigatórios.  Os campos com problema estão listados abaixo."
+
+#: wp-members-admin.php:324
+msgid "Settings saved."
+msgstr "Configurações salvas."
+
+#: wp-members-admin.php:372
+msgid "Version:"
+msgstr "Versão:"
+
+#: wp-members-admin.php:373
+msgid "Follow"
+msgstr "Siga"
+
+#: wp-members-admin.php:375
+msgid "If you find this plugin useful,"
+msgstr "Se você achou este plugin útil,"
+
+#: wp-members-admin.php:375
+msgid "please consider making a donation"
+msgstr "por favor, considere fazer uma doação:"
+
+#: wp-members-admin.php:403
+msgid "Thank you for using WP-Members! You are using version"
+msgstr "Obrigado por usar o WP-Members! Você está usando a versão"
+
+#: wp-members-admin.php:404
+msgid "If you find this plugin useful, please consider a"
+msgstr "Se você achou este plugin útil, por favor considere fazer uma"
+
+#: wp-members-admin.php:405
+msgid "donation"
+msgstr "doação"
+
+#: wp-members-admin.php:406
+msgid "WP-Members is copyright"
+msgstr "WP-Members possui direitos autorais"
+
+#: wp-members-admin.php:408
+msgid "WP-Members is a trademark of"
+msgstr "WP-Members é marca registrada de"
+
+#: wp-members-admin.php:421
+msgid "Manage reCAPTCHA Options"
+msgstr "Gerenciar Opções do reCAPTCHA"
+
+#: wp-members-admin.php:427
+msgid "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
+msgstr "reCAPTCHA é um serviço de CAPTCHA gratuito e acessível que ajuda a digitalizar livros enquanto bloqueia spam no seu blog."
+
+#: wp-members-admin.php:428
+msgid "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the"
+msgstr "reCAPTCHA solicita aos comentaristas que redigitem duas palavras escaneadas de um livro para provar que eles são humanos. Isto prova que eles não são um \"spambot\" enquanto corrige os escaneamentos automáticos de velhos livros. Desda forma, você obtém menos spam e o mundo recebe melhores digitalizações de livros. Todo mundo ganha! Para detalhes, visite o"
+
+#: wp-members-admin.php:428
+msgid "reCAPTCHA website"
+msgstr "site do reCAPTCHA"
+
+#: wp-members-admin.php:433
+msgid "reCAPTCHA Keys"
+msgstr "Chaves do reCAPTCHA"
+
+#: wp-members-admin.php:435
+msgid "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a"
+msgstr "reCAPTCHA exige uma Chave API (\"API Key\"), que consiste em um par de chaves \"pública\" e  \"privada\". Você pode se registrar para uma"
+
+#: wp-members-admin.php:435
+msgid "free reCAPTCHA key"
+msgstr "chave reCAPTCHA gratuita"
+
+#: wp-members-admin.php:436
+msgid "Public Key"
+msgstr "Chave Pública"
+
+#: wp-members-admin.php:437
+msgid "Private Key"
+msgstr "Chave Privada"
+
+#: wp-members-admin.php:441
+msgid "Choose Theme"
+msgstr "Selecione o Tema"
+
+#: wp-members-admin.php:444
+msgid "Red"
+msgstr "Vermelho"
+
+#: wp-members-admin.php:445
+msgid "White"
+msgstr "Branco"
+
+#: wp-members-admin.php:446
+msgid "Black Glass"
+msgstr "Vidro Fumê"
+
+#: wp-members-admin.php:447
+msgid "Clean"
+msgstr "Limpo"
+
+#: wp-members-admin.php:448
+msgid "Custom"
+msgstr "Customizado"
+
+#: wp-members-admin.php:456
+msgid "Update reCAPTCHA Settings"
+msgstr "Atualizar Configuração do reCAPTCHA"
+
+#: wp-members-core.php:66
+msgid "there was an error with the CAPTCHA form."
+msgstr "existe um erro no formulário da CAPTCHA."
+
+#: wp-members-core.php:182
+#: wp-members-core.php:193
+msgid "Edit Your Information"
+msgstr "Edite suas Informações"
+
+#: wp-members-dialogs-admin.php:24
+msgid "Your WP settings allow anyone to register - this is not the recommended setting."
+msgstr "Suas configurações do WordPress permitem que qualquer um se registre. Esta não é uma configuração recomendada."
+
+#: wp-members-dialogs-admin.php:26
+msgid "This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Esta configuração permite o registro de usuários através de um link na página /wp-login.php usando o processo nativo de registro do WordPress,  contornando assim qualquer registro de usuário que você esteja realizando através do WP-Members. Em alguns casos, isso pode atender os usuários que querem/precisam, mas a maioria dos usuários deve desmarcar essa opção. Se você não quiser mudar esta configuração, pode optar por ignorar esta mensagem de aviso nas Opções de Gerenciamento do WP-Membros."
+
+#: wp-members-dialogs-admin.php:32
+msgid "Your WP settings allow anyone to comment - this is not the recommended setting."
+msgstr "Suas configurações do WordPress permitem que qualquer possa comentar. Esta não é uma configuração recomendada."
+
+#: wp-members-dialogs-admin.php:34
+msgid "This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Esta configuração permite a qualquer usuário comentar, independente de estar registrado ou não. A forma como você está utilizando o WP-Members irá determinar se você deve ou não alterar esta configuração. Se você não quiser mudar esta configuração, pode optar por ignorar esta mensagem de aviso nas Opções de Gerenciamento do WP-Membros."
+
+#: wp-members-dialogs-admin.php:40
+msgid "Your WP settings allow full text rss feeds - this is not the recommended setting."
+msgstr "Suas configurações do WordPress permitem feeds RSS com texto completo. Esta não é uma configuração recomendada."
+
+#: wp-members-dialogs-admin.php:42
+msgid "Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text."
+msgstr "Deixando esta configuração ajustada para texto completo, permitirá a qualquer um ler seu conteúdo protegido num leitor RSS. Alterar isto para \"Sumário\" assegura que seus feeds vão exibir somente um resumo."
+
+#: wp-members-dialogs-admin.php:48
+msgid "You have set WP-Members to hold registrations for approval"
+msgstr "Você ajustou o WP-Members para interceptar seus registros de usuário para aprovação."
+
+#: wp-members-dialogs-admin.php:55
+msgid "You have set WP-Members to turn off the registration process"
+msgstr "Você ajustou o WP-Members para desativar o processo de registro de novos usuários."
+
+#: wp-members-dialogs.php:33
+msgid "Existing users Login"
+msgstr "Login de Usuários"
+
+#: wp-members-dialogs.php:33
+#: wp-members-dialogs.php:47
+#: wp-members-dialogs.php:129
+#: wp-members-sidebar.php:67
+msgid "Username"
+msgstr "Usuário"
+
+#: wp-members-dialogs.php:33
+#: wp-members-sidebar.php:69
+msgid "Password"
+msgstr "Senha"
+
+#: wp-members-dialogs.php:33
+msgid "Login"
+msgstr "Login"
+
+#: wp-members-dialogs.php:40
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: wp-members-dialogs.php:40
+msgid "New Password"
+msgstr "Nova Senha"
+
+#: wp-members-dialogs.php:40
+msgid "Repeat Password"
+msgstr "Repetir Senha"
+
+#: wp-members-dialogs.php:40
+msgid "Update Password"
+msgstr "Atualizar Senha"
+
+#: wp-members-dialogs.php:47
+msgid "Reset Forgotten Password"
+msgstr "Reinicializar Senha Esquecida"
+
+#: wp-members-dialogs.php:47
+#: wp-members-install.php:38
+msgid "Email"
+msgstr "eMail"
+
+#: wp-members-dialogs.php:47
+msgid "Reset Password"
+msgstr "Reiniciar Senha"
+
+#: wp-members-dialogs.php:71
+msgid "Remember me"
+msgstr "Lembre-me"
+
+#: wp-members-dialogs.php:86
+msgid "Forgot password?"
+msgstr "Esqueceu a senha?"
+
+#: wp-members-dialogs.php:86
+msgid "Click here to reset"
+msgstr "Clique aqui para reiniciar"
+
+#: wp-members-dialogs.php:104
+msgid "Login Failed!"
+msgstr "Login falhou!"
+
+#: wp-members-dialogs.php:105
+msgid "You entered an invalid username or password."
+msgstr "Você inseriu um nome de usuário ou senha inválidos."
+
+#: wp-members-dialogs.php:106
+msgid "Click here to continue."
+msgstr "Clique aqui para continuar."
+
+#: wp-members-dialogs.php:134
+msgid "Choose a Username"
+msgstr "Nome de Usuário"
+
+#: wp-members-dialogs.php:226
+msgid "Required field"
+msgstr "Campo obrigatório"
+
+#: wp-members-dialogs.php:297
+msgid "Sorry,"
+msgstr "Desculpe,"
+
+#: wp-members-install.php:29
+msgid "First Name"
+msgstr "Nome"
+
+#: wp-members-install.php:30
+msgid "Last Name"
+msgstr "Sobrenome"
+
+#: wp-members-install.php:31
+msgid "Address 1"
+msgstr "Endereço"
+
+#: wp-members-install.php:32
+msgid "Address 2"
+msgstr "Complemento"
+
+#: wp-members-install.php:33
+msgid "City"
+msgstr "Cidade"
+
+#: wp-members-install.php:34
+msgid "State"
+msgstr "Estado"
+
+#: wp-members-install.php:35
+msgid "Zip"
+msgstr "CEP"
+
+#: wp-members-install.php:36
+msgid "Country"
+msgstr "País"
+
+#: wp-members-install.php:37
+msgid "Day Phone"
+msgstr "Telefone"
+
+#: wp-members-install.php:39
+msgid "Website"
+msgstr "Website"
+
+#: wp-members-install.php:40
+msgid "AIM"
+msgstr "AIM"
+
+#: wp-members-install.php:41
+msgid "Yahoo IM"
+msgstr "Yahoo IM"
+
+#: wp-members-install.php:42
+msgid "Jabber/Google Talk"
+msgstr "Jabber/Google Talk"
+
+#: wp-members-install.php:43
+msgid "Bio"
+msgstr "Detalhes"
+
+#: wp-members-install.php:49
+msgid "This content is restricted to site members.  If you are an existing user, please login.  New users may register below."
+msgstr "Este conteúdo é restrito a membros do site. Se você é um usuário cadastrado, por favor faça login. Novos usuários podem se registrar abaixo."
+
+#: wp-members-install.php:50
+msgid "Sorry, that username is taken, please try another."
+msgstr "Desculpe, este nome de usuário está em uso. Por favor, tente outro."
+
+#: wp-members-install.php:51
+msgid "Sorry, that email address already has an account.<br />Please try another."
+msgstr "Desculpe, já existe uma conta com este endereço de email.<br />Por favor, tente outro."
+
+#: wp-members-install.php:52
+msgid "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you."
+msgstr "Parabéns! Você foi registrado.<br /><br />Você poderá logar-se usando a senha que foi enviada no seu email."
+
+#: wp-members-install.php:53
+msgid "Your information was updated!"
+msgstr "Sua informação foi atualizada!"
+
+#: wp-members-install.php:54
+msgid "Passwords did not match.<br /><br />Please try again."
+msgstr "Senhas não conferem.<br /><br />Por favor, tente novamente."
+
+#: wp-members-install.php:55
+msgid "Password successfully changed!<br /><br />You will need to re-login with your new password."
+msgstr "Senha alterada com sucesso!<br /><br />Você precisará logar-se novamente com sua nova senha."
+
+#: wp-members-install.php:56
+msgid "Either the username or email address do not exist in our records."
+msgstr "O nome de usuário ou o endereço de email não existe em nossos registros."
+
+#: wp-members-install.php:57
+msgid "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your accont. You may change this random password when re-login with your new password."
+msgstr "Senha reiniciada com sucesso!<br /><br />Um email contendo a nova senha foi enviado para o endereço constante em sua conta. Você poderá alterar esta senha aleatória quando logar-se novamente com ela. "
+
+#: wp-members-register.php:40
+msgid "is a required field"
+msgstr "é um campo obrigatório"
+
+#: wp-members-register.php:47
+msgid "you must complete the CAPTCHA form."
+msgstr "você precisa completar o formulário da CAPTCHA"
+
+#: wp-members-register.php:61
+msgid "username is a required field"
+msgstr "nome de usuário é um campo requerido"
+
+#: wp-members-register.php:242
+msgid "We were unable to validate the public key."
+msgstr "Não foi possível validar a Chave Pública"
+
+#: wp-members-register.php:246
+msgid "We were unable to validate the private key."
+msgstr "Não foi possível validar a Chave Privada"
+
+#: wp-members-register.php:250
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "O parâmetro de desafio do script de verificação estava incorreto."
+
+#: wp-members-register.php:254
+msgid "The CAPTCHA solution was incorrect."
+msgstr "A solução da CAPTCHA estava incorreta."
+
+#: wp-members-register.php:258
+msgid "The parameters to verify were incorrect"
+msgstr "Os parâmetros de verificação estavam incorretos."
+
+#: wp-members-register.php:262
+msgid "reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr "As chaves API (\"API Keys\") do reCAPTCHA  são atreladas a um nome específico de domínio por razões de segurança."
+
+#: wp-members-register.php:266
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "O servidor reCAPTCHA não foi alcançado. Por favor, tente reenviar."
+
+#: wp-members-sidebar.php:31
+#: wp-members-sidebar.php:86
+msgid "You are logged in as"
+msgstr "Você esta logado como"
+
+#: wp-members-sidebar.php:31
+#: wp-members-sidebar.php:87
+msgid "click here to logout"
+msgstr "clique aqui para fazer logout"
+
+#: wp-members-sidebar.php:64
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Login falhou!<br />Você inseriu um nome de usuário ou senha inválida."
+
+#: wp-members-sidebar.php:65
+msgid "You are not currently logged in."
+msgstr "Você está logado."
+
+#: wp-members-sidebar.php:105
+msgid "Login Status"
+msgstr "Estado do Login"
+
+#: wp-members-sidebar.php:119
+msgid "WP Members"
+msgstr "WP Members"
+
+#: wp-members-sidebar.php:132
+msgid "Title:"
+msgstr "Tratamento:"
+
+#. Plugin Name of the plugin/theme
+msgid "WP-Members"
+msgstr "WP-Members"
+
+#. Plugin URI of the plugin/theme
+msgid "http://butlerblog.com/wp-members/"
+msgstr "http://butlerblog.com/wp-members/"
+
+#. Description of the plugin/theme
+msgid "WP access restriction and user registration.  For more information and to download the free \"quick start guide,\" visit <a href=\"http://butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. View the live demo at <a href=\"http://butlerblog.com/wpmembers\">http://butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr "Restrição de acesso e registo no WordPress. Para maiores informações e para baixar o \"guia de início rápido\" gratuito, visite <a href=\"http://butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. Veja uma demo em <a href=\"http://butlerblog.com/wpmembers\">http://butlerblog.com/wpmembers</a>. WP-Members(tm) é uma marca registrada de butlerblog.com."
+
+#. Author of the plugin/theme
+msgid "Chad Butler"
+msgstr "Chad Butler"
+
+#. Author URI of the plugin/theme
+msgid "http://butlerblog.com/"
+msgstr "http://butlerblog.com/"
+
