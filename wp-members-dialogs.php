@@ -321,7 +321,7 @@ if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  * @uses apply_filters Calls 'wpmem_register_form_before'
  * @uses apply_filters Calls 'wpmem_register_form'
  * @uses apply_filters Calls 'wpmem_register_heading'
- * @uses apply_filters Calls 'wpmem_tos_link'
+ * @uses apply_filters Calls 'wpmem_tos_link_txt'
  *
  * @param  string $toggle
  * @param  string $heading
@@ -448,7 +448,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 				} else { 
 					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
 				}
-				$form.= apply_filters( 'wpmem_tos_link', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
+				$form.= apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
 
 			} else {
 
