@@ -96,7 +96,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 == Upgrade Notice ==
 
 = 2.7.5 =
-Code improvement release - no major changes to functionality. This release does also include some new filter hooks. See the Changelog for complete details.
+Code improvement release - no major changes to functionality. Download package now includes translation files for some languages.  This release does also include some new filter hooks. See the Changelog for complete details.
 
 
 == Screenshots ==
@@ -113,6 +113,11 @@ This is a new feature release (see [release announcement](http://wp.me/p1zYcs-xf
 * Added 5 new filter hooks
 * Final deprecation of the old style shortcodes for special pages (<!--members-area-->, <!--reg-area-->). If you are using these you need simply need to update to the modern shortcodes such as [wp-members page="members-area"]
 * Added a check for the error message variable immediately following the wpmem_pre_register_data and wpmem_pre_update_data action hooks.  This will allow for use of these hooks to include your own custom validation and still be able to return a relevant error message.
+* Added a check to see if the TOS field is not being used and thus don't display it on the User Profile for the admin.
+* Fixed a bug that showed the incorrect heading on the User Edit page when there is an empty field error.
+* Added completely updated .pot file for translations
+* Updated all .po/.mo translation files from the new .pot (still need some strings translated for some languages).
+* Added all .po/.mo files to the download package.
 
 = 2.7.4 =
 

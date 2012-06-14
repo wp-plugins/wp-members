@@ -270,7 +270,7 @@ function wpmem_do_sc_pages( $page )
 				if( $wpmem_regchk == "updaterr" || $wpmem_regchk == "email" ) {
 
 					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-					$content = $content . wpmem_inc_registration( 'edit', $edit_heading );
+					$content = $content . wpmem_inc_registration( 'edit', $heading );
 
 				} else {
 
