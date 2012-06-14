@@ -152,7 +152,9 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
-				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li></ul>';
+				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
+		if( WPMEM_USE_EXP == 1 ) { $str .= wpmem_user_page_detail(); }
+		$str.= '</ul>';
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
 		
@@ -318,6 +320,8 @@ if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  *
  * @uses apply_filters Calls 'wpmem_register_form_before'
  * @uses apply_filters Calls 'wpmem_register_form'
+ * @uses apply_filters Calls 'wpmem_register_heading'
+ * @uses apply_filters Calls 'wpmem_tos_link_txt'
  *
  * @param  string $toggle
  * @param  string $heading
@@ -332,7 +336,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 	
 	global $userdata, $wpmem_regchk, $username, $wpmem_fieldval_arr;
 
-	if( !$heading ) { $heading = __( 'New Users Registration', 'wp-members' ); }
+	if( !$heading ) { $heading = apply_filters( 'wpmem_register_heading', __( 'New Users Registration', 'wp-members' ) ); }
 
 	$form = apply_filters( 'wpmem_register_form_before', '' );
 
@@ -444,7 +448,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 				} else { 
 					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
 				}
-				$form = $form . sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>');
+				$form.= apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
 
 			} else {
 

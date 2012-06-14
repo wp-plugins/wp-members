@@ -105,6 +105,7 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  * @since 2.3
  *
  * @uses apply_filters Calls 'wpmem_email_notify'
+ * @uses apply_filters Calls 'wpmem_notify_addr'
  * @uses wp_mail
  *
  * @param int $user_id
@@ -181,10 +182,10 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
 	/* Get the admin's email address */
-	$admin_email = get_option( 'admin_email' );
+	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
 	
 	/* Send the message */
-	wp_mail($admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '');
+	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
 
 }
 endif;

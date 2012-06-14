@@ -89,7 +89,7 @@ function wpmem_registration( $toggle )
 			
 			if( $wpmem_captcha[0] && $wpmem_captcha[1] ) {   // if there is no api key, the captcha never displayed to the end user
 				if( !$_POST["recaptcha_response_field"] ) { // validate for empty captcha field
-					$wpmem_themsg = __( "You must complete the CAPTCHA form." );
+					$wpmem_themsg = __( 'You must complete the CAPTCHA form.', 'wp-members' );
 					return "empty"; exit();
 				}
 			}
@@ -145,6 +145,9 @@ function wpmem_registration( $toggle )
 		
 		// _data hook is before any insertion/emails
 		do_action( 'wpmem_pre_register_data', $fields );
+		
+		// if the _pre_register_data hook sends back an error message
+		if( $wpmem_themsg ){ return $wpmem_themsg; }
 	
 		// inserts to wp_users table
 		$user_id = wp_insert_user( array (
@@ -218,6 +221,9 @@ function wpmem_registration( $toggle )
 		// _data hook is before data insertion
 		$fields['ID'] = $user_ID;
 		do_action( 'wpmem_pre_update_data', $fields );
+		
+		// if the _pre_update_data hook sends back an error message
+		if( $wpmem_themsg ){ return $wpmem_themsg; }
 
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		

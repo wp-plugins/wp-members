@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.3.2
-Stable tag: 2.7.4
+Tested up to: 3.4
+Stable tag: 2.7.5
 
 WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
 
@@ -95,8 +95,8 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-= 2.7.4 =
-Code improvement release - no major changes to functionality. This release does also include some new filter hooks. See the Changelog for complete details.
+= 2.7.5 =
+Code improvement release - no major changes to functionality. Download package now includes translation files for some languages.  This release does also include some new filter hooks. See the Changelog for complete details.
 
 
 == Screenshots ==
@@ -106,7 +106,22 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 == Changelog ==
 
+= 2.7.5 =
+
+This is a new feature release (see [release announcement](http://wp.me/p1zYcs-xf) for full details.)
+
+* Added 5 new filter hooks
+* Final deprecation of the old style shortcodes for special pages (<!--members-area-->, <!--reg-area-->). If you are using these you need simply need to update to the modern shortcodes such as [wp-members page="members-area"]
+* Added a check for the error message variable immediately following the wpmem_pre_register_data and wpmem_pre_update_data action hooks.  This will allow for use of these hooks to include your own custom validation and still be able to return a relevant error message.
+* Added a check to see if the TOS field is not being used and thus don't display it on the User Profile for the admin.
+* Fixed a bug that showed the incorrect heading on the User Edit page when there is an empty field error.
+* Added completely updated .pot file for translations
+* Updated all .po/.mo translation files from the new .pot (still need some strings translated for some languages).
+* Added all .po/.mo files to the download package.
+
 = 2.7.4 =
+
+This is a new feature release (see [release announcement](http://wp.me/p1zYcs-wQ) for full details.)
 
 * Added 14 new filter hooks
 * Added full user export function
@@ -115,7 +130,7 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 = 2.7.3 =
 
-This is a code improvement release (see [release announcement](http://butlerblog.com/2012/3/19/wp-members-2-7-3-release-announcement) for full details.)
+This is a code improvement release (see [release announcement](http://wp.me/p1zYcs-wD) for full details.)
 
 * Improved a number of functions in various files for improved functionality.
 * Added p tag with class .noinput to the username field when updating profile, added property definition to the stylesheet as well to better align the username.
@@ -131,7 +146,7 @@ New features (shortcodes and hooks):
 
 = 2.7.2 =
 
-This is primarily a bug fix release
+This is primarily a bug fix release (see [release announcement](http://wp.me/p1zYcs-vW) for full details.)
 
 * Fixed a bug where, when using moderated registration, updating a user's backend profile deactivates the user.
 * Improved the login error message for login via wp-login.php.
@@ -142,7 +157,7 @@ This is primarily a bug fix release
 
 = 2.7.1 =
 
-This release contains some new features that didn't get completed for 2.7.0 and some fixes
+This release contains some new features that didn't get completed for 2.7.0 and some fixes (see [release announcement](http://wp.me/p1zYcs-vq) for full details.)
 
 New features:
 
@@ -171,7 +186,7 @@ Fixes:
 
 = 2.7.0 =
 
-This is new feature release with the following features and improvements:
+This is new feature release with the following features and improvements (see :
 
 * Email messages can be customized via the plugin admin panel.
 * Dropdown fields can be added via the field managment panel.

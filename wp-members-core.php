@@ -80,8 +80,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * This is the primary function that picks up where wpmem() leaves off.
  * Determines whether content is shown or hidden for both post and
- * pages, and handles special pages such as Member Settings, Register,
- * and Login.
+ * pages.
  *
  * @since 2.0
  *
@@ -93,7 +92,6 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @param string $content
  * @return $content
  *
- * @todo update/evaluate for cleaner shortcode, shortcode used to execute twice due to mmembers area/register legacy shortcodes; wpmem_test_shortcode should prevent that/
  * @todo continue testing wpmem_do_excerpt - designed to insert an excerpt if no 'more' tag is found.
  */
 function wpmem_securify( $content = null ) 
@@ -103,13 +101,13 @@ function wpmem_securify( $content = null )
 	// $content = wpmem_do_excerpt( $content );
 
 
-	if ( ! wpmem_test_shortcode() ) {
+	if( ! wpmem_test_shortcode() ) {
 		
 		global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 		
 		if( $wpmem_regchk == "captcha" ) {
 			global $wpmem_captcha_err;
-			$wpmem_themsg = __("There was an error with the CAPTCHA form.")."<br /><br />".$wpmem_captcha_err;
+			$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 		}
 
 		// Block/unblock Posts
@@ -127,7 +125,7 @@ function wpmem_securify( $content = null )
 				// empty content in any of these scenarios
 				$content = '';
 	
-				switch($wpmem_regchk) {
+				switch( $wpmem_regchk ) {
 	
 				case "loginfailed":
 					$content = wpmem_inc_loginfailed();
@@ -147,10 +145,10 @@ function wpmem_securify( $content = null )
 			} else {
 			
 				// toggle shows excerpt above login/reg on posts/pages
-				if (WPMEM_SHOW_EXCERPT == 1) {
+				if( WPMEM_SHOW_EXCERPT == 1 ) {
 				
 					$len = strpos($content, '<span id="more');
-					$content = substr($content, 0, $len);
+					$content = substr( $content, 0, $len );
 					
 				} else {
 				
@@ -161,159 +159,20 @@ function wpmem_securify( $content = null )
 	
 				$content = $content . wpmem_inc_login();
 				
-				if (WPMEM_NO_REG != 1) { $content = $content . wpmem_inc_registration(); } // toggle turns off reg process for all but registration page.
+				if( WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); } // toggle turns off reg process for all but registration page.
 			}
 	
 
 		// For expirations
 		// NOTE: there is some reworking needed before exp module final release
-		} elseif ( is_user_logged_in() && wpmem_block() == true ){
+		} elseif( is_user_logged_in() && wpmem_block() == true ){
 			
-			if (WPMEM_USE_EXP == 1) { $content = wpmem_do_expmessage( $content ); }
-			
-		}
-	
-		// Members Area and Regitration special pages
-		// This section pertains to the special pages using legacy codes ( i.e. <!--members-area--> )
-		// This version is the final version to update these - they will be deprecated and 
-		// most likely removed in future versions. Start updating to new shortcode versions.
-		
-		$wpmem_page = '';
-		if (is_page('members-area')) { $wpmem_page = "members-area"; }
-		if (is_page('register')) { $wpmem_page = "register"; }
-		
-		if ( $wpmem_page == 'members-area' || $wpmem_page == 'register' ) {
-		
-			include_once('wp-members-dialogs.php');
-			
-			if ($wpmem_regchk == "loginfailed") {
-				return wpmem_inc_loginfailed();
+			if( WPMEM_USE_EXP == 1 ) { 
+				global $post;
+				$post->post_password = wp_generate_password();
+				$content = wpmem_do_expmessage( $content ); 
 			}
 			
-			if (!is_user_logged_in()) {
-				if ($wpmem_a == 'register') {
-	
-					$content = ''; // start with empty content
-					
-					switch($wpmem_regchk) {
-	
-					case "success":
-						$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-						$content = $content . wpmem_inc_login();
-						break;
-	
-					default:
-						$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-						$content = $content . wpmem_inc_registration();
-						break;
-					}
-	
-				} elseif ($wpmem_a == 'pwdreset') {
-	
-					switch($wpmem_regchk) {
-	
-					case "pwdreseterr":
-						$content = wpmem_inc_regmessage( $wpmem_regchk );
-						break;
-	
-					case "pwdresetsuccess":
-						$content = wpmem_inc_regmessage( $wpmem_regchk );
-						break;
-	
-					default:
-						$content = wpmem_inc_resetpassword();
-						break;
-					}
-	
-				} else {
-	
-					if ( $wpmem_page == 'members-area' ) { $content = wpmem_inc_login( 'members' ); }
-					
-					if ( $wpmem_page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
-				}
-	
-			} elseif (is_user_logged_in() && $wpmem_page == 'members-area') {
-	
-				$edit_heading = __('Edit Your Information', 'wp-members');
-			
-				switch($wpmem_a) {
-	
-				case "edit":
-					$content = wpmem_inc_registration( 'edit', $heading );
-					break;
-	
-				case "update":
-	
-					// determine if there are any errors/empty fields
-	
-					if ($wpmem_regchk == "updaterr" || $wpmem_regchk == "email") {
-	
-						$content = wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
-						$content = $content . wpmem_inc_registration( 'edit', $edit_heading );
-	
-					} else {
-	
-						//case "editsuccess":
-						$content = wpmem_inc_regmessage($wpmem_regchk,$wpmem_themsg);
-						$content = $content . wpmem_inc_memberlinks();
-	
-					}
-					break;
-	
-				case "pwdchange":
-	
-					switch ($wpmem_regchk) {
-					
-					case "pwdchangempty":
-						$content = $content . wpmem_inc_regmessage( 'pwdchangempty', __('Password fields cannot be empty', 'wp-members') );
-						$content = $content . wpmem_inc_changepassword();
-						break;
-	
-					case "pwdchangerr":
-						$content = $content . wpmem_inc_regmessage($wpmem_regchk);
-						$content = $content . wpmem_inc_changepassword();
-						break;
-	
-					case "pwdchangesuccess":
-						$content = $content . wpmem_inc_regmessage($wpmem_regchk);
-						break;
-	
-					default:
-						$content = $content . wpmem_inc_changepassword();
-						break;				
-					}
-					break;
-	
-				// Handle expirations
-				case "renew":
-					$content = "insert the renewal process...";
-					wpmem_renew;
-					break;
-	
-				default:
-					$content = $content . wpmem_inc_memberlinks();
-					
-					// placeholder for expirations
-					if (WPMEM_USE_EXP == 1) {
-						$addto  = wpmem_user_page_detail(); 
-						$output = $output.$addto;
-					}
-					break;					  
-				}
-	
-			} elseif (is_user_logged_in() && $wpmem_page == 'register') {
-			
-				$content = $content . wpmem_inc_memberlinks('register');
-			
-			}	
-	
-			if ( is_page('members-area') ) { $replacestr = "/\<!--members-area-->/"; }
-			if ( is_page('register') )     { $replacestr = "/\<!--reg-area-->/"; }
-			
-			// the conditional here is allow for use of either the legacy version or 
-			// the shortcode on members-area or register pages without preg_replace error
-			if ( !$wpmem_sc_page ) { $content = preg_replace( $replacestr, $output, $content ); }
-				
 		}
 		
 	}
@@ -321,6 +180,199 @@ function wpmem_securify( $content = null )
 	return $content;
 	
 } // end wpmem_securify
+endif;
+
+
+if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
+/**
+ * Determines if content should be blocked
+ *
+ * @since 2.6
+ *
+ * @uses apply_filters Calls 'wpmem_user_edit_heading'
+ *
+ * @param string $page
+ * @global string $wpmem_regchk
+ * @global string $wpmem_themsg
+ * @global string $wpmem_a
+ * @global string $content
+ * @return $content 
+ */
+function wpmem_do_sc_pages( $page )
+{
+	global $wpmem_regchk, $wpmem_themsg, $wpmem_a, $content;
+	
+	if ( $page == 'members-area' || $page == 'register' ) { 
+	
+		include_once( 'wp-members-dialogs.php' );
+		
+		if( $wpmem_regchk == "loginfailed" ) {
+			return wpmem_inc_loginfailed();
+		}
+		
+		if( ! is_user_logged_in() ) {
+			if( $wpmem_a == 'register' ) {
+
+				switch( $wpmem_regchk ) {
+
+				case "success":
+					$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_login();
+					break;
+
+				default:
+					$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_registration();
+					break;
+				}
+
+			} elseif( $wpmem_a == 'pwdreset' ) {
+
+				switch( $wpmem_regchk ) {
+
+				case "pwdreseterr":
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+					$wpmem_regchk = ''; // clear regchk
+					break;
+
+				case "pwdresetsuccess":
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+					$wpmem_regchk = ''; // clear regchk
+					break;
+
+				default:
+					$content = $content . wpmem_inc_resetpassword();
+					break;
+				}
+
+			} else {
+
+				if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
+				
+				// turn off registration on all but the register page.
+				if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
+			}
+
+		} elseif( is_user_logged_in() && $page == 'members-area' ) {
+
+			$heading = apply_filters( 'wpmem_user_edit_heading', __( 'Edit Your Information', 'wp-members' ) );
+		
+			switch( $wpmem_a ) {
+
+			case "edit":
+				$content = $content . wpmem_inc_registration( 'edit', $heading );
+				break;
+
+			case "update":
+
+				// determine if there are any errors/empty fields
+
+				if( $wpmem_regchk == "updaterr" || $wpmem_regchk == "email" ) {
+
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_registration( 'edit', $heading );
+
+				} else {
+
+					//case "editsuccess":
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_memberlinks();
+
+				}
+				break;
+
+			case "pwdchange":
+
+				switch( $wpmem_regchk ) { 
+				
+				case "pwdchangempty":
+					$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
+					$content = $content . wpmem_inc_changepassword();
+					break;
+
+				case "pwdchangerr":
+					$content = wpmem_inc_regmessage( $wpmem_regchk );
+					$content = $content . wpmem_inc_changepassword();
+					break;
+
+				case "pwdchangesuccess":
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+					break;
+
+				default:
+					$content = $content . wpmem_inc_changepassword();
+					break;				
+				}
+				break;
+
+			case "renew":
+				$content = wpmem_renew();
+				break;
+
+			default:
+				$content = wpmem_inc_memberlinks();
+				break;					  
+			}
+
+		} elseif( is_user_logged_in() && $page == 'register' ) {
+
+			//return wpmem_inc_memberlinks( 'register' );
+			
+			$content = $content . wpmem_inc_memberlinks( 'register' );
+		
+		}
+			
+	}
+	
+	if( $page == 'login' ) {
+	
+		include_once( 'wp-members-dialogs.php' );
+		
+		if( $wpmem_regchk == "loginfailed" ) {
+			$content = wpmem_inc_loginfailed();
+		}
+		
+		if( ! is_user_logged_in() ) {
+			$content = $content . wpmem_inc_login( 'login' );
+		} else {
+			$content = wpmem_inc_memberlinks( 'login' );
+		}
+		
+	}
+	
+	return $content;
+} // end wpmem_do_sc_pages
+endif;
+
+
+if ( ! function_exists( 'wpmem_block' ) ):
+/**
+ * Determines if content should be blocked
+ *
+ * @since 2.6
+ *
+ * @uses apply_filters Calls wpmem_block
+ *
+ * @return bool $block 
+ */
+function wpmem_block()
+{
+	$block = false;
+
+	if( is_single() ) {
+		//$not_mem_area = 1; 
+		if( WPMEM_BLOCK_POSTS == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }
+		if( WPMEM_BLOCK_POSTS == 0 &&   get_post_custom_values( 'block' ) )   { $block = true; }
+	}
+
+	if( is_page() && ! is_page( 'members-area' ) && ! is_page( 'register' ) ) { 
+		//$not_mem_area = 1; 
+		if( WPMEM_BLOCK_PAGES == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }
+		if( WPMEM_BLOCK_PAGES == 0 &&   get_post_custom_values( 'block' ) )   { $block = true; }
+	}
+	
+	return apply_filters( 'wpmem_block', $block );
+}
 endif;
 
 
@@ -358,6 +410,33 @@ function wpmem_shortcode( $attr, $content = null )
 		return $user_info->$attr['field'] . do_shortcode( $content );
 	}
 }
+
+
+if ( ! function_exists( 'wpmem_test_shortcode' ) ):
+/**
+ * Tests $content for the presence of the [wp-members] shortcode
+ *
+ * @since 2.6
+ *
+ * @global string $post
+ * @uses get_shortcode_regex
+ * @return bool
+ *
+ * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
+ */
+function wpmem_test_shortcode()
+{
+	global $post;
+	
+	$pattern = get_shortcode_regex();
+	
+	preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches );
+	
+	if( is_array( $matches ) && array_key_exists( 2, $matches ) && in_array( 'wp-members', $matches[2] ) ) {
+		return true;
+    }
+}
+endif;
 
 
 if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
@@ -827,232 +906,6 @@ function wpmem_texturize( $content )
 }
 
 
-/*************************************************************************
-	New 2.6 features (these functions may be moved later
-**************************************************************************/
-
-
-if ( ! function_exists( 'wpmem_test_shortcode' ) ):
-/**
- * Tests $content for the presence of the [wp-members] shortcode
- *
- * @since 2.6
- *
- * @global string $post
- * @uses get_shortcode_regex
- * @return bool
- *
- * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
- */
-function wpmem_test_shortcode()
-{
-	global $post;
-	
-	$pattern = get_shortcode_regex();
-	
-	preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches );
-	
-	if( is_array( $matches ) && array_key_exists( 2, $matches ) && in_array( 'wp-members', $matches[2] ) ) {
-		return true;
-    }
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_block' ) ):
-/**
- * Determines if content should be blocked
- *
- * @since 2.6
- *
- * @return bool 
- */
-function wpmem_block()
-{
-	if( is_single() ) {
-		//$not_mem_area = 1; 
-		if (WPMEM_BLOCK_POSTS == 1 && !get_post_custom_values('unblock')) { return true; }
-		if (WPMEM_BLOCK_POSTS == 0 &&  get_post_custom_values('block'))   { return true; }
-	}
-
-	if( is_page() && !is_page('members-area') && !is_page('register') ) { 
-		//$not_mem_area = 1; 
-		if (WPMEM_BLOCK_PAGES == 1 && !get_post_custom_values('unblock')) { return true; }
-		if (WPMEM_BLOCK_PAGES == 0 &&  get_post_custom_values('block'))   { return true; }
-	}
-	
-	return false;
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
-/**
- * Determines if content should be blocked
- *
- * @since 2.6
- *
- * @param string $page
- * @global string $wpmem_regchk
- * @global string $wpmem_themsg
- * @global string $wpmem_a
- * @global string $content
- * @return $content 
- */
-function wpmem_do_sc_pages( $page )
-{
-	global $wpmem_regchk, $wpmem_themsg, $wpmem_a, $content;
-	
-	if ( $page == 'members-area' || $page == 'register' ) { 
-	
-		include_once( 'wp-members-dialogs.php' );
-		
-		if( $wpmem_regchk == "loginfailed" ) {
-			return wpmem_inc_loginfailed();
-		}
-		
-		if( ! is_user_logged_in() ) {
-			if( $wpmem_a == 'register' ) {
-
-				switch( $wpmem_regchk ) {
-
-				case "success":
-					$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-					$content = $content . wpmem_inc_login();
-					break;
-
-				default:
-					$content = wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-					$content = $content . wpmem_inc_registration();
-					break;
-				}
-
-			} elseif( $wpmem_a == 'pwdreset' ) {
-
-				switch( $wpmem_regchk ) {
-
-				case "pwdreseterr":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					$wpmem_regchk = ''; // clear regchk
-					break;
-
-				case "pwdresetsuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					$wpmem_regchk = ''; // clear regchk
-					break;
-
-				default:
-					$content = $content . wpmem_inc_resetpassword();
-					break;
-				}
-
-			} else {
-
-				if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
-				
-				// turn off registration on all but the register page.
-				if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
-			}
-
-		} elseif( is_user_logged_in() && $page == 'members-area' ) {
-
-			$heading = __( 'Edit Your Information', 'wp-members' );
-		
-			switch( $wpmem_a ) {
-
-			case "edit":
-				$content = $content . wpmem_inc_registration( 'edit', $heading );
-				break;
-
-			case "update":
-
-				// determine if there are any errors/empty fields
-
-				if( $wpmem_regchk == "updaterr" || $wpmem_regchk == "email" ) {
-
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-					$content = $content . wpmem_inc_registration( 'edit', $edit_heading );
-
-				} else {
-
-					//case "editsuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
-					$content = $content . wpmem_inc_memberlinks();
-
-				}
-				break;
-
-			case "pwdchange":
-
-				switch( $wpmem_regchk ) { 
-				
-				case "pwdchangempty":
-					$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
-					$content = $content . wpmem_inc_changepassword();
-					break;
-
-				case "pwdchangerr":
-					$content = wpmem_inc_regmessage( $wpmem_regchk );
-					$content = $content . wpmem_inc_changepassword();
-					break;
-
-				case "pwdchangesuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					break;
-
-				default:
-					$content = $content . wpmem_inc_changepassword();
-					break;				
-				}
-				break;
-
-			// Handle expirations...
-			case "renew":
-				$content = wpmem_renew();
-				break;
-
-			default:
-				$content = wpmem_inc_memberlinks();
-				
-				// inserts a renew link if the exp module is activated
-				if( WPMEM_USE_EXP == 1 ) {
-					$addto   = wpmem_user_page_detail(); 
-					$content = $content . $addto;
-				}
-				break;					  
-			}
-
-		} elseif( is_user_logged_in() && $page == 'register' ) {
-
-			//return wpmem_inc_memberlinks( 'register' );
-			
-			$content = $content . wpmem_inc_memberlinks( 'register' );
-		
-		}
-			
-	}
-	
-	if( $page == 'login' ) {
-	
-		include_once( 'wp-members-dialogs.php' );
-		
-		if( $wpmem_regchk == "loginfailed" ) {
-			$content = wpmem_inc_loginfailed();
-		}
-		
-		if( ! is_user_logged_in() ) {
-			$content = $content . wpmem_inc_login( 'login' );
-		} else {
-			$content = wpmem_inc_memberlinks( 'login' );
-		}
-		
-	}
-	
-	return $content;
-} // end wpmem_do_sc_pages
-endif;
-
-
 if ( ! function_exists( 'wpmem_enqueue_style' ) ):
 /**
  * Loads the stylesheet for tableless forms
@@ -1075,8 +928,6 @@ function wpmem_enqueue_style()
 	wp_enqueue_style( 'wp-members');
 }
 endif;
-
-
 
 
 /**
@@ -1103,6 +954,11 @@ function wpmem_do_excerpt( $content )
 	return $content;
 	
 }
+
+
+/*****************************************************
+ * USER PROFILE FUNCTIONS
+ *****************************************************/
 
 
 /**

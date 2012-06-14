@@ -77,7 +77,12 @@ function wpmem_admin_fields()
 		$wpmem_fields = get_option( 'wpmembers_fields' );
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 
-			if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) { ?>    
+			/** determine which fields to show in the additional fields area */
+			$show = false;
+			if( $wpmem_fields[$row][6] == 'n' && $wpmem_fields[$row][2] != 'password' ) { $show = true; }
+			if( $wpmem_fields[$row][1] == 'TOS' && $wpmem_fields[$row][4] != 'y' ) { $show = false; }
+			
+			if( $show ) { ?>  
 
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
