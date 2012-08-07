@@ -5,8 +5,9 @@ Tags: authentication, captcha, community, content, login, password, register, re
 Requires at least: 3.1
 Tested up to: 3.4
 Stable tag: 2.7.6
+License: GPLv2
 
-WP-Members&trade; is a free membership management system for WordPress&reg; that restricts content to registered users.
+WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
@@ -67,14 +68,15 @@ NOTE: Please follow instructions for installation. We have found that the vast m
 
 A full Users Guide is available at the [plugin's homepage](http://rocketgeek.com/plugins/wp-members/users-guide/).  The guide outlines the installation process, and also documents how to use all of the settings.
 
-= Special and Optional Shortcode Pages =
+= Plugin Extensibility =
 
-* If you want to have your users be able to edit their login information, add a new page (not a post) and in the body of this page, place the shortcode [wp-members page="members-area"] where you want WP-Members&trade; to display its content.  This page will allow registered members to edit their information or change their password, and will display the registration form for new members.  This page also handles forgotten password reset for users who are not logged in.  (If you are using the default permalinks, i.e. http://yoursite.com/?p=123, then you must be certain this page title is "Members Area". Check Settings > Permalinks to see your settings.)
-* If you would like to have a page to direct users for registrations, you can set up a registration page. (A registration page is not required as the the default settings for the plugin offer user registration in place of restricted content.)  Similar to the "members area" page setup, create a new page (not a post) and in the body of the page, put the shortcode [wp-members page="register"] (Just like the members area, if you are using default permalinks, you must title this page "Register".)
-* In order to display a "forgot password" and "register" link in the login form (and sidebar widget), specify the location of the members area and register pages in the plugin options.
+WP-Members&trade; is designed to be an out-of-the-box usable plugin, but also have an extensible framework for maximum flexibility and customization.  For this purpose, there are a number of shortcodes, filters, and actions that can be used.
 
-Note: the above shortcodes CANNOT be used on the same page!
+See [this page](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
 
+The plugin has 26 filter hooks and 5 action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
+
+The plugin's premium support site has loads of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).
 
 
 == Frequently Asked Questions ==
@@ -100,7 +102,7 @@ Code improvement release - no major changes to functionality. Download package n
 
 == Screenshots ==
 
-Rather than bloat your plugin download with screenshots, we will be offering screenshots and videos at the plugin's homepage: http://butlerblog.com/wp-members
+Rather than bloat your plugin download with screenshots, we will be offering screenshots and videos at the plugin's homepage: http://rocketgeek.com
 
 
 == Changelog ==
@@ -110,10 +112,11 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 This release has some new features and some code updates
 
 * Added ability to use same redirect_to querystring that WP uses in the wp-login form.  This allows more seamless replacement of the wp-login.
-* Added a new page shortcode for password reset/change.  If the user is logged out, it works the reset forgotten password functionality.  If the user is logged in, it will offer the change password functionality.  These functions do also remain in the members-area page shortcode as well, but now can be placed in a stand-alone location as well.
-* Added a new page shortcode for the user edit page.  This needs to be used if the user is logged in and can be used with the login status shortcode.
+* Added a new page shortcode for password reset/change [wp-members page="password"].  If the user is logged out, it works the reset forgotten password functionality.  If the user is logged in, it will offer the change password functionality.  These functions do also remain in the members-area page shortcode as well, but now can be placed in a stand-alone location as well.
+* Added a new page shortcode for the user edit page [wp-members page="user-edit"].  This needs to be used if the user is logged in and can be used with the login status shortcode.
 * Removed $content global from the page shortcode function.  This should correct the double form issue when used with plugins/themes that filter $content.
 * Added do_shortcode to the page shortcode call.  This should allow the page shortcodes to be used in conjuction with other shortcodes on the page (although this is not necessarily recommended).
+* Added translations for Russian, Slovak, and Hindi.
 * Moved _OLD forms to wp-members-deprecated.php.  These forms can still be used, but will be deprecated in a future version.  It is highly recommended that users still using legacy forms begin converting to the _NEW forms.
 
 = 2.7.5 =

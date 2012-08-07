@@ -654,7 +654,7 @@ function wpmem_inc_attribution()
 		$str = '
 		<!-- Attribution keeps this plugin free!! -->
 		<div align="center">
-			<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
+			<small>Powered by <a href="http://rocketgeek.com" target="_blank">WP-Members</a></small>
 		</div>';
 		
 		return $str;
@@ -665,7 +665,7 @@ function wpmem_inc_attribution()
 			<tr>
 			  <td>&nbsp;</td>
 			  <td align="center"><!-- Attribution keeps this plugin free!! -->
-				<small>Powered by <a href="http://butlerblog.com/wp-members" target="_blank">WP-Members</a></small>
+				<small>Powered by <a href="http://rocketgeek.com" target="_blank">WP-Members</a></small>
 			  </td>
 			</tr>';
 			

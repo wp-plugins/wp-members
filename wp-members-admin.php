@@ -782,16 +782,11 @@ function wpmem_admin()
 	**************************************************************************/	?>
 
 
-	<p><strong><a href="http://butlerblog.com/wp-members/" target="_blank">WP-Members</a> <?php _e('Version:', 'wp-members'); echo "&nbsp;".WPMEM_VERSION; ?></strong>
-		[ <?php _e('Follow', 'wp-members'); ?> ButlerBlog: <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a> ]
+	<p><strong><a href="http://rocketgeek.com" target="_blank">WP-Members</a> <?php _e('Version:', 'wp-members'); echo "&nbsp;".WPMEM_VERSION; ?></strong>
+		[ <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> | <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">Online User Guide</a> | <a href="http://rocketgeek.com/plugins/wp-members/users-guide/faqs/">FAQs</a> ] 
+		[ <?php _e('Follow', 'wp-members'); ?> ButlerBlog: <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a> ]<br />
 	<?php if( ! defined( 'WPMEM_REMOVE_ATTR' ) ) { ?>
-		<br />
-		<?php _e('If you find this plugin useful, please consider making a donation', 'wp-members'); ?> <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<input type="hidden" name="hosted_button_id" value="QC2W6AM9WUZML">
-		<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-		<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-		</form>
+		<br /><a href="http://rocketgeek.com/about/site-membership-subscription/">Find out how to get access to WP-Members private members forum, premium code snippets, tutorials, and more!</a>
 	<?php } ?>
 	</p>
 	
@@ -859,13 +854,11 @@ function wpmem_admin()
 	</div>
 	<p>&nbsp;</p>
 		<p><i>
-		<?php printf(__('Thank you for using WP-Members! You are using version %s', 'wp-members'), WPMEM_VERSION); ?>.
-		<?php if( ! defined( 'WPMEM_REMOVE_ATTR' ) ) { 
-			printf(__('If you find this plugin useful, please consider a %s donation %s', 'wp-members'), '<a href="http://butlerblog.com/wp-members">', '</a>');
-		} ?><br />
+		<?php printf(__('Thank you for using WP-Members! You are using version %s', 'wp-members'), WPMEM_VERSION); ?>.<br />
 		WP-Members is copyright &copy; 2006-<?php echo date("Y"); ?>  by Chad Butler, <a href="http://butlerblog.com">butlerblog.com</a> | 
 		  <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a><br />
-		WP-Members is a trademark of <a href="http://butlerblog.com">butlerblog.com</a>
+		WP-Members is a trademark of <a href="http://butlerblog.com">butlerblog.com</a><br />
+		Premium support and installation service <a href="http://rocketgeek.com/about/site-membership-subscription/">available at rocketgeek.com</a>.
 		</i></p>
 		<p>&nbsp;</p>
 	</div>
