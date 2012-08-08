@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: WP-Members
-Plugin URI:  http://butlerblog.com/wp-members/
-Description: WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href="http://butlerblog.com/wp-members">http://butlerblog.com/wp-members</a>. A <a href="http://butlerblog.com/wp-members/wp-members-quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.7.5
+Plugin URI:  http://rocketgeek.com
+Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
+Version:     2.7.6
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -52,7 +52,7 @@ License:     GPLv2
 	INSTALLATION PROCEDURE:
 	
 	For complete installation and usage instructions,
-	visit http://butlerblog.com/wp-members/
+	visit http://rocketgeek.com
 */
 
 
@@ -76,7 +76,7 @@ $wpmem_settings = get_option( 'wpmembers_settings' );
 /**
  * define constants based on option settings
  */
-define( 'WPMEM_VERSION',      '2.7.5' );
+define( 'WPMEM_VERSION',      '2.7.6' );
 define( 'WPMEM_DEBUG',        false );
 
 // define('WPMEM_VERSION',    $wpmem_settings[0] );

@@ -4,7 +4,7 @@
  * CSS for the WP-Members plugin using TwentyEleven Theme
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * You can find out more about this plugin at http://rocketgeek.com
  * Copyright (c) 2006-2012 Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
@@ -20,8 +20,11 @@ There are quite a few examples in here of what you can do with the table-less
 forms.  You can build off of this or start from scratch and setyour own 
 custom css for the plugin (set the location in the admin panel).
 
-See http://butlerblog.com/2011/07/25/customize-the-wp-members-stylesheet/
+See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
 for information on how to set up the plugin with a cusotm stylesheet.
+
+For information how to load custom stylesheets with wp_enqueue_style,
+see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 */
 
 /* Error and Dialog Messages */

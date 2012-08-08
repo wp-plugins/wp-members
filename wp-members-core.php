@@ -6,7 +6,7 @@
  * situations. Includes commonly used utility functions.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://butlerblog.com/wp-members
+ * You can find out more about this plugin at http://rocketgeek.com
  * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
@@ -163,13 +163,10 @@ function wpmem_securify( $content = null )
 			}
 	
 
-		// For expirations
-		// NOTE: there is some reworking needed before exp module final release
+		// Protects comments if expiration module is used and user is expired
 		} elseif( is_user_logged_in() && wpmem_block() == true ){
 			
 			if( WPMEM_USE_EXP == 1 ) { 
-				global $post;
-				$post->post_password = wp_generate_password();
 				$content = wpmem_do_expmessage( $content ); 
 			}
 			
@@ -195,16 +192,14 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * @global string $wpmem_regchk
  * @global string $wpmem_themsg
  * @global string $wpmem_a
- * @global string $content
  * @return $content 
  */
 function wpmem_do_sc_pages( $page )
 {
-	global $wpmem_regchk, $wpmem_themsg, $wpmem_a, $content;
+	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
+	include_once( 'wp-members-dialogs.php' );
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
-	
-		include_once( 'wp-members-dialogs.php' );
 		
 		if( $wpmem_regchk == "loginfailed" ) {
 			return wpmem_inc_loginfailed();
@@ -228,22 +223,7 @@ function wpmem_do_sc_pages( $page )
 
 			} elseif( $wpmem_a == 'pwdreset' ) {
 
-				switch( $wpmem_regchk ) {
-
-				case "pwdreseterr":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					$wpmem_regchk = ''; // clear regchk
-					break;
-
-				case "pwdresetsuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					$wpmem_regchk = ''; // clear regchk
-					break;
-
-				default:
-					$content = $content . wpmem_inc_resetpassword();
-					break;
-				}
+				$content = wpmem_page_pwd_reset( $wpmem_regchk, $content );
 
 			} else {
 
@@ -283,26 +263,7 @@ function wpmem_do_sc_pages( $page )
 
 			case "pwdchange":
 
-				switch( $wpmem_regchk ) { 
-				
-				case "pwdchangempty":
-					$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
-					$content = $content . wpmem_inc_changepassword();
-					break;
-
-				case "pwdchangerr":
-					$content = wpmem_inc_regmessage( $wpmem_regchk );
-					$content = $content . wpmem_inc_changepassword();
-					break;
-
-				case "pwdchangesuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-					break;
-
-				default:
-					$content = $content . wpmem_inc_changepassword();
-					break;				
-				}
+				$content = wpmem_page_pwd_reset( $wpmem_regchk, $content );
 				break;
 
 			case "renew":
@@ -325,8 +286,6 @@ function wpmem_do_sc_pages( $page )
 	}
 	
 	if( $page == 'login' ) {
-	
-		include_once( 'wp-members-dialogs.php' );
 		
 		if( $wpmem_regchk == "loginfailed" ) {
 			$content = wpmem_inc_loginfailed();
@@ -338,6 +297,14 @@ function wpmem_do_sc_pages( $page )
 			$content = wpmem_inc_memberlinks( 'login' );
 		}
 		
+	}
+	
+	if( $page == 'password' ) {
+		$content = wpmem_page_pwd_reset( $wpmem_regchk, $content );
+	}
+	
+	if( $page == 'user-edit' ) {
+		$content = wpmem_page_user_edit( $wpmem_regchk, $content );
 	}
 	
 	return $content;
@@ -391,7 +358,7 @@ function wpmem_shortcode( $attr, $content = null )
 {
 	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
-		return wpmem_do_sc_pages( $attr['page'] ); 
+		return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
 	}
 	
 	// handles the 'status' attribute
