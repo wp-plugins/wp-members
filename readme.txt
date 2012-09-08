@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.4
-Stable tag: 2.7.6
+Tested up to: 3.4.2
+Stable tag: 2.7.7
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -109,10 +109,21 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 = 2.7.7 =
 
-This is a bug fix release that also includes a new filter hook
+This is a bug fix and feature release
+
+Bug Fix:
 
 * Fixed a bug where the reCAPTCHA error messages do not display on the shortcode pages "register" and "members-area".
+
+New Features:
+
 * Added a new filter hook wpmem_securify.  This hook applies a filter to the $content variable at the end of the wpmem_securify function.  The primary reason for this hook is to be able to run filters on $content that would give you the ability to block content even if the user is logged in (the wpmem_block filter only works for non-logged in state).  This will bring in the ability to block users from content based on defined criteria such as content is for members of "group A" but the user is does not have access to "group A" content.
+* Added new shortcode for creating a user list/member directory.  This shortcode requires installation of the premium add-on module WP-Members User List available to rocketgeek.com members. The shortcode has parameters for including a member search function as well as filter hooks for filtering the layout of the directory elements.
+* Added new shortcode for protecting inline content with the premium add-on module WP-Members PayPal Subscription avaiable to rocketgeek.com members.
+
+Code Improvement:
+
+* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from wp_setcookie (which is deprecated) to wp_set_auth_cookie. Also, the wpmem_login_redirect hook was moved to after the login credential have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
 
 = 2.7.6 =
 

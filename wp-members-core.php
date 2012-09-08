@@ -374,8 +374,16 @@ function wpmem_shortcode( $attr, $content = null )
 	if( isset( $attr['status'] ) ) {
 		if( $attr['status'] == 'in' && is_user_logged_in() ) {
 			return do_shortcode( $content );
-		} elseif ( $attr['status'] == 'out' && ! is_user_logged_in() ) {
+		} elseif( $attr['status'] == 'out' && ! is_user_logged_in() ) {
 			return do_shortcode( $content );
+		} elseif( $attr['status'] == 'sub' && is_user_logged_in() ) {
+			if( WPMEM_USE_EXP == 1 ) {	
+				if( ! wpmem_chk_exp() ) { 
+					return do_shortcode( $content ); 
+				} elseif( $attr['msg'] == true ) {
+					return do_shortcode( wpmem_sc_expmessage() );
+				}
+			}
 		}
 	}
 	
@@ -450,51 +458,62 @@ if( ! function_exists( 'wpmem_login' ) ):
 /**
  * Logs in the user
  *
- * Logs in the the user using wp_signon (since 2.5.2). If login 
- * is successful, it redirects and exits; otherwise "loginfailed"
- * is returned.
+ * Logs in the the user using wp_signon (since 2.5.2). If login is
+ * successful, it will set a cookie using wp_set_auth_cookie (since 2.7.7),
+ * then it redirects and exits; otherwise "loginfailed" is returned.
  *
  * @since 0.1
  *
  * @uses apply_filters Calls 'wpmem_login_redirect' hook to get $redirect_to
  *
  * @uses wp_signon
+ * @uses wp_set_auth_cookie
  * @uses wp_redirect Redirects to $redirect_to if login is successful
  * @return string Returns "loginfailed" if the login fails
  */
 function wpmem_login()
 {
-	if( isset( $_POST['redirect_to'] ) ) {
-		$redirect_to = $_POST['redirect_to'];
-	} else {
-		$redirect_to = $_SERVER['PHP_SELF'];
-	}
-	
-	$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to );
-
-	if( isset( $_POST['rememberme'] ) == 'forever' ) {
-		$rememberme = true;
-	} else {
-		$rememberme = false;
-	}
-
 	if( $_POST['log'] && $_POST['pwd'] ) {
 		
+		/** get username and sanitize */
 		$user_login = sanitize_user( $_POST['log'] );
 		
+		/** are we setting a forever cookie? */
+		$rememberme = false;
+		if( isset( $_POST['rememberme'] ) == 'forever' ) { $rememberme = true; }
+		
+		/** assemble login credentials */
 		$creds = array();
 		$creds['user_login']    = $user_login;
 		$creds['user_password'] = $_POST['pwd'];
 		$creds['remember']      = $rememberme;
 		
+		/** wp_signon the user and get the $user object */
 		$user = wp_signon( $creds, false );
 
+		/** if no error, user is a valid signon. continue */
 		if( ! is_wp_error( $user ) ) {
-			if( ! $using_cookie )
-				wp_setcookie( $user_login, $user_pass, false, '', '', $rememberme );
+			
+			/** set the auth cookie */
+			wp_set_auth_cookie( $user->ID, $rememberme );
+			
+			/** determine where to put the user after login */
+			$redirect_to = $_SERVER['PHP_SELF'];
+			if( isset( $_POST['redirect_to'] ) ) {
+				$redirect_to = $_POST['redirect_to'];
+			}
+			
+			/** apply wpmem_login_redirect filter */
+			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to );
+			
+			/** and do the redirect */
 			wp_redirect( $redirect_to );
+			
+			/** wp_redirect requires us to exit() */
 			exit();
+			
 		} else {
+		
 			return "loginfailed";
 		}
 	

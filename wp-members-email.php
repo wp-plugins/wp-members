@@ -90,9 +90,12 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	/* Apply filters (if set) for the sending email address */
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
+	
+	/* Filter headers */
+	$headers = apply_filters( 'wpmem_email_headers', '' );
 
 	/* Send the message */
-	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
+	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers );
 
 }
 endif;
@@ -181,11 +184,12 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
-	/* Get the admin's email address */
+	/* Get the admin's email address and filter headers */
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
+	$headers     = apply_filters( 'wpmem_email_headers', '' );
 	
 	/* Send the message */
-	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
+	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers );
 
 }
 endif;

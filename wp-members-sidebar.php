@@ -67,7 +67,10 @@ function wpmem_do_sidebar()
 	$url = get_bloginfo('url'); // used here and in the logout
 
 	//this returns us to the right place
-	if( is_home() ) {
+	if( isset( $_REQUEST['redirect_to'] ) ) {
+		$post_to = $_REQUEST['redirect_to'];
+		
+	} elseif( is_home() ) {
 		$post_to = $_SERVER['PHP_SELF'];
 			
 	} elseif( is_single() || is_page() ) {
