@@ -1223,6 +1223,8 @@ function wpmem_admin_users()
  *
  * @since 2.4
  *
+ * @uses do_action Calls 'wpmem_user_activated' action
+ *
  * @param int  $user_id
  * @param bool $chk_pass
  * @uses $wpdb WordPress Database object
@@ -1252,6 +1254,10 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
 	
 	// set the active flag in usermeta
 	update_user_meta( $user_id, 'active', 1 );
+	
+	do_action( 'wpmem_user_activated', $user_id );
+	
+	return;
 }
 
 

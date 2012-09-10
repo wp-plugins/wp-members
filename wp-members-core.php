@@ -358,16 +358,19 @@ add_shortcode( 'wp-members', 'wpmem_shortcode' );
  *
  * @since 2.4 
  *
- * @param array $attr page and status
- * @param array $content
- * @return string returns the result of wpmem_do_sc_pages
- * @return string returns $content between open and closing tags
+ * @param array $attr page|status|field
+ * @param string $content
+ * @return string returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content
  */
 function wpmem_shortcode( $attr, $content = null )
 {
 	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
-		return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
+		if( $attr['page'] == 'user-list' ) {
+			return do_shortcode( wpmem_list_users( $attr, $content ) );
+		} else {
+			return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
+		}
 	}
 	
 	// handles the 'status' attribute

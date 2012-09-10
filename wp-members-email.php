@@ -26,6 +26,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @uses apply_filters Calls 'wpmem_email_newmod' filters the new moderated registration email
  * @uses apply_filters Calls 'wpmem_email_appmod' filters the approved registration email
  * @uses apply_filters Calls 'wpmem_email_repass' filters the reset password email
+ * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
@@ -107,8 +108,9 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  *
  * @since 2.3
  *
- * @uses apply_filters Calls 'wpmem_email_notify'
- * @uses apply_filters Calls 'wpmem_notify_addr'
+ * @uses apply_filters Calls 'wpmem_email_notify' filters the admin notification email
+ * @uses apply_filters Calls 'wpmem_notify_addr' filters the address the admin notification is sent to
+ * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
