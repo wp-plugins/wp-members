@@ -26,6 +26,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @uses apply_filters Calls 'wpmem_email_newmod' filters the new moderated registration email
  * @uses apply_filters Calls 'wpmem_email_appmod' filters the approved registration email
  * @uses apply_filters Calls 'wpmem_email_repass' filters the reset password email
+ * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
@@ -90,9 +91,12 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	/* Apply filters (if set) for the sending email address */
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
+	
+	/* Filter headers */
+	$headers = apply_filters( 'wpmem_email_headers', '' );
 
 	/* Send the message */
-	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
+	wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers );
 
 }
 endif;
@@ -104,8 +108,9 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  *
  * @since 2.3
  *
- * @uses apply_filters Calls 'wpmem_email_notify'
- * @uses apply_filters Calls 'wpmem_notify_addr'
+ * @uses apply_filters Calls 'wpmem_email_notify' filters the admin notification email
+ * @uses apply_filters Calls 'wpmem_notify_addr' filters the address the admin notification is sent to
+ * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
@@ -181,11 +186,12 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
-	/* Get the admin's email address */
+	/* Get the admin's email address and filter headers */
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
+	$headers     = apply_filters( 'wpmem_email_headers', '' );
 	
 	/* Send the message */
-	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers = '' );
+	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers );
 
 }
 endif;

@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.4
-Stable tag: 2.7.6
+Tested up to: 3.4.2
+Stable tag: 2.7.7
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -39,34 +39,36 @@ There are also some special pages that can be created with simple shortcodes:
 * A registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages.  
 * A login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
 
+In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  In addition, members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
+
 
 == Installation ==
 
-WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  We have found that most of the support issues that arise are a result of improper installation or simply not reading/following directions.  
+WP-Members&trade; is designed to run "out-of-the-box" with no modifications to your WP installation necessary.  Please follow the installation instructions below.  __Most of the support issues that arise are a result of improper installation or simply not reading/following directions__.
 
 = Basic Install: =
 
-We recommend following the instructions in the [Quick Start Guide](http://rocketgeek.com/plugins/wp-members/quick-start-guide/).  There is also a complete [Users Guide available](http://rocketgeek.com/plugins/wp-members/users-guide/) that covers all of the plugin's features in depth.
+The best start is to follow the instructions in the [Quick Start Guide](http://rocketgeek.com/plugins/wp-members/quick-start-guide/).  There is also a complete [Users Guide available](http://rocketgeek.com/plugins/wp-members/users-guide/) that covers all of the plugin's features in depth.
 
 1. Upload the `/wp-members/` directory and its contents to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress&reg;
 
 You are ready to begin using WP-Members&trade;.  Now follow the instructions titled "Locking down your site" below.
 
-NOTE: Please follow instructions for installation. We have found that the vast majority of people that have marked the plugin as "broken" in the plugin compatibility form simply did not read/follow installation instructions. If something is unclear, ask for assistance.
+NOTE: Please follow instructions for installation. The vast majority of people that have marked the plugin as "broken" in the plugin compatibility form simply did not read/follow installation instructions. If something is unclear, ask for assistance.
 
 = Locking down your site: =
 
-* To begin restricting posts, you will need to be using the `<!--more-->` link in your posts.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.
-* To begin restricting pages, change the plugin default setting for pages to be blocked. The `<!--more-->` link is not necessary in the blocking of pages, but must be used if you have the "show excerpts" setting turned on.
+* To begin restricting posts, you will need to be using the `<!--more-->` link in your posts.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.  If you do not use the "more" tag, full post content is going to show on archive templates.
+* To begin restricting pages, change the plugin default setting for pages to be blocked. Unlike posts, the `<!--more-->` link is not necessary in the blocking of pages, but __must__ be used if you have the "show excerpts" setting turned on.
 * To protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
-* Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  Although not required, this will prevent WP's native registration from colliding with WP-Members&trade;, especially if you are using any of the WP-Members&trade; additional registration fields.
+* Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  While not required, this will prevent WP's native registration from colliding with WP-Members&trade;, especially if you are using any of the WP-Members&trade; additional registration fields.
 * Under Settings > Reading, we recommend that "For each article in a feed, show" is set to "Summary."  WordPress&reg; installs with full feed settings by default. If you don't change this, your feeds will show full content.
 
 
 = Additional Settings and Information = 
 
-A full Users Guide is available at the [plugin's homepage](http://rocketgeek.com/plugins/wp-members/users-guide/).  The guide outlines the installation process, and also documents how to use all of the settings.
+A full Users Guide is [available here](http://rocketgeek.com/plugins/wp-members/users-guide/).  The guide outlines the installation process, and also documents how to use all of the settings.
 
 = Plugin Extensibility =
 
@@ -74,9 +76,9 @@ WP-Members&trade; is designed to be an out-of-the-box usable plugin, but also ha
 
 See [this page](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
 
-The plugin has 26 filter hooks and 5 action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
+The plugin has 28 filter hooks and 6 action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
 
-The plugin's premium support site has loads of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).
+The plugin's premium support site has __loads__ of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).  Members of the premium support site also have access to premium add-on modules.
 
 
 == Frequently Asked Questions ==
@@ -106,6 +108,24 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.7.7 =
+
+New Features:
+
+* Added a new filter hook wpmem_securify.  This hook applies a filter to the $content variable at the end of the wpmem_securify function.  The primary reason for this hook is to be able to run filters on $content that would give you the ability to block content even if the user is logged in (the wpmem_block filter only works for non-logged in state).  This will bring in the ability to block users from content based on defined criteria such as content is for members of "group A" but the user is does not have access to "group A" content.
+* Added wpmem_email_headers filter hook.  This will allow you to easily filter the headers for the email process of the plugin giving you the ability to send HTML email without modifying the plugin.
+* Added wpmem_user_activated action hook.  This hook will give you the ability to run actions at the end of user activation.  For sites that moderate registration, this gives you the ability to hook in actions that you might not want to do before approval of the registration (such as would normally be done with wpmem_post_register_data).
+* Added new shortcode for creating a user list/member directory.  __This shortcode requires installation of the premium add-on module WP-Members User List [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__. The shortcode has parameters for including a member search function as well as filter hooks for filtering the layout of the directory elements.
+* Added new shortcode for protecting inline content with the __premium add-on module WP-Members PayPal Subscription [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__.
+
+Bug Fix:
+
+* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/page-shortcodes/).
+
+Code Improvement:
+
+* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
 
 = 2.7.6 =
 
