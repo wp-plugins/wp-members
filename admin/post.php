@@ -1,5 +1,22 @@
 <?php
 /**
+ * WP-Members Admin Functions
+ *
+ * Functions to manage the post/page editor screens.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler
+ * @copyright 2006-2012
+ */
+
+
+/**
  * Adds the blocking meta boxes for post and page editor screens.
  *
  * @since 2.8

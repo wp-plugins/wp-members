@@ -1,5 +1,22 @@
 <?php
 /**
+ * WP-Members Admin Functions
+ *
+ * Functions to manage the emails tab.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler
+ * @copyright 2006-2012
+ */
+
+
+/**
  * Builds the fields panel
  *
  * @since 2.2.2
@@ -17,7 +34,7 @@ function wpmem_a_build_fields()
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
-				<h3><span>Need help?</span></h3>
+				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
 					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/fields/" target="_blank">Users Guide on the field manager</a>.</i></strong>
 				</div>
@@ -146,7 +163,7 @@ function wpmem_update_fields( $action )
 		global $add_field_err_msg;
 	
 		// error check that field label and option name are included and unique
-		$add_field_err_msg = ( ! $_POST['add_name'] ) ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
+		$add_field_err_msg = ( ! $_POST['add_name'] )   ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
 		$add_field_err_msg = ( ! $_POST['add_option'] ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
 		// @todo check for duplicate field names
 	
@@ -200,6 +217,8 @@ function wpmem_update_fields( $action )
 			$wpmem_fields = array_replace( $wpmem_fields, $replacement );
 			update_option( 'wpmembers_fields', $wpmem_fields );
 			
+			$did_update = $_POST['add_name'] . ' ' . __( 'field was updated', 'wp-members' );
+			
 		} 
 	//} elseif( $action == 'edit_field' ) {
 	
@@ -245,21 +264,21 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 			<form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 				<table class="form-table">
 					<tr>
-						<td align="left">Field Label</td>
+						<td align="left"><?php _e( 'Field Label', 'wp-members' ); ?></td>
 						<td>
 							<input type="text" name="add_name" value="<?php echo ( $mode == 'edit' ) ? $field_arr[1] : false; ?>" />
-							The name of the field as it will be displayed to the user.
+							<?php _e( 'The name of the field as it will be displayed to the user.', 'wp-members' ); ?>
 						</td>
 					</tr>
 					<tr>
-						<td align="left">Option Name</td>
+						<td align="left"><?php _e( 'Option Name', 'wp-members' ); ?></td>
 						<td>
 							<input type="text" name="add_option" value="<?php echo ( $mode == 'edit' ) ? $field_arr[2] : false; ?>" />
-							The database meta value for the field. It must be unique and contain no spaces (underscores are ok).
+							<?php _e( 'The database meta value for the field. It must be unique and contain no spaces (underscores are ok).', 'wp-members' ); ?>
 						</td>
 					</tr>
 					<tr>
-						<td align="left">Field Type</td>
+						<td align="left"><?php _e( 'Field Type', 'wp-members' ); ?></td>
 						<td>
 							<select name="add_type">
 								<option value="text" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'text', $field_arr[3], 'select' ) : false; ?>><?php _e( 'text', 'wp-members' ); ?></option>
@@ -271,19 +290,19 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						</td>
 					</tr>
 					<tr>
-						<td align="left">Display?</td>
+						<td align="left"><?php _e( 'Display?', 'wp-members' ); ?></td>
 						<td><input type="checkbox" name="add_display" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[4] ) : false; ?> /></td>
 					</tr>
 					<tr>
-						<td align="left">Required?</td>
+						<td align="left"><?php _e( 'Required?', 'wp-members' ); ?></td>
 						<td><input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> /></td>
 					</tr>
 				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
 					<tr>
-						<td align="left" colspan="2">Additional information for checkbox fields:</td>
+						<td align="left" colspan="2"><?php _e( 'Additional information for checkbox fields:', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
-						<td align="left">Checked by default?</td>
+						<td align="left"><?php _e( 'Checked by default?', 'wp-members' ); ?></td>
 						<td><input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[8] ) : false; ?> /></td>
 					</tr>
 					<tr>
@@ -293,7 +312,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 				<?php } ?>
 				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
 					<tr>
-						<td align="left" colspan="2">Additional information for dropdown fields:</td>
+						<td align="left" colspan="2"><?php _e( 'Additional information for dropdown fields:', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
 						<td align="left"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>

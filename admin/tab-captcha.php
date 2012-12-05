@@ -1,5 +1,22 @@
 <?php
 /**
+ * WP-Members Admin Functions
+ *
+ * Functions to manage the captcha tab.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler
+ * @copyright 2006-2012
+ */
+
+
+/**
  * builds the captcha options
  */
 function wpmem_a_build_captcha_options()
@@ -12,7 +29,7 @@ function wpmem_a_build_captcha_options()
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
-				<h3><span>Need help?</span></h3>
+				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
 					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">Users Guide on reCAPTCHA</a>.</i></strong>
 				</div>
@@ -39,7 +56,7 @@ function wpmem_a_build_captcha_options()
 									<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th> 
 									<td>
 										<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "public" and a "private" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"http://recaptcha.net/api/getkey?domain=$url&amp;app=wordpress\" target=\"_blank\">", '</a>' ); ?>.<br />
-										<?php _e( 'Public Key', 'wp-members' ); ?>:&nbsp;&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $wpmem_captcha[0]; ?>" /><br />
+										<?php _e( 'Public Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $wpmem_captcha[0]; ?>" /><br />
 										<?php _e( 'Private Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $wpmem_captcha[1]; ?>" />
 									 </td> 
 								</tr>

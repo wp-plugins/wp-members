@@ -25,7 +25,7 @@
 function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 {
 	//$wpmem_settings = get_option( 'wpmembers_settings' ); 
-	$wpmem_dialogs = get_option( 'wpmem_dialogs' );
+	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
 	
 	if( $did_update != false ) {
 
@@ -47,32 +47,27 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 
 	// settings allow anyone to register
 	if( get_option( 'users_can_register' ) != 0 && $wpmem_settings[11] == 0 ) { 
-		include_once( 'dialogs.php' );
 		wpmem_a_warning_msg(1);
 	}
 
 	// settings allow anyone to comment
 	if( get_option( 'comment_registration' ) !=1 && $wpmem_settings[11] == 0 ) { 
-		include_once( 'dialogs.php' );
 		wpmem_a_warning_msg(2);
 	} 
 	
 	// rss set to full text feeds
 	if( get_option( 'rss_use_excerpt' ) !=1 && $wpmem_settings[11] == 0 ) { 
-		include_once( 'dialogs.php' );
 		wpmem_a_warning_msg(3);
 	} 
 
 	// holding registrations but haven't changed default successful registration message
 	if( $wpmem_settings[11] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
-		include_once( 'dialogs.php' );
 		wpmem_a_warning_msg(4);
 	}  
 
 	// turned off registration but also have set to moderate and/or email new registrations
 	if( $wpmem_settings[11] == 0 && $wpmem_settings[7] == 1 ) { 
 		if( $wpmem_settings[5] == 1 || $wpmem_settings[4] ==1 ) { 
-			include_once( 'dialogs.php' );
 			wpmem_a_warning_msg(5);
 		}  
 	}
@@ -81,7 +76,6 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 	if( $wpmem_settings[11] == 0 && $wpmem_settings[6] == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
 		if( !$wpmem_captcha[0]  || !$wpmem_captcha[1] ) {
-			include_once( 'dialogs.php' );
 			wpmem_a_warning_msg(6);
 		}
 	}

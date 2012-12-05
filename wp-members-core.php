@@ -358,7 +358,6 @@ function wpmem_block()
 endif;
 
 
-add_shortcode( 'wp-members', 'wpmem_shortcode' );
 /**
  * Executes shortcode for settings, register, and login pages
  *
@@ -432,7 +431,7 @@ function wpmem_test_shortcode()
 endif;
 
 
-if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+if( ! function_exists( 'wpmem_check_activated' ) ):
 /**
  * Checks if a user is activated
  *
@@ -463,6 +462,7 @@ function wpmem_check_activated( $user, $username, $password )
 	// if the user is validated, return the $user object
 	return $user;
 }
+endif;
 
 
 if( ! function_exists( 'wpmem_login' ) ):
@@ -742,7 +742,7 @@ endif;
  */
 function wpmem_head()
 { 
-	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
+	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://rocketgeek.com/wp-members -->\r\n";
 }
 
 
@@ -883,6 +883,7 @@ function wpmem_generatePassword()
 endif;
 
 
+if ( ! function_exists( 'wpmem_texturize' ) ):
 /**
  * Overrides the wptexturize filter
  *
@@ -910,6 +911,7 @@ function wpmem_texturize( $content )
 
 	return $new_content;
 }
+endif;
 
 
 if ( ! function_exists( 'wpmem_enqueue_style' ) ):
@@ -936,6 +938,7 @@ function wpmem_enqueue_style()
 endif;
 
 
+if ( ! function_exists( 'wpmem_enqueue_style' ) ):
 /**
  * Creates an excerpt on the fly if there is no 'more' tag
  *
@@ -960,6 +963,7 @@ function wpmem_do_excerpt( $content )
 	
 	return apply_filters( 'wpmem_auto_excerpt', $content );
 }
+endif;
 
 
 /*****************************************************
@@ -967,6 +971,7 @@ function wpmem_do_excerpt( $content )
  *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_enqueue_style' ) ):
 /**
  * add WP-Members fields to the WP user profile screen
  *
@@ -1025,6 +1030,7 @@ function wpmem_user_profile()
 		} ?>
 	</table><?php
 }
+endif;
 
 
 /**

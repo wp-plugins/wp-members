@@ -2,7 +2,7 @@
 /**
  * WP-Members Admin Functions
  *
- * Functions to manage the administration panels.
+ * Functions to manage administration.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
@@ -17,7 +17,7 @@
 
 
 include_once( 'dialogs.php' );
-//include_once( 'users.php' ); // currently included in the main plugin file
+//include_once( 'users.php' );        // currently included in the main plugin file
 //include_once( 'user-profile.php' ); // currently included in the main plugin file
 
 

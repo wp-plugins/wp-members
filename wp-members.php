@@ -131,8 +131,15 @@ add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // if you are using wid
 add_action( 'wp_head', 'wpmem_head' );                   // runs functions for the head
 add_action( 'admin_init', 'wpmem_chk_admin' );
 add_action( 'admin_menu', 'wpmem_admin_options' );
+
 add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
 add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
+
+
+/**
+ * add the wp-members shortcode
+ */
+add_shortcode( 'wp-members', 'wpmem_shortcode' );
 
 
 /**
@@ -140,6 +147,14 @@ add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_conte
  */
 if( WPMEM_OLD_FORMS != 1 ) {
 	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
+}
+
+
+/**
+ * if registration is moderated, check for activation (blocks backend login by non-activated users)
+ */
+if( WPMEM_MOD_REG == 1 ) { 
+	add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
 }
 
 

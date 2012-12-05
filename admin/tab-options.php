@@ -1,5 +1,22 @@
 <?php
 /**
+ * WP-Members Admin Functions
+ *
+ * Functions to manage the plugin options tab.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler
+ * @copyright 2006-2012
+ */
+
+
+/**
  * builds the settings panel
  *
  * @param array $wpmem_settings
@@ -11,7 +28,7 @@ function wpmem_a_build_options( $wpmem_settings )
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
-				<h3><span>Need help?</span></h3>
+				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
 					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">Users Guide on plugin options</a>.</i></strong>
 				</div>
@@ -74,7 +91,7 @@ function wpmem_a_build_options( $wpmem_settings )
 							  <?php $auto_ex = get_option( 'wpmembers_autoex' ); ?>
 							  <tr>
 							    <th align="left" scope="row"><?php _e( 'Auto Excerpt:', 'wp-members' ); ?></th>
-								<td><input type="checkbox" name="wpmem_autoex" value="1" <?php if( $auto_ex['auto_ex'] == 1 ) { echo "checked"; } ?> />&nbsp;&nbsp;&nbsp;&nbsp;Number of words in excerpt: <input name="wpmem_autoex_len" type="text" size="5" value="<?php if( $auto_ex['auto_ex_len'] ) { echo $auto_ex['auto_ex_len']; } ?>" /><span class="description"><?php _e( 'Optional', 'wp-members' ); ?>. <?php _e( 'Automatically creates an excerpt', 'wp-members' ); ?></span></td>
+								<td><input type="checkbox" name="wpmem_autoex" value="1" <?php if( $auto_ex['auto_ex'] == 1 ) { echo "checked"; } ?> />&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> <input name="wpmem_autoex_len" type="text" size="5" value="<?php if( $auto_ex['auto_ex_len'] ) { echo $auto_ex['auto_ex_len']; } ?>" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?>. <?php _e( 'Automatically creates an excerpt', 'wp-members' ); ?></span></td>
 							  </tr>
 							  <tr valign="top">
 								<td>&nbsp;</td>

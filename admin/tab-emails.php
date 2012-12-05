@@ -1,5 +1,22 @@
 <?php
 /**
+ * WP-Members Admin Functions
+ *
+ * Functions to manage the emails tab.
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler
+ * @copyright 2006-2012
+ */
+
+
+/**
  * builds the emails panel
  *
  * @since 2.7
@@ -37,7 +54,7 @@ function wpmem_a_build_emails( $wpmem_settings )
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
-				<h3><span>Need help?</span></h3>
+				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
 					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/emails/" target="_blank">Users Guide on email options</a>.</i></strong>
 				</div>
