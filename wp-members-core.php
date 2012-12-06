@@ -938,7 +938,7 @@ function wpmem_enqueue_style()
 endif;
 
 
-if ( ! function_exists( 'wpmem_enqueue_style' ) ):
+if ( ! function_exists( 'wpmem_do_excerpt' ) ):
 /**
  * Creates an excerpt on the fly if there is no 'more' tag
  *
@@ -971,7 +971,7 @@ endif;
  *****************************************************/
 
 
-if ( ! function_exists( 'wpmem_enqueue_style' ) ):
+if ( ! function_exists( 'wpmem_user_profile' ) ):
 /**
  * add WP-Members fields to the WP user profile screen
  *
