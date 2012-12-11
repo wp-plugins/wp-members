@@ -297,9 +297,9 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						<td align="left"><?php _e( 'Required?', 'wp-members' ); ?></td>
 						<td><input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> /></td>
 					</tr>
-				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
+				<?php //if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
 					<tr>
-						<td align="left" colspan="2"><?php _e( 'Additional information for checkbox fields:', 'wp-members' ); ?></td>
+						<td align="left" colspan="2"><?php _e( 'Additional information for checkbox fields', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
 						<td align="left"><?php _e( 'Checked by default?', 'wp-members' ); ?></td>
@@ -309,13 +309,13 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						<td align="left"><?php _e( 'Stored value if checked:', 'wp-members' ); ?></td>
 						<td><input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' ) ? $field_arr[7] : false; ?>" class="small-text" /></td>
 					</tr>
-				<?php } ?>
-				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
+				<?php //} ?>
+				<?php //if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
 					<tr>
-						<td align="left" colspan="2"><?php _e( 'Additional information for dropdown fields:', 'wp-members' ); ?></td>
+						<td align="left" colspan="2"><?php _e( 'Additional information for dropdown fields', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
-						<td align="left"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>
+						<td align="left" valign="top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>
 						<td><textarea name="add_dropdown_value" rows="5" cols="40"><---- Select One ---->|, 
 Choice One|choice1value, 
 Choice Two|choice_two_value, 
@@ -323,11 +323,11 @@ Choice Two|choice_two_value,
 Example After Spacer|after_spacer</textarea><span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
 							<a href="http://butlerblog.com/wp-members/users-guide/add-fields/"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span></td>
 					</tr>
-				<?php } ?>
+				<?php //} ?>
 				</table><br />
 				<?php if( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $field_arr[2]; ?>" /><?php } ?>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />
-				<input type="submit" name="save"  class="button-primary" value="<?php echo ( $mode = 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?> &raquo;" /> 
+				<input type="submit" name="save"  class="button-primary" value="<?php echo ( $mode == 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?> &raquo;" /> 
 			</form>
 		</div>
 	</div>

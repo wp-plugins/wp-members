@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.0 Beta 2
+Version:     2.8.0 Beta 3
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -94,10 +94,32 @@ define( 'WPMEM_IGNORE_WARN',  $wpmem_settings[11] );
 
 define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) );
 define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) );
-define( 'WPMEM_CSSURL', get_option( 'wpmembers_cssurl',null ) );
 
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
+
+/**
+ * define the stylesheet
+ */
+$wpmem_style = get_option( 'wpmembers_cssurl', null );
+if( ! $wpmem_style ) {
+	$wpmem_style = get_option( 'wpmembers_style', null );
+	switch( $wpmem_style ) {
+		case '2010':
+			$wpmem_style = WPMEM_DIR . 'css/wp-members.css';
+			break;
+		case '2011':
+			$wpmem_style = WPMEM_DIR . 'css/wp-members-2011.css';
+			break;
+		case '2012':
+			$wpmem_style = WPMEM_DIR . 'css/wp-members-2012.css';
+			break;
+		case 'kubrick':
+			$wpmem_style = WPMEM_DIR . 'css/wp-members-kubrick.css';
+			break;
+	}
+}
+define( 'WPMEM_CSSURL', $wpmem_style );
 
 /**
  * preload any custom functions, if available

@@ -81,11 +81,23 @@ function wpmem_a_build_options( $wpmem_settings )
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'Register Page URL:', 'wp-members' ); ?></th>
 								<td><input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
-							  </tr><?php // new in 2.5.1
+							  </tr>
+							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
+							  <tr>
+							    <th align="left" scope="row"><?php _e( 'Stylesheet:', 'wp-members' ); ?></th>
+								<td><select name="wpmem_settings_style">
+								    <option value="2010"<?php echo ( $wpmem_style == '2010' ) ? ' selected' : false; ?>>Twenty Ten</option>
+								    <option value="2011"<?php echo ( $wpmem_style == '2011' ) ? ' selected' : false; ?>>Twenty Eleven</option>
+								    <option value="2012"<?php echo ( $wpmem_style == '2012' ) ? ' selected' : false; ?>>Twenty Twelve</option>
+								    <option value="kubrick"<?php echo ( $wpmem_style == 'kubrick' ) ? ' selected' : false; ?>>Kubrick</option>
+								  </select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>
+								</td>
+							  </tr>							  
+							  <?php // new in 2.5.1
 							  $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
 							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = "http://"; } ?>
 							  <tr>
-								<th align="left" scope="row"><?php _e( 'Custom CSS:', 'wp-members' ); ?></th>
+								<th align="left" scope="row"><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></th>
 								<td><input type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
 							  </tr>
 							  <?php $auto_ex = get_option( 'wpmembers_autoex' ); ?>
@@ -166,7 +178,6 @@ function wpmem_update_options()
 		}			
 	}
 	
-	// new in 2.5
 	$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
 	if( $wpmem_settings_msurl != 'http://' ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
@@ -174,11 +185,15 @@ function wpmem_update_options()
 	$wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
 	if( $wpmem_settings_regurl != 'http://' ) {
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
-	} 
+	}
 	$wpmem_settings_cssurl = $_POST['wpmem_settings_cssurl'];
 	if( $wpmem_settings_cssurl != 'http://' ) {
 		update_option( 'wpmembers_cssurl', trim( $wpmem_settings_cssurl ) );
 	}
+	
+	// new in 2.8
+	$wpmem_settings_style = ( isset( $_POST['wpmem_settings_style'] ) ) ? $_POST['wpmem_settings_style'] : false;
+	update_option( 'wpmembers_style', $wpmem_settings_style, false );
 	
 	// new in 2.8
 	$wpmem_autoex = array (

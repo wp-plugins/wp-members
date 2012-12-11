@@ -751,10 +751,8 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  *
  * @since 2.7.6
  *
- * @uses apply_filters Calls 'wpmem_user_edit_heading'
- *
- * @param  $wpmem_regchk
- * @param  $content
+ * @param $wpmem_regchk
+ * @param $content
  * @return $content
  */
 function wpmem_page_user_edit( $wpmem_regchk, $content )
