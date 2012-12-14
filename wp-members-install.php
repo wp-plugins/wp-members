@@ -35,7 +35,7 @@ function wpmem_do_install()
 			users.
 	*/
 	
-	$chk_force = true;
+	$chk_force = false;
 
 	if( !get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
@@ -109,6 +109,9 @@ function wpmem_do_install()
 		append_tos( 'new' );
 		
 		append_email();
+		
+		// if it's a new install, use the Twenty Twelve stylesheet
+		update_option( 'wpmembers_style', WPMEM_DIR . 'css/wp-members-2012.css', '', 'yes' );
 		
 	} else {
 	

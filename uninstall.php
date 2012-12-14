@@ -36,6 +36,7 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'wpmembers_msurl'    );
 	delete_option( 'wpmembers_regurl'   );
 	delete_option( 'wpmembers_cssurl'   );
+	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );
 	
 	delete_option( 'widget_wpmemwidget' );

@@ -210,11 +210,15 @@ function wpmem_update_fields( $action )
 			for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 				if( $wpmem_fields[$row][2] == $_GET['edit'] ) {
 					$arr[0] = $wpmem_fields[$row][0];
+					$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' ) ? 7 : 6 );
+					for( $r = 0; $r < $x+1; $r++ ) {
+						$wpmem_fields[$row][$r] = $arr[$r];
+					}
 				}
 			}
 			
-			$replacement  = array( ( $arr[0] - 1 ) => $arr );
-			$wpmem_fields = array_replace( $wpmem_fields, $replacement );
+			//$replacement  = array( ( $arr[0] - 1 ) => $arr );
+			//$wpmem_fields = array_replace( $wpmem_fields, $replacement );
 			update_option( 'wpmembers_fields', $wpmem_fields );
 			
 			$did_update = $_POST['add_name'] . ' ' . __( 'field was updated', 'wp-members' );
@@ -273,20 +277,30 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 					<tr>
 						<td align="left"><?php _e( 'Option Name', 'wp-members' ); ?></td>
 						<td>
-							<input type="text" name="add_option" value="<?php echo ( $mode == 'edit' ) ? $field_arr[2] : false; ?>" />
+						<?php if( $mode == 'edit' ) { 
+							echo $field_arr[2]; ?>
+							<input type="hidden" name="add_option" value="<?php echo $field_arr[2]; ?>" /> 
+						<?php } else { ?>	
+							<input type="text" name="add_option" value="" />
 							<?php _e( 'The database meta value for the field. It must be unique and contain no spaces (underscores are ok).', 'wp-members' ); ?>
+						<?php } ?>
 						</td>
 					</tr>
 					<tr>
 						<td align="left"><?php _e( 'Field Type', 'wp-members' ); ?></td>
 						<td>
+						<?php if( $mode == 'edit' ) {
+							echo $field_arr[3]; ?>
+							<input type="hidden" name="add_type" value="<?php echo $field_arr[3]; ?>" /> 							
+						<?php } else { ?>						
 							<select name="add_type">
-								<option value="text" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'text', $field_arr[3], 'select' ) : false; ?>><?php _e( 'text', 'wp-members' ); ?></option>
-								<option value="textarea" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'textarea', $field_arr[3], 'select' ) : false; ?>><?php _e( 'textarea', 'wp-members' ); ?></option>
-								<option value="checkbox" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'checkbox', $field_arr[3], 'select' ) : false; ?>><?php _e( 'checkbox', 'wp-members' ); ?></option>
-								<option value="select" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'select', $field_arr[3], 'select' ) : false; ?>><?php   _e( 'dropdown', 'wp-members' ); ?></option>
-								<option value="password" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'password', $field_arr[3], 'select' ) : false; ?>><?php _e( 'password', 'wp-members' ); ?></option>
+								<option value="text"><?php     _e( 'text',     'wp-members' ); ?></option>
+								<option value="textarea"><?php _e( 'textarea', 'wp-members' ); ?></option>
+								<option value="checkbox"><?php _e( 'checkbox', 'wp-members' ); ?></option>
+								<option value="select"><?php   _e( 'dropdown', 'wp-members' ); ?></option>
+								<option value="password"><?php _e( 'password', 'wp-members' ); ?></option>
 							</select>
+						<?php } ?>
 						</td>
 					</tr>
 					<tr>
@@ -297,33 +311,41 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						<td align="left"><?php _e( 'Required?', 'wp-members' ); ?></td>
 						<td><input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> /></td>
 					</tr>
-				<?php //if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
+				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
 					<tr>
 						<td align="left" colspan="2"><?php _e( 'Additional information for checkbox fields', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
 						<td align="left"><?php _e( 'Checked by default?', 'wp-members' ); ?></td>
-						<td><input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[8] ) : false; ?> /></td>
+						<td><input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? wpmem_selected( 'y', $field_arr[8] ) : false; ?> /></td>
 					</tr>
 					<tr>
 						<td align="left"><?php _e( 'Stored value if checked:', 'wp-members' ); ?></td>
-						<td><input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' ) ? $field_arr[7] : false; ?>" class="small-text" /></td>
+						<td><input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? $field_arr[7] : false; ?>" class="small-text" /></td>
 					</tr>
-				<?php //} ?>
-				<?php //if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
+				<?php } ?>
+				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
 					<tr>
 						<td align="left" colspan="2"><?php _e( 'Additional information for dropdown fields', 'wp-members' ); ?></td>
 					</tr>
 					<tr>
 						<td align="left" valign="top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>
-						<td><textarea name="add_dropdown_value" rows="5" cols="40"><---- Select One ---->|, 
+						<td><textarea name="add_dropdown_value" rows="5" cols="40">
+<?php if( $mode == 'edit' ) {
+for( $row = 0; $row < count( $field_arr[7] ); $row++ ) {
+echo $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? "" : ",\n";
+}
+						} else { ?>
+<---- Select One ---->|, 
 Choice One|choice1value, 
 Choice Two|choice_two_value, 
 |, 
-Example After Spacer|after_spacer</textarea><span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
-							<a href="http://butlerblog.com/wp-members/users-guide/add-fields/"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span></td>
+Example After Spacer|after_spacer
+						<?php } ?>
+						</textarea><span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
+							<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span></td>
 					</tr>
-				<?php //} ?>
+				<?php } ?>
 				</table><br />
 				<?php if( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $field_arr[2]; ?>" /><?php } ?>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />

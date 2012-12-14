@@ -804,7 +804,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		break;
 
 	case "select":
-		if( $class = 'textbox' ) { $class = "dropdown"; }
+		if( $class == 'textbox' ) { $class = "dropdown"; }
 		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
 		foreach( $value as $option ) {
 			$pieces = explode( '|', $option );

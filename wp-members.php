@@ -79,16 +79,16 @@ $wpmem_settings = get_option( 'wpmembers_settings' );
 define( 'WPMEM_VERSION',      '2.8.0' );
 define( 'WPMEM_DEBUG',        false );
 
-// define('WPMEM_VERSION',    $wpmem_settings[0] );
-define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1] );
-define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2] );
-define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings[3] );
-define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings[4] );
-define( 'WPMEM_MOD_REG',      $wpmem_settings[5] );
-define( 'WPMEM_CAPTCHA',      $wpmem_settings[6] );
-define( 'WPMEM_NO_REG',       $wpmem_settings[7] );
-define( 'WPMEM_OLD_FORMS',    $wpmem_settings[8] );
-define( 'WPMEM_USE_EXP',      $wpmem_settings[9] );
+// define('WPMEM_VERSION',    $wpmem_settings[0]  );
+define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1]  );
+define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2]  );
+define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings[3]  );
+define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]  );
+define( 'WPMEM_MOD_REG',      $wpmem_settings[5]  );
+define( 'WPMEM_CAPTCHA',      $wpmem_settings[6]  );
+define( 'WPMEM_NO_REG',       $wpmem_settings[7]  );
+define( 'WPMEM_OLD_FORMS',    $wpmem_settings[8]  );
+define( 'WPMEM_USE_EXP',      $wpmem_settings[9]  );
 define( 'WPMEM_USE_TRL',      $wpmem_settings[10] );
 define( 'WPMEM_IGNORE_WARN',  $wpmem_settings[11] );
 
@@ -102,23 +102,7 @@ define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
  * define the stylesheet
  */
 $wpmem_style = get_option( 'wpmembers_cssurl', null );
-if( ! $wpmem_style ) {
-	$wpmem_style = get_option( 'wpmembers_style', null );
-	switch( $wpmem_style ) {
-		case '2010':
-			$wpmem_style = WPMEM_DIR . 'css/wp-members.css';
-			break;
-		case '2011':
-			$wpmem_style = WPMEM_DIR . 'css/wp-members-2011.css';
-			break;
-		case '2012':
-			$wpmem_style = WPMEM_DIR . 'css/wp-members-2012.css';
-			break;
-		case 'kubrick':
-			$wpmem_style = WPMEM_DIR . 'css/wp-members-kubrick.css';
-			break;
-	}
-}
+$wpmem_style = ( ! $wpmem_style ) ? get_option( 'wpmembers_style', null ) : $wpmem_style;
 define( 'WPMEM_CSSURL', $wpmem_style );
 
 /**

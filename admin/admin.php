@@ -62,8 +62,19 @@ function wpmem_admin_plugin_links( $links, $file )
 function wpmem_load_admin_js()
 {
 	// queue up admin ajax and styles 
-	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js', '', WPMEM_VERSION ); 
+	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js',   '', WPMEM_VERSION ); 
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
+}
+
+
+/**
+ * Creates the captcha tab
+ *
+ * @since 2.8
+ */
+function wpmem_a_captcha_tab( $tab ) {
+	include_once( 'tab-captcha.php' );
+	return ( $tab == 'captcha' ) ? wpmem_a_build_captcha_options() : false ;
 }
 
 
@@ -72,10 +83,6 @@ function wpmem_load_admin_js()
  *
  * @since 2.8
  */
-function wpmem_a_captcha_tab( $tab ) {
-	include_once( 'tab-captcha.php' );
-	return ( $tab == 'captcha' ) ? wpmem_a_build_captcha_options() : false ;
-}
 function wpmem_add_captcha_tab( $tabs ) {
 	return array_merge( $tabs, array( 'captcha' => 'Captcha' ) );
 }

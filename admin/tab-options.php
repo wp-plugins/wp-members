@@ -86,10 +86,7 @@ function wpmem_a_build_options( $wpmem_settings )
 							  <tr>
 							    <th align="left" scope="row"><?php _e( 'Stylesheet:', 'wp-members' ); ?></th>
 								<td><select name="wpmem_settings_style">
-								    <option value="2010"<?php echo ( $wpmem_style == '2010' ) ? ' selected' : false; ?>>Twenty Ten</option>
-								    <option value="2011"<?php echo ( $wpmem_style == '2011' ) ? ' selected' : false; ?>>Twenty Eleven</option>
-								    <option value="2012"<?php echo ( $wpmem_style == '2012' ) ? ' selected' : false; ?>>Twenty Twelve</option>
-								    <option value="kubrick"<?php echo ( $wpmem_style == 'kubrick' ) ? ' selected' : false; ?>>Kubrick</option>
+								<?php wpmem_admin_style_list(); ?>
 								  </select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>
 								</td>
 							  </tr>							  
@@ -209,5 +206,31 @@ function wpmem_update_options()
 	
 	
 	return __( 'WP-Members settings were updated', 'wp-members' );
+}
+
+
+/**
+ * Create the stylesheet dropdown selection
+ *
+ * @since 2.8
+ *
+ * @uses apply_filters Calls wpmem_admin_style_list can hook into the list to include your own stylesheets.
+ */
+function wpmem_admin_style_list()
+{
+	$val  = get_option( 'wpmembers_style', null );
+	$list = array(
+		'Twenty Ten'    => WPMEM_DIR . 'css/wp-members.css',
+		'Twenty Eleven' => WPMEM_DIR . 'css/wp-members-2011.css',
+		'Twenty Twelve' => WPMEM_DIR . 'css/wp-members-2012.css',
+		'Kubrick'       => WPMEM_DIR . 'css/wp-members-kubrick.css'
+	);
+	$list = apply_filters( 'wpmem_admin_style_list', $list );
+
+	foreach( $list as $name => $location ) {
+		echo '<option value="' . $location . '" ' . wpmem_selected( $location, $val, 'select' ) . '>' . $name . "</option>\n";
+	}
+	
+	return;
 }
 ?>
