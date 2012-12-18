@@ -150,15 +150,21 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .holder, #wpmem_login .holder {
 	background-color:#fff;
 }
-#wpmem_reg .div_text, #wpmem_reg .div_checkbox, 
-#wpmem_reg .div_textarea, #wpmem_reg .div_select,
-#wpmem_login .div_text {
+#wpmem_reg .div_text, #wpmem_reg .div_textarea, 
+#wpmem_reg .div_select, #wpmem_login .div_text {
 	width:360px;
 	float:right;
 	margin-top:3px;
 	padding-top:5px;
 	padding-bottom:3px;
 	padding-left:5px;
+}
+#wpmem_reg .div_checkbox { 
+	width:360px;
+	float:right;
+	padding-top:14px; 
+	padding-left:10px;
+	padding-bottom:0px;
 }
 #wpmem_reg .div_text, #wpmem_reg .div_checkbox, 
 #wpmem_reg .div_select, #wpmem_login .div_text {

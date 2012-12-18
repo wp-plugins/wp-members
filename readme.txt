@@ -3,8 +3,8 @@ Contributors: cbutlerjr
 Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.4.2
-Stable tag: 2.7.7
+Tested up to: 3.5.0
+Stable tag: 2.8.0
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -15,31 +15,34 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 
 = Features: =
 
-* Can block posts, pages, both, or none by default
-* Can override the default block setting at the individual post/page level
-* Login/Registration inline with content rather than the WP login page
+* Block posts, pages, both, or none by default
+* Block individual post/page level
+* Login/Registration is inline with content rather than the WP login page
 * User registration and member information management integrated into your theme
 * Sidebar login widget
 * Create custom registration fields
-* Can set which fields display and which are required
+* Set which fields display and which are required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
-* Turn registration off completely (for admins that want to control registration in some other way)
+* Automatically create post excerpts
 * Show excerpt on pages/posts for better SEO
 * Optional CAPTCHA for registration
 * Action and filter hooks for extensibility
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
-The plugin installs with additional custom fields to the registration process including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can create additional fields and delete existing ones as well as drag-and-drop the order of fields.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
+The plugin installs with additional custom fields to the registration process including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can create your own custom fields and delete existing ones as well as drag-and-drop the order of fields.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
 
 There are also some special pages that can be created with simple shortcodes:
 
-* A Members Area where registered members can edit their information and change/reset their password.  
-* A registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages.  
-* A login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
+* A User Profile page where registered members can edit their information and change/reset their password.  
+* A Registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages.  
+* A Login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
+* And more!
 
-In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  In addition, members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
+The plugin runs on a framework with over 30 action and filter hooks so you can fully customize your implementation.
+
+In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
 
 
 == Installation ==
@@ -92,7 +95,7 @@ The FAQs are maintained at http://rocketgeek.com/plugins/wp-members/users-guide/
 
 WP-Members&trade; is a trademark of butlerblog.com.
 
-There are a number of commercial vendors offering products called WP-Members&trade; or a derivative thereof.  These products are neither free, nor open source.  The original plugin hosted here has been publicly available since 2006 and in no way associated with any of these vendors.  Tagging your support request in the wordpress.org forums attaches it to this plugin.  If you are seeking support for one of these commercial products, you should seek support from the vendor.  If you paid for it, or you got it from a site other than http://wordpress.org/extend/plugins/wp-members or http://butlerblog.com/ , then it isn't WP-Members&trade;.
+There are a number of commercial vendors offering products called WP-Members&trade; or a derivative thereof.  These products are neither free, nor open source.  The original plugin hosted here has been publicly available since 2006 and in no way associated with any of these vendors.  Tagging your support request in the wordpress.org forums attaches it to this plugin.  If you are seeking support for one of these commercial products, you should seek support from the vendor.  If you got it from a site other than http://wordpress.org/extend/plugins/wp-members or http://butlerblog.com/ , then it isn't WP-Members&trade;.
 
 An [official statement is available here](http://butlerblog.com/regarding-wp-members).
 
@@ -108,6 +111,45 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.0 =
+
+New Feature release: 2.8.0 offers the beginning of a major rebuild of the admin panels with a few front-side features slipped in along the way.
+
+Security Improvements:
+
+* Added a dummy index.php file in all plugin directories.  This is a security improvement and disallows direct access to a directory (in case your server allows directory browsing).
+
+Code Improvements:
+
+* Added new constants WPMEM_DIR and WPMEM_PATH.  This will allow you to grab the directory of the plugin directly in action and filter functions.
+* Broke up the admin file wp-members-admin.php into multiple files based on function.  These are all now moved into an /admin/ directory.
+* Added the password field to the fields array in the registration function so that this can be used in the registration hooks and filters.
+* Updated the logout process to use wp_clear_auth_cookie.  The previous wp_clearcookie was deprecated and was causing header errors in some instances.
+* Improved the TOS shortcode. This should eliminate some of the parsing errors some users experienced in previous releases.
+
+
+Admin Panel Updates:
+* New admin look updates the tabs to the WP format.  This also was built to allow extensible tabs so you can hook in and create your own tabs and panels.
+* Add field dialog was updated and improved.
+* Added an admin process to edit existing fields.
+* Added new option in the plugin options to load one of the predefined stylesheets from a dropdown.
+* Block/Unblock post meta box added to the post/page editor – no need to use custom fields anymore (this feature actually updates the custom fields accordingly, so you can use custom fields if you want to).
+* Added dropdown selector for preloaded stylesheets - no need to enter the location of the preloaded stylesheets to use them.
+
+New Filters:
+
+* wpmem_admin_tabs - allows developers to hook into the admin tabs to add additional tabs.
+* wpmem_admin_style_list - allows developers to hook into the dropdown list of stylesheets to add additional stylesheets.
+* wpmem_auto_excerpt - filters the automatically generated excerpt.  Allows you to customize a 'read more' link.
+* wpmem_post_password - filters the automatically generated post password that blocks comments on blocked posts/pages.
+* wpmem_forgot_link - filters the forgot password link that shows in the login forms.
+* wpmem_reg_link - filters the register link that shows in the login forms.
+
+Other Updates:
+
+* Added a new pre-loaded stylesheet for Twenty Twelve theme.  New installs will default to this style.  Note: with the addition of the new style selector in the admin panel, you can easily toggle between the preloaded stylesheets.  You can also add your own using the new wpmem_admin_style_list filter, enter the URL location in the Custom Stylesheet field, or load one using wp_enqueue_scripts.
+
 
 = 2.7.7 =
 
@@ -232,252 +274,3 @@ This is new feature release with the following features and improvements (see :
 * TOS can be stored in dialogs OR be a WP page (set in dialogs with a shortcode).
 * Plugin can be set up for users to select their own passwords at registration (cannot be used with moderated registration).
 
-= 2.6.6 =
-
-Bug fix release
-
-* Fixes as bug where admin side user fields are cleared when a user updates their registration info.
-
-= 2.6.5 =
-
-* Rewrite of the reCAPTCHA script to address IE compatibility issues.
-* Expansion of the wptexturize fix in 2.6.4, now wraps all of the login and registration forms.
-* Fix for the user profile edit so that the admin can see his own additional fields
-* Fix so users can edit additional fields through the user profile page.
-* WPMEM_REGURL no longer sent to wpmem_chk_qstr as it is a direct URL.
-
-= 2.6.4 =
-
-Bug fix release with the following changes:
-
-* Fixes the activate user bug, rolling back from wp_update_user to $wpdb->update.
-* Added back wpmem_generatePassword (although this is no longer used, a lot of users are still using this in the comments template.
-* Added an override in the login form for the wptexturize function so as to remove the <br> tag that WP puts into the generated form.
-
-= 2.6.3 =
-
-This is primarily a code improvement release
-
-* Localized "Clear Form" and "Submit" buttons for translation
-* Updated reCAPTCHA noscript (for loading when the browser has js turned off)
-* Fixed front-end error messages that did not have stripslashes
-* Updated bulk user management to paginate users when displaying all users
-* Introduced dropdown support (must be added programmatically at this time)
-* Cleaned up unused globals from the registration forms
-* Updated the location of the pluggable function file to be outside the plugin folder
-
-= 2.6.2 =
-
-This is a bug fix release with some additional improvements.
-
-Bug fixes
-
-* Fixed checkbox that is set to be checked by default remains checked in the update user settings front end even if the user unchecked it.
-* Fixed legacy form password reset bug
-
-Improvements
-
-* Registration fields that are not selected to be displayed on the front end will still display on the admin side and be exported. This provides fields that can be used by the admin only for additional user information.
-* Checkbox field can be edited in the Manage Fields panel to be checked by default or not.
-* Keep the active tab active when editing various plugin settings.
-
-= 2.6.1 =
-
-Bug fix release
-
-* Corrected the settings link in the WP installed plugins panel.
-* Fixed the view menu links for the bulk user management.
-* Fixed ignore warning messages on the WP-Members settings.
-* Fixed bulk activate users so already activated users would not be inadvertently reactivated.
-* Deactivated auto-excerpt function (was not to be activated in 2.6 production version).
-
-= 2.6.0 =
-
-This version is a feature release that also includes some rebuilt functions and other code improvements.
-
-New Features:
-
-* Front-end now uses enqueue_style to load CSS, so advanced users can directly load their own styles for the plugin without using the plugin settings.
-* Improved use of shortcodes.  Old-style HTML comment shortcodes will continue to work in certain instances, but will no longer be supported in future versions.  Upgrade to the new shortcodes.  Major rewrite of the way WP-Members handles the_content() so that it will return a value rather than echo it.  Working to better integrate with other shortcodes so they are propery parsed.  New WP-Members shortcodes will added in future versions.
-* Registration fields can now be customized via the admin panel.  This includes adding new fields and deleting non-native fields, and also changing the field order.
-
-Code Improvements
-
-* eliminated unused globals
-* updated certain functions to use more up-to-date native WP functions.
-* core now checks to see if the action variable 'a' is set before requesting it.
-* wpmem_securify now scans for 'more' tag so that it will not truncate if the work "more" exists in the excerpt.
-* updated email validation/error message to registration process to use is_email().
-
-= 2.5.4 =
-
-This is a bug fix release. 2.5.3 introduced a bug where the random password sent to a new user was invalid. While the fix is simple, the nature of the bug related to the functionality of the plugin dictates a full update so that users unaware of the bug will be notified via their WP admin panel.
-
-= 2.5.3 =
-
-This is primarily a bug fix release.
-
-Bug fixes:
-
-* Fixed reCAPTCHA from trying to validate on the User Edit page even though reCAPTCHA is not used on this page.
-* Added validation to change password page to not allow double empty fields.
-* Added additional username validation to prevent invalid (non-alphanumeric) characters in the username.
-* Fixed comments reply link which did not allow a registered user to reply on an unblocked page/post.
-
-Other changes:
-
-* Rebuild of registration function
-* Review of comments process
-* Added stripslashes to front-end user registration validation
-
-= 2.5.2 =
-
-This is predominately a release of fixes and improvements:
-
-* Fixed the admin menus so that the user menu isn't open by default.
-* Fixed the "ignore warning messages" that was broken in 2.5.1.
-* Corrected the CAPTCHA to not show up on members settings update.
-* Plugin checks to see if the reCAPTCHA library is already loaded to be compatible with other reCAPTCHA plugins.
-* Fixed activate user function for bulk activation - checks to see if the user is already activated and if so, skips that user so we don't accidentally activate users that are already activated in bulk mode, thus resetting their passwords.
-* Updated login process to use wp_signon (wp_login is deprecated).
-* Updated sidebar widget include a new css class #wp-members .err for login error message
-* Updated sidebar widget to use the appropriate `<li>` tag into the sidebar area.  This should only be a factor for users that customized css. In this case, you'll need to update your stylesheet for ID #wpmem_login_side to #wp-members.
-* Updated the sidebar login to better direct the user upon successful login (previously working fine on individual posts and pages, but not on categories).
-* *Strictly Experimental* - Introducing pluggable functions - laying the ground work, won't be official yet, so some functions may be deprecated and/or modified.
-
-= 2.5.1 =
-
-Exanding on the features added in 2.5.0, this release adds setting for the register page, new tableless forms, and custom CSS
-
-New Features
-
-* Changed the "turn off registration" feature to allow for a registration page
-* Specify registration page location (so we can have a register link in the login form)
-* New tableless forms, can still toggle legacy forms
-* Specify custom CSS for tableless forms
-
-Fixes and Code Improvements
-
-* Removed focus call in the reCAPTCHA that put the cursor focus immediately on the CAPTCHA
-* Updated to wp_enqueue_script & _style for admin css and ajax.
-* Fixed some typos.
-* Fixed some security issues.
-
-= 2.5.0 =
-
-WP-Members&trade; 2.5 is essentially a pre-3.0 release and extention of the 2.4 release, which was only released as a public beta. In addition to the list below, see the list of features, improvements, and fixes for 2.4.0.
-
-New Features
-
-* added shortcode support for login only page
-* added support for checkboxes in the registration fields
-* added setting for members area/settings page url (so we can have "forgot password" link anywhere)
-* added a "change your password" link in the email if members area/settings page url is set
-
-Bug Fixes
-
-* corrected a bug introduced in the 2.3.x widget update that caused the widget to be undraggable in certain instances
-
-= 2.4.0 =
-
-This was never a full production release, but was released as a public beta.  The production completion of this project was 2.5
-
-New Features
-
-* added reCAPTCHA support for registration
-* added Terms of Service (TOS) checkbox and popup
-* added shortcode support for members area and register pages
-* added custom user management panel for bulk user edits
-* added user list export
-* localization support (beginning)
-* contextual help in admin panels (beginning)
-
-Code Improvements
-
-* updated the registration process so that unused fields are not put into the user_meta table
-* updated emails for moderated registration to send user the url they signed up on
-* capture user's IP address at registration
-* sets logged in admin as activated (prevents admin from accidentally being locked out)
-* added toggle to force clean install of settings
-* improvements to uninstall process
-
-Bug Fixes
-
-* added stripslashes to dialogs (accommodates the use of apostrophes/quotation marks)
-* fixed sidebar login for non-widget use (bug from 2.3.x)
-
-= 2.3.2 =
-
-Bug Fix Release
-
-* fixed login failed message for sidebar widget
-* fixed login failed message for members area page
-* fixed email to include user_url field properly
-* changed cell alignment for 'textarea' field type in reg form
-
-= 2.3.1 =
-
-Code Improvements
-
-* updated deprecated call get_usermeta to get_user_meta, update_usermeta to update_user_meta
-* completed update of deprecated call get_settings changed to get_option
-* removed deprecated functions wpmem_register() and wpmem_update(), both of these are now handled by wpmem_registration
-* $redirect_to in wpmem_login changed to $_POST
-* fixed password reset link issue
-* changed wp-members-admin.php to load for 'edit_users' capabilities, down from 'manage_options'. 
-* changes to admin form posts for use with WP Multisite (still need additional testing with Multisite for full compatibility)
-
-New Features
-
-* added direct link to edit user in notify admin email
-* added optional registration page
-
-= 2.3.0 =
-
-Adds a number of features put off from the 2.2 release
-
-* option to notify admin of new user registrations
-* option to hold new registrations for admin approval
-* option to turn registration off (for admins that want to control registrations in some other way)
-* option to show excerpt on pages/posts
-* updated widget calls to wp_register_sidebar_ (register_sidebar_ is deprecated)
-* updated certain API calls known to be deprecated
-* broke out email related functions to separate file; only loads when needed
-* broke out core and dialog functions to separate files
-
-= 2.2.2 =
-
-This release is all code-side cleanup to make the plugin more efficient:
-
-* Rewrote _securify function to remove redundancies
-* Merged Login, Password Change, and Password Reset forms into _login_form
-* Added uninstall/delete process to empty settings from database on plugin deletion
-* Broke out install and admin scripts to separate file only loaded when needed
-* Continued improvement of admin functions
-
-= 2.2.1 =
-
-* Change password bug fix
-* Merged registration and user update functions to eliminate redundancy
-* Added nonce security to the options admin
-
-= 2.2.0 =
-
-The #1 request with the plugin is to simply be able to change the required fields.  I have greatly simplified the process so it can be managed from within the WP admin panel.  Additionally, I added the ability to determine what fields will show in the registration form (both native WP fields, and additional WP-Members&trade; fields).  Also, the error/dialog messages can now be managed from with the admin panel as well.
-
-* Added new customization features and an admin panel
-* Can set fields that will display
-* Can set fields to be required
-* Can manage error/dialog messages from admin
-
-= 2.1.2 =
-
-* Added fix to set new registrations as the default role
-
-= 2.1.1 =
-
-* Udates for the 2.1.0 release that were not completed.
-* updated variables for some function calls.
-* eliminated unnecessary $table_prefix globals.
-* updated some queries to better utilize the $wpdb class.
-* custom fields admin is now managed as an array (cuts the lines of code by 75%, and makes way for user defined custom fields).
