@@ -35,7 +35,7 @@ function wpmem_do_install()
 			users.
 	*/
 	
-	$chk_force = true;
+	$chk_force = false;
 
 	if( !get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 

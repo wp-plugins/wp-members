@@ -1,6 +1,5 @@
 === WP-Members ===
 Contributors: cbutlerjr
-Donate link: http://butlerblog.com/wp-members/
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.5.0
