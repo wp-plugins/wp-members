@@ -19,7 +19,8 @@
 /** 
  * WordPress Administration Bootstrap 
  */
-require_once('../../../wp-admin/admin.php');
+include('../../../../wp-load.php');
+include('../../../../wp-admin/includes/admin.php');
 
 
 if ( !current_user_can('list_users') )
@@ -28,6 +29,13 @@ if ( !current_user_can('list_users') )
 if ( !get_option('wpmembers_export') ) {
 	wp_die(__('there was an error and no users were exported', 'wp-members'));
 }
+
+
+/**
+ * Output needs to be buffered, start the buffer
+ */
+ob_start();
+
 
 $user_arr = get_option('wpmembers_export');
 
@@ -103,4 +111,9 @@ foreach ($user_arr as $user) {
 echo $data; 
 
 update_option('wpmembers_export', '');
+
+/**
+ * Clear the buffer 
+ */
+ob_flush();
 ?>

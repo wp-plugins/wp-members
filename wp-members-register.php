@@ -30,20 +30,20 @@ if( ! function_exists( 'wpmem_registration' ) ):
  * @uses do_action Calls 'wpmem_pre_update_data' action
  * @uses do_action Calls 'wpmem_post_update_data' action
  *
- * @param string $toggle toggles the function between 'register' and 'update'.
- * @global int $user_ID
- * @global array $userdata
+ * @param  string $toggle toggles the function between 'register' and 'update'.
+ * @global int    $user_ID
+ * @global array  $userdata
  * @global string $wpmem_themsg
  * @global string $username
  * @global string $user_mail
- * @global array $wpmem_fieldval_arr
+ * @global array  $wpmem_fieldval_arr
  * @return string $wpmem_themsg|success|editsuccess
  */
 function wpmem_registration( $toggle )
 {
-	global $user_ID,$userdata,$wpmem_themsg,$username,$user_email,$wpmem_fieldval_arr;
+	global $user_ID, $userdata, $wpmem_themsg, $username, $user_email, $wpmem_fieldval_arr;
 
-	if( $toggle=='register' ) { 
+	if( $toggle == 'register' ) { 
 		$username = $_POST['log'];
 		// add for _data hooks	
 		$fields['username'] = $username;
@@ -67,7 +67,7 @@ function wpmem_registration( $toggle )
 	$wpmem_fieldval_arr_rev = array_reverse( $wpmem_fieldval_arr );
 
 	for( $row = 0; $row < count($wpmem_fields); $row++ ) {
-		$pass_chk = false; if( $toggle == 'update' && $wpmem_fields_rev[$row][2] == 'password' ) { $pass_chk = true; }
+		$pass_chk = ( $toggle == 'update' && $wpmem_fields_rev[$row][2] == 'password' ) ? true : false;
 		if( $wpmem_fields_rev[$row][5] == 'y' && $pass_chk == false ) {
 			if( !$wpmem_fieldval_arr_rev[$row] ) { $wpmem_themsg = sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ); }
 		}
@@ -139,6 +139,7 @@ function wpmem_registration( $toggle )
 		$user_role       = get_option( 'default_role' );
 		
 		// add for _data hooks	
+		$fields['password']        = $password;
 		$fields['user_registered'] = $user_registered;
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
 		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];

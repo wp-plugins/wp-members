@@ -512,6 +512,8 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  * @since 2.5.1
  *
  * @uses apply_filters Calls 'wpmem_login_form_before'
+ * @uses apply_filters Calls 'wpmem_forgot_link'
+ * @uses apply_filters Calls 'wpmem_reg_link'
  * @uses apply_filters Calls 'wpmem_login_form'
  *
  * @param string $page
@@ -570,8 +572,8 @@ function wpmem_login_form_NEW( $page, $arr )
 				
 	if ( ( WPMEM_MSURL != null || $page == 'members' ) && $arr[7] == 'login' ) { 
 		
-		$link = wpmem_chk_qstr( WPMEM_MSURL );	
-		$form = $form . __('Forgot password?', 'wp-members') . '&nbsp;<a href="' . $link . 'a=pwdreset">' . __('Click here to reset', 'wp-members') . '</a>';
+		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
+		$form = $form . __('Forgot password?', 'wp-members') . '&nbsp;<a href="' . $link . '">' . __('Click here to reset', 'wp-members') . '</a>';
 
 	}
 	
@@ -580,7 +582,8 @@ function wpmem_login_form_NEW( $page, $arr )
  			
 	if ( ( WPMEM_REGURL != null ) && $arr[7] == 'login' ) { 
 
-		$form = $form . __('New User?', 'wp-members') . '&nbsp;<a href="' . WPMEM_REGURL . '">' . __('Click here to register', 'wp-members') . '</a>';
+		$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
+		$form = $form . __('New User?', 'wp-members') . '&nbsp;<a href="' . $link . '">' . __('Click here to register', 'wp-members') . '</a>';
 
 	}			
 	

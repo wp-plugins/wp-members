@@ -296,4 +296,35 @@ function wpmem_login_form_OLD ( $page, $arr )
 }
 endif;
 
+
+function wpmem_old_forms_sidebar()
+{ ?>
+	<ul>
+	<?php if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) { ?>
+		<p><?php _e( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ); ?></p>
+	<?php }?>
+		<p><?php _e( 'You are not currently logged in.', 'wp-members' ); ?><br />
+			<form name="form" method="post" action="<?php echo $post_to; ?>">
+			<?php _e( 'Username', 'wp-members' ); ?><br />
+			<input type="text" name="log" style="font:10px verdana,sans-serif;" /><br />
+			<?php _e( 'Password', 'wp-members' ); ?><br />
+			<input type="password" name="pwd" style="font:10px verdana,sans-serif;" /><br />
+			<input type="hidden" name="rememberme" value="forever" />
+			<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
+			<input type="hidden" name="a" value="login" />
+			<input type="hidden" name="slog" value="true" />
+			<input type="submit" name="Submit" value="<?php _e( 'login', 'wp-members' ); ?>" style="font:10px verdana,sans-serif;" />
+			<?php 			
+				if( WPMEM_MSURL != null ) { 
+					$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
+					<a href="<?php echo $link; ?>a=pwdreset"><?php _e( 'Forgot?', 'wp-members' ); ?></a>&nbsp;
+				<?php } 			
+				if( WPMEM_REGURL != null ) { ?>
+					<a href="<?php echo WPMEM_REGURL; ?>"><?php _e( 'Register', 'wp-members' ); ?></a>
+
+				<?php } ?>
+			</form>
+		</p>
+	</ul>
+<?php }
 ?>

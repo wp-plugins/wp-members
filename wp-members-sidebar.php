@@ -56,6 +56,8 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  * @uses apply_filters Calls 'wpmem_sidebar_form'
  * @uses apply_filters Calls 'wpmem_sidebar_status'
  * @uses apply_filters Calls 'wpmem_login_failed_sb'
+ * @uses apply_filters Calls 'wpmem_forgot_link'
+ * @uses apply_filters Calls 'wpmem_reg_link'
  *
  * @global string $wpmem_regchk
  * @global string $user_login
@@ -92,36 +94,12 @@ function wpmem_do_sidebar()
 
 	if( ! is_user_logged_in() ){
 
-		if( WPMEM_OLD_FORMS == 1 ) {?>
-			<ul>
-			<?php if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) { ?>
-				<p><?php _e( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ); ?></p>
-			<?php }?>
-				<p><?php _e( 'You are not currently logged in.', 'wp-members' ); ?><br />
-					<form name="form" method="post" action="<?php echo $post_to; ?>">
-					<?php _e( 'Username', 'wp-members' ); ?><br />
-					<input type="text" name="log" style="font:10px verdana,sans-serif;" /><br />
-					<?php _e( 'Password', 'wp-members' ); ?><br />
-					<input type="password" name="pwd" style="font:10px verdana,sans-serif;" /><br />
-					<input type="hidden" name="rememberme" value="forever" />
-					<input type="hidden" name="redirect_to" value="<?php echo $post_to; ?>" />
-					<input type="hidden" name="a" value="login" />
-					<input type="hidden" name="slog" value="true" />
-					<input type="submit" name="Submit" value="<?php _e( 'login', 'wp-members' ); ?>" style="font:10px verdana,sans-serif;" />
-					<?php 			
-						if( WPMEM_MSURL != null ) { 
-							$link = wpmem_chk_qstr( WPMEM_MSURL ); ?>
-							<a href="<?php echo $link; ?>a=pwdreset"><?php _e( 'Forgot?', 'wp-members' ); ?></a>&nbsp;
-						<?php } 			
-						if( WPMEM_REGURL != null ) { ?>
-							<a href="<?php echo WPMEM_REGURL; ?>"><?php _e( 'Register', 'wp-members' ); ?></a>
+		if( WPMEM_OLD_FORMS == 1 ) {
 
-						<?php } ?>
-					</form>
-				</p>
-			</ul>
+			include_once( 'wp-members-deprecated.php' );
+			wpmem_old_forms_sidebar();
 		
-		<?php } else {
+		} else {
 
 			$str = '';
 			if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) {
@@ -144,12 +122,13 @@ function wpmem_do_sidebar()
 					<div class="button_div"><input type="submit" name="Submit" class="buttons" value="' . __( 'login', 'wp-members' ) . '" />';
 			 		
 			if( WPMEM_MSURL != null ) { 
-				$link = wpmem_chk_qstr( WPMEM_MSURL );
-				$str.= ' <a href="' . $link . 'a=pwdreset">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+				$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
+				$str.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
 			} 			
 			
 			if( WPMEM_REGURL != null ) {
-				$str.= ' <a href="' . WPMEM_REGURL . '">' . __( 'Register', 'wp-members' ) . '</a>';
+				$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
+				$str.= ' <a href="' . $link . '">' . __( 'Register', 'wp-members' ) . '</a>';
 			}
 					
 			$str.= '</div>

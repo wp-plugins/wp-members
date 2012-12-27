@@ -93,15 +93,10 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @global array $post needed for protecting comments
  * @param string $content
  * @return $content
- *
- * @todo continue testing wpmem_do_excerpt - designed to insert an excerpt if no 'more' tag is found.
  */
 function wpmem_securify( $content = null ) 
 { 
-
-	// @todo this is being tested...
-	// $content = wpmem_do_excerpt( $content );
-
+	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
 	if( ! wpmem_test_shortcode() ) {
 		
@@ -117,7 +112,7 @@ function wpmem_securify( $content = null )
 		
 			// protects comments if user is not logged in
 			global $post;
-			$post->post_password = wp_generate_password();
+			$post->post_password = apply_filters( 'wpmem_post_password' , wp_generate_password() );
 		
 			include_once('wp-members-dialogs.php');
 			
@@ -148,9 +143,13 @@ function wpmem_securify( $content = null )
 			
 				// toggle shows excerpt above login/reg on posts/pages
 				if( WPMEM_SHOW_EXCERPT == 1 ) {
-				
-					$len = strpos($content, '<span id="more');
-					$content = substr( $content, 0, $len );
+
+					if( ! stristr( $content, '<span id="more' ) ) {
+						$content = wpmem_do_excerpt( $content );
+					} else {
+						$len = strpos($content, '<span id="more');
+						$content = substr( $content, 0, $len );
+					}
 					
 				} else {
 				
@@ -202,6 +201,8 @@ function wpmem_do_sc_pages( $page )
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	include_once( 'wp-members-dialogs.php' );
+	
+	$content = '';
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
 		
@@ -333,11 +334,16 @@ if ( ! function_exists( 'wpmem_block' ) ):
  */
 function wpmem_block()
 {
-	$block = false;
+	global $post; 
+	
+	$unblock_meta = get_post_custom_values( 'unblock', $post->ID );
+	$block_meta   = get_post_custom_values( 'block', $post->ID );
 
+	$block = false;
+	
 	if( is_single() ) {
 		//$not_mem_area = 1; 
-		if( WPMEM_BLOCK_POSTS == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }
+		if( WPMEM_BLOCK_POSTS == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }	
 		if( WPMEM_BLOCK_POSTS == 0 &&   get_post_custom_values( 'block' ) )   { $block = true; }
 	}
 
@@ -352,7 +358,6 @@ function wpmem_block()
 endif;
 
 
-add_shortcode( 'wp-members', 'wpmem_shortcode' );
 /**
  * Executes shortcode for settings, register, and login pages
  *
@@ -426,7 +431,7 @@ function wpmem_test_shortcode()
 endif;
 
 
-if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); }
+if( ! function_exists( 'wpmem_check_activated' ) ):
 /**
  * Checks if a user is activated
  *
@@ -441,7 +446,9 @@ if( WPMEM_MOD_REG == 1 ) { add_filter( 'authenticate', 'wpmem_check_activated', 
 function wpmem_check_activated( $user, $username, $password ) 
 {
 	// password must be validated
-	$pass = wp_check_password( $password, $user->user_pass, $user->ID );
+	//$pass = wp_check_password( $password, $user->user_pass, $user->ID );
+	$pass = ( $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
+	
 	if( ! $pass ) { 
 		return $user; 
 	}
@@ -455,6 +462,7 @@ function wpmem_check_activated( $user, $username, $password )
 	// if the user is validated, return the $user object
 	return $user;
 }
+endif;
 
 
 if( ! function_exists( 'wpmem_login' ) ):
@@ -545,7 +553,7 @@ function wpmem_logout()
 {
 	$redirect_to = apply_filters( 'wpmem_logout_redirect', get_bloginfo( 'url' ) );
 
-	wp_clearcookie();
+	wp_clear_auth_cookie();
 	do_action( 'wp_logout' );
 	nocache_headers();
 
@@ -734,7 +742,7 @@ endif;
  */
 function wpmem_head()
 { 
-	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://butlerblog.com/wp-members -->\r\n";
+	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://rocketgeek.com/wp-members -->\r\n";
 }
 
 
@@ -796,7 +804,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		break;
 
 	case "select":
-		if( $class = 'textbox' ) { $class = "dropdown"; }
+		if( $class == 'textbox' ) { $class = "dropdown"; }
 		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
 		foreach( $value as $option ) {
 			$pieces = explode( '|', $option );
@@ -875,6 +883,7 @@ function wpmem_generatePassword()
 endif;
 
 
+if ( ! function_exists( 'wpmem_texturize' ) ):
 /**
  * Overrides the wptexturize filter
  *
@@ -902,6 +911,7 @@ function wpmem_texturize( $content )
 
 	return $new_content;
 }
+endif;
 
 
 if ( ! function_exists( 'wpmem_enqueue_style' ) ):
@@ -928,30 +938,46 @@ function wpmem_enqueue_style()
 endif;
 
 
+if ( ! function_exists( 'wpmem_do_excerpt' ) ):
 /**
  * Creates an excerpt on the fly if there is no 'more' tag
  *
  * @since 2.6
  *
+ * @uses apply_filters Calls 'wpmem_auto_excerpt'
+ * @uses apply_filters Calls 'the_content_more_link'
+ *
  * @param string $content
  * @return string $content
  */
 function wpmem_do_excerpt( $content )
-{
-    if( ! is_single() && ! is_page() && ! is_search() ) {
-    
-        // test for 'more' tag or excerpt
-		$test = stristr( $content, 'class="more-link"' );
-		if( $test ) { 
-			
-		} else {	
-			$content = substr( $content, 0, 300 );
-		}
-    }
+{	
+	$arr = get_option( 'wpmembers_autoex' );
+	if( $arr['auto_ex'] == true ) {
+		
+		if( ! stristr( $content, 'class="more-link"' ) ) {
+		
+			$words = explode(' ', $content, ( $arr['auto_ex_len'] + 1 ) );
+			if( count( $words ) > $arr['auto_ex_len'] ) { array_pop( $words ); }
+			$content = implode( ' ', $words );
+		
+		}		
+	}
+	
+	apply_filters( 'wpmem_auto_excerpt', $content );
+
+	global $post, $more;
+	if( ! $more ) {
+		$more_link_text = '(more...)';
+		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
+		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
+		
+		$content = $content . $more_link;
+	}
 	
 	return $content;
-	
 }
+endif;
 
 
 /*****************************************************
@@ -959,6 +985,7 @@ function wpmem_do_excerpt( $content )
  *****************************************************/
 
 
+if ( ! function_exists( 'wpmem_user_profile' ) ):
 /**
  * add WP-Members fields to the WP user profile screen
  *
@@ -1017,6 +1044,7 @@ function wpmem_user_profile()
 		} ?>
 	</table><?php
 }
+endif;
 
 
 /**

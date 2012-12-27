@@ -19,7 +19,9 @@
 /** 
  * Load the WordPress Administration Bootstrap 
  */
-require_once( '../../../wp-admin/admin.php' );
+include('../../../../wp-load.php');
+include('../../../../wp-admin/includes/admin.php');
+
 
 /**
  * Prevent access by users who should not
@@ -27,6 +29,12 @@ require_once( '../../../wp-admin/admin.php' );
  */
 if ( !current_user_can( 'list_users' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
+
+
+/**
+ * Output needs to be buffered, start the buffer
+ */
+ob_start();
 
 
 /**
@@ -114,4 +122,9 @@ foreach( $user_arr as $user ) {
  * We are done, output the CSV
  */
 echo $data; 
+
+/**
+ * Clear the buffer 
+ */
+ob_flush();
 ?>
