@@ -967,7 +967,7 @@ function wpmem_do_excerpt( $content )
 	apply_filters( 'wpmem_auto_excerpt', $content );
 
 	global $post, $more;
-	if( ! $more ) {
+	if( ! $more && ( $arr['auto_ex'] == true ) ) {
 		$more_link_text = '(more...)';
 		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
 		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
