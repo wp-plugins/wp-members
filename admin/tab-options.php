@@ -32,7 +32,8 @@ function wpmem_a_build_options( $wpmem_settings )
 				<div class="inside">
 					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">Users Guide on plugin options</a>.</i></strong>
 				</div>
-			</div>			
+			</div>
+			<?php wpmem_a_rss_box(); ?>
 		</div> <!-- .inner-sidebar -->	
 
 		<div id="post-body">
@@ -73,13 +74,13 @@ function wpmem_a_build_options( $wpmem_settings )
 							  $wpmem_msurl = get_option( 'wpmembers_msurl' );
 							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
 							  <tr>
-								<th align="left" scope="row"><?php _e( 'Members Area URL:', 'wp-members' ); ?></th>
+								<th align="left" scope="row"><?php _e( 'User Profile Page:', 'wp-members' ); ?></th>
 								<td><input type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
 							  </tr><?php // new in 2.5.1
 							  $wpmem_regurl = get_option( 'wpmembers_regurl' );
 							  if( ! $wpmem_regurl ) { $wpmem_regurl = "http://"; } ?>
 							  <tr>
-								<th align="left" scope="row"><?php _e( 'Register Page URL:', 'wp-members' ); ?></th>
+								<th align="left" scope="row"><?php _e( 'Register Page:', 'wp-members' ); ?></th>
 								<td><input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
 							  </tr>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
@@ -199,8 +200,6 @@ function wpmem_update_options()
 	);
 	update_option( 'wpmembers_autoex', $wpmem_autoex, false );
 	
-	
-
 	update_option( 'wpmembers_settings', $wpmem_newsettings );
 	$wpmem_settings = $wpmem_newsettings;
 	

@@ -142,13 +142,13 @@ function wpmem_a_warning_msg( $msg )
 	}
 	
 	if ( $span_msg ) { $span_msg = ' [<span title="' . $span_msg . '">why is this?</span>]'; }
-	echo '<div class="error"><p><strong>' . $strong_msg . '</strong> ' . $remain_msg . $span_msg . '</div>';
+	echo '<div class="error"><p><strong>' . $strong_msg . '</strong> ' . $remain_msg . $span_msg . '</p></div>';
 
 }
 
 
 /**
- * Adds the side meta box to the admin
+ * Assemble the side meta box
  *
  * @since 2.8
  */
@@ -161,20 +161,58 @@ function wpmem_a_meta_box()
 			<p><strong><?php _e('Version:', 'wp-members'); echo "&nbsp;".WPMEM_VERSION; ?></strong><br />
 				<a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/"><?php _e( 'Quick Start Guide', 'wp-members' ); ?></a><br />
 				<a href="http://rocketgeek.com/plugins/wp-members/users-guide/"><?php _e( 'Online User Guide', 'wp-members' ); ?></a><br />
-				<a href="http://rocketgeek.com/plugins/wp-members/users-guide/faqs/"><?php _e( 'FAQs', 'wp-members' ); ?></a><br /><br /> 
+				<a href="http://rocketgeek.com/plugins/wp-members/users-guide/faqs/"><?php _e( 'FAQs', 'wp-members' ); ?></a>
 			<?php if( ! defined( 'WPMEM_REMOVE_ATTR' ) ) { ?>
-				<br /><a href="http://rocketgeek.com/about/site-membership-subscription/"><?php _e( 'Find out how to get access to WP-Members private members forum, premium code snippets, tutorials, and more!', 'wp-members' ); ?></a>
+				<br /><br /><a href="http://rocketgeek.com/about/site-membership-subscription/">Find out how to get access</a> to WP-Members private members forum, premium code snippets, tutorials, and add-on modules!
 			<?php } ?>
 			</p>
 		
 			<p><i>
 			<?php _e( 'Thank you for using WP-Members', 'wp-members' ); ?>&trade;!<br /><br />
 			<?php _e( 'A plugin developed by', 'wp-members' ); ?>&nbsp;<a href="http://butlerblog.com">Chad Butler</a><br />
-			<?php _e('Follow', 'wp-members'); ?> ButlerBlog: <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a><br />
+			<?php _e( 'Follow', 'wp-members' ); ?> ButlerBlog: <a href="http://feeds.butlerblog.com/butlerblog" target="_blank">RSS</a> | <a href="http://www.twitter.com/butlerblog" target="_blank">Twitter</a><br />
 			Copyright &copy; 2006-<?php echo date("Y"); ?><br /><br />
 			Premium support and installation service <a href="http://rocketgeek.com/about/site-membership-subscription/">available at rocketgeek.com</a>.
 			</i></p>
 		</div>
 	</div><?
+}
+
+
+function wpmem_a_rss_box()
+{
+	?><div class="postbox">
+		<h3><span><?php _e( 'Latest from RocketGeek', 'wp-members' ); ?></span></h3>
+		<div class="inside"><?php
+		wp_widget_rss_output(array(
+			'url' => 'http://rocketgeek.com/feed/',  //put your feed URL here
+			'title' => __( 'Latest from RocketGeek', 'wp-members' ),
+			'items' => 4, //how many posts to show
+			'show_summary' => 0,
+			'show_author' => 0,
+			'show_date' => 0
+		));?>
+		</div>
+	</div><?php
+}
+
+
+add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
+function butlerblog_dashboard_widget() {
+	wp_add_dashboard_widget( 'dashboard_custom_feed', __( 'Latest from ButlerBlog', 'wp-members' ), 'butlerblog_feed_output' );
+}
+ 
+
+function butlerblog_feed_output() {
+    echo '<div class="rss-widget">';
+    wp_widget_rss_output(array(
+        'url' => 'http://feeds.feedburner.com/butlerblog',
+        'title' => __( 'Latest from ButlerBlog', 'wp-members' ),
+        'items' => 5,
+        'show_summary' => 0,
+        'show_author' => 0,
+        'show_date' => 1
+    ));
+    echo "</div>";
 }
 ?>

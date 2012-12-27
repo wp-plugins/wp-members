@@ -112,7 +112,7 @@ function wpmem_securify( $content = null )
 		
 			// protects comments if user is not logged in
 			global $post;
-			$post->post_password = wp_generate_password();
+			$post->post_password = apply_filters( 'wpmem_post_password' , wp_generate_password() );
 		
 			include_once('wp-members-dialogs.php');
 			
@@ -944,11 +944,14 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  *
  * @since 2.6
  *
+ * @uses apply_filters Calls 'wpmem_auto_excerpt'
+ * @uses apply_filters Calls 'the_content_more_link'
+ *
  * @param string $content
  * @return string $content
  */
 function wpmem_do_excerpt( $content )
-{
+{	
 	$arr = get_option( 'wpmembers_autoex' );
 	if( $arr['auto_ex'] == true ) {
 		
@@ -961,7 +964,18 @@ function wpmem_do_excerpt( $content )
 		}		
 	}
 	
-	return apply_filters( 'wpmem_auto_excerpt', $content );
+	apply_filters( 'wpmem_auto_excerpt', $content );
+
+	global $post, $more;
+	if( ! $more ) {
+		$more_link_text = '(more...)';
+		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
+		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
+		
+		$content = $content . $more_link;
+	}
+	
+	return $content;
 }
 endif;
 

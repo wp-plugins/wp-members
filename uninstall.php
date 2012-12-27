@@ -38,9 +38,7 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'wpmembers_cssurl'   );
 	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );
-	
-	delete_option( 'widget_wpmemwidget' );
-	
+
 	delete_option( 'wpmembers_email_newreg' );
 	delete_option( 'wpmembers_email_newmod' );
 	delete_option( 'wpmembers_email_appmod' );
@@ -49,10 +47,8 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'wpmembers_email_notify' );
 	delete_option( 'wpmembers_email_wpfrom' );
 	delete_option( 'wpmembers_email_wpname' );
-	
-	if (WPMEM_EXP_MODULE == true) {
-		delete_option( 'wpmembers_experiod' );
-	}
-	
+
+	delete_option( 'widget_wpmemwidget' );
+
 }
 ?>

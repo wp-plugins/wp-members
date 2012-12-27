@@ -98,12 +98,14 @@ define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
 
+
 /**
  * define the stylesheet
  */
 $wpmem_style = get_option( 'wpmembers_cssurl', null );
 $wpmem_style = ( ! $wpmem_style ) ? get_option( 'wpmembers_style', null ) : $wpmem_style;
 define( 'WPMEM_CSSURL', $wpmem_style );
+
 
 /**
  * preload any custom functions, if available
@@ -181,6 +183,7 @@ function wpmem_chk_admin()
 		add_action( 'profile_update',    'wpmem_profile_update' );
 	}
 	
+	// if user has a role that can edit posts, add the block/unblock meta boxes
 	if( current_user_can( 'edit_posts' ) ) {
 		include_once( 'admin/post.php' );
 		add_action( 'add_meta_boxes', 'wpmem_block_meta_add' );  

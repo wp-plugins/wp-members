@@ -15,9 +15,9 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 = Features: =
 
 * Block posts, pages, both, or none by default
-* Block individual post/page level
+* Block individual posts/pages
 * Login/Registration is inline with content rather than the WP login page
-* User registration and member information management integrated into your theme
+* User registration and profile integrated into your theme
 * Sidebar login widget
 * Create custom registration fields
 * Set which fields display and which are required
@@ -43,6 +43,10 @@ The plugin runs on a framework with over 30 action and filter hooks so you can f
 
 In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
 
+= What the plugin does not do =
+
+WP-Members does not automatically hide absolutely everything from view.  The default install of the plugin is designed to use "teaser" content to drive users to want to register.  If you want certain content or menu elements completely hidden, there are ways to do that with some customization between your theme and the plugin, but it is not automatic.
+
 
 == Installation ==
 
@@ -61,7 +65,7 @@ NOTE: Please follow instructions for installation. The vast majority of people t
 
 = Locking down your site: =
 
-* To begin restricting posts, you will need to be using the `<!--more-->` link in your posts.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.  If you do not use the "more" tag, full post content is going to show on archive templates.
+* To begin restricting posts, you will need to be using the `<!--more-->` link in your posts.  Content above to the "more" split will display on summary pages (home, archive, category) but the user will be required to login to view the entire post.  You may also use the plugin's auto excerpt setting to create post excerpts automatically.  If you do not use the "more" tag or the auto excerpt setting, full post content is going to show on archive templates.
 * To begin restricting pages, change the plugin default setting for pages to be blocked. Unlike posts, the `<!--more-->` link is not necessary in the blocking of pages, but __must__ be used if you have the "show excerpts" setting turned on.
 * To protect comments, we recommend setting "Users must be registered and logged in to comment" under Settings > Discussion
 * Also on the page Settings > General, we recommend making sure "Anyone can register" is unchecked.  While not required, this will prevent WP's native registration from colliding with WP-Members&trade;, especially if you are using any of the WP-Members&trade; additional registration fields.
@@ -78,7 +82,7 @@ WP-Members&trade; is designed to be an out-of-the-box usable plugin, but also ha
 
 See [this page](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
 
-The plugin has 28 filter hooks and 6 action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
+The plugin has 40 filter and action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
 
 The plugin's premium support site has __loads__ of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).  Members of the premium support site also have access to premium add-on modules.
 
@@ -101,8 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-Code improvement release - no major changes to functionality. Download package now includes translation files for some languages.  This release does also include some new filter hooks. See the Changelog for complete details.
-
+New feature release - There are some new admin settings offered, as well as additional filter hooks.  There is also a new default stylesheet.  While there should be no issues upgrading from an earlier version, it is always recommended that you test the upgrade on a development site first.
 
 == Screenshots ==
 
