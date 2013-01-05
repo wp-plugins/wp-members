@@ -175,7 +175,7 @@ function wpmem_a_meta_box()
 			Premium support and installation service <a href="http://rocketgeek.com/about/site-membership-subscription/">available at rocketgeek.com</a>.
 			</i></p>
 		</div>
-	</div><?
+	</div><?php
 }
 
 
