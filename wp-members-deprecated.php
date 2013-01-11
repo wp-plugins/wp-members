@@ -109,7 +109,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 				switch( $wpmem_fields[$row][2] ) {
 				case( 'description' ):
-					$val = get_user_meta($userdata->ID,'description','true');
+					$val = htmlspecialchars( get_user_meta($userdata->ID,'description','true') );
 					break;
 
 				case( 'user_email' ):
@@ -117,11 +117,11 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 					break;
 
 				case( 'user_url' ):
-					$val = $userdata->user_url;
+					$val = esc_url( $userdata->user_url );
 					break;
 
 				default:
-					$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
+					$val = htmlspecialchars( get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true') );
 					break;
 				}
 
