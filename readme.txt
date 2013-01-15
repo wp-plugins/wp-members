@@ -118,14 +118,22 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 Security update release: 2.8.1 primarily closes some potential security holes.  This update is highly recommended.
 
+Security Updates:
+
 * Closed potential cross site scripting exploit
 * Added nonces to front-side registration
 * Updated nonces in admin form submission
 * Security evaluation and updates to other areas
 
-Other Updates
+Feature Updates:
+
+* Added dropdown option for User Profile (members-area) and Register page location
+* Updated dropdown field to accommodate commas in the values (ex: 1,000)
+
+Other Updates:
 
 * Updated TOS shortcode to be case-insensitive for the shortcode parameter (TOS/tos)
+* Begin deprecating members-area parameter to be replaced with user-profile
 * Separated User Profile functions from wp-members-core.php file
 * Applied post 2.8.0 patches
 

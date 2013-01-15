@@ -91,7 +91,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @global string $wpmem_themsg contains messages to be output
  * @global string $wpmem_captcha_err contains error message for reCAPTCHA
  * @global array $post needed for protecting comments
- * @param string $content
+ * @param  string $content
  * @return $content
  */
 function wpmem_securify( $content = null ) 
@@ -191,7 +191,7 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  *
  * @uses apply_filters Calls 'wpmem_user_edit_heading'
  *
- * @param string $page
+ * @param  string $page
  * @global string $wpmem_regchk
  * @global string $wpmem_themsg
  * @global string $wpmem_a
@@ -203,6 +203,9 @@ function wpmem_do_sc_pages( $page )
 	include_once( 'wp-members-dialogs.php' );
 	
 	$content = '';
+	
+	// deprecating members-area parameter to be replaced by user-profile
+	$page = ( 'user-profile' ) ? 'members-area' : $page;
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
 		
@@ -363,8 +366,8 @@ endif;
  *
  * @since 2.4 
  *
- * @param array $attr page|status|field
- * @param string $content
+ * @param  array $attr page|status|field
+ * @param  string $content
  * @return string returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content
  */
 function wpmem_shortcode( $attr, $content = null )
@@ -411,7 +414,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * @since 2.6
  *
  * @global string $post
- * @uses get_shortcode_regex
+ * @uses   get_shortcode_regex
  * @return bool
  *
  * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
@@ -437,10 +440,10 @@ if( ! function_exists( 'wpmem_check_activated' ) ):
  *
  * @since 2.7.1
  *
- * @param int $user
- * @param string $username
- * @param string $password
- * @uses wp_check_password
+ * @param  int $user
+ * @param  string $username
+ * @param  string $password
+ * @uses   wp_check_password
  * @return int $user
  */ 
 function wpmem_check_activated( $user, $username, $password ) 
@@ -477,9 +480,9 @@ if( ! function_exists( 'wpmem_login' ) ):
  *
  * @uses apply_filters Calls 'wpmem_login_redirect' hook to get $redirect_to
  *
- * @uses wp_signon
- * @uses wp_set_auth_cookie
- * @uses wp_redirect Redirects to $redirect_to if login is successful
+ * @uses   wp_signon
+ * @uses   wp_set_auth_cookie
+ * @uses   wp_redirect Redirects to $redirect_to if login is successful
  * @return string Returns "loginfailed" if the login fails
  */
 function wpmem_login()
@@ -654,8 +657,8 @@ if( ! function_exists( 'wpmem_reset_password' ) ):
  *
  * @since 2.1
  *
- * @uses wp_generate_password
- * @uses wp_update_user
+ * @uses   wp_generate_password
+ * @uses   wp_update_user
  * @return string value for $wpmem_regchk
  */
 function wpmem_reset_password()
@@ -764,11 +767,11 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  *
  * @since 1.8
  *
- * @param string $name the name of the field
- * @param string $type the field type
- * @param string $value the default value for the field
- * @param string $valtochk optional for comparing the default value of the field
- * @param string $class optional for setting a specific CSS class for the field 
+ * @param  string $name the name of the field
+ * @param  string $type the field type
+ * @param  string $value the default value for the field
+ * @param  string $valtochk optional for comparing the default value of the field
+ * @param  string $class optional for setting a specific CSS class for the field 
  * @return string $str the field returned as a string
  */
 function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' )
@@ -826,9 +829,9 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  *
  * @since 0.1
  *
- * @param string $value
- * @param string $valtochk
- * @param string $type
+ * @param  string $value
+ * @param  string $valtochk
+ * @param  string $type
  * @return string $issame
  */
 function wpmem_selected( $value, $valtochk, $type=null )
@@ -849,8 +852,8 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  *
  * @since 2.0
  *
- * @uses get_permalink
- * @param string $url
+ * @uses   get_permalink
+ * @param  string $url
  * @return string $return_url
  */
 function wpmem_chk_qstr( $url = null )
@@ -891,7 +894,7 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  *
  * @since 2.6.4
  *
- * @param string $content
+ * @param  string $content
  * @return string $new_content
  */
 function wpmem_texturize( $content ) 
@@ -947,7 +950,7 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  * @uses apply_filters Calls 'wpmem_auto_excerpt'
  * @uses apply_filters Calls 'the_content_more_link'
  *
- * @param string $content
+ * @param  string $content
  * @return string $content
  */
 function wpmem_do_excerpt( $content )

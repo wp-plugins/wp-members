@@ -201,7 +201,9 @@ function wpmem_update_fields( $action )
 			// remove linebreaks
 			$str = trim( str_replace( array("\r", "\r\n", "\n"), '', $str ) );
 			// create array
-			$arr[7] = explode( ',', $str );
+			/** 2.8.1 changed to accomadate commas in the string. */
+			// $arr[7] = explode( ',', $str );
+			$arr[7] = str_getcsv( $str, ',', '"' );
 		}
 		
 		
@@ -345,19 +347,23 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 					</tr>
 					<tr>
 						<td align="left" valign="top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>
-						<td><textarea name="add_dropdown_value" rows="5" cols="40">
-<?php if( $mode == 'edit' ) {
+						<td><textarea name="add_dropdown_value" rows="5" cols="40"><?php
+/**  Accomodate editing the current dropdown values or create dropdown value example */
+if( $mode == 'edit' ) {
 for( $row = 0; $row < count( $field_arr[7] ); $row++ ) {
+/** If the row contains commas (i.e. 1,000-10,000), wrap in double quotes */
+if( strstr( $field_arr[7][$row], ',' ) ) {
+echo '"' . $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? '"' : "\",\n";
+} else {
 echo $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? "" : ",\n";
-}
+} }
 						} else { ?>
 <---- Select One ---->|, 
-Choice One|choice1value, 
-Choice Two|choice_two_value, 
-|, 
-Example After Spacer|after_spacer
-						<?php } ?>
-						</textarea><span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
+Choice One|choice_one,
+"1,000|one_thousand",
+"1,000-10,000|1,000-10,000", 
+Last Row|last_row<?php } ?></textarea>
+							<span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
 							<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span></td>
 					</tr>
 				<?php } ?>

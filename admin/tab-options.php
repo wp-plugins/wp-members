@@ -70,19 +70,25 @@ function wpmem_a_build_options( $wpmem_settings )
 							  </tr>
 							  <?php } ?>
 							  <?php } ?>
-							  
-							  <?php // new in 2.5
-							  $wpmem_msurl = get_option( 'wpmembers_msurl' );
+							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
 							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'User Profile Page:', 'wp-members' ); ?></th>
-								<td><input type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
-							  </tr><?php // new in 2.5.1
-							  $wpmem_regurl = get_option( 'wpmembers_regurl' );
+								<td>
+									<select name="wpmem_settings_mspage">
+										<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
+									</select>&nbsp;<?php _e( 'custom URL:', 'wp-members' ); ?>&nbsp;
+									<input type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
+							  </tr>
+							  <?php $wpmem_regurl = get_option( 'wpmembers_regurl' );
 							  if( ! $wpmem_regurl ) { $wpmem_regurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'Register Page:', 'wp-members' ); ?></th>
-								<td><input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
+								<td>
+									<select name="wpmem_settings_regpage">
+										<?php wpmem_admin_page_list( $wpmem_regurl ); ?>
+									</select>&nbsp;<?php _e( 'custom URL:', 'wp-members' ); ?>&nbsp;	
+									<input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
 							  </tr>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
 							  <tr>
@@ -92,8 +98,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								  </select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>
 								</td>
 							  </tr>							  
-							  <?php // new in 2.5.1
-							  $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
+							  <?php $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
 							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></th>
@@ -181,14 +186,29 @@ function wpmem_update_options()
 		}			
 	}
 	
-	$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
+	/*$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
 	if( $wpmem_settings_msurl != 'http://' ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
+	}*/
+	$wpmem_settings_msurl  = $_POST['wpmem_settings_msurl'];
+	$wpmem_settings_mspage = $_POST['wpmem_settings_mspage'];
+	if( $wpmem_settings_mspage ) { update_option( 'wpmembers_msurl', $wpmem_settings_mspage ); }
+	if( $wpmem_settings_msurl != 'http://' && ! $wpmem_settings_mspage ) {
+		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
 	}
-	$wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
+	
+	/* $wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
 	if( $wpmem_settings_regurl != 'http://' ) {
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
+	} */
+	$wpmem_settings_regurl  = $_POST['wpmem_settings_regurl'];
+	$wpmem_settings_regpage = $_POST['wpmem_settings_regpage'];
+	if( $wpmem_settings_regpage ) { update_option( 'wpmembers_regurl', $wpmem_settings_regpage ); }
+	if( $wpmem_settings_regurl != 'http://' && ! $wpmem_settings_regpage ) {
+		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
 	}
+	
+	
 	$wpmem_settings_cssurl = $_POST['wpmem_settings_cssurl'];
 	if( $wpmem_settings_cssurl != 'http://' ) {
 		update_option( 'wpmembers_cssurl', trim( $wpmem_settings_cssurl ) );
@@ -236,5 +256,26 @@ function wpmem_admin_style_list()
 	}
 	
 	return;
+}
+
+
+/**
+ * Create a dropdown selection of pages
+ *
+ * @since 2.8.1
+ *
+ * @param string $val
+ */
+function wpmem_admin_page_list( $val )
+{
+	echo '<option value="">'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
+	$pages = get_pages(); 
+	foreach ( $pages as $page ) {
+		$option = '<option value="' . get_page_link( $page->ID ) . '" ' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
+		$option .= $page->post_title;
+		$option .= '</option>';
+		echo $option;
+	}
+	echo '<option value="">'; _e( 'USE CUSTOM URL ---->', 'wp-members' ); echo '</option>';
 }
 ?>
