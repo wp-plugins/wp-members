@@ -205,7 +205,7 @@ function wpmem_do_sc_pages( $page )
 	$content = '';
 	
 	// deprecating members-area parameter to be replaced by user-profile
-	$page = ( 'user-profile' ) ? 'members-area' : $page;
+	$page = ( $page == 'user-profile' ) ? 'members-area' : $page;
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
 		
