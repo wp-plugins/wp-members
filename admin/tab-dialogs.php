@@ -6,20 +6,20 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
 /**
  * builds the dialogs panel
  *
- * @param array $wpmem_dialogs
+ * @since 2.2.2
  */
 function wpmem_a_build_dialogs()
 { 
@@ -55,7 +55,7 @@ function wpmem_a_build_dialogs()
 					<div class="inside">
 						<p><?php printf( __( 'You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc.', 'wp-members' ), '- &lt;p&gt;, &lt;b&gt;, &lt;i&gt;,' ); ?></p>
 						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
-						<?php if( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'wpmem-update-dialogs' ); } ?>
+						<?php wp_nonce_field( 'wpmem-update-dialogs' ); ?>
 							<table class="form-table">        
 							<?php for( $row = 0; $row < count( $wpmem_dialog_title_arr ); $row++ ) { ?>
 								<tr valign="top"> 
@@ -88,7 +88,11 @@ function wpmem_a_build_dialogs()
 
 
 /**
+ * Updates the dialog settings
+ *
  * @since 2.8
+ *
+ * @return string The dialogs updated message
  */
 function wpmem_update_dialogs()
 {

@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.5.0
-Stable tag: 2.8.0
+Stable tag: 2.8.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -30,7 +30,7 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
-The plugin installs with additional custom fields to the registration process including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can create your own custom fields and delete existing ones as well as drag-and-drop the order of fields.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
+The plugin installs with additional registration fields including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can also create your own custom registration fields and delete existing ones.  Changing the field order is simple with a drag-and-drop interface.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
 
 There are also some special pages that can be created with simple shortcodes:
 
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-New feature release - There are some new admin settings offered, as well as additional filter hooks.  There is also a new default stylesheet.  While there should be no issues upgrading from an earlier version, it is always recommended that you test the upgrade on a development site first.
+Security fix release - This update is comprised of security fixes and a couple of bug patches.
 
 == Screenshots ==
 
@@ -113,6 +113,29 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.1 =
+
+Security update release: 2.8.1 primarily closes some potential security holes.  This update is highly recommended.
+
+Security Updates:
+
+* Closed potential cross site scripting exploit
+* Added nonces to front-side registration
+* Updated nonces in admin form submission
+* Security evaluation and updates to other areas
+
+Feature Updates:
+
+* Added dropdown option for User Profile (members-area) and Register page location
+* Updated dropdown field to accommodate commas in the values (ex: 1,000)
+
+Other Updates:
+
+* Updated TOS shortcode to be case-insensitive for the shortcode parameter (TOS/tos)
+* Begin deprecating members-area parameter to be replaced with user-profile
+* Separated User Profile functions from wp-members-core.php file
+* Applied post 2.8.0 patches and corrected missing files
 
 = 2.8.0 =
 
@@ -130,8 +153,8 @@ Code Improvements:
 * Updated the logout process to use wp_clear_auth_cookie.  The previous wp_clearcookie was deprecated and was causing header errors in some instances.
 * Improved the TOS shortcode. This should eliminate some of the parsing errors some users experienced in previous releases.
 
-
 Admin Panel Updates:
+
 * New admin look updates the tabs to the WP format.  This also was built to allow extensible tabs so you can hook in and create your own tabs and panels.
 * Add field dialog was updated and improved.
 * Added an admin process to edit existing fields.
@@ -275,4 +298,3 @@ This is new feature release with the following features and improvements (see :
 * Updated sidebar widget to be multi-widget compatible.
 * TOS can be stored in dialogs OR be a WP page (set in dialogs with a shortcode).
 * Plugin can be set up for users to select their own passwords at registration (cannot be used with moderated registration).
-

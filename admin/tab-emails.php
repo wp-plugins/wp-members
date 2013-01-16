@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -73,7 +73,7 @@ function wpmem_a_build_emails( $wpmem_settings )
 						</p>
 						<hr />
 						<form name="updateemailform" id="updateemailform" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-						<?php if( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'wpmem-update-emails' ); } ?>
+						<?php wp_nonce_field( 'wpmem-update-emails' ); ?>
 							<table class="form-table"> 
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email address', 'wp-members' ); ?></th> 
@@ -127,7 +127,11 @@ function wpmem_a_build_emails( $wpmem_settings )
 
 
 /**
+ * Updates the email message settings
+ *
  * @since 2.8
+ *
+ * @return string The emails updated message
  */
 function wpmem_update_emails()
 {

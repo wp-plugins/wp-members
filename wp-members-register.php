@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012 Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013 Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -41,13 +41,20 @@ if( ! function_exists( 'wpmem_registration' ) ):
  */
 function wpmem_registration( $toggle )
 {
+	// get the globals
 	global $user_ID, $userdata, $wpmem_themsg, $username, $user_email, $wpmem_fieldval_arr;
+	
+	// check the nonce
+	check_admin_referer( 'wpmem-register' );
 
+	// is this a registration or a user profile update?
 	if( $toggle == 'register' ) { 
 		$username = $_POST['log'];
 		// add for _data hooks	
 		$fields['username'] = $username;
 	}
+	
+	// add the user email to the $fields array for _data hooks
 	$user_email = $_POST['user_email'];
 	// add for _data hooks
 	$fields['user_email'] = $user_email; 
@@ -58,7 +65,7 @@ function wpmem_registration( $toggle )
 		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
 		// add for _data hooks
 		if( $wpmem_fields[$row][2] != 'password' && $wpmem_fields[$row][4] == 'y' ) {
-			$fields[$wpmem_fields[$row][2]] = $wpmem_fieldval_arr[$row];
+			$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $wpmem_fieldval_arr[$row] );
 		}
 	}
 	

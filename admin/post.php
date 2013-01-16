@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -31,6 +31,8 @@ function wpmem_block_meta_add() {
  * Builds the meta boxes for post and page editor screens.
  *
  * @since 2.8
+ *
+ * @global $post The WordPress post object
  */
 function wpmem_block_meta()  
 {  
@@ -77,6 +79,8 @@ function wpmem_block_meta()
  * Saves the meta boxes data for post and page editor screens.
  *
  * @since 2.8
+ *
+ * @param int $post_id The post ID
  */
 function wpmem_block_meta_save( $post_id )  
 {  

@@ -6,29 +6,41 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
+/** File Includes */
 include_once( 'dialogs.php' );
 //include_once( 'users.php' );        // currently included in the main plugin file
 //include_once( 'user-profile.php' ); // currently included in the main plugin file
 
 
+/** Actions and Filters */
+add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab', 10, 2 );
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
+add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 ); 
+
+
+/**
+ * Calls the function to reorder fields
+ *
+ * @since 2.8.0
+ *
+ * @uses wpmem_a_field_reorder
+ */
 function wpmem_a_do_field_reorder(){
 	include_once( 'tab-fields.php' );
 	wpmem_a_field_reorder();
 }
 
 
-add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 ); 
 /**
  * filter to add link to settings from plugin panel
  *
@@ -71,6 +83,9 @@ function wpmem_load_admin_js()
  * Creates the captcha tab
  *
  * @since 2.8
+ *
+ * @param string $tab
+ * @return
  */
 function wpmem_a_captcha_tab( $tab ) {
 	include_once( 'tab-captcha.php' );
@@ -82,6 +97,9 @@ function wpmem_a_captcha_tab( $tab ) {
  * Adds the captcha tab
  *
  * @since 2.8
+ *
+ * @param  array $tabs The array of tabs for the admin panel
+ * @return array The updated array of tabs for the admin panel
  */
 function wpmem_add_captcha_tab( $tabs ) {
 	return array_merge( $tabs, array( 'captcha' => 'Captcha' ) );
@@ -123,13 +141,13 @@ function wpmem_admin()
 }
 
 
-add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab', 10, 2 );
 /**
  * Displays the content for default tabs
  * 
  * @since 2.8
  *
  * @param string $tab The tab that we are on and displaying
+ * @param array  $wpmem_settings The array of plugin settings
  */
 function wpmem_admin_do_tab( $tab, $wpmem_settings )
 {
@@ -194,7 +212,7 @@ function wpmem_admin_tabs( $current = 'options' )
  *
  * @since 2.8
  *
- * @param string $action
+ * @param string $action The action that is being done
  */
 function wpmem_admin_action( $action )
 {

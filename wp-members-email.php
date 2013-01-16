@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -46,7 +46,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	}
 	
 	$wpmem_msurl = get_option( 'wpmembers_msurl', null );
-	$reg_link    = get_user_meta( $user_id, 'wpmem_reg_url', true );
+	$reg_link    = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 
 	$shortcd = array( '[blogname]', '[username]', '[password]', '[reglink]', '[members-area]', '[exp-type]', '[exp-data]' );
 	$replace = array( $blogname, $user_login, $password, $reg_link, $wpmem_msurl, $exp_type, $exp_date );
@@ -122,7 +122,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	$blogname = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	
 	$user_ip  = get_user_meta( $user_id, 'wpmem_reg_ip', true );
-	$reg_link = get_user_meta( $user_id, 'wpmem_reg_url', true );
+	$reg_link = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$act_link = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
 
 	if( WPMEM_USE_EXP == 1 ) {
@@ -136,9 +136,9 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 			
 			if( ( $wpmem_fields[$row][2] != 'user_email' ) && ( $wpmem_fields[$row][2] != 'password' ) ) {
 				if( $wpmem_fields[$row][2] == 'user_url' ) {
-					$val  = $user->user_url;
+					$val  = esc_url( $user->user_url );
 				} else {
-					$val  = get_user_meta( $user_id,$wpmem_fields[$row][2], 'true' );
+					$val  = htmlspecialchars( get_user_meta( $user_id,$wpmem_fields[$row][2], 'true' ) );
 				}
 			
 				$field_str.= "$name: $val \r\n";

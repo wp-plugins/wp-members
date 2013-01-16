@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -91,7 +91,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @global string $wpmem_themsg contains messages to be output
  * @global string $wpmem_captcha_err contains error message for reCAPTCHA
  * @global array $post needed for protecting comments
- * @param string $content
+ * @param  string $content
  * @return $content
  */
 function wpmem_securify( $content = null ) 
@@ -191,7 +191,7 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  *
  * @uses apply_filters Calls 'wpmem_user_edit_heading'
  *
- * @param string $page
+ * @param  string $page
  * @global string $wpmem_regchk
  * @global string $wpmem_themsg
  * @global string $wpmem_a
@@ -203,6 +203,9 @@ function wpmem_do_sc_pages( $page )
 	include_once( 'wp-members-dialogs.php' );
 	
 	$content = '';
+	
+	// deprecating members-area parameter to be replaced by user-profile
+	$page = ( 'user-profile' ) ? 'members-area' : $page;
 	
 	if ( $page == 'members-area' || $page == 'register' ) { 
 		
@@ -363,8 +366,8 @@ endif;
  *
  * @since 2.4 
  *
- * @param array $attr page|status|field
- * @param string $content
+ * @param  array $attr page|status|field
+ * @param  string $content
  * @return string returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content
  */
 function wpmem_shortcode( $attr, $content = null )
@@ -399,7 +402,7 @@ function wpmem_shortcode( $attr, $content = null )
 	if( isset( $attr['field'] ) ) {
 		global $user_ID;
 		$user_info = get_userdata( $user_ID );
-		return $user_info->$attr['field'] . do_shortcode( $content );
+		return htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content );
 	}
 }
 
@@ -411,7 +414,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * @since 2.6
  *
  * @global string $post
- * @uses get_shortcode_regex
+ * @uses   get_shortcode_regex
  * @return bool
  *
  * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
@@ -437,10 +440,10 @@ if( ! function_exists( 'wpmem_check_activated' ) ):
  *
  * @since 2.7.1
  *
- * @param int $user
- * @param string $username
- * @param string $password
- * @uses wp_check_password
+ * @param  int $user
+ * @param  string $username
+ * @param  string $password
+ * @uses   wp_check_password
  * @return int $user
  */ 
 function wpmem_check_activated( $user, $username, $password ) 
@@ -477,9 +480,9 @@ if( ! function_exists( 'wpmem_login' ) ):
  *
  * @uses apply_filters Calls 'wpmem_login_redirect' hook to get $redirect_to
  *
- * @uses wp_signon
- * @uses wp_set_auth_cookie
- * @uses wp_redirect Redirects to $redirect_to if login is successful
+ * @uses   wp_signon
+ * @uses   wp_set_auth_cookie
+ * @uses   wp_redirect Redirects to $redirect_to if login is successful
  * @return string Returns "loginfailed" if the login fails
  */
 function wpmem_login()
@@ -654,8 +657,8 @@ if( ! function_exists( 'wpmem_reset_password' ) ):
  *
  * @since 2.1
  *
- * @uses wp_generate_password
- * @uses wp_update_user
+ * @uses   wp_generate_password
+ * @uses   wp_update_user
  * @return string value for $wpmem_regchk
  */
 function wpmem_reset_password()
@@ -764,11 +767,11 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  *
  * @since 1.8
  *
- * @param string $name the name of the field
- * @param string $type the field type
- * @param string $value the default value for the field
- * @param string $valtochk optional for comparing the default value of the field
- * @param string $class optional for setting a specific CSS class for the field 
+ * @param  string $name the name of the field
+ * @param  string $type the field type
+ * @param  string $value the default value for the field
+ * @param  string $valtochk optional for comparing the default value of the field
+ * @param  string $class optional for setting a specific CSS class for the field 
  * @return string $str the field returned as a string
  */
 function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' )
@@ -826,9 +829,9 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  *
  * @since 0.1
  *
- * @param string $value
- * @param string $valtochk
- * @param string $type
+ * @param  string $value
+ * @param  string $valtochk
+ * @param  string $type
  * @return string $issame
  */
 function wpmem_selected( $value, $valtochk, $type=null )
@@ -849,8 +852,8 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  *
  * @since 2.0
  *
- * @uses get_permalink
- * @param string $url
+ * @uses   get_permalink
+ * @param  string $url
  * @return string $return_url
  */
 function wpmem_chk_qstr( $url = null )
@@ -891,7 +894,7 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  *
  * @since 2.6.4
  *
- * @param string $content
+ * @param  string $content
  * @return string $new_content
  */
 function wpmem_texturize( $content ) 
@@ -947,7 +950,7 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  * @uses apply_filters Calls 'wpmem_auto_excerpt'
  * @uses apply_filters Calls 'the_content_more_link'
  *
- * @param string $content
+ * @param  string $content
  * @return string $content
  */
 function wpmem_do_excerpt( $content )
@@ -978,100 +981,4 @@ function wpmem_do_excerpt( $content )
 	return $content;
 }
 endif;
-
-
-/*****************************************************
- * USER PROFILE FUNCTIONS
- *****************************************************/
-
-
-if ( ! function_exists( 'wpmem_user_profile' ) ):
-/**
- * add WP-Members fields to the WP user profile screen
- *
- * @since 2.6.5
- *
- * @global int $user_id
- */
-function wpmem_user_profile()
-{
-	global $user_id; ?>
-
-	<h3><?php _e( 'Additional Info', 'wp-members' ); ?></h3>   
- 	<table class="form-table">
-		<?php
-		$wpmem_fields = get_option( 'wpmembers_fields' );
-		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		
-			$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
-		
-			$chk_tos = true;
-			if( $wpmem_fields[$row][2] == 'tos' && $val == 'agree' ) { 
-				$chk_tos = false; 
-				echo wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', $val );
-			}
-			
-			$chk_pass = true;
-			if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = false; }
-		
-			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos && $chk_pass ) { 
-			
-				// if there are any required fields, set a toggle to show indicator in last line
-				if( $wpmem_fields[$row][5] == 'y' ) { $has_req = true; } ?>  
-				
-				<tr>
-					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
-					<td><?php
-					
-						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
-						if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
-							$valtochk = $val; 
-							$val = $wpmem_fields[$row][7];
-						}
-						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
-						if( $wpmem_fields[$row][5] == 'y' ) { echo '<font color="red">*</font>'; }
-						$valtochk = ''; // empty for the next field in the loop
-					?></td>
-				</tr>
-			<?php } 
-		}
-		
-		if( $has_req ) { ?>
-				<tr>
-					<th>&nbsp;</th>
-					<td><font color="red">*</font> <?php _e( 'Indicates a required field', 'wp-members' ); ?></td>
-				</tr><?php
-		} ?>
-	</table><?php
-}
-endif;
-
-
-/**
- * updates WP-Members fields from the WP user profile screen
- *
- * @since 2.6.5
- *
- * @global int $user_id
- */
-function wpmem_profile_update()
-{
-	global $user_id;
-	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-
-		// if the field is user editable, 
-		if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
-		
-			// check for required fields
-			$chk = '';
-			if( $wpmem_fields[$row][5] == "n" || ( ! $wpmem_fields[$row][5] ) ) { $chk = 'ok'; }
-			if( $wpmem_fields[$row][5] == "y" && $_POST[$wpmem_fields[$row][2]] != '' ) { $chk = 'ok'; }
-
-			if( $chk == 'ok' ) { 
-				update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ); 
-			} 
-		}
-	} 
-}
 ?>

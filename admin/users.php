@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -251,15 +251,15 @@ function wpmem_admin_users()
 					echo "	<td class=\"username column-username\" nowrap>\n";
 					echo "		<strong><a href=\"user-edit.php?user_id={$user->ID}&#038;" . esc_attr( stripslashes( $_SERVER['REQUEST_URI'] ) ) . "\">" . $user->user_login . "</a></strong><br />\n";
 					echo "	</td>\n";
-					echo "	<td class=\"name column-name\" nowrap>" . get_user_meta( $user->ID, 'first_name', 'true' ) . "&nbsp" . get_user_meta( $user->ID, 'last_name', 'true' ) . "</td>\n";
+					echo "	<td class=\"name column-name\" nowrap>" . htmlspecialchars( get_user_meta( $user->ID, 'first_name', 'true' ) ) . "&nbsp" . htmlspecialchars( get_user_meta( $user->ID, 'last_name', 'true' ) ) . "</td>\n";
 					echo "	<td class=\"email column-email\" nowrap><a href='mailto:" . $user->user_email . "' title='E-mail: " . $user->user_email . "'>" . $user->user_email . "</a></td>\n";
 					
 					if( $col_phone == true ) {
-						echo "	<td class=\"email column-email\" nowrap>" . get_user_meta( $user->ID, 'phone1', 'true' ) . "</td>\n";
+						echo "	<td class=\"email column-email\" nowrap>" . htmlspecialchars( get_user_meta( $user->ID, 'phone1', 'true' ) ) . "</td>\n";
 					}
 					
 					if( $col_country == true ) {
-						echo "	<td class=\"email column-email\" nowrap>" . get_user_meta( $user->ID, 'country', 'true' ) . "</td>\n";
+						echo "	<td class=\"email column-email\" nowrap>" . htmlspecialchars( get_user_meta( $user->ID, 'country', 'true' ) ) . "</td>\n";
 					}
 					
 					if( WPMEM_MOD_REG == 1 ) { 

@@ -6,18 +6,20 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
 /**
  * builds the settings panel
+ *
+ * @since 2.2.2
  *
  * @param array $wpmem_settings
  */
@@ -42,7 +44,7 @@ function wpmem_a_build_options( $wpmem_settings )
 					<h3><span><?php _e( 'Manage Options', 'wp-members' ); ?></span></h3>
 					<div class="inside">
 						<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
-						<?php if( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'wpmem-update-settings' ); } ?>
+						<?php wp_nonce_field( 'wpmem-update-settings' ); ?>
 							<table class="form-table">
 							<?php $arr = array(
 								array(__('Block Posts by default','wp-members'),'wpmem_settings_block_posts',__('Note: Posts can still be individually blocked or unblocked at the article level','wp-members')),
@@ -52,7 +54,6 @@ function wpmem_a_build_options( $wpmem_settings )
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members')),
 								array(__('Use reCAPTCHA','wp-members'),'wpmem_settings_captcha',__('Turns on CAPTCHA for registration','wp-members')),
 								array(__('Turn off registration','wp-members'),'wpmem_settings_turnoff',__('Turns off the registration process, only allows login','wp-members')),
-								// NEW in 2.5.1 - legacy forms
 								array(__('Legacy forms','wp-members'),'wpmem_settings_legacy',__('Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)','wp-members')),
 								array(__('Time-based expiration','wp-members'),'wpmem_settings_time_exp',__('Allows for access to expire','wp-members')),
 								array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period','wp-members')),
@@ -69,19 +70,25 @@ function wpmem_a_build_options( $wpmem_settings )
 							  </tr>
 							  <?php } ?>
 							  <?php } ?>
-							  
-							  <?php // new in 2.5
-							  $wpmem_msurl = get_option( 'wpmembers_msurl' );
+							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
 							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'User Profile Page:', 'wp-members' ); ?></th>
-								<td><input type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
-							  </tr><?php // new in 2.5.1
-							  $wpmem_regurl = get_option( 'wpmembers_regurl' );
+								<td>
+									<select name="wpmem_settings_mspage">
+										<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
+									</select>&nbsp;<?php _e( 'custom URL:', 'wp-members' ); ?>&nbsp;
+									<input type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
+							  </tr>
+							  <?php $wpmem_regurl = get_option( 'wpmembers_regurl' );
 							  if( ! $wpmem_regurl ) { $wpmem_regurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'Register Page:', 'wp-members' ); ?></th>
-								<td><input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
+								<td>
+									<select name="wpmem_settings_regpage">
+										<?php wpmem_admin_page_list( $wpmem_regurl ); ?>
+									</select>&nbsp;<?php _e( 'custom URL:', 'wp-members' ); ?>&nbsp;	
+									<input type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span></td>
 							  </tr>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
 							  <tr>
@@ -91,8 +98,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								  </select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>
 								</td>
 							  </tr>							  
-							  <?php // new in 2.5.1
-							  $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
+							  <?php $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
 							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = "http://"; } ?>
 							  <tr>
 								<th align="left" scope="row"><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></th>
@@ -122,6 +128,10 @@ function wpmem_a_build_options( $wpmem_settings )
 
 /**
  * Updates the plugin options
+ *
+ * @since 2.8.0
+ *
+ * @return string The options updated message
  */
 function wpmem_update_options()
 {
@@ -176,14 +186,29 @@ function wpmem_update_options()
 		}			
 	}
 	
-	$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
+	/*$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
 	if( $wpmem_settings_msurl != 'http://' ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
+	}*/
+	$wpmem_settings_msurl  = $_POST['wpmem_settings_msurl'];
+	$wpmem_settings_mspage = $_POST['wpmem_settings_mspage'];
+	if( $wpmem_settings_mspage ) { update_option( 'wpmembers_msurl', $wpmem_settings_mspage ); }
+	if( $wpmem_settings_msurl != 'http://' && ! $wpmem_settings_mspage ) {
+		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
 	}
-	$wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
+	
+	/* $wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
 	if( $wpmem_settings_regurl != 'http://' ) {
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
+	} */
+	$wpmem_settings_regurl  = $_POST['wpmem_settings_regurl'];
+	$wpmem_settings_regpage = $_POST['wpmem_settings_regpage'];
+	if( $wpmem_settings_regpage ) { update_option( 'wpmembers_regurl', $wpmem_settings_regpage ); }
+	if( $wpmem_settings_regurl != 'http://' && ! $wpmem_settings_regpage ) {
+		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
 	}
+	
+	
 	$wpmem_settings_cssurl = $_POST['wpmem_settings_cssurl'];
 	if( $wpmem_settings_cssurl != 'http://' ) {
 		update_option( 'wpmembers_cssurl', trim( $wpmem_settings_cssurl ) );
@@ -231,5 +256,26 @@ function wpmem_admin_style_list()
 	}
 	
 	return;
+}
+
+
+/**
+ * Create a dropdown selection of pages
+ *
+ * @since 2.8.1
+ *
+ * @param string $val
+ */
+function wpmem_admin_page_list( $val )
+{
+	echo '<option value="">'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
+	$pages = get_pages(); 
+	foreach ( $pages as $page ) {
+		$option = '<option value="' . get_page_link( $page->ID ) . '" ' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
+		$option .= $page->post_title;
+		$option .= '</option>';
+		echo $option;
+	}
+	echo '<option value="">'; _e( 'USE CUSTOM URL ---->', 'wp-members' ); echo '</option>';
 }
 ?>

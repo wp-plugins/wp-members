@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -91,13 +91,16 @@ function wpmem_do_sidebar()
 		$post_to = $_SERVER['PHP_SELF'];
 
 	}
+	
+	// clean whatever the url is
+	$post_to = esc_url( $post_to );
 
 	if( ! is_user_logged_in() ){
 
 		if( WPMEM_OLD_FORMS == 1 ) {
 
 			include_once( 'wp-members-deprecated.php' );
-			wpmem_old_forms_sidebar();
+			wpmem_old_forms_sidebar( $post_to );
 		
 		} else {
 

@@ -2,18 +2,17 @@
 /**
  * WP-Members Dialog Functions
  *
- * Handles functions that output front-end dialogs to
- * end users.
+ * Handles functions that output front-end dialogs to end users.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -28,7 +27,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @uses apply_filters Calls wpmem_restricted_msg filters message content
  * @uses wpmem_login_form()
  *
- * @param string $page
+ * @param  string $page
  * @return string $str the generated html for the login form
  */
 function wpmem_inc_login( $page="page" )
@@ -139,7 +138,7 @@ if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  * @uses apply_filters Calls 'wpmem_register_links'
  * @uses apply_filters Calls 'wpmem_login_links'
  *
- * @param string $page
+ * @param  string $page
  * @return string $str
  */
 function wpmem_inc_memberlinks( $page = 'members' ) 
@@ -250,8 +249,8 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * @uses wpmem_inc_registration_NEW()
  * @uses wpmem_inc_registration_OLD()
  *
- * @param var $toggle
- * @param string $heading
+ * @param  var    $toggle
+ * @param  string $heading
  * @return string
  */
 function wpmem_inc_registration( $toggle = 'new', $heading = '' )
@@ -279,10 +278,9 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * @uses wpmem_login_form_NEW()
  * @uses wpmem_login_form_OLD()
  *
- * @param string $page 
- * @param array $arr array of the login form pieces
- * @var string the html of the form
- * @return string the html of the form in $str
+ * @param  string $page 
+ * @param  array  $arr array of the login form pieces
+ * @return string $str the html of the form in $str
  */
 function wpmem_login_form( $page, $arr ) 
 {
@@ -331,7 +329,8 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 	$form.= '[wpmem_txt]<div id="wpmem_reg">
 		<a name="register"></a>
-	<form name="form" method="post" action="' . get_permalink() . '" class="form">
+	<form name="form" method="post" action="' . get_permalink() . '" class="form">' .
+		wp_nonce_field( 'wpmem-register' ) . '
 		<fieldset>
 			<legend>' . $heading . '</legend>';
 
@@ -386,7 +385,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 				switch( $wpmem_fields[$row][2] ) {
 					case( 'description' ):
-						$val = get_user_meta( $userdata->ID, 'description', 'true' );
+						$val = htmlspecialchars( get_user_meta( $userdata->ID, 'description', 'true' ) );
 						break;
 
 					case( 'user_email' ):
@@ -394,11 +393,11 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 						break;
 
 					case( 'user_url' ):
-						$val = $userdata->user_url;
+						$val = esc_url( $userdata->user_url );
 						break;
 
 					default:
-						$val = get_user_meta( $userdata->ID, $wpmem_fields[$row][2], 'true' );
+						$val = htmlspecialchars( get_user_meta( $userdata->ID, $wpmem_fields[$row][2], 'true' ) );
 						break;
 				}
 
@@ -425,7 +424,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 				// determine if TOS is a WP page or not...
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-				if( strstr( $tos_content, '[wp-members page="tos"' ) ) {
+				if( stristr( $tos_content, '[wp-members page="tos"' ) ) {
 					
 					$tos_content = " " . $tos_content;
 					$ini = strpos( $tos_content, 'url="' );
@@ -516,18 +515,19 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  * @uses apply_filters Calls 'wpmem_reg_link'
  * @uses apply_filters Calls 'wpmem_login_form'
  *
- * @param string $page
- * @param array $arr
+ * @param  string $page
+ * @param  array  $arr
  * @return string $form
  */
 function wpmem_login_form_NEW( $page, $arr ) 
 {
 	// are we redirecting somewhere?
-	if( isset( $_REQUEST['redirect_to'] ) ) {
+	/*if( isset( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $_REQUEST['redirect_to'];
 	} else {
 		$redirect_to = get_permalink();
-	}
+	}*/
+	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
 
 	// fix the wptexturize
 	remove_filter( 'the_content', 'wpautop' );
@@ -633,7 +633,7 @@ endif;
  * Create an attribution link in the form
  *
  * @since 2.6.0
- * @return $str string
+ * @return string $str
  */
 function wpmem_inc_attribution()
 {
@@ -690,9 +690,9 @@ if ( ! function_exists( 'wpmem_page_pwd_reset' ) ):
  *
  * @since 2.7.6
  *
- * @param $wpmem_regchk
- * @param $content
- * @return $content
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
  */
 function wpmem_page_pwd_reset( $wpmem_regchk, $content )
 {
@@ -754,9 +754,9 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  *
  * @since 2.7.6
  *
- * @param $wpmem_regchk
- * @param $content
- * @return $content
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
  */
 function wpmem_page_user_edit( $wpmem_regchk, $content )
 {

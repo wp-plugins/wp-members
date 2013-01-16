@@ -2,17 +2,17 @@
 /**
  * WP-Members Admin Functions
  *
- * Functions to manage the emails tab.
+ * Functions to manage the fields tab.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -21,7 +21,8 @@
  *
  * @since 2.2.2
  *
- * @param string $wpmem_fields deprecated in 2.8.0
+ * @param  string $wpmem_fields deprecated in 2.8.0
+ * @global string $add_field_err_msg The fields error message
  */
 function wpmem_a_build_fields() 
 { 
@@ -97,16 +98,20 @@ function wpmem_a_field_reorder()
  * Updates fields
  *
  * @since 2.8
+ *
+ * @param  string $action The field update action (update_fields|add|edit)
+ * @global string $add_field_err_msg The add field error message
+ * @return string $did_update The fields update message
  */
 function wpmem_update_fields( $action )
 {
-	// check nonce
-	//check_admin_referer( 'wpmem-update-fields' );
-	
 	// get the current fields
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 
 	if( $action == 'update_fields' ) {
+	
+		// check nonce
+		check_admin_referer( 'wpmem-update-fields' );
 	
 		// if editing a field, add error checking here
 	
@@ -160,6 +165,9 @@ function wpmem_update_fields( $action )
 		
 	} elseif( $action == 'add_field' || 'edit_field' ) {
 	
+		// check nonce
+		check_admin_referer( 'wpmem-add-fields' );
+	
 		global $add_field_err_msg;
 	
 		// error check that field label and option name are included and unique
@@ -193,7 +201,9 @@ function wpmem_update_fields( $action )
 			// remove linebreaks
 			$str = trim( str_replace( array("\r", "\r\n", "\n"), '', $str ) );
 			// create array
-			$arr[7] = explode( ',', $str );
+			/** 2.8.1 changed to accomadate commas in the string. */
+			// $arr[7] = explode( ',', $str );
+			$arr[7] = str_getcsv( $str, ',', '"' );
 		}
 		
 		
@@ -238,6 +248,8 @@ function wpmem_update_fields( $action )
  * Function to write the field edit link
  *
  * @since 2.8
+ *
+ * @param string $field_id The option name of the field to be edited
  */
 function wpmem_fields_edit_link( $field_id ) {
 	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">edit</a>';
@@ -248,6 +260,10 @@ function wpmem_fields_edit_link( $field_id ) {
  * Function to dispay the add/edit field form
  *
  * @since 2.8
+ *
+ * @param string      $mode The mode for the function (edit|add)
+ * @param array|null  $wpmem_fields the array of fields
+ * @param string|null $field the field being edited
  */
 function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 {
@@ -266,6 +282,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 		<h3 class="title"><?php ( $mode == 'edit' ) ? _e( 'Edit Field', 'wp-members' ) : _e( 'Add a Field', 'wp-members' ); ?></h3>
 		<div class="inside">
 			<form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+				<?php wp_nonce_field( 'wpmem-add-fields' ); ?>
 				<table class="form-table">
 					<tr>
 						<td align="left"><?php _e( 'Field Label', 'wp-members' ); ?></td>
@@ -330,19 +347,23 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 					</tr>
 					<tr>
 						<td align="left" valign="top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></td>
-						<td><textarea name="add_dropdown_value" rows="5" cols="40">
-<?php if( $mode == 'edit' ) {
+						<td><textarea name="add_dropdown_value" rows="5" cols="40"><?php
+/**  Accomodate editing the current dropdown values or create dropdown value example */
+if( $mode == 'edit' ) {
 for( $row = 0; $row < count( $field_arr[7] ); $row++ ) {
+/** If the row contains commas (i.e. 1,000-10,000), wrap in double quotes */
+if( strstr( $field_arr[7][$row], ',' ) ) {
+echo '"' . $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? '"' : "\",\n";
+} else {
 echo $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? "" : ",\n";
-}
+} }
 						} else { ?>
 <---- Select One ---->|, 
-Choice One|choice1value, 
-Choice Two|choice_two_value, 
-|, 
-Example After Spacer|after_spacer
-						<?php } ?>
-						</textarea><span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
+Choice One|choice_one,
+"1,000|one_thousand",
+"1,000-10,000|1,000-10,000", 
+Last Row|last_row<?php } ?></textarea>
+							<span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?><br />
 							<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span></td>
 					</tr>
 				<?php } ?>
@@ -364,6 +385,8 @@ Example After Spacer|after_spacer
  * Function to display the table of fields in the field manager tab
  * 
  * @since 2.8
+ *
+ * @param array $wpmem_fields The array of fields
  */
 function wpmem_a_field_table( $wpmem_fields )
 {
@@ -374,7 +397,7 @@ function wpmem_a_field_table( $wpmem_fields )
 			<p><?php _e( 'Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields.', 'wp-members' ); ?>
 				<br /><strong><?php _e( '(Note: Email is always mandatory. and cannot be changed.)', 'wp-members' ); ?></strong></p>
 			<form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
-			<?php if( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'wpmem-update-fields' ); } ?>
+			<?php wp_nonce_field( 'wpmem-update-fields' ); ?>
 				<table class="widefat" id="wpmem-fields">
 					<thead><tr class="head">
 						<th scope="col"><?php _e( 'Add/Delete',  'wp-members' ) ?></th>

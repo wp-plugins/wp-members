@@ -6,23 +6,29 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
+ 
+/** Actions */
 add_action( 'show_user_profile', 'wpmem_admin_fields' );
 add_action( 'edit_user_profile', 'wpmem_admin_fields' );
+add_action( 'profile_update',    'wpmem_admin_update' );
+
+
 /**
  * add WP-Members fields to the WP user profile screen
  *
  * @since 2.1
  *
- * @global array $current_screen
+ * @global array $current_screen The WordPress screen object
+ * @global int   $user_ID The user ID
  */
 function wpmem_admin_fields()
 {
@@ -44,12 +50,12 @@ function wpmem_admin_fields()
 				<tr>
 					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
 					<td><?php
-						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
+						$val = htmlspecialchars( get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' ) );
 						if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
 							$valtochk = $val; 
 							$val = $wpmem_fields[$row][7];
 						}
-						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val,$valtochk );
+						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
 						$valtochk = ''; // empty for the next field in the loop
 					?></td>
 				</tr>
@@ -102,7 +108,6 @@ function wpmem_admin_fields()
 }
 
 
-add_action('profile_update', 'wpmem_admin_update');
 /**
  * updates WP-Members fields from the WP user profile screen
  *

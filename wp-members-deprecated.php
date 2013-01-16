@@ -9,13 +9,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
 
 
@@ -41,8 +41,8 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 	$form = '<div class="wpmem_reg">
 		<a name="register"></a>
-		<form name="form2" method="post" action="' . get_permalink() . '">
-
+		<form name="form2" method="post" action="' . get_permalink() . '">' .
+		wp_nonce_field( 'wpmem-register' ) . '
 		  <table width="400" border="0" cellspacing="0" cellpadding="4">
 			<tr align="left"> 
 			  <td colspan="2">' . $heading . '</td>
@@ -109,7 +109,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 				switch( $wpmem_fields[$row][2] ) {
 				case( 'description' ):
-					$val = get_user_meta($userdata->ID,'description','true');
+					$val = htmlspecialchars( get_user_meta($userdata->ID,'description','true') );
 					break;
 
 				case( 'user_email' ):
@@ -117,11 +117,11 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 					break;
 
 				case( 'user_url' ):
-					$val = $userdata->user_url;
+					$val = esc_url( $userdata->user_url );
 					break;
 
 				default:
-					$val = get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true');
+					$val = htmlspecialchars( get_user_meta($userdata->ID,$wpmem_fields[$row][2],'true') );
 					break;
 				}
 
@@ -297,7 +297,14 @@ function wpmem_login_form_OLD ( $page, $arr )
 endif;
 
 
-function wpmem_old_forms_sidebar()
+/**
+ * Old form sidebar login
+ *
+ * @since 2.8.0
+ *
+ * @param string $post_to
+ */
+function wpmem_old_forms_sidebar( $post_to )
 { ?>
 	<ul>
 	<?php if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) { ?>

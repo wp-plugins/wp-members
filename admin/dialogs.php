@@ -1,26 +1,32 @@
 <?php
 /**
- * WP-Members Admin Dialog Functions
+ * WP-Members Admin Functions
  *
- * Handles functions that output admin dialogs to
- * adminstrative users.
+ * Handles functions that output admin dialogs to adminstrative users.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2012  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2012
+ * @copyright 2006-2013
  */
+
+ 
+/** Actions */
+add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
 
 
 /**
  * Outputs the various admin warning messages
  *
  * @since 2.8
+ * 
+ * @param string $did_update Contains the update message
+ * @param array  $wpmem_settings Array containing the plugin settings
  */
 function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 {
@@ -87,6 +93,8 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
  * Assembles the various admin warning messages
  *
  * @since 2.4.0
+ * 
+ * @param int $msg The number for which message should be displayed
  */
 function wpmem_a_warning_msg( $msg )
 {
@@ -179,6 +187,11 @@ function wpmem_a_meta_box()
 }
 
 
+/**
+ * Assemble the rocketgeek.com rss feed box
+ *
+ * @since 2.8.0
+ */
 function wpmem_a_rss_box()
 {
 	?><div class="postbox">
@@ -197,12 +210,21 @@ function wpmem_a_rss_box()
 }
 
 
-add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
+/**
+ * Add the dashboard widget
+ *
+ * @since 2.8.0
+ */
 function butlerblog_dashboard_widget() {
 	wp_add_dashboard_widget( 'dashboard_custom_feed', __( 'Latest from ButlerBlog', 'wp-members' ), 'butlerblog_feed_output' );
 }
  
 
+/**
+ * Output the rss feed for the dashboard widget
+ *
+ * @since 2.8.0
+ */
 function butlerblog_feed_output() {
     echo '<div class="rss-widget">';
     wp_widget_rss_output(array(
