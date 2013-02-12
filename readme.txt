@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.5.0
-Stable tag: 2.8.1
+Tested up to: 3.5.1
+Stable tag: 2.8.2
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-Security fix release - This update is comprised of security fixes and a couple of bug patches.
+WP-Members 2.8.2 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.
 
 == Screenshots ==
 
@@ -113,6 +113,24 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.2 =
+
+Feature Updates
+
+* Added WP user fields user_nicename, display_name, and nickname to the $fields array, defaults to $username for backward compatibility.
+* Added wpmem_filter_form_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields.
+* Begin implementation of moving bulk user management features into Users > All Users.  Users > All Users screen can now activate and export users, and will show additional fields as selected in the fields manager. 
+
+Fixes, Patches, & Code Improvements
+
+* Fixed the conversion of update-profile to members-area shortcode.  The bug renders all page shortcodes as members-area.
+* Patch correcting the front-side registration form nonce.  This patch should improve reliability while still using nonces for security.
+* Made front-side nonce optional, defaults to off.
+* Patch for the use of str_getcsv for users running < PHP 5.3.
+* Moved utility functions out of core.php to utility file utilities.php.
+* Fixed user profile update (updates with custom checkbox don't stay checked), an issue from 2.8.0.
+* Improved export process to wrap fields with double quotes - fixes issues if field contains a comma.
 
 = 2.8.1 =
 

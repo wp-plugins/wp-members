@@ -24,6 +24,7 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
+ * @uses apply_filters Calls 'wpmem_filter_form_data' filter
  * @uses do_action Calls 'wpmem_pre_register_data' action
  * @uses do_action Calls 'wpmem_post_register_data' action
  * @uses do_action Calls 'wpmem_register_redirect' action
@@ -45,7 +46,12 @@ function wpmem_registration( $toggle )
 	global $user_ID, $userdata, $wpmem_themsg, $username, $user_email, $wpmem_fieldval_arr;
 	
 	// check the nonce
-	check_admin_referer( 'wpmem-register' );
+	if( WPMEM_USE_NONCE == 1 ) {
+		if( empty( $_POST ) || !wp_verify_nonce( $_POST['wpmem-form-submit'], 'wpmem-validate-submit' ) ) {
+			$wpmem_themsg = __( 'There was an error processing the form.', 'wp-members' );
+			return;
+		}
+	}
 
 	// is this a registration or a user profile update?
 	if( $toggle == 'register' ) { 
@@ -150,6 +156,14 @@ function wpmem_registration( $toggle )
 		$fields['user_registered'] = $user_registered;
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
 		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];
+
+		// defaults set to username, can be filtered with wpmem_filter_register_data
+		$fields['user_nicename']   = $username;
+		$fields['display_name']    = $username;
+		$fields['nickname']        = $username;
+
+		// allows all $field values to be filtered
+		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
 		
 		// _data hook is before any insertion/emails
 		do_action( 'wpmem_pre_register_data', $fields );

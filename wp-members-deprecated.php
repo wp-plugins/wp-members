@@ -41,9 +41,11 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 	$form = '<div class="wpmem_reg">
 		<a name="register"></a>
-		<form name="form2" method="post" action="' . get_permalink() . '">' .
-		wp_nonce_field( 'wpmem-register' ) . '
-		  <table width="400" border="0" cellspacing="0" cellpadding="4">
+		<form name="form2" method="post" action="' . get_permalink() . '">'; 
+
+	$form.= ( WPMEM_USE_NONCE == 1 ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) : '';
+	
+	$form.= '	<table width="400" border="0" cellspacing="0" cellpadding="4">
 			<tr align="left"> 
 			  <td colspan="2">' . $heading . '</td>
 			</tr>';
