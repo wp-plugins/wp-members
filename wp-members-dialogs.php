@@ -329,11 +329,9 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 	$form.= '[wpmem_txt]<div id="wpmem_reg">
 		<a name="register"></a>
-	<form name="form" method="post" action="' . get_permalink() . '" class="form">'; 
-
-	$form.= ( WPMEM_USE_NONCE == 1 ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) : '';
-	
-	$form.= '	<fieldset>
+	<form name="form" method="post" action="' . get_permalink() . '" class="form">' .
+		wp_nonce_field( 'wpmem-register' ) . '
+		<fieldset>
 			<legend>' . $heading . '</legend>';
 
 	if( $toggle == 'edit' ) {

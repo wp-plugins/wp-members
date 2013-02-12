@@ -120,7 +120,7 @@ function wpmem_admin_update()
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
 			//update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
-			( $_POST ) ? update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ) : false;
+			( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ) : false;
 		}
 	}
 

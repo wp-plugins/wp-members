@@ -102,24 +102,18 @@ function wpmem_a_field_reorder()
  * @param  string $action The field update action (update_fields|add|edit)
  * @global string $add_field_err_msg The add field error message
  * @return string $did_update The fields update message
- *
- * @todo   apply some additional form validation to the add/update process
  */
 function wpmem_update_fields( $action )
 {
 	// get the current fields
-	$wpmem_fields    = get_option( 'wpmembers_fields' );
-	$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
+	$wpmem_fields = get_option( 'wpmembers_fields' );
 
 	if( $action == 'update_fields' ) {
 	
 		// check nonce
 		check_admin_referer( 'wpmem-update-fields' );
-
-		// @todo - need some additional form validation here
-		
-		// update user table fields
-		update_option( 'wpmembers_utfields', $_POST['ut_fields'] );
+	
+		// if editing a field, add error checking here
 	
 		// rebuild the array, don't touch user_email - it's always mandatory
 		$nrow = 0;
@@ -206,16 +200,13 @@ function wpmem_update_fields( $action )
 			$str = stripslashes( $_POST['add_dropdown_value'] );
 			// remove linebreaks
 			$str = trim( str_replace( array("\r", "\r\n", "\n"), '', $str ) );
-
-			/** 2.8.2 added for str_getcsv backward compatibility with PHP < 5.3 */
-			if( ! function_exists( 'str_getcsv' ) ) {
-				require_once( WPMEM_PATH . '/lib/str_getcsv.php' );
-			}
-
 			// create array
+			/** 2.8.1 changed to accomadate commas in the string. */
+			// $arr[7] = explode( ',', $str );
 			$arr[7] = str_getcsv( $str, ',', '"' );
 		}
-
+		
+		
 		if( $action == 'add_field' ) {
 			if( ! $add_field_err_msg ) {
 				array_push( $wpmem_fields, $arr );
@@ -409,19 +400,17 @@ function wpmem_a_field_table( $wpmem_fields )
 			<?php wp_nonce_field( 'wpmem-update-fields' ); ?>
 				<table class="widefat" id="wpmem-fields">
 					<thead><tr class="head">
-						<th scope="col"><?php _e( 'Add/Delete',  'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Field Label', 'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Option Name', 'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Field Type',  'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Display?',    'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Required?',   'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Checked?',    'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Edit',        'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Users Screen','wp-members' ); ?></th>
+						<th scope="col"><?php _e( 'Add/Delete',  'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Field Label', 'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Option Name', 'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Field Type',  'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Display?',    'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Required?',   'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'Checked?',    'wp-members' ) ?></th>
+						<th scope="col"><?php _e( 'WP Native?',  'wp-members' ) ?></th>
+						<th scope="col">&nbsp;</th>
 					</tr></thead>
 				<?php
-				// get the user table fields array
-				$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
 				// order, label, optionname, input type, display, required, native
 				$class = '';
 				for( $row = 0; $row < count($wpmem_fields); $row++ ) {
@@ -442,76 +431,13 @@ function wpmem_a_field_table( $wpmem_fields )
 					  <?php } else { ?>
 						<td colspan="2" width="20%"><small><i><?php _e( '(Email cannot be removed)', 'wp-members' ); ?></i></small></td>
 					  <?php } ?>
-						<td align="center" width="10%"><?php if( $wpmem_fields[$row][3] == 'checkbox' ) { 
+						<td width="10%"><?php if( $wpmem_fields[$row][3] == 'checkbox' ) { 
 							echo wpmem_create_formfield( $wpmem_fields[$row][2]."_checked", 'checkbox', 'y', $wpmem_fields[$row][8] ); } ?>
 						</td>
-						<td width="10%"><?php echo ( $wpmem_fields[$row][6] == 'y' ) ? 'native' : wpmem_fields_edit_link( $wpmem_fields[$row][2] ); ?></td>
-
-						<td align="center" width="10%">
-						<?php if( $wpmem_fields[$row][2] != 'user_email' ) { ?>
-							<input type="checkbox" name="ut_fields[<?php echo $wpmem_fields[$row][2]; ?>]" 
-							value="<?php echo $wpmem_fields[$row][1]; ?>" 
-							<?php echo ( ( $wpmem_ut_fields ) && ( in_array( $wpmem_fields[$row][1], $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						<?php } ?>
-						</td>
+						<td width="10%"><?php echo ( $wpmem_fields[$row][6] == 'y' ) ? 'yes' : false; ?></td>
+						<td width="10%"><?php echo ( $wpmem_fields[$row][6] != 'y' ) ? wpmem_fields_edit_link( $wpmem_fields[$row][2] ) : false; ?></td>
 					</tr><?php
-				} ?>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Registration Date</i></td>
-						<td><i>user_registered</i></td>
-						<td colspan="4">&nbsp;</td>
-						<td><?php _e( 'native', 'wp-members' ); ?></td>
-						<td align="center"><input type="checkbox" /></td>
-					</tr>
-				<?php if( WPMEM_MOD_REG == 1 ) { ?>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Active</i></td>
-						<td><i>active</i></td>
-						<td colspan="5">&nbsp;</td>
-						<td align="center">
-							<input type="checkbox" name="ut_fields[active]" 
-								value="Active" 
-								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Active', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						</td>
-					</tr>
-				<?php } ?>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Registration IP</i></td>
-						<td><i>wpmem_reg_ip</i></td>
-						<td colspan="5">&nbsp;</td>
-						<td align="center">
-							<input type="checkbox" name="ut_fields[wpmem_reg_ip]" 
-								value="Registration IP" 
-								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Registration IP', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						</td>
-					</tr>
-				<?php if( WPMEM_USE_EXP == 1 ) { ?>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Expires</i></td>
-						<td><i>expires</i></td>
-						<td colspan="5">&nbsp;</td>
-						<td align="center">
-							<input type="checkbox" name="ut_fields[expires]" 
-								value="Expires" 
-								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Expires', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						</td>
-					</tr>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Expiration Type</i></td>
-						<td><i>exp_type</i></td>
-						<td colspan="5">&nbsp;</td>
-						<td align="center">
-							<input type="checkbox" name="ut_fields[exp_type]" 
-								value="Expiration Type" 
-								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Expiration Type', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						</td>
-					</tr>
-				<?php } ?>
+				}	?>
 				</table><br />
 				<input type="hidden" name="wpmem_admin_a" value="update_fields" />
 				<input type="submit" name="save"  class="button-primary" value="<?php _e( 'Update Fields', 'wp-members' ); ?> &raquo;" /> 

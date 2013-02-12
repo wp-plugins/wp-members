@@ -17,10 +17,10 @@
 
 
 /** 
- * WordPress Administration Bootstrap 
+ * Load the WordPress Administration Bootstrap 
  */
-include( '../../../../wp-load.php' );
-include( '../../../../wp-admin/includes/admin.php' );
+include('../../../../wp-load.php');
+include('../../../../wp-admin/includes/admin.php');
 
 
 /**
@@ -46,8 +46,9 @@ $user_arr = get_users();
 /**
  * Generate headers and a filename based on date of export
  */
-$today = date( "m-d-y" ); 
-$filename = "user-export-" . $today . ".csv";
+$today = date("m-d-y"); 
+//$filename = "wp-members-user-export-".$today.".csv";
+$filename = "user-export-".$today.".csv";
 header( "Content-type: application/octet-stream" );
 header( "Content-Disposition: attachment; filename=\"$filename\"" );
 
@@ -62,7 +63,7 @@ $wpmem_fields = get_option( 'wpmembers_fields' );
  */
 $hrow = "User ID,Username,";
 for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-	$hrow.= $wpmem_fields[$row][1] . ",";
+		$hrow.= $wpmem_fields[$row][1].",";
 }
 
 if( WPMEM_MOD_REG == 1 ) {
@@ -84,40 +85,35 @@ reset( $wpmem_fields );
 
 /**
  * Loop through the array of users,
- * build the data, delimit by commas, wrap fields with double quotes, 
+ * build the data, delimit by commas, 
  * use \n switch for new line
  */
 foreach( $user_arr as $user ) {
 
- 	$data.= '"' . $user->ID . '","' . $user->user_login . '",';
-	
+ 	$data.= $user->ID . "," . $user->user_login . ",";
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-	
 		if( $wpmem_fields[$row][2] == 'user_email' ) {
-			$data.= '"' . $user->user_email . '",';
+			$data.= $user->user_email . ",";
 		} else {
-			$data.= '"' . get_user_meta( $user->ID, $wpmem_fields[$row][2], true ) . '",';
+			$data.= get_user_meta( $user->ID, $wpmem_fields[$row][2], true ) . ",";
 		}
-		
 	}
 	
 	if( WPMEM_MOD_REG == 1 ) {
-	
 		if( get_user_meta( $user->ID, 'active', 1 ) ) {
-			$data.= '"' . __( 'Yes', 'wp-members' ) . '",';
+			$data.= __( 'Yes', 'wp-members' ) . ",";
 		} else {
-			$data.= '"' . __( 'No', 'wp-members' ) . '",';
+			$data.= __( 'No', 'wp-members' ) . ",";
 		}
-		
 	}
 
 	if( WPMEM_USE_EXP ==1 ) {
-		$data.= '"' . get_user_meta( $user->ID, "exp_type", true ) . '",';
-		$data.= '"' . get_user_meta( $user->ID, "expires", true ) . '",';
+		$data.= get_user_meta( $user->ID, "exp_type", true ) . ",";
+		$data.= get_user_meta( $user->ID, "expires", true ) . ",";
 	}
 	
-	$data.= '"' . $user->user_registered . '",';
-	$data.= '"' . get_user_meta( $user->ID, "wpmem_reg_ip", true ) . '"';
+	$data.= $user->user_registered . ",";
+	$data.= get_user_meta( $user->ID, "wpmem_reg_ip", true );
 	$data.= "\r\n";
 
 }

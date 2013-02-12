@@ -38,7 +38,6 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'wpmembers_cssurl'   );
 	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );
-	delete_option( 'wpmembers_utfields' );
 
 	delete_option( 'wpmembers_email_newreg' );
 	delete_option( 'wpmembers_email_newmod' );

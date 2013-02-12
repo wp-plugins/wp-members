@@ -17,11 +17,10 @@
  */
 
 
-/**
- * Include utility functions
- */
-require_once( 'utilities.php' ); 
-
+/*****************************************************
+ * PRIMARY FUNCTIONS
+ *****************************************************/
+ 
 
 if ( ! function_exists( 'wpmem' ) ):
 /**
@@ -39,7 +38,7 @@ function wpmem()
 {	
 	global $wpmem_a, $wpmem_regchk;
 
-	$wpmem_a = ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
+	if( isset( $_REQUEST['a'] ) ) { $wpmem_a = trim( $_REQUEST['a'] ); }
 
 	switch ($wpmem_a) {
 
@@ -87,11 +86,11 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * @uses apply_filters Calls 'wpmem_securify'
  *
- * @global var    $wpmem_a the action variable received from wpmem()
+ * @global var $wpmem_a the action variable received from wpmem()
  * @global string $wpmem_regchk contains messages returned from wpmem() action functions
  * @global string $wpmem_themsg contains messages to be output
  * @global string $wpmem_captcha_err contains error message for reCAPTCHA
- * @global array  $post needed for protecting comments
+ * @global array $post needed for protecting comments
  * @param  string $content
  * @return $content
  */
@@ -161,14 +160,16 @@ function wpmem_securify( $content = null )
 	
 				$content = $content . wpmem_inc_login();
 				
-				$content = ( WPMEM_NO_REG != 1 ) ? $content . wpmem_inc_registration() : $content;
+				if( WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); } // toggle turns off reg process for all but registration page.
 			}
 	
 
 		// Protects comments if expiration module is used and user is expired
 		} elseif( is_user_logged_in() && wpmem_block() == true ){
-
-			$content = ( WPMEM_USE_EXP == 1 ) ? wpmem_do_expmessage( $content ) : $content;
+			
+			if( WPMEM_USE_EXP == 1 ) { 
+				$content = wpmem_do_expmessage( $content ); 
+			}
 			
 		}
 		
@@ -239,11 +240,10 @@ function wpmem_do_sc_pages( $page )
 
 			} else {
 
-				// if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
-				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
+				if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
 				
-				// if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
-				$content = ( $page == 'register' || WPMEM_NO_REG != 1 ) ? $content . wpmem_inc_registration() : $content;
+				// turn off registration on all but the register page.
+				if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
 			}
 
 		} elseif( is_user_logged_in() && $page == 'members-area' ) {
@@ -299,8 +299,17 @@ function wpmem_do_sc_pages( $page )
 	}
 	
 	if( $page == 'login' ) {
-		$content = ( $wpmem_regchk == "loginfailed" ) ? wpmem_inc_loginfailed() : $content; 
-		$content = ( ! is_user_logged_in() ) ? $content . wpmem_inc_login( 'login' ) : wpmem_inc_memberlinks( 'login' );
+		
+		if( $wpmem_regchk == "loginfailed" ) {
+			$content = wpmem_inc_loginfailed();
+		}
+		
+		if( ! is_user_logged_in() ) {
+			$content = $content . wpmem_inc_login( 'login' );
+		} else {
+			$content = wpmem_inc_memberlinks( 'login' );
+		}
+		
 	}
 	
 	if( $page == 'password' ) {
@@ -484,7 +493,8 @@ function wpmem_login()
 		$user_login = sanitize_user( $_POST['log'] );
 		
 		/** are we setting a forever cookie? */
-		$rememberme = ( isset( $_POST['rememberme'] ) == 'forever' ) ? true : false;
+		$rememberme = false;
+		if( isset( $_POST['rememberme'] ) == 'forever' ) { $rememberme = true; }
 		
 		/** assemble login credentials */
 		$creds = array();
@@ -501,8 +511,11 @@ function wpmem_login()
 			/** set the auth cookie */
 			wp_set_auth_cookie( $user->ID, $rememberme );
 			
-			/** determine where to put the user after login */			
-			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['PHP_SELF'];
+			/** determine where to put the user after login */
+			$redirect_to = $_SERVER['PHP_SELF'];
+			if( isset( $_POST['redirect_to'] ) ) {
+				$redirect_to = $_POST['redirect_to'];
+			}
 			
 			/** apply wpmem_login_redirect filter */
 			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to );
@@ -734,4 +747,238 @@ function wpmem_head()
 { 
 	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://rocketgeek.com/wp-members -->\r\n";
 }
+
+
+/*****************************************************
+ * END PRIMARY FUNCTIONS
+ *****************************************************/
+
+
+/*****************************************************
+ * UTILITY FUNCTIONS
+ *****************************************************/
+
+
+if ( ! function_exists( 'wpmem_create_formfield' ) ):
+/**
+ * Creates form fields
+ *
+ * Creates various form fields and returns them as a string.
+ *
+ * @since 1.8
+ *
+ * @param  string $name the name of the field
+ * @param  string $type the field type
+ * @param  string $value the default value for the field
+ * @param  string $valtochk optional for comparing the default value of the field
+ * @param  string $class optional for setting a specific CSS class for the field 
+ * @return string $str the field returned as a string
+ */
+function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' )
+{
+	switch( $type ) {
+
+	case "checkbox":
+		if( $class = 'textbox' ) { $class = "checkbox"; }
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected( $value, $valtochk, $type ) . " />\n";
+		break;
+
+	case "text":
+		$value = stripslashes( $value );
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
+		break;
+
+	case "textarea":
+		$value = stripslashes( $value );
+		if( $class = 'textbox' ) { $class = "textarea"; }
+		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
+		break;
+
+	case "password":
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />\n";
+		break;
+
+	case "hidden":
+		$str = "<input name=\"$name\" type=\"$type\" value=\"$value\" />\n";
+		break;
+
+	case "option":
+		$str = "<option value=\"$value\" " . wpmem_selected( $value, $valtochk, 'select' ) . " >$name</option>\n";
+		break;
+
+	case "select":
+		if( $class == 'textbox' ) { $class = "dropdown"; }
+		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
+		foreach( $value as $option ) {
+			$pieces = explode( '|', $option );
+			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">$pieces[0]</option>\n";
+		}
+		$str = $str . "</select>\n";
+		break;
+
+	}
+	
+	return $str;
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_selected' ) ):
+/**
+ * Determines if a form field is selected (i.e. lists & checkboxes)
+ *
+ * @since 0.1
+ *
+ * @param  string $value
+ * @param  string $valtochk
+ * @param  string $type
+ * @return string $issame
+ */
+function wpmem_selected( $value, $valtochk, $type=null )
+{
+	if( $type == 'select' ) {
+		$issame = 'selected';
+	} else {
+		$issame = 'checked';
+	}
+	if( $value == $valtochk ){ return $issame; }
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_chk_qstr' ) ):
+/**
+ * Checks querystrings
+ *
+ * @since 2.0
+ *
+ * @uses   get_permalink
+ * @param  string $url
+ * @return string $return_url
+ */
+function wpmem_chk_qstr( $url = null )
+{
+	$permalink = get_option( 'permalink_structure' );
+	if( ! $permalink ) {
+		if( ! $url ) { $url = get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING']; }
+		$return_url = $url . "&amp;";
+	} else {
+		if( !$url ) { $url = get_permalink(); }
+		$return_url = $url . "?";
+	}
+	return $return_url;
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_generatePassword' ) ):
+/**
+ * Generates a random password 
+ *
+ * @since 2.0
+ *
+ * @return string the random password
+ */
+function wpmem_generatePassword()
+{	
+	return substr( md5( uniqid( microtime() ) ), 0, 7);
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_texturize' ) ):
+/**
+ * Overrides the wptexturize filter
+ *
+ * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me"
+ *
+ * @since 2.6.4
+ *
+ * @param  string $content
+ * @return string $new_content
+ */
+function wpmem_texturize( $content ) 
+{
+	$new_content = '';
+	$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
+	$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
+	$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+	foreach( $pieces as $piece ) {
+		if( preg_match( $pattern_contents, $piece, $matches ) ) {
+			$new_content .= $matches[1];
+		} else {
+			$new_content .= wptexturize( wpautop( $piece ) );
+		}
+	}
+
+	return $new_content;
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_enqueue_style' ) ):
+/**
+ * Loads the stylesheet for tableless forms
+ *
+ * @since 2.6
+ *
+ * @uses wp_register_style
+ * @uses wp_enqueue_style
+ */
+function wpmem_enqueue_style()
+{		
+	if ( WPMEM_CSSURL != null ) { 
+		$css_path = WPMEM_CSSURL; 
+	} else {
+		$css_path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
+		$css_path = $css_path."css/wp-members.css";
+	}
+
+	wp_register_style('wp-members', $css_path);
+	wp_enqueue_style( 'wp-members');
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_do_excerpt' ) ):
+/**
+ * Creates an excerpt on the fly if there is no 'more' tag
+ *
+ * @since 2.6
+ *
+ * @uses apply_filters Calls 'wpmem_auto_excerpt'
+ * @uses apply_filters Calls 'the_content_more_link'
+ *
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_do_excerpt( $content )
+{	
+	$arr = get_option( 'wpmembers_autoex' );
+	if( $arr['auto_ex'] == true ) {
+		
+		if( ! stristr( $content, 'class="more-link"' ) ) {
+		
+			$words = explode(' ', $content, ( $arr['auto_ex_len'] + 1 ) );
+			if( count( $words ) > $arr['auto_ex_len'] ) { array_pop( $words ); }
+			$content = implode( ' ', $words );
+		
+		}		
+	}
+	
+	apply_filters( 'wpmem_auto_excerpt', $content );
+
+	global $post, $more;
+	if( ! $more && ( $arr['auto_ex'] == true ) ) {
+		$more_link_text = '(more...)';
+		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
+		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
+		
+		$content = $content . $more_link;
+	}
+	
+	return $content;
+}
+endif;
 ?>
