@@ -119,7 +119,7 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 Feature Updates
 
 * Added WP user fields user_nicename, display_name, and nickname to the $fields array, defaults to $username for backward compatibility.
-* Added wpmem_filter_form_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields.
+* Added wpmem_filter_form_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields (added updates to registration function to make better use of the filter).
 * Begin implementation of moving bulk user management features into Users > All Users.  Users > All Users screen can now activate and export users, and will show additional fields as selected in the fields manager. 
 
 Fixes, Patches, & Code Improvements
@@ -131,6 +131,7 @@ Fixes, Patches, & Code Improvements
 * Moved utility functions out of core.php to utility file utilities.php.
 * Fixed user profile update (updates with custom checkbox don't stay checked), an issue from 2.8.0.
 * Improved export process to wrap fields with double quotes - fixes issues if field contains a comma.
+* Updated the registration function to rely on the values contain in $fields, allowing for the array values to be filtered.
 
 = 2.8.1 =
 

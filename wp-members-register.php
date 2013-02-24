@@ -43,7 +43,7 @@ if( ! function_exists( 'wpmem_registration' ) ):
 function wpmem_registration( $toggle )
 {
 	// get the globals
-	global $user_ID, $userdata, $wpmem_themsg, $username, $user_email, $wpmem_fieldval_arr;
+	global $user_ID, $userdata, $wpmem_themsg, $wpmem_fieldval_arr;
 	
 	// check the nonce
 	if( WPMEM_USE_NONCE == 1 ) {
@@ -55,34 +55,27 @@ function wpmem_registration( $toggle )
 
 	// is this a registration or a user profile update?
 	if( $toggle == 'register' ) { 
-		$username = $_POST['log'];
-		// add for _data hooks	
-		$fields['username'] = $username;
+		$fields['username'] = $_POST['log'];
 	}
 	
 	// add the user email to the $fields array for _data hooks
-	$user_email = $_POST['user_email'];
-	// add for _data hooks
-	$fields['user_email'] = $user_email; 
+	$fields['user_email'] = $_POST['user_email'];
 
 	// build array of the posts
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		$wpmem_fieldval_arr[$row] = $_POST[$wpmem_fields[$row][2]];
-		// add for _data hooks
 		if( $wpmem_fields[$row][2] != 'password' && $wpmem_fields[$row][4] == 'y' ) {
-			$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $wpmem_fieldval_arr[$row] );
+			$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $_POST[$wpmem_fields[$row][2]] );
 		}
 	}
 	
 	// check for required fields	
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
-	$wpmem_fieldval_arr_rev = array_reverse( $wpmem_fieldval_arr );
 
 	for( $row = 0; $row < count($wpmem_fields); $row++ ) {
 		$pass_chk = ( $toggle == 'update' && $wpmem_fields_rev[$row][2] == 'password' ) ? true : false;
 		if( $wpmem_fields_rev[$row][5] == 'y' && $pass_chk == false ) {
-			if( !$wpmem_fieldval_arr_rev[$row] ) { $wpmem_themsg = sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ); }
+			if( ! $fields[$wpmem_fields_rev[$row][2]] ) { $wpmem_themsg = sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ); }
 		}
 	}
 
@@ -90,12 +83,12 @@ function wpmem_registration( $toggle )
 
 	case "register":
 
-		if( !$username ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); return $wpmem_themsg; exit(); } 
-		if( !validate_username( $username ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); return $wpmem_themsg; exit(); }
-		if( !is_email( $user_email) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); return $wpmem_themsg; exit(); }
+		if( !$fields['username'] ) { $wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); return $wpmem_themsg; exit(); } 
+		if( !validate_username( $fields['username'] ) ) { $wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); return $wpmem_themsg; exit(); }
+		if( !is_email( $fields['user_email']) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); return $wpmem_themsg; exit(); }
 		if( $wpmem_themsg ) { return "empty"; exit(); }
-		if( username_exists( $username ) ) { return "user"; exit(); } 
-		if( email_exists( $user_email ) ) { return "email"; exit(); }
+		if( username_exists( $fields['username'] ) ) { return "user"; exit(); } 
+		if( email_exists( $fields['user_email'] ) ) { return "email"; exit(); }
 		
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); // get the captcha settings (api keys) 
 		if( WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1] ) { // if captcha is on, check the captcha
@@ -143,24 +136,21 @@ function wpmem_registration( $toggle )
 		
 		// check for user defined password
 		if( ! $_POST['password'] ) {
-			$password = wp_generate_password();
+			$fields['password'] = wp_generate_password();
 		} else {
-			$password = $_POST['password'];
+			$fields['password'] = $_POST['password'];
 		}
 		
-		$user_registered = gmdate( 'Y-m-d H:i:s' );
-		$user_role       = get_option( 'default_role' );
-		
 		// add for _data hooks	
-		$fields['password']        = $password;
-		$fields['user_registered'] = $user_registered;
+		$fields['user_registered'] = gmdate( 'Y-m-d H:i:s' );
+		$fields['user_rold']       = get_option( 'default_role' );
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
 		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];
 
 		// defaults set to username, can be filtered with wpmem_filter_register_data
-		$fields['user_nicename']   = $username;
-		$fields['display_name']    = $username;
-		$fields['nickname']        = $username;
+		$fields['user_nicename']   = $fields['username'];
+		$fields['display_name']    = $fields['username'];
+		$fields['nickname']        = $fields['username'];
 
 		// allows all $field values to be filtered
 		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
@@ -172,26 +162,26 @@ function wpmem_registration( $toggle )
 		if( $wpmem_themsg ){ return $wpmem_themsg; }
 	
 		// inserts to wp_users table
-		$user_id = wp_insert_user( array (
-			'user_pass'       => $password, 
-			'user_login'      => $username,
-			'user_nicename'   => $username,
-			'user_email'      => $user_email,
-			'display_name'    => $username,
-			'nickname'        => $username,
-			'user_registered' => $user_registered,
-			'role'            => $user_role
+		$fields['ID'] = wp_insert_user( array (
+			'user_pass'       => $fields['password'], 
+			'user_login'      => $fields['username'],
+			'user_nicename'   => $fields['user_nicename'],
+			'user_email'      => $fields['user_email'],
+			'display_name'    => $fields['display_name'],
+			'nickname'        => $fields['nickname'],
+			'user_registered' => $fields['user_registered'],
+			'role'            => $fields['user_role']
 		) );
 		
 		// set remaining fields to wp_usermeta table
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 			if( $wpmem_fields[$row][2] != 'password' ) {
 				if( $wpmem_fields[$row][2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
-					wp_update_user( array ( 'ID' => $user_id, 'user_url' => $wpmem_fieldval_arr[$row] ) );
+					wp_update_user( array ( 'ID' => $fields['ID'], 'user_url' => $fields['user_url'] ) );
 				} else {
 					if( $wpmem_fields[$row][2] != 'user_email' ) { // email is already done above, so if it's not email...
 						if( $wpmem_fields[$row][4] == 'y' ) { // are we using this field?
-							update_user_meta( $user_id, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row] );
+							update_user_meta( $fields['ID'], $wpmem_fields[$row][2], $fields[$wpmem_fields[$row][2]] );
 						}
 					}
 				}
@@ -199,26 +189,25 @@ function wpmem_registration( $toggle )
 		} 
 		
 		// capture IP address of user at registration
-		update_user_meta( $user_id, 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
+		update_user_meta( $fields['ID'], 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
 		
 		// store the registration url
-		update_user_meta( $user_id, 'wpmem_reg_url', $_REQUEST['redirect_to'] );
+		update_user_meta( $fields['ID'], 'wpmem_reg_url', $_REQUEST['redirect_to'] );
 
 		// set user expiration, if used
-		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $user_id ); }
+		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $fields['ID'] ); }
 		
 		// _data hook after insertion but before email
-		$fields['ID'] = $user_id;
 		do_action( 'wpmem_post_register_data', $fields );
 		
 		require_once( 'wp-members-email.php' );
 
 		// if this was successful, and you have email properly
 		// configured, send a notification email to the user
-		wpmem_inc_regemail( $user_id, $password, WPMEM_MOD_REG );
+		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG );
 		
 		// notify admin of new reg, if needed;
-		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $user_id, $wpmem_fields ); }
+		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }
 		
 		// add action for redirection
 		do_action( 'wpmem_register_redirect' );
@@ -234,9 +223,9 @@ function wpmem_registration( $toggle )
 		// doing a check for existing email is not the same as a new reg. 
 		// check first to see if it's different, then check if it exists.
 		global $current_user; get_currentuserinfo();
-		if( $user_email !=  $current_user->user_email ) {
+		if( $fields['user_email'] !=  $current_user->user_email ) {
 	
-			if( email_exists( $user_email ) ) { return "email"; exit; } 
+			if( email_exists( $fields['user_email'] ) ) { return "email"; exit; } 
 			
 		}
 		
@@ -252,11 +241,11 @@ function wpmem_registration( $toggle )
 			switch( $wpmem_fields[$row][2] ) {
 
 			case( 'user_url' ): // user_url goes into wp_users
-				wp_update_user( array ('ID' => $user_ID, 'user_url' => $wpmem_fieldval_arr[$row] ) );
+				wp_update_user( array ('ID' => $user_ID, 'user_url' => $fields['user_url'] ) );
 				break;
 
 			case( 'user_email' ): // user_email goes into wp_users
-				wp_update_user( array ('ID' => $user_ID, 'user_email' => $wpmem_fieldval_arr[$row] ) );
+				wp_update_user( array ('ID' => $user_ID, 'user_email' => $fields['user_email'] ) );
 				break;
 			
 			case( 'password' ):
@@ -265,7 +254,7 @@ function wpmem_registration( $toggle )
 
 			default: // everything else goes into wp_usermeta
 				if( $wpmem_fields[$row][4] == 'y' ) {
-					update_user_meta( $user_ID, $wpmem_fields[$row][2], $wpmem_fieldval_arr[$row] );
+					update_user_meta( $user_ID, $wpmem_fields[$row][2], $fields[$wpmem_fields[$row][2]] );
 				}
 				break;
 			}
