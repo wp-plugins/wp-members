@@ -127,7 +127,7 @@ function wpmem_update_fields( $action )
 
 			// check to see if the field is checked for deletion, and if not, add it to the new array.
 			$delete_field = "del_" . $wpmem_fields[$row][2];
-			$delete_field = ( isset( $_POST[$delete_field] ) ) ? $_POST[$delete_field] : false; // $delete_field = $_POST[$delete_field];
+			$delete_field = ( isset( $_POST[$delete_field] ) ) ? $_POST[$delete_field] : false; 
 			if( $delete_field != "delete" ) {
 
 				for( $i = 0; $i < 4; $i++ ) {
@@ -141,10 +141,8 @@ function wpmem_update_fields( $action )
 				$checked_field = $wpmem_fields[$row][2] . "_checked";
 
 				if( $wpmem_fields[$row][2] != 'user_email' ){
-					//if ($_POST[$display_field] == "on") {$wpmem_newfields[$row][4] = 'y';}
-					//if ($_POST[$require_field] == "on") {$wpmem_newfields[$row][5] = 'y';}
-					$wpmem_newfields[$nrow][4] = ( isset( $_POST[$display_field] ) ) ? $_POST[$display_field] : ''; // $wpmem_newfields[$nrow][4] = $_POST[$display_field];
-					$wpmem_newfields[$nrow][5] = ( isset( $_POST[$require_field] ) ) ? $_POST[$require_field] : ''; // $wpmem_newfields[$nrow][5] = $_POST[$require_field];
+					$wpmem_newfields[$nrow][4] = ( isset( $_POST[$display_field] ) ) ? $_POST[$display_field] : '';
+					$wpmem_newfields[$nrow][5] = ( isset( $_POST[$require_field] ) ) ? $_POST[$require_field] : '';
 				} else {
 					$wpmem_newfields[$nrow][4] = 'y';
 					$wpmem_newfields[$nrow][5] = 'y';		
@@ -152,7 +150,7 @@ function wpmem_update_fields( $action )
 
 				if( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) { $chkreq = "err"; }
 				$wpmem_newfields[$nrow][6] = $wpmem_fields[$row][6];
-				$wpmem_newfields[$nrow][7] = ( isset( $wpmem_fields[$row][7] ) ) ? $wpmem_fields[$row][7] : ''; // if( $wpmem_fields[$row][7] ) { $wpmem_newfields[$nrow][7] = $wpmem_fields[$row][7]; }
+				$wpmem_newfields[$nrow][7] = ( isset( $wpmem_fields[$row][7] ) ) ? $wpmem_fields[$row][7] : '';
 				if( $wpmem_fields[$row][3] == 'checkbox' ) { 
 					if( isset( $_POST[$checked_field] ) && $_POST[$checked_field] == 'y' ) { //for debugging: echo "checked: " . $_POST[$checked_field];
 						$wpmem_newfields[$nrow][8] = 'y';
@@ -187,13 +185,13 @@ function wpmem_update_fields( $action )
 		
 		$arr = array();
 		
-		$arr[0] = ( $action == 'add_field' ) ? ( count( $wpmem_fields ) ) + 2 : false; //$_POST['field_arr'] - 1;
+		$arr[0] = ( $action == 'add_field' ) ? ( count( $wpmem_fields ) ) + 2 : false;
 		$arr[1] = stripslashes( $_POST['add_name'] );
 		$arr[2] = $us_option;
 		$arr[3] = $_POST['add_type'];
 		$arr[4] = ( isset( $_POST['add_display'] ) )  ? $_POST['add_display']  : 'n';
 		$arr[5] = ( isset( $_POST['add_required'] ) ) ? $_POST['add_required'] : 'n';
-		$arr[6] = 'n';
+		$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 		
 		if( $_POST['add_type'] == 'checkbox' ) { 
 			$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : false;
@@ -233,9 +231,7 @@ function wpmem_update_fields( $action )
 					}
 				}
 			}
-			
-			//$replacement  = array( ( $arr[0] - 1 ) => $arr );
-			//$wpmem_fields = array_replace( $wpmem_fields, $replacement );
+
 			update_option( 'wpmembers_fields', $wpmem_fields );
 			
 			$did_update = $_POST['add_name'] . ' ' . __( 'field was updated', 'wp-members' );

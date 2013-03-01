@@ -132,6 +132,9 @@ Fixes, Patches, & Code Improvements
 * Fixed user profile update (updates with custom checkbox don't stay checked), an issue from 2.8.0.
 * Improved export process to wrap fields with double quotes - fixes issues if field contains a comma.
 * Updated the registration function to rely on the values contain in $fields, allowing for the array values to be filtered.
+* Some minor updates to the registration form to accommodate registration function updates.
+* Move the location of the wpmem_email_notify hook so the filter comes after shortcodes are parsed.
+* Improved auto excerpt function screens for unclosed common html tags and provides a closing tag if none exists.
 
 = 2.8.1 =
 

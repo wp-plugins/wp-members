@@ -35,7 +35,7 @@ if( ! function_exists( 'wpmem_inc_registration_OLD' ) ):
  */
 function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 {
-	global $userdata, $wpmem_regchk, $username, $wpmem_fieldval_arr;
+	global $userdata, $wpmem_regchk;
 
 	if( !$heading ) { $heading = "<h2>" . __( 'New Users Registration', 'wp-members' ) . "</h2>"; }
 
@@ -58,7 +58,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 	} else {
 		$form = $form . '<tr> 
 			  <td width="49%" align="right">' . __( 'Choose a Username', 'wp-members' ) . '<font color="red">*</font></td>
-			  <td width="51%"><input name="log" type="text" value="' . stripslashes( $username ) . '" /></td>
+			  <td width="51%"><input name="log" type="text" value="' . stripslashes( $_POST['log'] ) . '" /></td>
 			</tr>';
 	}
 
@@ -129,7 +129,7 @@ function wpmem_inc_registration_OLD( $toggle = 'new', $heading = '' )
 
 			} else {
 
-				$val = $wpmem_fieldval_arr[$row];
+				$val = $_POST[ $wpmem_fields[$row][2] ];
 
 			}
 

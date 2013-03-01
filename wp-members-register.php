@@ -33,17 +33,14 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @param  string $toggle toggles the function between 'register' and 'update'.
  * @global int    $user_ID
- * @global array  $userdata
  * @global string $wpmem_themsg
- * @global string $username
- * @global string $user_mail
- * @global array  $wpmem_fieldval_arr
+ * @global array  $userdata
  * @return string $wpmem_themsg|success|editsuccess
  */
 function wpmem_registration( $toggle )
 {
 	// get the globals
-	global $user_ID, $userdata, $wpmem_themsg, $wpmem_fieldval_arr;
+	global $user_ID, $wpmem_themsg, $userdata;
 	
 	// check the nonce
 	if( WPMEM_USE_NONCE == 1 ) {
@@ -68,7 +65,7 @@ function wpmem_registration( $toggle )
 			$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $_POST[$wpmem_fields[$row][2]] );
 		}
 	}
-	
+
 	// check for required fields	
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
 
@@ -135,22 +132,22 @@ function wpmem_registration( $toggle )
 		}		
 		
 		// check for user defined password
-		if( ! $_POST['password'] ) {
-			$fields['password'] = wp_generate_password();
-		} else {
-			$fields['password'] = $_POST['password'];
-		}
+		$fields['password'] = ( ! $_POST['password'] ) ? wp_generate_password() : $_POST['password'];
 		
 		// add for _data hooks	
 		$fields['user_registered'] = gmdate( 'Y-m-d H:i:s' );
-		$fields['user_rold']       = get_option( 'default_role' );
+		$fields['user_role']       = get_option( 'default_role' );
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
 		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];
 
-		// defaults set to username, can be filtered with wpmem_filter_register_data
-		$fields['user_nicename']   = $fields['username'];
-		$fields['display_name']    = $fields['username'];
-		$fields['nickname']        = $fields['username'];
+		/**
+		 * these native fields are not installed by default, but if they
+		 * are added, use the $_POST value - otherwise, default to username. 
+		 * value can be filtered with wpmem_filter_register_data
+	 	 */
+		$fields['user_nicename']   = ( isset( $_POST['user_nicename'] ) ) ? $_POST['user_nicename'] : $fields['username'];
+		$fields['display_name']    = ( isset( $_POST['display_name'] ) )  ? $_POST['display_name']  : $fields['username'];
+		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? $_POST['nickname']      : $fields['username'];
 
 		// allows all $field values to be filtered
 		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
@@ -224,13 +221,14 @@ function wpmem_registration( $toggle )
 		// check first to see if it's different, then check if it exists.
 		global $current_user; get_currentuserinfo();
 		if( $fields['user_email'] !=  $current_user->user_email ) {
-	
 			if( email_exists( $fields['user_email'] ) ) { return "email"; exit; } 
-			
 		}
-		
-		// _data hook is before data insertion
+
+		// add the user_ID to the fields array
 		$fields['ID'] = $user_ID;
+		// allow all $field values to be filtered
+		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
+		// _pre_update_data hook is before data insertion
 		do_action( 'wpmem_pre_update_data', $fields );
 		
 		// if the _pre_update_data hook sends back an error message
@@ -240,14 +238,14 @@ function wpmem_registration( $toggle )
 		
 			switch( $wpmem_fields[$row][2] ) {
 
-			case( 'user_url' ): // user_url goes into wp_users
-				wp_update_user( array ('ID' => $user_ID, 'user_url' => $fields['user_url'] ) );
+			case( 'user_url' ):
+			case( 'user_email'  ):
+			case( 'user_nicename' ):
+			case( 'display_name' ):
+			case( 'nickname' ):
+				wp_update_user( array( 'ID' => $user_ID, $wpmem_fields[$row][2] => $fields[$wpmem_fields[$row][2]] ) );
 				break;
-
-			case( 'user_email' ): // user_email goes into wp_users
-				wp_update_user( array ('ID' => $user_ID, 'user_email' => $fields['user_email'] ) );
-				break;
-			
+		
 			case( 'password' ):
 				// do nothing...
 				break;
@@ -260,7 +258,7 @@ function wpmem_registration( $toggle )
 			}
 		}
 		
-		// _data hook is after insertion
+		// _post_update_data hook is after insertion
 		do_action( 'wpmem_post_update_data', $fields );
 
 		return "editsuccess"; exit();
