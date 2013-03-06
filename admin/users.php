@@ -51,9 +51,9 @@ function wpmem_admin_users()
 		case "activate":
 			// find out if we need to set passwords
 			$wpmem_fields = get_option( 'wpmembers_fields' );
+			$chk_pass = false;
 			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-				//if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = true; }
-				$chk_pass = ( $wpmem_fields[$row][2] == 'password' ) ? true : false;
+				if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = true; }
 			}
 			$x = 0;
 			foreach( $users as $user ) {
@@ -297,69 +297,6 @@ function wpmem_admin_users()
 
 
 /**
- * Activates a user
- *
- * If registration is moderated, sets the activated flag 
- * in the usermeta. Flag prevents login when WPMEM_MOD_REG
- * is true (1). Function is fired from bulk user edit or
- * user profile update.
- *
- * @since 2.4
- *
- * @uses do_action Calls 'wpmem_user_activated' action
- *
- * @param int  $user_id
- * @param bool $chk_pass
- * @uses $wpdb WordPress Database object
- */
-function wpmem_a_activate_user( $user_id, $chk_pass = false )
-{
-	// define new_pass
-	$new_pass = '';
-	
-	// If passwords are user defined skip this
-	if( ! $chk_pass ) {
-		// generates a password to send the user
-		$new_pass = wp_generate_password();
-		$new_hash = wp_hash_password( $new_pass );
-		
-		// update the user with the new password
-		global $wpdb;
-		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
-	}
-	
-	// if subscriptions can expire, set the user's expiration date
-	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
-
-	// generate and send user approved email to user
-	require_once( WPMEM_PATH . 'wp-members-email.php' );
-	wpmem_inc_regemail( $user_id, $new_pass, 2 );
-	
-	// set the active flag in usermeta
-	update_user_meta( $user_id, 'active', 1 );
-	
-	do_action( 'wpmem_user_activated', $user_id );
-	
-	return;
-}
-
-
-/**
- * Deactivates a user
- *
- * Reverses the active flag from the activation process
- * preventing login when registration is moderated.
- *
- * @since 2.7.1
- *
- * @param int $user_id
- */
-function wpmem_a_deactivate_user( $user_id ) {
-	update_user_meta( $user_id, 'active', 0 );
-}
-
-
-/**
  * builds the user action dropdown
  *
  * @param bool  $top
@@ -550,9 +487,10 @@ function wpmem_users_page_load()
 	
 	if( $action == 'activate' || 'activate-single' ) {
 		// find out if we need to set passwords
+		$chk_pass = false;
 		$wpmem_fields = get_option( 'wpmembers_fields' );
 		for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-			$chk_pass = ( $wpmem_fields[$row][2] == 'password' ) ? true : false;
+			if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = true; }
 		}
 	}
 
@@ -746,16 +684,80 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 		break;
 
 	case 'user_url':
+	case 'user_registered':
 		/**
 		 * Unlike other fields, website/url is not a meta field
 	 	 */
 		$user_info = get_userdata( $user_id );
-		return $user_info->user_url;
+		return $user_info->$column_name;
 		break;
 		
 	default:
 		return get_user_meta( $user_id, $column_name, true );
 		break;
 	}
+}
+
+
+/**
+ * Activates a user
+ *
+ * If registration is moderated, sets the activated flag 
+ * in the usermeta. Flag prevents login when WPMEM_MOD_REG
+ * is true (1). Function is fired from bulk user edit or
+ * user profile update.
+ *
+ * @since 2.4
+ *
+ * @uses do_action Calls 'wpmem_user_activated' action
+ *
+ * @param int  $user_id
+ * @param bool $chk_pass
+ * @uses $wpdb WordPress Database object
+ */
+function wpmem_a_activate_user( $user_id, $chk_pass = false )
+{
+	// define new_pass
+	$new_pass = '';
+	
+	// If passwords are user defined skip this
+	if( ! $chk_pass ) {
+		// generates a password to send the user
+		$new_pass = wp_generate_password();
+		$new_hash = wp_hash_password( $new_pass );
+		
+		// update the user with the new password
+		global $wpdb;
+		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	}
+	
+	// if subscriptions can expire, set the user's expiration date
+	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
+
+	// generate and send user approved email to user
+	require_once( WPMEM_PATH . 'wp-members-email.php' );
+	wpmem_inc_regemail( $user_id, $new_pass, 2 );
+	
+	// set the active flag in usermeta
+	update_user_meta( $user_id, 'active', 1 );
+	
+	do_action( 'wpmem_user_activated', $user_id );
+	
+	return;
+}
+
+
+/**
+ * Deactivates a user
+ *
+ * Reverses the active flag from the activation process
+ * preventing login when registration is moderated.
+ *
+ * @since 2.7.1
+ *
+ * @param int $user_id
+ */
+function wpmem_a_deactivate_user( $user_id ) {
+	update_user_meta( $user_id, 'active', 0 );
 }
 ?>

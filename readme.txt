@@ -121,6 +121,7 @@ Feature Updates
 * Added WP user fields user_nicename, display_name, and nickname to the $fields array, defaults to $username for backward compatibility.
 * Added wpmem_filter_form_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields (added updates to registration function to make better use of the filter).
 * Begin implementation of moving bulk user management features into Users > All Users.  Users > All Users screen can now activate and export users, and will show additional fields as selected in the fields manager. 
+* Added wpmem_admin_profile_heading, wpmem_admin_profile_field, and wpmem_admin_profile_update filters. These filters are all part of the user profile section.
 
 Fixes, Patches, & Code Improvements
 

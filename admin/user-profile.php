@@ -27,6 +27,9 @@ add_action( 'profile_update',    'wpmem_admin_update' );
  *
  * @since 2.1
  *
+ * @uses apply_filters Calls wpmem_admin_profile_field
+ & @uses apply_filters Calls wpmem_admin_profile_heading
+ *
  * @global array $current_screen The WordPress screen object
  * @global int   $user_ID The user ID
  */
@@ -35,7 +38,7 @@ function wpmem_admin_fields()
 	global $current_screen, $user_ID;
 	$user_id = ( $current_screen->id == 'profile' ) ? $user_ID : $_REQUEST['user_id']; ?>
 
-	<h3><?php _e( 'WP-Members Additional Fields', 'wp-members' ); ?></h3>   
+	<h3><?php echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
  	<table class="form-table">
 		<?php
 		$wpmem_fields = get_option( 'wpmembers_fields' );
@@ -45,23 +48,23 @@ function wpmem_admin_fields()
 			$show = ( $wpmem_fields[$row][6] == 'n' && $wpmem_fields[$row][2] != 'password' ) ? true : false;
 			$show = ( $wpmem_fields[$row][1] == 'TOS' && $wpmem_fields[$row][4] != 'y' ) ? null : $show;
 			
-			if( $show ) { ?>  
+			if( $show ) {   
+				$show_field = '
+					<tr>
+						<th><label>' . $wpmem_fields[$row][1] . '</label></th>
+						<td>';
+				$val = htmlspecialchars( get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' ) );
+				if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
+					$valtochk = $val; 
+					$val = $wpmem_fields[$row][7];
+				}
+				$show_field.=  wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk ) . '
+						</td>
+					</tr>';
+				$valtochk = ''; // empty for the next field in the loop
 
-				<tr>
-					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
-					<td><?php
-						$val = htmlspecialchars( get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' ) );
-						if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
-							$valtochk = $val; 
-							$val = $wpmem_fields[$row][7];
-						}
-						echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
-						$valtochk = ''; // empty for the next field in the loop
-					?></td>
-				</tr>
-
-			<?php } 
-
+				echo apply_filters( 'wpmem_admin_profile_field', $show_field );
+			}
 		}
 
 		// see if reg is moderated, and if the user has been activated
@@ -112,16 +115,27 @@ function wpmem_admin_fields()
  * updates WP-Members fields from the WP user profile screen
  *
  * @since 2.1
+ *
+ * @uses apply_filters Calls wpmem_admin_profile_update
  */
 function wpmem_admin_update()
 {
 	$user_id = $_REQUEST['user_id'];	
 	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$fields = array();
+	$chk_pass = false;
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
-			//update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
-			( $_POST ) ? update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] ) : false;
+			( $_POST ) ? $fields[$wpmem_fields[$row][2]] = $_POST[$wpmem_fields[$row][2]] : false;
+		} elseif( $wpmem_fields[$row][2] == 'password' ) {
+			$chk_pass = true;
 		}
+	}
+	
+	$fields = apply_filters( 'wpmem_admin_profile_update', $fields ); 
+	
+	foreach( $fields as $key => $val ) {
+		update_user_meta( $user_id, $key, $val );
 	}
 
 	if( WPMEM_MOD_REG == 1 ) {
@@ -137,6 +151,6 @@ function wpmem_admin_update()
 		}
 	}
 
-	if( WPMEM_USE_EXP == 1 ) { wpmem_a_extend_user( $user_id ); }
+	( WPMEM_USE_EXP == 1 ) ? wpmem_a_extend_user( $user_id ) : '';
 }
 ?>

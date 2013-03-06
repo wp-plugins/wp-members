@@ -365,9 +365,9 @@ echo $field_arr[7][$row]; echo ( $row == count( $field_arr[7] )- 1  ) ? "" : ",\
 <---- Select One ---->|, 
 Choice One|choice_one,
 "1,000|one_thousand",
-"1,000-10,000|1,000-10,000", 
+"1,000-10,000|1,000-10,000",
 Last Row|last_row<?php } else { ?>
-<---- Select One ---->|, 
+<---- Select One ---->|,
 Choice One|choice_one,
 Choice 2|choice_two,
 Last Row|last_row<?php } } ?></textarea>
@@ -461,7 +461,11 @@ function wpmem_a_field_table( $wpmem_fields )
 						<td><i>user_registered</i></td>
 						<td colspan="4">&nbsp;</td>
 						<td><?php _e( 'native', 'wp-members' ); ?></td>
-						<td align="center"><input type="checkbox" /></td>
+						<td align="center">
+							<input type="checkbox" name="ut_fields[user_registered]" 
+								value="Registration Date" 
+								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Registration Date', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
+						</td>
 					</tr>
 				<?php if( WPMEM_MOD_REG == 1 ) { ?>
 					<tr class="nodrag nodrop">

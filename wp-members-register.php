@@ -58,11 +58,16 @@ function wpmem_registration( $toggle )
 	// add the user email to the $fields array for _data hooks
 	$fields['user_email'] = $_POST['user_email'];
 
-	// build array of the posts
+	// build the $fields array from $_POST data
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields[$row][2] != 'password' && $wpmem_fields[$row][4] == 'y' ) {
-			$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $_POST[$wpmem_fields[$row][2]] );
+		if( $wpmem_fields[$row][4] == 'y' ) {
+			if( $wpmem_fields[$row][2] != 'password' ) {
+				$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $_POST[$wpmem_fields[$row][2]] );
+			} else {
+				// we do have password as part of the registration form
+				$fields['password'] = $_POST['password'];
+			}
 		}
 	}
 
@@ -150,7 +155,7 @@ function wpmem_registration( $toggle )
 		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? $_POST['nickname']      : $fields['username'];
 
 		// allows all $field values to be filtered
-		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
+		$fields = apply_filters( 'wpmem_filter_form_data ', $fields ); 
 		
 		// _data hook is before any insertion/emails
 		do_action( 'wpmem_pre_register_data', $fields );
