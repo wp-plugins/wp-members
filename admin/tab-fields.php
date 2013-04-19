@@ -119,7 +119,7 @@ function wpmem_update_fields( $action )
 		// @todo - need some additional form validation here
 		
 		// update user table fields
-		update_option( 'wpmembers_utfields', $_POST['ut_fields'] );
+		( isset( $_POST['ut_fields'] ) ) ? update_option( 'wpmembers_utfields', $_POST['ut_fields'] ) : '';
 	
 		// rebuild the array, don't touch user_email - it's always mandatory
 		$nrow = 0;
@@ -177,6 +177,7 @@ function wpmem_update_fields( $action )
 		// error check that field label and option name are included and unique
 		$add_field_err_msg = ( ! $_POST['add_name'] )   ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
 		$add_field_err_msg = ( ! $_POST['add_option'] ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
+		
 		// @todo check for duplicate field names
 	
 		// error check option name for spaces and replace with underscores

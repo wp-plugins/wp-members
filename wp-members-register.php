@@ -24,7 +24,7 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @uses apply_filters Calls 'wpmem_filter_form_data' filter
+ * @uses apply_filters Calls 'wpmem_register_data' filter
  * @uses do_action Calls 'wpmem_pre_register_data' action
  * @uses do_action Calls 'wpmem_post_register_data' action
  * @uses do_action Calls 'wpmem_register_redirect' action
@@ -70,6 +70,9 @@ function wpmem_registration( $toggle )
 			}
 		}
 	}
+	
+	// filters fields prior to default field validation
+	$fields = apply_filters( 'wpmem_pre_validate_form', $fields ); 
 
 	// check for required fields	
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
@@ -148,14 +151,14 @@ function wpmem_registration( $toggle )
 		/**
 		 * these native fields are not installed by default, but if they
 		 * are added, use the $_POST value - otherwise, default to username. 
-		 * value can be filtered with wpmem_filter_register_data
+		 * value can be filtered with wpmem_register_data
 	 	 */
 		$fields['user_nicename']   = ( isset( $_POST['user_nicename'] ) ) ? $_POST['user_nicename'] : $fields['username'];
 		$fields['display_name']    = ( isset( $_POST['display_name'] ) )  ? $_POST['display_name']  : $fields['username'];
 		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? $_POST['nickname']      : $fields['username'];
 
 		// allows all $field values to be filtered
-		$fields = apply_filters( 'wpmem_filter_form_data ', $fields ); 
+		$fields = apply_filters( 'wpmem_register_data', $fields ); 
 		
 		// _data hook is before any insertion/emails
 		do_action( 'wpmem_pre_register_data', $fields );
@@ -232,7 +235,7 @@ function wpmem_registration( $toggle )
 		// add the user_ID to the fields array
 		$fields['ID'] = $user_ID;
 		// allow all $field values to be filtered
-		$fields = apply_filters( 'wpmem_filter_form_data', $fields ); 
+		$fields = apply_filters( 'wpmem_register_data', $fields ); 
 		// _pre_update_data hook is before data insertion
 		do_action( 'wpmem_pre_update_data', $fields );
 		

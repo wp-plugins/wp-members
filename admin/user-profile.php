@@ -41,7 +41,7 @@ function wpmem_admin_fields()
 	<h3><?php echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
  	<table class="form-table">
 		<?php
-		$wpmem_fields = get_option( 'wpmembers_fields' );
+		$wpmem_fields = get_option( 'wpmembers_fields' ); $valtochk = '';
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 
 			/** determine which fields to show in the additional fields area */	
