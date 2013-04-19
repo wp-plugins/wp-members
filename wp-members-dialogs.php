@@ -312,6 +312,8 @@ if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  *
  * @param  string $toggle
  * @param  string $heading
+ * @global string $wpmem_regchk
+ * @global array  $userdata
  * @return string $form
  */
 function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
@@ -321,58 +323,54 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 	remove_filter( 'the_content', 'wptexturize' );
 	add_filter( 'the_content', 'wpmem_texturize', 99 );
 	
-	global $userdata, $wpmem_regchk, $username, $wpmem_fieldval_arr;
+	global $wpmem_regchk, $userdata; 
 
-	if( !$heading ) { $heading = apply_filters( 'wpmem_register_heading', __( 'New Users Registration', 'wp-members' ) ); }
+	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', __( 'New Users Registration', 'wp-members' ) ) : $heading;
 
 	$form = apply_filters( 'wpmem_register_form_before', '' );
 
 	$form.= '[wpmem_txt]<div id="wpmem_reg">
 		<a name="register"></a>
-	<form name="form" method="post" action="' . get_permalink() . '" class="form">' .
-		wp_nonce_field( 'wpmem-register' ) . '
-		<fieldset>
+	<form name="form" method="post" action="' . get_permalink() . '" class="form">'; 
+
+	$form = ( WPMEM_USE_NONCE == 1 ) ? $form . wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) : $form;
+	
+	$form.= '	<fieldset>
 			<legend>' . $heading . '</legend>';
 
 	if( $toggle == 'edit' ) {
 
 		$form = $form . '<label for="username" class="text">' . __( 'Username', 'wp-members' ) . '</label>
-			<div class="div_text"><p class="noinput">' .
-				$userdata->user_login . 
-			'</p></div>';
+			<div class="div_text"><p class="noinput">' . $userdata->user_login . '</p></div>';
 
-	} else {
+	} else { 
 
 		$form = $form . '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . '<font class="req">*</font></label>
 			<div class="div_text">
-				<input name="log" type="text" value="' . stripslashes( $username ) . '" class="username" id="username" />
+				<input name="log" type="text" value="' . stripslashes( $_POST['log'] ) . '" class="username" id="username" />
 			</div>';
 
 	}
 
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count($wpmem_fields); $row++ )
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ )
 	{ 
-		$do_row = true;
-		if( $toggle == 'edit' && $wpmem_fields[$row][2] == 'password' ) { $do_row = false; }
+		$do_row = ( $toggle == 'edit' && $wpmem_fields[$row][2] == 'password' ) ? false : true;
+		
 		if( $wpmem_fields[$row][2] == 'tos' && $toggle == 'edit' && ( get_user_meta($userdata->ID, 'tos', true ) ) ) { 
 			// makes tos field hidden on user edit page, unless they haven't got a value for tos
 			$do_row = false; 
-			$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', get_user_meta($userdata->ID, 'tos', true ) );
+			$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
 		}
 
 		if( $wpmem_fields[$row][4] == 'y' && $do_row == true ) {
 
 			if( $wpmem_fields[$row][2] != 'tos' ) {
 
-				if( $wpmem_fields[$row][3] == 'password' ) { 
-					$class = 'text'; 
-				} else {
-					$class = $wpmem_fields[$row][3];
-				}
+				$class = ( $wpmem_fields[$row][3] == 'password' ) ? 'text' : $wpmem_fields[$row][3];
 				
 				$form = $form . '<label for="' . $wpmem_fields[$row][2] . '" class="' . $class . '">' . $wpmem_fields[$row][1];
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font class="req">*</font>'; } 
+				$form = ( $wpmem_fields[$row][5] == 'y' ) ? $form . '<font class="req">*</font>' : $form;
 				$form = $form . '</label>';
 
 			} 
@@ -381,7 +379,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
 
-				if( WPMEM_DEBUG == true ) { $form = $form . $wpmem_fields[$row][2] . "&nbsp;"; }
+				$form = ( WPMEM_DEBUG == true ) ? $form . $wpmem_fields[$row][2] . "&nbsp;" : $form;
 
 				switch( $wpmem_fields[$row][2] ) {
 					case( 'description' ):
@@ -403,7 +401,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			} else {
 
-				$val = $wpmem_fieldval_arr[$row];
+				$val = $_POST[ $wpmem_fields[$row][2] ];
 
 			}
 
@@ -412,15 +410,15 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 				if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) {
 					$chk_tos;  // HUH?
 				} else {
-					$val = $wpmem_fieldval_arr[$row];
+					$val = $_POST[ $wpmem_fields[$row][2] ];
 				}
 
 				// should be checked by default? and only if form hasn't been submitted
-				if( ! $_POST && $wpmem_fields[$row][8] == 'y' ) { $val = $wpmem_fields[$row][7]; }
+				$val = ( ! $_POST && $wpmem_fields[$row][8] == 'y' ) ? $wpmem_fields[$row][7] : $val;
 
 				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
 
-				if( $wpmem_fields[$row][5] == 'y' ) { $form = $form . '<font class="req">*</font>'; }
+				$form = ( $wpmem_fields[$row][5] == 'y' ) ? $form . '<font class="req">*</font>' : $form;
 
 				// determine if TOS is a WP page or not...
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
@@ -456,7 +454,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 				
 				if( ! isset( $valtochk ) ) { $valtochk = ''; }
 
-				$form = $form . wpmem_create_formfield($wpmem_fields[$row][2],$wpmem_fields[$row][3],$val,$valtochk);
+				$form = $form . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk );
 			}
 
 			$form = $form . '</div>'; 
@@ -475,11 +473,8 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 		} 
 	}
 
-	if( $toggle == 'edit' ) {
-		$form = $form . '<input name="a" type="hidden" value="update" />';
-	} else {
-		$form = $form . '<input name="a" type="hidden" value="register" />';
-	}
+	$var  = ( $toggle == 'edit' ) ? 'update' : 'register';
+	$form.= '<input name="a" type="hidden" value="' . $var . '" />';
 
 	$form = $form . '<input name="redirect_to" type="hidden" value="' . get_permalink() . '" />
 		<div class="button_div">

@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.5.0
-Stable tag: 2.8.1
+Tested up to: 3.5.1
+Stable tag: 2.8.2
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-Security fix release - This update is comprised of security fixes and a couple of bug patches.
+WP-Members 2.8.2 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.
 
 == Screenshots ==
 
@@ -113,6 +113,33 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.2 =
+
+Feature Updates
+
+* Added WP user fields user_nicename, display_name, and nickname to the $fields array, defaults to $username for backward compatibility.
+* Updated field manager process to allow user_nicename, display_name, and nickname to be added via the fields manager as WP native fields
+* Added wpmem_register_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields (added updates to registration function to make better use of the filter).
+* Added wpmem_pre_validate_form for $fields to allow filtering fields prior to default form field validation.
+* Begin implementation of moving bulk user management features into Users > All Users.  Users > All Users screen can now activate and export users, and will show additional fields as selected in the fields manager. 
+* Added wpmem_admin_profile_heading, wpmem_admin_profile_field, and wpmem_admin_profile_update filters. These filters are all part of the user profile section.
+
+Fixes, Patches, & Code Improvements
+
+* Fixed the conversion of update-profile to members-area shortcode.  The bug renders all page shortcodes as members-area.
+* Fixed the activate user process for user defined passwords, a bug from 2.8.0/2.8.1.
+* Fixed a bug that can cause the sidebar login widget to not post to the correct url when a static front page is used.
+* Fixed user profile update (updates with custom checkbox don't stay checked), an issue from 2.8.0.
+* Patch correcting the front-side registration form nonce.  This patch should improve reliability while still using nonces for security.
+* Patch for the dropdown field for users running < PHP 5.3.
+* Made front-side nonce optional, defaults to off.
+* Moved utility functions out of core.php to utility file utilities.php.
+* Moved the location of the wpmem_email_notify hook so the filter comes after shortcodes are parsed.
+* Updated the registration function to rely on the values contain in $fields, allowing for the array values to be filtered.
+* Updated the registration form to accommodate registration function updates.
+* Improved auto excerpt function screens for unclosed common html tags and provides a closing tag if none exists.
+* Improved export process to wrap fields with double quotes - fixes issues if field contains a comma.
 
 = 2.8.1 =
 

@@ -72,7 +72,7 @@ function wpmem_do_sidebar()
 	if( isset( $_REQUEST['redirect_to'] ) ) {
 		$post_to = $_REQUEST['redirect_to'];
 		
-	} elseif( is_home() ) {
+	} elseif( is_home() || is_front_page() ) {
 		$post_to = $_SERVER['PHP_SELF'];
 			
 	} elseif( is_single() || is_page() ) {

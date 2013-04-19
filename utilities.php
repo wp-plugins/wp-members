@@ -211,11 +211,17 @@ function wpmem_do_excerpt( $content )
 			$words = explode(' ', $content, ( $arr['auto_ex_len'] + 1 ) );
 			if( count( $words ) > $arr['auto_ex_len'] ) { array_pop( $words ); }
 			$content = implode( ' ', $words );
-		
-		}		
+			
+			/** check for common html tags */
+			$common_tags = array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' );
+			foreach ( $common_tags as $tag ) {
+				if( stristr( $content, '<' . $tag . '>' ) ) { echo 'string contains: ' . '< --' . $tag . '-- >';
+					$after = stristr( $content, '</' . $tag . '>' );
+					$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
+				}
+			}
+		} 		
 	}
-	
-	apply_filters( 'wpmem_auto_excerpt', $content );
 
 	global $post, $more;
 	if( ! $more && ( $arr['auto_ex'] == true ) ) {
@@ -225,6 +231,8 @@ function wpmem_do_excerpt( $content )
 		
 		$content = $content . $more_link;
 	}
+	
+	$content = apply_filters( 'wpmem_auto_excerpt', $content );
 	
 	return $content;
 }
