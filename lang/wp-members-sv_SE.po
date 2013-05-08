@@ -1,0 +1,1144 @@
+# Copyright (C) 2010 WP-Members
+# This file is distributed under the same license as the WP-Members package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Members 2.5.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
+"POT-Creation-Date: 2012-06-14 00:20:49+00:00\n"
+"PO-Revision-Date: 2012-06-13 19:35-0600\n"
+"Last-Translator: Chad Butler <plugins@butlerblog.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+
+#: wp-members-admin.php:35
+#: wp-members-admin.php:715
+msgid "Settings"
+msgstr "Inställningar"
+
+#: wp-members-admin.php:74
+msgid "WP-Members Additional Fields"
+msgstr "WP-Members ytterligare fält"
+
+#: wp-members-admin.php:110
+msgid "Activate this user?"
+msgstr "Aktivera denna användare?"
+
+#: wp-members-admin.php:115
+#, fuzzy
+msgid "Reactivate this user?"
+msgstr "Aktivera denna användare?"
+
+#: wp-members-admin.php:120
+#, fuzzy
+msgid "Deactivate this user?"
+msgstr "Aktivera denna användare?"
+
+#: wp-members-admin.php:141
+msgid "IP @ registration"
+msgstr "IP @ registrering"
+
+#: wp-members-admin.php:194
+msgid "Manage Options"
+msgstr "Administrera alternativ"
+
+#: wp-members-admin.php:199
+msgid "Block Posts by default"
+msgstr "Blockera Inlägg som standard"
+
+#: wp-members-admin.php:199
+msgid "Note: Posts can still be individually blocked or unblocked at the article level"
+msgstr "Obs: Inlägg kan fortfarande vara individuellt blockeras eller upphävas på artikelnivå"
+
+#: wp-members-admin.php:200
+msgid "Block Pages by default"
+msgstr "Blockera Sidor som standard"
+
+#: wp-members-admin.php:200
+msgid "Note: Pages can still be individually blocked or unblocked at the article level"
+msgstr "OBS: Sidor kan fortfarande vara individuellt blockeras eller upphävas på artikelnivå"
+
+#: wp-members-admin.php:201
+msgid "Show excerpts"
+msgstr "Visa utdrag"
+
+#: wp-members-admin.php:201
+msgid "Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr "Visar utdraget innehåll ovanför inloggning / registrering på både inlägg och sidor"
+
+#: wp-members-admin.php:202
+msgid "Notify admin"
+msgstr "Meddela adminstratören"
+
+#: wp-members-admin.php:202
+msgid "Sends email to admin for each new registration?"
+msgstr "Skickar e-post till administratören för varje ny registrering?"
+
+#: wp-members-admin.php:203
+msgid "Moderate registration"
+msgstr "Moderera registreringen"
+
+#: wp-members-admin.php:203
+msgid "Holds new registrations for admin approval"
+msgstr " Godkänn nya registreringar via en administratör"
+
+#: wp-members-admin.php:204
+msgid "Use reCAPTCHA"
+msgstr "Använd reCAPTCHA"
+
+#: wp-members-admin.php:204
+msgid "Turns on CAPTCHA for registration"
+msgstr "Slå på CAPTCHA för registrering"
+
+#: wp-members-admin.php:205
+msgid "Turn off registration"
+msgstr "Slå av registrering"
+
+#: wp-members-admin.php:205
+msgid "Turns off the registration process, only allows login"
+msgstr "Slå av registreringsprocessen, tillåt endast inloggning"
+
+#: wp-members-admin.php:207
+msgid "Legacy forms"
+msgstr "Tidigare formulär"
+
+#: wp-members-admin.php:207
+msgid "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
+msgstr "Använder pre-2.5.1 table-baserade formulär (låt vara avmarkerad för att använda CSS baserade formulär)"
+
+#: wp-members-admin.php:208
+msgid "Time-based expiration"
+msgstr "Tidsbaserade utgångsdatum"
+
+#: wp-members-admin.php:208
+msgid "Allows for access to expire"
+msgstr "Tillåter åtkomst att löpa ut"
+
+#: wp-members-admin.php:209
+msgid "Trial period"
+msgstr "Försöksperiod"
+
+#: wp-members-admin.php:209
+msgid "Allows for a trial period"
+msgstr "Tillåter för en försöksperiod"
+
+#: wp-members-admin.php:210
+msgid "Ignore warning messages"
+msgstr "Ignorera varningsmeddelande"
+
+#: wp-members-admin.php:210
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignorera WP-Members varningsmeddelande i adminstrations panelen"
+
+#: wp-members-admin.php:228
+msgid "Members Area URL:"
+msgstr "URL för Medlemmars area"
+
+#: wp-members-admin.php:229
+#: wp-members-admin.php:235
+#: wp-members-admin.php:241
+#: wp-members-admin.php:916
+msgid "Optional"
+msgstr "Valfri"
+
+#: wp-members-admin.php:234
+msgid "Register Page URL:"
+msgstr "URL för registreringssida"
+
+#: wp-members-admin.php:240
+msgid "Custom CSS:"
+msgstr "Anpassad CSS:"
+
+#: wp-members-admin.php:246
+msgid "Update Settings"
+msgstr "Uppdatera inställningarna"
+
+#: wp-members-admin.php:264
+msgid "Manage Fields"
+msgstr "Administrera fält"
+
+#: wp-members-admin.php:265
+msgid "Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields."
+msgstr "Bestäm vilka fält som ska visas och vilka som behövs. Detta inkluderar alla områden, både ursprungliga WP-fälten och WP-Members anpassade fält."
+
+#: wp-members-admin.php:266
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Notera: E-post är alltid obligatorisk och kan inte ändras..)"
+
+#: wp-members-admin.php:271
+msgid "Add/Delete"
+msgstr ""
+
+#: wp-members-admin.php:272
+msgid "Field Label"
+msgstr "Fält etikett"
+
+#: wp-members-admin.php:273
+#, fuzzy
+msgid "Option Name"
+msgstr "Valfri"
+
+#: wp-members-admin.php:274
+#, fuzzy
+msgid "Field Type"
+msgstr "Fält etikett"
+
+#: wp-members-admin.php:275
+msgid "Display?"
+msgstr "Visa?"
+
+#: wp-members-admin.php:276
+msgid "Required?"
+msgstr "Obligatorisk?"
+
+#: wp-members-admin.php:277
+msgid "Checked?"
+msgstr ""
+
+#: wp-members-admin.php:278
+msgid "WP Native?"
+msgstr "Ursprunglig WP?"
+
+#: wp-members-admin.php:287
+msgid "Delete"
+msgstr ""
+
+#: wp-members-admin.php:299
+#, fuzzy
+msgid "(Email cannot be removed)"
+msgstr "(E-post-fältet är obligatorisk och kan inte tas bort)"
+
+#: wp-members-admin.php:310
+#, fuzzy
+msgid "Add"
+msgstr "Lägg till ny"
+
+#: wp-members-admin.php:315
+msgid "text"
+msgstr ""
+
+#: wp-members-admin.php:316
+msgid "textarea"
+msgstr ""
+
+#: wp-members-admin.php:317
+msgid "checkbox"
+msgstr ""
+
+#: wp-members-admin.php:318
+msgid "dropdown"
+msgstr ""
+
+#: wp-members-admin.php:319
+#, fuzzy
+msgid "password"
+msgstr "Lösenord"
+
+#: wp-members-admin.php:328
+msgid "For checkbox, stored value if checked:"
+msgstr ""
+
+#: wp-members-admin.php:334
+msgid "For dropdown, array of values:"
+msgstr ""
+
+#: wp-members-admin.php:335
+msgid "Options should be Option Name|option_value,"
+msgstr ""
+
+#: wp-members-admin.php:336
+msgid "Visit plugin site for more information"
+msgstr ""
+
+#: wp-members-admin.php:348
+msgid "Update Fields"
+msgstr "Uppdatera fälten"
+
+#: wp-members-admin.php:362
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr "Begränsat inlägg (eller sida), visas ovanför login / registrerings formulär"
+
+#: wp-members-admin.php:363
+msgid "Username is taken"
+msgstr "Användarnamn är redan tagen"
+
+#: wp-members-admin.php:364
+msgid "Email is registered"
+msgstr "E-post är registrerad"
+
+#: wp-members-admin.php:365
+msgid "Registration completed"
+msgstr "Registreringen är färdig"
+
+#: wp-members-admin.php:366
+msgid "User update"
+msgstr "Användaruppdatering"
+
+#: wp-members-admin.php:367
+msgid "Passwords did not match"
+msgstr "Lösenorden matchade inte varandra"
+
+#: wp-members-admin.php:368
+msgid "Password changes"
+msgstr "Lösenordet ändrades"
+
+#: wp-members-admin.php:369
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr "Användarnamn eller e-post finns inte vid försök att återställa det bortglömda lösenord"
+
+#: wp-members-admin.php:370
+msgid "Password reset"
+msgstr "Nollställ lösenord"
+
+#: wp-members-admin.php:372
+msgid "Dialogs and Error Messages"
+msgstr "Dialog eller felmeddelande"
+
+#: wp-members-admin.php:373
+msgid "You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc."
+msgstr "Du kan anpassa texten för dialogrutor och felmeddelanden. Enkel HTML är tillåten %s etc."
+
+#: wp-members-admin.php:386
+msgid "Terms of Service (TOS)"
+msgstr "Användarvillkor (TOS)"
+
+#: wp-members-admin.php:393
+msgid "Update Dialogs"
+msgstr "Uppdatera dialoger"
+
+#: wp-members-admin.php:498
+msgid "WP-Members settings were updated"
+msgstr "WP-Members inställningar blev uppdaterade"
+
+#: wp-members-admin.php:558
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr ""
+
+#: wp-members-admin.php:559
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr ""
+
+#: wp-members-admin.php:594
+msgid "WP-Members fields were updated"
+msgstr "WP-Members fält blev uppdaterade"
+
+#: wp-members-admin.php:620
+msgid "WP-Members dialogs were updated"
+msgstr "WP-Members dialoger blev uppdaterade"
+
+#: wp-members-admin.php:639
+msgid "reCAPTCHA was updated for WP-Members"
+msgstr "reCAPTCHA blev uppdaterad för WP-Members"
+
+#: wp-members-admin.php:655
+msgid "WP-Members expiration periods were updated"
+msgstr "WP-Members utgångsperiod blev uppdaterad"
+
+#: wp-members-admin.php:704
+#, fuzzy
+msgid "WP-Members emails were updated"
+msgstr "WP-Members fält blev uppdaterade"
+
+#: wp-members-admin.php:721
+msgid "Settings were saved, but you have required fields that are not set to display!"
+msgstr "Inställningar sparades, men du har obligatoriska fält som inte är inställd på att visas!"
+
+#: wp-members-admin.php:722
+#, fuzzy
+msgid "Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that your displayed and required fields match up.  Mismatched fields are highlighted below."
+msgstr ""
+"OBS: Detta kommer inte orsaka ett fel för slutanvändaren, eftersom bara de visade fälten är validerade. Men du bör ändå kontrollera att \r\n"
+"\t\t\t\tdina visade och obligatoriska fält matcha. Omaka fält är markerade nedan."
+
+#: wp-members-admin.php:782
+msgid "Version:"
+msgstr "Version:"
+
+#: wp-members-admin.php:783
+msgid "Follow"
+msgstr "Följ"
+
+#: wp-members-admin.php:786
+msgid "If you find this plugin useful, please consider making a donation"
+msgstr "Om du finner denna plugin användbart, vänligen överväg en donation"
+
+#: wp-members-admin.php:805
+msgid "Options"
+msgstr "Alternativ"
+
+#: wp-members-admin.php:806
+msgid "Fields"
+msgstr "Fält"
+
+#: wp-members-admin.php:807
+msgid "Dialogs"
+msgstr "Dialogrutor"
+
+#: wp-members-admin.php:808
+#, fuzzy
+msgid "Emails"
+msgstr "e-post"
+
+#: wp-members-admin.php:810
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+#: wp-members-admin.php:813
+msgid "Subscriptions"
+msgstr "Abonnemang"
+
+#: wp-members-admin.php:816
+msgid "PayPal Settings"
+msgstr "Paypal inställningar"
+
+#: wp-members-admin.php:859
+msgid "Thank you for using WP-Members! You are using version %s"
+msgstr "Tack för att du använder WP-Members! Du använder version %s"
+
+#: wp-members-admin.php:861
+msgid "If you find this plugin useful, please consider a %s donation %s"
+msgstr "Om du finner denna plugin användbar, vänligen överväg en %s donation %s"
+
+#: wp-members-admin.php:882
+msgid "Manage reCAPTCHA Options"
+msgstr "Administrera reCAPTCHA alternativ"
+
+#: wp-members-admin.php:888
+msgid "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
+msgstr "reCAPTCHA är en fri, tillgänglig CAPTCHA tjänst som hjälper till att digitalisera böcker och blockerar skräppost på din blogg."
+
+#: wp-members-admin.php:889
+msgid "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s"
+msgstr "reCAPTCHA ber kommenterare att skriva två ord som skannats från en bok för att bevisa att de är en människa. Detta kontrollerar att de inte är en Spambot samtidigt korrigera den automatiska genomsökningar av gamla böcker. Så du får mindre skräppost, och världen får exakta digitaliserade böcker. Alla vinner! För mer information, besök %s reCAPTCHA hemsida %s"
+
+#: wp-members-admin.php:894
+msgid "reCAPTCHA Keys"
+msgstr "reCAPTCHA Nycklar"
+
+#: wp-members-admin.php:896
+msgid "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr "reCAPTCHA kräver en API-nyckel, som består av ett \"allmän\" och en \"privat\" nyckel. Du kan anmäla dig till en %s fri reCAPTCHA nyckel %s"
+
+#: wp-members-admin.php:897
+msgid "Public Key"
+msgstr "Publik nyckel"
+
+#: wp-members-admin.php:898
+msgid "Private Key"
+msgstr "Privat nyckel"
+
+#: wp-members-admin.php:902
+msgid "Choose Theme"
+msgstr "Välj tema"
+
+#. #-#-#-#-#  plugin.pot (WP-Members 2.7.5)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: wp-members-admin.php:905
+msgid "WP-Members"
+msgstr "WP-Members"
+
+#: wp-members-admin.php:906
+msgid "Red"
+msgstr "Röd"
+
+#: wp-members-admin.php:907
+msgid "White"
+msgstr "Vit"
+
+#: wp-members-admin.php:908
+msgid "Black Glass"
+msgstr "Svart glas"
+
+#: wp-members-admin.php:909
+msgid "Clean"
+msgstr "Ren"
+
+#: wp-members-admin.php:910
+msgid "Custom"
+msgstr "Egen"
+
+#: wp-members-admin.php:922
+msgid "Update reCAPTCHA Settings"
+msgstr "Uppdatera reCAPTCHA inställningarna"
+
+#: wp-members-admin.php:991
+msgid "%d users were activated."
+msgstr "%d användare blev aktiverad"
+
+#: wp-members-admin.php:996
+msgid "Users ready to export, %s click here %s to generate and download a CSV."
+msgstr "Användare är redo att exporteras, %s klicka här %s för att generera och ladda ned CSV."
+
+#: wp-members-admin.php:1006
+msgid "WP-Members Users"
+msgstr "WP-Members Användare"
+
+#: wp-members-admin.php:1006
+msgid "Add New"
+msgstr "Lägg till ny"
+
+#: wp-members-admin.php:1188
+#: wp-members-export-full.php:98
+#: wp-members-export.php:84
+msgid "No"
+msgstr "Nej"
+
+#: wp-members-admin.php:1202
+msgid "No users matched your criteria"
+msgstr "Inga användare matchade dina kriterier"
+
+#: wp-members-admin.php:1291
+msgid "Bulk Actions"
+msgstr "Massåtgärder"
+
+#: wp-members-admin.php:1293
+msgid "Activate"
+msgstr "Aktivera"
+
+#: wp-members-admin.php:1295
+msgid "Export"
+msgstr "Exportera"
+
+#: wp-members-admin.php:1297
+msgid "Apply"
+msgstr "Tillämpa"
+
+#: wp-members-admin.php:1440
+#, fuzzy
+msgid "New Registration"
+msgstr "Registrering av ny användare"
+
+#: wp-members-admin.php:1444
+#, fuzzy
+msgid "Registration is Moderated"
+msgstr "Registreringen är färdig"
+
+#: wp-members-admin.php:1445
+#, fuzzy
+msgid "Registration is Moderated, User is Approved"
+msgstr "Din registrering för %s har godkänts"
+
+#: wp-members-admin.php:1450
+#, fuzzy
+msgid "Password Reset"
+msgstr "Nollställ lösenord"
+
+#: wp-members-admin.php:1455
+msgid "Admin Notification"
+msgstr ""
+
+#: wp-members-admin.php:1460
+#, fuzzy
+msgid "Email Signature"
+msgstr "E-post är registrerad"
+
+#: wp-members-admin.php:1463
+msgid "Email Messages"
+msgstr ""
+
+#: wp-members-admin.php:1465
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr ""
+
+#: wp-members-admin.php:1467
+msgid "A list of shortcodes is available here."
+msgstr ""
+
+#: wp-members-admin.php:1474
+msgid "Set a custom email address"
+msgstr ""
+
+#: wp-members-admin.php:1475
+#: wp-members-admin.php:1479
+#: wp-members-admin.php:1502
+#, fuzzy
+msgid "(optional)"
+msgstr "Valfri"
+
+#: wp-members-admin.php:1478
+msgid "Set a custom email name"
+msgstr ""
+
+#: wp-members-admin.php:1489
+msgid "Subject"
+msgstr ""
+
+#: wp-members-admin.php:1493
+msgid "Body"
+msgstr ""
+
+#: wp-members-admin.php:1510
+#, fuzzy
+msgid "Update Emails"
+msgstr "Uppdatera fälten"
+
+#: wp-members-core.php:110
+msgid "There was an error with the CAPTCHA form."
+msgstr "Det uppstod ett fel med CAPTCHA formuläret."
+
+#: wp-members-core.php:258
+msgid "Edit Your Information"
+msgstr "Redigera dina uppgifter"
+
+#: wp-members-core.php:289
+msgid "Password fields cannot be empty"
+msgstr "Lösenordsfält kan inte vara tom"
+
+#: wp-members-core.php:465
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr ""
+
+#: wp-members-core.php:975
+msgid "Additional Info"
+msgstr ""
+
+#: wp-members-core.php:1017
+#, fuzzy
+msgid "Indicates a required field"
+msgstr "Tyvärr är användarnamn ett obligatoriskt fält"
+
+#: wp-members-dialogs-admin.php:31
+msgid "Your WP settings allow anyone to register - this is not the recommended setting."
+msgstr "Din WP inställningar tillåter vem som helst att registrera sig - detta är inte den rekommenderade inställningen."
+
+#: wp-members-dialogs-admin.php:32
+msgid "You can %s change this here %s making sure the box next to \"Anyone can register\" is unchecked."
+msgstr "Du kan %s ändra detta här %s och se till att rutan bredvid \"Vem som helst kan registrera\" är ikryssad."
+
+#: wp-members-dialogs-admin.php:33
+msgid "This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Denna inställning gör att en länk på /wp-login.php sida för att registrera, via WP original registreringsprocess och därmed kringgå eventuell registrering som du använder med WP-Members. I vissa fall kan detta passa användarna vill ha/behöver, men de flesta användare bör avmarkera detta alternativ. Om du inte ändrar den här inställningen kan du välja att ignorera dessa varningsmeddelanden i WP-Members inställningar."
+
+#: wp-members-dialogs-admin.php:39
+msgid "Your WP settings allow anyone to comment - this is not the recommended setting."
+msgstr "Din WP inställningar tillåta någon att kommentera - det är inte den rekommenderade inställningen."
+
+#: wp-members-dialogs-admin.php:40
+#, fuzzy
+msgid "You can %s change this here %s by checking the box next to \"Users must be registered and logged in to comment.\""
+msgstr "Du kan %s ändra detta här %s och se till att rutan bredvid \"Vem som helst kan registrera\" är ikryssad."
+
+#: wp-members-dialogs-admin.php:41
+msgid "This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Denna inställning gör att varje användare kan kommentera, oavsett om de är registrerade. Beroende på hur du använder WP-Members kommer att avgöra om du bör ändra denna inställning eller inte. Om du inte ändrar den här inställningen kan du välja att ignorera dessa varningsmeddelanden i WP-medlemmar inställningar."
+
+#: wp-members-dialogs-admin.php:47
+msgid "Your WP settings allow full text rss feeds - this is not the recommended setting."
+msgstr "Din WP inställningar gör fulltext RSS-flöden - detta är inte den rekommenderade inställningen."
+
+#: wp-members-dialogs-admin.php:48
+msgid "You can %s change this here %s by changing \"For each article in a feed, show\" to \"Summary.\""
+msgstr ""
+
+#: wp-members-dialogs-admin.php:49
+msgid "Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text."
+msgstr "Lämnar denna satt till fulltext kan vem som helst läsa skyddat innehåll i en RSS-läsare. Ändra detta till Sammanfattning förhindrar detta som dina flöden visas endast sammanfattande text."
+
+#: wp-members-dialogs-admin.php:55
+msgid "You have set WP-Members to hold registrations for approval"
+msgstr "Du har ställt WP-Memberss att hålla registreringar för godkännande"
+
+#: wp-members-dialogs-admin.php:56
+msgid "but you have not changed the default message for \"Registration Completed\" under \"WP-Members Dialogs and Error Messages.\"  You should change this message to let users know they are pending approval."
+msgstr ""
+
+#: wp-members-dialogs-admin.php:62
+msgid "You have set WP-Members to turn off the registration process"
+msgstr "Du har ställt WP-Members för att stänga av registreringen"
+
+#: wp-members-dialogs-admin.php:63
+msgid "but you also set to moderate and/or email admin new registrations.  You will need to set up a registration page for users to register."
+msgstr ""
+
+#: wp-members-dialogs-admin.php:69
+msgid "You have turned on reCAPTCHA"
+msgstr "Du har slagit på reCAPTCHA"
+
+#: wp-members-dialogs-admin.php:70
+msgid "but you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included."
+msgstr ""
+
+#: wp-members-dialogs.php:53
+#, fuzzy
+msgid "Existing Users Login"
+msgstr "Inloggning för existerande användare"
+
+#: wp-members-dialogs.php:53
+#: wp-members-dialogs.php:96
+#: wp-members-dialogs.php:351
+#: wp-members-dialogs.php:725
+#: wp-members-sidebar.php:99
+#: wp-members-sidebar.php:133
+msgid "Username"
+msgstr "Användarnamn"
+
+#: wp-members-dialogs.php:53
+#: wp-members-sidebar.php:101
+#: wp-members-sidebar.php:135
+msgid "Password"
+msgstr "Lösenord"
+
+#: wp-members-dialogs.php:53
+msgid "Login"
+msgstr "Inloggning"
+
+#: wp-members-dialogs.php:75
+#: wp-members-dialogs.php:155
+msgid "Change Password"
+msgstr "Byt lösenord"
+
+#: wp-members-dialogs.php:75
+msgid "New Password"
+msgstr "Nytt lösenord"
+
+#: wp-members-dialogs.php:75
+msgid "Repeat Password"
+msgstr "Upprepa lösenord"
+
+#: wp-members-dialogs.php:75
+msgid "Update Password"
+msgstr "Uppdatera lösenord"
+
+#: wp-members-dialogs.php:96
+msgid "Reset Forgotten Password"
+msgstr "Nollställ glömt lösenord"
+
+#: wp-members-dialogs.php:96
+#: wp-members-install.php:58
+msgid "Email"
+msgstr "e-post"
+
+#: wp-members-dialogs.php:96
+msgid "Reset Password"
+msgstr "Nollställ lösenord"
+
+#: wp-members-dialogs.php:118
+msgid "Login Failed!"
+msgstr "Inloggning misslyckades!"
+
+#: wp-members-dialogs.php:119
+msgid "You entered an invalid username or password."
+msgstr "Du angav ett felaktigt användarnamn eller lösenord"
+
+#: wp-members-dialogs.php:120
+msgid "Click here to continue."
+msgstr "Klickar här för att fortsätta"
+
+#: wp-members-dialogs.php:154
+msgid "Edit My Information"
+msgstr "Redigera min användarinformation"
+
+#: wp-members-dialogs.php:162
+#: wp-members-dialogs.php:173
+#: wp-members-dialogs.php:181
+#: wp-members-sidebar.php:37
+#: wp-members-sidebar.php:167
+msgid "You are logged in as %s"
+msgstr "Du är inloggad som"
+
+#: wp-members-dialogs.php:164
+msgid "Click here to logout."
+msgstr "Klicka här för att logga ut"
+
+#: wp-members-dialogs.php:165
+msgid "Begin using the site."
+msgstr "Börja använda webbplatsen"
+
+#: wp-members-dialogs.php:174
+#: wp-members-dialogs.php:182
+#: wp-members-sidebar.php:38
+#: wp-members-sidebar.php:168
+msgid "click here to logout"
+msgstr "klicka här för att logga ut"
+
+#: wp-members-dialogs.php:339
+#: wp-members-dialogs.php:712
+msgid "New Users Registration"
+msgstr "Registrering av ny användare"
+
+#: wp-members-dialogs.php:358
+#: wp-members-dialogs.php:730
+msgid "Choose a Username"
+msgstr "Välj användarnamn"
+
+#: wp-members-dialogs.php:451
+#: wp-members-dialogs.php:824
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Var snäll och markera att du accepterar %s Användarvillkoren %s"
+
+#: wp-members-dialogs.php:498
+#: wp-members-dialogs.php:878
+msgid "Clear Form"
+msgstr ""
+
+#: wp-members-dialogs.php:499
+#: wp-members-dialogs.php:876
+msgid "Submit"
+msgstr ""
+
+#: wp-members-dialogs.php:503
+#: wp-members-dialogs.php:883
+msgid "Required field"
+msgstr "Obligatoriskt fält"
+
+#: wp-members-dialogs.php:565
+#: wp-members-dialogs.php:931
+msgid "Remember me"
+msgstr "Kom ihåg mig"
+
+#: wp-members-dialogs.php:578
+#: wp-members-dialogs.php:951
+msgid "Forgot password?"
+msgstr "Glömt lösenord?"
+
+#: wp-members-dialogs.php:578
+#: wp-members-dialogs.php:951
+msgid "Click here to reset"
+msgstr "Klicka här för att nollställa"
+
+#: wp-members-dialogs.php:587
+#: wp-members-dialogs.php:959
+msgid "New User?"
+msgstr "Ny användare?"
+
+#: wp-members-dialogs.php:587
+#: wp-members-dialogs.php:959
+msgid "Click here to register"
+msgstr "Klicka här för att registrera"
+
+#: wp-members-export-full.php:29
+#: wp-members-export.php:26
+msgid "Cheatin&#8217; uh?"
+msgstr "Cheatin&#8217; uh?"
+
+#: wp-members-export-full.php:62
+#: wp-members-export.php:52
+msgid "Activated?"
+msgstr "Aktiverad?"
+
+#: wp-members-export-full.php:65
+#: wp-members-export.php:55
+msgid "Subscription"
+msgstr "Abonnemang"
+
+#: wp-members-export-full.php:65
+#: wp-members-export.php:55
+msgid "Expires"
+msgstr "Upphör"
+
+#: wp-members-export-full.php:68
+#: wp-members-export.php:58
+msgid "Registered"
+msgstr "Registrerad"
+
+#: wp-members-export-full.php:69
+#: wp-members-export.php:59
+msgid "IP"
+msgstr "IP"
+
+#: wp-members-export-full.php:96
+#: wp-members-export.php:82
+msgid "Yes"
+msgstr "Ja"
+
+#: wp-members-export.php:29
+msgid "there was an error and no users were exported"
+msgstr "Det uppstod ett fel och ingen användare exporterades"
+
+#: wp-members-install.php:49
+msgid "First Name"
+msgstr "Förnamn"
+
+#: wp-members-install.php:50
+msgid "Last Name"
+msgstr "Efternamn"
+
+#: wp-members-install.php:51
+msgid "Address 1"
+msgstr "Adress 1"
+
+#: wp-members-install.php:52
+msgid "Address 2"
+msgstr "Adress 2"
+
+#: wp-members-install.php:53
+msgid "City"
+msgstr "Land"
+
+#: wp-members-install.php:54
+msgid "State"
+msgstr "Stat"
+
+#: wp-members-install.php:55
+msgid "Zip"
+msgstr "Postnummer"
+
+#: wp-members-install.php:56
+msgid "Country"
+msgstr "Land"
+
+#: wp-members-install.php:57
+msgid "Day Phone"
+msgstr "Telefon dagtid"
+
+#: wp-members-install.php:59
+msgid "Website"
+msgstr "Webbplats"
+
+#: wp-members-install.php:60
+msgid "AIM"
+msgstr "AIM"
+
+#: wp-members-install.php:61
+msgid "Yahoo IM"
+msgstr "Yahoo IM"
+
+#: wp-members-install.php:62
+msgid "Jabber/Google Talk"
+msgstr "Jabber/Google Talk"
+
+#: wp-members-install.php:63
+msgid "Biographical Info"
+msgstr "Bakgrundsinformation"
+
+#: wp-members-install.php:64
+#: wp-members-install.php:208
+msgid "TOS"
+msgstr "TOS"
+
+#: wp-members-install.php:96
+msgid "This content is restricted to site members.  If you are an existing user, please login.  New users may register below."
+msgstr "Detta innehåll är begränsat till medlemmar. Om du är en befintlig användare, vänligen logga in. Nya användare kan registrera sig nedan."
+
+#: wp-members-install.php:97
+msgid "Sorry, that username is taken, please try another."
+msgstr "Tyvärr, det användarnamn är uppdaget, försök med ett annat."
+
+#: wp-members-install.php:98
+msgid "Sorry, that email address already has an account.<br />Please try another."
+msgstr "Tyvärr har denna e-postadress redan ett konto. <br /> Försök med ett annat."
+
+#: wp-members-install.php:99
+msgid "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you."
+msgstr "Grattis! Din registrering har slutförts. <br /> <br /> Du kan nu logga in med det lösenord som skickas till dig."
+
+#: wp-members-install.php:100
+msgid "Your information was updated!"
+msgstr "Din information har uppdaterats!"
+
+#: wp-members-install.php:101
+msgid "Passwords did not match.<br /><br />Please try again."
+msgstr "Lösenorden matchar inte.<br /><br />Var snäll och försök igen."
+
+#: wp-members-install.php:102
+msgid "Password successfully changed!<br /><br />You will need to re-login with your new password."
+msgstr "Lösenordet är bytt!<br /><br />Du måste logga in igen med ditt nya lösenord."
+
+#: wp-members-install.php:103
+msgid "Either the username or email address do not exist in our records."
+msgstr "Antingen är användarnamnet eller e-postadressen inte i våra register."
+
+#: wp-members-install.php:104
+msgid "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password."
+msgstr "Nollställning av lösenord har genomförts!<br /><br />Ett e-postmeddelande som innehåller ett nytt lösenord har skickats till den registrerade e-postadress för ditt konto. Ni kan ändra detta slumpmässigt lösenord och sedan logga in igen med ditt nya lösenord."
+
+#: wp-members-register.php:72
+msgid "Sorry, %s is a required field."
+msgstr "Tyvärr är %s ett obligatoriskt fält."
+
+#: wp-members-register.php:80
+msgid "Sorry, username is a required field"
+msgstr "Tyvärr är användarnamn ett obligatoriskt fält"
+
+#: wp-members-register.php:81
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Användarnamnet kan inte innehålla icke-alfanumeriska tecken."
+
+#: wp-members-register.php:82
+#, fuzzy
+msgid "You must enter a valid email address."
+msgstr "Du angav ett felaktigt användarnamn eller lösenord"
+
+#: wp-members-register.php:92
+msgid "You must complete the CAPTCHA form."
+msgstr "Du måste fylla i CAPTCHA formuläret."
+
+#: wp-members-register.php:276
+msgid "We were unable to validate the public key."
+msgstr "Vi kunde inte bekräfta den publika nyckeln."
+
+#: wp-members-register.php:280
+msgid "We were unable to validate the private key."
+msgstr "Vi kunde inte bekräfta den privata nyckeln."
+
+#: wp-members-register.php:284
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "Challenge parameter från verifierings scriptet var felaktigt."
+
+#: wp-members-register.php:288
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA Lösningen var felaktig."
+
+#: wp-members-register.php:292
+msgid "The parameters to verify were incorrect"
+msgstr "Parametrarna för att verifiera var felaktiga"
+
+#: wp-members-register.php:296
+msgid "reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr "reCAPTCHA API-nycklar är bundna till en specifik domän namn av säkerhetsskäl."
+
+#: wp-members-register.php:300
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "Den reCAPTCHA servern svarade inte. Försök att skicka igen."
+
+#: wp-members-sidebar.php:95
+#: wp-members-sidebar.php:125
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Felaktig inloggning!<br />Du angav ett felaktigt användarnamn eller lösenord"
+
+#: wp-members-sidebar.php:97
+#: wp-members-sidebar.php:129
+msgid "You are not currently logged in."
+msgstr "Du är förnärvarande inte inloggad"
+
+#: wp-members-sidebar.php:107
+#: wp-members-sidebar.php:141
+msgid "login"
+msgstr "inloggning"
+
+#: wp-members-sidebar.php:111
+#: wp-members-sidebar.php:145
+msgid "Forgot?"
+msgstr "Glömt?"
+
+#: wp-members-sidebar.php:114
+#: wp-members-sidebar.php:149
+msgid "Register"
+msgstr "Registrera"
+
+#: wp-members-sidebar.php:208
+#: wp-members-sidebar.php:250
+msgid "Login Status"
+msgstr "Inloggningsstatus"
+
+#: wp-members-sidebar.php:213
+msgid "Title:"
+msgstr "Titel:"
+
+#: wp-members-tos.php:24
+#, fuzzy
+msgid "Terms of Service"
+msgstr "Användarvillkor (TOS)"
+
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr ""
+
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr ""
+
+#~ msgid ""
+#~ "Please indicate that you have read and agree to the %s Terms of Service %s"
+#~ msgstr ""
+#~ "Var snäll och markera att du har läst och accepterat %s Användarvillkoren "
+#~ "%s"
+
+#~ msgid "You are logged in."
+#~ msgstr "Du är inloggad"
+
+#~ msgid "You may change your password here: %s"
+#~ msgstr "Du kan ändra ditt lösenord här: %s"
+
+#~ msgid "Your registration info for %s"
+#~ msgstr "Din registreringsinformation för %s"
+
+#~ msgid "Thank you for registering for %s"
+#~ msgstr "Tack för att du registrerar dig för %s"
+
+#~ msgid "Your registration information is below."
+#~ msgstr "Din registreringsinformation är nedan."
+
+#~ msgid "You may wish to retain a copy for your records."
+#~ msgstr "Du kanske vill behålla en kopia för framtida bruk."
+
+#~ msgid "username: %s"
+#~ msgstr "Användarnamn: %s"
+
+#~ msgid "password: %s"
+#~ msgstr "Lösenord: %s"
+
+#~ msgid "You may login here:"
+#~ msgstr "Du kan logga in här:"
+
+#~ msgid ""
+#~ "Thank you for registering for %s. Your registration has been received and "
+#~ "is pending approval."
+#~ msgstr ""
+#~ "Tack för att du registrerar dig för %s. Din registrering har mottagits "
+#~ "och inväntar godkännande."
+
+#~ msgid "You will receive login instructions upon approval of your account"
+#~ msgstr "Du får inloggningsinstruktioner efter godkännande av ditt konto"
+
+#~ msgid "Your registration for %s has been approved."
+#~ msgstr "Din registrering för %s har godkänts"
+
+#~ msgid "You may login at: %s"
+#~ msgstr "Du kan logga in via: %s"
+
+#~ msgid "You originally registered at:"
+#~ msgstr "Du registrerade ursprungligen på:"
+
+#~ msgid "Password reset for %s"
+#~ msgstr "Nollställ lösenord för %s"
+
+#~ msgid "Your password for %s has been reset"
+#~ msgstr "Ditt lösenord för %s har nollställts"
+
+#~ msgid ""
+#~ "Your new password is included below. You may wish to retain a copy for "
+#~ "your records."
+#~ msgstr ""
+#~ "Ditt nya lösenord finns nedan. Du kanske vill behålla en kopia för "
+#~ "framtida bruk."
+
+#~ msgid "This is an automated message from %s"
+#~ msgstr "Detta är ett automatiskt meddelande från %s"
+
+#~ msgid "Please do not reply to this address"
+#~ msgstr "Svara inte till denna adress"
+
+#~ msgid "New user registration for %s"
+#~ msgstr "Registrerad ny användare för %s"
+
+#~ msgid "The following user registered for %s"
+#~ msgstr "Följande användare är registrerad för %s"
+
+#~ msgid "and is pending admin approval"
+#~ msgstr "och väntar administratörens godkännande"
+
+#~ msgid "http://butlerblog.com/wp-members/"
+#~ msgstr "http://butlerblog.com/wp-members/"
+
+#~ msgid ""
+#~ "WP access restriction and user registration.  For more information and to "
+#~ "download the Users Guide, visit <a href=\"http://butlerblog.com/wp-members"
+#~ "\">http://butlerblog.com/wp-members</a>. View the live demo at <a href="
+#~ "\"http://butlerblog.com/wpmembers\">http://butlerblog.com/wpmembers</a>. "
+#~ "WP-Members(tm) is a trademark of butlerblog.com."
+#~ msgstr ""
+#~ "WP tillgång begränsning och användare registrering. För mer information "
+#~ "och för att ladda ner användarmanualen, besök <a href=\"http://butlerblog."
+#~ "com/wp-members\"> http://butlerblog.com/wp-members </ a>. Visa live demo "
+#~ "på <a href=\"http://butlerblog.com/wpmembers\"> http://butlerblog.com/"
+#~ "wpmembers </ a>. WP-Members (tm) är ett varumärke som tillhör butlerblog."
+#~ "com."
+
+#~ msgid "Chad Butler"
+#~ msgstr "Chad Butler"
+
+#~ msgid "http://butlerblog.com/"
+#~ msgstr "http://butlerblog.com/"

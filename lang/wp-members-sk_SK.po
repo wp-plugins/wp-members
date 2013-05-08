@@ -1,0 +1,1024 @@
+# This file is distributed under the same license as the WP-Members package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Members 2.7.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
+"POT-Creation-Date: 2012-01-31 18:14:13+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-04-11 16:44+0200\n"
+"X-Poedit-Language: Slovak\n"
+"X-Poedit-Country: Slovakia\n"
+"Language-Team: Web Geeks\n"
+"Last-Translator: \n"
+
+#: wp-members-export.php:26
+msgid "Cheatin’ uh?"
+msgstr "Cheatin ’ ehm?"
+
+#: wp-members-export.php:29
+msgid "there was an error and no users were exported"
+msgstr "Vyskytla sa chyba a bol vyvezený žiadni používatelia"
+
+#: wp-members-export.php:52
+msgid "Activated?"
+msgstr "Aktivovaný?"
+
+#: wp-members-export.php:55
+msgid "Subscription"
+msgstr "Predplatné"
+
+#: wp-members-export.php:55
+msgid "Expires"
+msgstr "Uplynie"
+
+#: wp-members-export.php:58
+msgid "Registered"
+msgstr "Registrované"
+
+#: wp-members-export.php:59
+msgid "IP"
+msgstr "IP"
+
+#: wp-members-export.php:82
+msgid "Yes"
+msgstr "áno"
+
+#: wp-members-export.php:84
+#: wp-members-admin.php:1174
+msgid "No"
+msgstr "nie"
+
+#: wp-members-tos.php:24
+msgid "Terms of Service"
+msgstr "Zmluvné podmienky služby"
+
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr "% sclose % s"
+
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr "% sprint %s"
+
+#: wp-members-core.php:112
+msgid "There was an error with the CAPTCHA form."
+msgstr "Vyskytla sa chyba s CAPTCHA formou."
+
+#: wp-members-core.php:237
+#: wp-members-core.php:953
+msgid "Edit Your Information"
+msgstr "Upraviť vaše informácie"
+
+#: wp-members-core.php:268
+#: wp-members-core.php:984
+msgid "Password fields cannot be empty"
+msgstr "Polia heslo nemôže byť prázdne"
+
+#: wp-members-core.php:1114
+msgid "Additional Info"
+msgstr "Ďalšie Info"
+
+#: wp-members-core.php:1156
+msgid "Indicates a required field"
+msgstr "Označuje povinné pole"
+
+#: wp-members-install.php:49
+msgid "First Name"
+msgstr "Krstné meno"
+
+#: wp-members-install.php:50
+msgid "Last Name"
+msgstr "Priezvisko"
+
+#: wp-members-install.php:51
+msgid "Address 1"
+msgstr "Adresa 1"
+
+#: wp-members-install.php:52
+msgid "Address 2"
+msgstr "Adresa 2"
+
+#: wp-members-install.php:53
+msgid "City"
+msgstr "Mesto"
+
+#: wp-members-install.php:54
+msgid "State"
+msgstr "Štát"
+
+#: wp-members-install.php:55
+msgid "Zip"
+msgstr "Zip"
+
+#: wp-members-install.php:56
+msgid "Country"
+msgstr "Krajina"
+
+#: wp-members-install.php:57
+msgid "Day Phone"
+msgstr "Deň telefón"
+
+#: wp-members-install.php:58
+#: wp-members-dialogs.php:92
+msgid "Email"
+msgstr "E-mailom"
+
+#: wp-members-install.php:59
+msgid "Website"
+msgstr "Webová stránka"
+
+#: wp-members-install.php:60
+msgid "AIM"
+msgstr "CIEĽOM"
+
+#: wp-members-install.php:61
+msgid "Yahoo IM"
+msgstr "Yahoo IM"
+
+#: wp-members-install.php:62
+msgid "Jabber/Google Talk"
+msgstr "Jabber a Google Talk"
+
+#: wp-members-install.php:63
+msgid "Biographical Info"
+msgstr "Biografické Info"
+
+#: wp-members-install.php:64
+#: wp-members-install.php:208
+msgid "TOS"
+msgstr "PREVÁDZKOVATELIA V ODVETVÍ TELEKOMUNIKÁCIÍ"
+
+#: wp-members-install.php:96
+msgid "This content is restricted to site members.  If you are an existing user, please login.  New users may register below."
+msgstr "Tento obsah je obmedzená na mieste členov. Ak ste existujúci užívateľ, prihláste sa prosím. Noví užívatelia sa môžu zaregistrovať nižšie."
+
+#: wp-members-install.php:97
+msgid "Sorry, that username is taken, please try another."
+msgstr "Je nám ľúto, tak├⌐to pou┼╛├¡vate─╛sk├⌐ meno prijaté, skúste iné."
+
+#: wp-members-install.php:98
+msgid "Sorry, that email address already has an account.<br />Please try another."
+msgstr "Ospravedlňujeme sa, že e-mailová adresa už účet. <br /> Skúste prosím iný."
+
+#: wp-members-install.php:99
+msgid "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you."
+msgstr "Gratulujeme! Vaša registrácia bola úspešná. <br /> <br /> Teraz môžete prihlásiť pomocou hesla, ktoré bolo zaslané e-mailom na vás."
+
+#: wp-members-install.php:100
+msgid "Your information was updated!"
+msgstr "Vaše informácie bolo aktualizované!"
+
+#: wp-members-install.php:101
+msgid "Passwords did not match.<br /><br />Please try again."
+msgstr "Heslá urobil nie zápas. < br / > < br / > prosím skúste to znova."
+
+#: wp-members-install.php:102
+msgid "Password successfully changed!<br /><br />You will need to re-login with your new password."
+msgstr "Heslo bolo úspešne zmenené! <br /> <br /> Budete musieť znova prihlásiť pomocou nového hesla."
+
+#: wp-members-install.php:103
+msgid "Either the username or email address do not exist in our records."
+msgstr "Uživateľské meno alebo e-mail adresa v našich záznamov neexistuje."
+
+#: wp-members-install.php:104
+msgid "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password."
+msgstr "Heslo bolo úspešne obnoviť! <br /> <br /> E-mail obsahujúci nové heslo bolo odoslané na e-mailovú adresu, na súbore vášho účtu. Môžete zmeniť toto náhodné heslo, potom re-prihlásenie s novým heslom."
+
+#: wp-members-sidebar.php:37
+#: wp-members-sidebar.php:153
+#: wp-members-dialogs.php:428
+#: wp-members-dialogs.php:439
+#: wp-members-dialogs.php:447
+msgid "You are logged in as %s"
+msgstr "Ste prihlásený ako %s"
+
+#: wp-members-sidebar.php:38
+#: wp-members-sidebar.php:154
+#: wp-members-dialogs.php:440
+#: wp-members-dialogs.php:448
+msgid "click here to logout"
+msgstr "Kliknite tu pre odhlásenie"
+
+#: wp-members-sidebar.php:91
+#: wp-members-sidebar.php:119
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Prihlásenie zlyhalo! < br / > zadané neplatné meno používateľa alebo heslo."
+
+#: wp-members-sidebar.php:93
+#: wp-members-sidebar.php:121
+msgid "You are not currently logged in."
+msgstr "Nie ste práve prihlásení."
+
+#: wp-members-sidebar.php:95
+#: wp-members-sidebar.php:125
+#: wp-members-dialogs.php:49
+#: wp-members-dialogs.php:92
+#: wp-members-dialogs.php:224
+#: wp-members-dialogs.php:603
+msgid "Username"
+msgstr "Username"
+
+#: wp-members-sidebar.php:97
+#: wp-members-sidebar.php:127
+#: wp-members-dialogs.php:49
+msgid "Password"
+msgstr "Heslo"
+
+#: wp-members-sidebar.php:103
+#: wp-members-sidebar.php:133
+msgid "login"
+msgstr "prihlásenie"
+
+#: wp-members-sidebar.php:107
+#: wp-members-sidebar.php:137
+msgid "Forgot?"
+msgstr "Zabudli ste?"
+
+#: wp-members-sidebar.php:110
+#: wp-members-sidebar.php:140
+msgid "Register"
+msgstr "Zaregistrovať sa"
+
+#: wp-members-sidebar.php:194
+#: wp-members-sidebar.php:236
+msgid "Login Status"
+msgstr "Stav prihlásenia"
+
+#: wp-members-sidebar.php:199
+msgid "Title:"
+msgstr "Názov:"
+
+#: wp-members-dialogs.php:49
+msgid "Existing users Login"
+msgstr "Existujúcich používateľov prihlásenie"
+
+#: wp-members-dialogs.php:49
+msgid "Login"
+msgstr "Prihlásenie"
+
+#: wp-members-dialogs.php:71
+#: wp-members-dialogs.php:423
+msgid "Change Password"
+msgstr "Zmena hesla"
+
+#: wp-members-dialogs.php:71
+msgid "New Password"
+msgstr "Nové heslo"
+
+#: wp-members-dialogs.php:71
+msgid "Repeat Password"
+msgstr "Opakovanie hesla"
+
+#: wp-members-dialogs.php:71
+msgid "Update Password"
+msgstr "Aktualizácia hesla"
+
+#: wp-members-dialogs.php:92
+msgid "Reset Forgotten Password"
+msgstr "Obnovenie zabudnutého hesla"
+
+#: wp-members-dialogs.php:92
+msgid "Reset Password"
+msgstr "Reset hesla"
+
+#: wp-members-dialogs.php:130
+#: wp-members-dialogs.php:809
+msgid "Remember me"
+msgstr "Zapamätaj si ma"
+
+#: wp-members-dialogs.php:150
+#: wp-members-dialogs.php:822
+msgid "Forgot password?"
+msgstr "Zabudli ste heslo?"
+
+#: wp-members-dialogs.php:150
+#: wp-members-dialogs.php:822
+msgid "Click here to reset"
+msgstr "Kliknite sem, ak chcete obnoviť"
+
+#: wp-members-dialogs.php:158
+#: wp-members-dialogs.php:831
+msgid "New User?"
+msgstr "Nový užívateľ?"
+
+#: wp-members-dialogs.php:158
+#: wp-members-dialogs.php:831
+msgid "Click here to register"
+msgstr "Kliknite tu pre registráciu"
+
+#: wp-members-dialogs.php:184
+msgid "Login Failed!"
+msgstr "Prihlásenie zlyhalo!"
+
+#: wp-members-dialogs.php:185
+msgid "You entered an invalid username or password."
+msgstr "Zadali ste neplatné meno používateľa alebo heslo."
+
+#: wp-members-dialogs.php:186
+msgid "Click here to continue."
+msgstr "Kliknite tu pre pokračovať."
+
+#: wp-members-dialogs.php:212
+#: wp-members-dialogs.php:594
+msgid "New Users Registration"
+msgstr "Registrácia nového užívateľa"
+
+#: wp-members-dialogs.php:229
+#: wp-members-dialogs.php:610
+msgid "Choose a Username"
+msgstr "Vyberte meno"
+
+#: wp-members-dialogs.php:323
+#: wp-members-dialogs.php:703
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Prosím uveďte, že súhlasíte s %s TOS %s"
+
+#: wp-members-dialogs.php:375
+#: wp-members-dialogs.php:751
+msgid "Submit"
+msgstr "Predložiť"
+
+#: wp-members-dialogs.php:377
+#: wp-members-dialogs.php:750
+msgid "Clear Form"
+msgstr "Vymazať formulár"
+
+#: wp-members-dialogs.php:382
+#: wp-members-dialogs.php:755
+msgid "Required field"
+msgstr "Povinné pole"
+
+#: wp-members-dialogs.php:422
+msgid "Edit My Information"
+msgstr "Upraviť moje informácie"
+
+#: wp-members-dialogs.php:430
+msgid "Click here to logout."
+msgstr "Kliknite sem, ak chcete odhlásiť."
+
+#: wp-members-dialogs.php:431
+msgid "Begin using the site."
+msgstr "Začať pomocou lokality."
+
+#: wp-members-dialogs-admin.php:31
+msgid "Your WP settings allow anyone to register - this is not the recommended setting."
+msgstr "Vaša WP nastavenie umožňuje, aby niekto zaregistrovať - to nie je odporúčané nastavenie."
+
+#: wp-members-dialogs-admin.php:32
+msgid "You can %s change this here %s making sure the box next to \"Anyone can register\" is unchecked."
+msgstr "Môžete% s to zmeniť tu% s to, aby políčko \"Každý sa môže zaregistrovať\" je aktívny."
+
+#: wp-members-dialogs-admin.php:33
+msgid "This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Toto nastavenie umožňuje odkaz na / wp-login.php stránke zaregistrovať pomocou WP natívne proces registrácie a tým obísť žiadny záznam, ktorý používate s WP-poslancov. V niektorých prípadoch to môže vyhovovať používateľom wants/potreby, ale väčšina užívateľov by odškrtnite túto voľbu. Ak nemáte toto nastavenie zmeniť, môžete zvoliť ignorovanie týchto varovných správ v rámci WP-poslancov nastavenia."
+
+#: wp-members-dialogs-admin.php:39
+msgid "Your WP settings allow anyone to comment - this is not the recommended setting."
+msgstr "Vaša WP nastavenie umožňuje, aby niekto komentár - to nie je odporúčané nastavenie."
+
+#: wp-members-dialogs-admin.php:40
+msgid "You can %s change this here %s by checking the box next to \"Users must be registered and logged in to comment.\""
+msgstr "Môžete %s to zmeniť tu %s zaškrtnutím políčka vedľa \"Používatelia musia byť registrovaný a prihlásený komentovať.\""
+
+#: wp-members-dialogs-admin.php:41
+msgid "This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "Toto nastavenie umožňuje používateľom akékoľvek pripomienky, či už sú alebo nie sú zaregistrovaní. V závislosti od spôsobu používania WP-členov určí, či by ste mali zmeniť toto nastavenie, alebo nie. Ak nemáte toto nastavenie zmeniť, môžete zvoliť ignorovanie týchto varovných správ v rámci WP-poslancov nastavenia."
+
+#: wp-members-dialogs-admin.php:47
+msgid "Your WP settings allow full text rss feeds - this is not the recommended setting."
+msgstr "Vaša WP nastavenie umožňuje fulltextové RSS - toto nie je odporúčané nastavenie."
+
+#: wp-members-dialogs-admin.php:48
+msgid "You can %s change this here %s by changing \"For each article in a feed, show\" to \"Summary.\""
+msgstr "Môžete %s to zmeniť tu %s tým, že mení \"U každého článku v krmivách, ukazujú,\" na \"Celková.\""
+
+#: wp-members-dialogs-admin.php:49
+msgid "Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text."
+msgstr "Ponechanie tejto sady k úplnému zneniu umožňuje každému si prečítať chráneného obsahu v RSS čítačke. Zmena na súhrn bráni to ako zdroja sa zobrazí len súhrnné text."
+
+#: wp-members-dialogs-admin.php:55
+msgid "You have set WP-Members to hold registrations for approval"
+msgstr "Nastavili ste WP-členovia držať zápisov na schválenie"
+
+#: wp-members-dialogs-admin.php:56
+msgid "but you have not changed the default message for \"Registration Completed\" under \"WP-Members Dialogs and Error Messages.\"  You should change this message to let users know they are pending approval."
+msgstr "ale vy ste nezmenili predvolené správu pre \"Registrácia dokončená\" v \"WP-Členov dialógy a chybové hlásenia.\" by ste mali zmeniť túto správu dať používateľom vedieť, že sa čaká na schválenie."
+
+#: wp-members-dialogs-admin.php:62
+msgid "You have set WP-Members to turn off the registration process"
+msgstr "Nastavili ste WP-členovia vypnúť registračný proces"
+
+#: wp-members-dialogs-admin.php:63
+msgid "but you also set to moderate and/or email admin new registrations.  You will need to set up a registration page for users to register."
+msgstr "ale tiež nastaviť až stredne závažné a/alebo e-mailovej admin nových registrácií. Budete musieť nastaviť registračnej stránky pre užívateľa sa zaregistrovať."
+
+#: wp-members-dialogs-admin.php:69
+msgid "You have turned on reCAPTCHA"
+msgstr "Zapli ste reCAPTCHA"
+
+#: wp-members-dialogs-admin.php:70
+msgid "but you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included."
+msgstr "ale vy ste nezadali API kľúča. Budete potrebovať obaja verejný a súkromný kľúč. CAPTCHA sa nezobrazí, ak platné API kľúč je súčasťou dodávky."
+
+#: wp-members-register.php:58
+msgid "Sorry, %s is a required field."
+msgstr "Je nám ľúto, ale %s je názov požadovaného poľa."
+
+#: wp-members-register.php:66
+msgid "Sorry, username is a required field"
+msgstr "Je nám ľúto, ale username je názov požadovaného poľa"
+
+#: wp-members-register.php:67
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Užívateľské meno nemôže obsahovať iné ako alfanumerické znaky."
+
+#: wp-members-register.php:68
+msgid "You must enter a valid email address."
+msgstr "Musíte zadať platnú e-mailovú adresu."
+
+#: wp-members-register.php:78
+msgid "You must complete the CAPTCHA form."
+msgstr "Musíte vyplniť formulár CAPTCHA."
+
+#: wp-members-register.php:237
+msgid "We were unable to validate the public key."
+msgstr "Boli sme schopní overiť verejným kľúčom."
+
+#: wp-members-register.php:241
+msgid "We were unable to validate the private key."
+msgstr "Boli sme schopní overiť súkromný kľúč."
+
+#: wp-members-register.php:245
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "Parameter výzva skriptu overiť bola nesprávna."
+
+#: wp-members-register.php:249
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA riešenie bolo nesprávne."
+
+#: wp-members-register.php:253
+msgid "The parameters to verify were incorrect"
+msgstr "Parametre na overenie boli nesprávne"
+
+#: wp-members-register.php:257
+msgid "reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr "ReCaptcha API kľúče sú viazané na konkrétne doménové meno z bezpečnostných dôvodov."
+
+#: wp-members-register.php:261
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "ReCAPTCHA servera nebol dosiahnutý.  Prosím, skúste znovu."
+
+#: wp-members-admin.php:35
+#: wp-members-admin.php:704
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: wp-members-admin.php:74
+msgid "WP-Members Additional Fields"
+msgstr "WP-členovia ďalšie polia"
+
+#: wp-members-admin.php:105
+msgid "Activate this user?"
+msgstr "Aktivovať tomuto používateľovi?"
+
+#: wp-members-admin.php:110
+msgid "Reactivate this user?"
+msgstr "Opätovná aktivácia tomuto používateľovi?"
+
+#: wp-members-admin.php:115
+msgid "Deactivate this user?"
+msgstr "Deaktivácia tomuto používateľovi?"
+
+#: wp-members-admin.php:136
+msgid "IP @ registration"
+msgstr "IP @ registrácie"
+
+#: wp-members-admin.php:188
+msgid "Manage Options"
+msgstr "Spravovať možnosti"
+
+#: wp-members-admin.php:193
+msgid "Block Posts by default"
+msgstr "Blok miest v predvolenom nastavení"
+
+#: wp-members-admin.php:193
+msgid "Note: Posts can still be individually blocked or unblocked at the article level"
+msgstr "Poznámka: Príspevky môžu ešte byť individuálne blokovať alebo odblokovať na článok úrovni"
+
+#: wp-members-admin.php:194
+msgid "Block Pages by default"
+msgstr "Blokovať stránky v predvolenom nastavení"
+
+#: wp-members-admin.php:194
+msgid "Note: Pages can still be individually blocked or unblocked at the article level"
+msgstr "Poznámka: Stránky môžu byť ešte samostatne zablokovať alebo odblokovať na článok úrovni"
+
+#: wp-members-admin.php:195
+msgid "Show excerpts"
+msgstr "Zobrazenie ukážky"
+
+#: wp-members-admin.php:195
+msgid "Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr "Ukazuje výňatok obsah nad prihlásenie/registráciu na obidvoch pôšt a Pages"
+
+#: wp-members-admin.php:196
+msgid "Notify admin"
+msgstr "Oznámiť admin"
+
+#: wp-members-admin.php:196
+msgid "Sends email to admin for each new registration?"
+msgstr "Pošle email admin pre každý nový zápis?"
+
+#: wp-members-admin.php:197
+msgid "Moderate registration"
+msgstr "Mierny registrácie"
+
+#: wp-members-admin.php:197
+msgid "Holds new registrations for admin approval"
+msgstr "Vlastní nových registrácií schvaľovania admin"
+
+#: wp-members-admin.php:198
+msgid "Use reCAPTCHA"
+msgstr "Použiť reCAPTCHA"
+
+#: wp-members-admin.php:198
+msgid "Turns on CAPTCHA for registration"
+msgstr "Zapne CAPTCHA, registrácie"
+
+#: wp-members-admin.php:199
+msgid "Turn off registration"
+msgstr "Ak chcete vypnúť registrácie"
+
+#: wp-members-admin.php:199
+msgid "Turns off the registration process, only allows login"
+msgstr "Vypne proces registrácie, len umožňuje prihlásenie"
+
+#: wp-members-admin.php:201
+msgid "Legacy forms"
+msgstr "Staršie formuláre"
+
+#: wp-members-admin.php:201
+msgid "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
+msgstr "Používa pre-2.5.1 Tabuľka formuláre založené v prestať používať CSS stolný menej formulárov)"
+
+#: wp-members-admin.php:202
+msgid "Time-based expiration"
+msgstr "Skončenie časového"
+
+#: wp-members-admin.php:202
+msgid "Allows for access to expire"
+msgstr "Umožňuje prístup k uplynie"
+
+#: wp-members-admin.php:203
+msgid "Trial period"
+msgstr "Skúšobné obdobie"
+
+#: wp-members-admin.php:203
+msgid "Allows for a trial period"
+msgstr "Umožňuje skúšobnú dobu"
+
+#: wp-members-admin.php:204
+msgid "Ignore warning messages"
+msgstr "Ignorovanie upozornení"
+
+#: wp-members-admin.php:204
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignoruje WP-členovia upozorňujúcich hlásení v admin panel"
+
+#: wp-members-admin.php:222
+msgid "Members Area URL:"
+msgstr "Členovia oblasti URL:"
+
+#: wp-members-admin.php:223
+#: wp-members-admin.php:229
+#: wp-members-admin.php:235
+#: wp-members-admin.php:905
+msgid "Optional"
+msgstr "Voliteľné"
+
+#: wp-members-admin.php:228
+msgid "Register Page URL:"
+msgstr "URL stránky registra:"
+
+#: wp-members-admin.php:234
+msgid "Custom CSS:"
+msgstr "Vlastné CSS:"
+
+#: wp-members-admin.php:240
+msgid "Update Settings"
+msgstr "Aktualizovať nastavenia"
+
+#: wp-members-admin.php:256
+msgid "Manage Fields"
+msgstr "Spravovať polia"
+
+#: wp-members-admin.php:257
+msgid "Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields."
+msgstr "Určiť, ktoré polia budú zobrazovať a ktoré sú povinné. To zahŕňa všetky odbory, a to ako pôvodné WP oblasti a WP-Members vlastné pole."
+
+#: wp-members-admin.php:258
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Poznámka: Email je vždy povinné. a nemôžu byť zmenené.)"
+
+#: wp-members-admin.php:263
+msgid "Add/Delete"
+msgstr "Pridať a odstrániť"
+
+#: wp-members-admin.php:264
+msgid "Field Label"
+msgstr "Označenie poľa"
+
+#: wp-members-admin.php:265
+msgid "Option Name"
+msgstr "Názov voľby"
+
+#: wp-members-admin.php:266
+msgid "Field Type"
+msgstr "Typ poľa"
+
+#: wp-members-admin.php:267
+msgid "Display?"
+msgstr "Zobraziť?"
+
+#: wp-members-admin.php:268
+msgid "Required?"
+msgstr "Vyžadováno?"
+
+#: wp-members-admin.php:269
+msgid "Checked?"
+msgstr "Skontrolovať?"
+
+#: wp-members-admin.php:270
+msgid "WP Native?"
+msgstr "WP Native?"
+
+#: wp-members-admin.php:283
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: wp-members-admin.php:295
+msgid "(Email cannot be removed)"
+msgstr "(E-mailu sa nedá odstrániť)"
+
+#: wp-members-admin.php:306
+msgid "Add"
+msgstr "Pridať"
+
+#: wp-members-admin.php:311
+msgid "text"
+msgstr "textu"
+
+#: wp-members-admin.php:312
+msgid "textarea"
+msgstr "Textarea"
+
+#: wp-members-admin.php:313
+msgid "checkbox"
+msgstr "Checkbox"
+
+#: wp-members-admin.php:314
+msgid "dropdown"
+msgstr "Rozbaľovací zoznam"
+
+#: wp-members-admin.php:315
+msgid "password"
+msgstr "heslo"
+
+#: wp-members-admin.php:324
+msgid "For checkbox, stored value if checked:"
+msgstr "Pre začiarkavacie políčko, uložené hodnoty, ak skontrolovať:"
+
+#: wp-members-admin.php:331
+msgid "For dropdown, array of values:"
+msgstr "Pre rozbaľovacie pole hodnôt:"
+
+#: wp-members-admin.php:332
+msgid "Options should be Option Name|option_value,"
+msgstr "Možnosti by mala byť možnosť Name|option_value"
+
+#: wp-members-admin.php:333
+msgid "Visit plugin site for more information"
+msgstr "Môžete tiež navštíviť lokalitu plugin pre ďalšie informácie"
+
+#: wp-members-admin.php:345
+msgid "Update Fields"
+msgstr "Aktualizácia polí"
+
+#: wp-members-admin.php:359
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr "Vyhradené miesto (alebo stránky), zobrazí nad prihlasovacie/registračný formulár"
+
+#: wp-members-admin.php:360
+msgid "Username is taken"
+msgstr "Brať meno"
+
+#: wp-members-admin.php:361
+msgid "Email is registered"
+msgstr "E-mail je registrovaný"
+
+#: wp-members-admin.php:362
+msgid "Registration completed"
+msgstr "Registrácia dokončená"
+
+#: wp-members-admin.php:363
+msgid "User update"
+msgstr "Používateľom aktualizácie"
+
+#: wp-members-admin.php:364
+msgid "Passwords did not match"
+msgstr "Passwords did not match"
+
+#: wp-members-admin.php:365
+msgid "Password changes"
+msgstr "Zmeny hesla"
+
+#: wp-members-admin.php:366
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr "Uživateľské meno alebo e-mail neexistujú pri pokuse o obnovenie zabudnutého hesla"
+
+#: wp-members-admin.php:367
+msgid "Password reset"
+msgstr "Vynulovanie hesla"
+
+#: wp-members-admin.php:369
+msgid "Dialogs and Error Messages"
+msgstr "Dialógové okná a chybových hlásení"
+
+#: wp-members-admin.php:370
+msgid "You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc."
+msgstr "Môžete upraviť text dialógov a chybové správy. Jednoduché HTML je povolené %s atď"
+
+#: wp-members-admin.php:383
+msgid "Terms of Service (TOS)"
+msgstr "Zmluvné podmienky služby (TOS)"
+
+#: wp-members-admin.php:390
+msgid "Update Dialogs"
+msgstr "Aktualizácia Dialogs"
+
+#: wp-members-admin.php:487
+msgid "WP-Members settings were updated"
+msgstr "WP-členovia nastavenia boli aktualizované"
+
+#: wp-members-admin.php:547
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr "Označenie poľa je potrebné pridať nové pole. Nič bol aktualizovaný."
+
+#: wp-members-admin.php:548
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr "Názov voľby sa vyžaduje pre pridáte nové pole. Nič bol aktualizovaný."
+
+#: wp-members-admin.php:583
+msgid "WP-Members fields were updated"
+msgstr "WP-členovia polia boli aktualizované"
+
+#: wp-members-admin.php:609
+msgid "WP-Members dialogs were updated"
+msgstr "WP-členovia dialógy boli aktualizované"
+
+#: wp-members-admin.php:628
+msgid "reCAPTCHA was updated for WP-Members"
+msgstr "reCAPTCHA bol aktualizovaný poslancov WP"
+
+#: wp-members-admin.php:644
+msgid "WP-Members expiration periods were updated"
+msgstr "WP-členovia uplynutia obdobia boli aktualizované"
+
+#: wp-members-admin.php:693
+msgid "WP-Members emails were updated"
+msgstr "WP-členovia e-maily boli aktualizované"
+
+#: wp-members-admin.php:710
+msgid "Settings were saved, but you have required fields that are not set to display!"
+msgstr "Nastavenie bolo uložené, ale vy ste povinná, ktoré nie sú dané na zobrazenie!"
+
+#: wp-members-admin.php:711
+msgid "Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that your displayed and required fields match up.  Mismatched fields are highlighted below."
+msgstr "Poznámka: Táto nespôsobí chybu pre koncového užívateľa, pretože len zobrazené položky sú overené. Avšak, mali by ste ešte overiť, či je zobrazené pole a musí zhodovať. Nezhoda polia sú uvedené nižšie."
+
+#: wp-members-admin.php:771
+msgid "Version:"
+msgstr "Verzia:"
+
+#: wp-members-admin.php:772
+msgid "Follow"
+msgstr "Postupujte"
+
+#: wp-members-admin.php:775
+msgid "If you find this plugin useful, please consider making a donation"
+msgstr "Ak ste našli tento plugin užitočný, prosím zváži poskytnutie daru"
+
+#: wp-members-admin.php:794
+msgid "Options"
+msgstr "Možnosti"
+
+#: wp-members-admin.php:795
+msgid "Fields"
+msgstr "Polia"
+
+#: wp-members-admin.php:796
+msgid "Dialogs"
+msgstr "Dialógové okná"
+
+#: wp-members-admin.php:797
+msgid "Emails"
+msgstr "E-mailov"
+
+#: wp-members-admin.php:799
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+#: wp-members-admin.php:802
+msgid "Subscriptions"
+msgstr "Predplatné"
+
+#: wp-members-admin.php:805
+msgid "PayPal Settings"
+msgstr "PayPal nastavenia"
+
+#: wp-members-admin.php:848
+msgid "Thank you for using WP-Members! You are using version %s"
+msgstr "Ďakujeme, že používate WP členov! Používate verziu %s"
+
+#: wp-members-admin.php:850
+msgid "If you find this plugin useful, please consider a %s donation %s"
+msgstr "Ak ste našli tento plugin užitočný, prosím zvážiť darovanie %s %s"
+
+#: wp-members-admin.php:871
+msgid "Manage reCAPTCHA Options"
+msgstr "Spravovať reCAPTCHA možnosti"
+
+#: wp-members-admin.php:877
+msgid "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
+msgstr "ReCaptcha je zadarmo, prístupný CAPTCHA služba, ktorá pomáha pri digitalizácii kníh blokovanie nevyžiadanej pošty na svojom blogu."
+
+#: wp-members-admin.php:878
+msgid "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s"
+msgstr "ReCaptcha žiada commenters znovu zadávať dve slová naskenované z knihy preukázať, že sú ľudské. To potvrdzuje, že nie sú spambotmi zároveň opravuje automatické skenovanie starých kníh. Takže ste si menej spamu, a svet sa dostane presne digitalizované knihy. Všetci víťazí! Podrobnosti nájdete %s ReCaptcha stránky%s"
+
+#: wp-members-admin.php:883
+msgid "reCAPTCHA Keys"
+msgstr "reCAPTCHA klávesy"
+
+#: wp-members-admin.php:885
+msgid "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr "ReCaptcha vyžaduje API kľúč, skladajúci sa z \"verejnosť\" a \"súkromný\" kľúč. Môžete sa zaregistrovať pre %s bez kľúča s ReCaptcha%s"
+
+#: wp-members-admin.php:886
+msgid "Public Key"
+msgstr "Verejný kľúč"
+
+#: wp-members-admin.php:887
+msgid "Private Key"
+msgstr "Súkromný kľúč"
+
+#: wp-members-admin.php:891
+msgid "Choose Theme"
+msgstr "Vybrať tému"
+
+#. #-#-#-#-#  plugin.pot (WP-Members 2.7.1 rc4)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: wp-members-admin.php:894
+msgid "WP-Members"
+msgstr "WP-členovia"
+
+#: wp-members-admin.php:895
+msgid "Red"
+msgstr "Red"
+
+#: wp-members-admin.php:896
+msgid "White"
+msgstr "Biela"
+
+#: wp-members-admin.php:897
+msgid "Black Glass"
+msgstr "Čierneho skla"
+
+#: wp-members-admin.php:898
+msgid "Clean"
+msgstr "Vyčistite"
+
+#: wp-members-admin.php:899
+msgid "Custom"
+msgstr "Vlastné"
+
+#: wp-members-admin.php:911
+msgid "Update reCAPTCHA Settings"
+msgstr "Aktualizovať nastavenia reCAPTCHA"
+
+#: wp-members-admin.php:977
+msgid "%d users were activated."
+msgstr "%d užívateľov bola aktivovaná."
+
+#: wp-members-admin.php:982
+msgid "Users ready to export, %s click here %s to generate and download a CSV."
+msgstr "Pripravený na vývoz, %s uživateľ %s generovať a stiahnuť CSV."
+
+#: wp-members-admin.php:992
+msgid "WP-Members Users"
+msgstr "WP-členov užívateľov"
+
+#: wp-members-admin.php:992
+msgid "Add New"
+msgstr "Pridať nové"
+
+#: wp-members-admin.php:1188
+msgid "No users matched your criteria"
+msgstr "Žiadni používatelia spárovaných vaše kritériá"
+
+#: wp-members-admin.php:1271
+msgid "Bulk Actions"
+msgstr "Hromadný akcie"
+
+#: wp-members-admin.php:1273
+msgid "Activate"
+msgstr "Aktivovať"
+
+#: wp-members-admin.php:1275
+msgid "Export"
+msgstr "Vývoz"
+
+#: wp-members-admin.php:1277
+msgid "Apply"
+msgstr "Uplatňovať"
+
+#: wp-members-admin.php:1420
+msgid "New Registration"
+msgstr "Nový zápis"
+
+#: wp-members-admin.php:1424
+msgid "Registration is Moderated"
+msgstr "Registrácia je moderovaná"
+
+#: wp-members-admin.php:1425
+msgid "Registration is Moderated, User is Approved"
+msgstr "Registrácia je moderovaná, schválené používateľom"
+
+#: wp-members-admin.php:1430
+msgid "Password Reset"
+msgstr "Vynulovanie hesla"
+
+#: wp-members-admin.php:1435
+msgid "Admin Notification"
+msgstr "Admin oznámenia"
+
+#: wp-members-admin.php:1440
+msgid "Email Signature"
+msgstr "Podpis e-mailu"
+
+#: wp-members-admin.php:1443
+msgid "Email Messages"
+msgstr "E-mailové správy"
+
+#: wp-members-admin.php:1445
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr "Môžete prispôsobiť obsah e-mailov odoslané plugin."
+
+#: wp-members-admin.php:1447
+msgid "A list of shortcodes is available here."
+msgstr "Tu je k dispozícii zoznam shortcodes."
+
+#: wp-members-admin.php:1454
+msgid "Set a custom email address"
+msgstr "Nastaviť vlastnú e-mailovú adresu"
+
+#: wp-members-admin.php:1455
+#: wp-members-admin.php:1459
+#: wp-members-admin.php:1482
+msgid "(optional)"
+msgstr "(voliteľné)"
+
+#: wp-members-admin.php:1458
+msgid "Set a custom email name"
+msgstr "Nastaviť názov vlastného e-mailu"
+
+#: wp-members-admin.php:1469
+msgid "Subject"
+msgstr "Predmet"
+
+#: wp-members-admin.php:1473
+msgid "Body"
+msgstr "Telo"
+
+#: wp-members-admin.php:1490
+msgid "Update Emails"
+msgstr "Aktualizácia e-mailov"
+
+#. Plugin URI of the plugin/theme
+msgid "http://butlerblog.com/wp-members/"
+msgstr "http://butlerblog.com/wp-Members/"
+
+#. Description of the plugin/theme
+msgid "WP access restriction and user registration.  For more information and to download the Users Guide, visit <a href=\"http://butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. A <a href=\"http://butlerblog.com/wp-members/wp-members-quick-start-guide/\">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr "WP obmedzenie prístupu a registračné. Pre viac informácií a na stiahnutie v užívateľskej príručke, nájdete <a href=\"http://butlerblog.com/wp-members\"> http://butlerblog.com/wp-members </a>. <a href=\"http://butlerblog.com/wp-members/wp-members-quick-start-guide/\"> Quick Start Guide </a> je k dispozícii tiež. WP-členov (TM) je obchodná značka butlerblog.com."
+
+#. Author of the plugin/theme
+msgid "Chad Butler"
+msgstr "Čad Butler"
+
+#. Author URI of the plugin/theme
+msgid "http://butlerblog.com/"
+msgstr "http://butlerblog.com/"
+
