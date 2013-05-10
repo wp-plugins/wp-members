@@ -216,6 +216,7 @@ function wpmem_admin_tabs( $current = 'options' )
  */
 function wpmem_admin_action( $action )
 {
+	$did_update = ''; // makes sure $did_update is defined
 	switch( $action ) {
 
 	case( 'update_settings' ):

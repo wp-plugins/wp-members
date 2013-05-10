@@ -119,7 +119,8 @@ function wpmem_update_fields( $action )
 		// @todo - need some additional form validation here
 		
 		// update user table fields
-		( isset( $_POST['ut_fields'] ) ) ? update_option( 'wpmembers_utfields', $_POST['ut_fields'] ) : '';
+		$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : '';
+		update_option( 'wpmembers_utfields', $arr );
 	
 		// rebuild the array, don't touch user_email - it's always mandatory
 		$nrow = 0;

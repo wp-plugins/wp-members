@@ -43,29 +43,29 @@ function wpmem()
 
 	switch ($wpmem_a) {
 
-	case ("login"):
+	case ( 'login' ):
 		$wpmem_regchk = wpmem_login();
 		break;
 
-	case ("logout"):
+	case ( 'logout' ):
 		wpmem_logout();
 		break;
 
-	case ("register"):
-		include_once('wp-members-register.php');
-		$wpmem_regchk = wpmem_registration('register');
+	case ( 'register' ):
+		include_once( 'wp-members-register.php' );
+		$wpmem_regchk = wpmem_registration( 'register' );
 		break;
 	
-	case ("update"):
-		include_once('wp-members-register.php');
-		$wpmem_regchk = wpmem_registration('update');
+	case ( 'update' ):
+		include_once( 'wp-members-register.php' );
+		$wpmem_regchk = wpmem_registration( 'update' );
 		break;
 	
-	case ("pwdchange"):
+	case ( 'pwdchange' ):
 		$wpmem_regchk = wpmem_change_password();
 		break;
 	
-	case ("pwdreset"):
+	case ( 'pwdreset' ):
 		$wpmem_regchk = wpmem_reset_password();
 		break;
 
@@ -115,7 +115,7 @@ function wpmem_securify( $content = null )
 			global $post;
 			$post->post_password = apply_filters( 'wpmem_post_password' , wp_generate_password() );
 		
-			include_once('wp-members-dialogs.php');
+			include_once( 'wp-members-dialogs.php' );
 			
 			// show the login and registration forms
 			if( $wpmem_regchk ) {
@@ -239,10 +239,7 @@ function wpmem_do_sc_pages( $page )
 
 			} else {
 
-				// if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
-				
-				// if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
 				$content = ( $page == 'register' || WPMEM_NO_REG != 1 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
@@ -440,7 +437,6 @@ if( ! function_exists( 'wpmem_check_activated' ) ):
 function wpmem_check_activated( $user, $username, $password ) 
 {
 	// password must be validated
-	//$pass = wp_check_password( $password, $user->user_pass, $user->ID );
 	$pass = ( $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
 	
 	if( ! $pass ) { 

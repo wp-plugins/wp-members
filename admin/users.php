@@ -98,7 +98,7 @@ function wpmem_admin_users()
 			// huge amount of additional programming (like a multi-dimensional array)
 			$show = $lcas = $curr = '';
 			$tmp  = array( "All", "Not Active", "Trial", "Subscription", "Expired", "Not Exported" );
-			$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false; //if( isset( $_GET['show'] ) ) { $show = $_GET['show']; }
+			$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false; 
 			
 			for( $row = 0; $row < count( $tmp ); $row++ )
 			{
@@ -112,11 +112,11 @@ function wpmem_admin_users()
 					$link.= $lcas;
 					
 					$curr = "";
-						$curr = ( $show == $lcas ) ? ' class="current"' : ''; //if( $show == $lcas ) { $curr = ' class="current"'; }
+						$curr = ( $show == $lcas ) ? ' class="current"' : '';
 					
 				} else {
 				
-					$curr = ( ! $show ) ? ' class="current"' : ''; //if( ! $show ) { $curr = ' class="current"'; }
+					$curr = ( ! $show ) ? ' class="current"' : ''; 
 					
 				}
 				
@@ -136,13 +136,7 @@ function wpmem_admin_users()
 			</ul>
 		</div>
 
-		<?php // NOT YET... ?><!--
-			<p class="search-box">
-				<label class="screen-reader-text" for="user-search-input">Search Users:</label>
-				<input type="text" id="user-search-input" name="usersearch" value="" />
 
-				<input type="submit" value="Search Users" class="button" />
-			</p>-->
 	<?php
 	
 		// done with the action items, now build the page
@@ -153,11 +147,7 @@ function wpmem_admin_users()
 
 			$result = count_users();
 
-			/* if( isset( $_REQUEST['paged'] ) ) { 
-				$paged = $_REQUEST['paged']; 
-			} else {
-				$paged = 1;
-			} */
+
 			$paged = ( isset( $_REQUEST['paged'] ) ) ? $_REQUEST['paged'] : 1;
 
 			$arr = array(
@@ -169,11 +159,7 @@ function wpmem_admin_users()
 				'link' => "users.php?page=wpmem-users"
 				);
 
-			/* if( $paged == 1 ) { 
-				$offset = 0;
-			} else {
-				$offset = ( ( $arr['paged'] * $users_per_page ) - $users_per_page );
-			} */
+
 			$offset = ( $paged == 1 ) ? 0 : ( ( $arr['paged'] * $users_per_page ) - $users_per_page );
 			
 			$args = array(
@@ -184,17 +170,12 @@ function wpmem_admin_users()
 		
 		} elseif( $show == 'notactive' ) {
 
-			/*global $wpdb;
-			
-			$sql = "SELECT user_id FROM `wp32`.`wp_usermeta` WHERE meta_key = 'active' AND meta_value = 1;";
-			$user = $wpdb->get_results($sql, OBJECT);
-			
-			*/
+
 
 		} elseif( $show == 'notexported' ) {
 
 		}
-		// http://codex.wordpress.org/Function_Reference/get_users
+
 			
 		$users = get_users( $args ); // get_users_of_blog(); ?>		
 
@@ -224,21 +205,21 @@ function wpmem_admin_users()
 				$chk_show = false; 
 				switch( $show ) {
 				case "notactive":
-					$chk_show = ( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) ? true : false; // if( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) { $chk_show = true; }
+					$chk_show = ( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) ? true : false;
 					break;
 				case "trial":
 					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
-					$chk_show = ( $chk_exp_type == 'trial' ) ? true : false; // if( $chk_exp_type == 'trial' ) { $chk_show = true; }
+					$chk_show = ( $chk_exp_type == 'trial' ) ? true : false;
 					break;
 				case "subscription":
 					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
-					$chk_show = ( $chk_exp_type == 'subscription' ) ? true : false; // if( $chk_exp_type == 'subscription' ) { $chk_show = true; }
+					$chk_show = ( $chk_exp_type == 'subscription' ) ? true : false;
 					break;
 				case "expired":
-					$chk_show = ( wpmem_chk_exp( $user->ID ) ) ? true : false; // if( wpmem_chk_exp( $user->ID ) ) { $chk_show = true; }
+					$chk_show = ( wpmem_chk_exp( $user->ID ) ) ? true : false; 
 					break;
 				case "notexported":
-					$chk_show = ( get_user_meta( $user->ID, 'exported', 'true' ) != 1 ) ? true : false; // if( get_user_meta( $user->ID, 'exported', 'true' ) != 1 ) { $chk_show = true; }
+					$chk_show = ( get_user_meta( $user->ID, 'exported', 'true' ) != 1 ) ? true : false;
 					break;
 				}
 
@@ -281,8 +262,6 @@ function wpmem_admin_users()
 			if( $x == 0 ) { echo "<tr><td colspan=\"$colspan\">"; _e( 'No users matched your criteria', 'wp-members' ); echo "</td></tr>"; } ?>
 
 		</table>
-		
-		<?php //wpmem_a_build_user_action( false, $arr ); ?>
 
 		</form>
 		
@@ -358,19 +337,19 @@ function wpmem_a_build_user_tbl_head( $args )
 		$showcol = false;
 		switch ($val) {
 		case "Phone":
-			$showcol = ( $args['phone'] == true ) ? true : false; // if( $args['phone'] == true ) { $showcol = true; $c++; }
+			$showcol = ( $args['phone'] == true ) ? true : false; 
 			break;
 		case "Country":
-			$showcol = ( $args['country'] == true ) ? true : false; // if( $args['country'] == true ) { $showcol = true; $c++; }
+			$showcol = ( $args['country'] == true ) ? true : false; 
 			break;
 		case "Activated?":
-			$showcol = ( WPMEM_MOD_REG == 1 ) ? true : false; // if( WPMEM_MOD_REG == 1 ) { $showcol = true; $c++; }
+			$showcol = ( WPMEM_MOD_REG == 1 ) ? true : false; 
 			break;
 		case "Subscription":
-			$showcol = ( WPMEM_USE_EXP == 1 && WPMEM_USE_TRL == true ) ? true : false; // if( WPMEM_USE_EXP == 1 && WPMEM_USE_TRL == true ) { $showcol = true; $c++; }
+			$showcol = ( WPMEM_USE_EXP == 1 && WPMEM_USE_TRL == true ) ? true : false;
 			break;
 		case "Expires":
-			$showcol = ( WPMEM_USE_EXP == 1 ) ? true : false; // if( WPMEM_USE_EXP == 1 ) { $showcol = true; $c++; }
+			$showcol = ( WPMEM_USE_EXP == 1 ) ? true : false;
 			break;
 		default:
 			$showcol = true;
@@ -590,7 +569,6 @@ function wpmem_users_admin_notices()
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
 
-
 	if( $user_action_msg ) {
 		echo "<div class=\"updated\"><p>{$user_action_msg}</p></div>";
 	}
@@ -610,7 +588,7 @@ function wpmem_users_views( $views )
 	$arr = array();	
 	//if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Pending'; }
 	if( defined( 'WPMEM_USE_TRL' ) && WPMEM_USE_TRL == 1 ) { $arr[] = 'Trial'; }
-	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Subscription'; } //$arr[] = 'Expired';
+	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Subscription'; $arr[] = 'Expired'; }
 	if( defined( 'WPMEM_MOD_REG' ) && WPMEM_MOD_REG == 1 ) { $arr[] = 'Not Active'; }
 	$arr[] = 'Not Exported';
 	$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false;
@@ -795,35 +773,38 @@ function custom_pre_user_query( $user_search )
 	switch ( $show ) {
 	
 		case 'notactive':        
-			$key = 'active';
-			$val = '1';
-			break;
 		case 'notexported':
-			$key = 'exported';
-			$val = '1';
-			break;
-		case 'trial':
-		case 'subscription':
-			$key = 'exp_type';
-			$val = $show;
+			$key = ( $show == 'notactive' ) ? 'active' : 'exported';
+			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID NOT IN (
+			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+				WHERE {$wpdb->usermeta}.meta_key = \"$key\"
+				AND {$wpdb->usermeta}.meta_value = '1' )";
 			break;
 			
-	case 'pending': // ???????
+		case 'trial':
+		case 'subscription':			
+			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
+			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
+				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
+			break;
+			
+		case 'pending': // ???????
 	
 			break;
 			
 		case 'expired':
 			//$chk_show = ( wpmem_chk_exp( $user->ID ) ) ? true : false; // if( wpmem_chk_exp( $user->ID ) ) { $chk_show = true; }
+			
+			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
+			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+				WHERE {$wpdb->usermeta}.meta_key = 'expires'
+				AND STR_TO_DATE( {$wpdb->usermeta}.meta_value, '%d,%m,%Y' ) < CURDATE() )";
+			
+			
 			break;
 	}
 	
-	$user_search->query_where = 
-	str_replace('WHERE 1=1', 
-		"WHERE 1=1 AND {$wpdb->users}.ID NOT IN (
-			 SELECT wp_usermeta.user_id FROM $wpdb->usermeta 
-				WHERE wp_usermeta.meta_key = \"$key\"
-				AND wp_usermeta.meta_value = \"$val\")", 
-		$user_search->query_where
-	);
+	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query,	$user_search->query_where );
 }
 ?>

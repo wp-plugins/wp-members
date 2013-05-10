@@ -185,22 +185,14 @@ function wpmem_update_options()
 			}
 		}			
 	}
-	
-	/*$wpmem_settings_msurl = $_POST['wpmem_settings_msurl'];
-	if( $wpmem_settings_msurl != 'http://' ) {
-		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
-	}*/
+
 	$wpmem_settings_msurl  = $_POST['wpmem_settings_msurl'];
 	$wpmem_settings_mspage = $_POST['wpmem_settings_mspage'];
 	if( $wpmem_settings_mspage ) { update_option( 'wpmembers_msurl', $wpmem_settings_mspage ); }
 	if( $wpmem_settings_msurl != 'http://' && ! $wpmem_settings_mspage ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
 	}
-	
-	/* $wpmem_settings_regurl = $_POST['wpmem_settings_regurl'];
-	if( $wpmem_settings_regurl != 'http://' ) {
-		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
-	} */
+
 	$wpmem_settings_regurl  = $_POST['wpmem_settings_regurl'];
 	$wpmem_settings_regpage = $_POST['wpmem_settings_regpage'];
 	if( $wpmem_settings_regpage ) { update_option( 'wpmembers_regurl', $wpmem_settings_regpage ); }

@@ -348,9 +348,10 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 	} else { 
 
+		$val  = ( $_POST ) ? stripslashes( $_POST['log'] ) : '';
 		$form = $form . '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . '<font class="req">*</font></label>
 			<div class="div_text">
-				<input name="log" type="text" value="' . stripslashes( $_POST['log'] ) . '" class="username" id="username" />
+				<input name="log" type="text" value="' . $val . '" class="username" id="username" />
 			</div>';
 
 	}
@@ -404,7 +405,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			} else {
 
-				$val = $_POST[ $wpmem_fields[$row][2] ];
+				$val = ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
 
 			}
 

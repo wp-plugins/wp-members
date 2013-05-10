@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.3 Beta RC 1
+Version:     2.8.3 Beta RC 2
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -139,12 +139,12 @@ add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // if you are using wid
 add_action( 'wp_head', 'wpmem_head' );                   // runs functions for the head
 add_action( 'admin_init', 'wpmem_chk_admin' );
 add_action( 'admin_menu', 'wpmem_admin_options' );
+add_action( 'user_register', 'wpmem_wp_reg_finalize' );
 
 add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
 add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
 add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds wp-members fields to the default wp registration form
 add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 );
-add_action( 'user_register', 'wpmem_wp_reg_finalize' );
 
 
 /**
