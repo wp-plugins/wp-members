@@ -520,12 +520,6 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  */
 function wpmem_login_form_NEW( $page, $arr ) 
 {
-	// are we redirecting somewhere?
-	/*if( isset( $_REQUEST['redirect_to'] ) ) {
-		$redirect_to = $_REQUEST['redirect_to'];
-	} else {
-		$redirect_to = get_permalink();
-	}*/
 	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
 
 	// fix the wptexturize

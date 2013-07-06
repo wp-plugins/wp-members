@@ -120,8 +120,8 @@ Feature Updates
 
 * Allows native fields display_name, nicename, and nickname to be removed from the field manager.
 * New filter wpmem_logout_link filters all logout links.
-* Added default regiatration via wp-login page (backend).  This of course can be disabled by unchecking "anyone can register" in the WP settings.
-* Completiong user admin panel implementation.  Added screens for non-active and non-exported users.
+* Added default registration via wp-login page (backend).  This of course can be disabled by unchecking "anyone can register" in the WP settings.
+* Completion of user admin panel implementation.  Added screens for non-active and non-exported users.
 * Added a custom column to page/post tables to indicate if a post/page is blocked/unblocked opposite the chosen default setting.
 
 Fixes
@@ -130,6 +130,7 @@ Fixes
 * Applied the patch for the users table custom columns that didn't return non-WP-Members custom column values.
 * Fixed the use of the nonce constant to check if the constant is defined.
 * Applied patch to the utilities file that left some debugging code artifacts in the 2.8.2 release.
+* Fixed an issue with displaying field shortcodes when the user is not logged in.
 
 Improvements
 

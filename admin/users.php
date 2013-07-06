@@ -528,7 +528,7 @@ function wpmem_users_page_load()
 		
 	case 'show':
 		
-		add_action( 'pre_user_query', 'custom_pre_user_query' );
+		add_action( 'pre_user_query', 'wpmem_a_pre_user_query' );
 		return;
 		break;
 		
@@ -766,7 +766,7 @@ function wpmem_a_deactivate_user( $user_id ) {
  *
  * @param $user_search
  */
-function custom_pre_user_query( $user_search ) 
+function wpmem_a_pre_user_query( $user_search ) 
 {
 	global $wpdb;
 	$show = $_GET['show'];	

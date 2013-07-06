@@ -328,7 +328,7 @@ function wpmem_block()
 	global $post; 
 	
 	$unblock_meta = get_post_custom_values( 'unblock', $post->ID );
-	$block_meta   = get_post_custom_values( 'block', $post->ID );
+	$block_meta   = get_post_custom_values( 'block',   $post->ID );
 
 	$block = false;
 	
@@ -363,7 +363,7 @@ function wpmem_shortcode( $attr, $content = null )
 	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
 		if( $attr['page'] == 'user-list' ) {
-			return do_shortcode( wpmem_list_users( $attr, $content ) );
+			return ( function_exists( 'wpmem_list_users' ) ) ? do_shortcode( wpmem_list_users( $attr, $content ) ) : '';
 		} else {
 			return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
 		}
@@ -390,7 +390,7 @@ function wpmem_shortcode( $attr, $content = null )
 	if( isset( $attr['field'] ) ) {
 		global $user_ID;
 		$user_info = get_userdata( $user_ID );
-		return htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content );
+		return ( $user_info ) ? htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content ) : '';
 	}
 }
 
