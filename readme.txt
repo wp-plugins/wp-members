@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.5.1
-Stable tag: 2.8.2
+Tested up to: 3.5.2
+Stable tag: 2.8.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-WP-Members 2.8.2 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.
+WP-Members 2.8.3 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.  Always test first!
 
 == Screenshots ==
 
@@ -130,11 +130,13 @@ Fixes
 * Applied the patch for the users table custom columns that didn't return non-WP-Members custom column values.
 * Fixed the use of the nonce constant to check if the constant is defined.
 * Applied patch to the utilities file that left some debugging code artifacts in the 2.8.2 release.
-* Fixed an issue with displaying field shortcodes when the user is not logged in.
 
 Improvements
 
 * Updated dashboard widget to either superadmin or not display for multisite.
+* Added a div tag to the "Required Field" text in the registration form - NOTE: if you run any filters on the registration form, you may need to test them and update accordingly.
+* Updated the included stylesheets for the addition of req-text class for the "Required Field" text in the registration form.
+* Added Portugese translation files (Thanks Joana!)
 
 = 2.8.2 =
 

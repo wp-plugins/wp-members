@@ -270,3 +270,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	font-size: 22px;
 	line-height: 50%;
 }
+
+#wpmem_reg .req-text {
+	float:left;
+	margin: 20px 0px 0px 5px;
+}

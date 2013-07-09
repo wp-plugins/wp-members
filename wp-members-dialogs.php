@@ -155,7 +155,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if( WPMEM_USE_EXP == 1 ) { $str .= wpmem_user_page_detail(); }
+		if( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
@@ -485,9 +485,8 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 			<input name="reset" type="reset" value="' . __( 'Clear Form', 'wp-members' ) . '" class="buttons" />
 			<input name="submit" type="submit" value="' . __( 'Submit', 'wp-members' ) . '" class="buttons" />
 		</div>';
-			
-	// @todo find a better place to put this
-	$form = $form . '<font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '			
+
+	$form = $form . '<div class="req-text"><font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '</div>			
 
 	</fieldset></form>';
 	$form = $form . wpmem_inc_attribution();
