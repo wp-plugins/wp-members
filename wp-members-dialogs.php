@@ -134,6 +134,7 @@ if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  *
  * @since 2.0
  *
+ * @uses apply_filters Calls 'wpmem_logout_link'
  * @uses apply_filters Calls 'wpmem_member_links'
  * @uses apply_filters Calls 'wpmem_register_links'
  * @uses apply_filters Calls 'wpmem_login_links'
@@ -147,12 +148,14 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	
 	$link = wpmem_chk_qstr();
 	
+	$logout = apply_filters( 'wpmem_logout_link', $link . 'a=logout' );
+	
 	switch( $page ) {
 	
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if( WPMEM_USE_EXP == 1 ) { $str .= wpmem_user_page_detail(); }
+		if( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
@@ -160,7 +163,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'register':	
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
 			<ul>
-				<li><a href="' . $link . 'a=logout">' . __( 'Click here to logout.', 'wp-members' ) . '</a></li>
+				<li><a href="' . $logout . '">' . __( 'Click here to logout.', 'wp-members' ) . '</a></li>
 				<li><a href="' . get_option('siteurl') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
 			</ul>';
 		$str = apply_filters( 'wpmem_register_links', $str );
@@ -170,7 +173,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 
 		$str = '<p>
 		  	' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
-		  	<a href="' . $link . 'a=logout">' . __( 'click here to logout', 'wp-members' ) . '</a>
+		  	<a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a>
 			</p>';
 		$str = apply_filters( 'wpmem_login_links', $str );
 		break;	
@@ -178,7 +181,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'status':
 		$str ='<p>
 			' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '  | 
-			<a href="' . $link . 'a=logout">' . __( 'click here to logout', 'wp-members' ) . '</a>
+			<a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a>
 			</p>';
 		break;
 	
@@ -333,7 +336,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 		<a name="register"></a>
 	<form name="form" method="post" action="' . get_permalink() . '" class="form">'; 
 
-	$form = ( WPMEM_USE_NONCE == 1 ) ? $form . wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) : $form;
+	$form = ( defined( 'WPMEM_USE_NONCE' ) ) ? $form . wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) : $form;
 	
 	$form.= '	<fieldset>
 			<legend>' . $heading . '</legend>';
@@ -345,9 +348,10 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 	} else { 
 
+		$val  = ( $_POST ) ? stripslashes( $_POST['log'] ) : '';
 		$form = $form . '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . '<font class="req">*</font></label>
 			<div class="div_text">
-				<input name="log" type="text" value="' . stripslashes( $_POST['log'] ) . '" class="username" id="username" />
+				<input name="log" type="text" value="' . $val . '" class="username" id="username" />
 			</div>';
 
 	}
@@ -401,7 +405,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			} else {
 
-				$val = $_POST[ $wpmem_fields[$row][2] ];
+				$val = ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
 
 			}
 
@@ -481,9 +485,8 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 			<input name="reset" type="reset" value="' . __( 'Clear Form', 'wp-members' ) . '" class="buttons" />
 			<input name="submit" type="submit" value="' . __( 'Submit', 'wp-members' ) . '" class="buttons" />
 		</div>';
-			
-	// @todo find a better place to put this
-	$form = $form . '<font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '			
+
+	$form = $form . '<div class="req-text"><font class="req">*</font>' . __( 'Required field', 'wp-members' ) . '</div>			
 
 	</fieldset></form>';
 	$form = $form . wpmem_inc_attribution();
@@ -516,12 +519,6 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  */
 function wpmem_login_form_NEW( $page, $arr ) 
 {
-	// are we redirecting somewhere?
-	/*if( isset( $_REQUEST['redirect_to'] ) ) {
-		$redirect_to = $_REQUEST['redirect_to'];
-	} else {
-		$redirect_to = get_permalink();
-	}*/
 	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
 
 	// fix the wptexturize

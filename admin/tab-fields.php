@@ -119,7 +119,8 @@ function wpmem_update_fields( $action )
 		// @todo - need some additional form validation here
 		
 		// update user table fields
-		( isset( $_POST['ut_fields'] ) ) ? update_option( 'wpmembers_utfields', $_POST['ut_fields'] ) : '';
+		$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : '';
+		update_option( 'wpmembers_utfields', $arr );
 	
 		// rebuild the array, don't touch user_email - it's always mandatory
 		$nrow = 0;
@@ -428,7 +429,8 @@ function wpmem_a_field_table( $wpmem_fields )
 					$class = ( $class == 'alternate' ) ? '' : 'alternate'; ?>
 					<tr class="<?php echo $class; ?>" valign="top" id="<?php echo $wpmem_fields[$row][0];?>">
 						<td width="10%"><?php 
-							if( $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> <?php _e( 'Delete', 'wp-members' ); } ?></td>
+						$can_delete = ( $wpmem_fields[$row][2] == 'user_nicename' || $wpmem_fields[$row][2] == 'display_name' || $wpmem_fields[$row][2] == 'nickname' ) ? 'y' : 'n';
+							if( ( $can_delete == 'y' ) || $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> <?php _e( 'Delete', 'wp-members' ); } ?></td>
 						<td width="15%"><?php 
 							echo $wpmem_fields[$row][1];
 							if( $wpmem_fields[$row][5] == 'y' ){ ?><font color="red">*</font><?php }
@@ -495,6 +497,17 @@ function wpmem_a_field_table( $wpmem_fields )
 				<?php if( WPMEM_USE_EXP == 1 ) { ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
+						<td><i>Subscription Type</i></td>
+						<td><i>exp_type</i></td>
+						<td colspan="5">&nbsp;</td>
+						<td align="center">
+							<input type="checkbox" name="ut_fields[exp_type]" 
+								value="Subscription Type" 
+								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Subscription Type', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
+						</td>
+					</tr>
+					<tr class="nodrag nodrop">
+						<td>&nbsp;</td>
 						<td><i>Expires</i></td>
 						<td><i>expires</i></td>
 						<td colspan="5">&nbsp;</td>
@@ -502,17 +515,6 @@ function wpmem_a_field_table( $wpmem_fields )
 							<input type="checkbox" name="ut_fields[expires]" 
 								value="Expires" 
 								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Expires', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
-						</td>
-					</tr>
-					<tr class="nodrag nodrop">
-						<td>&nbsp;</td>
-						<td><i>Expiration Type</i></td>
-						<td><i>exp_type</i></td>
-						<td colspan="5">&nbsp;</td>
-						<td align="center">
-							<input type="checkbox" name="ut_fields[exp_type]" 
-								value="Expiration Type" 
-								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Expiration Type', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
 						</td>
 					</tr>
 				<?php } ?>

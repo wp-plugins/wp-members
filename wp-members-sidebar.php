@@ -26,13 +26,14 @@ if( ! function_exists( 'wpmem_inc_status' ) ):
  * Generate users login status if logged in and gives logout link
  *
  * @since 1.8
+ * @uses apply_filters Calls 'wpmem_logout_link'
  * @global $user_login
  * @return string $status
  */
 function wpmem_inc_status()
 {
 	global $user_login;
-	$logout = get_bloginfo( 'url' ) . '/?a=logout';
+	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login )
 		. ' | <a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a></p>';
@@ -53,6 +54,7 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  *
  * @since 2.4
  *
+ * @uses apply_filters Calls 'wpmem_logout_link'
  * @uses apply_filters Calls 'wpmem_sidebar_form'
  * @uses apply_filters Calls 'wpmem_sidebar_status'
  * @uses apply_filters Calls 'wpmem_login_failed_sb'
@@ -147,7 +149,7 @@ function wpmem_do_sidebar()
 	} else { 
 	
 		global $user_login; 
-		$logout = $url . '/?a=logout'; 
+		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 		
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
 		  <a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a></p>';

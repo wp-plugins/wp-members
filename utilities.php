@@ -215,7 +215,7 @@ function wpmem_do_excerpt( $content )
 			/** check for common html tags */
 			$common_tags = array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' );
 			foreach ( $common_tags as $tag ) {
-				if( stristr( $content, '<' . $tag . '>' ) ) { echo 'string contains: ' . '< --' . $tag . '-- >';
+				if( stristr( $content, '<' . $tag . '>' ) ) {
 					$after = stristr( $content, '</' . $tag . '>' );
 					$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
 				}

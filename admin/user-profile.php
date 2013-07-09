@@ -126,7 +126,7 @@ function wpmem_admin_update()
 	$chk_pass = false;
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
-			( $_POST ) ? $fields[$wpmem_fields[$row][2]] = $_POST[$wpmem_fields[$row][2]] : false;
+			( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? $fields[$wpmem_fields[$row][2]] = $_POST[$wpmem_fields[$row][2]] : false;
 		} elseif( $wpmem_fields[$row][2] == 'password' ) {
 			$chk_pass = true;
 		}
@@ -139,9 +139,7 @@ function wpmem_admin_update()
 	}
 
 	if( WPMEM_MOD_REG == 1 ) {
-	
-		// $wpmem_activate_user = $_POST['activate_user'];
-		// if( $wpmem_activate_user == '' ) { $wpmem_activate_user = -1; }
+
 		$wpmem_activate_user = ( isset( $_POST['activate_user'] ) == '' ) ? $wpmem_activate_user = -1 : $_POST['activate_user'];
 		
 		if( $wpmem_activate_user == 1 ) {

@@ -40,10 +40,8 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	$user_email = stripslashes( $user->user_email );
 	$blogname   = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	
-	if( WPMEM_USE_EXP == 1 ) {
-		$exp_type = get_user_meta( $user_id, 'exp_type', 'true' );
-		$exp_date = get_user_meta( $user_id, 'expires', 'true' );
-	}
+	$exp_type = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'exp_type', 'true' ) : '';
+	$exp_date = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'expires', 'true' )  : '';
 	
 	$wpmem_msurl = get_option( 'wpmembers_msurl', null );
 	$reg_link    = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );

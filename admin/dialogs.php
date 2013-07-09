@@ -17,7 +17,9 @@
 
  
 /** Actions */
-add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
+if( ! is_multisite() ) {
+	add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
+}
 
 
 /**

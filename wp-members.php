@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.2
+Version:     2.8.3
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -76,7 +76,7 @@ $wpmem_settings = get_option( 'wpmembers_settings' );
 /**
  * define constants based on option settings
  */
-define( 'WPMEM_VERSION',      '2.8.2' );
+define( 'WPMEM_VERSION',      '2.8.3' );
 define( 'WPMEM_DEBUG',        false );
 
 // define('WPMEM_VERSION',    $wpmem_settings[0]  );
@@ -139,9 +139,12 @@ add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // if you are using wid
 add_action( 'wp_head', 'wpmem_head' );                   // runs functions for the head
 add_action( 'admin_init', 'wpmem_chk_admin' );
 add_action( 'admin_menu', 'wpmem_admin_options' );
+add_action( 'user_register', 'wpmem_wp_reg_finalize' );
 
 add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
 add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
+add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds wp-members fields to the default wp registration form
+add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 );
 
 
 /**
@@ -184,11 +187,15 @@ function wpmem_chk_admin()
 		add_action( 'profile_update',    'wpmem_profile_update' );
 	}
 	
-	// if user has a role that can edit posts, add the block/unblock meta boxes
+	// if user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns
 	if( current_user_can( 'edit_posts' ) ) {
 		include_once( 'admin/post.php' );
 		add_action( 'add_meta_boxes', 'wpmem_block_meta_add' );  
 		add_action( 'save_post', 'wpmem_block_meta_save' );
+		add_filter( 'manage_posts_columns', 'wpmem_post_columns' );  
+		add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
+		add_filter( 'manage_pages_columns', 'wpmem_page_columns' );
+		add_action( 'manage_pages_custom_column', 'wpmem_page_columns_content', 10, 2 );		
 	}
 }
 

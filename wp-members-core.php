@@ -43,29 +43,29 @@ function wpmem()
 
 	switch ($wpmem_a) {
 
-	case ("login"):
+	case ( 'login' ):
 		$wpmem_regchk = wpmem_login();
 		break;
 
-	case ("logout"):
+	case ( 'logout' ):
 		wpmem_logout();
 		break;
 
-	case ("register"):
-		include_once('wp-members-register.php');
-		$wpmem_regchk = wpmem_registration('register');
+	case ( 'register' ):
+		include_once( 'wp-members-register.php' );
+		$wpmem_regchk = wpmem_registration( 'register' );
 		break;
 	
-	case ("update"):
-		include_once('wp-members-register.php');
-		$wpmem_regchk = wpmem_registration('update');
+	case ( 'update' ):
+		include_once( 'wp-members-register.php' );
+		$wpmem_regchk = wpmem_registration( 'update' );
 		break;
 	
-	case ("pwdchange"):
+	case ( 'pwdchange' ):
 		$wpmem_regchk = wpmem_change_password();
 		break;
 	
-	case ("pwdreset"):
+	case ( 'pwdreset' ):
 		$wpmem_regchk = wpmem_reset_password();
 		break;
 
@@ -115,7 +115,7 @@ function wpmem_securify( $content = null )
 			global $post;
 			$post->post_password = apply_filters( 'wpmem_post_password' , wp_generate_password() );
 		
-			include_once('wp-members-dialogs.php');
+			include_once( 'wp-members-dialogs.php' );
 			
 			// show the login and registration forms
 			if( $wpmem_regchk ) {
@@ -239,10 +239,7 @@ function wpmem_do_sc_pages( $page )
 
 			} else {
 
-				// if( $page == 'members-area' ) { $content = $content . wpmem_inc_login( 'members' ); }
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
-				
-				// if( $page == 'register' || WPMEM_NO_REG != 1 ) { $content = $content . wpmem_inc_registration(); }
 				$content = ( $page == 'register' || WPMEM_NO_REG != 1 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
@@ -331,7 +328,7 @@ function wpmem_block()
 	global $post; 
 	
 	$unblock_meta = get_post_custom_values( 'unblock', $post->ID );
-	$block_meta   = get_post_custom_values( 'block', $post->ID );
+	$block_meta   = get_post_custom_values( 'block',   $post->ID );
 
 	$block = false;
 	
@@ -366,7 +363,7 @@ function wpmem_shortcode( $attr, $content = null )
 	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
 		if( $attr['page'] == 'user-list' ) {
-			return do_shortcode( wpmem_list_users( $attr, $content ) );
+			return ( function_exists( 'wpmem_list_users' ) ) ? do_shortcode( wpmem_list_users( $attr, $content ) ) : '';
 		} else {
 			return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
 		}
@@ -393,7 +390,7 @@ function wpmem_shortcode( $attr, $content = null )
 	if( isset( $attr['field'] ) ) {
 		global $user_ID;
 		$user_info = get_userdata( $user_ID );
-		return htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content );
+		return ( $user_info ) ? htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content ) : '';
 	}
 }
 
@@ -440,7 +437,6 @@ if( ! function_exists( 'wpmem_check_activated' ) ):
 function wpmem_check_activated( $user, $username, $password ) 
 {
 	// password must be validated
-	//$pass = wp_check_password( $password, $user->user_pass, $user->ID );
 	$pass = ( $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
 	
 	if( ! $pass ) { 
@@ -730,8 +726,71 @@ endif;
  *
  * @since 2.2
  */
-function wpmem_head()
-{ 
+function wpmem_head() { 
 	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://rocketgeek.com/wp-members -->\r\n";
+}
+
+
+/**
+ * Add registration fields to the native WP registration
+ *
+ * @since 2.8.3
+ */
+function wpmem_wp_register_form()
+{
+	$wpmem_fields = get_option( 'wpmembers_fields' );
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+		
+		if( $wpmem_fields[$row][4] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
+			echo
+			'<p>
+				<label for="' . $wpmem_fields[$row][2] . '">' . $wpmem_fields[$row][1] . '<br />
+					<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : ''; echo '" size="25" />
+				</label>
+			</p>';
+		}
+	}
+}
+
+
+/**
+ * Validates registration fields in the native WP registration
+ *
+ * @since 2.8.3
+ *
+ * @param $errors
+ * @param $sanatized_user_login
+ * @param $user_email
+ * @return $errors
+ */
+function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
+{
+	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields_rev = array_reverse( $wpmem_fields );
+
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+		if( $wpmem_fields_rev[$row][5] == 'y' && $wpmem_fields_rev[$row][2] != 'user_email' ) {
+			if( ! $_POST[$wpmem_fields_rev[$row][2]] ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ) ) ; }
+		}
+	}
+
+	return $errors;
+}
+
+
+/**
+ * Inserts registration data from the native WP registration
+ *
+ * @since 2.8.3
+ *
+ * @param $user_id
+ */
+function wpmem_wp_reg_finalize( $user_id )
+{
+	$wpmem_fields = get_option( 'wpmembers_fields' );
+	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+		if ( isset( $_POST[$wpmem_fields[$row][2]] ) )
+			update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
+	}
 }
 ?>

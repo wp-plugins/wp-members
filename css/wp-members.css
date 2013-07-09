@@ -201,3 +201,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	padding-left: 6px;
 }
 #wpmem_reg input[type="checkbox"] { margin-top: 9px; }
+
+#wpmem_reg .req-text {
+	float:left;
+	margin: 15px 0px 0px 5px;
+}

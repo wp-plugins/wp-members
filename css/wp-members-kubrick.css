@@ -94,7 +94,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
 #wpmem_reg label.textarea , #wpmem_reg label.select,
 #wpmem_login label {
-	width:145px;
+	width:150px;
 	float:left;
 	display: block;
 	color:#666;
@@ -181,3 +181,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	font-weight:bold;
 }
 #wpmem_reg .req { color: red; }
+
+#wpmem_reg .req-text {
+	float:left;
+	margin: 15px 0px 0px 5px;
+}

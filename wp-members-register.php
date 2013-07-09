@@ -43,7 +43,7 @@ function wpmem_registration( $toggle )
 	global $user_ID, $wpmem_themsg, $userdata;
 	
 	// check the nonce
-	if( WPMEM_USE_NONCE == 1 ) {
+	if( defined( 'WPMEM_USE_NONCE' ) ) {
 		if( empty( $_POST ) || !wp_verify_nonce( $_POST['wpmem-form-submit'], 'wpmem-validate-submit' ) ) {
 			$wpmem_themsg = __( 'There was an error processing the form.', 'wp-members' );
 			return;
@@ -140,7 +140,7 @@ function wpmem_registration( $toggle )
 		}		
 		
 		// check for user defined password
-		$fields['password'] = ( ! $_POST['password'] ) ? wp_generate_password() : $_POST['password'];
+		$fields['password'] = ( ! isset( $_POST['password'] ) ) ? wp_generate_password() : $_POST['password'];
 		
 		// add for _data hooks	
 		$fields['user_registered'] = gmdate( 'Y-m-d H:i:s' );
@@ -182,6 +182,7 @@ function wpmem_registration( $toggle )
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 			if( $wpmem_fields[$row][2] != 'password' ) {
 				if( $wpmem_fields[$row][2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
+					$fields['user_url'] = ( isset( $fields['user_url'] ) ) ? $fields['user_url'] : '';
 					wp_update_user( array ( 'ID' => $fields['ID'], 'user_url' => $fields['user_url'] ) );
 				} else {
 					if( $wpmem_fields[$row][2] != 'user_email' ) { // email is already done above, so if it's not email...

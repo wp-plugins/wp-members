@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.5.1
-Stable tag: 2.8.2
+Tested up to: 3.5.2
+Stable tag: 2.8.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-WP-Members 2.8.2 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.
+WP-Members 2.8.3 is a new feature release with fixes and code improvements for some previous issues.  See release notes for specific information.  Always test first!
 
 == Screenshots ==
 
@@ -113,6 +113,30 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.3 =
+
+Feature Updates
+
+* Allows native fields display_name, nicename, and nickname to be removed from the field manager.
+* New filter wpmem_logout_link filters all logout links.
+* Added default registration via wp-login page (backend).  This of course can be disabled by unchecking "anyone can register" in the WP settings.
+* Completion of user admin panel implementation.  Added screens for non-active and non-exported users.
+* Added a custom column to page/post tables to indicate if a post/page is blocked/unblocked opposite the chosen default setting.
+
+Fixes
+
+* Fixed bug in admin/post.php that caused an error due a typo in the selected capability.
+* Applied the patch for the users table custom columns that didn't return non-WP-Members custom column values.
+* Fixed the use of the nonce constant to check if the constant is defined.
+* Applied patch to the utilities file that left some debugging code artifacts in the 2.8.2 release.
+
+Improvements
+
+* Updated dashboard widget to either superadmin or not display for multisite.
+* Added a div tag to the "Required Field" text in the registration form - NOTE: if you run any filters on the registration form, you may need to test them and update accordingly.
+* Updated the included stylesheets for the addition of req-text class for the "Required Field" text in the registration form.
+* Added Portugese translation files (Thanks Joana!)
 
 = 2.8.2 =
 
