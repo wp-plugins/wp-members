@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.5.2
-Stable tag: 2.8.3
+Stable tag: 2.8.4
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -113,6 +113,11 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.4 =
+
+* Fixed a small bug on admin-side user profile that caused checkboxes to not update correctly
+* Added optional small "powered by" attribution link at the bottom of the registration form.
 
 = 2.8.3 =
 

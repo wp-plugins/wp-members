@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WP-Members 2.7.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
 "POT-Creation-Date: 2012-06-14 00:20:49+00:00\n"
-"PO-Revision-Date: 2012-06-13 19:34-0600\n"
-"Last-Translator: Chad Butler <plugins@butlerblog.com>\n"
+"PO-Revision-Date: 2013-06-14 21:23+0100\n"
+"Last-Translator: Jasper <mailbox@jsierink.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,15 +34,13 @@ msgstr "Gebruiker activeren?"
 
 # @ wp-members
 #: wp-members-admin.php:115
-#, fuzzy
 msgid "Reactivate this user?"
-msgstr "Gebruiker activeren?"
+msgstr "Heractiveer deze gebruiker?"
 
 # @ wp-members
 #: wp-members-admin.php:120
-#, fuzzy
 msgid "Deactivate this user?"
-msgstr "Gebruiker activeren?"
+msgstr "Deactiveer deze gebruiker?"
 
 # @ wp-members
 #: wp-members-admin.php:141
@@ -696,7 +694,7 @@ msgstr "Wijzig Emails"
 # @ default
 #: wp-members-core.php:110
 msgid "There was an error with the CAPTCHA form."
-msgstr ""
+msgstr "Er is een fout met het CAPTCHA formulier"
 
 # @ wp-members
 #: wp-members-core.php:258
@@ -710,7 +708,7 @@ msgstr "Wachtwoord veld mag niet leeg zijn"
 
 #: wp-members-core.php:465
 msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Gebruiker is niet geactiveerd"
 
 # @ wp-members
 #: wp-members-core.php:975
@@ -760,7 +758,7 @@ msgstr "Je WP instellingen staan volledige tekst RSS feeds toe - dit is niet een
 # @ wp-members
 #: wp-members-dialogs-admin.php:48
 msgid "You can %s change this here %s by changing \"For each article in a feed, show\" to \"Summary.\""
-msgstr ""
+msgstr "Je kunt %s verander dit hier %s door te veranderen \"Voor elk artikel in een feed, laat zien\" to \"Samenvatting\""
 
 # @ wp-members
 #: wp-members-dialogs-admin.php:49
@@ -799,9 +797,8 @@ msgstr "Maar je hebt geen API sleutels ingevoegd. Je hebt zowel een prive als pu
 
 # @ wp-members
 #: wp-members-dialogs.php:53
-#, fuzzy
 msgid "Existing Users Login"
-msgstr "Bestaande gebruiker"
+msgstr "Inloggen bestaande gebruiker"
 
 # @ wp-members
 # @ default
@@ -981,7 +978,7 @@ msgstr "Klik hier om te registreren"
 #: wp-members-export-full.php:29
 #: wp-members-export.php:26
 msgid "Cheatin&#8217; uh?"
-msgstr ""
+msgstr "Cheatin&#8217; uh?"
 
 # @ wp-members
 #: wp-members-export-full.php:62
@@ -1168,7 +1165,7 @@ msgstr "Je moet een geldig mail adres invoeren."
 # @ default
 #: wp-members-register.php:92
 msgid "You must complete the CAPTCHA form."
-msgstr ""
+msgstr "Je moet het CAPTCHA formulier invullen."
 
 # @ wp-members
 #: wp-members-register.php:276
@@ -1183,7 +1180,7 @@ msgstr "Het is niet gelukt de prive sleutel te valideren."
 # @ wp-members
 #: wp-members-register.php:284
 msgid "The challenge parameter of the verify script was incorrect."
-msgstr ""
+msgstr "De response waarde van het verifieer script is niet correct."
 
 # @ wp-members
 #: wp-members-register.php:288
@@ -1243,7 +1240,7 @@ msgstr "Login Status"
 
 #: wp-members-sidebar.php:213
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 # @ wp-members
 #: wp-members-tos.php:24

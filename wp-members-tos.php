@@ -30,7 +30,7 @@ require( '../../../wp-blog-header.php' );
 
 $wpmem_tos = get_option( 'wpmembers_tos' );
 
-echo $wpmem_tos;
+echo stripslashes( $wpmem_tos );
 
 print ( '<br /><br />' );
 printf( __('%sclose%s', 'wp-members'), '[<a href="javascript:self.close()">', '</a>]' );

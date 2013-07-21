@@ -629,37 +629,27 @@ endif;
  */
 function wpmem_inc_attribution()
 {
-	/*
-		Taking this out?  That's ok.  But please consider making a donation
-		to support the further development of this plugin.  Many hours of
-		work have gone into its development and ongoing support.
-		
-		If you are a developer using this for a client site, you see 
-		value in not having to do this from scratch.
-		Please consider a larger amount.
-		
-		If you are a donor, I thank you for your support!  
+	/*		
+		thanks for your support!  
 	*/
 	
-	$show_attribution = true;
-	if( defined( 'WPMEM_REMOVE_ATTR' ) ) { $show_attribution = false; }
+	$show_attribution = get_option( 'wpmembers_attrib' );
 
-	if( WPMEM_OLD_FORMS != 1 && $show_attribution == true ) { // NEW FORMS
+	if( WPMEM_OLD_FORMS != 1 && $show_attribution ) { // NEW FORMS
 	
 		$str = '
-		<!-- Attribution keeps this plugin free!! -->
 		<div align="center">
 			<small>Powered by <a href="http://rocketgeek.com" target="_blank">WP-Members</a></small>
 		</div>';
 		
 		return $str;
 
-	} elseif( $show_attribution == true ) {  // LEGACY FORMS
+	} elseif( $show_attribution ) {  // LEGACY FORMS
 
 		$str = '
 			<tr>
 			  <td>&nbsp;</td>
-			  <td align="center"><!-- Attribution keeps this plugin free!! -->
+			  <td align="center">
 				<small>Powered by <a href="http://rocketgeek.com" target="_blank">WP-Members</a></small>
 			  </td>
 			</tr>';

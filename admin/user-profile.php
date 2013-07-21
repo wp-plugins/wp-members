@@ -125,10 +125,12 @@ function wpmem_admin_update()
 	$fields = array();
 	$chk_pass = false;
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
+		if( $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' && $wpmem_fields[$row][3] != 'checkbox' ) {
 			( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? $fields[$wpmem_fields[$row][2]] = $_POST[$wpmem_fields[$row][2]] : false;
 		} elseif( $wpmem_fields[$row][2] == 'password' ) {
 			$chk_pass = true;
+		} elseif( $wpmem_fields[$row][3] == 'checkbox' ) {
+			( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? $fields[$wpmem_fields[$row][2]] = $_POST[$wpmem_fields[$row][2]] : $fields[$wpmem_fields[$row][2]] = '';
 		}
 	}
 	
