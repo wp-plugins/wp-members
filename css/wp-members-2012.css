@@ -1,0 +1,277 @@
+/**
+ * WP-Members Styles CSS
+ *
+ * CSS for the WP-Members plugin using Twenty Twelve Theme
+ * 
+ * This file is part of the WP-Members plugin by Chad Butler
+ * You can find out more about this plugin at http://rocketgeek.com
+ * Copyright (c) 2006-2013 Chad Butler (email : plugins@butlerblog.com)
+ * WP-Members(tm) is a trademark of butlerblog.com
+ *
+ * @package WordPress
+ * @subpackage WP-Members
+ * @author Chad Butler 
+ * @copyright 2006-2013
+ */
+
+/*	
+This stylesheet is designed to integrate WP-Members with the TwentyEleven theme.
+There are quite a few examples in here of what you can do with the table-less 
+forms.  You can build off of this or start from scratch and setyour own 
+custom css for the plugin (set the location in the admin panel).
+
+See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
+for information on how to set up the plugin with a cusotm stylesheet.
+
+For information how to load custom stylesheets with wp_enqueue_style,
+see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
+*/
+
+/* Error and Dialog Messages */
+
+#wpmem_msg, .wpmem_msg {
+	margin-left:-6px;
+	padding-top: 20px;
+	width: 554px;
+	background: #F9F9F9;
+	border:1px solid lightGrey;
+	border-radius: 3px;
+	padding-left:20px;
+	padding-right:20px;
+	font-size: 14px;
+	font-weight: bold;
+}
+#wpmem_msg h2, .wpmem_msg h2 {
+	font-size: 24px;
+	color: #373737;
+	line-height: 30px;
+}
+
+/* Sidebar Login Widget */
+
+#wp-members  { 
+	width: 100%;
+	margin-bottom: 20px;
+}
+#wp-members p {
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+}
+#wp-members fieldset {
+	margin-top: 15px;
+}
+#wp-members label { 
+	font-weight: normal;
+	color: #777;
+}
+#wp-members input {
+	padding: 6px;
+	padding: 0.428571429rem;
+	font-family: inherit;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+#wp-members input[type="text"],
+#wp-members input[type="password"]{ 
+	width: 225px;
+}
+#wp-members .div_text { padding-top: 4px; }
+#wp-members .button_div { margin-top:10px; }
+#wp-members .buttons {
+	height: 30px;
+	padding: 6px 10px;
+	padding: 0.428571429rem 0.714285714rem;
+	font-size: 11px;
+	font-size: 0.785714286rem;
+	line-height: 1.428571429;
+}
+#wp-members .buttons:hover{
+	color: #5e5e5e;	
+}
+#wp-members .buttons:active {
+	color: #777;
+}
+#wp-members .err {
+	width:225px;
+    padding: 5px;
+    background-color:#F9F9F9;
+	font-family: inherit;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+/* Login Form and Registration Form */
+
+#wpmem_reg, #wpmem_login {
+	margin-left:-26px;
+	padding-top:30px;
+}
+
+#wpmem_reg fieldset, #wpmem_login fieldset {
+	width: 595px;
+	padding:20px;
+	margin-bottom:20px;
+}
+#wpmem_reg legend, #wpmem_login legend {
+	font-size: 20px;
+	font-size: 1.428571429rem;
+	line-height: 1.2;
+	font-weight: normal;
+}
+#wpmem_reg label.text, #wpmem_reg label.checkbox, 
+#wpmem_reg label.textarea , #wpmem_reg label.select,
+#wpmem_login label {
+	left:4px;
+	top: 40px;
+	color:#555;
+	width:210px;
+	margin-top:8px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	float:left;
+	display: block;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: 2.2;	
+	height: 43px;
+	display: block;
+
+}
+
+#wpmem_reg .form, #wpmem_login .form {
+	margin:0;
+	padding:0;
+}
+#wpmem_reg .clear, #wpmem_login .clear {
+	clear:both;
+}
+#wpmem_reg .holder, #wpmem_login .holder {
+	background-color:#fff;
+}
+#wpmem_reg .div_text, #wpmem_reg .div_textarea, 
+#wpmem_reg .div_select, #wpmem_login .div_text {
+	width:360px;
+	float:right;
+	margin-top:3px;
+	padding-top:5px;
+	padding-bottom:3px;
+	padding-left:5px;
+}
+#wpmem_reg .div_checkbox { 
+	width:360px;
+	float:right;
+	padding-top:14px; 
+	padding-left:10px;
+	padding-bottom:0px;
+}
+#wpmem_reg .div_text, #wpmem_reg .div_checkbox, 
+#wpmem_reg .div_select, #wpmem_login .div_text {
+	height:35px;
+	margin-bottom: 15px;
+}
+#wpmem_login input[type="password"],
+#wpmem_login input[type="text"],
+#wpmem_reg input[type="text"] {
+	height: 26px;
+}
+#wpmem_reg .dropdown,
+#wpmem_reg .textbox, #wpmem_login .textbox,
+#wpmem_reg .username, #wpmem_login .username,
+#wpmem_reg .password, #wpmem_login .password {
+	height: 24px;
+}
+#wpmem_reg .div_textarea textarea,
+#wpmem_reg .textbox, #wpmem_login .textbox,
+#wpmem_reg .username, #wpmem_login .username,
+#wpmem_reg .password, #wpmem_login .password {
+	display: block;
+	width: 75%;
+	width:340px;
+	padding: 10px;
+	font: inherit;
+}
+#wpmem_reg .dropdown {
+	height: 53px;
+	border-radius: 3px;
+	border-color: #ccc;
+	color: inherit;
+	padding: 10px;
+	font: 15px; "Helvetica Neue", Arial, sans serif;
+	font-weight: 300;
+	line-height: 1.625;
+	width:362px;
+}
+#wpmem_reg .textbox:focus, #wpmem_reg .textbox:hover, #wpmem_login .textbox:focus, #wpmem_login .textbox:hover,
+#wpmem_reg .username:focus, #wpmem_reg .username:hover, #wpmem_login .username:focus, #wpmem_login .username:hover,
+#wpmem_reg .password:focus, #wpmem_reg .password:hover, #wpmem_login .password:focus, #wpmem_login .password:hover {
+	background-color:inherit;
+}
+
+#wpmem_reg .textarea {
+	width:346px;
+	height:190px;
+}
+
+#wpmem_reg .button_div, #wpmem_login .button_div {
+	width:360px;
+	float:right;
+	text-align:right;
+	height:35px;
+	margin-top:3px;
+	padding-top:12px;
+	white-space:nowrap;
+}
+
+#wpmem_reg .buttons, #wpmem_login .buttons {
+	padding: 6px 10px;
+	padding: 0.428571429rem 0.714285714rem;
+	font-size: 11px;
+	font-size: 0.785714286rem;
+	line-height: 1.428571429;
+	font-weight: normal;
+	color: #7c7c7c;
+	background-color: #e6e6e6;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	border: 1px solid #d2d2d2;
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
+}
+#wpmem_reg .buttons:hover, #wpmem_login .buttons:hover {
+	color: #5e5e5e;
+	background-color: #ebebeb;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: -ms-linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: -webkit-linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: -o-linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: linear-gradient(top, #f9f9f9, #ebebeb);
+}
+#wpmem_reg .buttons:active, #wpmem_login .buttons:active {
+	color: #777;
+	background-color: #e1e1e1;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: -ms-linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: -webkit-linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: -o-linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: linear-gradient(top, #ebebeb, #e1e1e1);
+	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
+	border: none;
+}
+#wpmem_reg .req { 
+	color: #bd3500;
+	font-size: 22px;
+	line-height: 50%;
+}
+
+#wpmem_reg .req-text {
+	float:left;
+	margin: 20px 0px 0px 5px;
+}
