@@ -195,10 +195,10 @@ function wpmem_registration( $toggle )
 		} 
 		
 		// capture IP address of user at registration
-		update_user_meta( $fields['ID'], 'wpmem_reg_ip', $_SERVER['REMOTE_ADDR'] );
+		update_user_meta( $fields['ID'], 'wpmem_reg_ip', $fields['wpmem_reg_ip'] );
 		
 		// store the registration url
-		update_user_meta( $fields['ID'], 'wpmem_reg_url', $_REQUEST['redirect_to'] );
+		update_user_meta( $fields['ID'], 'wpmem_reg_url', $fields['wpmem_reg_url'] );
 
 		// set user expiration, if used
 		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $fields['ID'] ); }

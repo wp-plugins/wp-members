@@ -640,6 +640,7 @@ if( ! function_exists( 'wpmem_reset_password' ) ):
  *
  * @since 2.1
  *
+ * @uses   apply_filters 'wpmem_pwdreset_args'
  * @uses   wp_generate_password
  * @uses   wp_update_user
  * @return string value for $wpmem_regchk
@@ -647,22 +648,21 @@ if( ! function_exists( 'wpmem_reset_password' ) ):
 function wpmem_reset_password()
 { 
 	if( isset( $_POST['formsubmit'] ) ) {
+		
+		$arr = apply_filters( 'wpmem_pwdreset_args', array( 'user' => $_POST['user'], 'email' => $_POST['email'] ) );
 
-		$username = $_POST['user'];
-		$email    = $_POST['email'];
-
-		if( ! $username || ! $email ) { 
+		if( ! $arr['user'] || ! $arr['email'] ) { 
 
 			// there was an empty field
 			return "pwdreseterr";
 
 		} else {
 
-			if( username_exists( $username ) ) {
+			if( username_exists( $arr['user'] ) ) {
 
-				$user = get_user_by( 'login', $username );
+				$user = get_user_by( 'login', $arr['user'] );
 				
-				if( strtolower( $user->user_email ) !== strtolower( $email ) || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
+				if( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
 					// the username was there, but the email did not match OR the user hasn't been activated
 					return "pwdreseterr";
 					

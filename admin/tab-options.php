@@ -246,10 +246,11 @@ function wpmem_admin_style_list()
 {
 	$val  = get_option( 'wpmembers_style', null );
 	$list = array(
-		'Twenty Ten'    => WPMEM_DIR . 'css/wp-members.css',
-		'Twenty Eleven' => WPMEM_DIR . 'css/wp-members-2011.css',
-		'Twenty Twelve' => WPMEM_DIR . 'css/wp-members-2012.css',
-		'Kubrick'       => WPMEM_DIR . 'css/wp-members-kubrick.css'
+		'Twenty Ten'      => WPMEM_DIR . 'css/wp-members.css',
+		'Twenty Eleven'   => WPMEM_DIR . 'css/wp-members-2011.css',
+		'Twenty Twelve'   => WPMEM_DIR . 'css/wp-members-2012.css',
+		'Twenty Thirteen' => WPMEM_DIR . 'css/wp-members-2013.css',
+		'Kubrick'         => WPMEM_DIR . 'css/wp-members-kubrick.css'
 	);
 	$list = apply_filters( 'wpmem_admin_style_list', $list );
 

@@ -97,7 +97,7 @@ function wpmem_admin_users()
 			// For now, I don't see a good way of working this for localization without a 
 			// huge amount of additional programming (like a multi-dimensional array)
 			$show = $lcas = $curr = '';
-			$tmp  = array( "All", "Not Active", "Trial", "Subscription", "Expired", "Not Exported" );
+			$tmp  = array( "All", "Not Active", "Pending", "Trial", "Subscription", "Expired", "Not Exported" );
 			$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false; 
 			
 			for( $row = 0; $row < count( $tmp ); $row++ )
@@ -127,7 +127,7 @@ function wpmem_admin_users()
 				if( $lcas == "notactive" && WPMEM_MOD_REG != 1 ) { $echolink = false; }
 				if( $lcas == "trial"     && WPMEM_USE_TRL != 1 ) { $echolink = false; }
 				
-				if( ( $lcas == "subscription" || $lcas == "expired" ) && WPMEM_USE_EXP != 1 ) { $echolink = false; }
+				if( ( $lcas == "subscription" || $lcas == "expired" || $lacas == "pending" ) && WPMEM_USE_EXP != 1 ) { $echolink = false; }
 				
 				if( $echolink ) { echo "<li><a href=\"$link\"$curr>$tmp[$row] <span class=\"count\"></span></a>$end</li>"; }
 			}
@@ -206,6 +206,10 @@ function wpmem_admin_users()
 				switch( $show ) {
 				case "notactive":
 					$chk_show = ( get_user_meta( $user->ID, 'active', 'true' ) != 1 ) ? true : false;
+					break;
+				case "pending":
+					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
+					$chk_show = ( $chk_exp_type == 'pending' ) ? true : false;
 					break;
 				case "trial":
 					$chk_exp_type = get_user_meta( $user->ID, 'exp_type', 'true' );
@@ -586,7 +590,7 @@ function wpmem_users_admin_notices()
 function wpmem_users_views( $views )
 {
 	$arr = array();	
-	//if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Pending'; }
+	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Pending'; }
 	if( defined( 'WPMEM_USE_TRL' ) && WPMEM_USE_TRL == 1 ) { $arr[] = 'Trial'; }
 	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Subscription'; $arr[] = 'Expired'; }
 	if( defined( 'WPMEM_MOD_REG' ) && WPMEM_MOD_REG == 1 ) { $arr[] = 'Not Active'; }
@@ -789,9 +793,13 @@ function wpmem_a_pre_user_query( $user_search )
 				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
 			break;
 			
-		case 'pending': // ???????
-	
+		case 'pending': 		
+			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
+			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
+				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
 			break;
+
 			
 		case 'expired':
 			//$chk_show = ( wpmem_chk_exp( $user->ID ) ) ? true : false; // if( wpmem_chk_exp( $user->ID ) ) { $chk_show = true; }

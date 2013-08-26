@@ -15,7 +15,7 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the TwentyEleven theme.
+This stylesheet is designed to integrate WP-Members with the Twenty Twelve theme.
 There are quite a few examples in here of what you can do with the table-less 
 forms.  You can build off of this or start from scratch and setyour own 
 custom css for the plugin (set the location in the admin panel).
@@ -26,6 +26,7 @@ for information on how to set up the plugin with a cusotm stylesheet.
 For information how to load custom stylesheets with wp_enqueue_style,
 see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 */
+
 
 /* Error and Dialog Messages */
 
@@ -46,6 +47,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	color: #373737;
 	line-height: 30px;
 }
+
 
 /* Sidebar Login Widget */
 
@@ -73,11 +75,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	border-radius: 3px;
 }
 #wp-members input[type="text"],
-#wp-members input[type="password"]{ 
+#wp-members input[type="password"]{
+	margin: 0 0 4px 0;
 	width: 225px;
 }
-#wp-members .div_text { padding-top: 4px; }
-#wp-members .button_div { margin-top:10px; }
+#wp-members .button_div { margin-top:4px; }
 #wp-members .buttons {
 	height: 30px;
 	padding: 6px 10px;
@@ -101,13 +103,13 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	border-radius: 3px;
 }
 
+
 /* Login Form and Registration Form */
 
 #wpmem_reg, #wpmem_login {
 	margin-left:-26px;
 	padding-top:30px;
 }
-
 #wpmem_reg fieldset, #wpmem_login fieldset {
 	width: 595px;
 	padding:20px;
@@ -122,24 +124,22 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
 #wpmem_reg label.textarea , #wpmem_reg label.select,
 #wpmem_login label {
-	left:4px;
-	top: 40px;
-	color:#555;
+	height: 26px;
 	width:210px;
-	margin-top:8px;
-	padding-top:5px;
-	padding-bottom:5px;
-	padding-left:5px;
 	float:left;
 	display: block;
-	font-family: inherit;
-	font-size: inherit;
-	line-height: 2.2;	
-	height: 43px;
-	display: block;
-
 }
-
+#wpmem_reg label.text, #wpmem_reg label.checkbox, 
+#wpmem_login label {
+	padding: 16px 0;
+}
+#wpmem_reg label.textarea {
+	height: 185px;
+	padding: 17px 0;
+}
+#wpmem_reg label.select {
+	padding: 18px 0;
+}
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
 	padding:0;
@@ -151,29 +151,19 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	background-color:#fff;
 }
 #wpmem_reg .div_text, #wpmem_reg .div_textarea, 
-#wpmem_reg .div_select, #wpmem_login .div_text {
-	width:360px;
-	float:right;
-	margin-top:3px;
-	padding-top:5px;
-	padding-bottom:3px;
-	padding-left:5px;
-}
+#wpmem_reg .div_select, #wpmem_login .div_text,
 #wpmem_reg .div_checkbox { 
 	width:360px;
 	float:right;
-	padding-top:14px; 
-	padding-left:10px;
-	padding-bottom:0px;
+	padding: 5px 0;
 }
-#wpmem_reg .div_text, #wpmem_reg .div_checkbox, 
-#wpmem_reg .div_select, #wpmem_login .div_text {
-	height:35px;
-	margin-bottom: 15px;
+#wpmem_reg .div_checkbox {
+	padding: 11px 0;
 }
 #wpmem_login input[type="password"],
 #wpmem_login input[type="text"],
-#wpmem_reg input[type="text"] {
+#wpmem_reg input[type="text"],
+#wpmem_reg input[type="checkbox"] {
 	height: 26px;
 }
 #wpmem_reg .dropdown,
@@ -208,11 +198,23 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .password:focus, #wpmem_reg .password:hover, #wpmem_login .password:focus, #wpmem_login .password:hover {
 	background-color:inherit;
 }
-
 #wpmem_reg .textarea {
 	width:346px;
-	height:190px;
+	height:185px;
 }
+#wpmem_reg .req { 
+	color: #bd3500;
+	font-size: 22px;
+	line-height: 50%;
+}
+
+#wpmem_reg .req-text {
+	float:left;
+	margin: 20px 0px 0px 5px;
+}
+
+
+/* Buttons */
 
 #wpmem_reg .button_div, #wpmem_login .button_div {
 	width:360px;
@@ -264,14 +266,4 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	background-image: linear-gradient(top, #ebebeb, #e1e1e1);
 	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
 	border: none;
-}
-#wpmem_reg .req { 
-	color: #bd3500;
-	font-size: 22px;
-	line-height: 50%;
-}
-
-#wpmem_reg .req-text {
-	float:left;
-	margin: 20px 0px 0px 5px;
 }
