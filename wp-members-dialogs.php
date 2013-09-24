@@ -24,7 +24,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  *
  * @since 1.8
  *
- * @uses apply_filters Calls wpmem_restricted_msg filters message content
+ * @uses apply_filters Calls wpmem_restricted_msg filter to change the restricted post message content
  * @uses wpmem_login_form()
  *
  * @param  string $page
@@ -107,7 +107,7 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  *
  * @since 1.8
  *
- * @uses apply_filters Calls wpmem_login_failed which filters the failed login dialog
+ * @uses apply_filters Calls wpmem_login_failed filter to change the failed login message
  *
  * @return string $str the generated html for the login failed message
  */
@@ -134,10 +134,10 @@ if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  *
  * @since 2.0
  *
- * @uses apply_filters Calls 'wpmem_logout_link'
- * @uses apply_filters Calls 'wpmem_member_links'
- * @uses apply_filters Calls 'wpmem_register_links'
- * @uses apply_filters Calls 'wpmem_login_links'
+ * @uses apply_filters Calls 'wpmem_logout_link' filter to change the logout link
+ * @uses apply_filters Calls 'wpmem_member_links' filter to change the links shown on the logged in state of the user profile page (user-profile/members-area shortcode page)
+ * @uses apply_filters Calls 'wpmem_register_links' filter to change the links shown on the logged in state of the registration form (shortcode page)
+ * @uses apply_filters Calls 'wpmem_login_links' filter to change the links shown on the logged in state of the login form (shortcode page)
  *
  * @param  string $page
  * @return string $str
@@ -164,7 +164,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
 			<ul>
 				<li><a href="' . $logout . '">' . __( 'Click here to logout.', 'wp-members' ) . '</a></li>
-				<li><a href="' . get_option('siteurl') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
+				<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
 			</ul>';
 		$str = apply_filters( 'wpmem_register_links', $str );
 		break;	
@@ -308,10 +308,10 @@ if( ! function_exists( 'wpmem_inc_registration_NEW' ) ):
  *
  * @since 2.5.1
  *
- * @uses apply_filters Calls 'wpmem_register_form_before'
- * @uses apply_filters Calls 'wpmem_register_form'
- * @uses apply_filters Calls 'wpmem_register_heading'
- * @uses apply_filters Calls 'wpmem_tos_link_txt'
+ * @uses apply_filters Calls 'wpmem_register_form_before' filter to add any string to the beginning of the registration form
+ * @uses apply_filters Calls 'wpmem_register_form' filter to change any element of the generated HTML string of the registration form
+ * @uses apply_filters Calls 'wpmem_register_heading' filter to change the heading of the registration form
+ * @uses apply_filters Calls 'wpmem_tos_link_txt' filter to change the text (and link) for the TOS (Terms of Service) acknowledgement
  *
  * @param  string $toggle
  * @param  string $heading
@@ -508,10 +508,10 @@ if ( ! function_exists( 'wpmem_login_form_NEW' ) ):
  *
  * @since 2.5.1
  *
- * @uses apply_filters Calls 'wpmem_login_form_before'
- * @uses apply_filters Calls 'wpmem_forgot_link'
- * @uses apply_filters Calls 'wpmem_reg_link'
- * @uses apply_filters Calls 'wpmem_login_form'
+ * @uses apply_filters Calls 'wpmem_login_form_before' filter to add any string to the beginning of the login form
+ * @uses apply_filters Calls 'wpmem_forgot_link' filter to change the link for resetting a forgotten password
+ * @uses apply_filters Calls 'wpmem_reg_link' filter to change the link to the registration page
+ * @uses apply_filters Calls 'wpmem_login_form' filter to change any element in the generated string of HTML for the login form
  *
  * @param  string $page
  * @param  array  $arr
@@ -596,7 +596,7 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  *
  * @since  2.6.0
  *
- * @uses apply_filters Calls wpmem_recaptcha
+ * @uses apply_filters Calls 'wpmem_recaptcha' filter to change the reCAPTCHA; used for implementing custom reCAPTCHA theme/layout
  *
  * @param  string $key
  * @param  string $theme
@@ -735,6 +735,8 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  * Creates a user edit page
  *
  * @since 2.7.6
+ *
+ * @uses apply_filters Calls 'wpmem_user_edit_heading' filter to change the user profile edit heading for the user edit shortcode page
  *
  * @param  string $wpmem_regchk
  * @param  string $content

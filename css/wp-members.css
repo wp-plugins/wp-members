@@ -15,13 +15,13 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the TwentyTen theme.
-There are quite a few examples in here of what you can do with the table-less 
-forms.  You can build off of this or start from scratch and setyour own 
+This stylesheet is designed to integrate WP-Members with the Twenty Ten theme.
+There are quite a few examples in here of what you can do to style the forms.  
+You can build off of this or start from scratch and set your own 
 custom css for the plugin (set the location in the admin panel).
 
 See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
-for information on how to set up the plugin with a cusotm stylesheet.
+for information on how to set up the plugin with a custom stylesheet.
 
 For information how to load custom stylesheets with wp_enqueue_style,
 see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
@@ -194,15 +194,23 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	font-weight:bold;
 }
 #wpmem_reg .req { color: red; }
-#wpmem_reg .captcha { margin: 5px 0px; }
 #wpmem_reg .noinput{ 
 	height: 32px;
-	padding-top: 4px;
+	padding-top: 5px;
 	padding-left: 6px;
 }
-#wpmem_reg input[type="checkbox"] { margin-top: 9px; }
+#wpmem_reg input[type="checkbox"] { 
+	margin: 9px 0 0 2px; 
+}
 
 #wpmem_reg .req-text {
 	float:left;
 	margin: 15px 0px 0px 5px;
+}
+
+#wpmem_reg .captcha { 
+	margin: 5px 0px; 
+}
+#wpmem_reg .captcha table{
+	line-height: 0px;
 }

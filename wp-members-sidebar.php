@@ -26,7 +26,7 @@ if( ! function_exists( 'wpmem_inc_status' ) ):
  * Generate users login status if logged in and gives logout link
  *
  * @since 1.8
- * @uses apply_filters Calls 'wpmem_logout_link'
+ * @uses apply_filters Calls 'wpmem_logout_link' filter to change the default logout link
  * @global $user_login
  * @return string $status
  */
@@ -54,12 +54,12 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  *
  * @since 2.4
  *
- * @uses apply_filters Calls 'wpmem_logout_link'
- * @uses apply_filters Calls 'wpmem_sidebar_form'
- * @uses apply_filters Calls 'wpmem_sidebar_status'
- * @uses apply_filters Calls 'wpmem_login_failed_sb'
- * @uses apply_filters Calls 'wpmem_forgot_link'
- * @uses apply_filters Calls 'wpmem_reg_link'
+ * @uses apply_filters Calls 'wpmem_logout_link' filter to change the default logout link
+ * @uses apply_filters Calls 'wpmem_sidebar_form' filter to change the sidebar login form
+ * @uses apply_filters Calls 'wpmem_sidebar_status' filter to change the status message for a logged in user
+ * @uses apply_filters Calls 'wpmem_login_failed_sb' filter to change the sidebar login failed message
+ * @uses apply_filters Calls 'wpmem_forgot_link' filter to change the sidebar link to reset a forgotten password
+ * @uses apply_filters Calls 'wpmem_reg_link' filter to change the sidebar link to the registration page
  *
  * @global string $wpmem_regchk
  * @global string $user_login
@@ -75,7 +75,7 @@ function wpmem_do_sidebar()
 		$post_to = $_REQUEST['redirect_to'];
 		
 	} elseif( is_home() || is_front_page() ) {
-		$post_to = $_SERVER['PHP_SELF'];
+		$post_to = $_SERVER['REQUEST_URI'];
 			
 	} elseif( is_single() || is_page() ) {
 		$post_to = get_permalink();
@@ -90,7 +90,7 @@ function wpmem_do_sidebar()
 		
 	} else {
 		
-		$post_to = $_SERVER['PHP_SELF'];
+		$post_to = $_SERVER['REQUEST_URI'];
 
 	}
 	
@@ -222,6 +222,8 @@ class widget_wpmemwidget extends WP_Widget
  
     /**
 	 * Displays the WP-Members login widget.
+	 *
+	 * @uses apply_filters Calls 'widget_title' a WP filter to change the widget title
 	 *
 	 * @param array $args
 	 * @param array $instance

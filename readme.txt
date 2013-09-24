@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.6
-Stable tag: 2.8.5
+Tested up to: 3.6.1
+Stable tag: 2.8.6
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-WP-Members 2.8.5 is a release with fixes, code improvements, and some stylesheet modifications.  See release notes for specific information.  Always test first!!
+WP-Members 2.8.6 is a release with some minor code improvements and stylesheet modifications.  See release notes for specific information.  Always test first!!
 
 == Screenshots ==
 
@@ -113,6 +113,13 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.6 =
+
+* Continued updating the stylesheets, this update includes some minor changes to 2010, 2011, 2012, and 2013 to clean up the .noinput class (used in the User Profile update) and the reCAPTCHA area.
+* Added responsive elements to the Twenty Twelve stylesheet (remains the plugin's default)
+* Changed from PHP_SELF to REQUEST_URI for elements where the plugin forms need to post back to themselves and no other URL exists
+* Changed from "siteurl" to "home" for getting the home page link - corrects problems for users who have WP installed in a different directory
 
 = 2.8.5 =
 

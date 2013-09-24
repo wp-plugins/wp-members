@@ -16,12 +16,12 @@
 
 /*	
 This stylesheet is designed to integrate WP-Members with the Twenty Thirteen theme.
-There are quite a few examples in here of what you can do with the table-less 
-forms.  You can build off of this or start from scratch and setyour own 
+There are quite a few examples in here of what you can do to style the forms.  
+You can build off of this or start from scratch and set your own 
 custom css for the plugin (set the location in the admin panel).
 
 See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
-for information on how to set up the plugin with a cusotm stylesheet.
+for information on how to set up the plugin with a custom stylesheet.
 
 For information how to load custom stylesheets with wp_enqueue_style,
 see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
@@ -82,6 +82,12 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 14px 0;
 	font: 300 italic 28px "Source Sans Pro", Helvetica, sans-serif;
 }
+#wpmem_reg label, 
+#wpmem_login label {
+	height: 40px;
+	margin: 2px 0;
+	padding: 4px 0;
+}
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
 #wpmem_reg label.textarea , #wpmem_reg label.select,
 #wpmem_login label {
@@ -95,17 +101,25 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin:0;
 	padding:0;
 }
-#wpmem_reg .clear, #wpmem_login .clear {
-	clear:both;
-}
-#wpmem_reg .holder, #wpmem_login .holder {
-	background-color:#fff;
-}
 #wpmem_reg .div_text, #wpmem_reg .div_textarea, 
 #wpmem_reg .div_select, #wpmem_login .div_text,
 #wpmem_reg .div_checkbox {
 	width: 68%;
 	float:right;
+}
+#wpmem_login .div_text,
+#wpmem_reg .div_text,
+#wpmem_reg .div_checkbox,
+#wpmem_reg .div_select{
+	height: 40px;
+}
+#wpmem_login .div_text,
+#wpmem_reg .div_text,
+#wpmem_reg .div_textarea,
+#wpmem_reg .div_checkbox,
+#wpmem_reg .div_select{
+	margin: 2px 0;
+	padding: 0px;
 }
 #wpmem_reg input[type=checkbox]{
 	outline: 2px solid rgb(195, 192, 171);
@@ -146,24 +160,46 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	float:left;
 	margin: 20px 0px 0px 5px;
 }
+#wpmem_reg .clear, #wpmem_login .clear {
+	clear:both;
+}
+#wpmem_reg .holder, #wpmem_login .holder {
+	background-color:#fff;
+}
+#wpmem_reg .noinput {
+	margin: 4px 0px 12px 6px;
+}
+#wpmem_reg .captcha { 
+	margin: 5px 0px; 
+}
+#wpmem_reg .captcha table{
+	line-height: 0px;
+}
 
-#wpmem_login .div_text,
-#wpmem_reg .div_text,
-#wpmem_reg .div_checkbox,
-#wpmem_reg .div_select{
-	height: 40px;
-}
-#wpmem_login .div_text,
-#wpmem_reg .div_text,
-#wpmem_reg .div_textarea,
-#wpmem_reg .div_checkbox,
-#wpmem_reg .div_select{
-	margin: 2px 0;
-	padding: 0px;
-}
-#wpmem_reg label, 
-#wpmem_login label {
-	height: 40px;
-	margin: 2px 0;
-	padding: 4px 0;
+
+/** for smaller screens */
+
+@media screen and (max-width: 720px) {
+	#wpmem_reg label.text, #wpmem_reg label.checkbox, 
+	#wpmem_reg label.textarea , #wpmem_reg label.select,
+	#wpmem_login label, #wpmem_reg .div_text, #wpmem_reg .div_textarea, 
+	#wpmem_reg .div_select, #wpmem_login .div_text,
+	#wpmem_reg .div_checkbox, #wpmem_reg .button_div, #wpmem_login .button_div {
+		float: none;
+	}
+	
+	#wpmem_reg label.text, #wpmem_reg label.checkbox, 
+	#wpmem_reg label.textarea , #wpmem_reg label.select,
+	#wpmem_login label {
+		width: 90%;
+		padding: 5px 0 0 0;
+	}
+	#wpmem_reg label.textarea {
+		height: 26px;
+	}
+	#wpmem_reg .div_text, #wpmem_reg .div_textarea, 
+	#wpmem_reg .div_select, #wpmem_login .div_text,
+	#wpmem_reg .div_checkbox {
+		width: 98%;
+	}
 }

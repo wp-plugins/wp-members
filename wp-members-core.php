@@ -85,7 +85,8 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * @since 2.0
  *
- * @uses apply_filters Calls 'wpmem_securify'
+ * @uses apply_filters Calls 'wpmem_post_password' filter for the post password spoof
+ * @uses apply_filters Calls 'wpmem_securify' filter for the value of $content after wpmem_securify has run
  *
  * @global var    $wpmem_a the action variable received from wpmem()
  * @global string $wpmem_regchk contains messages returned from wpmem() action functions
@@ -188,7 +189,7 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  *
  * @since 2.6
  *
- * @uses apply_filters Calls 'wpmem_user_edit_heading'
+ * @uses apply_filters Calls 'wpmem_user_edit_heading' filter for the default heading in User Profile edit mode
  *
  * @param  string $page
  * @global string $wpmem_regchk
@@ -319,7 +320,7 @@ if ( ! function_exists( 'wpmem_block' ) ):
  *
  * @since 2.6
  *
- * @uses apply_filters Calls wpmem_block
+ * @uses apply_filters Calls wpmem_block filter to change the value of the boolean
  *
  * @return bool $block 
  */
@@ -498,7 +499,7 @@ function wpmem_login()
 			wp_set_auth_cookie( $user->ID, $rememberme );
 			
 			/** determine where to put the user after login */			
-			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['PHP_SELF'];
+			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['REQUEST_URI'];
 			
 			/** apply wpmem_login_redirect filter */
 			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to );
@@ -529,7 +530,7 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  *
  * @since 2.0
  *
- * @uses apply_filters Calls wpmem_login_redirect
+ * @uses apply_filters Calls wpmem_login_redirect to filter the url a logout is directed to
  * @uses wp_clearcookie
  * @uses wp_logout
  * @uses nocache_headers
@@ -640,7 +641,7 @@ if( ! function_exists( 'wpmem_reset_password' ) ):
  *
  * @since 2.1
  *
- * @uses   apply_filters 'wpmem_pwdreset_args'
+ * @uses   apply_filters Calls 'wpmem_pwdreset_args' to filter the array values for password reset
  * @uses   wp_generate_password
  * @uses   wp_update_user
  * @return string value for $wpmem_regchk
