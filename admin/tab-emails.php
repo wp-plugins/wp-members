@@ -165,4 +165,5 @@ function wpmem_update_emails()
 	return __('WP-Members emails were updated', 'wp-members');
 
 }
-?>
+
+/** End of File **/

@@ -118,4 +118,5 @@ function wpmem_update_captcha()
 	update_option( 'wpmembers_captcha', $wpmem_captcha );
 	return __( 'reCAPTCHA was updated for WP-Members', 'wp-members' );
 }
-?>
+
+/** End of File **/

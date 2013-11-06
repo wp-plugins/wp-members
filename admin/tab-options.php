@@ -281,4 +281,5 @@ function wpmem_admin_page_list( $val )
 	}
 	echo '<option value="">'; _e( 'USE CUSTOM URL ---->', 'wp-members' ); echo '</option>';
 }
-?>
+
+/** End of File **/

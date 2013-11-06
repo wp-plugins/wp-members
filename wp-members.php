@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.6
+Version:     2.8.7
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -76,7 +76,7 @@ $wpmem_settings = get_option( 'wpmembers_settings' );
 /**
  * define constants based on option settings
  */
-define( 'WPMEM_VERSION',      '2.8.6' );
+define( 'WPMEM_VERSION',      '2.8.7' );
 define( 'WPMEM_DEBUG',        false );
 
 // define('WPMEM_VERSION',    $wpmem_settings[0]  );
@@ -140,6 +140,7 @@ add_action( 'wp_head', 'wpmem_head' );                   // runs functions for t
 add_action( 'admin_init', 'wpmem_chk_admin' );
 add_action( 'admin_menu', 'wpmem_admin_options' );
 add_action( 'user_register', 'wpmem_wp_reg_finalize' );
+add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' );
 
 add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
 add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
@@ -206,7 +207,7 @@ function wpmem_chk_admin()
 function wpmem_admin_options()
 {
 	$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
-	               add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
+	              //add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
 	               add_action       ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 				  //add_action		( 'load-'.$plugin_page, 'wpmem_load_admin_help' );
 }
@@ -221,4 +222,5 @@ function wpmem_install()
 	require_once( 'wp-members-install.php' );
 	wpmem_do_install();
 }
-?>
+
+/** End of File **/

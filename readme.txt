@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.6.1
-Stable tag: 2.8.6
+Tested up to: 3.7.1
+Stable tag: 2.8.7
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-WP-Members 2.8.6 is a release with some minor code improvements and stylesheet modifications.  See release notes for specific information.  Always test first!!
+WP-Members 2.8.7 is a release with relatively minor changes on the front end. The biggest change is the elimination of the old WP-Members user page.  See release notes for specific information.  Always test first!!
 
 == Screenshots ==
 
@@ -113,6 +113,14 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.7 =
+
+* Upgraded the user export process.  Eliminates the need for directly loading an export file as in past versions.  This also eliminates the need for wp-load.php.
+* All user management functions that were in the Users > WP-Members menu are now included under Users > All Users.  The Users > WP-Members menu is fully deprecated and removed.
+* Corrected some undefined variable notices.
+* New filter for the widget title wpmem_widget_title
+* Further enhancements to the native WP registration. Even though the plugin was intended to put the registration process into the front end of your WP site, there are always users that either (a) prefer to use the backend native registration or (b) don't read or follow installation and usage instructions. So in an earlier version, I went ahead and added the WP-Members custom fields to the backend registration if it is turned on. This version finishes that process with proper support for dropdown select fields, checkboxes, and text area fields.  It also cleans up the error checking and CSS styling for that process.
 
 = 2.8.6 =
 

@@ -239,4 +239,5 @@ function butlerblog_feed_output() {
     ));
     echo "</div>";
 }
-?>
+
+/** End of File **/

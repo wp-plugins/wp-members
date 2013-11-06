@@ -526,4 +526,5 @@ function wpmem_a_field_table( $wpmem_fields )
 	</div>	
 	<?php
 }
-?>
+
+/** End of File **/

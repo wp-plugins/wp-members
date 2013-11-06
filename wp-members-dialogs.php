@@ -405,7 +405,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 
 			} else {
 
-				$val = ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
+				$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
 
 			}
 
@@ -414,7 +414,7 @@ function wpmem_inc_registration_NEW( $toggle = 'new', $heading = '' )
 				if( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) {
 					$chk_tos;  // HUH?
 				} else {
-					$val = $_POST[ $wpmem_fields[$row][2] ];
+					$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
 				}
 
 				// should be checked by default? and only if form hasn't been submitted
@@ -754,4 +754,5 @@ function wpmem_page_user_edit( $wpmem_regchk, $content )
 	return $content;
 }
 endif;
-?>
+
+/** End of File **/

@@ -153,4 +153,5 @@ function wpmem_admin_update()
 
 	( WPMEM_USE_EXP == 1 ) ? wpmem_a_extend_user( $user_id ) : '';
 }
-?>
+
+/** End of File **/

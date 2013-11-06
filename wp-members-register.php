@@ -52,18 +52,18 @@ function wpmem_registration( $toggle )
 
 	// is this a registration or a user profile update?
 	if( $toggle == 'register' ) { 
-		$fields['username'] = $_POST['log'];
+		$fields['username'] = ( isset( $_POST['log'] ) ) ? $_POST['log'] : '';
 	}
 	
 	// add the user email to the $fields array for _data hooks
-	$fields['user_email'] = $_POST['user_email'];
+	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
 
 	// build the $fields array from $_POST data
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if( $wpmem_fields[$row][4] == 'y' ) {
 			if( $wpmem_fields[$row][2] != 'password' ) {
-				$fields[$wpmem_fields[$row][2]] = sanitize_text_field( $_POST[$wpmem_fields[$row][2]] );
+				$fields[$wpmem_fields[$row][2]] = ( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? sanitize_text_field( $_POST[$wpmem_fields[$row][2]] ) : '';
 			} else {
 				// we do have password as part of the registration form
 				$fields['password'] = $_POST['password'];
@@ -322,4 +322,5 @@ function wpmem_get_captcha_err( $wpmem_captcha_err )
 	return $wpmem_captcha_err;
 }
 endif;
-?>
+
+/** End of File **/

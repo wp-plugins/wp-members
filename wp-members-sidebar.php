@@ -107,7 +107,7 @@ function wpmem_do_sidebar()
 		} else {
 
 			$str = '';
-			if( $wpmem_regchk == 'loginfailed' && $_POST['slog'] == 'true' ) {
+			if( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 				$str = '<p class="err">' . __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ) . '</p>';
 				$str = apply_filters( 'wpmem_login_failed_sb', $str );
 			}
@@ -234,7 +234,7 @@ class widget_wpmemwidget extends WP_Widget
 
 		// Get the Widget Title
 		if( array_key_exists( 'title', $instance ) ) {
-			$title = apply_filters('widget_title', $instance['title'] );
+			$title = apply_filters('wpmem_widget_title', $instance['title'] );
 		} else {
 			$title = __( 'Login Status', 'wp-members' ); 
 		}
@@ -252,4 +252,5 @@ class widget_wpmemwidget extends WP_Widget
 		echo $after_widget;
     }
 }
-?>
+
+/** End of File **/

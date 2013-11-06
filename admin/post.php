@@ -188,4 +188,5 @@ function wpmem_page_columns_content( $column_name, $post_ID )
 
     } 
 }
-?>
+
+/** End of File **/

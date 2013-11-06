@@ -114,4 +114,5 @@ function wpmem_update_dialogs()
 		
 	return __( 'WP-Members dialogs were updated', 'wp-members' );	
 }
-?>
+
+/** End of File **/

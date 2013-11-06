@@ -249,4 +249,5 @@ function wpmem_admin_action( $action )
 	
 	return $did_update;
 }
-?>
+
+/** End of File **/

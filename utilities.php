@@ -237,4 +237,5 @@ function wpmem_do_excerpt( $content )
 	return $content;
 }
 endif;
-?>
+
+/** End of File **/

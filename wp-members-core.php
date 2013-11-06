@@ -737,20 +737,9 @@ function wpmem_head() {
  *
  * @since 2.8.3
  */
-function wpmem_wp_register_form()
-{
-	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		
-		if( $wpmem_fields[$row][4] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
-			echo
-			'<p>
-				<label for="' . $wpmem_fields[$row][2] . '">' . $wpmem_fields[$row][1] . '<br />
-					<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : ''; echo '" size="25" />
-				</label>
-			</p>';
-		}
-	}
+function wpmem_wp_register_form() {
+	include_once( 'native-registration.php' );
+	wpmem_do_wp_register_form();
 }
 
 
@@ -767,11 +756,17 @@ function wpmem_wp_register_form()
 function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
 {
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	$wpmem_fields_rev = array_reverse( $wpmem_fields );
 
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields_rev[$row][5] == 'y' && $wpmem_fields_rev[$row][2] != 'user_email' ) {
-			if( ! $_POST[$wpmem_fields_rev[$row][2]] ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ) ) ; }
+		$is_error = false;
+		if( $wpmem_fields[$row][5] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
+			if( ( $wpmem_fields[$row][3] == 'checkbox' ) && ( ! isset( $_POST[$wpmem_fields[$row][2]] ) ) ) {
+				$is_error = true;
+			} 
+			if( ( $wpmem_fields[$row][3] != 'checkbox' ) && ( ! $_POST[$wpmem_fields[$row][2]] ) ) {  
+				$is_error = true;
+			}
+			if( $is_error ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields[$row][1] ) ); }
 		}
 	}
 
@@ -794,4 +789,15 @@ function wpmem_wp_reg_finalize( $user_id )
 			update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
 	}
 }
-?>
+
+
+/**
+ * Loads the stylesheet for backend registration
+ *
+ * @since 2.8.7
+ */
+function wpmem_wplogin_stylesheet() {
+    echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
+}
+
+/** End of File **/

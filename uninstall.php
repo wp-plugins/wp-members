@@ -53,4 +53,5 @@ if ( WP_UNINSTALL_PLUGIN ) {
 	delete_option( 'widget_wpmemwidget' );
 
 }
-?>
+
+/** End of File **/

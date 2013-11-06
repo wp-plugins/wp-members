@@ -128,6 +128,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 		$exp_date = get_user_meta( $user_id, 'expires', 'true' );
 	}	
 	
+	$field_str = '';
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if( $wpmem_fields[$row][4] == 'y' ) {
 			$name = $wpmem_fields[$row][1];
@@ -228,4 +229,5 @@ function wpmem_mail_from_name( $name )
 	}
     return $name;
 }
-?>
+
+/** End of File **/

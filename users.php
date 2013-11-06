@@ -106,4 +106,5 @@ function wpmem_profile_update()
 		}
 	} 
 }
-?>
+
+/** End of File **/
