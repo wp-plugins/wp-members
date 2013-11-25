@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.7.1
-Stable tag: 2.8.7
+Stable tag: 2.8.8
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -105,7 +105,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 == Upgrade Notice ==
 
-WP-Members 2.8.7 is a release with relatively minor changes on the front end. The biggest change is the elimination of the old WP-Members user page.  See release notes for specific information.  Always test first!!
+WP-Members 2.8.8 is a release with mostly minor fixes. See release notes for specific information.
 
 == Screenshots ==
 
@@ -113,6 +113,16 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 
 
 == Changelog ==
+
+= 2.8.8 =
+
+* Updated no password reset for non-activated users to use get_user_by('email')
+* Fixed undefined variable $sendback in users.php
+* Fixed undefined user object in wpmem_check_activated function
+* Replaced use of wpmem_test_shortcode with WP's has_shortcode
+* Deprecated wpmem_test_shortcode
+* Set a column width for the WP-Members column in the All Posts and All Pages admin panels, load admin.css
+* Added wpmem_admin_after_block_meta and wpmem_admin_block_meta_save actions
 
 = 2.8.7 =
 

@@ -32,6 +32,8 @@ function wpmem_block_meta_add() {
  *
  * @since 2.8
  *
+ * @uses do_action Calls 'wpmem_admin_after_block_meta' Allows actions at the end of the block meta box on pages and posts
+ *
  * @global $post The WordPress post object
  */
 function wpmem_block_meta()  
@@ -72,6 +74,7 @@ function wpmem_block_meta()
 		<label for="<?php echo $block; ?>"><?php echo $text; ?> this <?php echo $post->post_type; ?></label>
     </p>
     <?php
+	do_action( 'wpmem_admin_after_block_meta', $post, $block );
 }
 
 
@@ -79,6 +82,8 @@ function wpmem_block_meta()
  * Saves the meta boxes data for post and page editor screens.
  *
  * @since 2.8
+ *
+ * @uses do_action Calls 'wpmem_admin_block_meta_save' allows actions to be hooked to the meta save process
  *
  * @param int $post_id The post ID
  */
@@ -117,6 +122,8 @@ function wpmem_block_meta_save( $post_id )
 			delete_post_meta( $post_id, 'unblock' );
 		}
 	}
+	
+	do_action( 'wpmem_admin_block_meta_save', $post, $block, $unblock );
 }
 
 
@@ -125,9 +132,12 @@ function wpmem_block_meta_save( $post_id )
  *
  * @since 2.8.3
  *
+ * @uses wp_enqueue_style Loads the WP-Members admin stylesheet
+ *
  * @param arr $columns The array of table columns
  */
 function wpmem_post_columns( $columns ) {
+	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
 	$columns['wpmem_block'] = ( WPMEM_BLOCK_POSTS == 1 ) ? 'Unblocked?' : 'Blocked?';  
     return $columns;
 }
@@ -141,16 +151,10 @@ function wpmem_post_columns( $columns ) {
  * @param $column_name
  * @param $post_ID
  */
-function wpmem_post_columns_content( $column_name, $post_ID )
-{
+function wpmem_post_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
-	
 		$block = ( WPMEM_BLOCK_POSTS == 1 ) ? 'unblock' : 'block';
-		
-		if(  get_post_custom_values( $block, $post_ID )  ) {
-			echo 'Yes';
-		}
-
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? 'Yes' : '';
     } 
 }
 
@@ -160,9 +164,12 @@ function wpmem_post_columns_content( $column_name, $post_ID )
  *
  * @since 2.8.3
  *
+ * @uses wp_enqueue_style Loads the WP-Members admin stylesheet
+ *
  * @param arr $columns The array of table columns
  */
 function wpmem_page_columns( $columns ) {
+	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
 	$columns['wpmem_block'] = ( WPMEM_BLOCK_PAGES == 1 ) ? 'Unblocked?' : 'Blocked?';  
     return $columns;
 }
@@ -176,16 +183,10 @@ function wpmem_page_columns( $columns ) {
  * @param $column_name
  * @param $post_ID
  */
-function wpmem_page_columns_content( $column_name, $post_ID )
-{
+function wpmem_page_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
-	
 		$block = ( WPMEM_BLOCK_PAGES == 1 ) ? 'unblock' : 'block';
-		
-		if(  get_post_custom_values( $block, $post_ID )  ) {
-			echo 'Yes';
-		}
-
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? 'Yes' : '';
     } 
 }
 

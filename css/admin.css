@@ -20,3 +20,7 @@
 	font-weight: bold;
 	border: 1px solid #990000;
 }
+
+.column-wpmem_block {
+	width: 80px;
+}

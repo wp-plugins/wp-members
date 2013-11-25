@@ -96,6 +96,7 @@ function wpmem_users_page_load()
 	
 	$wp_list_table = _get_list_table( 'WP_Users_List_Table' );
 	$action = $wp_list_table->current_action();
+	$sendback = '';
 	
 	if( $action == 'activate' || 'activate-single' ) {
 		// find out if we need to set passwords

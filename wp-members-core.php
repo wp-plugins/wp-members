@@ -100,7 +100,7 @@ function wpmem_securify( $content = null )
 { 
 	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
-	if( ! wpmem_test_shortcode() ) {
+	if( ! has_shortcode( $content, 'wp-members' ) ) {
 		
 		global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 		
@@ -401,6 +401,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * Tests $content for the presence of the [wp-members] shortcode
  *
  * @since 2.6
+ * @deprecated 2.8.8
  *
  * @global string $post
  * @uses   get_shortcode_regex
@@ -438,7 +439,7 @@ if( ! function_exists( 'wpmem_check_activated' ) ):
 function wpmem_check_activated( $user, $username, $password ) 
 {
 	// password must be validated
-	$pass = ( $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
+	$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
 	
 	if( ! $pass ) { 
 		return $user; 
@@ -705,7 +706,7 @@ if( ! function_exists( 'wpmem_no_reset' ) ):
 function wpmem_no_reset() {
 
 	if( strpos( $_POST['user_login'], '@' ) ) {
-		$user = get_user_by_email( trim( $_POST['user_login'] ) );
+		$user = get_user_by( 'email', trim( $_POST['user_login'] ) );
 	} else {
 		$username = trim( $_POST['user_login'] );
 		$user     = get_user_by( 'login', $username );
