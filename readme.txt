@@ -119,8 +119,6 @@ Rather than bloat your plugin download with screenshots, we will be offering scr
 * Updated no password reset for non-activated users to use get_user_by('email')
 * Fixed undefined variable $sendback in users.php
 * Fixed undefined user object in wpmem_check_activated function
-* Replaced use of wpmem_test_shortcode with WP's has_shortcode
-* Deprecated wpmem_test_shortcode
 * Set a column width for the WP-Members column in the All Posts and All Pages admin panels, load admin.css
 * Added wpmem_admin_after_block_meta and wpmem_admin_block_meta_save actions
 

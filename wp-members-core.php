@@ -100,7 +100,7 @@ function wpmem_securify( $content = null )
 { 
 	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
-	if( ! has_shortcode( $content, 'wp-members' ) ) {
+	if( ! wpmem_test_shortcode() ) {
 		
 		global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 		
@@ -401,7 +401,6 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * Tests $content for the presence of the [wp-members] shortcode
  *
  * @since 2.6
- * @deprecated 2.8.8
  *
  * @global string $post
  * @uses   get_shortcode_regex
