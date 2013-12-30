@@ -113,28 +113,19 @@ WP-Members 2.8.9 is a release with mostly minor fixes and some improvements for 
 
 == Screenshots ==
 
-The default setup when viewing a blocked post:
-`/assets/wp-members-post-default.png`
+1. The default when viewing a blocked post - the plugin will deliver a login screen and registration form in place of blocked content (this default can be changed to other options).
 
-Admin Panel - Options Tab:
-`/assets/wp-members-options-tab.png`
+2. Admin Panel - Options Tab - the various option settings for the plugin.
 
-Admin Panel - Fields Tab:
-`/assets/wp-members-fields-tab1.png`
+3. Admin Panel - Fields Tab - the plugin field manager allows you to manage (or delete) the installed extra fields and field order, and also add your own custom fields.
 
-Admin Panel - Dialogs Tab:
-`/assets/wp-members-dialogs-tab.png`
+4. Admin Panel - Dialogs Tab - the major dialogs that the plugin uses for error and other messages can be edited in the plugin's admin panel.
 
-Admin Panel - Emails Tab:
-`/assets/wp-members-emails-tab.png`
+5. Admin Panel - Emails Tab - all of the emails that are sent by the plugin can be edited in the admin panel.
 
-Posts > All Posts
-The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab):
-`/assets/wp-members-posts-all.png`
+6. Posts > All Posts - The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab).
 
-Posts > Edit Post
-The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is):
-`/assets/wp-members-posts-single.png`
+7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
 
 
 == Changelog ==
