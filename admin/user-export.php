@@ -6,21 +6,18 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
 function wpmem_export_selected( $user_arr )
 {
-	// start with clean headers...
-	header_remove(); 
-
 	/**
 	 * Output needs to be buffered, start the buffer
 	 */
@@ -122,17 +119,10 @@ function wpmem_export_selected( $user_arr )
 
 function wpmem_export_all_users()
 {
-
-	// start with clean headers...
-	header_remove(); 
-
-
 	/**
 	 * Output needs to be buffered, start the buffer
 	 */
 	ob_start();
-
-
 
 	/**
 	 * Get all of the users

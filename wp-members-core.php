@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -94,7 +94,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @global string $wpmem_captcha_err contains error message for reCAPTCHA
  * @global array  $post needed for protecting comments
  * @param  string $content
- * @return $content
+ * @return string $content
  */
 function wpmem_securify( $content = null ) 
 { 
@@ -177,6 +177,13 @@ function wpmem_securify( $content = null )
 	
 	$content = apply_filters( 'wpmem_securify', $content );
 	
+	if( strstr( $content, '[wpmem_txt]' ) ) {
+		// fix the wptexturize
+		remove_filter( 'the_content', 'wpautop' );
+		remove_filter( 'the_content', 'wptexturize' );
+		add_filter('the_content', 'wpmem_texturize', 99); 
+	}
+
 	return $content;
 	
 } // end wpmem_securify
@@ -185,7 +192,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
 /**
- * Determines if content should be blocked
+ * Builds the shortcode pages (login, register, user-profile, user-edit, password)
  *
  * @since 2.6
  *
@@ -195,7 +202,7 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * @global string $wpmem_regchk
  * @global string $wpmem_themsg
  * @global string $wpmem_a
- * @return $content 
+ * @return string $content 
  */
 function wpmem_do_sc_pages( $page )
 {
@@ -350,6 +357,7 @@ function wpmem_block()
 endif;
 
 
+if ( ! function_exists( 'wpmem_shortcode' ) ):
 /**
  * Executes shortcode for settings, register, and login pages
  *
@@ -364,10 +372,23 @@ function wpmem_shortcode( $attr, $content = null )
 	// handles the 'page' attribute
 	if( isset( $attr['page'] ) ) {
 		if( $attr['page'] == 'user-list' ) {
-			return ( function_exists( 'wpmem_list_users' ) ) ? do_shortcode( wpmem_list_users( $attr, $content ) ) : '';
+			//return ( function_exists( 'wpmem_list_users' ) ) ? do_shortcode( wpmem_list_users( $attr, $content ) ) : '';
+			if( function_exists( 'wpmem_list_users' ) ) {
+				$content = do_shortcode( wpmem_list_users( $attr, $content ) );
+			}
 		} else {
-			return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
+			//return do_shortcode( wpmem_do_sc_pages( $attr['page'] ) ); 
+			$content = do_shortcode( wpmem_do_sc_pages( $attr['page'] ) );
 		}
+		
+		// resolve any texturize issues...
+		if( strstr( $content, '[wpmem_txt]' ) ) {
+			// fix the wptexturize
+			remove_filter( 'the_content', 'wpautop' );
+			remove_filter( 'the_content', 'wptexturize' );
+			add_filter( 'the_content', 'wpmem_texturize', 99 ); 
+		}	
+		return $content;
 	}
 	
 	// handles the 'status' attribute
@@ -394,6 +415,7 @@ function wpmem_shortcode( $attr, $content = null )
 		return ( $user_info ) ? htmlspecialchars( $user_info->$attr['field'] ) . do_shortcode( $content ) : '';
 	}
 }
+endif;
 
 
 if ( ! function_exists( 'wpmem_test_shortcode' ) ):
@@ -610,7 +632,7 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
 function wpmem_change_password()
 {
 	global $user_ID;
-	if ($_POST['formsubmit']) {
+	if( isset( $_POST['formsubmit'] ) ) {
 
 		$pass1 = $_POST['pass1'];
 		$pass2 = $_POST['pass2'];

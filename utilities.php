@@ -204,11 +204,17 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
 function wpmem_do_excerpt( $content )
 {	
 	$arr = get_option( 'wpmembers_autoex' );
+	
+	/** is there already a 'more' link in the content? */
+	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
+	
+	/** if auto_ex is on */
 	if( $arr['auto_ex'] == true ) {
 		
-		if( ! stristr( $content, 'class="more-link"' ) ) {
+		/** build an excerpt if one does not exist */
+		if( ! $has_more_link ) {
 		
-			$words = explode(' ', $content, ( $arr['auto_ex_len'] + 1 ) );
+			$words = explode( ' ', $content, ( $arr['auto_ex_len'] + 1 ) );
 			if( count( $words ) > $arr['auto_ex_len'] ) { array_pop( $words ); }
 			$content = implode( ' ', $words );
 			
@@ -224,16 +230,22 @@ function wpmem_do_excerpt( $content )
 	}
 
 	global $post, $more;
-	if( ! $more && ( $arr['auto_ex'] == true ) ) {
-		$more_link_text = '(more...)';
+	/** if there is no 'more' link and auto_ex is on **/
+	if( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
+		// the default $more_link_text
+		$more_link_text = '(more&hellip;)';
+		// the default $more_link
 		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
+		// apply the_content_more_link filter if one exists (will match up all 'more' link text)
 		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
-		
+		// add the more link to the excerpt
 		$content = $content . $more_link;
 	}
 	
+	/** filter the result */
 	$content = apply_filters( 'wpmem_auto_excerpt', $content );
 	
+	/** return the excerpt */
 	return $content;
 }
 endif;

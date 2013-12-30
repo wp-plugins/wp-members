@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.8
+Version:     2.8.9
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -11,7 +11,7 @@ License:     GPLv2
 
 
 /*  
-	Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+	Copyright (c) 2006-2014  Chad Butler
 
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
@@ -76,7 +76,7 @@ $wpmem_settings = get_option( 'wpmembers_settings' );
 /**
  * define constants based on option settings
  */
-define( 'WPMEM_VERSION',      '2.8.8' );
+define( 'WPMEM_VERSION',      '2.8.9' );
 define( 'WPMEM_DEBUG',        false );
 
 // define('WPMEM_VERSION',    $wpmem_settings[0]  );
@@ -196,7 +196,7 @@ function wpmem_chk_admin()
 		add_filter( 'manage_posts_columns', 'wpmem_post_columns' );  
 		add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
 		add_filter( 'manage_pages_columns', 'wpmem_page_columns' );
-		add_action( 'manage_pages_custom_column', 'wpmem_page_columns_content', 10, 2 );		
+		add_action( 'manage_pages_custom_column', 'wpmem_page_columns_content', 10, 2 );
 	}
 }
 

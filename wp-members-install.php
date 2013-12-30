@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
  
@@ -111,7 +111,7 @@ function wpmem_do_install()
 		append_email();
 		
 		// if it's a new install, use the Twenty Twelve stylesheet
-		update_option( 'wpmembers_style', WPMEM_DIR . 'css/wp-members-2012.css', '', 'yes' );
+		update_option( 'wpmembers_style', WPMEM_DIR . 'css/wp-members-2014.css', '', 'yes' );
 		
 	} else {
 	
