@@ -604,12 +604,13 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  */
 function wpmem_inc_recaptcha( $key, $theme )
 {
-	$str = '<script type="text/javascript">
+	$http = ( is_ssl() ) ? 'https://' : 'http://';
+	$str  = '<script type="text/javascript">
 			var RecaptchaOptions = { theme : \''. $theme . '\' };
 		</script>
-		<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k=' . $key . '"></script>
+		<script type="text/javascript" src="' . $http . 'www.google.com/recaptcha/api/challenge?k=' . $key . '"></script>
 		<noscript>
-			<iframe src="http://www.google.com/recaptcha/api/noscript?k=' . $key . '" height="300" width="500" frameborder="0"></iframe><br/>
+			<iframe src="' . $http . 'www.google.com/recaptcha/api/noscript?k=' . $key . '" height="300" width="500" frameborder="0"></iframe><br/>
 			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
 			<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
 		</noscript>';

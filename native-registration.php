@@ -50,12 +50,12 @@ function wpmem_do_wp_register_form()
 					
 				case( 'textarea' ):
 					echo '<textarea name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="textarea">'; 
-					echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : ''; 
+					echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? esc_textarea( $_POST[ $wpmem_fields[$row][2] ] ) : '';
 					echo '</textarea>';		
 					break;
 
 				default:
-					echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? $_POST[ $wpmem_fields[$row][2] ] : ''; echo '" size="25" />';
+					echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? esc_attr( $_POST[ $wpmem_fields[$row][2] ] ) : ''; echo '" size="25" />';
 					break;
 				}
 					

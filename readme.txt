@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.8
-Stable tag: 2.8.9
+Stable tag: 2.8.10
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -109,7 +109,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.8.9 is a release with mostly minor fixes and some improvements for testing the upcoming 2.9 release. See release notes for specific information.
+WP-Members 2.8.10 is a security update.  This closes a recently reported vulnerability.
 
 == Screenshots ==
 
@@ -129,6 +129,10 @@ WP-Members 2.8.9 is a release with mostly minor fixes and some improvements for 
 
 
 == Changelog ==
+
+= 2.8.10 = 
+
+This is a security update the closes 2 reported XSS vulnerabilities.  This update also includes a fix for using SSL with reCAPTCHA.
 
 = 2.8.9 =
 

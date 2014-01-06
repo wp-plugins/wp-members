@@ -42,12 +42,12 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		break;
 
 	case "text":
-		$value = stripslashes( $value );
+		$value = stripslashes( esc_attr( $value ) );
 		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
 		break;
 
 	case "textarea":
-		$value = stripslashes( $value );
+		$value = stripslashes( esc_textarea( $value ) );
 		if( $class = 'textbox' ) { $class = "textarea"; }
 		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
 		break;

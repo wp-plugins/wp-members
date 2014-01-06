@@ -808,7 +808,7 @@ function wpmem_wp_reg_finalize( $user_id )
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 		if ( isset( $_POST[$wpmem_fields[$row][2]] ) )
-			update_user_meta( $user_id, $wpmem_fields[$row][2], $_POST[$wpmem_fields[$row][2]] );
+			update_user_meta( $user_id, $wpmem_fields[$row][2], sanitize_text_field( $_POST[$wpmem_fields[$row][2]] ) );
 	}
 }
 
