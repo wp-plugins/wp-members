@@ -12,6 +12,8 @@ WP-Members&trade; is a free membership management framework for WordPress&reg; t
 
 WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
+[vimeo https://vimeo.com/84961265]
+
 = Features: =
 
 * Block posts, pages, both, or none by default
