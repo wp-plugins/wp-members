@@ -21,9 +21,24 @@
  *
  * @since 2.8
  */
-function wpmem_block_meta_add() { 
-    add_meta_box( 'wpmem-block-meta-id', 'WP-Members', 'wpmem_block_meta', 'post', 'side', 'high' );
-	add_meta_box( 'wpmem-block-meta-id', 'WP-Members', 'wpmem_block_meta', 'page', 'side', 'high' );	
+function wpmem_block_meta_add() 
+{
+	/**
+	 * Filter the post meta box title
+	 *
+	 * @since 2.9.0
+	 */
+	$post_title = apply_filters( 'wpmem_admin_post_meta_title', __( 'Post Restriction' ) );
+	
+	/**
+	 * Filter the page meta box title
+	 *
+	 * @since 2.9.0
+	 */
+	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction' ) );
+
+    add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
+	add_meta_box( 'wpmem-block-meta-id', $page_title, 'wpmem_block_meta', 'page', 'side', 'high' );	
 }
 
 
@@ -138,7 +153,7 @@ function wpmem_block_meta_save( $post_id )
  */
 function wpmem_post_columns( $columns ) {
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
-	$columns['wpmem_block'] = ( WPMEM_BLOCK_POSTS == 1 ) ? 'Unblocked?' : 'Blocked?';  
+	$columns['wpmem_block'] = ( WPMEM_BLOCK_POSTS == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
     return $columns;
 }
 
@@ -154,7 +169,7 @@ function wpmem_post_columns( $columns ) {
 function wpmem_post_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
 		$block = ( WPMEM_BLOCK_POSTS == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? 'Yes' : '';
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes', 'wp-members' ) : '';
     } 
 }
 
@@ -170,12 +185,13 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
  */
 function wpmem_page_columns( $columns ) {
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
-	$columns['wpmem_block'] = ( WPMEM_BLOCK_PAGES == 1 ) ? 'Unblocked?' : 'Blocked?';  
+	$columns['wpmem_block'] = ( WPMEM_BLOCK_PAGES == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );  
     return $columns;
 }
 
 
 /**
+
  * Adds blocking status to the Page Table column
  *
  * @since 2.8.3
@@ -186,7 +202,7 @@ function wpmem_page_columns( $columns ) {
 function wpmem_page_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
 		$block = ( WPMEM_BLOCK_PAGES == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? 'Yes' : '';
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes', 'wp-members' ) : '';
     } 
 }
 

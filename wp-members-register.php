@@ -83,7 +83,7 @@ function wpmem_registration( $toggle )
 			if( ! $fields[$wpmem_fields_rev[$row][2]] ) { $wpmem_themsg = sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields_rev[$row][1] ); }
 		}
 	}
-
+	
 	switch( $toggle ) {
 
 	case "register":
@@ -223,16 +223,18 @@ function wpmem_registration( $toggle )
 		break;
 
 	case "update":
-
-		if( $wpmem_themsg ) { return "updaterr"; exit(); }
 		
-		// doing a check for existing email is not the same as a new reg. 
-		// check first to see if it's different, then check if it exists.
+		if( $wpmem_themsg ) { return "updaterr"; exit(); }
+
+		// doing a check for existing email is not the same as a new reg. check first to 
+		// see if it's different, then check if it is a valid address and it exists.
 		global $current_user; get_currentuserinfo();
 		if( $fields['user_email'] !=  $current_user->user_email ) {
-			if( email_exists( $fields['user_email'] ) ) { return "email"; exit; } 
-		}
+			if( email_exists( $fields['user_email'] ) ) { return "email"; exit(); } 
+			if( !is_email( $fields['user_email']) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); return "updaterr"; exit(); }
 
+		}
+		
 		// add the user_ID to the fields array
 		$fields['ID'] = $user_ID;
 		// allow all $field values to be filtered
@@ -241,6 +243,7 @@ function wpmem_registration( $toggle )
 		do_action( 'wpmem_pre_update_data', $fields );
 		
 		// if the _pre_update_data hook sends back an error message
+		// @todo - double check this. it should probably return "updaterr" and the hook should globalize wpmem_themsg
 		if( $wpmem_themsg ){ return $wpmem_themsg; }
 
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {

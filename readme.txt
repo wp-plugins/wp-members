@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.8
-Stable tag: 2.8.10
+Tested up to: 3.8.1
+Stable tag: 2.9.0
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -11,8 +11,6 @@ WP-Members&trade; is a free membership management framework for WordPress&reg; t
 == Description ==
 
 WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
-
-[vimeo https://vimeo.com/84961265]
 
 = Features: =
 
@@ -111,7 +109,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.8.10 is a security update.  This closes a recently reported vulnerability.
+WP-Members 2.9 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
 
 == Screenshots ==
 
@@ -131,6 +129,49 @@ WP-Members 2.8.10 is a security update.  This closes a recently reported vulnera
 
 
 == Changelog ==
+
+= 2.9.0 =
+
+This is a major update focusing on upgrades to the form building functions, but also includes a number of other changes and improvements.
+
+Major updates
+
+* New form building functions include new hooks and a more customizable form building process.
+* Form functions moved from wp-members-dialogs.php to new file forms.php
+* Sidebar login form also rebuilt in the same way the login and register forms were changed.
+* Legacy (old table based) forms completely removed in 2.9
+* Updates to error and dialog messages – removed unnecessary html tags (<p>,<b>)
+
+Changes in wp-members-core.php
+
+* updated calling of wpmem_test_shortcode, now it works like has_shortcode, put off deprecating at this time.
+* updated shortcode to include tos page, allow for new tags (wpmem_field, wpmem_logged_in) (added new shortcode calls in wp-members.php), and accept id attribute for fields. Added $tag argument, can use shortcode_atts_{$shortcode} filter
+* moved wpmem_test_shortcode to utilities.php
+* added new action hooks: wpmem_pwd_change and wpmem_pwd_reset
+* added new filter hook: wpmem_regchk
+
+Changes in wp-members.php
+
+* a pretty major overhaul of this file. Moved all but four declarations that weren’t already in functions into the init function. Only two constants are declared before the function. This initialization comes after the theme is setup, so pre-initilization needs, such as loading pluggable functions can be declared in the theme’s functions.php file. Pluggable functions do not need to be loaded only from the wp-members-pluggable.php file.
+* The file name of the wp-members-pluggable.php file is loaded in a filter hook – wpmem_plugins_file, so you could call it something else or load it from another location.
+* New action hooks: wpmem_pre_init, wpmem_after_init, wpmem_pre_admin_init, wpmem_after_admin_init
+* New filter hook: wpmem_settings
+
+Miscellaneous Changes
+
+* Updates to the html for some of the admin to better fit the new WP admin layout. Old html was compatible, but the new works better.
+* Updates to the options tab to better group options
+* Updates to native (wp-login.php) registration to include require field indication
+* Review of output, localized a few missed strings
+* Implementation of changes in localization of field names. English values are now stored in the db (except for custom fields – that would be whatever language the user creates the field as). Fields are then translated when displayed, rather than stored as translated strings.
+* Updated user profile to fix some issues with checkbox and required fields – users.php
+* Updated user export to include wp_users table fields user_url, user_nicename, and display_name fields
+* Code cleanup in wpmem_block function
+* Updated autoexcerpt function
+* New filter hooks for post editor meta box titles: wpmem_admin_post_meta_title, wpmem_admin_page_meta_title
+* Some updates to existing stylesheets
+* Added new stylesheets, including two with non-floated elements. Generic, non-floated stylesheet new default for fresh installs
+
 
 = 2.8.10 = 
 

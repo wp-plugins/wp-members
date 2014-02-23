@@ -1,8 +1,15 @@
 <?php
+/**
+ * Appends WP-Members registration fields to wp-login.php registration form.
+ *
+ * @since 2.8.7
+ */
 function wpmem_do_wp_register_form()
 {
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+	
+		$req = ( $wpmem_fields[$row][5] == 'y' ) ? ' <span class="req">(required)</span>' : '';
 		
 		if( $wpmem_fields[$row][4] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
 		
@@ -26,18 +33,18 @@ function wpmem_do_wp_register_form()
 				
 				}
 				
-				$label = ( $wpmem_fields[$row][2] == 'tos' ) ? $tos : $wpmem_fields[$row][2];
-					
+				$label = ( $wpmem_fields[$row][2] == 'tos' ) ? $tos : __( $wpmem_fields[$row][2], 'wp-members' );
+
 				$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
 				$val = ( ! $_POST && $wpmem_fields[$row][8] == 'y' ) ? $wpmem_fields[$row][7] : $val;
 			
 				echo '<p class="wpmem-checkbox">' . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
-				echo '<label for="' . $wpmem_fields[$row][2] . '">' . $label . '</label></p>';
+				echo '<label for="' . $wpmem_fields[$row][2] . '">' . $label . $req . '</label></p>';
 				
 			} else {
-		
+			
 				echo '<p>
-						<label for="' . $wpmem_fields[$row][2] . '">' . $wpmem_fields[$row][1] . '<br />';
+						<label for="' . $wpmem_fields[$row][2] . '">' . __( $wpmem_fields[$row][1], 'wp-members' ) . $req . '<br />';
 				
 				// determine the field type and generate accordingly...
 				
@@ -50,12 +57,14 @@ function wpmem_do_wp_register_form()
 					
 				case( 'textarea' ):
 					echo '<textarea name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="textarea">'; 
-					echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? esc_textarea( $_POST[ $wpmem_fields[$row][2] ] ) : '';
+					echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? esc_textarea( $_POST[ $wpmem_fields[$row][2] ] ) : ''; 
 					echo '</textarea>';		
 					break;
 
 				default:
-					echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? esc_attr( $_POST[ $wpmem_fields[$row][2] ] ) : ''; echo '" size="25" />';
+					echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; 
+					echo ( $_POST ) ? esc_attr( $_POST[ $wpmem_fields[$row][2] ] ) : ''; 
+					echo '" size="25" />';
 					break;
 				}
 					

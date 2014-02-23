@@ -51,7 +51,7 @@ function wpmem_admin_fields()
 			if( $show ) {   
 				$show_field = '
 					<tr>
-						<th><label>' . $wpmem_fields[$row][1] . '</label></th>
+						<th><label>' . __( $wpmem_fields[$row][1], 'wp-members' ) . '</label></th>
 						<td>';
 				$val = htmlspecialchars( get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' ) );
 				if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {

@@ -23,3 +23,7 @@ p.wpmem-checkbox {
 label[for=tos] {
 	font-size: 12px;
 }
+
+.req {
+	color: #f00;
+}

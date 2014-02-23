@@ -43,75 +43,48 @@ function wpmem_do_install()
 		
 		$wpmem_settings = array( WPMEM_VERSION, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // using update_option to allow for forced update
-			
-		$wpmem_fields_options_arr = array(
-			//     order,   label(localized),      				optionname,   type, display, required, native, checked value, checked by default
-			array( 1,  __( 'First Name', 'wp-members' ),         'first_name', 'text',     'y', 'y', 'y' ),	
-			array( 2,  __( 'Last Name', 'wp-members' ),          'last_name',  'text',     'y', 'y', 'y' ),
-			array( 3,  __( 'Address 1', 'wp-members' ),          'addr1',      'text',     'y', 'y', 'n' ),
-			array( 4,  __( 'Address 2', 'wp-members' ),          'addr2',      'text',     'y', 'n', 'n' ),	
-			array( 5,  __( 'City', 'wp-members' ),               'city',       'text',     'y', 'y', 'n' ),
-			array( 6,  __( 'State', 'wp-members' ),              'thestate',   'text',     'y', 'y', 'n' ),
-			array( 7,  __( 'Zip', 'wp-members' ),                'zip',        'text',     'y', 'y', 'n' ),
-			array( 8,  __( 'Country', 'wp-members' ),            'country',    'text',     'y', 'y', 'n' ),
-			array( 9,  __( 'Day Phone', 'wp-members' ),          'phone1',     'text',     'y', 'y', 'n' ),
-			array( 10, __( 'Email', 'wp-members' ),              'user_email', 'text',     'y', 'y', 'y' ),
-			array( 11, __( 'Website', 'wp-members' ),            'user_url',   'text',     'n', 'n', 'y' ),
-			array( 12, __( 'AIM', 'wp-members' ),                'aim',        'text',     'n', 'n', 'y' ),
-			array( 13, __( 'Yahoo IM', 'wp-members' ),           'yim',        'text',     'n', 'n', 'y' ),
-			array( 14, __( 'Jabber/Google Talk', 'wp-members' ), 'jabber',     'text',     'n', 'n', 'y' ),
-			array( 15, __( 'Biographical Info', 'wp-members' ),  'description','textarea', 'n', 'n', 'y' ),
-			array( 16, __( 'TOS', 'wp-members' ),                'tos',        'checkbox', 'n', 'n', 'n', 'agree', 'n' )
-			
-			/* how to add checkboxes
-				- uncomment the lines below
-				- 2 examples are provided
-					- checkbox that is checked by default
-					- checkbox that is unchecked by default
-					(neither are required. that can be managed in the admin panel)
-				- checkboxes do not need to come at the end, you can put them anywhere in the above
-			*/ 
-			/*
-			, 
-			array( 17, 'checked by default', 'checkedbydefault', 'checkbox', 'y', 'n', 'n', 'checked value', 'y' ),
-			array( 18, 'unchecked',          'unchecked',        'checkbox', 'y', 'n', 'n', 'checked value', 'n' )
-			*/
-			/* how to add dropdowns
-				- uncomment the lines below
-				- commas separating arrays are included but depending on what you've changed above, you may need to double check this
-				- this installs a select dropdown with some examples of selectable and non-selectable options
-				- The "|" character separates the displayed item and the item's value
-			*/
-			/*
-			,
-			array( 19, 'dropdown select', 'dropdown_select', 'select', 'y', 'n', 'n', 
-				array( '<---- Select One ---->|', 'Choice One|choice1', 'Choice Two|choice_two', '|', 'Example After Spacer|after_spacer' )
-			)
-			*/
-		);
 		
+		// order, label, optionname, type, display, required, native, checked value, checked by default
+		$wpmem_fields_options_arr = array(
+			array( 1,  'First Name',         'first_name', 'text',     'y', 'y', 'y' ),	
+			array( 2,  'Last Name',          'last_name',  'text',     'y', 'y', 'y' ),
+			array( 3,  'Address 1',          'addr1',      'text',     'y', 'y', 'n' ),
+			array( 4,  'Address 2',          'addr2',      'text',     'y', 'n', 'n' ),	
+			array( 5,  'City',               'city',       'text',     'y', 'y', 'n' ),
+			array( 6,  'State',              'thestate',   'text',     'y', 'y', 'n' ),
+			array( 7,  'Zip',                'zip',        'text',     'y', 'y', 'n' ),
+			array( 8,  'Country',            'country',    'text',     'y', 'y', 'n' ),
+			array( 9,  'Day Phone',          'phone1',     'text',     'y', 'y', 'n' ),
+			array( 10, 'Email',              'user_email', 'text',     'y', 'y', 'y' ),
+			array( 11, 'Website',            'user_url',   'text',     'n', 'n', 'y' ),
+			array( 12, 'AIM',                'aim',        'text',     'n', 'n', 'y' ),
+			array( 13, 'Yahoo IM',           'yim',        'text',     'n', 'n', 'y' ),
+			array( 14, 'Jabber/Google Talk', 'jabber',     'text',     'n', 'n', 'y' ),
+			array( 15, 'Biographical Info',  'description','textarea', 'n', 'n', 'y' ),
+			array( 16, 'TOS',                'tos',        'checkbox', 'n', 'n', 'n', 'agree', 'n' )
+		);
 		update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
 		
 		$wpmem_dialogs_arr = array(
-			__( "This content is restricted to site members.  If you are an existing user, please login.  New users may register below.", 'wp-members' ),
-			__( "Sorry, that username is taken, please try another.", 'wp-members' ),
-			__( "Sorry, that email address already has an account.<br />Please try another.", 'wp-members' ),
-			__( "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.", 'wp-members' ),
-			__( "Your information was updated!", 'wp-members' ),
-			__( "Passwords did not match.<br /><br />Please try again.", 'wp-members' ),
-			__( "Password successfully changed!<br /><br />You will need to re-login with your new password.", 'wp-members' ),
-			__( "Either the username or email address do not exist in our records.", 'wp-members' ),
-			__( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password.", 'wp-members' )
+			"This content is restricted to site members.  If you are an existing user, please login.  New users may register below.",
+			"Sorry, that username is taken, please try another.",
+			"Sorry, that email address already has an account.<br />Please try another.",
+			"Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.",
+			"Your information was updated!",
+			"Passwords did not match.<br /><br />Please try again.",
+			"Password successfully changed!",
+			"Either the username or email address do not exist in our records.",
+			"Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account."
 		);
 		
 		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
-				
+
 		append_tos( 'new' );
-		
+
 		append_email();
 		
 		// if it's a new install, use the Twenty Twelve stylesheet
-		update_option( 'wpmembers_style', WPMEM_DIR . 'css/wp-members-2014.css', '', 'yes' );
+		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
 		
 	} else {
 	
@@ -208,7 +181,7 @@ function append_tos( $upgrade )
 			$x = count( $fields );
 			$x = $x + 1;
 
-			$fields[] = array( $x, __( 'TOS', 'wp-members' ), 'tos', 'checkbox', 'y', 'y', 'n', 'agree', 'n' );
+			$fields[] = array( $x, 'TOS', 'tos', 'checkbox', 'y', 'y', 'n', 'agree', 'n' );
 
 			update_option( 'wpmembers_fields', $fields );
 		}
@@ -356,4 +329,5 @@ Please do not reply to this address';
 	
 	return true;
 }
-?>
+
+/** End of File **/

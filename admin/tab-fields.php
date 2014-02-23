@@ -257,7 +257,7 @@ function wpmem_update_fields( $action )
  * @param string $field_id The option name of the field to be edited
  */
 function wpmem_fields_edit_link( $field_id ) {
-	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">edit</a>';
+	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">' . __( 'edit', 'wp-members' ) . '</a>';
 }
 
 
@@ -432,7 +432,7 @@ function wpmem_a_field_table( $wpmem_fields )
 						$can_delete = ( $wpmem_fields[$row][2] == 'user_nicename' || $wpmem_fields[$row][2] == 'display_name' || $wpmem_fields[$row][2] == 'nickname' ) ? 'y' : 'n';
 							if( ( $can_delete == 'y' ) || $wpmem_fields[$row][6] != 'y' ) {  ?><input type="checkbox" name="<?php echo "del_".$wpmem_fields[$row][2]; ?>" value="delete" /> <?php _e( 'Delete', 'wp-members' ); } ?></td>
 						<td width="15%"><?php 
-							echo $wpmem_fields[$row][1];
+							_e( $wpmem_fields[$row][1], 'wp-members' );
 							if( $wpmem_fields[$row][5] == 'y' ){ ?><font color="red">*</font><?php }
 							?>
 						</td>
@@ -460,7 +460,7 @@ function wpmem_a_field_table( $wpmem_fields )
 				} ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
-						<td><i>Registration Date</i></td>
+						<td><i><?php _e( 'Registration Date', 'wp-members' ); ?></i></td>
 						<td><i>user_registered</i></td>
 						<td colspan="4">&nbsp;</td>
 						<td><?php _e( 'native', 'wp-members' ); ?></td>
@@ -473,7 +473,7 @@ function wpmem_a_field_table( $wpmem_fields )
 				<?php if( WPMEM_MOD_REG == 1 ) { ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
-						<td><i>Active</i></td>
+						<td><i><?php _e( 'Active', 'wp-members' ); ?></i></td>
 						<td><i>active</i></td>
 						<td colspan="5">&nbsp;</td>
 						<td align="center">
@@ -485,7 +485,7 @@ function wpmem_a_field_table( $wpmem_fields )
 				<?php } ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
-						<td><i>Registration IP</i></td>
+						<td><i><?php _e( 'Registration IP', 'wp-members' ); ?></i></td>
 						<td><i>wpmem_reg_ip</i></td>
 						<td colspan="5">&nbsp;</td>
 						<td align="center">

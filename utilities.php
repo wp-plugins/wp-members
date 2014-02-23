@@ -7,13 +7,23 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2013
+ * @copyright 2006-2014
+ *
+ * Functions included:
+ * * wpmem_create_formfield
+ * * wpmem_selected
+ * * wpmem_chk_qstr
+ * * wpmem_generatePassword
+ * * wpmem_texturize
+ * * wpmem_enqueue
+ * * wpmem_do_excerpt
+ * * wpmem_test_shortcode
  */
 
 
@@ -38,30 +48,30 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 
 	case "checkbox":
 		if( $class = 'textbox' ) { $class = "checkbox"; }
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected( $value, $valtochk, $type ) . " />\n";
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected( $value, $valtochk, $type ) . " />";
 		break;
 
 	case "text":
 		$value = stripslashes( esc_attr( $value ) );
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />\n";
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />";
 		break;
 
 	case "textarea":
 		$value = stripslashes( esc_textarea( $value ) );
-		if( $class = 'textbox' ) { $class = "textarea"; }
+		if( $class == 'textbox' ) { $class = "textarea"; }
 		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
 		break;
 
 	case "password":
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />\n";
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />";
 		break;
 
 	case "hidden":
-		$str = "<input name=\"$name\" type=\"$type\" value=\"$value\" />\n";
+		$str = "<input name=\"$name\" type=\"$type\" value=\"$value\" />";
 		break;
 
 	case "option":
-		$str = "<option value=\"$value\" " . wpmem_selected( $value, $valtochk, 'select' ) . " >$name</option>\n";
+		$str = "<option value=\"$value\" " . wpmem_selected( $value, $valtochk, 'select' ) . " >$name</option>";
 		break;
 
 	case "select":
@@ -71,7 +81,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 			$pieces = explode( '|', $option );
 			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">$pieces[0]</option>\n";
 		}
-		$str = $str . "</select>\n";
+		$str = $str . "</select>";
 		break;
 
 	}
@@ -94,7 +104,7 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  */
 function wpmem_selected( $value, $valtochk, $type=null )
 {
-	$issame = ( $type == 'select' ) ? 'selected' : 'checked';
+	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
 	if( $value == $valtochk ){ return $issame; }
 }
 endif;
@@ -180,11 +190,10 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  * @uses wp_register_style
  * @uses wp_enqueue_style
  */
-function wpmem_enqueue_style()
-{		
+function wpmem_enqueue_style() {		
 	$css_path = ( WPMEM_CSSURL != null ) ? WPMEM_CSSURL : WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ), "", plugin_basename( __FILE__ ) ) . "css/wp-members.css";
-	wp_register_style('wp-members', $css_path);
-	wp_enqueue_style( 'wp-members');
+	wp_register_style( 'wp-members', $css_path );
+	wp_enqueue_style ( 'wp-members' );
 }
 endif;
 
@@ -233,7 +242,7 @@ function wpmem_do_excerpt( $content )
 	/** if there is no 'more' link and auto_ex is on **/
 	if( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
 		// the default $more_link_text
-		$more_link_text = '(more&hellip;)';
+		$more_link_text = __( '(more&hellip;)' );
 		// the default $more_link
 		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
 		// apply the_content_more_link filter if one exists (will match up all 'more' link text)
@@ -247,6 +256,38 @@ function wpmem_do_excerpt( $content )
 	
 	/** return the excerpt */
 	return $content;
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_test_shortcode' ) ):
+/**
+ * Tests $content for the presence of the [wp-members] shortcode
+ *
+ * @since 2.6
+ *
+ * @global string $post
+ * @uses   get_shortcode_regex
+ * @return bool
+ *
+ * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
+ */
+function wpmem_test_shortcode( $content, $tag )
+{
+	// @todo - shift to shortcode_exists, lose global
+	//if ( shortcode_exists( $tag ) ) {
+	global $shortcode_tags; 
+	if( array_key_exists( $tag, $shortcode_tags ) ) {
+		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
+		if ( empty( $matches ) )
+			return false;
+
+		foreach ( $matches as $shortcode ) {
+			if ( $tag === $shortcode[2] )
+				return true;
+		}
+	}
+	return false;
 }
 endif;
 

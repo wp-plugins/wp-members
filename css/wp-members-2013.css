@@ -5,13 +5,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013 Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 /*	
@@ -36,7 +36,6 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	background-color: rgba(247, 245, 231, 0.7);
 	border: 2px solid rgb(195, 192, 171);
 }
-.wpmem_msg p { height:0px; }
 
 
 /* Sidebar Login Widget */

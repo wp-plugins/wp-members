@@ -49,10 +49,11 @@ function wpmem_user_profile()
 			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos && $chk_pass ) { 
 			
 				// if there are any required fields, set a toggle to show indicator in last line
-				if( $wpmem_fields[$row][5] == 'y' ) { $has_req = true; } ?>  
+				//if( $wpmem_fields[$row][5] == 'y' ) { $has_req = true; } 
+				$has_req = ( $wpmem_fields[$row][5] == 'y' ) ? true : ( isset( $has_req ) ) ? $has_req : ''; ?>  
 				
 				<tr>
-					<th><label><?php echo $wpmem_fields[$row][1]; ?></label></th>
+					<th><label><?php _e( $wpmem_fields[$row][1], 'wp-members' ); ?></label></th>
 					<td><?php
 					
 						$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
@@ -99,9 +100,12 @@ function wpmem_profile_update()
 			$chk = '';
 			if( $wpmem_fields[$row][5] == "n" || ( ! $wpmem_fields[$row][5] ) ) { $chk = 'ok'; }
 			if( $wpmem_fields[$row][5] == "y" && $_POST[$wpmem_fields[$row][2]] != '' ) { $chk = 'ok'; }
-
+			
+			// check for field value
+			$field_val = ( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? $_POST[$wpmem_fields[$row][2]] : '';
+			
 			if( $chk == 'ok' ) { 
-				update_user_meta( $user_id, $wpmem_fields[$row][2], sanitize_text_field( $_POST[$wpmem_fields[$row][2]] ) ); 
+				update_user_meta( $user_id, $wpmem_fields[$row][2], $field_val ); 
 			} 
 		}
 	} 

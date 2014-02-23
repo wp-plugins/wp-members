@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.8.10
+Version:     2.9.0
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -36,17 +36,20 @@ License:     GPLv2
 /*
 	A NOTE ABOUT LICENSE:
 
-	While this plugin is released as free and open-source under the GPL2
+	While this plugin is freely available and open-source under the GPL2
 	license, that does not mean it is "public domain." You are free to modify
 	and redistribute as long as you comply with the license. Any derivative 
 	work MUST be GPL licensed and available as open source.  You also MUST give 
 	proper attribution to the original author, copyright holder, and trademark
 	owner.  This means you cannot change two lines of code and claim copyright 
-	of the entire work as your own.  If you are unsure or have questions about 
-	how a derivative work you are developing complies with the license, 
-	copyright, trademark, or if you do not understand the difference between
+	of the entire work as your own.  The GPL2 license requires that if you
+	modify this code, you must clearly indicate what section(s) you have
+	modified and you may only claim copyright of your modifications and not
+	the body of work.  If you are unsure or have questions about how a 
+	derivative work you are developing complies with the license, copyright, 
+	trademark, or if you do not understand the difference between
 	open source and public domain, contact the original author at:
-	plugins@butlerblog.com.
+	http://rocketgeek.com/contact/.
 
 
 	INSTALLATION PROCEDURE:
@@ -56,125 +59,172 @@ License:     GPLv2
 */
 
 
-/**
- * CONSTANTS, ACTIONS, HOOKS, FILTERS & INCLUDES
- */
+/** initial constants **/
+define( 'WPMEM_VERSION', '2.9.0' );
+define( 'WPMEM_DEBUG', false );
+
+/** initialize the plugin **/
+add_action( 'after_setup_theme', 'wpmem_init', 10 );
+
+/** install the pluign **/
+register_activation_hook( __FILE__, 'wpmem_install' );
 
 
 /**
- * start with any potential translation
+ * Initialize WP-Members.
+ *
+ * The initialization function contains much of what was previously just
+ * loaded in the main plugin file. It has been moved into this function
+ * in order to allow action hooks for loading the plugin and initializing
+ * its features and options.
+ *
+ * @since 2.9.0
  */
-load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+function wpmem_init()
+{
+	/**
+	 * Action for pre-initialization of plugin options.
+	 *
+	 * @since 2.9.0
+	 */
+	do_action( 'wpmem_pre_init' );
+	
+	/**
+	 * start with any potential translation
+	 */
+	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 
-/**
- * load options
- */
-$wpmem_settings = get_option( 'wpmembers_settings' );
+	/**
+	 * load options
+	 */
+	$wpmem_settings = get_option( 'wpmembers_settings' );
+
+	/**
+	 * Filter the options before they are loaded into constants.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array $wpmem_settings An array of the WP-Members settings.
+	 */
+	$wpmem_settings = apply_filters( 'wpmem_settings', $wpmem_settings );
+
+	/**
+	 * define constants based on option settings
+	 */
+	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1]  ) : '';
+	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2]  ) : '';
+	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings[3]  ) : '';
+	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]  ) : '';
+	( ! defined( 'WPMEM_MOD_REG'      ) ) ? define( 'WPMEM_MOD_REG',      $wpmem_settings[5]  ) : '';
+	( ! defined( 'WPMEM_CAPTCHA'      ) ) ? define( 'WPMEM_CAPTCHA',      $wpmem_settings[6]  ) : '';
+	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem_settings[7]  ) : '';
+	( ! defined( 'WPMEM_USE_EXP'      ) ) ? define( 'WPMEM_USE_EXP',      $wpmem_settings[9]  ) : '';
+	( ! defined( 'WPMEM_USE_TRL'      ) ) ? define( 'WPMEM_USE_TRL',      $wpmem_settings[10] ) : '';
+	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem_settings[11] ) : '';
+
+	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) ) : '';
+	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) ) : '';
+
+	( ! defined( 'WPMEM_DIR'  ) ) ? define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) ) : '';
+	( ! defined( 'WPMEM_PATH' ) ) ? define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) ) : '';
 
 
-/**
- * define constants based on option settings
- */
-define( 'WPMEM_VERSION',      '2.8.10' );
-define( 'WPMEM_DEBUG',        false );
-
-// define('WPMEM_VERSION',    $wpmem_settings[0]  );
-define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1]  );
-define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2]  );
-define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings[3]  );
-define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]  );
-define( 'WPMEM_MOD_REG',      $wpmem_settings[5]  );
-define( 'WPMEM_CAPTCHA',      $wpmem_settings[6]  );
-define( 'WPMEM_NO_REG',       $wpmem_settings[7]  );
-define( 'WPMEM_OLD_FORMS',    $wpmem_settings[8]  );
-define( 'WPMEM_USE_EXP',      $wpmem_settings[9]  );
-define( 'WPMEM_USE_TRL',      $wpmem_settings[10] );
-define( 'WPMEM_IGNORE_WARN',  $wpmem_settings[11] );
-
-define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) );
-define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) );
-
-define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
-define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
+	/**
+	 * define the stylesheet
+	 */
+	$wpmem_style = get_option( 'wpmembers_cssurl', null );
+	$wpmem_style = ( ! $wpmem_style ) ? get_option( 'wpmembers_style', null ) : $wpmem_style;
+	define( 'WPMEM_CSSURL', $wpmem_style );
 
 
-/**
- * define the stylesheet
- */
-$wpmem_style = get_option( 'wpmembers_cssurl', null );
-$wpmem_style = ( ! $wpmem_style ) ? get_option( 'wpmembers_style', null ) : $wpmem_style;
-define( 'WPMEM_CSSURL', $wpmem_style );
+	/**
+	 * Filter the location and name of the pluggable file.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string The path to wp-members-pluggable.php.
+	 */
+	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
+	
+	/**
+	 * preload any custom functions, if available
+	 */
+	if( file_exists( $wpmem_pluggable ) ) {
+		include( $wpmem_pluggable );
+	}
 
 
-/**
- * preload any custom functions, if available
- */
-if( file_exists( WP_PLUGIN_DIR . '/wp-members-pluggable.php' ) ) {
-	include( WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
-}
+	/**
+	 * preload the expiration module, if available
+	 */
+	$exp_module = ( in_array( 'wp-members-expiration/module.php', get_option( 'active_plugins' ) ) ) ? true : false;
+	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
 
-/**
- * preload the expiration module, if available
- */
-if( in_array( 'wp-members-expiration/module.php' , get_option( 'active_plugins' ) ) ) { 
-	define( 'WPMEM_EXP_MODULE', true ); 
-} else {
-	define( 'WPMEM_EXP_MODULE', false ); 
-}
+	include_once( 'wp-members-core.php' );
+
+	add_action( 'init', 'wpmem' );                           // runs before headers are sent
+	add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // initializes the widget
+	add_action( 'wp_head', 'wpmem_head' );                   // anything added to header
+	add_action( 'admin_init', 'wpmem_chk_admin' );           // check user role to load correct dashboard
+	add_action( 'admin_menu', 'wpmem_admin_options' );       // adds admin menu
+	add_action( 'user_register', 'wpmem_wp_reg_finalize' );  // handles wp native registration
+	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
+
+	add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // no password reset for non-activated users
+	add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
+	add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds fields to the default wp registration
+	add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 ); // native registration validation
 
 
-/**
- * load the core
- */
-include_once( 'wp-members-core.php' );
+	/**
+	 * add the wp-members shortcodes
+	 */
+	add_shortcode( 'wp-members',      'wpmem_shortcode' );
+	add_shortcode( 'wpmem_field',     'wpmem_shortcode' );
+	add_shortcode( 'wpmem_logged_in', 'wpmem_shortcode' );
 
 
-/**
- * actions and filters
- */
-add_action( 'init', 'wpmem' );                           // runs the wpmem() function right away, allows for setting cookies
-add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // if you are using widgets, this initializes the widget
-add_action( 'wp_head', 'wpmem_head' );                   // runs functions for the head
-add_action( 'admin_init', 'wpmem_chk_admin' );
-add_action( 'admin_menu', 'wpmem_admin_options' );
-add_action( 'user_register', 'wpmem_wp_reg_finalize' );
-add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' );
-
-add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // prevents non-activated users from resetting password via wp-login
-add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
-add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds wp-members fields to the default wp registration form
-add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 );
-
-
-/**
- * add the wp-members shortcode
- */
-add_shortcode( 'wp-members', 'wpmem_shortcode' );
-
-
-/**
- * load the stylesheet if using the new forms
- */
-if( WPMEM_OLD_FORMS != 1 ) {
+	/**
+	 * load the stylesheet if using the new forms
+	 */
 	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
+
+
+	/**
+	 * if registration is moderated, check for activation (blocks backend login by non-activated users)
+	 */
+	if( WPMEM_MOD_REG == 1 ) { 
+		add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
+	}
+	
+	/**
+	 * Action at the end of initialization of plugin options.
+	 *
+	 * @since 2.9.0
+	 */
+	do_action( 'wpmem_after_init' );
 }
 
 
 /**
- * if registration is moderated, check for activation (blocks backend login by non-activated users)
- */
-if( WPMEM_MOD_REG == 1 ) { 
-	add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
-}
-
-
-/**
- * scripts for admin panels only load for admins - makes the front-end of the plugin lighter
+ * Scripts for admin panels.
+ *
+ * Determines which scripts to load and actions to use based on the 
+ * current users capabilities.
+ *
+ * @since 2.5.2
  */
 function wpmem_chk_admin()
 {
+	/**
+	 * Action for initialization of admin options.
+	 *
+	 * @since 2.9.0
+	 */
+	do_action( 'wpmem_pre_admin_init' );
+	
 	// if user has a role that can edit users, load the admin functions
 	if( current_user_can( 'edit_users' ) ) { 
 		require_once( 'admin/admin.php' );
@@ -198,27 +248,33 @@ function wpmem_chk_admin()
 		add_filter( 'manage_pages_columns', 'wpmem_page_columns' );
 		add_action( 'manage_pages_custom_column', 'wpmem_page_columns_content', 10, 2 );
 	}
+	
+	/**
+	 * Action at the end of admin options.
+	 *
+	 * @since 2.9.0
+	 */
+	do_action( 'wpmem_after_admin_init' );
 }
 
 
 /**
- * admin panel only loads if user has manage_options capabilities
+ * Adds the plugin options page and JavaScript.
+ *
+ * @since 2.5.2
  */
-function wpmem_admin_options()
-{
+function wpmem_admin_options() {
 	$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
-	              //add_users_page   ( 'WP-Members', 'WP-Members', 'create_users',   'wpmem-users', 'wpmem_admin_users' );
-	               add_action       ( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
-				  //add_action		( 'load-'.$plugin_page, 'wpmem_load_admin_help' );
+	add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 }
 
 
 /**
- * install scripts only load if we are installing, makes the plugin lighter
+ * Install the plugin options.
+ *
+ * @since 2.5.2
  */
-register_activation_hook( __FILE__, 'wpmem_install' );
-function wpmem_install()
-{
+function wpmem_install() {
 	require_once( 'wp-members-install.php' );
 	wpmem_do_install();
 }

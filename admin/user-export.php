@@ -16,6 +16,13 @@
  */
 
 
+ /**
+  * Exports selected users.
+  *
+  * @since 2.8.7
+  *
+  * @param array $user_arr The array of users.
+  */
 function wpmem_export_selected( $user_arr )
 {
 	/**
@@ -34,6 +41,7 @@ function wpmem_export_selected( $user_arr )
 	header( "Content-Disposition: attachment; filename=\"$filename\"" );
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
 
+	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
 	// get the fields
 	$wpmem_fields = get_option( 'wpmembers_fields' );
@@ -69,8 +77,9 @@ function wpmem_export_selected( $user_arr )
 		
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 			
-			if( $wpmem_fields[$row][2] == 'user_email' ) {
-				$data.= '"' . $user_info->user_email . '",';
+			$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
+			if( in_array( $wpmem_fields[$row][2], $wp_user_fields ) ) {
+				$data.= '"' . $user_info->$wpmem_fields[$row][2] . '",';
 			} else {
 				$data.= '"' . get_user_meta( $user, $wpmem_fields[$row][2], true ) . '",';
 			}
@@ -116,7 +125,11 @@ function wpmem_export_selected( $user_arr )
 }
 
 
-
+/**
+ * Exports all users
+ *
+ * @since 2.8.7
+ */
 function wpmem_export_all_users()
 {
 	/**
@@ -140,7 +153,8 @@ function wpmem_export_all_users()
 	header( "Content-Disposition: attachment; filename=" . $filename );
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
 
-
+	echo "\xEF\xBB\xBF"; // UTF-8 BOM
+	
 	/**
 	 * get the fields
 	 */
@@ -181,9 +195,10 @@ function wpmem_export_all_users()
 		$data.= '"' . $user->ID . '","' . $user->user_login . '",';
 		
 		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		
-			if( $wpmem_fields[$row][2] == 'user_email' ) {
-				$data.= '"' . $user->user_email . '",';
+			
+			$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
+			if( in_array( $wpmem_fields[$row][2], $wp_user_fields ) ) {
+				$data.= '"' . $user->$wpmem_fields[$row][2] . '",';
 			} else {
 				$data.= '"' . get_user_meta( $user->ID, $wpmem_fields[$row][2], true ) . '",';
 			}
