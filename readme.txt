@@ -140,7 +140,7 @@ Major updates
 * Form functions moved from wp-members-dialogs.php to new file forms.php
 * Sidebar login form also rebuilt in the same way the login and register forms were changed.
 * Legacy (old table based) forms completely removed in 2.9
-* Updates to error and dialog messages – removed unnecessary html tags (<p>,<b>)
+* Updates to error and dialog messages, removed unnecessary html tags
 
 Changes in wp-members-core.php
 
@@ -152,8 +152,8 @@ Changes in wp-members-core.php
 
 Changes in wp-members.php
 
-* a pretty major overhaul of this file. Moved all but four declarations that weren’t already in functions into the init function. Only two constants are declared before the function. This initialization comes after the theme is setup, so pre-initilization needs, such as loading pluggable functions can be declared in the theme’s functions.php file. Pluggable functions do not need to be loaded only from the wp-members-pluggable.php file.
-* The file name of the wp-members-pluggable.php file is loaded in a filter hook – wpmem_plugins_file, so you could call it something else or load it from another location.
+* a pretty major overhaul of this file. Moved all but four declarations that weren't already in functions into the init function. Only two constants are declared before the function. This initialization comes after the theme is setup, so pre-initilization needs, such as loading pluggable functions can be declared in the theme's functions.php file. Pluggable functions do not need to be loaded only from the wp-members-pluggable.php file.
+* The file name of the wp-members-pluggable.php file is loaded in a filter hook, wpmem_plugins_file, so you could call it something else or load it from another location.
 * New action hooks: wpmem_pre_init, wpmem_after_init, wpmem_pre_admin_init, wpmem_after_admin_init
 * New filter hook: wpmem_settings
 
@@ -163,8 +163,8 @@ Miscellaneous Changes
 * Updates to the options tab to better group options
 * Updates to native (wp-login.php) registration to include require field indication
 * Review of output, localized a few missed strings
-* Implementation of changes in localization of field names. English values are now stored in the db (except for custom fields – that would be whatever language the user creates the field as). Fields are then translated when displayed, rather than stored as translated strings.
-* Updated user profile to fix some issues with checkbox and required fields – users.php
+* Implementation of changes in localization of field names. English values are now stored in the db (except for custom fields that would be whatever language the user creates the field as). Fields are then translated when displayed, rather than stored as translated strings.
+* Updated user profile to fix some issues with checkbox and required fields in users.php
 * Updated user export to include wp_users table fields user_url, user_nicename, and display_name fields
 * Code cleanup in wpmem_block function
 * Updated autoexcerpt function
