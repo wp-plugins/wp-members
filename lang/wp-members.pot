@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WP-Members package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.9.0\n"
+"Project-Id-Version: WP-Members 2.9.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2014-03-10 18:43:50+00:00\n"
+"POT-Creation-Date: 2014-03-10 22:55:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,23 +12,23 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin/admin.php:59 admin/admin.php:128
+#: admin/admin.php:60 admin/admin.php:129
 msgid "Settings"
 msgstr ""
 
-#: admin/admin.php:188
+#: admin/admin.php:187
 msgid "Options"
 msgstr ""
 
-#: admin/admin.php:189
+#: admin/admin.php:188
 msgid "Fields"
 msgstr ""
 
-#: admin/admin.php:190
+#: admin/admin.php:189
 msgid "Dialogs"
 msgstr ""
 
-#: admin/admin.php:191
+#: admin/admin.php:190
 msgid "Emails"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgid "Yes"
 msgstr ""
 
 #: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:57
-#: admin/tab-fields.php:38 admin/tab-options.php:33
+#: admin/tab-fields.php:38 admin/tab-options.php:36
 msgid "Need help?"
 msgstr ""
 
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Choose Theme"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (WP-Members 2.9.0)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP-Members 2.9.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin/tab-captcha.php:69
 msgid "WP-Members"
@@ -253,8 +253,8 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: admin/tab-captcha.php:80 admin/tab-options.php:83 admin/tab-options.php:94
-#: admin/tab-options.php:104 admin/tab-options.php:118
+#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
+#: admin/tab-options.php:107 admin/tab-options.php:121
 msgid "Optional"
 msgstr ""
 
@@ -564,157 +564,165 @@ msgstr ""
 msgid "Update Fields"
 msgstr ""
 
-#: admin/tab-options.php:44
+#: admin/tab-options.php:47
 msgid "Manage Options"
 msgstr ""
 
-#: admin/tab-options.php:50
+#: admin/tab-options.php:53
 msgid "Block Posts by default"
 msgstr ""
 
-#: admin/tab-options.php:50
+#: admin/tab-options.php:53
 msgid ""
 "Note: Posts can still be individually blocked or unblocked at the article "
 "level"
 msgstr ""
 
-#: admin/tab-options.php:51
+#: admin/tab-options.php:54
 msgid "Block Pages by default"
 msgstr ""
 
-#: admin/tab-options.php:51
+#: admin/tab-options.php:54
 msgid ""
 "Note: Pages can still be individually blocked or unblocked at the article "
 "level"
 msgstr ""
 
-#: admin/tab-options.php:52
+#: admin/tab-options.php:55
 msgid "Show excerpts"
 msgstr ""
 
-#: admin/tab-options.php:52
+#: admin/tab-options.php:55
 msgid ""
 "Shows excerpted content above the login/registration on both Posts and Pages"
 msgstr ""
 
-#: admin/tab-options.php:53
+#: admin/tab-options.php:56
 msgid "Notify admin"
 msgstr ""
 
-#: admin/tab-options.php:53
-msgid "Sends email to admin for each new registration?"
+#: admin/tab-options.php:56
+msgid "Notify %s for each new registration? %s"
 msgstr ""
 
-#: admin/tab-options.php:54
+#: admin/tab-options.php:57
 msgid "Moderate registration"
 msgstr ""
 
-#: admin/tab-options.php:54
+#: admin/tab-options.php:57
 msgid "Holds new registrations for admin approval"
 msgstr ""
 
-#: admin/tab-options.php:55
+#: admin/tab-options.php:58
 msgid "Use reCAPTCHA"
 msgstr ""
 
-#: admin/tab-options.php:55
+#: admin/tab-options.php:58
 msgid "Turns on CAPTCHA for registration"
 msgstr ""
 
-#: admin/tab-options.php:56
+#: admin/tab-options.php:59
 msgid "Hide registration"
 msgstr ""
 
-#: admin/tab-options.php:56
+#: admin/tab-options.php:59
 msgid "Removes the registration form from blocked content"
 msgstr ""
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:61
 msgid "Time-based expiration"
 msgstr ""
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:61
 msgid "Allows for access to expire"
 msgstr ""
 
-#: admin/tab-options.php:59
+#: admin/tab-options.php:62
 msgid "Trial period"
 msgstr ""
 
-#: admin/tab-options.php:59
+#: admin/tab-options.php:62
 msgid "Allows for a trial period"
 msgstr ""
 
-#: admin/tab-options.php:60
+#: admin/tab-options.php:63
 msgid "Ignore warning messages"
 msgstr ""
 
-#: admin/tab-options.php:60
+#: admin/tab-options.php:63
 msgid "Ignores WP-Members warning messages in the admin panel"
 msgstr ""
 
-#: admin/tab-options.php:76
+#: admin/tab-options.php:79
 msgid "Attribution"
 msgstr ""
 
-#: admin/tab-options.php:78
+#: admin/tab-options.php:81
 msgid ""
 "Attribution is appreciated!  Display \"powered by\" link on register form?"
 msgstr ""
 
-#: admin/tab-options.php:82
+#: admin/tab-options.php:85
 msgid "Auto Excerpt:"
 msgstr ""
 
-#: admin/tab-options.php:83
+#: admin/tab-options.php:86
 msgid "Number of words in excerpt:"
 msgstr ""
 
-#: admin/tab-options.php:83
+#: admin/tab-options.php:86
 msgid "Automatically creates an excerpt"
 msgstr ""
 
-#: admin/tab-options.php:85
+#: admin/tab-options.php:88
 msgid "Pages"
 msgstr ""
 
-#: admin/tab-options.php:89
+#: admin/tab-options.php:92
 msgid "User Profile Page:"
 msgstr ""
 
-#: admin/tab-options.php:99
+#: admin/tab-options.php:95
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:102
 msgid "Register Page:"
 msgstr ""
 
-#: admin/tab-options.php:107
+#: admin/tab-options.php:105
+msgid "For creating a register link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:110
 msgid "Stylesheet"
 msgstr ""
 
-#: admin/tab-options.php:109
+#: admin/tab-options.php:112
 msgid "Stylesheet:"
 msgstr ""
 
-#: admin/tab-options.php:112
+#: admin/tab-options.php:115
 msgid "Select a stylesheet or specify a custom stylesheet below"
 msgstr ""
 
-#: admin/tab-options.php:117
+#: admin/tab-options.php:120
 msgid "Custom Stylesheet:"
 msgstr ""
 
-#: admin/tab-options.php:122
+#: admin/tab-options.php:125
 msgid "Update Settings"
 msgstr ""
 
-#: admin/tab-options.php:232
+#: admin/tab-options.php:235
 msgid "WP-Members settings were updated"
 msgstr ""
 
-#: admin/tab-options.php:276
+#: admin/tab-options.php:285
 msgid "Select a page"
 msgstr ""
 
-#: admin/tab-options.php:284
+#: admin/tab-options.php:293
 msgid "USE CUSTOM URL BELOW"
 msgstr ""
 
@@ -742,23 +750,28 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: admin/user-profile.php:41
+#: admin/user-profile.php:46
 msgid "WP-Members Additional Fields"
 msgstr ""
 
-#: admin/user-profile.php:76
+#: admin/user-profile.php:58 native-registration.php:35
+#: native-registration.php:126 users.php:57
+msgid "(required)"
+msgstr ""
+
+#: admin/user-profile.php:91
 msgid "Activate this user?"
 msgstr ""
 
-#: admin/user-profile.php:81
+#: admin/user-profile.php:96
 msgid "Reactivate this user?"
 msgstr ""
 
-#: admin/user-profile.php:86
+#: admin/user-profile.php:101
 msgid "Deactivate this user?"
 msgstr ""
 
-#: admin/user-profile.php:107
+#: admin/user-profile.php:122
 msgid "IP @ registration"
 msgstr ""
 
@@ -774,12 +787,11 @@ msgstr ""
 msgid "Export All Users"
 msgstr ""
 
-#: forms.php:70 forms.php:202 forms.php:549 wp-members-deprecated.php:55
-#: wp-members-deprecated.php:317 wp-members-sidebar.php:142
+#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
 msgid "Username"
 msgstr ""
 
-#: forms.php:77 wp-members-deprecated.php:319 wp-members-sidebar.php:148
+#: forms.php:77 wp-members-sidebar.php:148
 msgid "Password"
 msgstr ""
 
@@ -819,108 +831,76 @@ msgstr ""
 msgid "Reset Password"
 msgstr ""
 
-#: forms.php:373 wp-members-deprecated.php:261
+#: forms.php:375
 msgid "Remember me"
 msgstr ""
 
-#: forms.php:400 wp-members-deprecated.php:281
+#: forms.php:403
 msgid "Forgot password?"
 msgstr ""
 
-#: forms.php:400 wp-members-deprecated.php:281
+#: forms.php:403
 msgid "Click here to reset"
 msgstr ""
 
-#: forms.php:415 wp-members-deprecated.php:289
+#: forms.php:418
 msgid "New User?"
 msgstr ""
 
-#: forms.php:415 wp-members-deprecated.php:289
+#: forms.php:418
 msgid "Click here to register"
 msgstr ""
 
-#: forms.php:510 wp-members-deprecated.php:213
+#: forms.php:515
 msgid "Required field"
 msgstr ""
 
-#: forms.php:516
+#: forms.php:521
 msgid "Reset Form"
 msgstr ""
 
-#: forms.php:517 wp-members-deprecated.php:332 wp-members-sidebar.php:172
+#: forms.php:522 wp-members-sidebar.php:172
 msgid "Register"
 msgstr ""
 
-#: forms.php:518
+#: forms.php:523
 msgid "Update Profile"
 msgstr ""
 
-#: forms.php:556 wp-members-deprecated.php:60
+#: forms.php:561
 msgid "Choose a Username"
 msgstr ""
 
-#: forms.php:678 native-registration.php:32 wp-members-deprecated.php:154
+#: forms.php:681 native-registration.php:64
 msgid "Please indicate that you agree to the %s TOS %s"
 msgstr ""
 
-#: forms.php:829
+#: forms.php:832
 msgid "New User Registration"
 msgstr ""
 
-#: users.php:32
-msgid "Additional Info"
+#: users.php:38
+msgid "Additional Information"
 msgstr ""
 
-#: users.php:75
-msgid "Indicates a required field"
-msgstr ""
-
-#: utilities.php:245
+#: utilities.php:242
 msgid "(more&hellip;)"
 msgstr ""
 
-#: wp-members-core.php:124 wp-members-core.php:239
+#: wp-members-core.php:121 wp-members-core.php:236
 msgid "There was an error with the CAPTCHA form."
 msgstr ""
 
-#: wp-members-core.php:274 wp-members-dialogs.php:280
+#: wp-members-core.php:271 wp-members-dialogs.php:280
 msgid "Edit Your Information"
 msgstr ""
 
-#: wp-members-core.php:513
+#: wp-members-core.php:510
 msgid "<strong>ERROR</strong>: User has not been activated."
 msgstr ""
 
-#: wp-members-core.php:853 wp-members-register.php:83
+#: wp-members-core.php:850 wp-members-register.php:88
 msgid "Sorry, %s is a required field."
-msgstr ""
-
-#: wp-members-deprecated.php:40
-msgid "New Users Registration"
-msgstr ""
-
-#: wp-members-deprecated.php:206
-msgid "Submit"
-msgstr ""
-
-#: wp-members-deprecated.php:208
-msgid "Clear Form"
-msgstr ""
-
-#: wp-members-deprecated.php:313 wp-members-sidebar.php:124
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr ""
-
-#: wp-members-deprecated.php:315
-msgid "You are not currently logged in."
-msgstr ""
-
-#: wp-members-deprecated.php:325
-msgid "login"
-msgstr ""
-
-#: wp-members-deprecated.php:329 wp-members-sidebar.php:167
-msgid "Forgot?"
 msgstr ""
 
 #: wp-members-dialogs.php:45
@@ -946,69 +926,76 @@ msgid "You are logged in as %s"
 msgstr ""
 
 #: wp-members-dialogs.php:168
-msgid "Click here to logout."
+msgid "Click to log out."
 msgstr ""
 
 #: wp-members-dialogs.php:169
 msgid "Begin using the site."
 msgstr ""
 
-#: wp-members-dialogs.php:178 wp-members-dialogs.php:186
-#: wp-members-sidebar.php:41 wp-members-sidebar.php:205
-msgid "click here to logout"
+#: wp-members-dialogs.php:178
+msgid "Click to log out"
+msgstr ""
+
+#: wp-members-dialogs.php:186 wp-members-sidebar.php:41
+msgid "click to log out"
 msgstr ""
 
 #: wp-members-dialogs.php:217
 msgid "Password fields cannot be empty"
 msgstr ""
 
-#: wp-members-register.php:48
+#: wp-members-register.php:47
 msgid "There was an error processing the form."
 msgstr ""
 
-#: wp-members-register.php:91
+#: wp-members-register.php:96
 msgid "Sorry, username is a required field"
 msgstr ""
 
-#: wp-members-register.php:92
+#: wp-members-register.php:97
 msgid "The username cannot include non-alphanumeric characters."
 msgstr ""
 
-#: wp-members-register.php:93 wp-members-register.php:234
+#: wp-members-register.php:98 wp-members-register.php:245
 msgid "You must enter a valid email address."
 msgstr ""
 
-#: wp-members-register.php:103
+#: wp-members-register.php:108
 msgid "You must complete the CAPTCHA form."
 msgstr ""
 
-#: wp-members-register.php:297
+#: wp-members-register.php:316
 msgid "We were unable to validate the public key."
 msgstr ""
 
-#: wp-members-register.php:301
+#: wp-members-register.php:320
 msgid "We were unable to validate the private key."
 msgstr ""
 
-#: wp-members-register.php:305
+#: wp-members-register.php:324
 msgid "The challenge parameter of the verify script was incorrect."
 msgstr ""
 
-#: wp-members-register.php:309
+#: wp-members-register.php:328
 msgid "The CAPTCHA solution was incorrect."
 msgstr ""
 
-#: wp-members-register.php:313
+#: wp-members-register.php:332
 msgid "The parameters to verify were incorrect"
 msgstr ""
 
-#: wp-members-register.php:317
+#: wp-members-register.php:336
 msgid ""
 "reCAPTCHA API keys are tied to a specific domain name for security reasons."
 msgstr ""
 
-#: wp-members-register.php:321
+#: wp-members-register.php:340
 msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr ""
+
+#: wp-members-sidebar.php:124
+msgid "Login Failed!<br />You entered an invalid username or password."
 msgstr ""
 
 #: wp-members-sidebar.php:125
@@ -1017,6 +1004,14 @@ msgstr ""
 
 #: wp-members-sidebar.php:163
 msgid "log in"
+msgstr ""
+
+#: wp-members-sidebar.php:167
+msgid "Forgot?"
+msgstr ""
+
+#: wp-members-sidebar.php:205
+msgid "click here to logout"
 msgstr ""
 
 #: wp-members-sidebar.php:245 wp-members-sidebar.php:286
