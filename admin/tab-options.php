@@ -24,7 +24,10 @@
  * @param array $wpmem_settings
  */
 function wpmem_a_build_options( $wpmem_settings )
-{ ?>
+{ 
+	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
+	$chg_email   = __( sprintf( '%sChange%s or %sFilter%s this address', '<a href="' . site_url( 'wp-admin/options-general.php', 'admin' ) . '">', '</a>', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_notify_addr/">', '</a>' ), 'wp-members' );
+?>
 	<div class="metabox-holder has-right-sidebar">
 	
 		<div class="inner-sidebar">
@@ -50,7 +53,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								array(__('Block Posts by default','wp-members'),'wpmem_settings_block_posts',__('Note: Posts can still be individually blocked or unblocked at the article level','wp-members')),
 								array(__('Block Pages by default','wp-members'),'wpmem_settings_block_pages',__('Note: Pages can still be individually blocked or unblocked at the article level','wp-members')),
 								array(__('Show excerpts','wp-members'),'wpmem_settings_show_excerpts',__('Shows excerpted content above the login/registration on both Posts and Pages','wp-members')),
-								array(__('Notify admin','wp-members'),'wpmem_settings_notify',__('Sends email to admin for each new registration?','wp-members')),
+								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email)),
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members')),
 								array(__('Use reCAPTCHA','wp-members'),'wpmem_settings_captcha',__('Turns on CAPTCHA for registration','wp-members')),
 								array(__('Hide registration','wp-members'),'wpmem_settings_turnoff',__('Removes the registration form from blocked content','wp-members')),
@@ -89,7 +92,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
 								<select name="wpmem_settings_mspage">
 								<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
-								</select><br />
+								</select>&nbsp;<span class="description"><?php _e( 'For creating a forgot password link in the login form', 'wp-members' ); ?></span><br />
 								<label>&nbsp;</label>
 								<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
 							  </li>
@@ -99,7 +102,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								<label><?php _e( 'Register Page:', 'wp-members' ); ?></label>
 								<select name="wpmem_settings_regpage">
 									<?php wpmem_admin_page_list( $wpmem_regurl ); ?>
-								</select><br />
+								</select>&nbsp;<span class="description"><?php _e( 'For creating a register link in the login form', 'wp-members' ); ?></span><br />
 								<label>&nbsp;</label>	
 								<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
 							  </li>
@@ -237,8 +240,6 @@ function wpmem_update_options()
  * Create the stylesheet dropdown selection
  *
  * @since 2.8
- *
- * @uses apply_filters Calls wpmem_admin_style_list can hook into the list to include your own stylesheets.
  */
 function wpmem_admin_style_list()
 {
@@ -254,6 +255,14 @@ function wpmem_admin_style_list()
 		'Twenty Fourteen - no float' => WPMEM_DIR . 'css/wp-members-2014-no-float.css',
 		'Kubrick'                    => WPMEM_DIR . 'css/wp-members-kubrick.css',
 	);
+	
+	/**
+	 * Filters the list of stylesheets in the plugin options dropdown.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $list An array of stylesheets that can be applied to the plugin's forms.
+	 */
 	$list = apply_filters( 'wpmem_admin_style_list', $list );
 
 	foreach( $list as $name => $location ) {

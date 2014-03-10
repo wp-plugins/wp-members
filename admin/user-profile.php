@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
  
@@ -27,9 +27,6 @@ add_action( 'profile_update',    'wpmem_admin_update' );
  *
  * @since 2.1
  *
- * @uses apply_filters Calls wpmem_admin_profile_field
- & @uses apply_filters Calls wpmem_admin_profile_heading
- *
  * @global array $current_screen The WordPress screen object
  * @global int   $user_ID The user ID
  */
@@ -38,7 +35,15 @@ function wpmem_admin_fields()
 	global $current_screen, $user_ID;
 	$user_id = ( $current_screen->id == 'profile' ) ? $user_ID : $_REQUEST['user_id']; ?>
 
-	<h3><?php echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
+	<h3><?php 
+	/**
+	 * Filter the heading for additional profile fields.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param string The default additional fields heading.
+	 */
+	echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
  	<table class="form-table">
 		<?php
 		$wpmem_fields = get_option( 'wpmembers_fields' ); $valtochk = '';
@@ -48,10 +53,13 @@ function wpmem_admin_fields()
 			$show = ( $wpmem_fields[$row][6] == 'n' && $wpmem_fields[$row][2] != 'password' ) ? true : false;
 			$show = ( $wpmem_fields[$row][1] == 'TOS' && $wpmem_fields[$row][4] != 'y' ) ? null : $show;
 			
-			if( $show ) {   
+			if( $show ) {
+				// is the field required
+				$req = ( $wpmem_fields[$row][5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+	
 				$show_field = '
 					<tr>
-						<th><label>' . __( $wpmem_fields[$row][1], 'wp-members' ) . '</label></th>
+						<th><label>' . __( $wpmem_fields[$row][1], 'wp-members' ) . $req . '</label></th>
 						<td>';
 				$val = htmlspecialchars( get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' ) );
 				if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
@@ -62,7 +70,14 @@ function wpmem_admin_fields()
 						</td>
 					</tr>';
 				$valtochk = ''; // empty for the next field in the loop
-
+				
+				/**
+				 * Filter the profile field.
+				 * 
+				 * @since 2.8.2
+				 *
+				 * @param string $show_field The HTML string for the additional profile field.
+				 */
 				echo apply_filters( 'wpmem_admin_profile_field', $show_field );
 			}
 		}
@@ -115,8 +130,6 @@ function wpmem_admin_fields()
  * updates WP-Members fields from the WP user profile screen
  *
  * @since 2.1
- *
- * @uses apply_filters Calls wpmem_admin_profile_update
  */
 function wpmem_admin_update()
 {
@@ -134,6 +147,13 @@ function wpmem_admin_update()
 		}
 	}
 	
+	/**
+	 * Filter the submitted field values for backend profile update.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param array $fields An array of the posted form values.
+	 */
 	$fields = apply_filters( 'wpmem_admin_profile_update', $fields ); 
 	
 	foreach( $fields as $key => $val ) {

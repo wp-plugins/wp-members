@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -25,7 +25,8 @@ include_once( 'dialogs.php' );
 /** Actions and Filters */
 add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab', 10, 2 );
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
-add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 ); 
+add_action( 'user_new_form', 'wpmem_admin_add_new_user' );
+add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 );
 
 
 /**
@@ -178,8 +179,6 @@ function wpmem_admin_do_tab( $tab, $wpmem_settings )
  *
  * @since 2.8
  *
- * @uses apply_filters Calls wpmem_admin_tabs
- *
  * @param string $current The tab that we are on
  */
 function wpmem_admin_tabs( $current = 'options' ) 
@@ -190,6 +189,14 @@ function wpmem_admin_tabs( $current = 'options' )
 		'dialogs' => __( 'Dialogs', 'wp-members' ), 
 		'emails'  => __( 'Emails', 'wp-members' ) 
 	);
+	
+	/**
+	 * Filter the admin tabs for the plugin settings page.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $tabs An array of the tabs to be displayed on the plugin settings page.
+	 */
 	$tabs = apply_filters( 'wpmem_admin_tabs', $tabs );
 	
     $links = array();
@@ -248,6 +255,19 @@ function wpmem_admin_action( $action )
 	}
 	
 	return $did_update;
+}
+
+
+/**
+ * Adds WP-Members custom fields to the WP Add New User form
+ *
+ * @since 2.9.1
+ */
+function wpmem_admin_add_new_user()
+{
+	include_once( WPMEM_PATH . '/native-registration.php' );
+	echo wpmem_do_wp_newuser_form();
+	return;
 }
 
 /** End of File **/

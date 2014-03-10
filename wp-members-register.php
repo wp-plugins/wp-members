@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013 Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014 Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -24,7 +24,6 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @uses apply_filters Calls 'wpmem_register_data' filter
  * @uses do_action Calls 'wpmem_pre_register_data' action
  * @uses do_action Calls 'wpmem_post_register_data' action
  * @uses do_action Calls 'wpmem_register_redirect' action
@@ -71,7 +70,13 @@ function wpmem_registration( $toggle )
 		}
 	}
 	
-	// filters fields prior to default field validation
+	/**
+	 * Filter the submitted form field date prior to validation.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param array $fields An array of the posted form field data.
+	 */
 	$fields = apply_filters( 'wpmem_pre_validate_form', $fields ); 
 
 	// check for required fields	
@@ -157,7 +162,13 @@ function wpmem_registration( $toggle )
 		$fields['display_name']    = ( isset( $_POST['display_name'] ) )  ? $_POST['display_name']  : $fields['username'];
 		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? $_POST['nickname']      : $fields['username'];
 
-		// allows all $field values to be filtered
+		/**
+		 * Filter registration data after validation before data insertion.
+		 *
+		 * @since 2.8.2
+		 *
+		 * @param array $fields An array of the registration field data.
+		 */
 		$fields = apply_filters( 'wpmem_register_data', $fields ); 
 		
 		// _data hook is before any insertion/emails
@@ -232,13 +243,20 @@ function wpmem_registration( $toggle )
 		if( $fields['user_email'] !=  $current_user->user_email ) {
 			if( email_exists( $fields['user_email'] ) ) { return "email"; exit(); } 
 			if( !is_email( $fields['user_email']) ) { $wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); return "updaterr"; exit(); }
-
 		}
 		
 		// add the user_ID to the fields array
 		$fields['ID'] = $user_ID;
-		// allow all $field values to be filtered
+		
+		/**
+		 * Filter registration data after validation before data insertion.
+		 *
+		 * @since 2.8.2
+		 *
+		 * @param array $fields An array of the registration field data.
+		 */
 		$fields = apply_filters( 'wpmem_register_data', $fields ); 
+		
 		// _pre_update_data hook is before data insertion
 		do_action( 'wpmem_pre_update_data', $fields );
 		
@@ -255,6 +273,7 @@ function wpmem_registration( $toggle )
 			case( 'user_nicename' ):
 			case( 'display_name' ):
 			case( 'nickname' ):
+				$fields[$wpmem_fields[$row][2]] = ( isset( $fields[$wpmem_fields[$row][2]] ) ) ? $fields[$wpmem_fields[$row][2]] : '';
 				wp_update_user( array( 'ID' => $user_ID, $wpmem_fields[$row][2] => $fields[$wpmem_fields[$row][2]] ) );
 				break;
 		

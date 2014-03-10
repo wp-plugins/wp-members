@@ -38,7 +38,7 @@ function wpmem_inc_status()
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login )
-		. ' | <a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a></p>';
+		. ' | <a href="' . $logout . '">' . __( 'click to log out', 'wp-members' ) . '</a></p>';
 
 	return $status;
 }

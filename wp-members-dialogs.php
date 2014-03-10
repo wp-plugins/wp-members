@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler (email : plugins@butlerblog.com)
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -165,7 +165,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'register':	
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
 			<ul>
-				<li><a href="' . $logout . '">' . __( 'Click here to logout.', 'wp-members' ) . '</a></li>
+				<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>
 				<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
 			</ul>';
 		$str = apply_filters( 'wpmem_register_links', $str );
@@ -175,7 +175,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 
 		$str = '<p>
 		  	' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
-		  	<a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a>
+		  	<a href="' . $logout . '">' . __( 'Click to log out', 'wp-members' ) . '</a>
 			</p>';
 		$str = apply_filters( 'wpmem_login_links', $str );
 		break;	
@@ -183,7 +183,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	case 'status':
 		$str ='<p>
 			' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '  | 
-			<a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a>
+			<a href="' . $logout . '">' . __( 'click to log out', 'wp-members' ) . '</a>
 			</p>';
 		break;
 	

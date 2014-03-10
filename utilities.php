@@ -48,7 +48,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 
 	case "checkbox":
 		if( $class = 'textbox' ) { $class = "checkbox"; }
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" " . wpmem_selected( $value, $valtochk, $type ) . " />";
+		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . wpmem_selected( $value, $valtochk, $type ) . " />";
 		break;
 
 	case "text":
@@ -79,7 +79,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
 		foreach( $value as $option ) {
 			$pieces = explode( '|', $option );
-			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">$pieces[0]</option>\n";
+			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
 		}
 		$str = $str . "</select>";
 		break;
@@ -204,9 +204,6 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  *
  * @since 2.6
  *
- * @uses apply_filters Calls 'wpmem_auto_excerpt'
- * @uses apply_filters Calls 'the_content_more_link'
- *
  * @param  string $content
  * @return string $content
  */
@@ -251,7 +248,13 @@ function wpmem_do_excerpt( $content )
 		$content = $content . $more_link;
 	}
 	
-	/** filter the result */
+	/**
+	 * Filter the auto excerpt.
+	 *
+	 * @since 2.8.1
+	 * 
+	 * @param string $content The excerpt.
+	 */
 	$content = apply_filters( 'wpmem_auto_excerpt', $content );
 	
 	/** return the excerpt */
@@ -274,8 +277,6 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  */
 function wpmem_test_shortcode( $content, $tag )
 {
-	// @todo - shift to shortcode_exists, lose global
-	//if ( shortcode_exists( $tag ) ) {
 	global $shortcode_tags; 
 	if( array_key_exists( $tag, $shortcode_tags ) ) {
 		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );

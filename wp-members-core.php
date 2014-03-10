@@ -113,9 +113,6 @@ function wpmem_securify( $content = null )
 { 
 	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
-	// @todo - deprecate wpmem_test_shortcode
-	//if ( ! has_shortcode( $content, 'wp-members' ) ) { 
-	//if ( ( ! wpmem_test_shortcode() ) ) {
 	if ( ( ! wpmem_test_shortcode( $content, 'wp-members' ) ) ) {	
 		global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 		

@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.9.0
+Version:     2.9.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,8 +60,10 @@ License:     GPLv2
 
 
 /** initial constants **/
-define( 'WPMEM_VERSION', '2.9.0' );
+define( 'WPMEM_VERSION', '2.9.1' );
 define( 'WPMEM_DEBUG', false );
+define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
+define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
 
 /** initialize the plugin **/
 add_action( 'after_setup_theme', 'wpmem_init', 10 );
@@ -125,10 +127,6 @@ function wpmem_init()
 
 	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) ) : '';
 	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) ) : '';
-
-	( ! defined( 'WPMEM_DIR'  ) ) ? define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) ) : '';
-	( ! defined( 'WPMEM_PATH' ) ) ? define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) ) : '';
-
 
 	/**
 	 * define the stylesheet

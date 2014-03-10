@@ -66,20 +66,20 @@ function wpmem_inc_login( $page="page" )
 	
 	/** create the default inputs **/
 	$default_inputs = array(
-			array(
-				'name'   => __( 'Username', 'wp-members' ), 
-				'type'   => 'text', 
-				'tag'    => 'log',
-				'class'  => 'username',
-				'div'    => 'div_text'
-			),
-			array( 
-				'name'   => __( 'Password', 'wp-members' ), 
-				'type'   => 'password', 
-				'tag'    => 'pwd', 
-				'class'  => 'password',
-				'div'    => 'div_text'
-			)
+		array(
+			'name'   => __( 'Username', 'wp-members' ), 
+			'type'   => 'text', 
+			'tag'    => 'log',
+			'class'  => 'username',
+			'div'    => 'div_text'
+		),
+		array( 
+			'name'   => __( 'Password', 'wp-members' ), 
+			'type'   => 'password', 
+			'tag'    => 'pwd', 
+			'class'  => 'password',
+			'div'    => 'div_text'
+		)
 	);
 	
 	/**
@@ -132,20 +132,20 @@ function wpmem_inc_changepassword()
 {
 	/** create the default inputs **/
 	$default_inputs = array(
-			array(
-				'name'   => __('New Password', 'wp-members'), 
-				'type'   => 'password',
-				'tag'    => 'pass1',
-				'class'  => 'password',
-				'div'    => 'div_text'
-			),
-			array( 
-				'name'   => __('Repeat Password', 'wp-members'), 
-				'type'   => 'password', 
-				'tag'    => 'pass2',
-				'class'  => 'password',
-				'div'    => 'div_text'
-			)
+		array(
+			'name'   => __('New Password', 'wp-members'), 
+			'type'   => 'password',
+			'tag'    => 'pass1',
+			'class'  => 'password',
+			'div'    => 'div_text'
+		),
+		array( 
+			'name'   => __('Repeat Password', 'wp-members'), 
+			'type'   => 'password', 
+			'tag'    => 'pass2',
+			'class'  => 'password',
+			'div'    => 'div_text'
+		)
 	);
 
 	/**
@@ -198,20 +198,20 @@ function wpmem_inc_resetpassword()
 { 
 	/** create the default inputs **/
 	$default_inputs = array(
-			array(
-				'name'   => __('Username', 'wp-members'), 
-				'type'   => 'text',
-				'tag'    => 'user', 
-				'class'  => 'username',
-				'div'    => 'div_text'
-			),
-			array( 
-				'name'   => __('Email', 'wp-members'), 
-				'type'   => 'text', 
-				'tag'    => 'email', 
-				'class'  => 'password',
-				'div'    => 'div_text'
-			)
+		array(
+			'name'   => __('Username', 'wp-members'), 
+			'type'   => 'text',
+			'tag'    => 'user', 
+			'class'  => 'username',
+			'div'    => 'div_text'
+		),
+		array( 
+			'name'   => __('Email', 'wp-members'), 
+			'type'   => 'text', 
+			'tag'    => 'email', 
+			'class'  => 'password',
+			'div'    => 'div_text'
+		)
 	);
 
 	/**
@@ -262,6 +262,9 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  */
 function wpmem_login_form( $page, $arr ) 
 {
+	// extract the arguments array
+	extract( $arr );
+
 	// set up default wrappers
 	$defaults = array(
 		
@@ -304,15 +307,13 @@ function wpmem_login_form( $page, $arr )
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array An array of arguments to merge with defaults. Default null.
+	 * @param array          An array of arguments to merge with defaults. Default null.
+	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$args = apply_filters( 'wpmem_login_form_args', '' );
+	$args = apply_filters( 'wpmem_login_form_args', '', $action );
 	
 	// merge $args with defaults and extract
 	extract( wp_parse_args( $args, $defaults ) );
-
-	// extract the array
-	extract( $arr );
 	
 	// build the input rows
 	foreach ( $inputs as $input ) {
@@ -365,8 +366,9 @@ function wpmem_login_form( $page, $arr )
 	 * @since 2.9.0
 	 *
 	 * @param string $hidden The generated HTML of hidden fields.
+	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden );
+	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $action );
 
 	// build the buttons, filter, and add to the form
 	if ( $action == 'login' ) {
@@ -384,8 +386,9 @@ function wpmem_login_form( $page, $arr )
 	 * @since 2.9.0
 	 *
 	 * @param string $buttons The generated HTML of the form buttons.
+	 * @param string $action  The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = $form . apply_filters( 'wpmem_login_form_buttons', $buttons_before . $n . $buttons . $buttons_after . $n );
+	$form = $form . apply_filters( 'wpmem_login_form_buttons', $buttons_before . $n . $buttons . $buttons_after . $n, $action );
 
 	if ( ( WPMEM_MSURL != null || $page == 'members' ) && $action == 'login' ) { 
 		
@@ -443,9 +446,10 @@ function wpmem_login_form( $page, $arr )
 	 *
 	 * @since 2.7.4
 	 *
-	 * @param string $form The HTML of the final generated form.
+	 * @param string $form   The HTML of the final generated form.
+	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = apply_filters( 'wpmem_login_form', $form );
+	$form = apply_filters( 'wpmem_login_form', $form, $action );
 	
 	/**
 	 * Filter before the form.
@@ -455,9 +459,10 @@ function wpmem_login_form( $page, $arr )
 	 *
 	 * @since 2.7.4
 	 *
-	 * @param string $str The HTML to add before the form. Default null.
+	 * @param string $str    The HTML to add before the form. Default null.
+	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = apply_filters( 'wpmem_login_form_before', '' ) . $form;
+	$form = apply_filters( 'wpmem_login_form_before', '', $action ) . $form;
 	
 	return $form;
 } // end wpmem_login_form
@@ -658,9 +663,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 
 				// determine if TOS is a WP page or not...
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-				//if( has_shortcode( $tos_content, 'wp-members' ) ) {
-				//if ( ( ! wpmem_test_shortcode() ) ) {
-				if ( ( ! wpmem_test_shortcode( $content, 'wp-members' ) ) ) {	
+				if ( ( wpmem_test_shortcode( $tos_content, 'wp-members' ) ) ) {	
 					$link = do_shortcode( $tos_content );
 					$tos_pop = '<a href="' . $link . '" target="_blank">';
 				} else { 
@@ -745,7 +748,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	foreach( $rows as $row_item ) {
 		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $n . $row_item['label'] . $n : $row_item['label'] . $n;
 		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $n . $t . $row_item['field'] . $n . $row_item['field_after'] . $n : $row_item['field'] . $n;
-		$row .= ( $row_item['row_before']   != '' ) ? $row_item['row_after'] . $n : '';
+		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $n : '';
 		$form.= $row;
 	}
 	
