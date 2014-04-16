@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: 2.9.1
 License: GPLv2
 
