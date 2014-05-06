@@ -190,20 +190,20 @@ function wpmem_registration( $toggle )
 		) );
 		
 		// set remaining fields to wp_usermeta table
-		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-			if( $wpmem_fields[$row][2] != 'password' ) {
-				if( $wpmem_fields[$row][2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
+		foreach( $wpmem_fields as $meta ) {
+			if( $meta[3] != 'password' ) {
+				if( $meta[2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
 					$fields['user_url'] = ( isset( $fields['user_url'] ) ) ? $fields['user_url'] : '';
 					wp_update_user( array ( 'ID' => $fields['ID'], 'user_url' => $fields['user_url'] ) );
 				} else {
-					if( $wpmem_fields[$row][2] != 'user_email' ) { // email is already done above, so if it's not email...
-						if( $wpmem_fields[$row][4] == 'y' ) { // are we using this field?
-							update_user_meta( $fields['ID'], $wpmem_fields[$row][2], $fields[$wpmem_fields[$row][2]] );
+					if( $meta[2] != 'user_email' ) { // email is already done above, so if it's not email...
+						if( $meta[4] == 'y' ) { // are we using this field?
+							update_user_meta( $fields['ID'], $meta[2], $fields[$meta[2]] );
 						}
 					}
 				}
 			}
-		} 
+		}
 		
 		// capture IP address of user at registration
 		update_user_meta( $fields['ID'], 'wpmem_reg_ip', $fields['wpmem_reg_ip'] );

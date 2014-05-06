@@ -22,11 +22,6 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  *
  * @since 1.8
  *
- * @uses apply_filters Calls 'wpmem_email_newreg' filters the new registration email
- * @uses apply_filters Calls 'wpmem_email_newmod' filters the new moderated registration email
- * @uses apply_filters Calls 'wpmem_email_appmod' filters the approved registration email
- * @uses apply_filters Calls 'wpmem_email_repass' filters the reset password email
- * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
@@ -54,24 +49,52 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	case 0: 
 		//this is a new registration
 		$arr = get_option( 'wpmembers_email_newreg' );
+		/**
+		 * Filters the new registration email.
+		 *
+		 * @since 2.7.4
+		 *
+		 * @param string $arr['body'] The body content of the new registration email.
+		 */
 		$arr['body'] = apply_filters( 'wpmem_email_newreg', $arr['body'] );
 		break;
 		
 	case 1:
 		//registration is moderated
 		$arr = get_option( 'wpmembers_email_newmod' );
+		/**
+		 * Filters the new moderated registration email.
+		 *
+		 * @since 2.7.4
+		 *
+		 * @param string $arr['body'] The body content of the moderated registration email.
+		 */
 		$arr['body'] = apply_filters( 'wpmem_email_newmod', $arr['body'] );
 		break;
 
 	case 2:
 		//registration is moderated, user is approved
 		$arr = get_option( 'wpmembers_email_appmod' );
+		/**
+		 * Filters the reset password email.
+		 *
+		 * @since 2.7.4
+		 *
+		 * @param string $arr['body'] The body content of the reset password email.
+		 */
 		$arr['body'] = apply_filters( 'wpmem_email_appmod', $arr['body'] );
 		break;
 
 	case 3:
 		//this is a password reset
 		$arr = get_option( 'wpmembers_email_repass' );
+		/**
+		 * Filters the approved registration email.
+		 *
+		 * @since 2.7.4
+		 *
+		 * @param string $arr['body'] The body content of the approved registration email.
+		 */
 		$arr['body'] = apply_filters( 'wpmem_email_repass', $arr['body'] );
 		break;
 		
@@ -84,13 +107,19 @@ function wpmem_inc_regemail( $user_id, $password, $toggle )
 	/* Get the email footer and append to the $body */
 	$foot = get_option ( 'wpmembers_email_footer' );
 	$foot = str_replace( $shortcd, $replace, $foot );
-	$body.= $foot;
+	$body.= "\r\n" . $foot;
 	
 	/* Apply filters (if set) for the sending email address */
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 	
-	/* Filter headers */
+	/**
+	 * Filters the email headers.
+	 *
+	 * @since 2.7.4
+	 *
+	 * @param mixed The email headers (default = null).
+	 */
 	$headers = apply_filters( 'wpmem_email_headers', '' );
 
 	/* Send the message */
@@ -106,9 +135,6 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  *
  * @since 2.3
  *
- * @uses apply_filters Calls 'wpmem_email_notify' filters the admin notification email
- * @uses apply_filters Calls 'wpmem_notify_addr' filters the address the admin notification is sent to
- * @uses apply_filters Calls 'wpmem_email_headers' filters the email headers (default = null)
  * @uses wp_mail
  *
  * @param int $user_id
@@ -123,10 +149,8 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	$reg_link = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$act_link = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
 
-	if( WPMEM_USE_EXP == 1 ) {
-		$exp_type = get_user_meta( $user_id, 'exp_type', 'true' );
-		$exp_date = get_user_meta( $user_id, 'expires', 'true' );
-	}	
+	$exp_type = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'exp_type', 'true' ) : '';
+	$exp_date = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'expires',  'true' ) : '';	
 	
 	$field_str = '';
 	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
@@ -177,18 +201,37 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	$foot = get_option ( 'wpmembers_email_footer' );
 	$foot = str_replace( $shortcd, $replace, $foot );
 	
-	$body.= $foot;
+	$body.= "\r\n" . $foot;
 	
-	/* Apply filters for the email body */
+	/* *
+	 * Filters the admin notification email.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param string $body The admin notification email body.
+	 */
 	$body = apply_filters( 'wpmem_email_notify', $body );
 	
 	/* Apply filters (if set) for the sending email address */
 	add_filter( 'wp_mail_from', 'wpmem_mail_from' );
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
-	/* Get the admin's email address and filter headers */
+	/**
+	 * Filters the address the admin notification is sent to.
+	 *
+	 * @since 2.7.5
+	 *
+	 * @param string The email address of the admin to send to.
+	 */
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
-	$headers     = apply_filters( 'wpmem_email_headers', '' );
+	/**
+	 * Filters the email headers.
+	 *
+	 * @since 2.7.4
+	 *
+	 * @param mixed The email headers (default = null).
+	 */
+	$headers = apply_filters( 'wpmem_email_headers', '' );
 	
 	/* Send the message */
 	wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers );

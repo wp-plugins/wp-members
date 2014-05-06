@@ -49,17 +49,7 @@ function wpmem_a_build_emails( $wpmem_settings )
 		$wpmem_email_title_arr,
 		array( __( "Email Signature", 'wp-members' ), 'wpmembers_email_footer' )
     ); ?>
-	<div class="metabox-holder has-right-sidebar">
-	
-		<div class="inner-sidebar">
-			<?php wpmem_a_meta_box(); ?>
-			<div class="postbox">
-				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
-				<div class="inside">
-					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/emails/" target="_blank">Users Guide on email options</a>.</i></strong>
-				</div>
-			</div>
-		</div> <!-- .inner-sidebar -->
+	<div class="metabox-holder">
 
 		<div id="post-body">
 			<div id="post-body-content">
@@ -119,6 +109,12 @@ function wpmem_a_build_emails( $wpmem_settings )
 						</form>
 					</div><!-- .inside -->
 				</div><!-- #post-box -->
+				<div class="postbox">
+					<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
+					<div class="inside">
+						<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/emails/" target="_blank">Users Guide on email options</a>.</i></strong>
+					</div>
+				</div>
 			</div> <!-- #post-body-content -->
 		</div><!-- #post-body -->
 	</div><!-- .metabox-holder -->

@@ -39,33 +39,33 @@ function wpmem_user_profile()
  	<table class="form-table">
 		<?php
 		$wpmem_fields = get_option( 'wpmembers_fields' );
-		for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+		foreach( $wpmem_fields as $meta ) {
 		
-			$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
+			$val = get_user_meta( $user_id, $meta[2], 'true' );
 		
 			$chk_tos = true;
-			if( $wpmem_fields[$row][2] == 'tos' && $val == 'agree' ) { 
+			if( $meta[2] == 'tos' && $val == 'agree' ) { 
 				$chk_tos = false; 
-				echo wpmem_create_formfield( $wpmem_fields[$row][2], 'hidden', $val );
+				echo wpmem_create_formfield( $meta[2], 'hidden', $val );
 			}
 			
 			$chk_pass = true;
-			if( $wpmem_fields[$row][2] == 'password' ) { $chk_pass = false; }
+			if( $meta[3] == 'password' ) { $chk_pass = false; }
 		
-			if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $chk_tos && $chk_pass ) { 
+			if( $meta[4] == "y" && $meta[6] == "n" && $chk_tos && $chk_pass ) { 
 				// if there are any required fields
-				$req = ( $wpmem_fields[$row][5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+				$req = ( $meta[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 				$show_field = ' 
 					<tr>
-						<th><label>' . __( $wpmem_fields[$row][1], 'wp-members' ) . $req . '</label></th>
+						<th><label>' . __( $meta[1], 'wp-members' ) . $req . '</label></th>
 						<td>';
 					
-					$val = get_user_meta( $user_id, $wpmem_fields[$row][2], 'true' );
-					if( $wpmem_fields[$row][3] == 'checkbox' || $wpmem_fields[$row][3] == 'select' ) {
+					$val = get_user_meta( $user_id, $meta[2], 'true' );
+					if( $meta[3] == 'checkbox' || $meta[3] == 'select' ) {
 						$valtochk = $val; 
-						$val = $wpmem_fields[$row][7];
+						$val = $meta[7];
 					}
-				$show_field.= wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $val, $valtochk ) . '
+				$show_field.= wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk ) . '
 						</td>
 					</tr>';
 				$valtochk = ''; // empty for the next field in the loop
@@ -95,21 +95,21 @@ function wpmem_profile_update()
 {
 	global $user_id;
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+	foreach( $wpmem_fields as $meta ) {
 
 		// if the field is user editable, 
-		if( $wpmem_fields[$row][4] == "y" && $wpmem_fields[$row][6] == "n" && $wpmem_fields[$row][2] != 'password' ) {
+		if( $meta[4] == "y" && $meta[6] == "n" && $meta[3] != 'password' ) {
 		
 			// check for required fields
 			$chk = '';
-			if( $wpmem_fields[$row][5] == "n" || ( ! $wpmem_fields[$row][5] ) ) { $chk = 'ok'; }
-			if( $wpmem_fields[$row][5] == "y" && $_POST[$wpmem_fields[$row][2]] != '' ) { $chk = 'ok'; }
+			if( $meta[5] == "n" || ( ! $meta[5] ) ) { $chk = 'ok'; }
+			if( $meta[5] == "y" && $_POST[$meta[2]] != '' ) { $chk = 'ok'; }
 			
 			// check for field value
-			$field_val = ( isset( $_POST[$wpmem_fields[$row][2]] ) ) ? $_POST[$wpmem_fields[$row][2]] : '';
+			$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
 			
 			if( $chk == 'ok' ) { 
-				update_user_meta( $user_id, $wpmem_fields[$row][2], $field_val ); 
+				update_user_meta( $user_id, $meta[2], $field_val ); 
 			} 
 		}
 	} 

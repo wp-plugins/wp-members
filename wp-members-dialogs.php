@@ -30,9 +30,6 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  *
  * @since 1.8
  *
- * @uses apply_filters Calls 'wpmem_login_failed_args' filter to change the default values
- * @uses apply_filters Calls 'wpmem_login_failed' filter to change the failed login message
- *
  * @return string $str the generated html for the login failed message
  */
 function wpmem_inc_loginfailed() 
@@ -50,7 +47,13 @@ function wpmem_inc_loginfailed()
 		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . __( 'Click here to continue.', 'wp-members' ) . '</a>'
 	);
 	
-	// filter $args
+	/**
+	 * Filter the login failed dialog arguments.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array An array of arguments to merge with defaults.
+	 */
 	$args = apply_filters( 'wpmem_login_failed_args', '' );
 	
 	// merge $args with defaults and extract
@@ -62,6 +65,13 @@ function wpmem_inc_loginfailed()
 		. $p_before . $link . $p_after
 		. $div_after;
 	
+	/**
+	 * Filter the login failed dialog.
+	 *
+	 * @since ?.?
+	 *
+	 * @param string $str The login failed dialog.
+	 */
 	$str = apply_filters( 'wpmem_login_failed', $str );
 
 	return $str;
@@ -76,9 +86,6 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  * Returns various dialogs and error messages.
  *
  * @since 1.8
- *
- * @uses apply_filters Calls 'wpmem_msg_defaults' filter to filter the default tags
- * @uses apply_filters Calls 'wpmem_msg_dialog' filter to filter the message dialog
  *
  * @param  string $toggle error message toggle to look for specific error messages
  * @param  string $msg a message that has no toggle that is passed directly to the function
@@ -104,24 +111,48 @@ function wpmem_inc_regmessage( $toggle, $msg = '' )
 						)
 	);
 	
-	// filter $args
+	/**
+	 * Filter the message arguments.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array An array of arguments to merge with defaults.
+	 */
 	$args = apply_filters( 'wpmem_msg_args', '' );
-	
-	// merge $args with defaults and extract
-	extract( wp_parse_args( $args, $defaults ) );
 
 	// get dialogs set in the db
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
-	for( $r = 0; $r < count( $toggles ); $r++ ) {
-		if( $toggle == $toggles[$r] ) {
+	for( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
+		if( $toggle == $defaults['toggles'][$r] ) {
 			$msg = __( stripslashes( $dialogs[$r+1] ), 'wp-members' );
 			break;
 		}
 	}
-
+	$defaults['msg'] = $msg;
+	
+	/**
+	 * Filter the message array
+	 *
+	 * @since 2.9.2
+	 *
+	 * @param array  $defaults An array of the defaults.
+	 * @param string $toggle   The toggle that we are on, if any.
+	 */
+	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle );
+	
+	// merge $args with defaults and extract
+	extract( wp_parse_args( $args, $defaults ) );
+	
 	$str = $div_before . $p_before . stripslashes( $msg ) . $p_after . $div_after;
 
+	/**
+	 * Filter the message.
+	 *
+	 * @since ?.?
+	 *
+	 * @param string $str The message.
+	 */
 	return apply_filters( 'wpmem_msg_dialog', $str );
 
 }
@@ -136,11 +167,6 @@ if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  *
  * @since 2.0
  *
- * @uses apply_filters Calls 'wpmem_logout_link' filter to change the logout link
- * @uses apply_filters Calls 'wpmem_member_links' filter to change the links shown on the logged in state of the user profile page (user-profile/members-area shortcode page)
- * @uses apply_filters Calls 'wpmem_register_links' filter to change the links shown on the logged in state of the registration form (shortcode page)
- * @uses apply_filters Calls 'wpmem_login_links' filter to change the links shown on the logged in state of the login form (shortcode page)
- *
  * @param  string $page
  * @return string $str
  */
@@ -150,6 +176,13 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	
 	$link = wpmem_chk_qstr();
 	
+	/**
+	 * Filter the log out link.
+	 *
+	 * @since 2.8.3
+	 *
+	 * @param string $link The default logout link.
+	 */
 	$logout = apply_filters( 'wpmem_logout_link', $link . 'a=logout' );
 	
 	switch( $page ) {
@@ -159,6 +192,13 @@ function wpmem_inc_memberlinks( $page = 'members' )
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
 		if( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
+		/**
+		 * Filter the links displayed on the User Profile page (logged in state).
+		 *
+		 * @since 2.8.3
+		 *
+		 * @param string $str The default links.
+		 */
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
 		
@@ -168,6 +208,13 @@ function wpmem_inc_memberlinks( $page = 'members' )
 				<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>
 				<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
 			</ul>';
+		/**
+		 * Filter the links displayed on the Register page (logged in state).
+		 *
+		 * @since 2.8.3
+		 *
+		 * @param string $str The default links.
+		 */
 		$str = apply_filters( 'wpmem_register_links', $str );
 		break;	
 	
@@ -177,6 +224,13 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		  	' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
 		  	<a href="' . $logout . '">' . __( 'Click to log out', 'wp-members' ) . '</a>
 			</p>';
+		/**
+		 * Filter the links displayed on the Log In page (logged in state).
+		 *
+		 * @since 2.8.3
+		 *
+		 * @param string $str The default links.
+		 */
 		$str = apply_filters( 'wpmem_login_links', $str );
 		break;	
 			
@@ -267,8 +321,6 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  *
  * @since 2.7.6
  *
- * @uses apply_filters Calls 'wpmem_user_edit_heading' filter to change the user profile edit heading for the user edit shortcode page
- *
  * @param  string $wpmem_regchk
  * @param  string $content
  * @return string $content
@@ -276,7 +328,13 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
 function wpmem_page_user_edit( $wpmem_regchk, $content )
 {
 	global $wpmem_a, $wpmem_themsg;
-	
+	/**
+	 * Filter the default User Edit heading for shortcode.
+	 *
+	 * @since 2.7.6
+	 *
+	 * @param string The default edit mode heading.
+	 */	
 	$heading = apply_filters( 'wpmem_user_edit_heading', __( 'Edit Your Information', 'wp-members' ) );
 	
 	if( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }

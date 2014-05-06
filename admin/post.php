@@ -17,6 +17,113 @@
 
 
 /**
+ * Actions
+ */
+add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action' );
+add_action( 'load-edit.php', 'wpmem_posts_page_load' );
+add_action( 'admin_notices', 'wpmem_posts_admin_notices');
+
+
+/**
+ * Function to add block/unblock to the bulk dropdown list
+ *
+ * @since 2.9.2
+ */
+function wpmem_bulk_posts_action()
+{ ?>
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        jQuery('<option>').val('block').text('<?php _e( 'Block', 'wp-members' )?>').appendTo("select[name='action']");
+		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' )?>').appendTo("select[name='action']");
+        jQuery('<option>').val('block').text('<?php _e( 'Block', 'wp-members' )?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' )?>').appendTo("select[name='action2']");
+      });
+    </script>
+    <?php
+}
+
+
+/**
+ * Function to handle bulk actions at page load
+ *
+ * @since 2.9.2
+ *
+ * @uses WP_Users_List_Table
+ */
+function wpmem_posts_page_load()
+{
+	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+	$action = $wp_list_table->current_action();
+	$sendback = '';
+
+	switch( $action ) { 
+	
+		case ( 'block' ):
+		case ( 'unblock' ):
+			/** validate nonce **/
+			check_admin_referer( 'bulk-posts' );
+			/** get the posts **/
+			$posts = ( isset( $_REQUEST['post'] ) ) ? $_REQUEST['post'] : '';
+			/** update posts **/
+			$x = '';
+			if( $posts ) {	
+				foreach( $posts as $post_id ) {
+					$x++;
+					$post = get_post( $post_id );
+					// update accordingly
+					if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
+						if( $action == 'block' ) {
+							update_post_meta( $post_id, 'block', true);
+						} else {
+							delete_post_meta( $post_id, 'block' );
+						}
+					}
+					
+					if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
+					
+						if( $action == 'unblock' ) {
+							update_post_meta( $post_id, 'unblock', true );	
+						} else {
+							delete_post_meta( $post_id, 'unblock' );
+						}
+					}
+				}
+				/** set the return message */
+				$sendback = add_query_arg( array( 'block' => $action, 'b' => $x ), $sendback );
+			} else {
+				/** set the return message */
+				$sendback = add_query_arg( array( 'block' => 'none' ), $sendback );
+			}
+			break;
+		
+		default:
+			return;
+
+	}
+
+	/** if we did not return already, we need to wp_redirect */
+	wp_redirect( $sendback );
+	exit();
+}
+
+
+/**
+ * Function to echo admin update message
+ *
+ * @since 2.8.2
+ */
+function wpmem_posts_admin_notices()
+{    
+	global $post_type, $pagenow, $user_action_msg;
+	if( $pagenow == 'edit.php' && $post_type == 'post' &&
+		isset( $_REQUEST['block'] ) ) {
+		$message = sprintf( __( '%s posts %sed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
+		echo "<div class=\"updated\"><p>{$message}</p></div>";
+	}
+}
+
+
+/**
  * Adds the blocking meta boxes for post and page editor screens.
  *
  * @since 2.8
