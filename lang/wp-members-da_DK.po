@@ -2,838 +2,1180 @@
 # This file is distributed under the same license as the WP-Members package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.6.4\n"
+"Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2012-06-14 00:20:49+00:00\n"
-"PO-Revision-Date: 2012-06-13 19:32-0600\n"
-"Last-Translator: Chad Butler <plugins@butlerblog.com>\n"
+"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
+"PO-Revision-Date: 2014-06-02 13:15-0600\n"
+"Last-Translator: \n"
 "Language-Team:  <mikael.boldt@mail.dk>\n"
+"Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Danish\n"
-"X-Poedit-Country: DENMARK\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_c\n"
 "X-Poedit-Basepath: D:\\downloads\\wp-members\\\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SearchPath-0: D:\\downloads\\wp-members\n"
 
-#: wp-members-admin.php:35
-#: wp-members-admin.php:715
+#: admin/admin.php:60 admin/admin.php:129
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: wp-members-admin.php:74
-msgid "WP-Members Additional Fields"
-msgstr "WP-Members Ekstra Felter"
-
-#: wp-members-admin.php:110
-msgid "Activate this user?"
-msgstr "Aktiver denne bruger?"
-
-#: wp-members-admin.php:115
-#, fuzzy
-msgid "Reactivate this user?"
-msgstr "Aktiver denne bruger?"
-
-#: wp-members-admin.php:120
-#, fuzzy
-msgid "Deactivate this user?"
-msgstr "Aktiver denne bruger?"
-
-#: wp-members-admin.php:141
-msgid "IP @ registration"
-msgstr "IP @ registration"
-
-#: wp-members-admin.php:194
-msgid "Manage Options"
-msgstr "Administrer Valgmuligheder"
-
-#: wp-members-admin.php:199
-msgid "Block Posts by default"
-msgstr "Bloker Poster som standard"
-
-#: wp-members-admin.php:199
-msgid "Note: Posts can still be individually blocked or unblocked at the article level"
-msgstr "Bemærk: Poster kan stadig blokeres eller frigives individuelt under redigering"
-
-#: wp-members-admin.php:200
-msgid "Block Pages by default"
-msgstr "Bloker Sider som standard"
-
-#: wp-members-admin.php:200
-msgid "Note: Pages can still be individually blocked or unblocked at the article level"
-msgstr "Bemærk: Sider kan stadig blokeres eller frigives individuelt under redigering"
-
-#: wp-members-admin.php:201
-msgid "Show excerpts"
-msgstr "Vis Uddrag"
-
-#: wp-members-admin.php:201
-msgid "Shows excerpted content above the login/registration on both Posts and Pages"
-msgstr "Vis uddrag inden Log på / Registrering af både Poster og Sider"
-
-#: wp-members-admin.php:202
-msgid "Notify admin"
-msgstr "Underret Admin"
-
-#: wp-members-admin.php:202
-msgid "Sends email to admin for each new registration?"
-msgstr "Send email til Admin for hver ny registrering?"
-
-#: wp-members-admin.php:203
-msgid "Moderate registration"
-msgstr "Rediger registrering"
-
-#: wp-members-admin.php:203
-msgid "Holds new registrations for admin approval"
-msgstr "Tilbageholder nye registreringer for godkendelse fra Admin"
-
-#: wp-members-admin.php:204
-msgid "Use reCAPTCHA"
-msgstr "Brug reCAPTCHA"
-
-#: wp-members-admin.php:204
-msgid "Turns on CAPTCHA for registration"
-msgstr "Slår CAPTCHA til under registrering"
-
-#: wp-members-admin.php:205
-msgid "Turn off registration"
-msgstr "Afbryd registrering"
-
-#: wp-members-admin.php:205
-msgid "Turns off the registration process, only allows login"
-msgstr "Afbryder registreringsprocessen, tillader kun log på"
-
-#: wp-members-admin.php:207
-msgid "Legacy forms"
-msgstr "Legacy forms"
-
-#: wp-members-admin.php:207
-msgid "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
-msgstr "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
-
-#: wp-members-admin.php:208
-msgid "Time-based expiration"
-msgstr "Time-based expiration"
-
-#: wp-members-admin.php:208
-msgid "Allows for access to expire"
-msgstr "Allows for access to expire"
-
-#: wp-members-admin.php:209
-msgid "Trial period"
-msgstr "Prøveperiode"
-
-#: wp-members-admin.php:209
-msgid "Allows for a trial period"
-msgstr "Tillader en prøveperiode"
-
-#: wp-members-admin.php:210
-msgid "Ignore warning messages"
-msgstr "Ignorer advarsels-beskeder"
-
-#: wp-members-admin.php:210
-msgid "Ignores WP-Members warning messages in the admin panel"
-msgstr "Ignorerer WP-Members advarsels-beskeder i administrationspanelet"
-
-#: wp-members-admin.php:228
-msgid "Members Area URL:"
-msgstr "Members Area URL:"
-
-#: wp-members-admin.php:229
-#: wp-members-admin.php:235
-#: wp-members-admin.php:241
-#: wp-members-admin.php:916
-msgid "Optional"
-msgstr "Valgfrit"
-
-#: wp-members-admin.php:234
-msgid "Register Page URL:"
-msgstr "Register Page URL:"
-
-#: wp-members-admin.php:240
-msgid "Custom CSS:"
-msgstr "Custom CSS:"
-
-#: wp-members-admin.php:246
-msgid "Update Settings"
-msgstr "Opdater Indstillinger"
-
-#: wp-members-admin.php:264
-msgid "Manage Fields"
-msgstr "Administrer Felter"
-
-#: wp-members-admin.php:265
-msgid "Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields."
-msgstr "Beslut hvilke felter der skal vises og hvilke der er obligatoriske. Dette inkluderer både almindelige WP felter og WP-Member felter"
-
-#: wp-members-admin.php:266
-msgid "(Note: Email is always mandatory. and cannot be changed.)"
-msgstr "(Bemærk: Email er altid obligatorisk - og kan ikke ændres.)"
-
-#: wp-members-admin.php:271
-msgid "Add/Delete"
-msgstr "Tilføj/Slet"
-
-#: wp-members-admin.php:272
-msgid "Field Label"
-msgstr "Felt Etiket"
-
-#: wp-members-admin.php:273
-msgid "Option Name"
-msgstr "Valgt Navn"
-
-#: wp-members-admin.php:274
-msgid "Field Type"
-msgstr "Felt Type"
-
-#: wp-members-admin.php:275
-msgid "Display?"
-msgstr "Vis?"
-
-#: wp-members-admin.php:276
-msgid "Required?"
-msgstr "Obligatorisk?"
-
-#: wp-members-admin.php:277
-msgid "Checked?"
-msgstr "Markering?"
-
-#: wp-members-admin.php:278
-msgid "WP Native?"
-msgstr "WP Felt?"
-
-#: wp-members-admin.php:287
-msgid "Delete"
-msgstr "Slet"
-
-#: wp-members-admin.php:299
-msgid "(Email cannot be removed)"
-msgstr "(Email kan ikke slettes)"
-
-#: wp-members-admin.php:310
-msgid "Add"
-msgstr "Tilføj"
-
-#: wp-members-admin.php:315
-msgid "text"
-msgstr "Tekst"
-
-#: wp-members-admin.php:316
-msgid "textarea"
-msgstr "Tekstfelt"
-
-#: wp-members-admin.php:317
-msgid "checkbox"
-msgstr "Markeringsboks"
-
-#: wp-members-admin.php:318
-msgid "dropdown"
-msgstr "Dropdown"
-
-#: wp-members-admin.php:319
-msgid "password"
-msgstr "Kodeord"
-
-#: wp-members-admin.php:328
-msgid "For checkbox, stored value if checked:"
-msgstr "Hvilken værdi gemmes, når markerings-boksen checkes:"
-
-#: wp-members-admin.php:334
-msgid "For dropdown, array of values:"
-msgstr "Til Dropdown, tabel med valg:"
-
-#: wp-members-admin.php:335
-msgid "Options should be Option Name|option_value,"
-msgstr "Valg skal skrives Valg Navn|valg_værdi,"
-
-#: wp-members-admin.php:336
-msgid "Visit plugin site for more information"
-msgstr "Besøg Plugin Site for mere information"
-
-#: wp-members-admin.php:348
-msgid "Update Fields"
-msgstr "Opdater Felter"
-
-#: wp-members-admin.php:362
-msgid "Restricted post (or page), displays above the login/registration form"
-msgstr "Vises over Log på / Registrering på Post eller Side med begrænset adgang"
-
-#: wp-members-admin.php:363
-msgid "Username is taken"
-msgstr "Brugernavn er taget"
-
-#: wp-members-admin.php:364
-msgid "Email is registered"
-msgstr "Email er registreret"
-
-#: wp-members-admin.php:365
-msgid "Registration completed"
-msgstr "Registrering fuldført - afventer godkendelse"
-
-#: wp-members-admin.php:366
-msgid "User update"
-msgstr "Bruger opdatering"
-
-#: wp-members-admin.php:367
-msgid "Passwords did not match"
-msgstr "Kodeordene er ikke ens"
-
-#: wp-members-admin.php:368
-msgid "Password changes"
-msgstr "Ændret Kodeord"
-
-#: wp-members-admin.php:369
-msgid "Username or email do not exist when trying to reset forgotten password"
-msgstr "Brugernavn eller Email eksisterer ikke når glemt Kodeord forsøges nulstillet"
-
-#: wp-members-admin.php:370
-msgid "Password reset"
-msgstr "Nulstil Kodeord"
-
-#: wp-members-admin.php:372
-msgid "Dialogs and Error Messages"
-msgstr "Dialoger og Fejlmeldinger"
-
-#: wp-members-admin.php:373
-msgid "You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc."
-msgstr "Du kan tilpasse tekster til dialog og fejlmeldinger. Simpel HTML er tilladt %s osv."
-
-#: wp-members-admin.php:386
-msgid "Terms of Service (TOS)"
-msgstr "Vilkår for Deltagelse"
-
-#: wp-members-admin.php:393
-msgid "Update Dialogs"
-msgstr "Opdater Dialoger"
-
-#: wp-members-admin.php:498
-msgid "WP-Members settings were updated"
-msgstr "WP-Member indstillinger er opdateret"
-
-#: wp-members-admin.php:558
-msgid "Field Label is required for adding a new field. Nothing was updated."
-msgstr "Felt-etikette er nødvendig for at tilføje et nyt felt. Intet er ændret."
-
-#: wp-members-admin.php:559
-msgid "Option Name is required for adding a new field. Nothing was updated."
-msgstr "Valgt Navn er nødvendigt for at tilføje et nyt felt. Intet er ændret."
-
-#: wp-members-admin.php:594
-msgid "WP-Members fields were updated"
-msgstr "WP-Members felter er opdateret"
-
-#: wp-members-admin.php:620
-msgid "WP-Members dialogs were updated"
-msgstr "WP-Members dialoger er opdateret"
-
-#: wp-members-admin.php:639
-msgid "reCAPTCHA was updated for WP-Members"
-msgstr "reCAPTCHA er opdateret for WP-Members"
-
-#: wp-members-admin.php:655
-msgid "WP-Members expiration periods were updated"
-msgstr "WP-Members prøveperiode er opdateret"
-
-#: wp-members-admin.php:704
-msgid "WP-Members emails were updated"
-msgstr "WP-Members emails er opdateret"
-
-#: wp-members-admin.php:721
-msgid "Settings were saved, but you have required fields that are not set to display!"
-msgstr "Indstillingerne er gemt, men der er obligatoriske felter, som ikke er indstillet til at blive vist!"
-
-#: wp-members-admin.php:722
-msgid "Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that your displayed and required fields match up.  Mismatched fields are highlighted below."
-msgstr "Bemærk: Dette vil ikke medføre en fejl for slutbrugeren, da kun viste felter er valideret. Du bør dog stadig kontrollere, at dine viste, og krævede felter passer sammen. Forkerte felter er fremhævet nedenfor."
-
-#: wp-members-admin.php:782
-msgid "Version:"
-msgstr "Version:"
-
-#: wp-members-admin.php:783
-msgid "Follow"
-msgstr "Følg"
-
-#: wp-members-admin.php:786
-msgid "If you find this plugin useful, please consider making a donation"
-msgstr "If you find this plugin useful, please consider making a donation"
-
-#: wp-members-admin.php:805
+#: admin/admin.php:187
 msgid "Options"
 msgstr "Valg"
 
-#: wp-members-admin.php:806
+#: admin/admin.php:188
 msgid "Fields"
 msgstr "Felter"
 
-#: wp-members-admin.php:807
+#: admin/admin.php:189
 msgid "Dialogs"
 msgstr "Dialog"
 
-#: wp-members-admin.php:808
+#: admin/admin.php:190
 msgid "Emails"
 msgstr "Email"
 
-#: wp-members-admin.php:810
-msgid "reCAPTCHA"
-msgstr "reCAPTCHA"
-
-#: wp-members-admin.php:813
-msgid "Subscriptions"
-msgstr "Abonnement"
-
-#: wp-members-admin.php:816
-msgid "PayPal Settings"
-msgstr "PayPal Settings"
-
-#: wp-members-admin.php:859
-msgid "Thank you for using WP-Members! You are using version %s"
-msgstr "Thank you for using WP-Members! You are using version %s"
-
-#: wp-members-admin.php:861
-msgid "If you find this plugin useful, please consider a %s donation %s"
-msgstr "If you find this plugin useful, please consider a %s donation %s"
-
-#: wp-members-admin.php:882
-msgid "Manage reCAPTCHA Options"
-msgstr "Administrer reCAPTCHA Valg"
-
-#: wp-members-admin.php:888
-msgid "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
-msgstr "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
-
-#: wp-members-admin.php:889
-msgid "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s"
-msgstr "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s"
-
-#: wp-members-admin.php:894
-msgid "reCAPTCHA Keys"
-msgstr "reCAPTCHA Keys"
-
-#: wp-members-admin.php:896
-msgid "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a %s free reCAPTCHA key%s"
-msgstr "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a %s free reCAPTCHA key%s"
-
-#: wp-members-admin.php:897
-msgid "Public Key"
-msgstr "Public Key"
-
-#: wp-members-admin.php:898
-msgid "Private Key"
-msgstr "Private Key"
-
-#: wp-members-admin.php:902
-msgid "Choose Theme"
-msgstr "Choose Theme"
-
-#. #-#-#-#-#  plugin.pot (WP-Members 2.7.5)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: wp-members-admin.php:905
-msgid "WP-Members"
-msgstr "WP-Members"
-
-#: wp-members-admin.php:906
-msgid "Red"
-msgstr "Rød"
-
-#: wp-members-admin.php:907
-msgid "White"
-msgstr "Hvid"
-
-#: wp-members-admin.php:908
-msgid "Black Glass"
-msgstr "Sort Glas"
-
-#: wp-members-admin.php:909
-msgid "Clean"
-msgstr "Ren"
-
-#: wp-members-admin.php:910
-msgid "Custom"
-msgstr "Custom"
-
-#: wp-members-admin.php:922
-msgid "Update reCAPTCHA Settings"
-msgstr "Update reCAPTCHA Settings"
-
-#: wp-members-admin.php:991
-msgid "%d users were activated."
-msgstr "%d brugere er aktiverede."
-
-#: wp-members-admin.php:996
-msgid "Users ready to export, %s click here %s to generate and download a CSV."
-msgstr "Brugere klar til export %s Klik her %s for at generere og downloade en CSV."
-
-#: wp-members-admin.php:1006
-msgid "WP-Members Users"
-msgstr "WP-Members Brugere"
-
-#: wp-members-admin.php:1006
-msgid "Add New"
-msgstr "Tilføj Ny"
-
-#: wp-members-admin.php:1188
-#: wp-members-export-full.php:98
-#: wp-members-export.php:84
-msgid "No"
-msgstr "Nej"
-
-#: wp-members-admin.php:1202
-msgid "No users matched your criteria"
-msgstr "Ingen brugere matchede dine kriterier"
-
-#: wp-members-admin.php:1291
-msgid "Bulk Actions"
-msgstr "Gruppe handling"
-
-#: wp-members-admin.php:1293
-msgid "Activate"
-msgstr "Aktiver"
-
-#: wp-members-admin.php:1295
-msgid "Export"
-msgstr "Eksporter"
-
-#: wp-members-admin.php:1297
-msgid "Apply"
-msgstr "Ansøge"
-
-#: wp-members-admin.php:1440
-msgid "New Registration"
-msgstr "Ny Bruger Registrering"
-
-#: wp-members-admin.php:1444
-msgid "Registration is Moderated"
-msgstr "Registrering fuldført"
-
-#: wp-members-admin.php:1445
-msgid "Registration is Moderated, User is Approved"
-msgstr "Din registrering er godkendt"
-
-#: wp-members-admin.php:1450
-msgid "Password Reset"
-msgstr "Kodeord Nulstillet"
-
-#: wp-members-admin.php:1455
-msgid "Admin Notification"
-msgstr "Admin Meddelelse"
-
-#: wp-members-admin.php:1460
-msgid "Email Signature"
-msgstr "Email underskrift"
-
-#: wp-members-admin.php:1463
-msgid "Email Messages"
-msgstr "Email Besked"
-
-#: wp-members-admin.php:1465
-msgid "You can customize the content of the emails sent by the plugin."
-msgstr "Du kan tilpasse indholdet af emails sendt fra denne plugin"
-
-#: wp-members-admin.php:1467
-msgid "A list of shortcodes is available here."
-msgstr "liste med shortcodes kan ses her."
-
-#: wp-members-admin.php:1474
-msgid "Set a custom email address"
-msgstr "Indsæt en gyldig Email-adresse"
-
-#: wp-members-admin.php:1475
-#: wp-members-admin.php:1479
-#: wp-members-admin.php:1502
-msgid "(optional)"
-msgstr "(obligatorisk)"
-
-#: wp-members-admin.php:1478
-msgid "Set a custom email name"
-msgstr "Skriv dit email navn her"
-
-#: wp-members-admin.php:1489
-msgid "Subject"
-msgstr "Emne"
-
-#: wp-members-admin.php:1493
-msgid "Body"
-msgstr "Brødtekst"
-
-#: wp-members-admin.php:1510
-msgid "Update Emails"
-msgstr "Opdater Emails"
-
-#: wp-members-core.php:110
-msgid "There was an error with the CAPTCHA form."
-msgstr "Der opstod en fejl in CAPTCHA skemaet."
-
-#: wp-members-core.php:258
-msgid "Edit Your Information"
-msgstr "Rediger dine Oplysninger"
-
-#: wp-members-core.php:289
-msgid "Password fields cannot be empty"
-msgstr "Kodeordsfelt må ikke være tomt"
-
-#: wp-members-core.php:465
-msgid "<strong>ERROR</strong>: User has not been activated."
+#: admin/dialogs.php:109
+msgid ""
+"Your WP settings allow anyone to register - this is not the recommended "
+"setting."
 msgstr ""
+"Dine WP indstillinger tillader alle at registrere sig - dette kan ikke "
+"anbefales."
 
-#: wp-members-core.php:975
-msgid "Additional Info"
-msgstr "Ekstra Oplysninger"
+#: admin/dialogs.php:110
+msgid ""
+"You can %s change this here %s making sure the box next to \"Anyone can "
+"register\" is unchecked."
+msgstr ""
+"Du kan %s ændre dette her %s ved at sørge for boksen ved siden af \"Alle kan "
+"registrere \" er u-markeret."
 
-#: wp-members-core.php:1017
-msgid "Indicates a required field"
-msgstr "Et obligatorisk felt"
+#: admin/dialogs.php:111
+msgid ""
+"This setting allows a link on the /wp-login.php page to register using the "
+"WP native registration process thus circumventing any registration you are "
+"using with WP-Members. In some cases, this may suit the users wants/needs, "
+"but most users should uncheck this option. If you do not change this "
+"setting, you can choose to ignore these warning messages under WP-Members "
+"Settings."
+msgstr ""
+"Denne indstilling tillader at et link på /wp-login.php siden for at lade sig "
+"registrere ved hjælp af WP oprindelige registreringsprocessen således omgår "
+"enhver form for registrering, du bruger sammen med WP-Members. I nogle "
+"tilfælde passer dette til brugernes ønsker/behov, men de fleste brugere bør "
+"fjerne markeringen af denne mulighed. Hvis du ikke ændrer denne indstilling, "
+"kan du vælge at ignorere disse advarsler i henhold til WP-medlemmer "
+"indstillinger."
 
-#: wp-members-dialogs-admin.php:31
-msgid "Your WP settings allow anyone to register - this is not the recommended setting."
-msgstr "Dine WP indstillinger tillader alle at registrere sig - dette kan ikke anbefales."
+#: admin/dialogs.php:117
+msgid ""
+"Your WP settings allow anyone to comment - this is not the recommended "
+"setting."
+msgstr ""
+"Dine WP indstillinger tillader alle at skrive kommentarer - denne "
+"indstilling kan ikke anbefales."
 
-#: wp-members-dialogs-admin.php:32
-msgid "You can %s change this here %s making sure the box next to \"Anyone can register\" is unchecked."
-msgstr "Du kan %s ændre dette her %s ved at sørge for boksen ved siden af \"Alle kan registrere \" er u-markeret."
+#: admin/dialogs.php:118
+msgid ""
+"You can %s change this here %s by checking the box next to \"Users must be "
+"registered and logged in to comment.\""
+msgstr ""
+"Du kan %s ændre dette her %s ved at sørge for boksen ved siden af \"Brugere "
+"skal være registrerede og logget ind for at kommentere  \" er markeret."
 
-#: wp-members-dialogs-admin.php:33
-msgid "This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
-msgstr "Denne indstilling tillader at et link på /wp-login.php siden for at lade sig registrere ved hjælp af WP oprindelige registreringsprocessen således omgår enhver form for registrering, du bruger sammen med WP-Members. I nogle tilfælde passer dette til brugernes ønsker/behov, men de fleste brugere bør fjerne markeringen af denne mulighed. Hvis du ikke ændrer denne indstilling, kan du vælge at ignorere disse advarsler i henhold til WP-medlemmer indstillinger."
+#: admin/dialogs.php:119
+msgid ""
+"This setting allows any users to comment, whether or not they are "
+"registered. Depending on how you are using WP-Members will determine whether "
+"you should change this setting or not. If you do not change this setting, "
+"you can choose to ignore these warning messages under WP-Members Settings."
+msgstr ""
+"Denne indstilling gør det muligt for alle brugere at kommentere, selv om de "
+"ikker er registreret. Afhængigt af, hvordan du bruger WP-Members  afgør om "
+"du bør ændre denne indstilling eller ej. Hvis du ikke ændrer denne "
+"indstilling, kan du vælge at ignorere disse advarsler i henhold til WP-"
+"Members indstillinger."
 
-#: wp-members-dialogs-admin.php:39
-msgid "Your WP settings allow anyone to comment - this is not the recommended setting."
-msgstr "Dine WP indstillinger tillader alle at skrive kommentarer - denne indstilling kan ikke anbefales."
+#: admin/dialogs.php:125
+msgid ""
+"Your WP settings allow full text rss feeds - this is not the recommended "
+"setting."
+msgstr ""
+"Din WP indstilling tilader fuld RSS feeds - denne indstilling kan ikke "
+"anbefales"
 
-#: wp-members-dialogs-admin.php:40
-msgid "You can %s change this here %s by checking the box next to \"Users must be registered and logged in to comment.\""
-msgstr "Du kan %s ændre dette her %s ved at sørge for boksen ved siden af \"Brugere skal være registrerede og logget ind for at kommentere  \" er markeret."
+#: admin/dialogs.php:126
+msgid ""
+"You can %s change this here %s by changing \"For each article in a feed, show"
+"\" to \"Summary.\""
+msgstr ""
+"Du kan %s ændre dette %s ved at ændre \"For hvert indlæg, vis \" to \"Resume."
+"\""
 
-#: wp-members-dialogs-admin.php:41
-msgid "This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
-msgstr "Denne indstilling gør det muligt for alle brugere at kommentere, selv om de ikker er registreret. Afhængigt af, hvordan du bruger WP-Members  afgør om du bør ændre denne indstilling eller ej. Hvis du ikke ændrer denne indstilling, kan du vælge at ignorere disse advarsler i henhold til WP-Members indstillinger."
+#: admin/dialogs.php:127
+msgid ""
+"Leaving this set to full text allows anyone to read your protected content "
+"in an RSS reader. Changing this to Summary prevents this as your feeds will "
+"only show summary text."
+msgstr ""
+"At sætte RSS til fuld tekst giver alle mulighed for at læse dit beskyttet "
+"indhold i en RSS-læser. At ændre RSS til Oversigt forhindrer dette og dine "
+"feeds vil kun blive vist som summarisk tekst."
 
-#: wp-members-dialogs-admin.php:47
-msgid "Your WP settings allow full text rss feeds - this is not the recommended setting."
-msgstr "Din WP indstilling tilader fuld RSS feeds - denne indstilling kan ikke anbefales"
-
-#: wp-members-dialogs-admin.php:48
-msgid "You can %s change this here %s by changing \"For each article in a feed, show\" to \"Summary.\""
-msgstr "Du kan %s ændre dette %s ved at ændre \"For hvert indlæg, vis \" to \"Resume.\""
-
-#: wp-members-dialogs-admin.php:49
-msgid "Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text."
-msgstr "At sætte RSS til fuld tekst giver alle mulighed for at læse dit beskyttet indhold i en RSS-læser. At ændre RSS til Oversigt forhindrer dette og dine feeds vil kun blive vist som summarisk tekst."
-
-#: wp-members-dialogs-admin.php:55
+#: admin/dialogs.php:133
 msgid "You have set WP-Members to hold registrations for approval"
 msgstr "Du har sat WP-Members til at vente på godkendelse af registreringer"
 
-#: wp-members-dialogs-admin.php:56
-msgid "but you have not changed the default message for \"Registration Completed\" under \"WP-Members Dialogs and Error Messages.\"  You should change this message to let users know they are pending approval."
-msgstr "men du har ikke ændret standard besked for \"Registrering fuldført\" under \"WP-Members Dialoger og Fejlmeldinger.\"  Du bør ændre denne besked så brugerne ved at deres tilmelding afventer godkendelsel."
+#: admin/dialogs.php:134
+msgid ""
+"but you have not changed the default message for \"Registration Completed\" "
+"under \"WP-Members Dialogs and Error Messages.\"  You should change this "
+"message to let users know they are pending approval."
+msgstr ""
+"men du har ikke ændret standard besked for \"Registrering fuldført\" under "
+"\"WP-Members Dialoger og Fejlmeldinger.\"  Du bør ændre denne besked så "
+"brugerne ved at deres tilmelding afventer godkendelsel."
 
-#: wp-members-dialogs-admin.php:62
+#: admin/dialogs.php:140
 msgid "You have set WP-Members to turn off the registration process"
 msgstr "Du har sat WP-Members til at afbryde registreringsprocessen"
 
-#: wp-members-dialogs-admin.php:63
-msgid "but you also set to moderate and/or email admin new registrations.  You will need to set up a registration page for users to register."
-msgstr "men du skal også ændre og / eller e-mail admin for nye registreringer. Du skal oprette en registreringsside for brugere."
+#: admin/dialogs.php:141
+msgid ""
+"but you also set to moderate and/or email admin new registrations.  You will "
+"need to set up a registration page for users to register."
+msgstr ""
+"men du skal også ændre og / eller e-mail admin for nye registreringer. Du "
+"skal oprette en registreringsside for brugere."
 
-#: wp-members-dialogs-admin.php:69
+#: admin/dialogs.php:147
 msgid "You have turned on reCAPTCHA"
 msgstr "Du har slået reCAPTCHA til"
 
-#: wp-members-dialogs-admin.php:70
-msgid "but you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included."
-msgstr "men du ikke har indtastet API nøgler. Du skal bruge både en offentlig og privat nøgle. Den CAPTCHA vises ikke, medmindre at en gyldig API-nøgle er inkluderet."
+#: admin/dialogs.php:148
+msgid ""
+"but you have not entered API keys.  You will need both a public and private "
+"key.  The CAPTCHA will not display unless a valid API key is included."
+msgstr ""
+"men du ikke har indtastet API nøgler. Du skal bruge både en offentlig og "
+"privat nøgle. Den CAPTCHA vises ikke, medmindre at en gyldig API-nøgle er "
+"inkluderet."
 
-#: wp-members-dialogs.php:53
+#: admin/dialogs.php:171
+msgid "Version:"
+msgstr "Version:"
+
+#: admin/dialogs.php:172
+msgid "Quick Start Guide"
+msgstr ""
+
+#: admin/dialogs.php:173
 #, fuzzy
-msgid "Existing Users Login"
-msgstr "Eksisterende Brugeres Login"
+msgid "Online User Guide"
+msgstr "Bruger opdatering"
 
-#: wp-members-dialogs.php:53
-#: wp-members-dialogs.php:96
-#: wp-members-dialogs.php:351
-#: wp-members-dialogs.php:725
-#: wp-members-sidebar.php:99
-#: wp-members-sidebar.php:133
-msgid "Username"
-msgstr "Brugernavn"
+#: admin/dialogs.php:174
+msgid "FAQs"
+msgstr ""
 
-#: wp-members-dialogs.php:53
-#: wp-members-sidebar.php:101
-#: wp-members-sidebar.php:135
-msgid "Password"
-msgstr "Kodeord"
+#: admin/dialogs.php:181
+#, fuzzy
+msgid "Thank you for using WP-Members"
+msgstr "Thank you for using WP-Members! You are using version %s"
 
-#: wp-members-dialogs.php:53
-msgid "Login"
-msgstr "Log på"
+#: admin/dialogs.php:182
+msgid "A plugin developed by"
+msgstr ""
 
-#: wp-members-dialogs.php:75
-#: wp-members-dialogs.php:155
-msgid "Change Password"
-msgstr "Skift Kodeord"
+#: admin/dialogs.php:183
+msgid "Follow"
+msgstr "Følg"
 
-#: wp-members-dialogs.php:75
-msgid "New Password"
-msgstr "Nyt Kodeord"
+#: admin/dialogs.php:200 admin/dialogs.php:204
+msgid "Latest from RocketGeek"
+msgstr ""
 
-#: wp-members-dialogs.php:75
-msgid "Repeat Password"
-msgstr "Gentag Kodeord"
+#: admin/dialogs.php:221 admin/dialogs.php:234
+msgid "Latest from ButlerBlog"
+msgstr ""
 
-#: wp-members-dialogs.php:75
-msgid "Update Password"
-msgstr "Opdater Kodeord"
+#: admin/post.php:36 admin/post.php:38
+#, fuzzy
+msgid "Block"
+msgstr "Bloker Poster som standard"
 
-#: wp-members-dialogs.php:96
-msgid "Reset Forgotten Password"
-msgstr "Nulstil glemt Kodeord"
+#: admin/post.php:37 admin/post.php:39
+msgid "Unblock"
+msgstr ""
 
-#: wp-members-dialogs.php:96
-#: wp-members-install.php:58
-msgid "Email"
-msgstr "Email"
+#: admin/post.php:120
+#, fuzzy
+msgid "%s posts %ed."
+msgstr "Bloker Poster som standard"
 
-#: wp-members-dialogs.php:96
-msgid "Reset Password"
-msgstr "Nulstil Kodeord"
-
-#: wp-members-dialogs.php:118
-msgid "Login Failed!"
-msgstr "Log på fejlede!"
-
-#: wp-members-dialogs.php:119
-msgid "You entered an invalid username or password."
-msgstr "Du har skrevet forkert Brugernavn eller Kodeord."
-
-#: wp-members-dialogs.php:120
-msgid "Click here to continue."
-msgstr "Klik her for at fortsætte."
-
-#: wp-members-dialogs.php:154
-msgid "Edit My Information"
-msgstr "Rediger mine info"
-
-#: wp-members-dialogs.php:162
-#: wp-members-dialogs.php:173
-#: wp-members-dialogs.php:181
-#: wp-members-sidebar.php:37
-#: wp-members-sidebar.php:167
-msgid "You are logged in as %s"
-msgstr "Du er logget på som %s"
-
-#: wp-members-dialogs.php:164
-msgid "Click here to logout."
-msgstr "Klik her for at logge ud."
-
-#: wp-members-dialogs.php:165
-msgid "Begin using the site."
-msgstr "Begynd at bruge sitet"
-
-#: wp-members-dialogs.php:174
-#: wp-members-dialogs.php:182
-#: wp-members-sidebar.php:38
-#: wp-members-sidebar.php:168
-msgid "click here to logout"
-msgstr "Klik her for at logge ud"
-
-#: wp-members-dialogs.php:339
-#: wp-members-dialogs.php:712
-msgid "New Users Registration"
+#: admin/post.php:138
+#, fuzzy
+msgid "Post Restriction"
 msgstr "Ny Bruger Registrering"
 
-#: wp-members-dialogs.php:358
-#: wp-members-dialogs.php:730
-msgid "Choose a Username"
-msgstr "Vælg et Brugernavn"
+#: admin/post.php:145
+#, fuzzy
+msgid "Page Restriction"
+msgstr "vÃ¦lg en sider"
 
-#: wp-members-dialogs.php:451
-#: wp-members-dialogs.php:824
-msgid "Please indicate that you agree to the %s TOS %s"
-msgstr "Marker at du accepterer %sVilkår for Deltagelse %s"
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Unblocked?"
+msgstr ""
+"Bemærk: Poster kan stadig blokeres eller frigives individuelt under "
+"redigering"
 
-#: wp-members-dialogs.php:498
-#: wp-members-dialogs.php:878
-msgid "Clear Form"
-msgstr "Ryd indhold"
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Blocked?"
+msgstr ""
+"Bemærk: Poster kan stadig blokeres eller frigives individuelt under "
+"redigering"
 
-#: wp-members-dialogs.php:499
-#: wp-members-dialogs.php:876
-msgid "Submit"
-msgstr "Indsend"
-
-#: wp-members-dialogs.php:503
-#: wp-members-dialogs.php:883
-msgid "Required field"
-msgstr "Obligatorisk felt"
-
-#: wp-members-dialogs.php:565
-#: wp-members-dialogs.php:931
-msgid "Remember me"
-msgstr "Husk mig"
-
-#: wp-members-dialogs.php:578
-#: wp-members-dialogs.php:951
-msgid "Forgot password?"
-msgstr "Glemt Kodeord?"
-
-#: wp-members-dialogs.php:578
-#: wp-members-dialogs.php:951
-msgid "Click here to reset"
-msgstr "Klik her for at nulstille"
-
-#: wp-members-dialogs.php:587
-#: wp-members-dialogs.php:959
-msgid "New User?"
-msgstr "Ny Bruger"
-
-#: wp-members-dialogs.php:587
-#: wp-members-dialogs.php:959
-msgid "Click here to register"
-msgstr "Klik her for at registrere"
-
-#: wp-members-export-full.php:29
-#: wp-members-export.php:26
-msgid "Cheatin&#8217; uh?"
-msgstr "Snyder du?"
-
-#: wp-members-export-full.php:62
-#: wp-members-export.php:52
-msgid "Activated?"
-msgstr "Aktiveret?"
-
-#: wp-members-export-full.php:65
-#: wp-members-export.php:55
-msgid "Subscription"
-msgstr "Abonnement"
-
-#: wp-members-export-full.php:65
-#: wp-members-export.php:55
-msgid "Expires"
-msgstr "Udløber"
-
-#: wp-members-export-full.php:68
-#: wp-members-export.php:58
-msgid "Registered"
-msgstr "Registreret"
-
-#: wp-members-export-full.php:69
-#: wp-members-export.php:59
-msgid "IP"
-msgstr "IP"
-
-#: wp-members-export-full.php:96
-#: wp-members-export.php:82
+#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
+#: admin/user-export.php:211
 msgid "Yes"
 msgstr "Ja"
 
-#: wp-members-export.php:29
-msgid "there was an error and no users were exported"
-msgstr "der opstod en fejl og ingen Brugere blev eksporteret"
+#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:36
+msgid "Need help?"
+msgstr ""
 
-#: wp-members-install.php:49
+#: admin/tab-captcha.php:45
+msgid "Manage reCAPTCHA Options"
+msgstr "Administrer reCAPTCHA Valg"
+
+#: admin/tab-captcha.php:52
+msgid ""
+"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
+"while blocking spam on your blog."
+msgstr ""
+"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
+"while blocking spam on your blog."
+
+#: admin/tab-captcha.php:53
+msgid ""
+"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
+"that they are a human. This verifies that they are not a spambot while also "
+"correcting the automatic scans of old books. So you get less spam, and the "
+"world gets accurately digitized books. Everybody wins! For details, visit "
+"the %s reCAPTCHA website%s"
+msgstr ""
+"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
+"that they are a human. This verifies that they are not a spambot while also "
+"correcting the automatic scans of old books. So you get less spam, and the "
+"world gets accurately digitized books. Everybody wins! For details, visit "
+"the %s reCAPTCHA website%s"
+
+#: admin/tab-captcha.php:58
+msgid "reCAPTCHA Keys"
+msgstr "reCAPTCHA Keys"
+
+#: admin/tab-captcha.php:60
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+
+#: admin/tab-captcha.php:61
+msgid "Public Key"
+msgstr "Public Key"
+
+#: admin/tab-captcha.php:62
+msgid "Private Key"
+msgstr "Private Key"
+
+#: admin/tab-captcha.php:66
+msgid "Choose Theme"
+msgstr "Choose Theme"
+
+#. Plugin Name of the plugin/theme
+#: admin/tab-captcha.php:69
+msgid "WP-Members"
+msgstr "WP-Members"
+
+#: admin/tab-captcha.php:70
+msgid "Red"
+msgstr "Rød"
+
+#: admin/tab-captcha.php:71
+msgid "White"
+msgstr "Hvid"
+
+#: admin/tab-captcha.php:72
+msgid "Black Glass"
+msgstr "Sort Glas"
+
+#: admin/tab-captcha.php:73
+msgid "Clean"
+msgstr "Ren"
+
+#: admin/tab-captcha.php:74
+msgid "Custom"
+msgstr "Custom"
+
+#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
+#: admin/tab-options.php:107 admin/tab-options.php:121
+msgid "Optional"
+msgstr "Valgfrit"
+
+#: admin/tab-captcha.php:86
+msgid "Update reCAPTCHA Settings"
+msgstr "Update reCAPTCHA Settings"
+
+#: admin/tab-captcha.php:119
+msgid "reCAPTCHA was updated for WP-Members"
+msgstr "reCAPTCHA er opdateret for WP-Members"
+
+#: admin/tab-dialogs.php:29
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr ""
+"Vises over Log på / Registrering på Post eller Side med begrænset adgang"
+
+#: admin/tab-dialogs.php:30
+msgid "Username is taken"
+msgstr "Brugernavn er taget"
+
+#: admin/tab-dialogs.php:31
+msgid "Email is registered"
+msgstr "Email er registreret"
+
+#: admin/tab-dialogs.php:32
+msgid "Registration completed"
+msgstr "Registrering fuldført - afventer godkendelse"
+
+#: admin/tab-dialogs.php:33
+msgid "User update"
+msgstr "Bruger opdatering"
+
+#: admin/tab-dialogs.php:34
+msgid "Passwords did not match"
+msgstr "Kodeordene er ikke ens"
+
+#: admin/tab-dialogs.php:35
+msgid "Password changes"
+msgstr "Ændret Kodeord"
+
+#: admin/tab-dialogs.php:36
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr ""
+"Brugernavn eller Email eksisterer ikke når glemt Kodeord forsøges nulstillet"
+
+#: admin/tab-dialogs.php:37
+msgid "Password reset"
+msgstr "Nulstil Kodeord"
+
+#: admin/tab-dialogs.php:54
+msgid "Dialogs and Error Messages"
+msgstr "Dialoger og Fejlmeldinger"
+
+#: admin/tab-dialogs.php:56
+msgid ""
+"You can customize the text for dialogs and error messages. Simple HTML is "
+"allowed %s etc."
+msgstr ""
+"Du kan tilpasse tekster til dialog og fejlmeldinger. Simpel HTML er tilladt "
+"%s osv."
+
+#: admin/tab-dialogs.php:69
+msgid "Terms of Service (TOS)"
+msgstr "Vilkår for Deltagelse"
+
+#: admin/tab-dialogs.php:76
+msgid "Update Dialogs"
+msgstr "Opdater Dialoger"
+
+#: admin/tab-dialogs.php:115
+msgid "WP-Members dialogs were updated"
+msgstr "WP-Members dialoger er opdateret"
+
+#: admin/tab-emails.php:30
+msgid "New Registration"
+msgstr "Ny Bruger Registrering"
+
+#: admin/tab-emails.php:34
+msgid "Registration is Moderated"
+msgstr "Registrering fuldført"
+
+#: admin/tab-emails.php:35
+msgid "Registration is Moderated, User is Approved"
+msgstr "Din registrering er godkendt"
+
+#: admin/tab-emails.php:40
+msgid "Password Reset"
+msgstr "Kodeord Nulstillet"
+
+#: admin/tab-emails.php:45
+msgid "Admin Notification"
+msgstr "Admin Meddelelse"
+
+#: admin/tab-emails.php:50
+msgid "Email Signature"
+msgstr "Email underskrift"
+
+#: admin/tab-emails.php:57
+msgid "Email Messages"
+msgstr "Email Besked"
+
+#: admin/tab-emails.php:60
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr "Du kan tilpasse indholdet af emails sendt fra denne plugin"
+
+#: admin/tab-emails.php:62
+msgid "A list of shortcodes is available here."
+msgstr "liste med shortcodes kan ses her."
+
+#: admin/tab-emails.php:69
+msgid "Set a custom email address"
+msgstr "Indsæt en gyldig Email-adresse"
+
+#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
+msgid "(optional)"
+msgstr "(obligatorisk)"
+
+#: admin/tab-emails.php:73
+msgid "Set a custom email name"
+msgstr "Skriv dit email navn her"
+
+#: admin/tab-emails.php:84
+msgid "Subject"
+msgstr "Emne"
+
+#: admin/tab-emails.php:88
+msgid "Body"
+msgstr "Brødtekst"
+
+#: admin/tab-emails.php:105
+msgid "Update Emails"
+msgstr "Opdater Emails"
+
+#: admin/tab-emails.php:161
+msgid "WP-Members emails were updated"
+msgstr "WP-Members emails er opdateret"
+
+#: admin/tab-fields.php:166
+msgid "WP-Members fields were updated"
+msgstr "WP-Members felter er opdateret"
+
+#: admin/tab-fields.php:176
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr ""
+"Felt-etikette er nødvendig for at tilføje et nyt felt. Intet er ændret."
+
+#: admin/tab-fields.php:177
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr "Valgt Navn er nødvendigt for at tilføje et nyt felt. Intet er ændret."
+
+#: admin/tab-fields.php:196
+#, fuzzy
+msgid "Checked value is required for checkboxes. Nothing was updated."
+msgstr ""
+"Felt-etikette er nødvendig for at tilføje et nyt felt. Intet er ændret."
+
+#: admin/tab-fields.php:218
+#, fuzzy
+msgid "field was added"
+msgstr "Felt Etiket"
+
+#: admin/tab-fields.php:236
+#, fuzzy
+msgid "field was updated"
+msgstr "WP-Members felter er opdateret"
+
+#: admin/tab-fields.php:257
+msgid "edit"
+msgstr "redigere"
+
+#: admin/tab-fields.php:284 admin/tab-fields.php:380
+#, fuzzy
+msgid "Edit Field"
+msgstr "redigere"
+
+#: admin/tab-fields.php:284
+#, fuzzy
+msgid "Add a Field"
+msgstr "Tilføj/Slet"
+
+#: admin/tab-fields.php:290 admin/tab-fields.php:411
+msgid "Field Label"
+msgstr "Felt Etiket"
+
+#: admin/tab-fields.php:292
+msgid "The name of the field as it will be displayed to the user."
+msgstr ""
+
+#: admin/tab-fields.php:295 admin/tab-fields.php:412
+msgid "Option Name"
+msgstr "Valgt Navn"
+
+#: admin/tab-fields.php:301
+msgid ""
+"The database meta value for the field. It must be unique and contain no "
+"spaces (underscores are ok)."
+msgstr ""
+
+#: admin/tab-fields.php:305 admin/tab-fields.php:413
+msgid "Field Type"
+msgstr "Felt Type"
+
+#: admin/tab-fields.php:311
+msgid "text"
+msgstr "Tekst"
+
+#: admin/tab-fields.php:312
+msgid "textarea"
+msgstr "Tekstfelt"
+
+#: admin/tab-fields.php:313
+msgid "checkbox"
+msgstr "Markeringsboks"
+
+#: admin/tab-fields.php:314
+msgid "dropdown"
+msgstr "Dropdown"
+
+#: admin/tab-fields.php:315
+msgid "password"
+msgstr "Kodeord"
+
+#: admin/tab-fields.php:320 admin/tab-fields.php:414
+msgid "Display?"
+msgstr "Vis?"
+
+#: admin/tab-fields.php:324 admin/tab-fields.php:415
+msgid "Required?"
+msgstr "Obligatorisk?"
+
+#: admin/tab-fields.php:329
+#, fuzzy
+msgid "Additional information for checkbox fields"
+msgstr "WP-Members Ekstra Felter"
+
+#: admin/tab-fields.php:332
+#, fuzzy
+msgid "Checked by default?"
+msgstr "Markering?"
+
+#: admin/tab-fields.php:336
+#, fuzzy
+msgid "Stored value if checked:"
+msgstr "Markering?"
+
+#: admin/tab-fields.php:342
+#, fuzzy
+msgid "Additional information for dropdown fields"
+msgstr "WP-Members Ekstra Felter"
+
+#: admin/tab-fields.php:345
+msgid "For dropdown, array of values:"
+msgstr "Til Dropdown, tabel med valg:"
+
+#: admin/tab-fields.php:370
+msgid "Options should be Option Name|option_value,"
+msgstr "Valg skal skrives Valg Navn|valg_værdi,"
+
+#: admin/tab-fields.php:374
+msgid "Visit plugin site for more information"
+msgstr "Besøg Plugin Site for mere information"
+
+#: admin/tab-fields.php:380
+#, fuzzy
+msgid "Add Field"
+msgstr "Tilføj/Slet"
+
+#: admin/tab-fields.php:402
+msgid "Manage Fields"
+msgstr "Administrer Felter"
+
+#: admin/tab-fields.php:404
+msgid ""
+"Determine which fields will display and which are required.  This includes "
+"all fields, both native WP fields and WP-Members custom fields."
+msgstr ""
+"Beslut hvilke felter der skal vises og hvilke der er obligatoriske. Dette "
+"inkluderer både almindelige WP felter og WP-Member felter"
+
+#: admin/tab-fields.php:405
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Bemærk: Email er altid obligatorisk - og kan ikke ændres.)"
+
+#: admin/tab-fields.php:410
+msgid "Add/Delete"
+msgstr "Tilføj/Slet"
+
+#: admin/tab-fields.php:416
+msgid "Checked?"
+msgstr "Markering?"
+
+#: admin/tab-fields.php:417
+msgid "Edit"
+msgstr "Redigere"
+
+#: admin/tab-fields.php:418
+msgid "Users Screen"
+msgstr ""
+
+#: admin/tab-fields.php:430
+msgid "Delete"
+msgstr "Slet"
+
+#: admin/tab-fields.php:442
+msgid "(Email cannot be removed)"
+msgstr "(Email kan ikke slettes)"
+
+#: admin/tab-fields.php:460
+#, fuzzy
+msgid "Registration Date"
+msgstr "Registrering fuldført - afventer godkendelse"
+
+#: admin/tab-fields.php:463
+#, fuzzy
+msgid "native"
+msgstr ""
+"Beslut hvilke felter der skal vises og hvilke der er obligatoriske. Dette "
+"inkluderer både almindelige WP felter og WP-Member felter"
+
+#: admin/tab-fields.php:473
+#, fuzzy
+msgid "Active"
+msgstr "Aktiver"
+
+#: admin/tab-fields.php:485
+#, fuzzy
+msgid "Registration IP"
+msgstr "IP @ registration"
+
+#: admin/tab-fields.php:520
+msgid "Update Fields"
+msgstr "Opdater Felter"
+
+#: admin/tab-options.php:47
+msgid "Manage Options"
+msgstr "Administrer Valgmuligheder"
+
+#: admin/tab-options.php:53
+msgid "Block Posts by default"
+msgstr "Bloker Poster som standard"
+
+#: admin/tab-options.php:53
+msgid ""
+"Note: Posts can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"Bemærk: Poster kan stadig blokeres eller frigives individuelt under "
+"redigering"
+
+#: admin/tab-options.php:54
+msgid "Block Pages by default"
+msgstr "Bloker Sider som standard"
+
+#: admin/tab-options.php:54
+msgid ""
+"Note: Pages can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"Bemærk: Sider kan stadig blokeres eller frigives individuelt under redigering"
+
+#: admin/tab-options.php:55
+msgid "Show excerpts"
+msgstr "Vis Uddrag"
+
+#: admin/tab-options.php:55
+msgid ""
+"Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr "Vis uddrag inden Log på / Registrering af både Poster og Sider"
+
+#: admin/tab-options.php:56
+msgid "Notify admin"
+msgstr "Underret Admin"
+
+#: admin/tab-options.php:56
+#, fuzzy
+msgid "Notify %s for each new registration? %s"
+msgstr "Send email til Admin for hver ny registrering?"
+
+#: admin/tab-options.php:57
+msgid "Moderate registration"
+msgstr "Rediger registrering"
+
+#: admin/tab-options.php:57
+msgid "Holds new registrations for admin approval"
+msgstr "Tilbageholder nye registreringer for godkendelse fra Admin"
+
+#: admin/tab-options.php:58
+msgid "Use reCAPTCHA"
+msgstr "Brug reCAPTCHA"
+
+#: admin/tab-options.php:58
+msgid "Turns on CAPTCHA for registration"
+msgstr "Slår CAPTCHA til under registrering"
+
+#: admin/tab-options.php:59
+#, fuzzy
+msgid "Hide registration"
+msgstr "Registrering fuldført - afventer godkendelse"
+
+#: admin/tab-options.php:59
+msgid "Removes the registration form from blocked content"
+msgstr ""
+
+#: admin/tab-options.php:61
+msgid "Time-based expiration"
+msgstr "Time-based expiration"
+
+#: admin/tab-options.php:61
+msgid "Allows for access to expire"
+msgstr "Allows for access to expire"
+
+#: admin/tab-options.php:62
+msgid "Trial period"
+msgstr "Prøveperiode"
+
+#: admin/tab-options.php:62
+msgid "Allows for a trial period"
+msgstr "Tillader en prøveperiode"
+
+#: admin/tab-options.php:63
+msgid "Ignore warning messages"
+msgstr "Ignorer advarsels-beskeder"
+
+#: admin/tab-options.php:63
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignorerer WP-Members advarsels-beskeder i administrationspanelet"
+
+#: admin/tab-options.php:79
+msgid "Attribution"
+msgstr ""
+
+#: admin/tab-options.php:81
+msgid ""
+"Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr ""
+
+#: admin/tab-options.php:85
+#, fuzzy
+msgid "Auto Excerpt:"
+msgstr "Vis Uddrag"
+
+#: admin/tab-options.php:86
+msgid "Number of words in excerpt:"
+msgstr ""
+
+#: admin/tab-options.php:86
+msgid "Automatically creates an excerpt"
+msgstr ""
+
+#: admin/tab-options.php:88
+msgid "Pages"
+msgstr "Sider"
+
+#: admin/tab-options.php:92
+msgid "User Profile Page:"
+msgstr "Brugeren Profil Sider"
+
+#: admin/tab-options.php:95
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:102
+#, fuzzy
+msgid "Register Page:"
+msgstr "Register Page URL:"
+
+#: admin/tab-options.php:105
+msgid "For creating a register link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:110
+msgid "Stylesheet"
+msgstr ""
+
+#: admin/tab-options.php:112
+msgid "Stylesheet:"
+msgstr ""
+
+#: admin/tab-options.php:115
+msgid "Select a stylesheet or specify a custom stylesheet below"
+msgstr ""
+
+#: admin/tab-options.php:120
+#, fuzzy
+msgid "Custom Stylesheet:"
+msgstr "Custom"
+
+#: admin/tab-options.php:125
+msgid "Update Settings"
+msgstr "Opdater Indstillinger"
+
+#: admin/tab-options.php:235
+msgid "WP-Members settings were updated"
+msgstr "WP-Member indstillinger er opdateret"
+
+#: admin/tab-options.php:285
+msgid "Select a page"
+msgstr "vÃ¦lg en sider"
+
+#: admin/tab-options.php:293
+msgid "USE CUSTOM URL BELOW"
+msgstr ""
+
+#: admin/user-export.php:57 admin/user-export.php:172
+msgid "Activated?"
+msgstr "Aktiveret?"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Subscription"
+msgstr "Abonnement"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Expires"
+msgstr "Udløber"
+
+#: admin/user-export.php:64 admin/user-export.php:178
+msgid "Registered"
+msgstr "Registreret"
+
+#: admin/user-export.php:65 admin/user-export.php:179
+msgid "IP"
+msgstr "IP"
+
+#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
+msgid "No"
+msgstr "Nej"
+
+#: admin/user-profile.php:46
+msgid "WP-Members Additional Fields"
+msgstr "WP-Members Ekstra Felter"
+
+#: admin/user-profile.php:58 native-registration.php:35
+#: native-registration.php:126 users.php:57
+#, fuzzy
+msgid "(required)"
+msgstr "Obligatorisk?"
+
+#: admin/user-profile.php:91
+msgid "Activate this user?"
+msgstr "Aktiver denne bruger?"
+
+#: admin/user-profile.php:96
+#, fuzzy
+msgid "Reactivate this user?"
+msgstr "Bruger opdatering"
+
+#: admin/user-profile.php:101
+#, fuzzy
+msgid "Deactivate this user?"
+msgstr "Bruger opdatering"
+
+#: admin/user-profile.php:122
+msgid "IP @ registration"
+msgstr "IP @ registration"
+
+#: admin/users.php:43 admin/users.php:47
+msgid "Activate"
+msgstr "Aktiver"
+
+#: admin/users.php:45 admin/users.php:49
+msgid "Export"
+msgstr "Eksporter"
+
+#: admin/users.php:50 admin/users.php:91
+#, fuzzy
+msgid "Export All Users"
+msgstr "Eksporter"
+
+#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
+msgid "Username"
+msgstr "Brugernavn"
+
+#: forms.php:77 wp-members-sidebar.php:148
+msgid "Password"
+msgstr "Kodeord"
+
+#: forms.php:95
+#, fuzzy
+msgid "Existing Users Log In"
+msgstr "Logge ind"
+
+#: forms.php:97
+msgid "Log In"
+msgstr "Logge ind"
+
+#: forms.php:136
+msgid "New Password"
+msgstr "Nyt Kodeord"
+
+#: forms.php:143
+msgid "Repeat Password"
+msgstr "Gentag Kodeord"
+
+#: forms.php:161 wp-members-dialogs.php:192
+msgid "Change Password"
+msgstr "Skift Kodeord"
+
+#: forms.php:163
+msgid "Update Password"
+msgstr "Opdater Kodeord"
+
+#: forms.php:209
+msgid "Email"
+msgstr "Email"
+
+#: forms.php:227
+msgid "Reset Forgotten Password"
+msgstr "Nulstil glemt Kodeord"
+
+#: forms.php:229
+msgid "Reset Password"
+msgstr "Nulstil Kodeord"
+
+#: forms.php:375
+msgid "Remember me"
+msgstr "Husk mig"
+
+#: forms.php:403
+msgid "Forgot password?"
+msgstr "Glemt Kodeord?"
+
+#: forms.php:403
+msgid "Click here to reset"
+msgstr "Klik her for at nulstille"
+
+#: forms.php:418
+msgid "New User?"
+msgstr "Ny Bruger"
+
+#: forms.php:418
+msgid "Click here to register"
+msgstr "Klik her for at registrere"
+
+#: forms.php:515
+msgid "Required field"
+msgstr "Obligatorisk felt"
+
+#: forms.php:521
+#, fuzzy
+msgid "Reset Form"
+msgstr "Der opstod en fejl in CAPTCHA skemaet."
+
+#: forms.php:522 wp-members-sidebar.php:172
+msgid "Register"
+msgstr "Registrer"
+
+#: forms.php:523
+#, fuzzy
+msgid "Update Profile"
+msgstr "Brugeren Profil Sider"
+
+#: forms.php:561
+msgid "Choose a Username"
+msgstr "Vælg et Brugernavn"
+
+#: forms.php:681 native-registration.php:64
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Marker at du accepterer %sVilkår for Deltagelse %s"
+
+#: forms.php:832
+#, fuzzy
+msgid "New User Registration"
+msgstr "Ny Bruger"
+
+#: users.php:38
+#, fuzzy
+msgid "Additional Information"
+msgstr "WP-Members Ekstra Felter"
+
+#: utilities.php:242
+msgid "(more&hellip;)"
+msgstr "(mere&hellip;)"
+
+#: wp-members-core.php:118 wp-members-core.php:245
+msgid "There was an error with the CAPTCHA form."
+msgstr "Der opstod en fejl in CAPTCHA skemaet."
+
+#: wp-members-core.php:287 wp-members-dialogs.php:338
+msgid "Edit Your Information"
+msgstr "Rediger dine Oplysninger"
+
+#: wp-members-core.php:539
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr ""
+
+#: wp-members-core.php:897 wp-members-register.php:88
+msgid "Sorry, %s is a required field."
+msgstr "%s skal udfyldes, er et obligatorisk felt."
+
+#: wp-members-dialogs.php:42
+msgid "Login Failed!"
+msgstr "Log på fejlede!"
+
+#: wp-members-dialogs.php:45
+msgid "You entered an invalid username or password."
+msgstr "Du har skrevet forkert Brugernavn eller Kodeord."
+
+#: wp-members-dialogs.php:47
+msgid "Click here to continue."
+msgstr "Klik her for at fortsætte."
+
+#: wp-members-dialogs.php:191
+msgid "Edit My Information"
+msgstr "Rediger mine info"
+
+#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
+#: wp-members-sidebar.php:204
+msgid "You are logged in as %s"
+msgstr "Du er logget på som %s"
+
+#: wp-members-dialogs.php:208
+#, fuzzy
+msgid "Click to log out."
+msgstr "Logge ind"
+
+#: wp-members-dialogs.php:209
+msgid "Begin using the site."
+msgstr "Begynd at bruge sitet"
+
+#: wp-members-dialogs.php:225
+#, fuzzy
+msgid "Click to log out"
+msgstr "Logge ind"
+
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#, fuzzy
+msgid "click to log out"
+msgstr "Logge ind"
+
+#: wp-members-dialogs.php:271
+msgid "Password fields cannot be empty"
+msgstr "Kodeordsfelt må ikke være tomt"
+
+#: wp-members-register.php:47
+#, fuzzy
+msgid "There was an error processing the form."
+msgstr "Der opstod en fejl in CAPTCHA skemaet."
+
+#: wp-members-register.php:96
+msgid "Sorry, username is a required field"
+msgstr "Brugernavn skal udfyldes, er et obligatorisk felt"
+
+#: wp-members-register.php:97
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Brugernavn må kun indeholde bogstaver."
+
+#: wp-members-register.php:98 wp-members-register.php:245
+msgid "You must enter a valid email address."
+msgstr "Du skal indtaste en gyldig Email-adresse. "
+
+#: wp-members-register.php:115
+#, fuzzy
+msgid "Passwords did not match."
+msgstr "Kodeordene er ikke ens"
+
+#: wp-members-register.php:116 wp-members-register.php:264
+#, fuzzy
+msgid "Emails did not match."
+msgstr "Kodeordene er ikke ens"
+
+#: wp-members-register.php:108
+msgid "You must complete the CAPTCHA form."
+msgstr "Du skal færdiggøre CAPTCHA skemaet."
+
+#: wp-members-register.php:316
+msgid "We were unable to validate the public key."
+msgstr "Det var ikke muligt at validere den offentlige nøgle."
+
+#: wp-members-register.php:320
+msgid "We were unable to validate the private key."
+msgstr "Det var ikke muligt at validere den private nøgle."
+
+#: wp-members-register.php:324
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "The challenge parameter of the verify script was incorrect."
+
+#: wp-members-register.php:328
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA løsningen er ikke fuldstændig."
+
+#: wp-members-register.php:332
+msgid "The parameters to verify were incorrect"
+msgstr "Verificierings-parametrene er forkerte"
+
+#: wp-members-register.php:336
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr ""
+"Af sikkerhedsmæssige årsager er reCAPTCHA API nøglen er tilknyttet et "
+"specifikt domænenavn."
+
+#: wp-members-register.php:340
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "reCAPTCHA serveren blev ikke tilsluttet.  Prøv igen."
+
+#: wp-members-sidebar.php:124
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Log på fejlede! <br />Forkert Brugernavn eller Kodeord."
+
+#: wp-members-sidebar.php:125
+#, fuzzy
+msgid "You are not logged in."
+msgstr "Du er logget på som %s"
+
+#: wp-members-sidebar.php:163
+msgid "log in"
+msgstr "logge ind"
+
+#: wp-members-sidebar.php:167
+msgid "Forgot?"
+msgstr "Glemt?"
+
+#: wp-members-sidebar.php:205
+msgid "click here to logout"
+msgstr "Klik her for at logge ud"
+
+#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+msgid "Login Status"
+msgstr "Log Status"
+
+#: wp-members-sidebar.php:250
+msgid "Title:"
+msgstr "Titel:"
+
+#: wp-members-tos.php:24
+msgid "Terms of Service"
+msgstr "Vilkår for Deltagelse"
+
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr "%sluk%s"
+
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr "%sudskriv%s"
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+
+#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
+#: Strings wp-members-install.php:49
 msgid "First Name"
 msgstr "Fornavn"
 
@@ -889,26 +1231,37 @@ msgstr "Jabber/Google Talk"
 msgid "Biographical Info"
 msgstr "Biographical Info"
 
-#: wp-members-install.php:64
-#: wp-members-install.php:208
+#: wp-members-install.php:64 wp-members-install.php:211
 msgid "TOS"
 msgstr "VfD"
 
-#: wp-members-install.php:96
-msgid "This content is restricted to site members.  If you are an existing user, please login.  New users may register below."
-msgstr "Dette er en lukket Brugerside. Hvis du er registreret bruger kan du logge på ellers må du lade dig registrere."
+#: Error message dialog strings wp-members-install.php:96
+#, fuzzy
+msgid ""
+"This content is restricted to site members.  If you are an existing user, "
+"please log in.  New users may register below."
+msgstr ""
+"Dette er en lukket Brugerside. Hvis du er registreret bruger kan du logge på "
+"ellers må du lade dig registrere."
 
 #: wp-members-install.php:97
 msgid "Sorry, that username is taken, please try another."
 msgstr "Dette Brugernavn er taget. Prøv et andet."
 
 #: wp-members-install.php:98
-msgid "Sorry, that email address already has an account.<br />Please try another."
-msgstr "Denne Email-adresse er allerede tilknyttet en bruger. <br />Prøv en anden."
+msgid ""
+"Sorry, that email address already has an account.<br />Please try another."
+msgstr ""
+"Denne Email-adresse er allerede tilknyttet en bruger. <br />Prøv en anden."
 
 #: wp-members-install.php:99
-msgid "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you."
-msgstr "Tillykke din registrering er gennemført.<br /><br />Du kan nu logge på ved hjælp af det Kodeord som er blevet sendt til dig."
+#, fuzzy
+msgid ""
+"Congratulations! Your registration was successful.<br /><br />You may now "
+"log in using the password that was emailed to you."
+msgstr ""
+"Tillykke din registrering er gennemført.<br /><br />Du kan nu logge på ved "
+"hjælp af det Kodeord som er blevet sendt til dig."
 
 #: wp-members-install.php:100
 msgid "Your information was updated!"
@@ -919,110 +1272,128 @@ msgid "Passwords did not match.<br /><br />Please try again."
 msgstr "Kodeordene er ikke ens.<br /><br />Prøv igen."
 
 #: wp-members-install.php:102
-msgid "Password successfully changed!<br /><br />You will need to re-login with your new password."
-msgstr "Kodeordet er nu ændret!<br /><br />Du bliver nød til at logge på igen med dit nye Kodeord."
+msgid ""
+"Password successfully changed!<br /><br />You will need to re-login with "
+"your new password."
+msgstr ""
+"Kodeordet er nu ændret!<br /><br />Du bliver nød til at logge på igen med "
+"dit nye Kodeord."
 
 #: wp-members-install.php:103
 msgid "Either the username or email address do not exist in our records."
 msgstr "Brugernavn eller Email-adresse eksisterer ikke i databasen."
 
 #: wp-members-install.php:104
-msgid "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account. You may change this random password then re-login with your new password."
-msgstr "Kodeord er nulstillet!<br /><br />En Email med nyt kodeord er blevet sendt til din Email-adresse. Du kan skifte det tilfældige kodeord med et nyt efter at du har logget dig på."
+msgid ""
+"Password successfully reset!<br /><br />An email containing a new password "
+"has been sent to the email address on file for your account. You may change "
+"this random password then re-login with your new password."
+msgstr ""
+"Kodeord er nulstillet!<br /><br />En Email med nyt kodeord er blevet sendt "
+"til din Email-adresse. Du kan skifte det tilfældige kodeord med et nyt efter "
+"at du har logget dig på."
 
-#: wp-members-register.php:72
-msgid "Sorry, %s is a required field."
-msgstr "%s skal udfyldes, er et obligatorisk felt."
+#~ msgid "Turn off registration"
+#~ msgstr "Afbryd registrering"
 
-#: wp-members-register.php:80
-msgid "Sorry, username is a required field"
-msgstr "Brugernavn skal udfyldes, er et obligatorisk felt"
+#~ msgid "Turns off the registration process, only allows login"
+#~ msgstr "Afbryder registreringsprocessen, tillader kun log på"
 
-#: wp-members-register.php:81
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "Brugernavn må kun indeholde bogstaver."
+#~ msgid "Legacy forms"
+#~ msgstr "Legacy forms"
 
-#: wp-members-register.php:82
-msgid "You must enter a valid email address."
-msgstr "Du skal indtaste en gyldig Email-adresse. "
+#~ msgid ""
+#~ "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less "
+#~ "forms)"
+#~ msgstr ""
+#~ "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less "
+#~ "forms)"
 
-#: wp-members-register.php:92
-msgid "You must complete the CAPTCHA form."
-msgstr "Du skal færdiggøre CAPTCHA skemaet."
+#~ msgid "Members Area URL:"
+#~ msgstr "Members Area URL:"
 
-#: wp-members-register.php:276
-msgid "We were unable to validate the public key."
-msgstr "Det var ikke muligt at validere den offentlige nøgle."
+#~ msgid "Add"
+#~ msgstr "Tilføj"
 
-#: wp-members-register.php:280
-msgid "We were unable to validate the private key."
-msgstr "Det var ikke muligt at validere den private nøgle."
+#~ msgid "WP-Members expiration periods were updated"
+#~ msgstr "WP-Members prøveperiode er opdateret"
 
-#: wp-members-register.php:284
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "The challenge parameter of the verify script was incorrect."
+#~ msgid ""
+#~ "Settings were saved, but you have required fields that are not set to "
+#~ "display!"
+#~ msgstr ""
+#~ "Indstillingerne er gemt, men der er obligatoriske felter, som ikke er "
+#~ "indstillet til at blive vist!"
 
-#: wp-members-register.php:288
-msgid "The CAPTCHA solution was incorrect."
-msgstr "CAPTCHA løsningen er ikke fuldstændig."
+#~ msgid ""
+#~ "Note: This will not cause an error for the end user, as only displayed "
+#~ "fields are validated.  However, you should still check that your "
+#~ "displayed and required fields match up.  Mismatched fields are "
+#~ "highlighted below."
+#~ msgstr ""
+#~ "Bemærk: Dette vil ikke medføre en fejl for slutbrugeren, da kun viste "
+#~ "felter er valideret. Du bør dog stadig kontrollere, at dine viste, og "
+#~ "krævede felter passer sammen. Forkerte felter er fremhævet nedenfor."
 
-#: wp-members-register.php:292
-msgid "The parameters to verify were incorrect"
-msgstr "Verificierings-parametrene er forkerte"
+#~ msgid "If you find this plugin useful, please consider making a donation"
+#~ msgstr "If you find this plugin useful, please consider making a donation"
 
-#: wp-members-register.php:296
-msgid "reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr "Af sikkerhedsmæssige årsager er reCAPTCHA API nøglen er tilknyttet et specifikt domænenavn."
+#~ msgid "reCAPTCHA"
+#~ msgstr "reCAPTCHA"
 
-#: wp-members-register.php:300
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "reCAPTCHA serveren blev ikke tilsluttet.  Prøv igen."
+#~ msgid "Subscriptions"
+#~ msgstr "Abonnement"
 
-#: wp-members-sidebar.php:95
-#: wp-members-sidebar.php:125
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr "Log på fejlede! <br />Forkert Brugernavn eller Kodeord."
+#~ msgid "PayPal Settings"
+#~ msgstr "PayPal Settings"
 
-#: wp-members-sidebar.php:97
-#: wp-members-sidebar.php:129
-msgid "You are not currently logged in."
-msgstr "Du er ikke logget på."
+#~ msgid "If you find this plugin useful, please consider a %s donation %s"
+#~ msgstr "If you find this plugin useful, please consider a %s donation %s"
 
-#: wp-members-sidebar.php:107
-#: wp-members-sidebar.php:141
-msgid "login"
-msgstr "log på"
+#~ msgid "%d users were activated."
+#~ msgstr "%d brugere er aktiverede."
 
-#: wp-members-sidebar.php:111
-#: wp-members-sidebar.php:145
-msgid "Forgot?"
-msgstr "Glemt?"
+#~ msgid ""
+#~ "Users ready to export, %s click here %s to generate and download a CSV."
+#~ msgstr ""
+#~ "Brugere klar til export %s Klik her %s for at generere og downloade en "
+#~ "CSV."
 
-#: wp-members-sidebar.php:114
-#: wp-members-sidebar.php:149
-msgid "Register"
-msgstr "Registrer"
+#~ msgid "WP-Members Users"
+#~ msgstr "WP-Members Brugere"
 
-#: wp-members-sidebar.php:208
-#: wp-members-sidebar.php:250
-msgid "Login Status"
-msgstr "Log Status"
+#~ msgid "Add New"
+#~ msgstr "Tilføj Ny"
 
-#: wp-members-sidebar.php:213
-msgid "Title:"
-msgstr "Titel:"
+#~ msgid "No users matched your criteria"
+#~ msgstr "Ingen brugere matchede dine kriterier"
 
-#: wp-members-tos.php:24
-msgid "Terms of Service"
-msgstr "Vilkår for Deltagelse"
+#~ msgid "Bulk Actions"
+#~ msgstr "Gruppe handling"
 
-#: wp-members-tos.php:36
-msgid "%sclose%s"
-msgstr "%sluk%s"
+#~ msgid "Apply"
+#~ msgstr "Ansøge"
 
-#: wp-members-tos.php:38
-msgid "%sprint%s"
-msgstr "%sudskriv%s"
+#~ msgid "Indicates a required field"
+#~ msgstr "Et obligatorisk felt"
+
+#~ msgid "Login"
+#~ msgstr "Log på"
+
+#~ msgid "Clear Form"
+#~ msgstr "Ryd indhold"
+
+#~ msgid "Submit"
+#~ msgstr "Indsend"
+
+#~ msgid "Cheatin&#8217; uh?"
+#~ msgstr "Snyder du?"
+
+#~ msgid "there was an error and no users were exported"
+#~ msgstr "der opstod en fejl og ingen Brugere blev eksporteret"
+
+#~ msgid "login"
+#~ msgstr "log på"
 
 #~ msgid ""
 #~ "Please indicate that you have read and agree to the %s Terms of Service %s"

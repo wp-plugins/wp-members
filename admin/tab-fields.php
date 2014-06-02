@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -176,7 +176,12 @@ function wpmem_update_fields( $action )
 		$add_field_err_msg = ( ! $_POST['add_name'] )   ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
 		$add_field_err_msg = ( ! $_POST['add_option'] ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
 		
-		// @todo check for duplicate field names
+		// check for duplicate field names
+		$chk_fields = array();
+		foreach ( $wpmem_fields as $field ) {
+			$chk_fields[] = $field[2];
+		}
+		$add_field_err_msg = ( in_array( $_POST['add_option'], $chk_fields ) ) ? __( 'A field with that option name already exists', 'wp-members' ) : false;
 	
 		// error check option name for spaces and replace with underscores
 		$us_option = $_POST['add_option'];

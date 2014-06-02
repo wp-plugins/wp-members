@@ -38,19 +38,24 @@ function wpmem_user_profile()
     <h3><?php echo apply_filters( 'wpmem_user_profile_heading', __( 'Additional Information', 'wp-members' ) ); ?></h3>  
  	<table class="form-table">
 		<?php
+		// get fields
 		$wpmem_fields = get_option( 'wpmembers_fields' );
+		// get excluded meta
+		$exclude = wpmem_get_excluded_meta();
+		
 		foreach( $wpmem_fields as $meta ) {
 		
 			$val = get_user_meta( $user_id, $meta[2], 'true' );
-		
+			$valtochk = '';
+			
 			$chk_tos = true;
 			if( $meta[2] == 'tos' && $val == 'agree' ) { 
 				$chk_tos = false; 
 				echo wpmem_create_formfield( $meta[2], 'hidden', $val );
 			}
 			
-			$chk_pass = true;
-			if( $meta[3] == 'password' ) { $chk_pass = false; }
+			// do we exclude the row?
+			$chk_pass = ( in_array( $meta[2], $exclude ) ) ? false : true;
 		
 			if( $meta[4] == "y" && $meta[6] == "n" && $chk_tos && $chk_pass ) { 
 				// if there are any required fields
@@ -68,7 +73,7 @@ function wpmem_user_profile()
 				$show_field.= wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk ) . '
 						</td>
 					</tr>';
-				$valtochk = ''; // empty for the next field in the loop
+
 				/**
 				 * Filter the field for user profile additional fields.
 				 *
@@ -94,23 +99,28 @@ endif;
 function wpmem_profile_update()
 {
 	global $user_id;
+	// get the fields
 	$wpmem_fields = get_option( 'wpmembers_fields' );
+	// get any excluded meta fields
+	$exclude = wpmem_get_excluded_meta();
 	foreach( $wpmem_fields as $meta ) {
-
-		// if the field is user editable, 
-		if( $meta[4] == "y" && $meta[6] == "n" && $meta[3] != 'password' ) {
-		
-			// check for required fields
-			$chk = '';
-			if( $meta[5] == "n" || ( ! $meta[5] ) ) { $chk = 'ok'; }
-			if( $meta[5] == "y" && $_POST[$meta[2]] != '' ) { $chk = 'ok'; }
+		// if this is not an excluded meta field
+		if( ! in_array( $meta[2], $exclude ) ) {
+			// if the field is user editable, 
+			if( $meta[4] == "y" && $meta[6] == "n" && $meta[3] != 'password' ) {
 			
-			// check for field value
-			$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
-			
-			if( $chk == 'ok' ) { 
-				update_user_meta( $user_id, $meta[2], $field_val ); 
-			} 
+				// check for required fields
+				$chk = '';
+				if( $meta[5] == "n" || ( ! $meta[5] ) ) { $chk = 'ok'; }
+				if( $meta[5] == "y" && $_POST[$meta[2]] != '' ) { $chk = 'ok'; }
+				
+				// check for field value
+				$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
+				
+				if( $chk == 'ok' ) { 
+					update_user_meta( $user_id, $meta[2], $field_val ); 
+				} 
+			}
 		}
 	} 
 }

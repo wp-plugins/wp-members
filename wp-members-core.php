@@ -237,7 +237,7 @@ function wpmem_do_sc_pages( $page )
 	
 	// deprecating members-area parameter to be replaced by user-profile
 	$page = ( $page == 'user-profile' ) ? 'members-area' : $page;
-	
+
 	if ( $page == 'members-area' || $page == 'register' ) { 
 		
 		if( $wpmem_regchk == "captcha" ) {
@@ -444,7 +444,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );
 			add_filter( 'the_content', 'wpmem_texturize', 99 ); 
-		}	
+		}
 		return $content;
 	}
 	
@@ -805,7 +805,7 @@ function wpmem_reset_password()
 					 *
 					 * @param int $user_ID The user's numeric ID
 					 */
-					do_action( 'wpmem_pwd_reset', $user_ID );
+					do_action( 'wpmem_pwd_reset', $user->ID );
 					
 					return "pwdresetsuccess";
 				}
@@ -884,17 +884,18 @@ function wpmem_wp_register_form() {
 function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
 {
 	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$exclude = wpmem_get_excluded_meta();
 
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+	foreach( $wpmem_fields as $field ) {
 		$is_error = false;
-		if( $wpmem_fields[$row][5] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
-			if( ( $wpmem_fields[$row][3] == 'checkbox' ) && ( ! isset( $_POST[$wpmem_fields[$row][2]] ) ) ) {
+		if( $field[5] == 'y' && $field[2] != 'user_email' && ! in_array( $field[2], $exclude ) ) {
+			if( ( $field[3] == 'checkbox' ) && ( ! isset( $_POST[$field[2]] ) ) ) {
 				$is_error = true;
 			} 
-			if( ( $wpmem_fields[$row][3] != 'checkbox' ) && ( ! $_POST[$wpmem_fields[$row][2]] ) ) {  
+			if( ( $field[3] != 'checkbox' ) && ( ! $_POST[$field[2]] ) ) {  
 				$is_error = true;
 			}
-			if( $is_error ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $wpmem_fields[$row][1] ) ); }
+			if( $is_error ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $field[1] ) ); }
 		}
 	}
 
@@ -911,13 +912,20 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
  */
 function wpmem_wp_reg_finalize( $user_id )
 {
-	if( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == 'Register' ) {
+	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == 'Register'   ) ? true : false;
+	$add_new    = ( isset( $_POST['action'] )    && $_POST['action']    == 'createuser' ) ? true : false;
+	if( $native_reg || $add_new ) {
+		// get the fields
 		$wpmem_fields = get_option( 'wpmembers_fields' );
+		// get any excluded meta fields
+		$exclude = wpmem_get_excluded_meta();
 		foreach( $wpmem_fields as $meta ) {
-			if ( isset( $_POST[$meta[2]] ) )
+			if ( isset( $_POST[$meta[2]] ) && ! in_array( $meta[2], $exclude ) ) {
 				update_user_meta( $user_id, $meta[2], sanitize_text_field( $_POST[$meta[2]] ) );
+			}
 		}
 	}
+	return;
 }
 
 

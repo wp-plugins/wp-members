@@ -2,638 +2,42 @@
 # This file is distributed under the same license as the WP-Members package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.7.5\n"
+"Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2012-06-14 00:20:49+00:00\n"
+"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
+"PO-Revision-Date: 2014-06-02 13:48-0600\n"
+"Last-Translator: \n"
+"Language-Team: Dmitrii Krasnov <krasnov@findadventure.ru>\n"
+"Language: sr_RS\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-10-23 09:15+0100\n"
-"Last-Translator: Dmitrii Krasnov <krasnov@findadventure.ru>\n"
-"Language-Team: Dmitrii Krasnov <krasnov@findadventure.ru>\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"Language: ru_RU\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: wp-members-admin.php:35 wp-members-admin.php:715
+#: admin/admin.php:60 admin/admin.php:129
 msgid "Settings"
 msgstr "Postavke"
 
-#: wp-members-admin.php:74
-msgid "WP-Members Additional Fields"
-msgstr "WP-Members Additional Fields"
-
-#: wp-members-admin.php:110
-msgid "Activate this user?"
-msgstr "Aktivirajte ovog korisnika?"
-
-#: wp-members-admin.php:115
-msgid "Reactivate this user?"
-msgstr "Reaktivirajte ovog korisnika?"
-
-#: wp-members-admin.php:120
-msgid "Deactivate this user?"
-msgstr "Deaktivirajte ovog korisnika?"
-
-#: wp-members-admin.php:141
-msgid "IP @ registration"
-msgstr "IP @ registracija"
-
-#: wp-members-admin.php:194
-msgid "Manage Options"
-msgstr "Upravljaj opcijama"
-
-#: wp-members-admin.php:199
-msgid "Block Posts by default"
-msgstr "Blokiraj postove po defaultu"
-
-#: wp-members-admin.php:199
-msgid ""
-"Note: Posts can still be individually blocked or unblocked at the article "
-"level"
-msgstr ""
-"Beleška: Postovi mogu i dalje biti individualno blokirani ili odblokirani na "
-"nivou članka"
-
-#: wp-members-admin.php:200
-msgid "Block Pages by default"
-msgstr "Blokiraj stranice po defaultu"
-
-#: wp-members-admin.php:200
-msgid ""
-"Note: Pages can still be individually blocked or unblocked at the article "
-"level"
-msgstr ""
-"Beleška: Stranice mogu biti individualno blokirane ili deblokirane na nivou "
-"članka"
-
-#: wp-members-admin.php:201
-msgid "Show excerpts"
-msgstr "Prikaži odlomke"
-
-#: wp-members-admin.php:201
-msgid ""
-"Shows excerpted content above the login/registration on both Posts and Pages"
-msgstr ""
-"Prikaži sadržaj odlomaka iznad login/registracije na Postovima i Stranice"
-
-#: wp-members-admin.php:202
-msgid "Notify admin"
-msgstr "Obavesti admina"
-
-#: wp-members-admin.php:202
-msgid "Sends email to admin for each new registration?"
-msgstr "Pošalji email adminu za svaku novu registraciju?"
-
-#: wp-members-admin.php:203
-msgid "Moderate registration"
-msgstr "Upravljajte registracijom"
-
-#: wp-members-admin.php:203
-msgid "Holds new registrations for admin approval"
-msgstr "Sadrži nove registracije za odobrenje od dmina"
-
-#: wp-members-admin.php:204
-msgid "Use reCAPTCHA"
-msgstr "Koristi  reCAPTCHA"
-
-#: wp-members-admin.php:204
-msgid "Turns on CAPTCHA for registration"
-msgstr "Uključi  CAPTCHA za registraciju"
-
-#: wp-members-admin.php:205
-msgid "Turn off registration"
-msgstr "Ugasi registraciju"
-
-#: wp-members-admin.php:205
-msgid "Turns off the registration process, only allows login"
-msgstr "Gašenje registracije je u procesu, samo može login da bude dozvoljen"
-
-#: wp-members-admin.php:207
-msgid "Legacy forms"
-msgstr "Forme nasledja"
-
-#: wp-members-admin.php:207
-msgid ""
-"Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
-msgstr ""
-"Koristi pre-2.5.1 forme bayirane na tabeli (ostavi radi korišćenja CSS forme "
-"sa manje tabela)"
-
-#: wp-members-admin.php:208
-msgid "Time-based expiration"
-msgstr "Trajanje bazirano na vremenu"
-
-#: wp-members-admin.php:208
-msgid "Allows for access to expire"
-msgstr "Dozvoljava vam da pristupite trajanju"
-
-#: wp-members-admin.php:209
-msgid "Trial period"
-msgstr "Trial period"
-
-#: wp-members-admin.php:209
-msgid "Allows for a trial period"
-msgstr "Dozvoljeno za trial period"
-
-#: wp-members-admin.php:210
-msgid "Ignore warning messages"
-msgstr "Ignorisati poruke upozorenja"
-
-#: wp-members-admin.php:210
-msgid "Ignores WP-Members warning messages in the admin panel"
-msgstr "Ignorisati WP-Members  poruke upozorenja u admin panelu"
-
-#: wp-members-admin.php:228
-msgid "Members Area URL:"
-msgstr "URL područja članova:"
-
-#: wp-members-admin.php:229 wp-members-admin.php:235 wp-members-admin.php:241
-#: wp-members-admin.php:916
-msgid "Optional"
-msgstr "Opcionalno"
-
-#: wp-members-admin.php:234
-msgid "Register Page URL:"
-msgstr " URL registarske stranice:"
-
-#: wp-members-admin.php:240
-msgid "Custom CSS:"
-msgstr "Custom CSS:"
-
-#: wp-members-admin.php:246
-msgid "Update Settings"
-msgstr "Update postavki"
-
-#: wp-members-admin.php:264
-msgid "Manage Fields"
-msgstr "Upravljazi poljima"
-
-#: wp-members-admin.php:265
-msgid ""
-"Determine which fields will display and which are required.  This includes "
-"all fields, both native WP fields and WP-Members custom fields."
-msgstr ""
-"Odredjuje koja polja će biti prikazana i koja su neophodna. Ovo uključuje "
-"sva polja, i   native WP polja i WP-Members custom polja."
-
-#: wp-members-admin.php:266
-msgid "(Note: Email is always mandatory. and cannot be changed.)"
-msgstr "(Beleška: Email je uvek obavezan i ne može se promeniti.)"
-
-#: wp-members-admin.php:271
-msgid "Add/Delete"
-msgstr "Dodaj/Obriši"
-
-#: wp-members-admin.php:272
-msgid "Field Label"
-msgstr "Pronadji oznaku"
-
-#: wp-members-admin.php:273
-msgid "Option Name"
-msgstr "Ime opcije"
-
-#: wp-members-admin.php:274
-msgid "Field Type"
-msgstr "Tip polja"
-
-#: wp-members-admin.php:275
-msgid "Display?"
-msgstr "Prikaži?"
-
-#: wp-members-admin.php:276
-msgid "Required?"
-msgstr "Potrbno?"
-
-#: wp-members-admin.php:277
-msgid "Checked?"
-msgstr "Čekirano?"
-
-#: wp-members-admin.php:278
-msgid "WP Native?"
-msgstr "WP Native?"
-
-#: wp-members-admin.php:287
-msgid "Delete"
-msgstr "Obrisati"
-
-#: wp-members-admin.php:299
-msgid "(Email cannot be removed)"
-msgstr "(Email ne može da se ukloni)"
-
-#: wp-members-admin.php:310
-msgid "Add"
-msgstr "Dodati"
-
-#: wp-members-admin.php:315
-msgid "text"
-msgstr "tekst"
-
-#: wp-members-admin.php:316
-msgid "textarea"
-msgstr "područje teksta"
-
-#: wp-members-admin.php:317
-msgid "checkbox"
-msgstr "checkbox"
-
-#: wp-members-admin.php:318
-msgid "dropdown"
-msgstr "dropdown"
-
-#: wp-members-admin.php:319
-msgid "password"
-msgstr "šifra"
-
-#: wp-members-admin.php:328
-msgid "For checkbox, stored value if checked:"
-msgstr "Za checkbox, vrednost je čekirana:"
-
-#: wp-members-admin.php:334
-msgid "For dropdown, array of values:"
-msgstr "Za dropdown, array ili vrednosti:"
-
-#: wp-members-admin.php:335
-msgid "Options should be Option Name|option_value,"
-msgstr "Opcije bi treblo da budu Option Name|option_value,"
-
-#: wp-members-admin.php:336
-msgid "Visit plugin site for more information"
-msgstr "Posetite sajt plugina za više informacija"
-
-#: wp-members-admin.php:348
-msgid "Update Fields"
-msgstr "Update-uj polja"
-
-#: wp-members-admin.php:362
-msgid "Restricted post (or page), displays above the login/registration form"
-msgstr ""
-"Zabranjeni post (ili stranica), prikazuje iznad  login/registracijsku formu"
-
-#: wp-members-admin.php:363
-msgid "Username is taken"
-msgstr "Korisničko ime je zauzeto"
-
-#: wp-members-admin.php:364
-msgid "Email is registered"
-msgstr "Email je registrovan"
-
-#: wp-members-admin.php:365
-msgid "Registration completed"
-msgstr "Registracija završena"
-
-#: wp-members-admin.php:366
-msgid "User update"
-msgstr "Korisnik update-ovan"
-
-#: wp-members-admin.php:367
-msgid "Passwords did not match"
-msgstr "Šifra se ne slaže"
-
-#: wp-members-admin.php:368
-msgid "Password changes"
-msgstr "Šifra se menja"
-
-#: wp-members-admin.php:369
-msgid "Username or email do not exist when trying to reset forgotten password"
-msgstr ""
-"Korisničko ime ili email ne postoje kada pokušate da resetujete zaboravljenu "
-"šifru"
-
-#: wp-members-admin.php:370
-msgid "Password reset"
-msgstr "Resetovanje šifre"
-
-#: wp-members-admin.php:372
-msgid "Dialogs and Error Messages"
-msgstr "Diažjalozi i Error poruke"
-
-#: wp-members-admin.php:373
-msgid ""
-"You can customize the text for dialogs and error messages. Simple HTML is "
-"allowed %s etc."
-msgstr ""
-"Možete da customize-ujete text za dijaloge i error poruke. Jednostavan HTML "
-"je dozvoljen %s itd."
-
-#: wp-members-admin.php:386
-msgid "Terms of Service (TOS)"
-msgstr "Pravila (TOS)"
-
-#: wp-members-admin.php:393
-msgid "Update Dialogs"
-msgstr "Update dijaloga"
-
-#: wp-members-admin.php:498
-msgid "WP-Members settings were updated"
-msgstr "WP-Memberspostavke su updatovane"
-
-#: wp-members-admin.php:558
-msgid "Field Label is required for adding a new field. Nothing was updated."
-msgstr ""
-"Polje oznake je potrebno za dodavanje novih polja. Ništa nije updatovano. "
-
-#: wp-members-admin.php:559
-msgid "Option Name is required for adding a new field. Nothing was updated."
-msgstr ""
-"Opcija IME je potrebna zadodavanje novih polja. Ništa nije updatovano.   "
-
-#: wp-members-admin.php:594
-msgid "WP-Members fields were updated"
-msgstr "WP-Members polja su updatovana"
-
-#: wp-members-admin.php:620
-msgid "WP-Members dialogs were updated"
-msgstr "WP-Members dijaloz su updatovani"
-
-#: wp-members-admin.php:639
-msgid "reCAPTCHA was updated for WP-Members"
-msgstr "reCAPTCHA je updatovano za  WP-Members"
-
-#: wp-members-admin.php:655
-msgid "WP-Members expiration periods were updated"
-msgstr "WP-Members period trajanja su updateovani"
-
-#: wp-members-admin.php:704
-msgid "WP-Members emails were updated"
-msgstr "WP-Members emailovi su updatovani"
-
-#: wp-members-admin.php:721
-msgid ""
-"Settings were saved, but you have required fields that are not set to "
-"display!"
-msgstr ""
-"Postavke su sačuvane, ali imate obavezna polja koja nisu nameštena za prikaz!"
-
-#: wp-members-admin.php:722
-msgid ""
-"Note: This will not cause an error for the end user, as only displayed "
-"fields are validated.  However, you should still check that your displayed "
-"and required fields match up.  Mismatched fields are highlighted below."
-msgstr ""
-"Napomena : Ovo neće izazvati error za krajnjeg korisnika , jer su samo polja "
-"proverena . Međutim , ipak bi trebalo da proverite da li se vaša prikazana i "
-"obavezna polja poklapaju . Jezik ispod polja su označena."
-
-#: wp-members-admin.php:782
-msgid "Version:"
-msgstr "Verzija:"
-
-#: wp-members-admin.php:783
-msgid "Follow"
-msgstr "Prati"
-
-#: wp-members-admin.php:786
-msgid "If you find this plugin useful, please consider making a donation"
-msgstr ""
-"Ako mislite da je ova plugin korisna, možete da napravite malu donaciju"
-
-#: wp-members-admin.php:805
+#: admin/admin.php:187
 msgid "Options"
 msgstr "Opcije"
 
-#: wp-members-admin.php:806
+#: admin/admin.php:188
 msgid "Fields"
 msgstr "Polja"
 
-#: wp-members-admin.php:807
+#: admin/admin.php:189
 msgid "Dialogs"
 msgstr "Dijalozi"
 
-#: wp-members-admin.php:808
+#: admin/admin.php:190
 msgid "Emails"
 msgstr "Emailovi"
 
-#: wp-members-admin.php:810
-msgid "reCAPTCHA"
-msgstr "reCAPTCHA"
-
-#: wp-members-admin.php:813
-msgid "Subscriptions"
-msgstr "Pretplata"
-
-#: wp-members-admin.php:816
-msgid "PayPal Settings"
-msgstr "PayPal postavke"
-
-#: wp-members-admin.php:859
-msgid "Thank you for using WP-Members! You are using version %s"
-msgstr "Thank you for using WP-Members! You are using version "
-
-#: wp-members-admin.php:861
-msgid "If you find this plugin useful, please consider a %s donation %s"
-msgstr ""
-"Ako mislite da je ova plugin korisna, možete da napravite malu %s donaciju%s"
-
-#: wp-members-admin.php:882
-msgid "Manage reCAPTCHA Options"
-msgstr "Upravljajte reCAPTCHA Opcijama"
-
-#: wp-members-admin.php:888
-msgid ""
-"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
-"while blocking spam on your blog."
-msgstr ""
-"reCAPTCHA je besplatna, primenjliva CAPTCHA usluga pomaže digitalizovanju "
-"knjiga dok blokira spam na vašem blogu."
-
-#: wp-members-admin.php:889
-msgid ""
-"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
-"that they are a human. This verifies that they are not a spambot while also "
-"correcting the automatic scans of old books. So you get less spam, and the "
-"world gets accurately digitized books. Everybody wins! For details, visit "
-"the %s reCAPTCHA website%s"
-msgstr ""
-"reCAPTCHA traži da ponovo otkucate dve reči skenirane iz knjige da dokaže da "
-"ste čovek . Ovo potvrđuje da oni nisu spambot i istovremeno ispravlja "
-"automatski skenire starih knjiga . Tako dobijate manje spama , a svet dobija "
-"tačno digitalizovane poruke. Svi pobedjuju. Za detalje posetite %s reCAPTCHA "
-"websajt%s"
-
-#: wp-members-admin.php:894
-msgid "reCAPTCHA Keys"
-msgstr "reCAPTCHA Ključevi"
-
-#: wp-members-admin.php:896
-msgid ""
-"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
-"key. You can sign up for a %s free reCAPTCHA key%s"
-msgstr ""
-"reCAPTCHA zahteva API ključ, ckoji se sastoji od  \"public\"   i  \"private"
-"\"   ključa. Možete da se upišete za %s besplatan reCAPTCHA ključ %s"
-
-#: wp-members-admin.php:897
-msgid "Public Key"
-msgstr "Javni ključ"
-
-#: wp-members-admin.php:898
-msgid "Private Key"
-msgstr "Privatni ključ"
-
-#: wp-members-admin.php:902
-msgid "Choose Theme"
-msgstr "Izaberi temu"
-
-#. #-#-#-#-#  plugin.pot (WP-Members 2.7.5)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: wp-members-admin.php:905
-msgid "WP-Members"
-msgstr "WP-Members"
-
-#: wp-members-admin.php:906
-msgid "Red"
-msgstr "Crveno"
-
-#: wp-members-admin.php:907
-msgid "White"
-msgstr "Belo"
-
-#: wp-members-admin.php:908
-msgid "Black Glass"
-msgstr "Black staklo"
-
-#: wp-members-admin.php:909
-msgid "Clean"
-msgstr "Čisto"
-
-#: wp-members-admin.php:910
-msgid "Custom"
-msgstr "Custom"
-
-#: wp-members-admin.php:922
-msgid "Update reCAPTCHA Settings"
-msgstr "Update reCAPTCHA postavki"
-
-#: wp-members-admin.php:991
-msgid "%d users were activated."
-msgstr "%d korisnici su aktivirani."
-
-#: wp-members-admin.php:996
-msgid "Users ready to export, %s click here %s to generate and download a CSV."
-msgstr ""
-"Korisnici spremni za export,%s   kliknite ovde %s za generisanje i download "
-"CSV-a."
-
-#: wp-members-admin.php:1006
-msgid "WP-Members Users"
-msgstr "WP-Members korisnici"
-
-#: wp-members-admin.php:1006
-msgid "Add New"
-msgstr "Dodaj novi"
-
-#: wp-members-admin.php:1188 wp-members-export-full.php:98
-#: wp-members-export.php:84
-msgid "No"
-msgstr "Ne"
-
-#: wp-members-admin.php:1202
-msgid "No users matched your criteria"
-msgstr "Nijedan korisnik se ne slaže sa vašim kriterijumom"
-
-#: wp-members-admin.php:1291
-msgid "Bulk Actions"
-msgstr "Bulk Actions"
-
-#: wp-members-admin.php:1293
-msgid "Activate"
-msgstr "Aktiviraj"
-
-#: wp-members-admin.php:1295
-msgid "Export"
-msgstr "Export"
-
-#: wp-members-admin.php:1297
-msgid "Apply"
-msgstr "Primeni"
-
-#: wp-members-admin.php:1440
-msgid "New Registration"
-msgstr "Nova registracija"
-
-#: wp-members-admin.php:1444
-msgid "Registration is Moderated"
-msgstr "Registracija je obavljena"
-
-#: wp-members-admin.php:1445
-msgid "Registration is Moderated, User is Approved"
-msgstr "Registracija je obavljena, korisnik je odobren."
-
-#: wp-members-admin.php:1450
-msgid "Password Reset"
-msgstr "Resetuj šifru"
-
-#: wp-members-admin.php:1455
-msgid "Admin Notification"
-msgstr "Admin notifikacije"
-
-#: wp-members-admin.php:1460
-msgid "Email Signature"
-msgstr "Email potpis"
-
-#: wp-members-admin.php:1463
-msgid "Email Messages"
-msgstr "Email poruke"
-
-#: wp-members-admin.php:1465
-msgid "You can customize the content of the emails sent by the plugin."
-msgstr "Možete da customize-irate sadržaj emailova poslatih pluginom. "
-
-#: wp-members-admin.php:1467
-msgid "A list of shortcodes is available here."
-msgstr "Lista shortcode-ova dostupnih ovde.  "
-
-#: wp-members-admin.php:1474
-msgid "Set a custom email address"
-msgstr "Podesi custom email adresu"
-
-#: wp-members-admin.php:1475 wp-members-admin.php:1479
-#: wp-members-admin.php:1502
-msgid "(optional)"
-msgstr "(opcionalno)"
-
-#: wp-members-admin.php:1478
-msgid "Set a custom email name"
-msgstr "Podesi custom email ie"
-
-#: wp-members-admin.php:1489
-msgid "Subject"
-msgstr "Subject"
-
-#: wp-members-admin.php:1493
-msgid "Body"
-msgstr "Telo"
-
-#: wp-members-admin.php:1510
-msgid "Update Emails"
-msgstr "Updateuj mailove"
-
-#: wp-members-core.php:110
-msgid "There was an error with the CAPTCHA form."
-msgstr "Pojavio se error sa  CAPTCHA formom."
-
-#: wp-members-core.php:258
-msgid "Edit Your Information"
-msgstr "Edituj svoje informcije"
-
-#: wp-members-core.php:289
-msgid "Password fields cannot be empty"
-msgstr "Oilja sa šiframa ne mogu da budu prazna"
-
-#: wp-members-core.php:465
-msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr "<strong>ERROR</strong> : Korisnik nije aktiviran."
-
-#: wp-members-core.php:975
-msgid "Additional Info"
-msgstr "Dodatni info"
-
-#: wp-members-core.php:1017
-msgid "Indicates a required field"
-msgstr "Ukazuje na za zahtevano polje"
-
-#: wp-members-dialogs-admin.php:31
+#: admin/dialogs.php:109
 msgid ""
 "Your WP settings allow anyone to register - this is not the recommended "
 "setting."
@@ -641,7 +45,7 @@ msgstr ""
 "Vaša WP postavka dozvoljava svakome da se registruje - ovo nije "
 "preporučljiva postavka. "
 
-#: wp-members-dialogs-admin.php:32
+#: admin/dialogs.php:110
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
 "register\" is unchecked."
@@ -649,7 +53,7 @@ msgstr ""
 "Ovo možete  %s  promeniti ovde %s proverite da kvadrat pored nije  \"Anyone "
 "can register\" čekiran."
 
-#: wp-members-dialogs-admin.php:33
+#: admin/dialogs.php:111
 msgid ""
 "This setting allows a link on the /wp-login.php page to register using the "
 "WP native registration process thus circumventing any registration you are "
@@ -665,7 +69,7 @@ msgstr ""
 "isključite ovu opciju . Ako ne promenite ovu postavku , možete izabrati da "
 "ignorišete ove poruke upozorenja pod WP-Members postavkama ."
 
-#: wp-members-dialogs-admin.php:39
+#: admin/dialogs.php:117
 msgid ""
 "Your WP settings allow anyone to comment - this is not the recommended "
 "setting."
@@ -673,7 +77,7 @@ msgstr ""
 "Ova WP postavka dozvoljava bilo kome da komentariše-ovo nije preporučljiva "
 "postavka."
 
-#: wp-members-dialogs-admin.php:40
+#: admin/dialogs.php:118
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
 "registered and logged in to comment.\""
@@ -681,7 +85,7 @@ msgstr ""
 "Možete %s  promeniti ovo %s  klikom na checkbox pored  \"Users must be "
 "registered and logged in to comment.\""
 
-#: wp-members-dialogs-admin.php:41
+#: admin/dialogs.php:119
 msgid ""
 "This setting allows any users to comment, whether or not they are "
 "registered. Depending on how you are using WP-Members will determine whether "
@@ -694,7 +98,7 @@ msgstr ""
 "možete izabrati da ignorišete ove poruke upozorenja pod WP-Members "
 "postavkama ."
 
-#: wp-members-dialogs-admin.php:47
+#: admin/dialogs.php:125
 msgid ""
 "Your WP settings allow full text rss feeds - this is not the recommended "
 "setting."
@@ -702,7 +106,7 @@ msgstr ""
 "Vaše WP postavke dozvoljavaju  sve tekst rss feeds - ovo nije postavka kja "
 "se preporučuje."
 
-#: wp-members-dialogs-admin.php:48
+#: admin/dialogs.php:126
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
 "\" to \"Summary.\""
@@ -710,7 +114,7 @@ msgstr ""
 "Ovo možete %s promeniti ovde %s prelaskom  \"For each article in a feed, show"
 "\"  na \"Summary.\""
 
-#: wp-members-dialogs-admin.php:49
+#: admin/dialogs.php:127
 msgid ""
 "Leaving this set to full text allows anyone to read your protected content "
 "in an RSS reader. Changing this to Summary prevents this as your feeds will "
@@ -720,11 +124,11 @@ msgstr ""
 "sadržaj zaštićen u RSS čitaču. Promena ovoga u Summary sprečava ovo da vaši "
 "feedovi prikažu samo summary tekst.  "
 
-#: wp-members-dialogs-admin.php:55
+#: admin/dialogs.php:133
 msgid "You have set WP-Members to hold registrations for approval"
 msgstr "Namestili ste WP-Members da sadrže registracije za odobrenje  "
 
-#: wp-members-dialogs-admin.php:56
+#: admin/dialogs.php:134
 msgid ""
 "but you have not changed the default message for \"Registration Completed\" "
 "under \"WP-Members Dialogs and Error Messages.\"  You should change this "
@@ -734,11 +138,11 @@ msgstr ""
 "\"WP-Members Dialogs and Error Messages.\"  Treba da promenite poruku da "
 "biste korisnika obavestili da se čeka odobrenje.."
 
-#: wp-members-dialogs-admin.php:62
+#: admin/dialogs.php:140
 msgid "You have set WP-Members to turn off the registration process"
 msgstr "Možete podesiti WP-Members da ugase proces registacije"
 
-#: wp-members-dialogs-admin.php:63
+#: admin/dialogs.php:141
 msgid ""
 "but you also set to moderate and/or email admin new registrations.  You will "
 "need to set up a registration page for users to register."
@@ -747,11 +151,11 @@ msgstr ""
 "registracija. Morate namestiti stranicu registracije za korisnike da se "
 "registruju.   "
 
-#: wp-members-dialogs-admin.php:69
+#: admin/dialogs.php:147
 msgid "You have turned on reCAPTCHA"
 msgstr "Uključili ste reCAPTCHA"
 
-#: wp-members-dialogs-admin.php:70
+#: admin/dialogs.php:148
 msgid ""
 "but you have not entered API keys.  You will need both a public and private "
 "key.  The CAPTCHA will not display unless a valid API key is included."
@@ -759,165 +163,1026 @@ msgstr ""
 "ali niste uneli API ključeve. Trebaće vam i javni i privatni ključ. CAPTCHA "
 "neće biti prikazana osim ako API ključ nije uključen."
 
-#: wp-members-dialogs.php:53
-msgid "Existing Users Login"
-msgstr "Login postojećeg korisnika"
+#: admin/dialogs.php:171
+msgid "Version:"
+msgstr "Verzija:"
 
-#: wp-members-dialogs.php:53 wp-members-dialogs.php:96
-#: wp-members-dialogs.php:351 wp-members-dialogs.php:725
-#: wp-members-sidebar.php:99 wp-members-sidebar.php:133
-msgid "Username"
-msgstr "Korisn ičko ime"
+#: admin/dialogs.php:172
+msgid "Quick Start Guide"
+msgstr ""
 
-#: wp-members-dialogs.php:53 wp-members-sidebar.php:101
-#: wp-members-sidebar.php:135
-msgid "Password"
-msgstr "Šifra"
+#: admin/dialogs.php:173
+#, fuzzy
+msgid "Online User Guide"
+msgstr "Пользователь обновлен"
 
-#: wp-members-dialogs.php:53
-msgid "Login"
-msgstr "Login"
+#: admin/dialogs.php:174
+msgid "FAQs"
+msgstr ""
 
-#: wp-members-dialogs.php:75 wp-members-dialogs.php:155
-msgid "Change Password"
-msgstr "Promeni šifru"
+#: admin/dialogs.php:181
+#, fuzzy
+msgid "Thank you for using WP-Members"
+msgstr "Thank you for using WP-Members! You are using version "
 
-#: wp-members-dialogs.php:75
-msgid "New Password"
-msgstr "Nova šifra"
+#: admin/dialogs.php:182
+msgid "A plugin developed by"
+msgstr ""
 
-#: wp-members-dialogs.php:75
-msgid "Repeat Password"
-msgstr "Ponovi šifru"
+#: admin/dialogs.php:183
+msgid "Follow"
+msgstr "Prati"
 
-#: wp-members-dialogs.php:75
-msgid "Update Password"
-msgstr "Update-uj čifr"
+#: admin/dialogs.php:200 admin/dialogs.php:204
+msgid "Latest from RocketGeek"
+msgstr ""
 
-#: wp-members-dialogs.php:96
-msgid "Reset Forgotten Password"
-msgstr "Resetuj zabranjenu šifru"
+#: admin/dialogs.php:221 admin/dialogs.php:234
+msgid "Latest from ButlerBlog"
+msgstr ""
 
-#: wp-members-dialogs.php:96 wp-members-install.php:58
-msgid "Email"
-msgstr "Email"
+#: admin/post.php:36 admin/post.php:38
+#, fuzzy
+msgid "Block"
+msgstr "Блокировать записи по умолчанию"
 
-#: wp-members-dialogs.php:96
-msgid "Reset Password"
-msgstr "Resetuj šifru"
+#: admin/post.php:37 admin/post.php:39
+msgid "Unblock"
+msgstr ""
 
-#: wp-members-dialogs.php:118
-msgid "Login Failed!"
-msgstr "Login nije uspeo!"
+#: admin/post.php:120
+#, fuzzy
+msgid "%s posts %ed."
+msgstr "Блокировать записи по умолчанию"
 
-#: wp-members-dialogs.php:119
-msgid "You entered an invalid username or password."
-msgstr "Uneli ste nepostojeće korisničko ime ili šifru.."
+#: admin/post.php:138
+#, fuzzy
+msgid "Post Restriction"
+msgstr "Nova registracija"
 
-#: wp-members-dialogs.php:120
-msgid "Click here to continue."
-msgstr "Klik ovde za nastavak."
+#: admin/post.php:145
+#, fuzzy
+msgid "Page Restriction"
+msgstr "Nova registracija"
 
-#: wp-members-dialogs.php:154
-msgid "Edit My Information"
-msgstr "Editujte moje informacije"
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Unblocked?"
+msgstr ""
+"Примечание: каждая запись может быть заблокирована/разблокирована отдельно "
+"от остальных"
 
-#: wp-members-dialogs.php:162 wp-members-dialogs.php:173
-#: wp-members-dialogs.php:181 wp-members-sidebar.php:37
-#: wp-members-sidebar.php:167
-msgid "You are logged in as %s"
-msgstr "Ulogovani ste kao %s"
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Blocked?"
+msgstr ""
+"Примечание: каждая запись может быть заблокирована/разблокирована отдельно "
+"от остальных"
 
-#: wp-members-dialogs.php:164
-msgid "Click here to logout."
-msgstr "Klik ovde za logout."
-
-#: wp-members-dialogs.php:165
-msgid "Begin using the site."
-msgstr "Počnite da koristite sajt"
-
-#: wp-members-dialogs.php:174 wp-members-dialogs.php:182
-#: wp-members-sidebar.php:38 wp-members-sidebar.php:168
-msgid "click here to logout"
-msgstr "klik ovde za logout"
-
-#: wp-members-dialogs.php:339 wp-members-dialogs.php:712
-msgid "New Users Registration"
-msgstr "Registracija novih korisnika"
-
-#: wp-members-dialogs.php:358 wp-members-dialogs.php:730
-msgid "Choose a Username"
-msgstr "Izaberite korisničko ime"
-
-#: wp-members-dialogs.php:451 wp-members-dialogs.php:824
-msgid "Please indicate that you agree to the %s TOS %s"
-msgstr "Molimo vas budite jasni da li želite da se %s TOS %s"
-
-#: wp-members-dialogs.php:498 wp-members-dialogs.php:878
-msgid "Clear Form"
-msgstr "očisti forma"
-
-#: wp-members-dialogs.php:499 wp-members-dialogs.php:876
-msgid "Submit"
-msgstr "Podnesi"
-
-#: wp-members-dialogs.php:503 wp-members-dialogs.php:883
-msgid "Required field"
-msgstr "Zahtevano polje"
-
-#: wp-members-dialogs.php:565 wp-members-dialogs.php:931
-msgid "Remember me"
-msgstr "Zapamti"
-
-#: wp-members-dialogs.php:578 wp-members-dialogs.php:951
-msgid "Forgot password?"
-msgstr "Zaboravili ste šifru?"
-
-#: wp-members-dialogs.php:578 wp-members-dialogs.php:951
-msgid "Click here to reset"
-msgstr "Kliknite ovde za restart"
-
-#: wp-members-dialogs.php:587 wp-members-dialogs.php:959
-msgid "New User?"
-msgstr "Novi korisnik?"
-
-#: wp-members-dialogs.php:587 wp-members-dialogs.php:959
-msgid "Click here to register"
-msgstr "Kliknite ovde za registraciju"
-
-#: wp-members-export-full.php:29 wp-members-export.php:26
-msgid "Cheatin&#8217; uh?"
-msgstr "Cheatin&#8217; uh?"
-
-#: wp-members-export-full.php:62 wp-members-export.php:52
-msgid "Activated?"
-msgstr "Aktivirano?"
-
-#: wp-members-export-full.php:65 wp-members-export.php:55
-msgid "Subscription"
-msgstr "Pretplata"
-
-#: wp-members-export-full.php:65 wp-members-export.php:55
-msgid "Expires"
-msgstr "Ističe"
-
-#: wp-members-export-full.php:68 wp-members-export.php:58
-msgid "Registered"
-msgstr "Registrovan"
-
-#: wp-members-export-full.php:69 wp-members-export.php:59
-msgid "IP"
-msgstr "IP"
-
-#: wp-members-export-full.php:96 wp-members-export.php:82
+#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
+#: admin/user-export.php:211
 msgid "Yes"
 msgstr "Da"
 
-#: wp-members-export.php:29
-msgid "there was an error and no users were exported"
-msgstr "pojavio se error i nijedan korisnik nije ekspotovan"
+#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:36
+msgid "Need help?"
+msgstr ""
 
-#: wp-members-install.php:49
+#: admin/tab-captcha.php:45
+msgid "Manage reCAPTCHA Options"
+msgstr "Upravljajte reCAPTCHA Opcijama"
+
+#: admin/tab-captcha.php:52
+msgid ""
+"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
+"while blocking spam on your blog."
+msgstr ""
+"reCAPTCHA je besplatna, primenjliva CAPTCHA usluga pomaže digitalizovanju "
+"knjiga dok blokira spam na vašem blogu."
+
+#: admin/tab-captcha.php:53
+msgid ""
+"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
+"that they are a human. This verifies that they are not a spambot while also "
+"correcting the automatic scans of old books. So you get less spam, and the "
+"world gets accurately digitized books. Everybody wins! For details, visit "
+"the %s reCAPTCHA website%s"
+msgstr ""
+"reCAPTCHA traži da ponovo otkucate dve reči skenirane iz knjige da dokaže da "
+"ste čovek . Ovo potvrđuje da oni nisu spambot i istovremeno ispravlja "
+"automatski skenire starih knjiga . Tako dobijate manje spama , a svet dobija "
+"tačno digitalizovane poruke. Svi pobedjuju. Za detalje posetite %s reCAPTCHA "
+"websajt%s"
+
+#: admin/tab-captcha.php:58
+msgid "reCAPTCHA Keys"
+msgstr "reCAPTCHA Ključevi"
+
+#: admin/tab-captcha.php:60
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+"reCAPTCHA zahteva API ključ, ckoji se sastoji od  \"public\"   i  \"private"
+"\"   ključa. Možete da se upišete za %s besplatan reCAPTCHA ključ %s"
+
+#: admin/tab-captcha.php:61
+msgid "Public Key"
+msgstr "Javni ključ"
+
+#: admin/tab-captcha.php:62
+msgid "Private Key"
+msgstr "Privatni ključ"
+
+#: admin/tab-captcha.php:66
+msgid "Choose Theme"
+msgstr "Izaberi temu"
+
+#. Plugin Name of the plugin/theme
+#: admin/tab-captcha.php:69
+msgid "WP-Members"
+msgstr "WP-Members"
+
+#: admin/tab-captcha.php:70
+msgid "Red"
+msgstr "Crveno"
+
+#: admin/tab-captcha.php:71
+msgid "White"
+msgstr "Belo"
+
+#: admin/tab-captcha.php:72
+msgid "Black Glass"
+msgstr "Black staklo"
+
+#: admin/tab-captcha.php:73
+msgid "Clean"
+msgstr "Čisto"
+
+#: admin/tab-captcha.php:74
+msgid "Custom"
+msgstr "Custom"
+
+#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
+#: admin/tab-options.php:107 admin/tab-options.php:121
+msgid "Optional"
+msgstr "Opcionalno"
+
+#: admin/tab-captcha.php:86
+msgid "Update reCAPTCHA Settings"
+msgstr "Update reCAPTCHA postavki"
+
+#: admin/tab-captcha.php:119
+msgid "reCAPTCHA was updated for WP-Members"
+msgstr "reCAPTCHA je updatovano za  WP-Members"
+
+#: admin/tab-dialogs.php:29
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr ""
+"Zabranjeni post (ili stranica), prikazuje iznad  login/registracijsku formu"
+
+#: admin/tab-dialogs.php:30
+msgid "Username is taken"
+msgstr "Korisničko ime je zauzeto"
+
+#: admin/tab-dialogs.php:31
+msgid "Email is registered"
+msgstr "Email je registrovan"
+
+#: admin/tab-dialogs.php:32
+msgid "Registration completed"
+msgstr "Registracija završena"
+
+#: admin/tab-dialogs.php:33
+msgid "User update"
+msgstr "Korisnik update-ovan"
+
+#: admin/tab-dialogs.php:34
+msgid "Passwords did not match"
+msgstr "Šifra se ne slaže"
+
+#: admin/tab-dialogs.php:35
+msgid "Password changes"
+msgstr "Šifra se menja"
+
+#: admin/tab-dialogs.php:36
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr ""
+"Korisničko ime ili email ne postoje kada pokušate da resetujete zaboravljenu "
+"šifru"
+
+#: admin/tab-dialogs.php:37
+msgid "Password reset"
+msgstr "Resetovanje šifre"
+
+#: admin/tab-dialogs.php:54
+msgid "Dialogs and Error Messages"
+msgstr "Diažjalozi i Error poruke"
+
+#: admin/tab-dialogs.php:56
+msgid ""
+"You can customize the text for dialogs and error messages. Simple HTML is "
+"allowed %s etc."
+msgstr ""
+"Možete da customize-ujete text za dijaloge i error poruke. Jednostavan HTML "
+"je dozvoljen %s itd."
+
+#: admin/tab-dialogs.php:69
+msgid "Terms of Service (TOS)"
+msgstr "Pravila (TOS)"
+
+#: admin/tab-dialogs.php:76
+msgid "Update Dialogs"
+msgstr "Update dijaloga"
+
+#: admin/tab-dialogs.php:115
+msgid "WP-Members dialogs were updated"
+msgstr "WP-Members dijaloz su updatovani"
+
+#: admin/tab-emails.php:30
+msgid "New Registration"
+msgstr "Nova registracija"
+
+#: admin/tab-emails.php:34
+msgid "Registration is Moderated"
+msgstr "Registracija je obavljena"
+
+#: admin/tab-emails.php:35
+msgid "Registration is Moderated, User is Approved"
+msgstr "Registracija je obavljena, korisnik je odobren."
+
+#: admin/tab-emails.php:40
+msgid "Password Reset"
+msgstr "Resetuj šifru"
+
+#: admin/tab-emails.php:45
+msgid "Admin Notification"
+msgstr "Admin notifikacije"
+
+#: admin/tab-emails.php:50
+msgid "Email Signature"
+msgstr "Email potpis"
+
+#: admin/tab-emails.php:57
+msgid "Email Messages"
+msgstr "Email poruke"
+
+#: admin/tab-emails.php:60
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr "Možete da customize-irate sadržaj emailova poslatih pluginom. "
+
+#: admin/tab-emails.php:62
+msgid "A list of shortcodes is available here."
+msgstr "Lista shortcode-ova dostupnih ovde.  "
+
+#: admin/tab-emails.php:69
+msgid "Set a custom email address"
+msgstr "Podesi custom email adresu"
+
+#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
+msgid "(optional)"
+msgstr "(opcionalno)"
+
+#: admin/tab-emails.php:73
+msgid "Set a custom email name"
+msgstr "Podesi custom email ie"
+
+#: admin/tab-emails.php:84
+msgid "Subject"
+msgstr "Subject"
+
+#: admin/tab-emails.php:88
+msgid "Body"
+msgstr "Telo"
+
+#: admin/tab-emails.php:105
+msgid "Update Emails"
+msgstr "Updateuj mailove"
+
+#: admin/tab-emails.php:161
+msgid "WP-Members emails were updated"
+msgstr "WP-Members emailovi su updatovani"
+
+#: admin/tab-fields.php:166
+msgid "WP-Members fields were updated"
+msgstr "WP-Members polja su updatovana"
+
+#: admin/tab-fields.php:176
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr ""
+"Polje oznake je potrebno za dodavanje novih polja. Ništa nije updatovano. "
+
+#: admin/tab-fields.php:177
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr ""
+"Opcija IME je potrebna zadodavanje novih polja. Ništa nije updatovano.   "
+
+#: admin/tab-fields.php:196
+#, fuzzy
+msgid "Checked value is required for checkboxes. Nothing was updated."
+msgstr ""
+"Polje oznake je potrebno za dodavanje novih polja. Ništa nije updatovano. "
+
+#: admin/tab-fields.php:218
+#, fuzzy
+msgid "field was added"
+msgstr "Метка поля"
+
+#: admin/tab-fields.php:236
+#, fuzzy
+msgid "field was updated"
+msgstr "WP-Members polja su updatovana"
+
+#: admin/tab-fields.php:257
+#, fuzzy
+msgid "edit"
+msgstr "Редактирование ваших данных"
+
+#: admin/tab-fields.php:284 admin/tab-fields.php:380
+#, fuzzy
+msgid "Edit Field"
+msgstr "Редактирование ваших данных"
+
+#: admin/tab-fields.php:284
+#, fuzzy
+msgid "Add a Field"
+msgstr "Добавить/удалить"
+
+#: admin/tab-fields.php:290 admin/tab-fields.php:411
+msgid "Field Label"
+msgstr "Pronadji oznaku"
+
+#: admin/tab-fields.php:292
+msgid "The name of the field as it will be displayed to the user."
+msgstr ""
+
+#: admin/tab-fields.php:295 admin/tab-fields.php:412
+msgid "Option Name"
+msgstr "Ime opcije"
+
+#: admin/tab-fields.php:301
+msgid ""
+"The database meta value for the field. It must be unique and contain no "
+"spaces (underscores are ok)."
+msgstr ""
+
+#: admin/tab-fields.php:305 admin/tab-fields.php:413
+msgid "Field Type"
+msgstr "Tip polja"
+
+#: admin/tab-fields.php:311
+msgid "text"
+msgstr "tekst"
+
+#: admin/tab-fields.php:312
+msgid "textarea"
+msgstr "područje teksta"
+
+#: admin/tab-fields.php:313
+msgid "checkbox"
+msgstr "checkbox"
+
+#: admin/tab-fields.php:314
+msgid "dropdown"
+msgstr "dropdown"
+
+#: admin/tab-fields.php:315
+msgid "password"
+msgstr "šifra"
+
+#: admin/tab-fields.php:320 admin/tab-fields.php:414
+msgid "Display?"
+msgstr "Prikaži?"
+
+#: admin/tab-fields.php:324 admin/tab-fields.php:415
+msgid "Required?"
+msgstr "Potrbno?"
+
+#: admin/tab-fields.php:329
+#, fuzzy
+msgid "Additional information for checkbox fields"
+msgstr "WP-Members Дополнительные поля"
+
+#: admin/tab-fields.php:332
+#, fuzzy
+msgid "Checked by default?"
+msgstr "Отмечено?"
+
+#: admin/tab-fields.php:336
+#, fuzzy
+msgid "Stored value if checked:"
+msgstr "Отмечено?"
+
+#: admin/tab-fields.php:342
+#, fuzzy
+msgid "Additional information for dropdown fields"
+msgstr "WP-Members Дополнительные поля"
+
+#: admin/tab-fields.php:345
+msgid "For dropdown, array of values:"
+msgstr "Za dropdown, array ili vrednosti:"
+
+#: admin/tab-fields.php:370
+msgid "Options should be Option Name|option_value,"
+msgstr "Opcije bi treblo da budu Option Name|option_value,"
+
+#: admin/tab-fields.php:374
+msgid "Visit plugin site for more information"
+msgstr "Posetite sajt plugina za više informacija"
+
+#: admin/tab-fields.php:380
+#, fuzzy
+msgid "Add Field"
+msgstr "Добавить/удалить"
+
+#: admin/tab-fields.php:402
+msgid "Manage Fields"
+msgstr "Upravljazi poljima"
+
+#: admin/tab-fields.php:404
+msgid ""
+"Determine which fields will display and which are required.  This includes "
+"all fields, both native WP fields and WP-Members custom fields."
+msgstr ""
+"Odredjuje koja polja će biti prikazana i koja su neophodna. Ovo uključuje "
+"sva polja, i   native WP polja i WP-Members custom polja."
+
+#: admin/tab-fields.php:405
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Beleška: Email je uvek obavezan i ne može se promeniti.)"
+
+#: admin/tab-fields.php:410
+msgid "Add/Delete"
+msgstr "Dodaj/Obriši"
+
+#: admin/tab-fields.php:416
+msgid "Checked?"
+msgstr "Čekirano?"
+
+#: admin/tab-fields.php:417
+#, fuzzy
+msgid "Edit"
+msgstr "Редактирование ваших данных"
+
+#: admin/tab-fields.php:418
+msgid "Users Screen"
+msgstr ""
+
+#: admin/tab-fields.php:430
+msgid "Delete"
+msgstr "Obrisati"
+
+#: admin/tab-fields.php:442
+msgid "(Email cannot be removed)"
+msgstr "(Email ne može da se ukloni)"
+
+#: admin/tab-fields.php:460
+#, fuzzy
+msgid "Registration Date"
+msgstr "Регистрация завершена"
+
+#: admin/tab-fields.php:463
+#, fuzzy
+msgid "native"
+msgstr ""
+"Определите, какие поля следует отображать, и какие должны быть "
+"обязательными. Этот список содержит все поля, как WordPress`а, так и WP-"
+"Members"
+
+#: admin/tab-fields.php:473
+#, fuzzy
+msgid "Active"
+msgstr "Aktiviraj"
+
+#: admin/tab-fields.php:485
+#, fuzzy
+msgid "Registration IP"
+msgstr "IP при регистрации"
+
+#: admin/tab-fields.php:520
+msgid "Update Fields"
+msgstr "Update-uj polja"
+
+#: admin/tab-options.php:47
+msgid "Manage Options"
+msgstr "Upravljaj opcijama"
+
+#: admin/tab-options.php:53
+msgid "Block Posts by default"
+msgstr "Blokiraj postove po defaultu"
+
+#: admin/tab-options.php:53
+msgid ""
+"Note: Posts can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"Beleška: Postovi mogu i dalje biti individualno blokirani ili odblokirani na "
+"nivou članka"
+
+#: admin/tab-options.php:54
+msgid "Block Pages by default"
+msgstr "Blokiraj stranice po defaultu"
+
+#: admin/tab-options.php:54
+msgid ""
+"Note: Pages can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"Beleška: Stranice mogu biti individualno blokirane ili deblokirane na nivou "
+"članka"
+
+#: admin/tab-options.php:55
+msgid "Show excerpts"
+msgstr "Prikaži odlomke"
+
+#: admin/tab-options.php:55
+msgid ""
+"Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr ""
+"Prikaži sadržaj odlomaka iznad login/registracije na Postovima i Stranice"
+
+#: admin/tab-options.php:56
+msgid "Notify admin"
+msgstr "Obavesti admina"
+
+#: admin/tab-options.php:56
+#, fuzzy
+msgid "Notify %s for each new registration? %s"
+msgstr "Pošalji email adminu za svaku novu registraciju?"
+
+#: admin/tab-options.php:57
+msgid "Moderate registration"
+msgstr "Upravljajte registracijom"
+
+#: admin/tab-options.php:57
+msgid "Holds new registrations for admin approval"
+msgstr "Sadrži nove registracije za odobrenje od dmina"
+
+#: admin/tab-options.php:58
+msgid "Use reCAPTCHA"
+msgstr "Koristi  reCAPTCHA"
+
+#: admin/tab-options.php:58
+msgid "Turns on CAPTCHA for registration"
+msgstr "Uključi  CAPTCHA za registraciju"
+
+#: admin/tab-options.php:59
+#, fuzzy
+msgid "Hide registration"
+msgstr "Регистрация завершена"
+
+#: admin/tab-options.php:59
+msgid "Removes the registration form from blocked content"
+msgstr ""
+
+#: admin/tab-options.php:61
+msgid "Time-based expiration"
+msgstr "Trajanje bazirano na vremenu"
+
+#: admin/tab-options.php:61
+msgid "Allows for access to expire"
+msgstr "Dozvoljava vam da pristupite trajanju"
+
+#: admin/tab-options.php:62
+msgid "Trial period"
+msgstr "Trial period"
+
+#: admin/tab-options.php:62
+msgid "Allows for a trial period"
+msgstr "Dozvoljeno za trial period"
+
+#: admin/tab-options.php:63
+msgid "Ignore warning messages"
+msgstr "Ignorisati poruke upozorenja"
+
+#: admin/tab-options.php:63
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignorisati WP-Members  poruke upozorenja u admin panelu"
+
+#: admin/tab-options.php:79
+msgid "Attribution"
+msgstr ""
+
+#: admin/tab-options.php:81
+msgid ""
+"Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr ""
+
+#: admin/tab-options.php:85
+#, fuzzy
+msgid "Auto Excerpt:"
+msgstr "Prikaži odlomke"
+
+#: admin/tab-options.php:86
+msgid "Number of words in excerpt:"
+msgstr ""
+
+#: admin/tab-options.php:86
+msgid "Automatically creates an excerpt"
+msgstr ""
+
+#: admin/tab-options.php:88
+#, fuzzy
+msgid "Pages"
+msgstr "Блокировать страницы по умолчанию"
+
+#: admin/tab-options.php:92
+#, fuzzy
+msgid "User Profile Page:"
+msgstr "Пользователь обновлен"
+
+#: admin/tab-options.php:95
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:102
+#, fuzzy
+msgid "Register Page:"
+msgstr " URL registarske stranice:"
+
+#: admin/tab-options.php:105
+msgid "For creating a register link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:110
+msgid "Stylesheet"
+msgstr ""
+
+#: admin/tab-options.php:112
+msgid "Stylesheet:"
+msgstr ""
+
+#: admin/tab-options.php:115
+msgid "Select a stylesheet or specify a custom stylesheet below"
+msgstr ""
+
+#: admin/tab-options.php:120
+#, fuzzy
+msgid "Custom Stylesheet:"
+msgstr "Пользовательский"
+
+#: admin/tab-options.php:125
+msgid "Update Settings"
+msgstr "Update postavki"
+
+#: admin/tab-options.php:235
+msgid "WP-Members settings were updated"
+msgstr "WP-Memberspostavke su updatovane"
+
+#: admin/tab-options.php:285
+msgid "Select a page"
+msgstr ""
+
+#: admin/tab-options.php:293
+msgid "USE CUSTOM URL BELOW"
+msgstr ""
+
+#: admin/user-export.php:57 admin/user-export.php:172
+msgid "Activated?"
+msgstr "Aktivirano?"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Subscription"
+msgstr "Pretplata"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Expires"
+msgstr "Ističe"
+
+#: admin/user-export.php:64 admin/user-export.php:178
+msgid "Registered"
+msgstr "Registrovan"
+
+#: admin/user-export.php:65 admin/user-export.php:179
+msgid "IP"
+msgstr "IP"
+
+#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
+msgid "No"
+msgstr "Ne"
+
+#: admin/user-profile.php:46
+msgid "WP-Members Additional Fields"
+msgstr "WP-Members Additional Fields"
+
+#: admin/user-profile.php:58 native-registration.php:35
+#: native-registration.php:126 users.php:57
+#, fuzzy
+msgid "(required)"
+msgstr "Обязательно?"
+
+#: admin/user-profile.php:91
+msgid "Activate this user?"
+msgstr "Aktivirajte ovog korisnika?"
+
+#: admin/user-profile.php:96
+msgid "Reactivate this user?"
+msgstr "Reaktivirajte ovog korisnika?"
+
+#: admin/user-profile.php:101
+msgid "Deactivate this user?"
+msgstr "Deaktivirajte ovog korisnika?"
+
+#: admin/user-profile.php:122
+msgid "IP @ registration"
+msgstr "IP @ registracija"
+
+#: admin/users.php:43 admin/users.php:47
+msgid "Activate"
+msgstr "Aktiviraj"
+
+#: admin/users.php:45 admin/users.php:49
+msgid "Export"
+msgstr "Export"
+
+#: admin/users.php:50 admin/users.php:91
+#, fuzzy
+msgid "Export All Users"
+msgstr "Выгрузить"
+
+#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
+msgid "Username"
+msgstr "Korisn ičko ime"
+
+#: forms.php:77 wp-members-sidebar.php:148
+msgid "Password"
+msgstr "Šifra"
+
+#: forms.php:95
+#, fuzzy
+msgid "Existing Users Log In"
+msgstr "Войти"
+
+#: forms.php:97
+#, fuzzy
+msgid "Log In"
+msgstr "Войти"
+
+#: forms.php:136
+msgid "New Password"
+msgstr "Nova šifra"
+
+#: forms.php:143
+msgid "Repeat Password"
+msgstr "Ponovi šifru"
+
+#: forms.php:161 wp-members-dialogs.php:192
+msgid "Change Password"
+msgstr "Promeni šifru"
+
+#: forms.php:163
+msgid "Update Password"
+msgstr "Update-uj čifr"
+
+#: forms.php:209
+msgid "Email"
+msgstr "Email"
+
+#: forms.php:227
+msgid "Reset Forgotten Password"
+msgstr "Resetuj zabranjenu šifru"
+
+#: forms.php:229
+msgid "Reset Password"
+msgstr "Resetuj šifru"
+
+#: forms.php:375
+msgid "Remember me"
+msgstr "Zapamti"
+
+#: forms.php:403
+msgid "Forgot password?"
+msgstr "Zaboravili ste šifru?"
+
+#: forms.php:403
+msgid "Click here to reset"
+msgstr "Kliknite ovde za restart"
+
+#: forms.php:418
+msgid "New User?"
+msgstr "Novi korisnik?"
+
+#: forms.php:418
+msgid "Click here to register"
+msgstr "Kliknite ovde za registraciju"
+
+#: forms.php:515
+msgid "Required field"
+msgstr "Zahtevano polje"
+
+#: forms.php:521
+#, fuzzy
+msgid "Reset Form"
+msgstr "Произошла ошибка в форма CAPTCHA."
+
+#: forms.php:522 wp-members-sidebar.php:172
+msgid "Register"
+msgstr "Registruj se"
+
+#: forms.php:523
+#, fuzzy
+msgid "Update Profile"
+msgstr "Пользователь обновлен"
+
+#: forms.php:561
+msgid "Choose a Username"
+msgstr "Izaberite korisničko ime"
+
+#: forms.php:681 native-registration.php:64
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Molimo vas budite jasni da li želite da se %s TOS %s"
+
+#: forms.php:832
+#, fuzzy
+msgid "New User Registration"
+msgstr "Новый пользователь?"
+
+#: users.php:38
+#, fuzzy
+msgid "Additional Information"
+msgstr "WP-Members Дополнительные поля"
+
+#: utilities.php:242
+msgid "(more&hellip;)"
+msgstr ""
+
+#: wp-members-core.php:118 wp-members-core.php:245
+msgid "There was an error with the CAPTCHA form."
+msgstr "Pojavio se error sa  CAPTCHA formom."
+
+#: wp-members-core.php:287 wp-members-dialogs.php:338
+msgid "Edit Your Information"
+msgstr "Edituj svoje informcije"
+
+#: wp-members-core.php:539
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "<strong>ERROR</strong> : Korisnik nije aktiviran."
+
+#: wp-members-core.php:897 wp-members-register.php:88
+msgid "Sorry, %s is a required field."
+msgstr "Žao nam je, %s  je m ora da bude unešeno u polje."
+
+#: wp-members-dialogs.php:42
+msgid "Login Failed!"
+msgstr "Login nije uspeo!"
+
+#: wp-members-dialogs.php:45
+msgid "You entered an invalid username or password."
+msgstr "Uneli ste nepostojeće korisničko ime ili šifru.."
+
+#: wp-members-dialogs.php:47
+msgid "Click here to continue."
+msgstr "Klik ovde za nastavak."
+
+#: wp-members-dialogs.php:191
+msgid "Edit My Information"
+msgstr "Editujte moje informacije"
+
+#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
+#: wp-members-sidebar.php:204
+msgid "You are logged in as %s"
+msgstr "Ulogovani ste kao %s"
+
+#: wp-members-dialogs.php:208
+#, fuzzy
+msgid "Click to log out."
+msgstr "Войти"
+
+#: wp-members-dialogs.php:209
+msgid "Begin using the site."
+msgstr "Počnite da koristite sajt"
+
+#: wp-members-dialogs.php:225
+#, fuzzy
+msgid "Click to log out"
+msgstr "Войти"
+
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#, fuzzy
+msgid "click to log out"
+msgstr "Войти"
+
+#: wp-members-dialogs.php:271
+msgid "Password fields cannot be empty"
+msgstr "Oilja sa šiframa ne mogu da budu prazna"
+
+#: wp-members-register.php:47
+#, fuzzy
+msgid "There was an error processing the form."
+msgstr "Произошла ошибка в форма CAPTCHA."
+
+#: wp-members-register.php:96
+msgid "Sorry, username is a required field"
+msgstr "Žao nam je,  korisničko ime morate da unesete u polje"
+
+#: wp-members-register.php:97
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Ime korisnika ne može da uključi ne alfanumeričke karaktere."
+
+#: wp-members-register.php:98 wp-members-register.php:245
+msgid "You must enter a valid email address."
+msgstr "Morate da unesete validnu email adresu."
+
+#: wp-members-register.php:115
+#, fuzzy
+msgid "Passwords did not match."
+msgstr "Šifra se ne slaže"
+
+#: wp-members-register.php:116 wp-members-register.php:264
+#, fuzzy
+msgid "Emails did not match."
+msgstr "Šifra se ne slaže"
+
+#: wp-members-register.php:108
+msgid "You must complete the CAPTCHA form."
+msgstr "Morate da popunite CAPTCHA formu."
+
+#: wp-members-register.php:316
+msgid "We were unable to validate the public key."
+msgstr "Nismo mogli da validujemo javni ključ."
+
+#: wp-members-register.php:320
+msgid "We were unable to validate the private key."
+msgstr "Nismo mogli da validujemo privatni ključ"
+
+#: wp-members-register.php:324
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "Izazovni parametar verifikovanog skripta nisu tačni."
+
+#: wp-members-register.php:328
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA rešenje nije tačno."
+
+#: wp-members-register.php:332
+msgid "The parameters to verify were incorrect"
+msgstr "Parametri za verifikaciju su netačni."
+
+#: wp-members-register.php:336
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr ""
+"reCAPTCHA API ključevi su vezani za odredjeno domain ime iz sigurnosnih "
+"razloga."
+
+#: wp-members-register.php:340
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "reCAPTCHA server nije dostupan. Pokušajte ponovo."
+
+#: wp-members-sidebar.php:124
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Login nije uspeo!<br />Uneli ste nepostojeće korisničko ime i šifru."
+
+#: wp-members-sidebar.php:125
+#, fuzzy
+msgid "You are not logged in."
+msgstr "Вы вошли как %s"
+
+#: wp-members-sidebar.php:163
+#, fuzzy
+msgid "log in"
+msgstr "Войти"
+
+#: wp-members-sidebar.php:167
+msgid "Forgot?"
+msgstr "Zaboravili?"
+
+#: wp-members-sidebar.php:205
+msgid "click here to logout"
+msgstr "klik ovde za logout"
+
+#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+msgid "Login Status"
+msgstr "Login Status"
+
+#: wp-members-sidebar.php:250
+msgid "Title:"
+msgstr "Naslov:"
+
+#: wp-members-tos.php:24
+msgid "Terms of Service"
+msgstr "Pravila"
+
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr "%sclose%s"
+
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr "%sprint%s"
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+
+#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
+#: Strings wp-members-install.php:49
 msgid "First Name"
 msgstr "Ime"
 
@@ -973,14 +1238,15 @@ msgstr "Jabber/Google Talk"
 msgid "Biographical Info"
 msgstr "Biografska info"
 
-#: wp-members-install.php:64 wp-members-install.php:208
+#: wp-members-install.php:64 wp-members-install.php:211
 msgid "TOS"
 msgstr "TOS"
 
-#: wp-members-install.php:96
+#: Error message dialog strings wp-members-install.php:96
+#, fuzzy
 msgid ""
 "This content is restricted to site members.  If you are an existing user, "
-"please login.  New users may register below."
+"please log in.  New users may register below."
 msgstr ""
 "Ovaj sadržaj je zabranjen članovima sajta. Ako ste korisnik molim vas "
 "ulogujte se. Novi korisnik se može ulogovati ispod."
@@ -995,9 +1261,10 @@ msgid ""
 msgstr "Žao nam je, ova mail adresa već ima nalog.<br />Pokušajte drugu."
 
 #: wp-members-install.php:99
+#, fuzzy
 msgid ""
 "Congratulations! Your registration was successful.<br /><br />You may now "
-"login using the password that was emailed to you."
+"log in using the password that was emailed to you."
 msgstr ""
 "Čestitamo! Vaša registracija je uspela.<br /><br />Sada možete da se "
 "ulogujete koristeći šifru koja vam je postala mailom."
@@ -1032,93 +1299,108 @@ msgstr ""
 "poslat na mail adrese u fajlu za vaš nalog. Možete promeniti ovu  nasumičnu "
 "šifru i potom se ponovo ulogovati sa novom šifrom."
 
-#: wp-members-register.php:72
-msgid "Sorry, %s is a required field."
-msgstr "Žao nam je, %s  je m ora da bude unešeno u polje."
+#~ msgid "Turn off registration"
+#~ msgstr "Ugasi registraciju"
 
-#: wp-members-register.php:80
-msgid "Sorry, username is a required field"
-msgstr "Žao nam je,  korisničko ime morate da unesete u polje"
+#~ msgid "Turns off the registration process, only allows login"
+#~ msgstr ""
+#~ "Gašenje registracije je u procesu, samo može login da bude dozvoljen"
 
-#: wp-members-register.php:81
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "Ime korisnika ne može da uključi ne alfanumeričke karaktere."
+#~ msgid "Legacy forms"
+#~ msgstr "Forme nasledja"
 
-#: wp-members-register.php:82
-msgid "You must enter a valid email address."
-msgstr "Morate da unesete validnu email adresu."
+#~ msgid ""
+#~ "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less "
+#~ "forms)"
+#~ msgstr ""
+#~ "Koristi pre-2.5.1 forme bayirane na tabeli (ostavi radi korišćenja CSS "
+#~ "forme sa manje tabela)"
 
-#: wp-members-register.php:92
-msgid "You must complete the CAPTCHA form."
-msgstr "Morate da popunite CAPTCHA formu."
+#~ msgid "Members Area URL:"
+#~ msgstr "URL područja članova:"
 
-#: wp-members-register.php:276
-msgid "We were unable to validate the public key."
-msgstr "Nismo mogli da validujemo javni ključ."
+#~ msgid "Add"
+#~ msgstr "Dodati"
 
-#: wp-members-register.php:280
-msgid "We were unable to validate the private key."
-msgstr "Nismo mogli da validujemo privatni ključ"
+#~ msgid "WP-Members expiration periods were updated"
+#~ msgstr "WP-Members period trajanja su updateovani"
 
-#: wp-members-register.php:284
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "Izazovni parametar verifikovanog skripta nisu tačni."
+#~ msgid ""
+#~ "Settings were saved, but you have required fields that are not set to "
+#~ "display!"
+#~ msgstr ""
+#~ "Postavke su sačuvane, ali imate obavezna polja koja nisu nameštena za "
+#~ "prikaz!"
 
-#: wp-members-register.php:288
-msgid "The CAPTCHA solution was incorrect."
-msgstr "CAPTCHA rešenje nije tačno."
+#~ msgid ""
+#~ "Note: This will not cause an error for the end user, as only displayed "
+#~ "fields are validated.  However, you should still check that your "
+#~ "displayed and required fields match up.  Mismatched fields are "
+#~ "highlighted below."
+#~ msgstr ""
+#~ "Napomena : Ovo neće izazvati error za krajnjeg korisnika , jer su samo "
+#~ "polja proverena . Međutim , ipak bi trebalo da proverite da li se vaša "
+#~ "prikazana i obavezna polja poklapaju . Jezik ispod polja su označena."
 
-#: wp-members-register.php:292
-msgid "The parameters to verify were incorrect"
-msgstr "Parametri za verifikaciju su netačni."
+#~ msgid "If you find this plugin useful, please consider making a donation"
+#~ msgstr ""
+#~ "Ako mislite da je ova plugin korisna, možete da napravite malu donaciju"
 
-#: wp-members-register.php:296
-msgid ""
-"reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr ""
-"reCAPTCHA API ključevi su vezani za odredjeno domain ime iz sigurnosnih "
-"razloga."
+#~ msgid "reCAPTCHA"
+#~ msgstr "reCAPTCHA"
 
-#: wp-members-register.php:300
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "reCAPTCHA server nije dostupan. Pokušajte ponovo."
+#~ msgid "Subscriptions"
+#~ msgstr "Pretplata"
 
-#: wp-members-sidebar.php:95 wp-members-sidebar.php:125
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr "Login nije uspeo!<br />Uneli ste nepostojeće korisničko ime i šifru."
+#~ msgid "PayPal Settings"
+#~ msgstr "PayPal postavke"
 
-#: wp-members-sidebar.php:97 wp-members-sidebar.php:129
-msgid "You are not currently logged in."
-msgstr "Trenutno niste ulogovani."
+#~ msgid "If you find this plugin useful, please consider a %s donation %s"
+#~ msgstr ""
+#~ "Ako mislite da je ova plugin korisna, možete da napravite malu %s donaciju"
+#~ "%s"
 
-#: wp-members-sidebar.php:107 wp-members-sidebar.php:141
-msgid "login"
-msgstr "login"
+#~ msgid "%d users were activated."
+#~ msgstr "%d korisnici su aktivirani."
 
-#: wp-members-sidebar.php:111 wp-members-sidebar.php:145
-msgid "Forgot?"
-msgstr "Zaboravili?"
+#~ msgid ""
+#~ "Users ready to export, %s click here %s to generate and download a CSV."
+#~ msgstr ""
+#~ "Korisnici spremni za export,%s   kliknite ovde %s za generisanje i "
+#~ "download CSV-a."
 
-#: wp-members-sidebar.php:114 wp-members-sidebar.php:149
-msgid "Register"
-msgstr "Registruj se"
+#~ msgid "WP-Members Users"
+#~ msgstr "WP-Members korisnici"
 
-#: wp-members-sidebar.php:208 wp-members-sidebar.php:250
-msgid "Login Status"
-msgstr "Login Status"
+#~ msgid "Add New"
+#~ msgstr "Dodaj novi"
 
-#: wp-members-sidebar.php:213
-msgid "Title:"
-msgstr "Naslov:"
+#~ msgid "No users matched your criteria"
+#~ msgstr "Nijedan korisnik se ne slaže sa vašim kriterijumom"
 
-#: wp-members-tos.php:24
-msgid "Terms of Service"
-msgstr "Pravila"
+#~ msgid "Bulk Actions"
+#~ msgstr "Bulk Actions"
 
-#: wp-members-tos.php:36
-msgid "%sclose%s"
-msgstr "%sclose%s"
+#~ msgid "Apply"
+#~ msgstr "Primeni"
 
-#: wp-members-tos.php:38
-msgid "%sprint%s"
-msgstr "%sprint%s"
+#~ msgid "Indicates a required field"
+#~ msgstr "Ukazuje na za zahtevano polje"
+
+#~ msgid "Login"
+#~ msgstr "Login"
+
+#~ msgid "Clear Form"
+#~ msgstr "očisti forma"
+
+#~ msgid "Submit"
+#~ msgstr "Podnesi"
+
+#~ msgid "Cheatin&#8217; uh?"
+#~ msgstr "Cheatin&#8217; uh?"
+
+#~ msgid "there was an error and no users were exported"
+#~ msgstr "pojavio se error i nijedan korisnik nije ekspotovan"
+
+#~ msgid "login"
+#~ msgstr "login"

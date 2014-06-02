@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
  */
 
 
@@ -117,7 +117,7 @@ function wpmem_posts_admin_notices()
 	global $post_type, $pagenow, $user_action_msg;
 	if( $pagenow == 'edit.php' && $post_type == 'post' &&
 		isset( $_REQUEST['block'] ) ) {
-		$message = sprintf( __( '%s posts %sed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
+		$message = sprintf( __( '%s posts %ed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
 }

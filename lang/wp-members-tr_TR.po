@@ -2,48 +2,48 @@
 # This file is distributed under the same license as the WP-Members package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.8.0\n"
+"Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2012-12-18 20:31:14+00:00\n"
+"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
+"PO-Revision-Date: 2014-06-02 13:49-0600\n"
+"Last-Translator: \n"
+"Language-Team: hakaner <hakanerwptr@gmail.com>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-01-21 21:02+0200\n"
-"Last-Translator: HakanEr <hakanerwptr@gmail.com>\n"
-"Language-Team: hakaner <hakanerwptr@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"Language: turkish\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin/admin.php:47 admin/admin.php:110
+#: admin/admin.php:60 admin/admin.php:129
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: admin/admin.php:170
+#: admin/admin.php:187
 msgid "Options"
 msgstr "Seçenekler"
 
-#: admin/admin.php:171
+#: admin/admin.php:188
 msgid "Fields"
 msgstr "Bilgiler"
 
-#: admin/admin.php:172
+#: admin/admin.php:189
 msgid "Dialogs"
 msgstr "İletiler"
 
-#: admin/admin.php:173
+#: admin/admin.php:190
 msgid "Emails"
 msgstr "Epostalar"
 
-#: admin/dialogs.php:99
+#: admin/dialogs.php:109
 msgid ""
 "Your WP settings allow anyone to register - this is not the recommended "
 "setting."
 msgstr ""
 "WP ayarlarınız herkese kayıt için izin veriyor - bu önerilen bir ayar değil."
 
-#: admin/dialogs.php:100
+#: admin/dialogs.php:110
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
 "register\" is unchecked."
@@ -51,7 +51,7 @@ msgstr ""
 "\"İsteyen herkes kayıt olabilsin\" yanındaki kutunun işaretli olmadığından "
 "emin olarak %s buradan değiştirebilirsiniz %s ."
 
-#: admin/dialogs.php:101
+#: admin/dialogs.php:111
 msgid ""
 "This setting allows a link on the /wp-login.php page to register using the "
 "WP native registration process thus circumventing any registration you are "
@@ -67,7 +67,7 @@ msgstr ""
 "seçeneğin işaretini kaldırması gerekir. Eğer bu ayarı değiştirmezseniz, WP-"
 "Members Ayarları altındaki bu uyarı mesajlarını yok saymayı seçebilirsiniz."
 
-#: admin/dialogs.php:107
+#: admin/dialogs.php:117
 msgid ""
 "Your WP settings allow anyone to comment - this is not the recommended "
 "setting."
@@ -75,7 +75,7 @@ msgstr ""
 "WP ayarlarınız herkesin yorum yapmasına izin veriyor - bu önerilen bir ayar "
 "değil."
 
-#: admin/dialogs.php:108
+#: admin/dialogs.php:118
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
 "registered and logged in to comment.\""
@@ -83,7 +83,7 @@ msgstr ""
 "\"Kullanıcılar yorum yapmak için kayıt olmalı ve giriş yapmalılar.\" "
 "yanındaki kutuyu işaretleyerek %s buradan değiştirebilirsiniz %s ."
 
-#: admin/dialogs.php:109
+#: admin/dialogs.php:119
 msgid ""
 "This setting allows any users to comment, whether or not they are "
 "registered. Depending on how you are using WP-Members will determine whether "
@@ -96,7 +96,7 @@ msgstr ""
 "değiştirmezseniz, WP-Members Ayarları altındaki bu uyarı mesajlarını yok "
 "saymayı seçebilirsiniz."
 
-#: admin/dialogs.php:115
+#: admin/dialogs.php:125
 msgid ""
 "Your WP settings allow full text rss feeds - this is not the recommended "
 "setting."
@@ -104,7 +104,7 @@ msgstr ""
 "WP ayarlarınız tam yazı rss beslemelerine izin veriyor - bu önerilen bir "
 "ayar değil."
 
-#: admin/dialogs.php:116
+#: admin/dialogs.php:126
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
 "\" to \"Summary.\""
@@ -112,7 +112,7 @@ msgstr ""
 "\"Her yazı için, göster\" seçeneğini \"Özet\" olarak %s buradan "
 "değiştirebilirsiniz %s ."
 
-#: admin/dialogs.php:117
+#: admin/dialogs.php:127
 msgid ""
 "Leaving this set to full text allows anyone to read your protected content "
 "in an RSS reader. Changing this to Summary prevents this as your feeds will "
@@ -122,11 +122,11 @@ msgstr ""
 "içeriğinizi okumasına olanak verir. Bunun Özet olarak değiştirilmesi, "
 "beslemelerinizi yalnızca özet metin olarak göstererek sınırlar."
 
-#: admin/dialogs.php:123
+#: admin/dialogs.php:133
 msgid "You have set WP-Members to hold registrations for approval"
 msgstr "WP-Members eklentisini kayıtların onaydan geçmesi için ayarladınız"
 
-#: admin/dialogs.php:124
+#: admin/dialogs.php:134
 msgid ""
 "but you have not changed the default message for \"Registration Completed\" "
 "under \"WP-Members Dialogs and Error Messages.\"  You should change this "
@@ -136,11 +136,11 @@ msgstr ""
 "Hata Mesajları.\" altında değişmediniz. Kullanıcıların onay beklediklerini "
 "bilmeleri için bu mesajı değiştirmelisiniz."
 
-#: admin/dialogs.php:130
+#: admin/dialogs.php:140
 msgid "You have set WP-Members to turn off the registration process"
 msgstr "WP-Members eklentisini kayıt işlemini kapatmak için ayarladınız"
 
-#: admin/dialogs.php:131
+#: admin/dialogs.php:141
 msgid ""
 "but you also set to moderate and/or email admin new registrations.  You will "
 "need to set up a registration page for users to register."
@@ -149,11 +149,11 @@ msgstr ""
 "bilgilendirilmesi olarak ayarladınız. Kullanıcıların kaydolması için bir "
 "kayıt sayfası oluşturmanız gerekir."
 
-#: admin/dialogs.php:137
+#: admin/dialogs.php:147
 msgid "You have turned on reCAPTCHA"
 msgstr "reCAPTCHA özelliğini açtınız"
 
-#: admin/dialogs.php:138
+#: admin/dialogs.php:148
 msgid ""
 "but you have not entered API keys.  You will need both a public and private "
 "key.  The CAPTCHA will not display unless a valid API key is included."
@@ -162,88 +162,95 @@ msgstr ""
 "ihtiyacınız olacak. Geçerli bir API anahtarı yer almadığı sürece CAPTCHA "
 "göstermeyecektir."
 
-#: admin/dialogs.php:161
+#: admin/dialogs.php:171
 msgid "Version:"
 msgstr "Sürüm:"
 
-#: admin/dialogs.php:162
+#: admin/dialogs.php:172
 msgid "Quick Start Guide"
 msgstr "Hızlı Başlangıç Kılavuzu"
 
-#: admin/dialogs.php:163
+#: admin/dialogs.php:173
 msgid "Online User Guide"
 msgstr "Çevrimiçi Kullanıcı Kılavuzu"
 
-#: admin/dialogs.php:164
+#: admin/dialogs.php:174
 msgid "FAQs"
 msgstr "SSS"
 
-#: admin/dialogs.php:166
-msgid ""
-"Find out how to get access to WP-Members private members forum, premium code "
-"snippets, tutorials, and more!"
-msgstr ""
-"WP-Members özel üye forumu, premium kod parçacıkları, eğitimler ve daha "
-"fazlasına nasıl erişim sağlayacağınızı öğrenin!"
-
-#: admin/dialogs.php:171
+#: admin/dialogs.php:181
 msgid "Thank you for using WP-Members"
 msgstr "WP-Members kullandığınız için teşekkürler"
 
-#: admin/dialogs.php:172
+#: admin/dialogs.php:182
 msgid "A plugin developed by"
 msgstr "Eklenti geliştiricisi"
 
-#: admin/dialogs.php:173
+#: admin/dialogs.php:183
 msgid "Follow"
 msgstr "Takip et"
 
-#: admin/export-full.php:31 admin/export.php:27
-msgid "Cheatin&#8217; uh?"
-msgstr "Aldatma ha?"
+#: admin/dialogs.php:200 admin/dialogs.php:204
+msgid "Latest from RocketGeek"
+msgstr ""
 
-#: admin/export-full.php:70 admin/export.php:60
-msgid "Activated?"
-msgstr "Aktif edildi mi?"
+#: admin/dialogs.php:221 admin/dialogs.php:234
+msgid "Latest from ButlerBlog"
+msgstr ""
 
-#: admin/export-full.php:73 admin/export.php:63
-msgid "Subscription"
-msgstr "Abonelik"
+#: admin/post.php:36 admin/post.php:38
+#, fuzzy
+msgid "Block"
+msgstr "Varsayılan olarak Yazıları Engelle"
 
-#: admin/export-full.php:73 admin/export.php:63
-msgid "Expires"
-msgstr "Bitiş tarihi"
+#: admin/post.php:37 admin/post.php:39
+msgid "Unblock"
+msgstr ""
 
-#: admin/export-full.php:76 admin/export.php:66
-msgid "Registered"
-msgstr "Kayıtlı"
+#: admin/post.php:120
+#, fuzzy
+msgid "%s posts %ed."
+msgstr "Varsayılan olarak Yazıları Engelle"
 
-#: admin/export-full.php:77 admin/export.php:67
-msgid "IP"
-msgstr "IP"
+#: admin/post.php:138
+#, fuzzy
+msgid "Post Restriction"
+msgstr "Yeni Kayıt"
 
-#: admin/export-full.php:104 admin/export.php:90
+#: admin/post.php:145
+#, fuzzy
+msgid "Page Restriction"
+msgstr "Yeni Kayıt"
+
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Unblocked?"
+msgstr ""
+"Not: Yazılar hala tekil engellenmiş veya makale düzeyinde engellenmemiş "
+"olabilir"
+
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Blocked?"
+msgstr ""
+"Not: Yazılar hala tekil engellenmiş veya makale düzeyinde engellenmemiş "
+"olabilir"
+
+#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
+#: admin/user-export.php:211
 msgid "Yes"
 msgstr "Evet"
 
-#: admin/export-full.php:106 admin/export.php:92 admin/users.php:267
-msgid "No"
-msgstr "Hayır"
-
-#: admin/export.php:30
-msgid "there was an error and no users were exported"
-msgstr "bir hata oluştu ve hiçbir kullanıcı dışa aktarılamadı"
-
-#: admin/tab-captcha.php:32 admin/tab-dialogs.php:44 admin/tab-emails.php:57
-#: admin/tab-fields.php:37 admin/tab-options.php:31
+#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:36
 msgid "Need help?"
 msgstr "Yardım mı lazım?"
 
-#: admin/tab-captcha.php:43
+#: admin/tab-captcha.php:45
 msgid "Manage reCAPTCHA Options"
 msgstr "reCAPTCHA Seçeneklerini yönet"
 
-#: admin/tab-captcha.php:50
+#: admin/tab-captcha.php:52
 msgid ""
 "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
 "while blocking spam on your blog."
@@ -251,7 +258,7 @@ msgstr ""
 "reCAPTCHA blogunuzda spamı bloke ederken kitapları dijital ortama aktarmayla "
 "yardımcı olan ücretsiz, ulaşılabilir CAPTCHA hizmetidir."
 
-#: admin/tab-captcha.php:51
+#: admin/tab-captcha.php:53
 msgid ""
 "reCAPTCHA asks commenters to retype two words scanned from a book to prove "
 "that they are a human. This verifies that they are not a spambot while also "
@@ -266,11 +273,11 @@ msgstr ""
 "dijitalleştirilmiş kitapları alır. Herkes kazanır! Ayrıntılar için, %s "
 "reCAPTCHA web sitesini%s ziyaret edin."
 
-#: admin/tab-captcha.php:56
+#: admin/tab-captcha.php:58
 msgid "reCAPTCHA Keys"
 msgstr "reCAPTCHA Anahtarları"
 
-#: admin/tab-captcha.php:58
+#: admin/tab-captcha.php:60
 msgid ""
 "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
 "key. You can sign up for a %s free reCAPTCHA key%s"
@@ -279,54 +286,53 @@ msgstr ""
 "anahtarı gerektirir. %s Ücretsiz bir reCAPTCHA anahtarı\" için kayıt "
 "olabilirsiniz."
 
-#: admin/tab-captcha.php:59
+#: admin/tab-captcha.php:61
 msgid "Public Key"
 msgstr "Public Anahtar"
 
-#: admin/tab-captcha.php:60
+#: admin/tab-captcha.php:62
 msgid "Private Key"
 msgstr "Private Anahtar"
 
-#: admin/tab-captcha.php:64
+#: admin/tab-captcha.php:66
 msgid "Choose Theme"
 msgstr "Tema Seç"
 
-#. #-#-#-#-#  plugin.pot (WP-Members 2.8.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: admin/tab-captcha.php:67
+#: admin/tab-captcha.php:69
 msgid "WP-Members"
 msgstr "WP-Members"
 
-#: admin/tab-captcha.php:68
+#: admin/tab-captcha.php:70
 msgid "Red"
 msgstr "Kırmızı"
 
-#: admin/tab-captcha.php:69
+#: admin/tab-captcha.php:71
 msgid "White"
 msgstr "Beyaz"
 
-#: admin/tab-captcha.php:70
+#: admin/tab-captcha.php:72
 msgid "Black Glass"
 msgstr "Siyah Cam"
 
-#: admin/tab-captcha.php:71
+#: admin/tab-captcha.php:73
 msgid "Clean"
 msgstr "Temiz"
 
-#: admin/tab-captcha.php:72
+#: admin/tab-captcha.php:74
 msgid "Custom"
 msgstr "Kişisel"
 
-#: admin/tab-captcha.php:78 admin/tab-options.php:77 admin/tab-options.php:83
-#: admin/tab-options.php:98 admin/tab-options.php:103
+#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
+#: admin/tab-options.php:107 admin/tab-options.php:121
 msgid "Optional"
 msgstr "İsteğe bağlı"
 
-#: admin/tab-captcha.php:84
+#: admin/tab-captcha.php:86
 msgid "Update reCAPTCHA Settings"
 msgstr "reCAPTCHA Ayarlarını Güncelle"
 
-#: admin/tab-captcha.php:113
+#: admin/tab-captcha.php:119
 msgid "reCAPTCHA was updated for WP-Members"
 msgstr "reCAPTCHA WP-Members için güncellendi"
 
@@ -387,7 +393,7 @@ msgstr "Hizmet Koşulları (HK)"
 msgid "Update Dialogs"
 msgstr "İletileri Güncelle"
 
-#: admin/tab-dialogs.php:111
+#: admin/tab-dialogs.php:115
 msgid "WP-Members dialogs were updated"
 msgstr "WP-Members iletileri güncellendi"
 
@@ -415,40 +421,40 @@ msgstr "Yönetici Bildirimi"
 msgid "Email Signature"
 msgstr "Eposta İmzası"
 
-#: admin/tab-emails.php:67
+#: admin/tab-emails.php:57
 msgid "Email Messages"
 msgstr "Eposta Mesajları"
 
-#: admin/tab-emails.php:70
+#: admin/tab-emails.php:60
 msgid "You can customize the content of the emails sent by the plugin."
 msgstr ""
 "Eklenti tarafından gönderilen epostaların içeriğini kişiselleştirebilirsiniz."
 
-#: admin/tab-emails.php:72
+#: admin/tab-emails.php:62
 msgid "A list of shortcodes is available here."
 msgstr "Kısa kodların listesi burada mevcuttur."
 
-#: admin/tab-emails.php:79
+#: admin/tab-emails.php:69
 msgid "Set a custom email address"
 msgstr "Kişisel bir eposta adresi ayarla"
 
-#: admin/tab-emails.php:80 admin/tab-emails.php:84 admin/tab-emails.php:107
+#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
 msgid "(optional)"
 msgstr "(isteğe bağlı)"
 
-#: admin/tab-emails.php:83
+#: admin/tab-emails.php:73
 msgid "Set a custom email name"
 msgstr "Kişisel bir eposta adı ayarla"
 
-#: admin/tab-emails.php:94
+#: admin/tab-emails.php:84
 msgid "Subject"
 msgstr "Konu"
 
-#: admin/tab-emails.php:98
+#: admin/tab-emails.php:88
 msgid "Body"
 msgstr "Gövde"
 
-#: admin/tab-emails.php:115
+#: admin/tab-emails.php:105
 msgid "Update Emails"
 msgstr "Epostaları Güncelle"
 
@@ -456,56 +462,61 @@ msgstr "Epostaları Güncelle"
 msgid "WP-Members emails were updated"
 msgstr "WP-Members epostaları güncellendi"
 
-#: admin/tab-fields.php:159
+#: admin/tab-fields.php:166
 msgid "WP-Members fields were updated"
 msgstr "WP-Members bilgi alanları güncellendi"
 
-#: admin/tab-fields.php:166
+#: admin/tab-fields.php:176
 msgid "Field Label is required for adding a new field. Nothing was updated."
 msgstr ""
 "Alan Etiketi yeni bir bilgi alanı eklenmesini gerektirir. Hiçbir şey "
 "güncellenmedi."
 
-#: admin/tab-fields.php:167
+#: admin/tab-fields.php:177
 msgid "Option Name is required for adding a new field. Nothing was updated."
 msgstr ""
 "Seçenek Adı yeni bir bilgi alanı eklenmesini gerektirir. Hiçbir şey "
 "güncellenmedi."
 
-#: admin/tab-fields.php:185
+#: admin/tab-fields.php:196
 msgid "Checked value is required for checkboxes. Nothing was updated."
 msgstr ""
 "İşaretli seçim değeri onay kutularını gerektirir. Hiçbir şey güncellenmedi."
 
-#: admin/tab-fields.php:204
+#: admin/tab-fields.php:218
 msgid "field was added"
 msgstr "bilgi alanı eklendi"
 
-#: admin/tab-fields.php:224
+#: admin/tab-fields.php:236
 msgid "field was updated"
 msgstr "bilgi alanı güncellendi"
 
-#: admin/tab-fields.php:266 admin/tab-fields.php:352
+#: admin/tab-fields.php:257
+#, fuzzy
+msgid "edit"
+msgstr "Bilgi Alanını Düzenle"
+
+#: admin/tab-fields.php:284 admin/tab-fields.php:380
 msgid "Edit Field"
 msgstr "Bilgi Alanını Düzenle"
 
-#: admin/tab-fields.php:266
+#: admin/tab-fields.php:284
 msgid "Add a Field"
 msgstr "Bir Bilgi Alanı Ekle"
 
-#: admin/tab-fields.php:271 admin/tab-fields.php:381
+#: admin/tab-fields.php:290 admin/tab-fields.php:411
 msgid "Field Label"
 msgstr "Bilgi Alanı Etiketi"
 
-#: admin/tab-fields.php:274
+#: admin/tab-fields.php:292
 msgid "The name of the field as it will be displayed to the user."
 msgstr "Kullanıcıya gösterilecek bilgi alanı adı."
 
-#: admin/tab-fields.php:278 admin/tab-fields.php:382
+#: admin/tab-fields.php:295 admin/tab-fields.php:412
 msgid "Option Name"
 msgstr "Seçenek Adı"
 
-#: admin/tab-fields.php:285
+#: admin/tab-fields.php:301
 msgid ""
 "The database meta value for the field. It must be unique and contain no "
 "spaces (underscores are ok)."
@@ -513,75 +524,75 @@ msgstr ""
 "Bilgi alanı için veritabanı meta değeri. Bu benzersiz olmalı ve boşluk "
 "içermemelidir (alt çizgiler olabilir)."
 
-#: admin/tab-fields.php:290 admin/tab-fields.php:383
+#: admin/tab-fields.php:305 admin/tab-fields.php:413
 msgid "Field Type"
 msgstr "Bilgi Alanı Türü"
 
-#: admin/tab-fields.php:297
+#: admin/tab-fields.php:311
 msgid "text"
 msgstr "metin"
 
-#: admin/tab-fields.php:298
+#: admin/tab-fields.php:312
 msgid "textarea"
 msgstr "metin alanı"
 
-#: admin/tab-fields.php:299
+#: admin/tab-fields.php:313
 msgid "checkbox"
 msgstr "onay kutusu"
 
-#: admin/tab-fields.php:300
+#: admin/tab-fields.php:314
 msgid "dropdown"
 msgstr "açılır menü"
 
-#: admin/tab-fields.php:301
+#: admin/tab-fields.php:315
 msgid "password"
 msgstr "şifre"
 
-#: admin/tab-fields.php:307 admin/tab-fields.php:384
+#: admin/tab-fields.php:320 admin/tab-fields.php:414
 msgid "Display?"
 msgstr "Görüntülensin?"
 
-#: admin/tab-fields.php:311 admin/tab-fields.php:385
+#: admin/tab-fields.php:324 admin/tab-fields.php:415
 msgid "Required?"
 msgstr "Gerekli?"
 
-#: admin/tab-fields.php:316
+#: admin/tab-fields.php:329
 msgid "Additional information for checkbox fields"
 msgstr "Onay kutusu alanları için ek bilgiler"
 
-#: admin/tab-fields.php:319
+#: admin/tab-fields.php:332
 msgid "Checked by default?"
 msgstr "Varsayılan olarak İşaretli?"
 
-#: admin/tab-fields.php:323
+#: admin/tab-fields.php:336
 msgid "Stored value if checked:"
 msgstr "İşaretlendiğinde depolanan değer:"
 
-#: admin/tab-fields.php:329
+#: admin/tab-fields.php:342
 msgid "Additional information for dropdown fields"
 msgstr "Açılır menü alanları için ek bilgiler"
 
-#: admin/tab-fields.php:332
+#: admin/tab-fields.php:345
 msgid "For dropdown, array of values:"
 msgstr "Açılır menü için değerlerin sıralaması:"
 
-#: admin/tab-fields.php:345
+#: admin/tab-fields.php:370
 msgid "Options should be Option Name|option_value,"
 msgstr "Seçenekler Seçenek Adı|seçenek_değeri şeklinde olmalıdır,"
 
-#: admin/tab-fields.php:346
+#: admin/tab-fields.php:374
 msgid "Visit plugin site for more information"
 msgstr "Daha fazla bilgi için eklenti sitesini ziyaret edin"
 
-#: admin/tab-fields.php:352
+#: admin/tab-fields.php:380
 msgid "Add Field"
 msgstr "Alan ekle"
 
-#: admin/tab-fields.php:372
+#: admin/tab-fields.php:402
 msgid "Manage Fields"
 msgstr "Alanları Yönet"
 
-#: admin/tab-fields.php:374
+#: admin/tab-fields.php:404
 msgid ""
 "Determine which fields will display and which are required.  This includes "
 "all fields, both native WP fields and WP-Members custom fields."
@@ -589,43 +600,70 @@ msgstr ""
 "Hangi alanların gösterileceğini ve gerekli olduğunu belirleyin. Bu, yerel WP "
 "ve WP-Members kişisel alnları dahil tüm alanları içerir."
 
-#: admin/tab-fields.php:375
+#: admin/tab-fields.php:405
 msgid "(Note: Email is always mandatory. and cannot be changed.)"
 msgstr "(Not: Eposta her zaman zorunludur ve değiştirilemez.)"
 
-#: admin/tab-fields.php:380
+#: admin/tab-fields.php:410
 msgid "Add/Delete"
 msgstr "Ekle/Sil"
 
-#: admin/tab-fields.php:386
+#: admin/tab-fields.php:416
 msgid "Checked?"
 msgstr "İşaretli?"
 
-#: admin/tab-fields.php:387
-msgid "WP Native?"
-msgstr "WP Yerel?"
+#: admin/tab-fields.php:417
+#, fuzzy
+msgid "Edit"
+msgstr "Bilgi Alanını Düzenle"
 
-#: admin/tab-fields.php:397
+#: admin/tab-fields.php:418
+msgid "Users Screen"
+msgstr ""
+
+#: admin/tab-fields.php:430
 msgid "Delete"
 msgstr "Sil"
 
-#: admin/tab-fields.php:409
+#: admin/tab-fields.php:442
 msgid "(Email cannot be removed)"
 msgstr "(Eposta kaldırılamaz)"
 
-#: admin/tab-fields.php:420
+#: admin/tab-fields.php:460
+#, fuzzy
+msgid "Registration Date"
+msgstr "Kayıt tamamlandı"
+
+#: admin/tab-fields.php:463
+#, fuzzy
+msgid "native"
+msgstr ""
+"Hangi alanların gösterileceğini ve gerekli olduğunu belirleyin. Bu, yerel WP "
+"ve WP-Members kişisel alnları dahil tüm alanları içerir."
+
+#: admin/tab-fields.php:473
+#, fuzzy
+msgid "Active"
+msgstr "Etkinleştir"
+
+#: admin/tab-fields.php:485
+#, fuzzy
+msgid "Registration IP"
+msgstr "IP @ kaydı"
+
+#: admin/tab-fields.php:520
 msgid "Update Fields"
 msgstr "Alanları Güncelle"
 
-#: admin/tab-options.php:41
+#: admin/tab-options.php:47
 msgid "Manage Options"
 msgstr "Seçenekler Yönet"
 
-#: admin/tab-options.php:47
+#: admin/tab-options.php:53
 msgid "Block Posts by default"
 msgstr "Varsayılan olarak Yazıları Engelle"
 
-#: admin/tab-options.php:47
+#: admin/tab-options.php:53
 msgid ""
 "Note: Posts can still be individually blocked or unblocked at the article "
 "level"
@@ -633,11 +671,11 @@ msgstr ""
 "Not: Yazılar hala tekil engellenmiş veya makale düzeyinde engellenmemiş "
 "olabilir"
 
-#: admin/tab-options.php:48
+#: admin/tab-options.php:54
 msgid "Block Pages by default"
 msgstr "Varsayılan olarak Sayfaları Engelle"
 
-#: admin/tab-options.php:48
+#: admin/tab-options.php:54
 msgid ""
 "Note: Pages can still be individually blocked or unblocked at the article "
 "level"
@@ -645,351 +683,500 @@ msgstr ""
 "Not: Sayfalar hala tekil engellenmiş veya makale düzeyinde engellenmemiş "
 "olabilir"
 
-#: admin/tab-options.php:49
+#: admin/tab-options.php:55
 msgid "Show excerpts"
 msgstr "Alıntıları göster"
 
-#: admin/tab-options.php:49
+#: admin/tab-options.php:55
 msgid ""
 "Shows excerpted content above the login/registration on both Posts and Pages"
 msgstr "Yazı ve Sayfalarda alıntılanmış içeriği giriş/kayıt üstünde gösterir"
 
-#: admin/tab-options.php:50
+#: admin/tab-options.php:56
 msgid "Notify admin"
 msgstr "Yöneticiye bildir"
 
-#: admin/tab-options.php:50
-msgid "Sends email to admin for each new registration?"
+#: admin/tab-options.php:56
+#, fuzzy
+msgid "Notify %s for each new registration? %s"
 msgstr "Her yeni kayıt için yöneticiye eposta gönderilsin mi?"
 
-#: admin/tab-options.php:51
+#: admin/tab-options.php:57
 msgid "Moderate registration"
 msgstr "Kaydı Denetle"
 
-#: admin/tab-options.php:51
+#: admin/tab-options.php:57
 msgid "Holds new registrations for admin approval"
 msgstr "Yeni kayıtları yönetici onayı için bekletir"
 
-#: admin/tab-options.php:52
+#: admin/tab-options.php:58
 msgid "Use reCAPTCHA"
 msgstr "reCAPTCHA kullan"
 
-#: admin/tab-options.php:52
+#: admin/tab-options.php:58
 msgid "Turns on CAPTCHA for registration"
 msgstr "Kayıt için CAPTCHA özelliğini açar"
 
-#: admin/tab-options.php:53
-msgid "Turn off registration"
-msgstr "Kaydı kapat"
+#: admin/tab-options.php:59
+#, fuzzy
+msgid "Hide registration"
+msgstr "Kayıt tamamlandı"
 
-#: admin/tab-options.php:53
-msgid "Turns off the registration process, only allows login"
-msgstr "Kayıt işlemini kapatır, sadece giriş için izin verir"
-
-#: admin/tab-options.php:55
-msgid "Legacy forms"
-msgstr "Eski formlar"
-
-#: admin/tab-options.php:55
-msgid ""
-"Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
+#: admin/tab-options.php:59
+msgid "Removes the registration form from blocked content"
 msgstr ""
-"Ön-2.5.1 tablo-bazlı formları kullanır (tablosuz CSS formlarını kullanmak "
-"için kapalı bırakın)"
 
-#: admin/tab-options.php:56
+#: admin/tab-options.php:61
 msgid "Time-based expiration"
 msgstr "Zaman-tabanlı sona erme"
 
-#: admin/tab-options.php:56
+#: admin/tab-options.php:61
 msgid "Allows for access to expire"
 msgstr "Erişim süresinin dolmasına izin verir"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:62
 msgid "Trial period"
 msgstr "Deneme süresi"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:62
 msgid "Allows for a trial period"
 msgstr "Bir deneme süresi için izin verir"
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:63
 msgid "Ignore warning messages"
 msgstr "Uyarı mesajlarını yoksay"
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:63
 msgid "Ignores WP-Members warning messages in the admin panel"
 msgstr "Yönetici panelinde WP-Members uyarı mesajlarını yoksayar"
 
-#: admin/tab-options.php:76
-msgid "Members Area URL:"
-msgstr "Üye Alanı URL:"
+#: admin/tab-options.php:79
+msgid "Attribution"
+msgstr ""
 
-#: admin/tab-options.php:82
-msgid "Register Page URL:"
-msgstr "Kayıt Sayfa URL:"
+#: admin/tab-options.php:81
+msgid ""
+"Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr ""
 
-#: admin/tab-options.php:87
-msgid "Stylesheet:"
-msgstr "Stil Sayfası"
-
-#: admin/tab-options.php:90
-msgid "Select a stylesheet or specify a custom stylesheet below"
-msgstr "Bir stil sayfası seçin veya aşağıda kişisel bir stil sayfası belirtin"
-
-#: admin/tab-options.php:97
-msgid "Custom Stylesheet:"
-msgstr "Kişisel Stil Sayfası:"
-
-#: admin/tab-options.php:102
+#: admin/tab-options.php:85
 msgid "Auto Excerpt:"
 msgstr "Otomatik Alıntı:"
 
-#: admin/tab-options.php:103
+#: admin/tab-options.php:86
 msgid "Number of words in excerpt:"
 msgstr "Alıntıdaki kelime sayısı:"
 
-#: admin/tab-options.php:103
+#: admin/tab-options.php:86
 msgid "Automatically creates an excerpt"
 msgstr "Otomatik olarak bir alıntı oluşturur"
 
-#: admin/tab-options.php:108
+#: admin/tab-options.php:88
+#, fuzzy
+msgid "Pages"
+msgstr "Varsayılan olarak Sayfaları Engelle"
+
+#: admin/tab-options.php:92
+#, fuzzy
+msgid "User Profile Page:"
+msgstr "Kullanıcı güncelleme"
+
+#: admin/tab-options.php:95
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:102
+#, fuzzy
+msgid "Register Page:"
+msgstr "Kayıt Sayfa URL:"
+
+#: admin/tab-options.php:105
+msgid "For creating a register link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:110
+#, fuzzy
+msgid "Stylesheet"
+msgstr "Stil Sayfası"
+
+#: admin/tab-options.php:112
+msgid "Stylesheet:"
+msgstr "Stil Sayfası"
+
+#: admin/tab-options.php:115
+msgid "Select a stylesheet or specify a custom stylesheet below"
+msgstr "Bir stil sayfası seçin veya aşağıda kişisel bir stil sayfası belirtin"
+
+#: admin/tab-options.php:120
+msgid "Custom Stylesheet:"
+msgstr "Kişisel Stil Sayfası:"
+
+#: admin/tab-options.php:125
 msgid "Update Settings"
 msgstr "Ayarları Güncelle"
 
-#: admin/tab-options.php:208
+#: admin/tab-options.php:235
 msgid "WP-Members settings were updated"
 msgstr "WP-Members ayarları güncellendi"
 
-#: admin/user-profile.php:32
+#: admin/tab-options.php:285
+msgid "Select a page"
+msgstr ""
+
+#: admin/tab-options.php:293
+#, fuzzy
+msgid "USE CUSTOM URL BELOW"
+msgstr "Bir stil sayfası seçin veya aşağıda kişisel bir stil sayfası belirtin"
+
+#: admin/user-export.php:57 admin/user-export.php:172
+msgid "Activated?"
+msgstr "Aktif edildi mi?"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Subscription"
+msgstr "Abonelik"
+
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Expires"
+msgstr "Bitiş tarihi"
+
+#: admin/user-export.php:64 admin/user-export.php:178
+msgid "Registered"
+msgstr "Kayıtlı"
+
+#: admin/user-export.php:65 admin/user-export.php:179
+msgid "IP"
+msgstr "IP"
+
+#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
+msgid "No"
+msgstr "Hayır"
+
+#: admin/user-profile.php:46
 msgid "WP-Members Additional Fields"
 msgstr "WP-Members Ek Bilgi Alanları"
 
-#: admin/user-profile.php:67
+#: admin/user-profile.php:58 native-registration.php:35
+#: native-registration.php:126 users.php:57
+#, fuzzy
+msgid "(required)"
+msgstr "Gerekli?"
+
+#: admin/user-profile.php:91
 msgid "Activate this user?"
 msgstr "Bu kullanıcıyı etkinleştir?"
 
-#: admin/user-profile.php:72
+#: admin/user-profile.php:96
 msgid "Reactivate this user?"
 msgstr "Bu kullanıcıyı yeniden etkinleştir?"
 
-#: admin/user-profile.php:77
+#: admin/user-profile.php:101
 msgid "Deactivate this user?"
 msgstr "Bu kullanıcıyı devre dışı bırak?"
 
-#: admin/user-profile.php:98
+#: admin/user-profile.php:122
 msgid "IP @ registration"
 msgstr "IP @ kaydı"
 
-#: admin/users.php:66
-msgid "%d users were activated."
-msgstr "%d kullanıcı aktif edildi."
-
-#: admin/users.php:71
-msgid "Users ready to export, %s click here %s to generate and download a CSV."
-msgstr ""
-"Kullanıcılar dışa aktarmaya hazır, bir CSV oluşturmak ve indirmek için %s "
-"buraya tıklayın. %s"
-
-#: admin/users.php:82
-msgid "WP-Members Users"
-msgstr "WP-Members Kullanıcıları"
-
-#: admin/users.php:82
-msgid "Add New"
-msgstr "Yeni Ekle"
-
-#: admin/users.php:281
-msgid "No users matched your criteria"
-msgstr "Kriterlerinize hiçbir üye uygun değil"
-
-#: admin/users.php:375
-msgid "Bulk Actions"
-msgstr "Toplu İşlemler"
-
-#: admin/users.php:377
+#: admin/users.php:43 admin/users.php:47
 msgid "Activate"
 msgstr "Etkinleştir"
 
-#: admin/users.php:379
+#: admin/users.php:45 admin/users.php:49
 msgid "Export"
 msgstr "Dışa aktar"
 
-#: admin/users.php:381
-msgid "Apply"
-msgstr "Uygula"
+#: admin/users.php:50 admin/users.php:91
+#, fuzzy
+msgid "Export All Users"
+msgstr "Dışa aktar"
 
-#: wp-members-core.php:107 wp-members-core.php:211
-msgid "There was an error with the CAPTCHA form."
-msgstr "CAPTCHA formu ile ilgili bir hata oluştu."
-
-#: wp-members-core.php:248 wp-members-dialogs.php:765
-msgid "Edit Your Information"
-msgstr "Bilgilerini Düzenle"
-
-#: wp-members-core.php:459
-msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr "<strong>HATA</strong>: Kullanıcı etkinleştirilmedi."
-
-#: wp-members-core.php:986
-msgid "Additional Info"
-msgstr "Ek Bilgi"
-
-#: wp-members-core.php:1028
-msgid "Indicates a required field"
-msgstr "Alanın zorunlu olduğunu gösterir"
-
-#: wp-members-deprecated.php:40 wp-members-dialogs.php:328
-msgid "New Users Registration"
-msgstr "Yeni Kullanıcı Kaydı"
-
-#: wp-members-deprecated.php:53 wp-members-deprecated.php:308
-#: wp-members-dialogs.php:53 wp-members-dialogs.php:96
-#: wp-members-dialogs.php:340 wp-members-sidebar.php:114
+#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: wp-members-deprecated.php:58 wp-members-dialogs.php:347
-msgid "Choose a Username"
-msgstr "Bir Kullanıcı Adı Seçin"
-
-#: wp-members-deprecated.php:152 wp-members-dialogs.php:440
-msgid "Please indicate that you agree to the %s TOS %s"
-msgstr "Lütfen %s HK %s kabul ettiğinizi belirtin"
-
-#: wp-members-deprecated.php:204 wp-members-dialogs.php:488
-msgid "Submit"
-msgstr "Gönder"
-
-#: wp-members-deprecated.php:206 wp-members-dialogs.php:487
-msgid "Clear Form"
-msgstr "Formu Temizle"
-
-#: wp-members-deprecated.php:211 wp-members-dialogs.php:492
-msgid "Required field"
-msgstr "Gerekli alan"
-
-#: wp-members-deprecated.php:259 wp-members-dialogs.php:563
-msgid "Remember me"
-msgstr "Beni hatırla"
-
-#: wp-members-deprecated.php:279 wp-members-dialogs.php:576
-msgid "Forgot password?"
-msgstr "Şifreni mi unuttun?"
-
-#: wp-members-deprecated.php:279 wp-members-dialogs.php:576
-msgid "Click here to reset"
-msgstr "Sıfırlamak için buraya tıkla"
-
-#: wp-members-deprecated.php:287 wp-members-dialogs.php:586
-msgid "New User?"
-msgstr "Yeni Kullanıcı?"
-
-#: wp-members-deprecated.php:287 wp-members-dialogs.php:586
-msgid "Click here to register"
-msgstr "Kayıt olmak için tıklayın"
-
-#: wp-members-deprecated.php:304 wp-members-sidebar.php:106
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr "Giriş Başarısız!<br />Geçersiz bir kullanıcı adı veya şifre girdiniz."
-
-#: wp-members-deprecated.php:306 wp-members-sidebar.php:110
-msgid "You are not currently logged in."
-msgstr "Henüz giriş yapmadınız."
-
-#: wp-members-deprecated.php:310 wp-members-dialogs.php:53
-#: wp-members-sidebar.php:116
+#: forms.php:77 wp-members-sidebar.php:148
 msgid "Password"
 msgstr "Şifre"
 
-#: wp-members-deprecated.php:316 wp-members-sidebar.php:122
-msgid "login"
-msgstr "giriş"
-
-#: wp-members-deprecated.php:320 wp-members-sidebar.php:126
-msgid "Forgot?"
-msgstr "Unuttun mu?"
-
-#: wp-members-deprecated.php:323 wp-members-sidebar.php:131
-msgid "Register"
-msgstr "Kaydol"
-
-#: wp-members-dialogs.php:53
-msgid "Existing Users Login"
-msgstr "Mevcut Kullanıcı Girişi"
-
-#: wp-members-dialogs.php:53
-msgid "Login"
+#: forms.php:95
+#, fuzzy
+msgid "Existing Users Log In"
 msgstr "Giriş"
 
-#: wp-members-dialogs.php:75 wp-members-dialogs.php:155
-msgid "Change Password"
-msgstr "Şifreyi Değiştir"
+#: forms.php:97
+msgid "Log In"
+msgstr "Giriş"
 
-#: wp-members-dialogs.php:75
+#: forms.php:136
 msgid "New Password"
 msgstr "Yeni Şifre"
 
-#: wp-members-dialogs.php:75
+#: forms.php:143
 msgid "Repeat Password"
 msgstr "Şifreyi Tekrarla"
 
-#: wp-members-dialogs.php:75
+#: forms.php:161 wp-members-dialogs.php:192
+msgid "Change Password"
+msgstr "Şifreyi Değiştir"
+
+#: forms.php:163
 msgid "Update Password"
 msgstr "Şifreyi Güncelle"
 
-#: wp-members-dialogs.php:96
-msgid "Reset Forgotten Password"
-msgstr "Unutulan Şifreyi Sıfırla"
-
-#: wp-members-dialogs.php:96 wp-members-install.php:58
+#: forms.php:209
 msgid "Email"
 msgstr "Eposta"
 
-#: wp-members-dialogs.php:96
+#: forms.php:227
+msgid "Reset Forgotten Password"
+msgstr "Unutulan Şifreyi Sıfırla"
+
+#: forms.php:229
 msgid "Reset Password"
 msgstr "Şifreyi Sıfırla"
 
-#: wp-members-dialogs.php:118
+#: forms.php:375
+msgid "Remember me"
+msgstr "Beni hatırla"
+
+#: forms.php:403
+msgid "Forgot password?"
+msgstr "Şifreni mi unuttun?"
+
+#: forms.php:403
+msgid "Click here to reset"
+msgstr "Sıfırlamak için buraya tıkla"
+
+#: forms.php:418
+msgid "New User?"
+msgstr "Yeni Kullanıcı?"
+
+#: forms.php:418
+msgid "Click here to register"
+msgstr "Kayıt olmak için tıklayın"
+
+#: forms.php:515
+msgid "Required field"
+msgstr "Gerekli alan"
+
+#: forms.php:521
+#, fuzzy
+msgid "Reset Form"
+msgstr "CAPTCHA formu ile ilgili bir hata oluştu."
+
+#: forms.php:522 wp-members-sidebar.php:172
+msgid "Register"
+msgstr "Kaydol"
+
+#: forms.php:523
+#, fuzzy
+msgid "Update Profile"
+msgstr "Kullanıcı güncelleme"
+
+#: forms.php:561
+msgid "Choose a Username"
+msgstr "Bir Kullanıcı Adı Seçin"
+
+#: forms.php:681 native-registration.php:64
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Lütfen %s HK %s kabul ettiğinizi belirtin"
+
+#: forms.php:832
+#, fuzzy
+msgid "New User Registration"
+msgstr "Yeni Kullanıcı?"
+
+#: users.php:38
+#, fuzzy
+msgid "Additional Information"
+msgstr "Onay kutusu alanları için ek bilgiler"
+
+#: utilities.php:242
+msgid "(more&hellip;)"
+msgstr ""
+
+#: wp-members-core.php:118 wp-members-core.php:245
+msgid "There was an error with the CAPTCHA form."
+msgstr "CAPTCHA formu ile ilgili bir hata oluştu."
+
+#: wp-members-core.php:287 wp-members-dialogs.php:338
+msgid "Edit Your Information"
+msgstr "Bilgilerini Düzenle"
+
+#: wp-members-core.php:539
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "<strong>HATA</strong>: Kullanıcı etkinleştirilmedi."
+
+#: wp-members-core.php:897 wp-members-register.php:88
+msgid "Sorry, %s is a required field."
+msgstr "Üzgünüz, %s gerekli bir alandır."
+
+#: wp-members-dialogs.php:42
 msgid "Login Failed!"
 msgstr "Giriş Başarısız!"
 
-#: wp-members-dialogs.php:119
+#: wp-members-dialogs.php:45
 msgid "You entered an invalid username or password."
 msgstr "Geçersiz bir kullanıcı adı veya şifre girdiniz."
 
-#: wp-members-dialogs.php:120
+#: wp-members-dialogs.php:47
 msgid "Click here to continue."
 msgstr "Devam etmek için tıklayın."
 
-#: wp-members-dialogs.php:154
+#: wp-members-dialogs.php:191
 msgid "Edit My Information"
 msgstr "Bilgilerimi Düzenle"
 
-#: wp-members-dialogs.php:162 wp-members-dialogs.php:173
-#: wp-members-dialogs.php:181 wp-members-sidebar.php:37
-#: wp-members-sidebar.php:149
+#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
+#: wp-members-sidebar.php:204
 msgid "You are logged in as %s"
 msgstr "%s olarak oturum açtınız"
 
-#: wp-members-dialogs.php:164
-msgid "Click here to logout."
-msgstr "Çıkış için buraya tıklayın."
+#: wp-members-dialogs.php:208
+#, fuzzy
+msgid "Click to log out."
+msgstr "Giriş"
 
-#: wp-members-dialogs.php:165
+#: wp-members-dialogs.php:209
 msgid "Begin using the site."
 msgstr "Siteyi kullanmaya başlayın."
 
-#: wp-members-dialogs.php:174 wp-members-dialogs.php:182
-#: wp-members-sidebar.php:38 wp-members-sidebar.php:150
-msgid "click here to logout"
-msgstr "Çıkış için buraya tıklayın"
+#: wp-members-dialogs.php:225
+#, fuzzy
+msgid "Click to log out"
+msgstr "Giriş"
 
-#: wp-members-dialogs.php:704
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#, fuzzy
+msgid "click to log out"
+msgstr "Giriş"
+
+#: wp-members-dialogs.php:271
 msgid "Password fields cannot be empty"
 msgstr "Şifre alanları boş bırakılamaz"
 
-#: wp-members-install.php:49
+#: wp-members-register.php:47
+#, fuzzy
+msgid "There was an error processing the form."
+msgstr "CAPTCHA formu ile ilgili bir hata oluştu."
+
+#: wp-members-register.php:96
+msgid "Sorry, username is a required field"
+msgstr "Üzgünüz, kullanıcı adı gerekli bir alandır"
+
+#: wp-members-register.php:97
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Kullanıcı adı alfasayısal olmayan karakterler içeremez."
+
+#: wp-members-register.php:98 wp-members-register.php:245
+msgid "You must enter a valid email address."
+msgstr "Geçerli bir eposta adresi girmelisiniz."
+
+#: wp-members-register.php:115
+#, fuzzy
+msgid "Passwords did not match."
+msgstr "Şifreler eşleşmedi"
+
+#: wp-members-register.php:116 wp-members-register.php:264
+#, fuzzy
+msgid "Emails did not match."
+msgstr "Şifreler eşleşmedi"
+
+#: wp-members-register.php:108
+msgid "You must complete the CAPTCHA form."
+msgstr "CAPTCHA formunu doldurmalısınız."
+
+#: wp-members-register.php:316
+msgid "We were unable to validate the public key."
+msgstr "Public anahtarını doğrulayamadık."
+
+#: wp-members-register.php:320
+msgid "We were unable to validate the private key."
+msgstr "Private anahtarını doğrulayamadık."
+
+#: wp-members-register.php:324
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "Komut doğrulama soru parametresi yanlış."
+
+#: wp-members-register.php:328
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA çözümü yanlış."
+
+#: wp-members-register.php:332
+msgid "The parameters to verify were incorrect"
+msgstr "Doğrulanacak parametreler hatalı"
+
+#: wp-members-register.php:336
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr ""
+"reCAPTCHA API anahtarları güvenlik nedenleriyle belirli bir etki alanı adına "
+"bağlıdır."
+
+#: wp-members-register.php:340
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "reCAPTCHA sunucusuna ulaşılamadı. Lütfen yeniden göndermeyi deneyin."
+
+#: wp-members-sidebar.php:124
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "Giriş Başarısız!<br />Geçersiz bir kullanıcı adı veya şifre girdiniz."
+
+#: wp-members-sidebar.php:125
+#, fuzzy
+msgid "You are not logged in."
+msgstr "%s olarak oturum açtınız"
+
+#: wp-members-sidebar.php:163
+msgid "log in"
+msgstr "giriş"
+
+#: wp-members-sidebar.php:167
+msgid "Forgot?"
+msgstr "Unuttun mu?"
+
+#: wp-members-sidebar.php:205
+msgid "click here to logout"
+msgstr "Çıkış için buraya tıklayın"
+
+#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+msgid "Login Status"
+msgstr "Giriş Durumu"
+
+#: wp-members-sidebar.php:250
+msgid "Title:"
+msgstr "Başlık:"
+
+#: wp-members-tos.php:24
+msgid "Terms of Service"
+msgstr "Hizmet Koşulları"
+
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr "%skapat%s"
+
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr "%syazdır%s"
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+"WP erişim kısıtlaması ve kullanıcı kaydı. Eklenti özellikleri hakkında daha "
+"fazla bilgi için, <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">çevrimiçi Kullanıcı Kılavuzuna</a> bakın. Ayrıca bir <a href="
+"\"http://rocketgeek.com/plugins/wp-members/quick-start-guide/\">Hızlı "
+"Başlangıç Kılavuzu</a> da mevcuttur. WP-Members(tm) bir butlerblog.com "
+"ticari markasıdır."
+
+#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
+#: Strings wp-members-install.php:49
 msgid "First Name"
 msgstr "Ad"
 
@@ -1049,10 +1236,11 @@ msgstr "Biyografik Bilgi"
 msgid "TOS"
 msgstr "HK"
 
-#: wp-members-install.php:96
+#: Error message dialog strings wp-members-install.php:96
+#, fuzzy
 msgid ""
 "This content is restricted to site members.  If you are an existing user, "
-"please login.  New users may register below."
+"please log in.  New users may register below."
 msgstr ""
 "Bu içerik site üyeleri ile sınırlıdır. Eğer mevcut bir kullanıcı iseniz, "
 "giriş yapınız. Yeni kullanıcılar aşağıdan kayıt olabilir."
@@ -1069,9 +1257,10 @@ msgstr ""
 "deneyin."
 
 #: wp-members-install.php:99
+#, fuzzy
 msgid ""
 "Congratulations! Your registration was successful.<br /><br />You may now "
-"login using the password that was emailed to you."
+"log in using the password that was emailed to you."
 msgstr ""
 "Tebrikler! Başarıyla kaydoldunuz.<br /><br />Şimdi size gönderilen "
 "epostadaki şifreyi kullanarak giriş yapabilirsiniz."
@@ -1106,100 +1295,82 @@ msgstr ""
 "hesabınız için dosyada eposta adresine gönderildi. Yeni şifreniz ile tekrar "
 "giriş yaptıktan sonra bu rastgele şifreyi değişebilirsiniz."
 
-#: wp-members-register.php:72
-msgid "Sorry, %s is a required field."
-msgstr "Üzgünüz, %s gerekli bir alandır."
+#~ msgid ""
+#~ "Find out how to get access to WP-Members private members forum, premium "
+#~ "code snippets, tutorials, and more!"
+#~ msgstr ""
+#~ "WP-Members özel üye forumu, premium kod parçacıkları, eğitimler ve daha "
+#~ "fazlasına nasıl erişim sağlayacağınızı öğrenin!"
 
-#: wp-members-register.php:80
-msgid "Sorry, username is a required field"
-msgstr "Üzgünüz, kullanıcı adı gerekli bir alandır"
+#~ msgid "Cheatin&#8217; uh?"
+#~ msgstr "Aldatma ha?"
 
-#: wp-members-register.php:81
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "Kullanıcı adı alfasayısal olmayan karakterler içeremez."
+#~ msgid "there was an error and no users were exported"
+#~ msgstr "bir hata oluştu ve hiçbir kullanıcı dışa aktarılamadı"
 
-#: wp-members-register.php:82
-msgid "You must enter a valid email address."
-msgstr "Geçerli bir eposta adresi girmelisiniz."
+#~ msgid "Turn off registration"
+#~ msgstr "Kaydı kapat"
 
-#: wp-members-register.php:92
-msgid "You must complete the CAPTCHA form."
-msgstr "CAPTCHA formunu doldurmalısınız."
+#~ msgid "Turns off the registration process, only allows login"
+#~ msgstr "Kayıt işlemini kapatır, sadece giriş için izin verir"
 
-#: wp-members-register.php:277
-msgid "We were unable to validate the public key."
-msgstr "Public anahtarını doğrulayamadık."
+#~ msgid "Legacy forms"
+#~ msgstr "Eski formlar"
 
-#: wp-members-register.php:281
-msgid "We were unable to validate the private key."
-msgstr "Private anahtarını doğrulayamadık."
+#~ msgid ""
+#~ "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less "
+#~ "forms)"
+#~ msgstr ""
+#~ "Ön-2.5.1 tablo-bazlı formları kullanır (tablosuz CSS formlarını kullanmak "
+#~ "için kapalı bırakın)"
 
-#: wp-members-register.php:285
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "Komut doğrulama soru parametresi yanlış."
+#~ msgid "Members Area URL:"
+#~ msgstr "Üye Alanı URL:"
 
-#: wp-members-register.php:289
-msgid "The CAPTCHA solution was incorrect."
-msgstr "CAPTCHA çözümü yanlış."
+#~ msgid "%d users were activated."
+#~ msgstr "%d kullanıcı aktif edildi."
 
-#: wp-members-register.php:293
-msgid "The parameters to verify were incorrect"
-msgstr "Doğrulanacak parametreler hatalı"
+#~ msgid ""
+#~ "Users ready to export, %s click here %s to generate and download a CSV."
+#~ msgstr ""
+#~ "Kullanıcılar dışa aktarmaya hazır, bir CSV oluşturmak ve indirmek için %s "
+#~ "buraya tıklayın. %s"
 
-#: wp-members-register.php:297
-msgid ""
-"reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr ""
-"reCAPTCHA API anahtarları güvenlik nedenleriyle belirli bir etki alanı adına "
-"bağlıdır."
+#~ msgid "WP-Members Users"
+#~ msgstr "WP-Members Kullanıcıları"
 
-#: wp-members-register.php:301
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "reCAPTCHA sunucusuna ulaşılamadı. Lütfen yeniden göndermeyi deneyin."
+#~ msgid "Add New"
+#~ msgstr "Yeni Ekle"
 
-#: wp-members-sidebar.php:190 wp-members-sidebar.php:232
-msgid "Login Status"
-msgstr "Giriş Durumu"
+#~ msgid "No users matched your criteria"
+#~ msgstr "Kriterlerinize hiçbir üye uygun değil"
 
-#: wp-members-sidebar.php:195
-msgid "Title:"
-msgstr "Başlık:"
+#~ msgid "Bulk Actions"
+#~ msgstr "Toplu İşlemler"
 
-#: wp-members-tos.php:24
-msgid "Terms of Service"
-msgstr "Hizmet Koşulları"
+#~ msgid "Apply"
+#~ msgstr "Uygula"
 
-#: wp-members-tos.php:36
-msgid "%sclose%s"
-msgstr "%skapat%s"
+#~ msgid "Indicates a required field"
+#~ msgstr "Alanın zorunlu olduğunu gösterir"
 
-#: wp-members-tos.php:38
-msgid "%sprint%s"
-msgstr "%syazdır%s"
+#~ msgid "Submit"
+#~ msgstr "Gönder"
 
-#. Plugin URI of the plugin/theme
-msgid "http://rocketgeek.com"
-msgstr "http://rocketgeek.com"
+#~ msgid "Clear Form"
+#~ msgstr "Formu Temizle"
 
-#. Description of the plugin/theme
-msgid ""
-"WP access restriction and user registration.  For more information on plugin "
-"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
-"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
-"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
-"available. WP-Members(tm) is a trademark of butlerblog.com."
-msgstr ""
-"WP erişim kısıtlaması ve kullanıcı kaydı. Eklenti özellikleri hakkında daha "
-"fazla bilgi için, <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
-"guide/\">çevrimiçi Kullanıcı Kılavuzuna</a> bakın. Ayrıca bir <a href="
-"\"http://rocketgeek.com/plugins/wp-members/quick-start-guide/\">Hızlı "
-"Başlangıç Kılavuzu</a> da mevcuttur. WP-Members(tm) bir butlerblog.com "
-"ticari markasıdır."
+#~ msgid "login"
+#~ msgstr "giriş"
 
-#. Author of the plugin/theme
-msgid "Chad Butler"
-msgstr "Chad Butler"
+#~ msgid "Login"
+#~ msgstr "Giriş"
 
-#. Author URI of the plugin/theme
-msgid "http://butlerblog.com/"
-msgstr "http://butlerblog.com/"
+#~ msgid "http://rocketgeek.com"
+#~ msgstr "http://rocketgeek.com"
+
+#~ msgid "Chad Butler"
+#~ msgstr "Chad Butler"
+
+#~ msgid "http://butlerblog.com/"
+#~ msgstr "http://butlerblog.com/"

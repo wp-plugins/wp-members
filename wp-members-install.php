@@ -46,30 +46,30 @@ function wpmem_do_install()
 		
 		// order, label, optionname, type, display, required, native, checked value, checked by default
 		$wpmem_fields_options_arr = array(
-			array( 1,  'First Name',         'first_name', 'text',     'y', 'y', 'y' ),	
-			array( 2,  'Last Name',          'last_name',  'text',     'y', 'y', 'y' ),
-			array( 3,  'Address 1',          'addr1',      'text',     'y', 'y', 'n' ),
-			array( 4,  'Address 2',          'addr2',      'text',     'y', 'n', 'n' ),	
-			array( 5,  'City',               'city',       'text',     'y', 'y', 'n' ),
-			array( 6,  'State',              'thestate',   'text',     'y', 'y', 'n' ),
-			array( 7,  'Zip',                'zip',        'text',     'y', 'y', 'n' ),
-			array( 8,  'Country',            'country',    'text',     'y', 'y', 'n' ),
-			array( 9,  'Day Phone',          'phone1',     'text',     'y', 'y', 'n' ),
-			array( 10, 'Email',              'user_email', 'text',     'y', 'y', 'y' ),
-			array( 11, 'Website',            'user_url',   'text',     'n', 'n', 'y' ),
-			array( 12, 'AIM',                'aim',        'text',     'n', 'n', 'y' ),
-			array( 13, 'Yahoo IM',           'yim',        'text',     'n', 'n', 'y' ),
-			array( 14, 'Jabber/Google Talk', 'jabber',     'text',     'n', 'n', 'y' ),
-			array( 15, 'Biographical Info',  'description','textarea', 'n', 'n', 'y' ),
-			array( 16, 'TOS',                'tos',        'checkbox', 'n', 'n', 'n', 'agree', 'n' )
+			array( 1,  'First Name',         'first_name',       'text',     'y', 'y', 'y' ),	
+			array( 2,  'Last Name',          'last_name',        'text',     'y', 'y', 'y' ),
+			array( 3,  'Address 1',          'addr1',            'text',     'y', 'y', 'n' ),
+			array( 4,  'Address 2',          'addr2',            'text',     'y', 'n', 'n' ),	
+			array( 5,  'City',               'city',             'text',     'y', 'y', 'n' ),
+			array( 6,  'State',              'thestate',         'text',     'y', 'y', 'n' ),
+			array( 7,  'Zip',                'zip',              'text',     'y', 'y', 'n' ),
+			array( 8,  'Country',            'country',          'text',     'y', 'y', 'n' ),
+			array( 9,  'Day Phone',          'phone1',           'text',     'y', 'y', 'n' ),
+			array( 10, 'Email',              'user_email',       'text',     'y', 'y', 'y' ),
+			array( 11, 'Confirm Email',      'confirm_email',    'text',     'n', 'n', 'n' ),
+			array( 12, 'Website',            'user_url',         'text',     'n', 'n', 'y' ),
+			array( 13, 'Biographical Info',  'description',      'textarea', 'n', 'n', 'y' ),
+			array( 14, 'Password',           'password',         'password', 'n', 'n', 'n' ),
+			array( 15, 'Confirm Password',   'confirm_password', 'password', 'n', 'n', 'n' ),
+			array( 16, 'TOS',                'tos',              'checkbox', 'n', 'n', 'n', 'agree', 'n' )
 		);
 		update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
 		
 		$wpmem_dialogs_arr = array(
-			"This content is restricted to site members.  If you are an existing user, please login.  New users may register below.",
+			"This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.",
 			"Sorry, that username is taken, please try another.",
 			"Sorry, that email address already has an account.<br />Please try another.",
-			"Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.",
+			"Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you.",
 			"Your information was updated!",
 			"Passwords did not match.<br /><br />Please try again.",
 			"Password successfully changed!",
@@ -87,6 +87,8 @@ function wpmem_do_install()
 		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
 		
 	} else {
+	
+		update_dialogs();
 	
 		append_email();
 	
@@ -328,6 +330,35 @@ Please do not reply to this address';
 	}
 	
 	return true;
+}
+
+
+
+/**
+ * Checks the dialogs array for string changes.
+ *
+ * @since 2.9.3
+ */
+function update_dialogs()
+{
+	$wpmem_dialogs_arr = get_option( 'wpmembers_dialogs' );
+	$do_update = false;
+	
+	if( $wpmem_dialogs_arr[0] == "This content is restricted to site members.  If you are an existing user, please login.  New users may register below." ) {
+		$wpmem_dialogs_arr[0] = "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.";
+		$do_update = true;
+	}
+	
+	if( $wpmem_dialogs_arr[3] == "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you." ) {
+		$wpmem_dialogs_arr[3] = "Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you.";
+		$do_update = true;
+	}
+	
+	if( $do_update ) {
+		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' );
+	}
+	
+	return;
 }
 
 /** End of File **/

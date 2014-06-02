@@ -6,7 +6,7 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
@@ -46,11 +46,19 @@ function wpmem_admin_fields()
 	echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
  	<table class="form-table">
 		<?php
-		$wpmem_fields = get_option( 'wpmembers_fields' ); $valtochk = '';
+		// get fields
+		$wpmem_fields = get_option( 'wpmembers_fields' );
+		// get excluded meta
+		$exclude = wpmem_get_excluded_meta();
+		
+		do_action( 'wpmem_admin_before_profile', $user_id, $wpmem_fields );
+		
 		foreach( $wpmem_fields as $meta ) {
+		
+			$valtochk = ''; 
 
 			/** determine which fields to show in the additional fields area */	
-			$show = ( $meta[6] == 'n' && $meta[3] != 'password' ) ? true : false;
+			$show = ( $meta[6] == 'n' && ! in_array( $meta[2], $exclude ) ) ? true : false;
 			$show = ( $meta[1] == 'TOS' && $meta[4] != 'y' ) ? null : $show;
 			
 			if( $show ) {
@@ -69,7 +77,6 @@ function wpmem_admin_fields()
 				$show_field.=  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk ) . '
 						</td>
 					</tr>';
-				$valtochk = ''; // empty for the next field in the loop
 				
 				/**
 				 * Filter the profile field.
@@ -122,6 +129,9 @@ function wpmem_admin_fields()
 			<th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
 			<td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', 'true' ); ?></td>
 		</tr>
+		
+		<?php do_action( 'wpmem_admin_after_profile', $user_id, $wpmem_fields ); ?>
+		
 	</table><?php
 }
 
@@ -168,8 +178,12 @@ function wpmem_admin_update()
 	 */
 	$fields = apply_filters( 'wpmem_admin_profile_update', $fields, $user_id ); 
 	
+	// get any excluded meta fields
+	$exclude = wpmem_get_excluded_meta();
 	foreach( $fields as $key => $val ) {
-		update_user_meta( $user_id, $key, $val );
+		if( ! in_array( $key, $exclude ) ) {
+			update_user_meta( $user_id, $key, $val );
+		}
 	}
 
 	if( WPMEM_MOD_REG == 1 ) {

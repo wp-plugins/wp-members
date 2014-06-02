@@ -602,7 +602,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 		$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 		
 		// skips user selected passwords for profile update
-		$do_row = ( $toggle == 'edit' && $field[2] == 'password' ) ? false : true;
+		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
+		$do_row = ( $toggle == 'edit' && in_array( $field[2], $pass_arr ) ) ? false : true;
 		
 		// skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos
 		if( $field[2] == 'tos' && $toggle == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
@@ -633,6 +634,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 						break;
 
 					case( 'user_email' ):
+					case( 'confirm_email' ):
 						$val = $userdata->user_email;
 						break;
 

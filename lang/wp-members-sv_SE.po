@@ -1,712 +1,52 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members v2.8.4\n"
+"Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2012-06-14 00:20:49+00:00\n"
-"PO-Revision-Date: 2013-08-19 13:52+0100\n"
-"Last-Translator: Elger Lindgren <elger@grafikon.se>\n"
+"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
+"PO-Revision-Date: 2014-06-02 13:48-0600\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.5.7\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Textdomain-Support: yes\n"
-"Language: sv\n"
+"X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: .\n"
 
 # @ default
 # @ wp-members
-#: admin/admin.php:59 admin/admin.php:128
+#: admin/admin.php:60 admin/admin.php:129
 msgid "Settings"
 msgstr "Inställningar"
 
 # @ wp-members
-#: admin/user-profile.php:41
-msgid "WP-Members Additional Fields"
-msgstr "WP-Members ytterligare fält"
-
-# @ wp-members
-#: admin/user-profile.php:76
-msgid "Activate this user?"
-msgstr "Aktivera denna användare?"
-
-# @ wp-members
-#: admin/user-profile.php:81
-#, fuzzy
-msgid "Reactivate this user?"
-msgstr "Återaktivera denna användare?"
-
-# @ wp-members
-#: admin/user-profile.php:86
-#, fuzzy
-msgid "Deactivate this user?"
-msgstr "Avaktivera denna användare?"
-
-# @ wp-members
-#: admin/user-profile.php:107
-msgid "IP @ registration"
-msgstr "IP @ registrering"
-
-# @ wp-members
-#: admin/tab-options.php:44
-msgid "Manage Options"
-msgstr "Administrera alternativ"
-
-# @ wp-members
-#: admin/tab-options.php:50
-msgid "Block Posts by default"
-msgstr "Blockera Inlägg som standard"
-
-# @ wp-members
-#: admin/tab-options.php:50
-msgid ""
-"Note: Posts can still be individually blocked or unblocked at the article "
-"level"
-msgstr ""
-"Obs: Inlägg kan fortfarande vara individuellt blockeras eller upphävas på "
-"artikelnivå"
-
-# @ wp-members
-#: admin/tab-options.php:51
-msgid "Block Pages by default"
-msgstr "Blockera Sidor som standard"
-
-# @ wp-members
-#: admin/tab-options.php:51
-msgid ""
-"Note: Pages can still be individually blocked or unblocked at the article "
-"level"
-msgstr ""
-"OBS: Sidor kan fortfarande vara individuellt blockeras eller upphävas på "
-"artikelnivå"
-
-# @ wp-members
-#: admin/tab-options.php:52
-msgid "Show excerpts"
-msgstr "Visa utdrag"
-
-# @ wp-members
-#: admin/tab-options.php:52
-msgid ""
-"Shows excerpted content above the login/registration on both Posts and Pages"
-msgstr ""
-"Visar utdraget innehåll ovanför inloggning / registrering på både inlägg och "
-"sidor"
-
-# @ wp-members
-#: admin/tab-options.php:53
-msgid "Notify admin"
-msgstr "Meddela administratören"
-
-# @ wp-members
-#: admin/tab-options.php:53
-msgid "Sends email to admin for each new registration?"
-msgstr "Skickar e-post till administratören för varje ny registrering?"
-
-# @ wp-members
-#: admin/tab-options.php:54
-msgid "Moderate registration"
-msgstr "Moderera registreringen"
-
-# @ wp-members
-#: admin/tab-options.php:54
-msgid "Holds new registrations for admin approval"
-msgstr " Godkänn nya registreringar via en administratör"
-
-# @ wp-members
-#: admin/tab-options.php:55
-msgid "Use reCAPTCHA"
-msgstr "Använd reCAPTCHA"
-
-# @ wp-members
-#: admin/tab-options.php:55
-msgid "Turns on CAPTCHA for registration"
-msgstr "Slå på CAPTCHA för registrering"
-
-# @ wp-members
-#: admin/tab-options.php:56
-msgid "Turn off registration"
-msgstr "Slå av registrering"
-
-# @ wp-members
-#: admin/tab-options.php:56
-msgid "Turns off the registration process, only allows login"
-msgstr "Slå av registreringsprocessen, tillåt endast inloggning"
-
-# @ wp-members
-#: admin/tab-options.php:57
-msgid "Legacy forms"
-msgstr "Tidigare formulär"
-
-# @ wp-members
-#: admin/tab-options.php:57
-msgid ""
-"Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less forms)"
-msgstr ""
-"Använder pre-2.5.1 table-baserade formulär (låt vara avmarkerad för att "
-"använda CSS baserade formulär)"
-
-# @ wp-members
-#: admin/tab-options.php:58
-msgid "Time-based expiration"
-msgstr "Tidsbaserade utgångsdatum"
-
-# @ wp-members
-#: admin/tab-options.php:58
-msgid "Allows for access to expire"
-msgstr "Tillåter åtkomst att löpa ut"
-
-# @ wp-members
-#: admin/tab-options.php:59
-msgid "Trial period"
-msgstr "Försöksperiod"
-
-# @ wp-members
-#: admin/tab-options.php:59
-msgid "Allows for a trial period"
-msgstr "Tillåter för en försöksperiod"
-
-# @ wp-members
-#: admin/tab-options.php:60
-msgid "Ignore warning messages"
-msgstr "Ignorera varningsmeddelande"
-
-# @ wp-members
-#: admin/tab-options.php:60
-msgid "Ignores WP-Members warning messages in the admin panel"
-msgstr "Ignorera WP-Members varningsmeddelande i adminstrations panelen"
-
-# @ wp-members
-#: admin/tab-captcha.php:80 admin/tab-options.php:88 admin/tab-options.php:98
-#: admin/tab-options.php:112 admin/tab-options.php:117
-msgid "Optional"
-msgstr "Valfri"
-
-# @ wp-members
-#: admin/tab-options.php:122
-msgid "Update Settings"
-msgstr "Uppdatera inställningarna"
-
-# @ wp-members
-#: admin/tab-fields.php:405
-msgid "Manage Fields"
-msgstr "Administrera fält"
-
-# @ wp-members
-#: admin/tab-fields.php:407
-msgid ""
-"Determine which fields will display and which are required.  This includes "
-"all fields, both native WP fields and WP-Members custom fields."
-msgstr ""
-"Bestäm vilka fält som ska visas och vilka som behövs. Detta inkluderar alla "
-"områden, både ursprungliga WP-fälten och WP-Members anpassade fält."
-
-# @ wp-members
-#: admin/tab-fields.php:408
-msgid "(Note: Email is always mandatory. and cannot be changed.)"
-msgstr "(Notera: E-post är alltid obligatorisk och kan inte ändras..)"
-
-# @ wp-members
-#: admin/tab-fields.php:413
-msgid "Add/Delete"
-msgstr "Lägg till/Radera"
-
-# @ wp-members
-#: admin/tab-fields.php:293 admin/tab-fields.php:414
-msgid "Field Label"
-msgstr "Fält etikett"
-
-# @ wp-members
-#: admin/tab-fields.php:300 admin/tab-fields.php:415
-msgid "Option Name"
-msgstr "Alternativnamn"
-
-# @ wp-members
-#: admin/tab-fields.php:312 admin/tab-fields.php:416
-#, fuzzy
-msgid "Field Type"
-msgstr "Fält etikett"
-
-# @ wp-members
-#: admin/tab-fields.php:329 admin/tab-fields.php:417
-msgid "Display?"
-msgstr "Visa?"
-
-# @ wp-members
-#: admin/tab-fields.php:333 admin/tab-fields.php:418
-msgid "Required?"
-msgstr "Obligatorisk?"
-
-# @ wp-members
-#: admin/tab-fields.php:419
-msgid "Checked?"
-msgstr "Kontrollerad?"
-
-# @ wp-members
-#: admin/tab-fields.php:433
-msgid "Delete"
-msgstr "Radera"
-
-# @ wp-members
-#: admin/tab-fields.php:445
-#, fuzzy
-msgid "(Email cannot be removed)"
-msgstr "(E-post-fältet är obligatorisk och kan inte tas bort)"
-
-# @ wp-members
-#: admin/tab-fields.php:319
-msgid "text"
-msgstr "text"
-
-# @ wp-members
-#: admin/tab-fields.php:320
-msgid "textarea"
-msgstr "textyta"
-
-# @ wp-members
-#: admin/tab-fields.php:321
-msgid "checkbox"
-msgstr "kryssruta"
-
-# @ wp-members
-#: admin/tab-fields.php:322
-msgid "dropdown"
-msgstr "dropdown"
-
-# @ wp-members
-#: admin/tab-fields.php:323
-#, fuzzy
-msgid "password"
-msgstr "lösenord"
-
-# @ wp-members
-#: admin/tab-fields.php:354
-msgid "For dropdown, array of values:"
-msgstr "För dropdown, matris med värden:"
-
-# @ wp-members
-#: admin/tab-fields.php:376
-msgid "Options should be Option Name|option_value,"
-msgstr "Alternativ bör vara alternativnamn|option_value,"
-
-# @ wp-members
-#: admin/tab-fields.php:377
-msgid "Visit plugin site for more information"
-msgstr "Besök tilläggets hemsida för mer information"
-
-# @ wp-members
-#: admin/tab-fields.php:523
-msgid "Update Fields"
-msgstr "Uppdatera fälten"
-
-# @ wp-members
-#: admin/tab-dialogs.php:29
-msgid "Restricted post (or page), displays above the login/registration form"
-msgstr ""
-"Begränsat inlägg (eller sida), visas ovanför login-/registrerings-formuläret"
-
-# @ wp-members
-#: admin/tab-dialogs.php:30
-msgid "Username is taken"
-msgstr "Användarnamnet är upptaget"
-
-# @ wp-members
-#: admin/tab-dialogs.php:31
-msgid "Email is registered"
-msgstr "E-post är registrerad"
-
-# @ wp-members
-#: admin/tab-dialogs.php:32
-msgid "Registration completed"
-msgstr "Registreringen är färdig"
-
-# @ wp-members
-#: admin/tab-dialogs.php:33
-msgid "User update"
-msgstr "Användaruppdatering"
-
-# @ wp-members
-#: admin/tab-dialogs.php:34
-msgid "Passwords did not match"
-msgstr "Lösenorden matchade inte varandra"
-
-# @ wp-members
-#: admin/tab-dialogs.php:35
-msgid "Password changes"
-msgstr "Lösenordet ändrades"
-
-# @ wp-members
-#: admin/tab-dialogs.php:36
-msgid "Username or email do not exist when trying to reset forgotten password"
-msgstr ""
-"Användarnamn eller e-post finns inte vid försök att återställa det "
-"bortglömda lösenord"
-
-# @ wp-members
-#: admin/tab-dialogs.php:37
-msgid "Password reset"
-msgstr "Nollställ lösenord"
-
-# @ wp-members
-#: admin/tab-dialogs.php:54
-msgid "Dialogs and Error Messages"
-msgstr "Dialog eller felmeddelande"
-
-# @ wp-members
-#: admin/tab-dialogs.php:56
-#, php-format
-msgid ""
-"You can customize the text for dialogs and error messages. Simple HTML is "
-"allowed %s etc."
-msgstr ""
-"Du kan anpassa texten för dialogrutor och felmeddelanden. Enkel HTML är "
-"tillåten %s etc."
-
-# @ wp-members
-#: admin/tab-dialogs.php:69
-msgid "Terms of Service (TOS)"
-msgstr "Användarvillkor (TOS)"
-
-# @ wp-members
-#: admin/tab-dialogs.php:76
-msgid "Update Dialogs"
-msgstr "Uppdatera dialoger"
-
-# @ wp-members
-#: admin/tab-options.php:234
-msgid "WP-Members settings were updated"
-msgstr "WP-Members inställningar blev uppdaterade"
-
-# @ wp-members
-#: admin/tab-fields.php:179
-msgid "Field Label is required for adding a new field. Nothing was updated."
-msgstr "Fätletikett krävs för att lägga till fält. Inget har uppdaterats."
-
-# @ wp-members
-#: admin/tab-fields.php:180
-msgid "Option Name is required for adding a new field. Nothing was updated."
-msgstr "Alternativnamn krävs för att lägga till nytt fält. Inget har ändrats."
-
-# @ wp-members
-#: admin/tab-fields.php:169
-msgid "WP-Members fields were updated"
-msgstr "WP-Membersfält blev uppdaterade"
-
-# @ wp-members
-#: admin/tab-dialogs.php:115
-msgid "WP-Members dialogs were updated"
-msgstr "WP-Membersdialoger blev uppdaterade"
-
-# @ wp-members
-#: admin/tab-captcha.php:119
-msgid "reCAPTCHA was updated for WP-Members"
-msgstr "reCAPTCHA blev uppdaterad för WP-Members"
-
-# @ wp-members
-#: admin/tab-emails.php:165
-#, fuzzy
-msgid "WP-Members emails were updated"
-msgstr "WP-Members e-post blev uppdaterade"
-
-# @ wp-members
-#: admin/dialogs.php:171
-msgid "Version:"
-msgstr "Version:"
-
-# @ wp-members
-#: admin/dialogs.php:183
-msgid "Follow"
-msgstr "Följ"
-
-# @ wp-members
-#: admin/admin.php:188
+#: admin/admin.php:187
 msgid "Options"
 msgstr "Alternativ"
 
 # @ wp-members
-#: admin/admin.php:189
+#: admin/admin.php:188
 msgid "Fields"
 msgstr "Fält"
 
 # @ wp-members
-#: admin/admin.php:190
+#: admin/admin.php:189
 msgid "Dialogs"
 msgstr "Dialogrutor"
 
 # @ wp-members
-#: admin/admin.php:191
+#: admin/admin.php:190
 #, fuzzy
 msgid "Emails"
-msgstr "e-post"
-
-# @ wp-members
-#: admin/tab-captcha.php:45
-msgid "Manage reCAPTCHA Options"
-msgstr "Administrera reCAPTCHA alternativ"
-
-# @ wp-members
-#: admin/tab-captcha.php:52
-msgid ""
-"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
-"while blocking spam on your blog."
-msgstr ""
-"reCAPTCHA är en fri, tillgänglig CAPTCHA tjänst som hjälper till att "
-"digitalisera böcker och blockerar skräppost på din blogg."
-
-# @ wp-members
-#: admin/tab-captcha.php:53
-#, php-format
-msgid ""
-"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
-"that they are a human. This verifies that they are not a spambot while also "
-"correcting the automatic scans of old books. So you get less spam, and the "
-"world gets accurately digitized books. Everybody wins! For details, visit "
-"the %s reCAPTCHA website%s"
-msgstr ""
-"reCAPTCHA ber kommenterare att skriva två ord som skannats från en bok för "
-"att bevisa att de är en människa. Detta kontrollerar att de inte är en "
-"Spambot samtidigt korrigera den automatiska genomsökningar av gamla böcker. "
-"Så du får mindre skräppost, och världen får exakta digitaliserade böcker. "
-"Alla vinner! För mer information, besök %s reCAPTCHA hemsida %s"
-
-# @ wp-members
-#: admin/tab-captcha.php:58
-msgid "reCAPTCHA Keys"
-msgstr "reCAPTCHA Nycklar"
-
-# @ wp-members
-#: admin/tab-captcha.php:60
-#, php-format
-msgid ""
-"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
-"key. You can sign up for a %s free reCAPTCHA key%s"
-msgstr ""
-"reCAPTCHA kräver en API-nyckel, som består av ett \"allmän\" och en \"privat"
-"\" nyckel. Du kan anmäla dig till en %s fri reCAPTCHA nyckel %s"
-
-# @ wp-members
-#: admin/tab-captcha.php:61
-msgid "Public Key"
-msgstr "Publik nyckel"
-
-# @ wp-members
-#: admin/tab-captcha.php:62
-msgid "Private Key"
-msgstr "Privat nyckel"
-
-# @ wp-members
-#: admin/tab-captcha.php:66
-msgid "Choose Theme"
-msgstr "Välj tema"
-
-# @ wp-members
-#: admin/tab-captcha.php:69
-msgid "WP-Members"
-msgstr "WP-Members"
-
-# @ wp-members
-#: admin/tab-captcha.php:70
-msgid "Red"
-msgstr "Röd"
-
-# @ wp-members
-#: admin/tab-captcha.php:71
-msgid "White"
-msgstr "Vit"
-
-# @ wp-members
-#: admin/tab-captcha.php:72
-msgid "Black Glass"
-msgstr "Svart glas"
-
-# @ wp-members
-#: admin/tab-captcha.php:73
-msgid "Clean"
-msgstr "Ren"
-
-# @ wp-members
-#: admin/tab-captcha.php:74
-msgid "Custom"
-msgstr "Egen"
-
-# @ wp-members
-#: admin/tab-captcha.php:86
-msgid "Update reCAPTCHA Settings"
-msgstr "Uppdatera reCAPTCHA inställningarna"
-
-# @ wp-members
-#: admin/users.php:66
-#, php-format
-msgid "%d users were activated."
-msgstr "%d användare blev aktiverad"
-
-# @ wp-members
-#: admin/users.php:71 admin/users.php:541
-#, php-format
-msgid "Users ready to export, %s click here %s to generate and download a CSV."
-msgstr ""
-"Användare är redo att exporteras, %s klicka här %s för att generera och "
-"ladda ned CSV."
-
-# @ wp-members
-#: admin/users.php:82
-msgid "WP-Members Users"
-msgstr "WP-Members användare"
-
-# @ wp-members
-#: admin/users.php:82
-msgid "Add New"
-msgstr "Lägg till ny"
-
-# @ wp-members
-#: admin/export-full.php:109 admin/export.php:96 admin/users.php:248
-#: admin/users.php:673
-msgid "No"
-msgstr "Nej"
-
-# @ wp-members
-#: admin/users.php:262
-msgid "No users matched your criteria"
-msgstr "Inga användare matchade dina kriterier"
-
-# @ wp-members
-#: admin/users.php:291
-msgid "Bulk Actions"
-msgstr "Massåtgärder"
-
-# @ wp-members
-# @ default
-#: admin/users.php:293 admin/users.php:418 admin/users.php:422
-msgid "Activate"
-msgstr "Aktivera"
-
-# @ wp-members
-# @ default
-#: admin/users.php:295 admin/users.php:420 admin/users.php:424
-msgid "Export"
-msgstr "Exportera"
-
-# @ wp-members
-#: admin/users.php:297
-msgid "Apply"
-msgstr "Tillämpa"
-
-# @ wp-members
-#: admin/tab-emails.php:30
-#, fuzzy
-msgid "New Registration"
-msgstr "Registrering av ny användare"
-
-# @ wp-members
-#: admin/tab-emails.php:34
-#, fuzzy
-msgid "Registration is Moderated"
-msgstr "Registreringen är färdig"
-
-# @ wp-members
-#: admin/tab-emails.php:35
-msgid "Registration is Moderated, User is Approved"
-msgstr "Registreringen är färdig, användaren är godkänd."
-
-# @ wp-members
-#: admin/tab-emails.php:40
-#, fuzzy
-msgid "Password Reset"
-msgstr "Nollställ lösenord"
-
-# @ wp-members
-#: admin/tab-emails.php:45
-msgid "Admin Notification"
-msgstr "Adminunderrättelse"
-
-# @ wp-members
-#: admin/tab-emails.php:50
-msgid "Email Signature"
-msgstr "E-post signatur"
-
-# @ wp-members
-#: admin/tab-emails.php:67
-msgid "Email Messages"
-msgstr "E-postmeddelanden"
-
-# @ wp-members
-#: admin/tab-emails.php:70
-msgid "You can customize the content of the emails sent by the plugin."
 msgstr ""
 "Du kan anpassa innehållet i e-postmeddelanden som skickas med tillägget "
 "(plugin:et)"
-
-# @ wp-members
-#: admin/tab-emails.php:72
-msgid "A list of shortcodes is available here."
-msgstr "En lista med kortkoder finns här."
-
-# @ wp-members
-#: admin/tab-emails.php:79
-msgid "Set a custom email address"
-msgstr "Ange en anpassad e-postadress"
-
-# @ wp-members
-#: admin/tab-emails.php:80 admin/tab-emails.php:84 admin/tab-emails.php:107
-#, fuzzy
-msgid "(optional)"
-msgstr "(valfri)"
-
-# @ wp-members
-#: admin/tab-emails.php:83
-msgid "Set a custom email name"
-msgstr "Ange ett anpassat e-postnamn"
-
-# @ wp-members
-#: admin/tab-emails.php:94
-msgid "Subject"
-msgstr "Ämne"
-
-# @ wp-members
-#: admin/tab-emails.php:98
-msgid "Body"
-msgstr "Huvuddel"
-
-# @ wp-members
-#: admin/tab-emails.php:115
-#, fuzzy
-msgid "Update Emails"
-msgstr "Uppdatera e-posten"
-
-# @ default
-#: wp-members-core.php:108 wp-members-core.php:213
-msgid "There was an error with the CAPTCHA form."
-msgstr "Det uppstod ett fel med CAPTCHA formuläret."
-
-# @ wp-members
-#: wp-members-core.php:248 wp-members-dialogs.php:747
-msgid "Edit Your Information"
-msgstr "Redigera dina uppgifter"
-
-# @ wp-members
-#: wp-members-dialogs.php:686
-msgid "Password fields cannot be empty"
-msgstr "Lösenordsfält kan inte vara tom"
-
-# @ wp-members
-#: wp-members-core.php:449
-msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr "<strong>ERROR</strong>: Användaren har inte aktiverats."
-
-# @ wp-members
-#: users.php:32
-msgid "Additional Info"
-msgstr "Ytterligare info"
-
-# @ wp-members
-#: users.php:74
-#, fuzzy
-msgid "Indicates a required field"
-msgstr "Indikerar ett obligatoriskt fält"
 
 # @ wp-members
 #: admin/dialogs.php:109
@@ -719,7 +59,6 @@ msgstr ""
 
 # @ wp-members
 #: admin/dialogs.php:110
-#, php-format
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
 "register\" is unchecked."
@@ -755,7 +94,7 @@ msgstr ""
 
 # @ wp-members
 #: admin/dialogs.php:118
-#, fuzzy, php-format
+#, fuzzy
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
 "registered and logged in to comment.\""
@@ -788,7 +127,6 @@ msgstr ""
 
 # @ wp-members
 #: admin/dialogs.php:126
-#, php-format
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
 "\" to \"Summary.\""
@@ -854,206 +192,1240 @@ msgstr ""
 "nyckel."
 
 # @ wp-members
-#: wp-members-dialogs.php:52
+#: admin/dialogs.php:171
+msgid "Version:"
+msgstr "Version:"
+
+# @ wp-members
+#: admin/dialogs.php:172
+msgid "Quick Start Guide"
+msgstr "Snabbstartsguide"
+
+# @ wp-members
+#: admin/dialogs.php:173
+msgid "Online User Guide"
+msgstr "Användarguide online"
+
+# @ wp-members
+#: admin/dialogs.php:174
+msgid "FAQs"
+msgstr "FAQs"
+
+# @ wp-members
+#: admin/dialogs.php:181
+msgid "Thank you for using WP-Members"
+msgstr "Tack för att du använder WP-Members"
+
+# @ wp-members
+#: admin/dialogs.php:182
+msgid "A plugin developed by"
+msgstr "Ett tillägg utvecklat av"
+
+# @ wp-members
+#: admin/dialogs.php:183
+msgid "Follow"
+msgstr "Följ"
+
+# @ wp-members
+#: admin/dialogs.php:200 admin/dialogs.php:204
+msgid "Latest from RocketGeek"
+msgstr "Senaste nytt från RocketGeek"
+
+# @ wp-members
+#: admin/dialogs.php:221 admin/dialogs.php:234
+msgid "Latest from ButlerBlog"
+msgstr "Senaste nytt från ButlerBlog"
+
+#: admin/post.php:36 admin/post.php:38
 #, fuzzy
-msgid "Existing Users Login"
-msgstr "Inloggning för existerande användare"
+msgid "Block"
+msgstr "Blockera Inlägg som standard"
+
+#: admin/post.php:37 admin/post.php:39
+msgid "Unblock"
+msgstr ""
+
+#: admin/post.php:120
+#, fuzzy
+msgid "%s posts %ed."
+msgstr "Blockera Inlägg som standard"
 
 # @ wp-members
-#: wp-members-deprecated.php:55 wp-members-deprecated.php:317
-#: wp-members-dialogs.php:52 wp-members-dialogs.php:95
-#: wp-members-dialogs.php:346 wp-members-sidebar.php:119
-msgid "Username"
-msgstr "Användarnamn"
+#: admin/post.php:138
+#, fuzzy
+msgid "Post Restriction"
+msgstr "Registrering av ny användare"
 
 # @ wp-members
-#: wp-members-deprecated.php:319 wp-members-dialogs.php:52
-#: wp-members-sidebar.php:121
-msgid "Password"
-msgstr "Lösenord"
+#: admin/post.php:145
+#, fuzzy
+msgid "Page Restriction"
+msgstr "Registreringssida:"
+
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Unblocked?"
+msgstr ""
+"Obs: Inlägg kan fortfarande vara individuellt blockeras eller upphävas på "
+"artikelnivå"
 
 # @ wp-members
-#: wp-members-dialogs.php:52
-msgid "Login"
-msgstr "Logga in"
+#: admin/post.php:263 admin/post.php:295
+#, fuzzy
+msgid "Blocked?"
+msgstr ""
+"Obs: Inlägg kan fortfarande vara individuellt blockeras eller upphävas på "
+"artikelnivå"
 
 # @ wp-members
-#: wp-members-dialogs.php:74 wp-members-dialogs.php:157
-msgid "Change Password"
-msgstr "Byt lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:74
-msgid "New Password"
-msgstr "Nytt lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:74
-msgid "Repeat Password"
-msgstr "Repetera lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:74
-msgid "Update Password"
-msgstr "Uppdatera lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:95
-msgid "Reset Forgotten Password"
-msgstr "Nollställ glömt lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:95 wp-members-install.php:58
-msgid "Email"
-msgstr "e-post"
-
-# @ wp-members
-#: wp-members-dialogs.php:95
-msgid "Reset Password"
-msgstr "Återställ lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:117
-msgid "Login Failed!"
-msgstr "Inloggning misslyckades!"
-
-# @ wp-members
-#: wp-members-dialogs.php:118
-msgid "You entered an invalid username or password."
-msgstr "Du angav ett felaktigt användarnamn eller lösenord"
-
-# @ wp-members
-#: wp-members-dialogs.php:119
-msgid "Click here to continue."
-msgstr "Klickar här för att fortsätta."
-
-# @ wp-members
-#: wp-members-dialogs.php:156
-msgid "Edit My Information"
-msgstr "Redigera min användarinformation"
-
-# @ wp-members
-#: wp-members-dialogs.php:164 wp-members-dialogs.php:175
-#: wp-members-dialogs.php:183 wp-members-sidebar.php:38
-#: wp-members-sidebar.php:154
-#, php-format
-msgid "You are logged in as %s"
-msgstr "Du är inloggad som %s"
-
-# @ wp-members
-#: wp-members-dialogs.php:166
-msgid "Click here to logout."
-msgstr "Logga ut här."
-
-# @ wp-members
-#: wp-members-dialogs.php:167
-msgid "Begin using the site."
-msgstr "Börja använda webbplatsen."
-
-# @ wp-members
-#: wp-members-dialogs.php:176 wp-members-dialogs.php:184
-#: wp-members-sidebar.php:39 wp-members-sidebar.php:155
-msgid "click here to logout"
-msgstr "logga ut här"
-
-# @ wp-members
-#: wp-members-deprecated.php:40 wp-members-dialogs.php:331
-msgid "New Users Registration"
-msgstr "Nyregistrering användare"
-
-# @ wp-members
-#: wp-members-deprecated.php:60 wp-members-dialogs.php:352
-msgid "Choose a Username"
-msgstr "Välj användarnamn"
-
-# @ wp-members
-#: wp-members-deprecated.php:154 wp-members-dialogs.php:441
-#, php-format
-msgid "Please indicate that you agree to the %s TOS %s"
-msgstr "Var snäll och markera att du accepterar %s Användarvillkoren %s"
-
-# @ wp-members
-#: wp-members-deprecated.php:208 wp-members-dialogs.php:485
-msgid "Clear Form"
-msgstr "Rensa formuläret"
-
-# @ wp-members
-#: wp-members-deprecated.php:206 wp-members-dialogs.php:486
-msgid "Submit"
-msgstr "Skicka"
-
-# @ wp-members
-#: wp-members-deprecated.php:213 wp-members-dialogs.php:489
-msgid "Required field"
-msgstr "Obligatoriskt fält"
-
-# @ wp-members
-#: wp-members-deprecated.php:261 wp-members-dialogs.php:555
-msgid "Remember me"
-msgstr "Kom ihåg mig"
-
-# @ wp-members
-#: wp-members-deprecated.php:281 wp-members-dialogs.php:568
-msgid "Forgot password?"
-msgstr "Glömt lösenord?"
-
-# @ wp-members
-#: wp-members-deprecated.php:281 wp-members-dialogs.php:568
-msgid "Click here to reset"
-msgstr "Klicka här för att nollställa"
-
-# @ wp-members
-#: wp-members-deprecated.php:289 wp-members-dialogs.php:578
-msgid "New User?"
-msgstr "Ny användare?"
-
-# @ wp-members
-#: wp-members-deprecated.php:289 wp-members-dialogs.php:578
-msgid "Click here to register"
-msgstr "Klicka här för att registrera"
-
-# @ default
-#: admin/export-full.php:31 admin/export.php:27
-msgid "Cheatin&#8217; uh?"
-msgstr "Cheatin&#8217; uh?"
-
-# @ wp-members
-#: admin/export-full.php:69 admin/export.php:60
-msgid "Activated?"
-msgstr "Aktiverad?"
-
-# @ wp-members
-#: admin/export-full.php:72 admin/export.php:64
-msgid "Subscription"
-msgstr "Abonnemang"
-
-# @ wp-members
-#: admin/export-full.php:72 admin/export.php:64
-msgid "Expires"
-msgstr "Upphör"
-
-# @ wp-members
-#: admin/export-full.php:75 admin/export.php:67
-msgid "Registered"
-msgstr "Registrerad"
-
-# @ wp-members
-#: admin/export-full.php:76 admin/export.php:68
-msgid "IP"
-msgstr "IP"
-
-# @ wp-members
-#: admin/export-full.php:107 admin/export.php:94
+#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
+#: admin/user-export.php:211
 msgid "Yes"
 msgstr "Ja"
 
 # @ wp-members
-#: admin/export.php:30
-msgid "there was an error and no users were exported"
-msgstr "Det uppstod ett fel och inga användare exporterades"
+#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:36
+msgid "Need help?"
+msgstr "I behov av hjälp?"
 
 # @ wp-members
-#: wp-members-install.php:49
+#: admin/tab-captcha.php:45
+msgid "Manage reCAPTCHA Options"
+msgstr "Administrera reCAPTCHA alternativ"
+
+# @ wp-members
+#: admin/tab-captcha.php:52
+msgid ""
+"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
+"while blocking spam on your blog."
+msgstr ""
+"reCAPTCHA är en fri, tillgänglig CAPTCHA tjänst som hjälper till att "
+"digitalisera böcker och blockerar skräppost på din blogg."
+
+# @ wp-members
+#: admin/tab-captcha.php:53
+msgid ""
+"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
+"that they are a human. This verifies that they are not a spambot while also "
+"correcting the automatic scans of old books. So you get less spam, and the "
+"world gets accurately digitized books. Everybody wins! For details, visit "
+"the %s reCAPTCHA website%s"
+msgstr ""
+"reCAPTCHA ber kommenterare att skriva två ord som skannats från en bok för "
+"att bevisa att de är en människa. Detta kontrollerar att de inte är en "
+"Spambot samtidigt korrigera den automatiska genomsökningar av gamla böcker. "
+"Så du får mindre skräppost, och världen får exakta digitaliserade böcker. "
+"Alla vinner! För mer information, besök %s reCAPTCHA hemsida %s"
+
+# @ wp-members
+#: admin/tab-captcha.php:58
+msgid "reCAPTCHA Keys"
+msgstr "reCAPTCHA Nycklar"
+
+# @ wp-members
+#: admin/tab-captcha.php:60
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+"reCAPTCHA kräver en API-nyckel, som består av ett \"allmän\" och en \"privat"
+"\" nyckel. Du kan anmäla dig till en %s fri reCAPTCHA nyckel %s"
+
+# @ wp-members
+#: admin/tab-captcha.php:61
+msgid "Public Key"
+msgstr "Publik nyckel"
+
+# @ wp-members
+#: admin/tab-captcha.php:62
+msgid "Private Key"
+msgstr "Privat nyckel"
+
+# @ wp-members
+#: admin/tab-captcha.php:66
+msgid "Choose Theme"
+msgstr "Välj tema"
+
+# @ wp-members
+#. Plugin Name of the plugin/theme
+#: admin/tab-captcha.php:69
+msgid "WP-Members"
+msgstr "WP-Members"
+
+# @ wp-members
+#: admin/tab-captcha.php:70
+msgid "Red"
+msgstr "Röd"
+
+# @ wp-members
+#: admin/tab-captcha.php:71
+msgid "White"
+msgstr "Vit"
+
+# @ wp-members
+#: admin/tab-captcha.php:72
+msgid "Black Glass"
+msgstr "Svart glas"
+
+# @ wp-members
+#: admin/tab-captcha.php:73
+msgid "Clean"
+msgstr "Ren"
+
+# @ wp-members
+#: admin/tab-captcha.php:74
+msgid "Custom"
+msgstr "Egen"
+
+# @ wp-members
+#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
+#: admin/tab-options.php:107 admin/tab-options.php:121
+msgid "Optional"
+msgstr "Valfri"
+
+# @ wp-members
+#: admin/tab-captcha.php:86
+msgid "Update reCAPTCHA Settings"
+msgstr "Uppdatera reCAPTCHA inställningarna"
+
+# @ wp-members
+#: admin/tab-captcha.php:119
+msgid "reCAPTCHA was updated for WP-Members"
+msgstr "reCAPTCHA blev uppdaterad för WP-Members"
+
+# @ wp-members
+#: admin/tab-dialogs.php:29
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr ""
+"Begränsat inlägg (eller sida), visas ovanför login-/registrerings-formuläret"
+
+# @ wp-members
+#: admin/tab-dialogs.php:30
+msgid "Username is taken"
+msgstr "Användarnamnet är upptaget"
+
+# @ wp-members
+#: admin/tab-dialogs.php:31
+msgid "Email is registered"
+msgstr "E-post är registrerad"
+
+# @ wp-members
+#: admin/tab-dialogs.php:32
+msgid "Registration completed"
+msgstr "Registreringen är färdig"
+
+# @ wp-members
+#: admin/tab-dialogs.php:33
+msgid "User update"
+msgstr "Användaruppdatering"
+
+# @ wp-members
+#: admin/tab-dialogs.php:34
+msgid "Passwords did not match"
+msgstr "Lösenorden matchade inte varandra"
+
+# @ wp-members
+#: admin/tab-dialogs.php:35
+msgid "Password changes"
+msgstr "Lösenordet ändrades"
+
+# @ wp-members
+#: admin/tab-dialogs.php:36
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr ""
+"Användarnamn eller e-post finns inte vid försök att återställa det "
+"bortglömda lösenord"
+
+# @ wp-members
+#: admin/tab-dialogs.php:37
+msgid "Password reset"
+msgstr "Nollställ lösenord"
+
+# @ wp-members
+#: admin/tab-dialogs.php:54
+msgid "Dialogs and Error Messages"
+msgstr "Dialog eller felmeddelande"
+
+# @ wp-members
+#: admin/tab-dialogs.php:56
+msgid ""
+"You can customize the text for dialogs and error messages. Simple HTML is "
+"allowed %s etc."
+msgstr ""
+"Du kan anpassa texten för dialogrutor och felmeddelanden. Enkel HTML är "
+"tillåten %s etc."
+
+# @ wp-members
+#: admin/tab-dialogs.php:69
+msgid "Terms of Service (TOS)"
+msgstr "Användarvillkor (TOS)"
+
+# @ wp-members
+#: admin/tab-dialogs.php:76
+msgid "Update Dialogs"
+msgstr "Uppdatera dialoger"
+
+# @ wp-members
+#: admin/tab-dialogs.php:115
+msgid "WP-Members dialogs were updated"
+msgstr "WP-Membersdialoger blev uppdaterade"
+
+# @ wp-members
+#: admin/tab-emails.php:30
+#, fuzzy
+msgid "New Registration"
+msgstr "Registrering av ny användare"
+
+# @ wp-members
+#: admin/tab-emails.php:34
+#, fuzzy
+msgid "Registration is Moderated"
+msgstr "Registreringen är färdig, användaren är godkänd."
+
+# @ wp-members
+#: admin/tab-emails.php:35
+msgid "Registration is Moderated, User is Approved"
+msgstr "Registreringen är färdig, användaren är godkänd."
+
+# @ wp-members
+#: admin/tab-emails.php:40
+#, fuzzy
+msgid "Password Reset"
+msgstr "Nollställ lösenord"
+
+# @ wp-members
+#: admin/tab-emails.php:45
+msgid "Admin Notification"
+msgstr "Adminunderrättelse"
+
+# @ wp-members
+#: admin/tab-emails.php:50
+msgid "Email Signature"
+msgstr "E-post signatur"
+
+# @ wp-members
+#: admin/tab-emails.php:57
+msgid "Email Messages"
+msgstr "E-postmeddelanden"
+
+# @ wp-members
+#: admin/tab-emails.php:60
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr ""
+"Du kan anpassa innehållet i e-postmeddelanden som skickas med tillägget "
+"(plugin:et)"
+
+# @ wp-members
+#: admin/tab-emails.php:62
+msgid "A list of shortcodes is available here."
+msgstr "En lista med kortkoder finns här."
+
+# @ wp-members
+#: admin/tab-emails.php:69
+msgid "Set a custom email address"
+msgstr "Ange en anpassad e-postadress"
+
+# @ wp-members
+#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
+#, fuzzy
+msgid "(optional)"
+msgstr "Valfri"
+
+# @ wp-members
+#: admin/tab-emails.php:73
+msgid "Set a custom email name"
+msgstr "Ange ett anpassat e-postnamn"
+
+# @ wp-members
+#: admin/tab-emails.php:84
+msgid "Subject"
+msgstr "Ämne"
+
+# @ wp-members
+#: admin/tab-emails.php:88
+msgid "Body"
+msgstr "Huvuddel"
+
+# @ wp-members
+#: admin/tab-emails.php:105
+#, fuzzy
+msgid "Update Emails"
+msgstr "Användaruppdatering"
+
+# @ wp-members
+#: admin/tab-emails.php:161
+#, fuzzy
+msgid "WP-Members emails were updated"
+msgstr "WP-Membersdialoger blev uppdaterade"
+
+# @ wp-members
+#: admin/tab-fields.php:166
+msgid "WP-Members fields were updated"
+msgstr "WP-Membersfält blev uppdaterade"
+
+# @ wp-members
+#: admin/tab-fields.php:176
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr "Fätletikett krävs för att lägga till fält. Inget har uppdaterats."
+
+# @ wp-members
+#: admin/tab-fields.php:177
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr "Alternativnamn krävs för att lägga till nytt fält. Inget har ändrats."
+
+# @ wp-members
+#: admin/tab-fields.php:196
+msgid "Checked value is required for checkboxes. Nothing was updated."
+msgstr "Kontrollerat värde krävs för kryssrutor. Ingenting har uppdaterats."
+
+# @ wp-members
+#: admin/tab-fields.php:218
+msgid "field was added"
+msgstr "fält lades till"
+
+# @ wp-members
+#: admin/tab-fields.php:236
+msgid "field was updated"
+msgstr "fält har uppdaterats"
+
+#: admin/tab-fields.php:257
+#, fuzzy
+msgid "edit"
+msgstr "Ändra"
+
+# @ wp-members
+#: admin/tab-fields.php:284 admin/tab-fields.php:380
+msgid "Edit Field"
+msgstr "Ändra fält"
+
+# @ wp-members
+#: admin/tab-fields.php:284
+msgid "Add a Field"
+msgstr "Lägg till fält"
+
+# @ wp-members
+#: admin/tab-fields.php:290 admin/tab-fields.php:411
+msgid "Field Label"
+msgstr "Fält etikett"
+
+# @ wp-members
+#: admin/tab-fields.php:292
+msgid "The name of the field as it will be displayed to the user."
+msgstr "Fältnamnet som det kommer att visas för användaren."
+
+# @ wp-members
+#: admin/tab-fields.php:295 admin/tab-fields.php:412
+msgid "Option Name"
+msgstr "Alternativnamn"
+
+# @ wp-members
+#: admin/tab-fields.php:301
+msgid ""
+"The database meta value for the field. It must be unique and contain no "
+"spaces (underscores are ok)."
+msgstr ""
+"Databasens metadata för fältet. Det måste vara unikt och får inte innehålla "
+"mellanslag (understreck är ok)."
+
+# @ wp-members
+#: admin/tab-fields.php:305 admin/tab-fields.php:413
+#, fuzzy
+msgid "Field Type"
+msgstr "fält lades till"
+
+# @ wp-members
+#: admin/tab-fields.php:311
+msgid "text"
+msgstr "text"
+
+# @ wp-members
+#: admin/tab-fields.php:312
+msgid "textarea"
+msgstr "textyta"
+
+# @ wp-members
+#: admin/tab-fields.php:313
+msgid "checkbox"
+msgstr "kryssruta"
+
+# @ wp-members
+#: admin/tab-fields.php:314
+msgid "dropdown"
+msgstr "dropdown"
+
+# @ wp-members
+#: admin/tab-fields.php:315
+#, fuzzy
+msgid "password"
+msgstr "Lösenord"
+
+# @ wp-members
+#: admin/tab-fields.php:320 admin/tab-fields.php:414
+msgid "Display?"
+msgstr "Visa?"
+
+# @ wp-members
+#: admin/tab-fields.php:324 admin/tab-fields.php:415
+msgid "Required?"
+msgstr "Obligatorisk?"
+
+# @ wp-members
+#: admin/tab-fields.php:329
+msgid "Additional information for checkbox fields"
+msgstr "Ytterligare info för kryssrutefält"
+
+# @ wp-members
+#: admin/tab-fields.php:332
+msgid "Checked by default?"
+msgstr "i-kryssat som förval?"
+
+# @ wp-members
+#: admin/tab-fields.php:336
+msgid "Stored value if checked:"
+msgstr "Sparat värde om i-kryssat:"
+
+# @ wp-members
+#: admin/tab-fields.php:342
+msgid "Additional information for dropdown fields"
+msgstr "Ytterligare info för dropdown-fält"
+
+# @ wp-members
+#: admin/tab-fields.php:345
+msgid "For dropdown, array of values:"
+msgstr "För dropdown, matris med värden:"
+
+# @ wp-members
+#: admin/tab-fields.php:370
+msgid "Options should be Option Name|option_value,"
+msgstr "Alternativ bör vara alternativnamn|option_value,"
+
+# @ wp-members
+#: admin/tab-fields.php:374
+msgid "Visit plugin site for more information"
+msgstr "Besök tilläggets hemsida för mer information"
+
+# @ wp-members
+#: admin/tab-fields.php:380
+msgid "Add Field"
+msgstr "Lägg till fält"
+
+# @ wp-members
+#: admin/tab-fields.php:402
+msgid "Manage Fields"
+msgstr "Administrera fält"
+
+# @ wp-members
+#: admin/tab-fields.php:404
+msgid ""
+"Determine which fields will display and which are required.  This includes "
+"all fields, both native WP fields and WP-Members custom fields."
+msgstr ""
+"Bestäm vilka fält som ska visas och vilka som behövs. Detta inkluderar alla "
+"områden, både ursprungliga WP-fälten och WP-Members anpassade fält."
+
+# @ wp-members
+#: admin/tab-fields.php:405
+msgid "(Note: Email is always mandatory. and cannot be changed.)"
+msgstr "(Notera: E-post är alltid obligatorisk och kan inte ändras..)"
+
+# @ wp-members
+#: admin/tab-fields.php:410
+msgid "Add/Delete"
+msgstr "Lägg till/Radera"
+
+# @ wp-members
+#: admin/tab-fields.php:416
+msgid "Checked?"
+msgstr "Kontrollerad?"
+
+# @ wp-members
+#: admin/tab-fields.php:417
+msgid "Edit"
+msgstr "Ändra"
+
+# @ wp-members
+#: admin/tab-fields.php:418
+msgid "Users Screen"
+msgstr "Användarfönster"
+
+# @ wp-members
+#: admin/tab-fields.php:430
+msgid "Delete"
+msgstr "Radera"
+
+# @ wp-members
+#: admin/tab-fields.php:442
+#, fuzzy
+msgid "(Email cannot be removed)"
+msgstr "(E-post-fältet är obligatorisk och kan inte tas bort)"
+
+# @ wp-members
+#: admin/tab-fields.php:460
+#, fuzzy
+msgid "Registration Date"
+msgstr "Registreringen är färdig"
+
+# @ wp-members
+#: admin/tab-fields.php:463
+msgid "native"
+msgstr "ursprung"
+
+# @ wp-members
+# @ default
+#: admin/tab-fields.php:473
+#, fuzzy
+msgid "Active"
+msgstr "Aktivera"
+
+# @ wp-members
+#: admin/tab-fields.php:485
+#, fuzzy
+msgid "Registration IP"
+msgstr "IP @ registrering"
+
+# @ wp-members
+#: admin/tab-fields.php:520
+msgid "Update Fields"
+msgstr "Uppdatera fälten"
+
+# @ wp-members
+#: admin/tab-options.php:47
+msgid "Manage Options"
+msgstr "Administrera alternativ"
+
+# @ wp-members
+#: admin/tab-options.php:53
+msgid "Block Posts by default"
+msgstr "Blockera Inlägg som standard"
+
+# @ wp-members
+#: admin/tab-options.php:53
+msgid ""
+"Note: Posts can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"Obs: Inlägg kan fortfarande vara individuellt blockeras eller upphävas på "
+"artikelnivå"
+
+# @ wp-members
+#: admin/tab-options.php:54
+msgid "Block Pages by default"
+msgstr "Blockera Sidor som standard"
+
+# @ wp-members
+#: admin/tab-options.php:54
+msgid ""
+"Note: Pages can still be individually blocked or unblocked at the article "
+"level"
+msgstr ""
+"OBS: Sidor kan fortfarande vara individuellt blockeras eller upphävas på "
+"artikelnivå"
+
+# @ wp-members
+#: admin/tab-options.php:55
+msgid "Show excerpts"
+msgstr "Visa utdrag"
+
+# @ wp-members
+#: admin/tab-options.php:55
+msgid ""
+"Shows excerpted content above the login/registration on both Posts and Pages"
+msgstr ""
+"Visar utdraget innehåll ovanför inloggning / registrering på både inlägg och "
+"sidor"
+
+# @ wp-members
+#: admin/tab-options.php:56
+msgid "Notify admin"
+msgstr "Meddela administratören"
+
+# @ wp-members
+#: admin/tab-options.php:56
+#, fuzzy
+msgid "Notify %s for each new registration? %s"
+msgstr "Skickar e-post till administratören för varje ny registrering?"
+
+# @ wp-members
+#: admin/tab-options.php:57
+msgid "Moderate registration"
+msgstr "Moderera registreringen"
+
+# @ wp-members
+#: admin/tab-options.php:57
+msgid "Holds new registrations for admin approval"
+msgstr " Godkänn nya registreringar via en administratör"
+
+# @ wp-members
+#: admin/tab-options.php:58
+msgid "Use reCAPTCHA"
+msgstr "Använd reCAPTCHA"
+
+# @ wp-members
+#: admin/tab-options.php:58
+msgid "Turns on CAPTCHA for registration"
+msgstr "Slå på CAPTCHA för registrering"
+
+# @ wp-members
+#: admin/tab-options.php:59
+#, fuzzy
+msgid "Hide registration"
+msgstr "Registreringen är färdig"
+
+#: admin/tab-options.php:59
+msgid "Removes the registration form from blocked content"
+msgstr ""
+
+# @ wp-members
+#: admin/tab-options.php:61
+msgid "Time-based expiration"
+msgstr "Tidsbaserade utgångsdatum"
+
+# @ wp-members
+#: admin/tab-options.php:61
+msgid "Allows for access to expire"
+msgstr "Tillåter åtkomst att löpa ut"
+
+# @ wp-members
+#: admin/tab-options.php:62
+msgid "Trial period"
+msgstr "Försöksperiod"
+
+# @ wp-members
+#: admin/tab-options.php:62
+msgid "Allows for a trial period"
+msgstr "Tillåter för en försöksperiod"
+
+# @ wp-members
+#: admin/tab-options.php:63
+msgid "Ignore warning messages"
+msgstr "Ignorera varningsmeddelande"
+
+# @ wp-members
+#: admin/tab-options.php:63
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "Ignorera WP-Members varningsmeddelande i adminstrations panelen"
+
+# @ wp-members
+#: admin/tab-options.php:79
+msgid "Attribution"
+msgstr "Erkännande"
+
+# @ wp-members
+#: admin/tab-options.php:81
+msgid ""
+"Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr ""
+"Erkännande är uppskattat! Visa länken \"powered by\" på "
+"registreringsformuläret?"
+
+# @ wp-members
+#: admin/tab-options.php:85
+msgid "Auto Excerpt:"
+msgstr "Automatiskt utdrag:"
+
+# @ wp-members
+#: admin/tab-options.php:86
+msgid "Number of words in excerpt:"
+msgstr "Antal ord i utdrag:"
+
+# @ wp-members
+#: admin/tab-options.php:86
+msgid "Automatically creates an excerpt"
+msgstr "Automatiskt skapas ett utdrag"
+
+#: admin/tab-options.php:88
+#, fuzzy
+msgid "Pages"
+msgstr "Blockera Sidor som standard"
+
+# @ wp-members
+#: admin/tab-options.php:92
+msgid "User Profile Page:"
+msgstr "Användarprofilsida:"
+
+#: admin/tab-options.php:95
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+# @ wp-members
+#: admin/tab-options.php:102
+msgid "Register Page:"
+msgstr "Registreringssida:"
+
+#: admin/tab-options.php:105
+#, fuzzy
+msgid "For creating a register link in the login form"
+msgstr ""
+"Erkännande är uppskattat! Visa länken \"powered by\" på "
+"registreringsformuläret?"
+
+# @ wp-members
+#: admin/tab-options.php:110
+#, fuzzy
+msgid "Stylesheet"
+msgstr "Stylesheet:"
+
+# @ wp-members
+#: admin/tab-options.php:112
+msgid "Stylesheet:"
+msgstr "Stylesheet:"
+
+# @ wp-members
+#: admin/tab-options.php:115
+msgid "Select a stylesheet or specify a custom stylesheet below"
+msgstr "Välj ett stylesheet eller ange ett anpassat stylesheet här under"
+
+# @ wp-members
+#: admin/tab-options.php:120
+msgid "Custom Stylesheet:"
+msgstr "Anpassat Stylesheet:"
+
+# @ wp-members
+#: admin/tab-options.php:125
+msgid "Update Settings"
+msgstr "Uppdatera inställningarna"
+
+# @ wp-members
+#: admin/tab-options.php:235
+msgid "WP-Members settings were updated"
+msgstr "WP-Members inställningar blev uppdaterade"
+
+# @ default
+#: admin/tab-options.php:285
+msgid "Select a page"
+msgstr "Välj en sida"
+
+# @ wp-members
+#: admin/tab-options.php:293
+#, fuzzy
+msgid "USE CUSTOM URL BELOW"
+msgstr "Välj ett stylesheet eller ange ett anpassat stylesheet här under"
+
+# @ wp-members
+#: admin/user-export.php:57 admin/user-export.php:172
+msgid "Activated?"
+msgstr "Aktiverad?"
+
+# @ wp-members
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Subscription"
+msgstr "Abonnemang"
+
+# @ wp-members
+#: admin/user-export.php:61 admin/user-export.php:175
+msgid "Expires"
+msgstr "Upphör"
+
+# @ wp-members
+#: admin/user-export.php:64 admin/user-export.php:178
+msgid "Registered"
+msgstr "Registrerad"
+
+# @ wp-members
+#: admin/user-export.php:65 admin/user-export.php:179
+msgid "IP"
+msgstr "IP"
+
+# @ wp-members
+#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
+msgid "No"
+msgstr "Nej"
+
+# @ wp-members
+#: admin/user-profile.php:46
+msgid "WP-Members Additional Fields"
+msgstr "WP-Members ytterligare fält"
+
+# @ wp-members
+#: admin/user-profile.php:58 native-registration.php:35
+#: native-registration.php:126 users.php:57
+#, fuzzy
+msgid "(required)"
+msgstr "Obligatorisk?"
+
+# @ wp-members
+#: admin/user-profile.php:91
+msgid "Activate this user?"
+msgstr "Aktivera denna användare?"
+
+# @ wp-members
+#: admin/user-profile.php:96
+#, fuzzy
+msgid "Reactivate this user?"
+msgstr "Användaruppdatering"
+
+# @ wp-members
+#: admin/user-profile.php:101
+#, fuzzy
+msgid "Deactivate this user?"
+msgstr "Användaruppdatering"
+
+# @ wp-members
+#: admin/user-profile.php:122
+msgid "IP @ registration"
+msgstr "IP @ registrering"
+
+# @ wp-members
+# @ default
+#: admin/users.php:43 admin/users.php:47
+msgid "Activate"
+msgstr "Aktivera"
+
+# @ wp-members
+# @ default
+#: admin/users.php:45 admin/users.php:49
+msgid "Export"
+msgstr "Exportera"
+
+#: admin/users.php:50 admin/users.php:91
+#, fuzzy
+msgid "Export All Users"
+msgstr "Exportera"
+
+# @ wp-members
+#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
+msgid "Username"
+msgstr "Användarnamn"
+
+# @ wp-members
+#: forms.php:77 wp-members-sidebar.php:148
+msgid "Password"
+msgstr "Lösenord"
+
+# @ wp-members
+#: forms.php:95
+#, fuzzy
+msgid "Existing Users Log In"
+msgstr "Logga in"
+
+#: forms.php:97
+msgid "Log In"
+msgstr "Logga in"
+
+# @ wp-members
+#: forms.php:136
+msgid "New Password"
+msgstr "Nytt lösenord"
+
+# @ wp-members
+#: forms.php:143
+msgid "Repeat Password"
+msgstr "Repetera lösenord"
+
+# @ wp-members
+#: forms.php:161 wp-members-dialogs.php:192
+msgid "Change Password"
+msgstr "Byt lösenord"
+
+# @ wp-members
+#: forms.php:163
+msgid "Update Password"
+msgstr "Uppdatera lösenord"
+
+# @ wp-members
+#: forms.php:209
+msgid "Email"
+msgstr "e-post"
+
+# @ wp-members
+#: forms.php:227
+msgid "Reset Forgotten Password"
+msgstr "Nollställ glömt lösenord"
+
+# @ wp-members
+#: forms.php:229
+msgid "Reset Password"
+msgstr "Återställ lösenord"
+
+# @ wp-members
+#: forms.php:375
+msgid "Remember me"
+msgstr "Kom ihåg mig"
+
+# @ wp-members
+#: forms.php:403
+msgid "Forgot password?"
+msgstr "Glömt lösenord?"
+
+# @ wp-members
+#: forms.php:403
+msgid "Click here to reset"
+msgstr "Klicka här för att nollställa"
+
+# @ wp-members
+#: forms.php:418
+msgid "New User?"
+msgstr "Ny användare?"
+
+# @ wp-members
+#: forms.php:418
+msgid "Click here to register"
+msgstr "Klicka här för att registrera"
+
+# @ wp-members
+#: forms.php:515
+msgid "Required field"
+msgstr "Obligatoriskt fält"
+
+# @ wp-members
+#: forms.php:521
+#, fuzzy
+msgid "Reset Form"
+msgstr "Det uppstod ett fel med CAPTCHA formuläret."
+
+# @ wp-members
+#: forms.php:522 wp-members-sidebar.php:172
+msgid "Register"
+msgstr "Registrera"
+
+# @ wp-members
+#: forms.php:523
+#, fuzzy
+msgid "Update Profile"
+msgstr "Användarprofilsida:"
+
+# @ wp-members
+#: forms.php:561
+msgid "Choose a Username"
+msgstr "Välj användarnamn"
+
+# @ wp-members
+#: forms.php:681 native-registration.php:64
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "Var snäll och markera att du accepterar %s Användarvillkoren %s"
+
+# @ wp-members
+#: forms.php:832
+#, fuzzy
+msgid "New User Registration"
+msgstr "Ny användare?"
+
+# @ wp-members
+#: users.php:38
+#, fuzzy
+msgid "Additional Information"
+msgstr "Ytterligare info för kryssrutefält"
+
+#: utilities.php:242
+msgid "(more&hellip;)"
+msgstr ""
+
+# @ default
+#: wp-members-core.php:118 wp-members-core.php:245
+msgid "There was an error with the CAPTCHA form."
+msgstr "Det uppstod ett fel med CAPTCHA formuläret."
+
+# @ wp-members
+#: wp-members-core.php:287 wp-members-dialogs.php:338
+msgid "Edit Your Information"
+msgstr "Redigera dina uppgifter"
+
+# @ wp-members
+#: wp-members-core.php:539
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "<strong>ERROR</strong>: Användaren har inte aktiverats."
+
+# @ wp-members
+#: wp-members-core.php:897 wp-members-register.php:88
+msgid "Sorry, %s is a required field."
+msgstr "Tyvärr, men %s är ett obligatoriskt fält."
+
+# @ wp-members
+#: wp-members-dialogs.php:42
+msgid "Login Failed!"
+msgstr "Inloggning misslyckades!"
+
+# @ wp-members
+#: wp-members-dialogs.php:45
+msgid "You entered an invalid username or password."
+msgstr "Du angav ett felaktigt användarnamn eller lösenord"
+
+# @ wp-members
+#: wp-members-dialogs.php:47
+msgid "Click here to continue."
+msgstr "Klickar här för att fortsätta."
+
+# @ wp-members
+#: wp-members-dialogs.php:191
+msgid "Edit My Information"
+msgstr "Redigera min användarinformation"
+
+# @ wp-members
+#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
+#: wp-members-sidebar.php:204
+msgid "You are logged in as %s"
+msgstr "Du är inloggad som %s"
+
+# @ wp-members
+#: wp-members-dialogs.php:208
+#, fuzzy
+msgid "Click to log out."
+msgstr "Logga in"
+
+# @ wp-members
+#: wp-members-dialogs.php:209
+msgid "Begin using the site."
+msgstr "Börja använda webbplatsen."
+
+# @ wp-members
+#: wp-members-dialogs.php:225
+#, fuzzy
+msgid "Click to log out"
+msgstr "Logga in"
+
+# @ wp-members
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#, fuzzy
+msgid "click to log out"
+msgstr "Logga in"
+
+# @ wp-members
+#: wp-members-dialogs.php:271
+msgid "Password fields cannot be empty"
+msgstr "Lösenordsfält kan inte vara tom"
+
+# @ wp-members
+#: wp-members-register.php:47
+msgid "There was an error processing the form."
+msgstr "Ett fel uppstod vid skapande av formuläret."
+
+# @ wp-members
+#: wp-members-register.php:96
+msgid "Sorry, username is a required field"
+msgstr "Tyvärr är användarnamn ett obligatoriskt fält"
+
+# @ wp-members
+#: wp-members-register.php:97
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "Användarnamnet kan inte innehålla icke-alfanumeriska tecken."
+
+# @ wp-members
+#: wp-members-register.php:98 wp-members-register.php:245
+#, fuzzy
+msgid "You must enter a valid email address."
+msgstr "Du måste ange en giltig e-postadress."
+
+# @ wp-members
+#: wp-members-register.php:115
+#, fuzzy
+msgid "Passwords did not match."
+msgstr "Lösenorden matchade inte varandra"
+
+# @ wp-members
+#: wp-members-register.php:116 wp-members-register.php:264
+#, fuzzy
+msgid "Emails did not match."
+msgstr "Lösenorden matchade inte varandra"
+
+# @ wp-members
+#: wp-members-register.php:108
+msgid "You must complete the CAPTCHA form."
+msgstr "Du måste fylla i CAPTCHA formuläret."
+
+# @ wp-members
+#: wp-members-register.php:316
+msgid "We were unable to validate the public key."
+msgstr "Vi kunde inte bekräfta den publika nyckeln."
+
+# @ wp-members
+#: wp-members-register.php:320
+msgid "We were unable to validate the private key."
+msgstr "Vi kunde inte bekräfta den privata nyckeln."
+
+# @ wp-members
+#: wp-members-register.php:324
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "Den utmanande parametern av verifikations-skriptet var felaktigt."
+
+# @ wp-members
+#: wp-members-register.php:328
+msgid "The CAPTCHA solution was incorrect."
+msgstr "CAPTCHA-lösningen var felaktig."
+
+# @ wp-members
+#: wp-members-register.php:332
+msgid "The parameters to verify were incorrect"
+msgstr "Parametrarna för att verifiera var felaktiga"
+
+# @ wp-members
+#: wp-members-register.php:336
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr ""
+"reCAPTCHA API-nycklar är bundna till ett specifikt domännamn av "
+"säkerhetsskäl."
+
+# @ wp-members
+#: wp-members-register.php:340
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "reCAPTCHA-servern svarade inte. Försök att skicka igen."
+
+# @ wp-members
+#: wp-members-sidebar.php:124
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr ""
+"Felaktig inloggning!<br />Du angav ett felaktigt användarnamn eller lösenord"
+
+# @ wp-members
+#: wp-members-sidebar.php:125
+#, fuzzy
+msgid "You are not logged in."
+msgstr "Du är inloggad som %s"
+
+#: wp-members-sidebar.php:163
+msgid "log in"
+msgstr "logga in"
+
+# @ wp-members
+#: wp-members-sidebar.php:167
+msgid "Forgot?"
+msgstr "Glömt?"
+
+# @ wp-members
+#: wp-members-sidebar.php:205
+msgid "click here to logout"
+msgstr "logga ut här"
+
+# @ wp-members
+#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+msgid "Login Status"
+msgstr "Inloggningsstatus"
+
+# @ wp-members
+#: wp-members-sidebar.php:250
+msgid "Title:"
+msgstr "Titel:"
+
+# @ wp-members
+#: wp-members-tos.php:24
+#, fuzzy
+msgid "Terms of Service"
+msgstr "Användarvillkor (TOS)"
+
+# @ wp-members
+#: wp-members-tos.php:36
+msgid "%sclose%s"
+msgstr "%sstäng%s"
+
+# @ wp-members
+#: wp-members-tos.php:38
+msgid "%sprint%s"
+msgstr "%sprint%s"
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+
+# @ wp-members
+#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
+#: Strings wp-members-install.php:49
 msgid "First Name"
 msgstr "Förnamn"
 
@@ -1128,10 +1500,11 @@ msgid "TOS"
 msgstr "TOS"
 
 # @ wp-members
-#: wp-members-install.php:96
+#: Error message dialog strings wp-members-install.php:96
+#, fuzzy
 msgid ""
 "This content is restricted to site members.  If you are an existing user, "
-"please login.  New users may register below."
+"please log in.  New users may register below."
 msgstr ""
 "Detta innehåll är begränsat till medlemmar. Om du är en befintlig användare, "
 "logga in. Nya användare kan registrera sig nedan."
@@ -1150,9 +1523,10 @@ msgstr ""
 
 # @ wp-members
 #: wp-members-install.php:99
+#, fuzzy
 msgid ""
 "Congratulations! Your registration was successful.<br /><br />You may now "
-"login using the password that was emailed to you."
+"log in using the password that was emailed to you."
 msgstr ""
 "Grattis! Din registrering har slutförts. <br /> <br /> Du kan nu logga in "
 "med det lösenord som skickas till dig."
@@ -1194,313 +1568,57 @@ msgstr ""
 "sedan logga in igen med ditt nya lösenord."
 
 # @ wp-members
-#: wp-members-core.php:773 wp-members-register.php:83
-#, php-format
-msgid "Sorry, %s is a required field."
-msgstr "Tyvärr, men %s är ett obligatoriskt fält."
+#~ msgid "Turn off registration"
+#~ msgstr "Slå av registrering"
 
 # @ wp-members
-#: wp-members-register.php:91
-msgid "Sorry, username is a required field"
-msgstr "Tyvärr är användarnamn ett obligatoriskt fält"
+#~ msgid "Turns off the registration process, only allows login"
+#~ msgstr "Slå av registreringsprocessen, tillåt endast inloggning"
 
 # @ wp-members
-#: wp-members-register.php:92
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "Användarnamnet kan inte innehålla icke-alfanumeriska tecken."
+#~ msgid "Legacy forms"
+#~ msgstr "Tidigare formulär"
 
 # @ wp-members
-#: wp-members-register.php:93
+#~ msgid ""
+#~ "Uses the pre-2.5.1 table-based forms (leave off to use CSS table-less "
+#~ "forms)"
+#~ msgstr ""
+#~ "Använder pre-2.5.1 table-baserade formulär (låt vara avmarkerad för att "
+#~ "använda CSS baserade formulär)"
+
+# @ wp-members
+#~ msgid "%d users were activated."
+#~ msgstr "%d användare blev aktiverad"
+
+# @ wp-members
+#~ msgid ""
+#~ "Users ready to export, %s click here %s to generate and download a CSV."
+#~ msgstr ""
+#~ "Användare är redo att exporteras, %s klicka här %s för att generera och "
+#~ "ladda ned CSV."
+
+# @ wp-members
+#~ msgid "WP-Members Users"
+#~ msgstr "WP-Members användare"
+
+# @ wp-members
+#~ msgid "Add New"
+#~ msgstr "Lägg till ny"
+
+# @ wp-members
+#~ msgid "No users matched your criteria"
+#~ msgstr "Inga användare matchade dina kriterier"
+
+# @ wp-members
+#~ msgid "Bulk Actions"
+#~ msgstr "Massåtgärder"
+
+# @ wp-members
+#~ msgid "Apply"
+#~ msgstr "Tillämpa"
+
+# @ wp-members
 #, fuzzy
-msgid "You must enter a valid email address."
-msgstr "Du måste ange en giltig e-postadress."
-
-# @ wp-members
-#: wp-members-register.php:103
-msgid "You must complete the CAPTCHA form."
-msgstr "Du måste fylla i CAPTCHA formuläret."
-
-# @ wp-members
-#: wp-members-register.php:294
-msgid "We were unable to validate the public key."
-msgstr "Vi kunde inte bekräfta den publika nyckeln."
-
-# @ wp-members
-#: wp-members-register.php:298
-msgid "We were unable to validate the private key."
-msgstr "Vi kunde inte bekräfta den privata nyckeln."
-
-# @ wp-members
-#: wp-members-register.php:302
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "Den utmanande parametern av verifikations-skriptet var felaktigt."
-
-# @ wp-members
-#: wp-members-register.php:306
-msgid "The CAPTCHA solution was incorrect."
-msgstr "CAPTCHA-lösningen var felaktig."
-
-# @ wp-members
-#: wp-members-register.php:310
-msgid "The parameters to verify were incorrect"
-msgstr "Parametrarna för att verifiera var felaktiga"
-
-# @ wp-members
-#: wp-members-register.php:314
-msgid ""
-"reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr ""
-"reCAPTCHA API-nycklar är bundna till ett specifikt domännamn av "
-"säkerhetsskäl."
-
-# @ wp-members
-#: wp-members-register.php:318
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "reCAPTCHA-servern svarade inte. Försök att skicka igen."
-
-# @ wp-members
-#: wp-members-deprecated.php:313 wp-members-sidebar.php:111
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr ""
-"Felaktig inloggning!<br />Du angav ett felaktigt användarnamn eller lösenord"
-
-# @ wp-members
-#: wp-members-deprecated.php:315 wp-members-sidebar.php:115
-msgid "You are not currently logged in."
-msgstr "Du är förnärvarande inte inloggad."
-
-# @ wp-members
-#: wp-members-deprecated.php:325 wp-members-sidebar.php:127
-msgid "login"
-msgstr "logga in"
-
-# @ wp-members
-#: wp-members-deprecated.php:329 wp-members-sidebar.php:131
-msgid "Forgot?"
-msgstr "Glömt?"
-
-# @ wp-members
-#: wp-members-deprecated.php:332 wp-members-sidebar.php:136
-msgid "Register"
-msgstr "Registrera"
-
-# @ wp-members
-#: wp-members-sidebar.php:195 wp-members-sidebar.php:237
-msgid "Login Status"
-msgstr "Inloggningsstatus"
-
-# @ wp-members
-#: wp-members-sidebar.php:200
-msgid "Title:"
-msgstr "Titel:"
-
-# @ wp-members
-#: wp-members-tos.php:24
-#, fuzzy
-msgid "Terms of Service"
-msgstr "Användarvillkor (TOS)"
-
-# @ wp-members
-#: wp-members-tos.php:36
-#, php-format
-msgid "%sclose%s"
-msgstr "%sstäng%s"
-
-# @ wp-members
-#: wp-members-tos.php:38
-#, php-format
-msgid "%sprint%s"
-msgstr "%sprint%s"
-
-# @ wp-members
-#: admin/dialogs.php:172
-msgid "Quick Start Guide"
-msgstr "Snabbstartsguide"
-
-# @ wp-members
-#: admin/dialogs.php:173
-msgid "Online User Guide"
-msgstr "Användarguide online"
-
-# @ wp-members
-#: admin/dialogs.php:174
-msgid "FAQs"
-msgstr "FAQs"
-
-# @ wp-members
-#: admin/dialogs.php:181
-msgid "Thank you for using WP-Members"
-msgstr "Tack för att du använder WP-Members"
-
-# @ wp-members
-#: admin/dialogs.php:182
-msgid "A plugin developed by"
-msgstr "Ett tillägg utvecklat av"
-
-# @ wp-members
-#: admin/dialogs.php:200 admin/dialogs.php:204
-msgid "Latest from RocketGeek"
-msgstr "Senaste nytt från RocketGeek"
-
-# @ wp-members
-#: admin/dialogs.php:221 admin/dialogs.php:234
-msgid "Latest from ButlerBlog"
-msgstr "Senaste nytt från ButlerBlog"
-
-# @ wp-members
-#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:57
-#: admin/tab-fields.php:38 admin/tab-options.php:33
-msgid "Need help?"
-msgstr "I behov av hjälp?"
-
-# @ wp-members
-#: admin/tab-fields.php:199
-msgid "Checked value is required for checkboxes. Nothing was updated."
-msgstr "Kontrollerat värde krävs för kryssrutor. Ingenting har uppdaterats."
-
-# @ wp-members
-#: admin/tab-fields.php:221
-msgid "field was added"
-msgstr "fält lades till"
-
-# @ wp-members
-#: admin/tab-fields.php:239
-msgid "field was updated"
-msgstr "fält har uppdaterats"
-
-# @ wp-members
-#: admin/tab-fields.php:287 admin/tab-fields.php:383
-msgid "Edit Field"
-msgstr "Ändra fält"
-
-# @ wp-members
-#: admin/tab-fields.php:287
-msgid "Add a Field"
-msgstr "Lägg till fält"
-
-# @ wp-members
-#: admin/tab-fields.php:296
-msgid "The name of the field as it will be displayed to the user."
-msgstr "Fältnamnet som det kommer att visas för användaren."
-
-# @ wp-members
-#: admin/tab-fields.php:307
-msgid ""
-"The database meta value for the field. It must be unique and contain no "
-"spaces (underscores are ok)."
-msgstr ""
-"Databasens metadata för fältet. Det måste vara unikt och får inte innehålla "
-"mellanslag (understreck är ok)."
-
-# @ wp-members
-#: admin/tab-fields.php:338
-msgid "Additional information for checkbox fields"
-msgstr "Ytterligare info för kryssrutefält"
-
-# @ wp-members
-#: admin/tab-fields.php:341
-msgid "Checked by default?"
-msgstr "i-kryssat som förval?"
-
-# @ wp-members
-#: admin/tab-fields.php:345
-msgid "Stored value if checked:"
-msgstr "Sparat värde om i-kryssat:"
-
-# @ wp-members
-#: admin/tab-fields.php:351
-msgid "Additional information for dropdown fields"
-msgstr "Ytterligare info för dropdown-fält"
-
-# @ wp-members
-#: admin/tab-fields.php:383
-msgid "Add Field"
-msgstr "Lägg till fält"
-
-# @ wp-members
-#: admin/tab-fields.php:420
-msgid "Edit"
-msgstr "Ändra"
-
-# @ wp-members
-#: admin/tab-fields.php:421
-msgid "Users Screen"
-msgstr "Användarfönster"
-
-# @ wp-members
-#: admin/tab-fields.php:466
-msgid "native"
-msgstr "ursprung"
-
-# @ wp-members
-#: admin/tab-options.php:75
-msgid "Attribution"
-msgstr "Erkännande"
-
-# @ wp-members
-#: admin/tab-options.php:77
-msgid ""
-"Attribution is appreciated!  Display \"powered by\" link on register form?"
-msgstr ""
-"Erkännande är uppskattat! Visa länken \"powered by\" på "
-"registreringsformuläret?"
-
-# @ wp-members
-#: admin/tab-options.php:83
-msgid "User Profile Page:"
-msgstr "Användarprofilsida:"
-
-# @ wp-members
-#: admin/tab-options.php:87 admin/tab-options.php:97
-msgid "custom URL:"
-msgstr "Anpassad URL:"
-
-# @ wp-members
-#: admin/tab-options.php:93
-msgid "Register Page:"
-msgstr "Registreringssida:"
-
-# @ wp-members
-#: admin/tab-options.php:102
-msgid "Stylesheet:"
-msgstr "Stylesheet:"
-
-# @ wp-members
-#: admin/tab-options.php:105
-msgid "Select a stylesheet or specify a custom stylesheet below"
-msgstr "Välj ett stylesheet eller ange ett anpassat stylesheet här under"
-
-# @ wp-members
-#: admin/tab-options.php:111
-msgid "Custom Stylesheet:"
-msgstr "Anpassat Stylesheet:"
-
-# @ wp-members
-#: admin/tab-options.php:116
-msgid "Auto Excerpt:"
-msgstr "Automatiskt utdrag:"
-
-# @ wp-members
-#: admin/tab-options.php:117
-msgid "Number of words in excerpt:"
-msgstr "Antal ord i utdrag:"
-
-# @ wp-members
-#: admin/tab-options.php:117
-msgid "Automatically creates an excerpt"
-msgstr "Automatiskt skapas ett utdrag"
-
-# @ default
-#: admin/tab-options.php:273
-msgid "Select a page"
-msgstr "Välj en sida"
-
-# @ wp-members
-#: admin/tab-options.php:281
-msgid "USE CUSTOM URL ---->"
-msgstr "ANVÄND ANPASSAT URL ---->"
-
-# @ wp-members
-#: wp-members-register.php:48
-msgid "There was an error processing the form."
-msgstr "Ett fel uppstod vid skapande av formuläret."
+#~ msgid "Indicates a required field"
+#~ msgstr "Indikerar ett obligatoriskt fält"

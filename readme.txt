@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.9.2
+Stable tag: 2.9.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -109,7 +109,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.2 is a minor update from 2.9.1 and 2.9.1.
+WP-Members 2.9.3 is a minor update from 2.9.2.
 WP-Members 2.9.0 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
 
 == Screenshots ==
@@ -130,6 +130,16 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.3 =
+
+* Fixed a backend user profile update and create new user issue introduced with some 2.9.2 code improvements. The issue caused the additional fields not to save.
+* Added a confirm password and confirm email field to the default install, as well as automatic form validation when used.
+* Updated all functions that store/read user data to skip these fields as there is not need to store them, they are simply form validation fields.
+* Improved error checking in the admin Fields tab when attempting to add an option name that already exists.
+* Added separate registration validation for multisite (refers to WP-Members front end registration only). Multisite has different username requirements and the existing error message was valid, the wording did not fit well for multisite making it confusing. The multisite validation returns the WP error message rather than a custom error message. I may be updating other validation messages in the plugin to utilize this method (while allowing them to be filtered for customization).
+* Added a separate install for multisite.
+* Updated the template for all localization files (some strings still need translation).
 
 = 2.9.2 =
 

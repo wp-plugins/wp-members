@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.9\n"
+"Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2014-03-10 22:55:45+00:00\n"
-"PO-Revision-Date: 2014-04-11 13:10-0600\n"
+"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
+"PO-Revision-Date: 2014-06-02 13:46-0600\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl_NL\n"
@@ -11,11 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Textdomain-Support: yes\n"
 "X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: .\n"
 
 # @ default
@@ -233,18 +234,36 @@ msgid "Latest from ButlerBlog"
 msgstr ""
 
 # @ wp-members
-#: admin/post.php:31
+#: admin/post.php:36 admin/post.php:38
+#, fuzzy
+msgid "Block"
+msgstr "Blokkeer berichten standaard"
+
+#: admin/post.php:37 admin/post.php:39
+#, fuzzy
+msgid "Unblock"
+msgstr ""
+"Opmerking: Berichten kunnen geblokeerd of vrijgegeven worden bij "
+"paginabewerking"
+
+#: admin/post.php:120
+#, fuzzy
+msgid "%s posts %ed."
+msgstr "Blokkeer berichten standaard"
+
+# @ wp-members
+#: admin/post.php:138
 #, fuzzy
 msgid "Post Restriction"
 msgstr "Nieuwe Registratie"
 
 # @ wp-members
-#: admin/post.php:38
+#: admin/post.php:145
 #, fuzzy
 msgid "Page Restriction"
 msgstr "Registratie pagina link:"
 
-#: admin/post.php:156 admin/post.php:188
+#: admin/post.php:263 admin/post.php:295
 #, fuzzy
 msgid "Unblocked?"
 msgstr ""
@@ -252,7 +271,7 @@ msgstr ""
 "paginabewerking"
 
 # @ wp-members
-#: admin/post.php:156 admin/post.php:188
+#: admin/post.php:263 admin/post.php:295
 #, fuzzy
 msgid "Blocked?"
 msgstr ""
@@ -260,13 +279,13 @@ msgstr ""
 "paginabewerking"
 
 # @ wp-members
-#: admin/post.php:172 admin/post.php:205 admin/user-export.php:92
+#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
 #: admin/user-export.php:211
 msgid "Yes"
 msgstr "Ja"
 
-#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:57
-#: admin/tab-fields.php:38 admin/tab-options.php:36
+#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:36
 msgid "Need help?"
 msgstr ""
 
@@ -486,216 +505,216 @@ msgid "Email Signature"
 msgstr "Email Handtekening"
 
 # @ wp-members
-#: admin/tab-emails.php:67
+#: admin/tab-emails.php:57
 msgid "Email Messages"
 msgstr "Email Berichten"
 
 # @ wp-members
-#: admin/tab-emails.php:70
+#: admin/tab-emails.php:60
 msgid "You can customize the content of the emails sent by the plugin."
 msgstr "Je kunt de inhoud aanpassen van de Emails die de plugin verstuurd."
 
 # @ wp-members
-#: admin/tab-emails.php:72
+#: admin/tab-emails.php:62
 msgid "A list of shortcodes is available here."
 msgstr "Een lijst van afkortingen zijn hier beschikbaar."
 
 # @ wp-members
-#: admin/tab-emails.php:79
+#: admin/tab-emails.php:69
 msgid "Set a custom email address"
 msgstr "Stel een aangepast Email adres in"
 
 # @ wp-members
-#: admin/tab-emails.php:80 admin/tab-emails.php:84 admin/tab-emails.php:107
+#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
 msgid "(optional)"
 msgstr "(niet verplicht)"
 
 # @ wp-members
-#: admin/tab-emails.php:83
+#: admin/tab-emails.php:73
 msgid "Set a custom email name"
 msgstr "Stel een aangepaste Email naam in"
 
 # @ wp-members
-#: admin/tab-emails.php:94
+#: admin/tab-emails.php:84
 msgid "Subject"
 msgstr "Onderwerp"
 
 # @ wp-members
-#: admin/tab-emails.php:98
+#: admin/tab-emails.php:88
 msgid "Body"
 msgstr "Inhoud"
 
 # @ wp-members
-#: admin/tab-emails.php:115
+#: admin/tab-emails.php:105
 msgid "Update Emails"
 msgstr "Wijzig Emails"
 
 # @ wp-members
-#: admin/tab-emails.php:165
+#: admin/tab-emails.php:161
 msgid "WP-Members emails were updated"
 msgstr "WP-Members E-mails zijn bijgewerkt"
 
 # @ wp-members
-#: admin/tab-fields.php:169
+#: admin/tab-fields.php:166
 msgid "WP-Members fields were updated"
 msgstr "WP-Members velden zijn aangepast"
 
 # @ wp-members
-#: admin/tab-fields.php:179
+#: admin/tab-fields.php:176
 msgid "Field Label is required for adding a new field. Nothing was updated."
 msgstr ""
 "Veld label is verplicht voor het toevoegen van een veld. Niets is aangepast."
 
 # @ wp-members
-#: admin/tab-fields.php:180
+#: admin/tab-fields.php:177
 msgid "Option Name is required for adding a new field. Nothing was updated."
 msgstr "Naam is verplicht om een nieuw veld toe te voegen. Niets is aangepast."
 
 # @ wp-members
-#: admin/tab-fields.php:199
+#: admin/tab-fields.php:196
 #, fuzzy
 msgid "Checked value is required for checkboxes. Nothing was updated."
 msgstr ""
 "Veld label is verplicht voor het toevoegen van een veld. Niets is aangepast."
 
-#: admin/tab-fields.php:221
+#: admin/tab-fields.php:218
 #, fuzzy
 msgid "field was added"
 msgstr "Veld label (zichtbaar)"
 
 # @ wp-members
-#: admin/tab-fields.php:239
+#: admin/tab-fields.php:236
 #, fuzzy
 msgid "field was updated"
 msgstr "WP-Members velden zijn aangepast"
 
-#: admin/tab-fields.php:260
+#: admin/tab-fields.php:257
 #, fuzzy
 msgid "edit"
 msgstr "Bewerk je gegevens"
 
 # @ wp-members
-#: admin/tab-fields.php:287 admin/tab-fields.php:383
+#: admin/tab-fields.php:284 admin/tab-fields.php:380
 #, fuzzy
 msgid "Edit Field"
 msgstr "Bewerk je gegevens"
 
 # @ wp-members
-#: admin/tab-fields.php:287
+#: admin/tab-fields.php:284
 #, fuzzy
 msgid "Add a Field"
 msgstr "Toevoegen"
 
 # @ wp-members
-#: admin/tab-fields.php:293 admin/tab-fields.php:414
+#: admin/tab-fields.php:290 admin/tab-fields.php:411
 msgid "Field Label"
 msgstr "Veld label (zichtbaar)"
 
-#: admin/tab-fields.php:296
+#: admin/tab-fields.php:292
 msgid "The name of the field as it will be displayed to the user."
 msgstr ""
 
 # @ wp-members
-#: admin/tab-fields.php:300 admin/tab-fields.php:415
+#: admin/tab-fields.php:295 admin/tab-fields.php:412
 msgid "Option Name"
 msgstr "Naam (niet zichtbaar)"
 
-#: admin/tab-fields.php:307
+#: admin/tab-fields.php:301
 msgid ""
 "The database meta value for the field. It must be unique and contain no "
 "spaces (underscores are ok)."
 msgstr ""
 
 # @ wp-members
-#: admin/tab-fields.php:312 admin/tab-fields.php:416
+#: admin/tab-fields.php:305 admin/tab-fields.php:413
 msgid "Field Type"
 msgstr "Veld Type"
 
 # @ wp-members
-#: admin/tab-fields.php:319
+#: admin/tab-fields.php:311
 msgid "text"
 msgstr "Tekst"
 
 # @ wp-members
-#: admin/tab-fields.php:320
+#: admin/tab-fields.php:312
 msgid "textarea"
 msgstr "Tekstveld"
 
 # @ wp-members
-#: admin/tab-fields.php:321
+#: admin/tab-fields.php:313
 msgid "checkbox"
 msgstr "Selectiebox"
 
 # @ wp-members
-#: admin/tab-fields.php:322
+#: admin/tab-fields.php:314
 msgid "dropdown"
 msgstr "Dropdown"
 
 # @ wp-members
-#: admin/tab-fields.php:323
+#: admin/tab-fields.php:315
 msgid "password"
 msgstr "Wachtwoord"
 
 # @ wp-members
-#: admin/tab-fields.php:329 admin/tab-fields.php:417
+#: admin/tab-fields.php:320 admin/tab-fields.php:414
 msgid "Display?"
 msgstr "Weergeven?"
 
 # @ wp-members
-#: admin/tab-fields.php:333 admin/tab-fields.php:418
+#: admin/tab-fields.php:324 admin/tab-fields.php:415
 msgid "Required?"
 msgstr "Verplicht?"
 
-#: admin/tab-fields.php:338
+#: admin/tab-fields.php:329
 #, fuzzy
 msgid "Additional information for checkbox fields"
 msgstr "WP-Members Extra velden"
 
 # @ wp-members
-#: admin/tab-fields.php:341
+#: admin/tab-fields.php:332
 #, fuzzy
 msgid "Checked by default?"
 msgstr "Geselecteerd?"
 
 # @ wp-members
-#: admin/tab-fields.php:345
+#: admin/tab-fields.php:336
 #, fuzzy
 msgid "Stored value if checked:"
 msgstr "Voor selectiebox, opgeslagen waarde indien geselecteerd:"
 
-#: admin/tab-fields.php:351
+#: admin/tab-fields.php:342
 #, fuzzy
 msgid "Additional information for dropdown fields"
 msgstr "WP-Members Extra velden"
 
 # @ wp-members
-#: admin/tab-fields.php:354
+#: admin/tab-fields.php:345
 msgid "For dropdown, array of values:"
 msgstr "Voor dropdown, mogelijkheden van waardes:"
 
 # @ wp-members
-#: admin/tab-fields.php:376
+#: admin/tab-fields.php:370
 msgid "Options should be Option Name|option_value,"
 msgstr "Opties moeten zijn optie naam|optie_waarde,"
 
 # @ wp-members
-#: admin/tab-fields.php:377
+#: admin/tab-fields.php:374
 msgid "Visit plugin site for more information"
 msgstr "Bezoek de plugin website voor meer informatie"
 
 # @ wp-members
-#: admin/tab-fields.php:383
+#: admin/tab-fields.php:380
 #, fuzzy
 msgid "Add Field"
 msgstr "Toevoegen"
 
 # @ wp-members
-#: admin/tab-fields.php:405
+#: admin/tab-fields.php:402
 msgid "Manage Fields"
 msgstr "Bewerk formulier velden"
 
 # @ wp-members
-#: admin/tab-fields.php:407
+#: admin/tab-fields.php:404
 msgid ""
 "Determine which fields will display and which are required.  This includes "
 "all fields, both native WP fields and WP-Members custom fields."
@@ -704,66 +723,66 @@ msgstr ""
 "velden, zowel de standaard WordPress als WP-Members aangepaste velden."
 
 # @ wp-members
-#: admin/tab-fields.php:408
+#: admin/tab-fields.php:405
 msgid "(Note: Email is always mandatory. and cannot be changed.)"
 msgstr "(Opmerking: Email is altijd verplicht en kan niet worden aangepast)"
 
 # @ wp-members
-#: admin/tab-fields.php:413
+#: admin/tab-fields.php:410
 msgid "Add/Delete"
 msgstr "Toevoegen/Verwijderen"
 
 # @ wp-members
-#: admin/tab-fields.php:419
+#: admin/tab-fields.php:416
 msgid "Checked?"
 msgstr "Geselecteerd?"
 
-#: admin/tab-fields.php:420
+#: admin/tab-fields.php:417
 #, fuzzy
 msgid "Edit"
 msgstr "Bewerk je gegevens"
 
-#: admin/tab-fields.php:421
+#: admin/tab-fields.php:418
 #, fuzzy
 msgid "Users Screen"
 msgstr "%d Gebruikers zijn geactiveerd."
 
 # @ wp-members
-#: admin/tab-fields.php:433
+#: admin/tab-fields.php:430
 msgid "Delete"
 msgstr "Verwijderen"
 
 # @ wp-members
-#: admin/tab-fields.php:445
+#: admin/tab-fields.php:442
 msgid "(Email cannot be removed)"
 msgstr "(E-Mail kan niet gewist worden)"
 
 # @ wp-members
-#: admin/tab-fields.php:463
+#: admin/tab-fields.php:460
 #, fuzzy
 msgid "Registration Date"
 msgstr "Registratie voltooid"
 
 # @ wp-members
-#: admin/tab-fields.php:466
+#: admin/tab-fields.php:463
 #, fuzzy
 msgid "native"
 msgstr "WP standaard?"
 
 # @ wp-members
-#: admin/tab-fields.php:476
+#: admin/tab-fields.php:473
 #, fuzzy
 msgid "Active"
 msgstr "Activeer"
 
 # @ wp-members
-#: admin/tab-fields.php:488
+#: admin/tab-fields.php:485
 #, fuzzy
 msgid "Registration IP"
 msgstr "IP @ Registratie"
 
 # @ wp-members
-#: admin/tab-fields.php:523
+#: admin/tab-fields.php:520
 msgid "Update Fields"
 msgstr "Velden bijwerken"
 
@@ -1065,7 +1084,7 @@ msgstr "Inloggen bestaande gebruiker"
 
 #: forms.php:97
 msgid "Log In"
-msgstr ""
+msgstr "Aanmelden"
 
 # @ wp-members
 #: forms.php:136
@@ -1078,7 +1097,7 @@ msgid "Repeat Password"
 msgstr "Herhaal Wachtwoord"
 
 # @ wp-members
-#: forms.php:161 wp-members-dialogs.php:159
+#: forms.php:161 wp-members-dialogs.php:192
 msgid "Change Password"
 msgstr "Wijzig Wachtwoord"
 
@@ -1176,76 +1195,76 @@ msgid "(more&hellip;)"
 msgstr ""
 
 # @ default
-#: wp-members-core.php:121 wp-members-core.php:236
+#: wp-members-core.php:118 wp-members-core.php:245
 msgid "There was an error with the CAPTCHA form."
 msgstr "Er is een fout met het CAPTCHA formulier"
 
 # @ wp-members
-#: wp-members-core.php:271 wp-members-dialogs.php:280
+#: wp-members-core.php:287 wp-members-dialogs.php:338
 msgid "Edit Your Information"
 msgstr "Bewerk je gegevens"
 
-#: wp-members-core.php:510
+#: wp-members-core.php:539
 msgid "<strong>ERROR</strong>: User has not been activated."
 msgstr "<strong>FOUT</strong>: Gebruiker is niet geactiveerd"
 
 # @ wp-members
-#: wp-members-core.php:850 wp-members-register.php:88
+#: wp-members-core.php:897 wp-members-register.php:88
 msgid "Sorry, %s is a required field."
 msgstr "Sorry, %s is een verplicht veld."
 
 # @ wp-members
-#: wp-members-dialogs.php:45
+#: wp-members-dialogs.php:42
 msgid "Login Failed!"
 msgstr "Aanmelden Mislukt!"
 
 # @ wp-members
-#: wp-members-dialogs.php:48
+#: wp-members-dialogs.php:45
 msgid "You entered an invalid username or password."
 msgstr "Je hebt een ongeldige naam of wachtwoord gebruikt."
 
 # @ wp-members
-#: wp-members-dialogs.php:50
+#: wp-members-dialogs.php:47
 msgid "Click here to continue."
 msgstr "Klik hier om door te gaan."
 
 # @ wp-members
-#: wp-members-dialogs.php:158
+#: wp-members-dialogs.php:191
 msgid "Edit My Information"
 msgstr "Bewerk mijn gegevens"
 
 # @ wp-members
-#: wp-members-dialogs.php:166 wp-members-dialogs.php:177
-#: wp-members-dialogs.php:185 wp-members-sidebar.php:40
+#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
 #: wp-members-sidebar.php:204
 msgid "You are logged in as %s"
 msgstr "Je bent aangemeld als %s"
 
 # @ wp-members
-#: wp-members-dialogs.php:168
+#: wp-members-dialogs.php:208
 #, fuzzy
 msgid "Click to log out."
-msgstr "Klik hier om je af te melden"
+msgstr "Aanmelden"
 
 # @ wp-members
-#: wp-members-dialogs.php:169
+#: wp-members-dialogs.php:209
 msgid "Begin using the site."
 msgstr "Begin de webpagina te gebruiken."
 
 # @ wp-members
-#: wp-members-dialogs.php:178
+#: wp-members-dialogs.php:225
 #, fuzzy
 msgid "Click to log out"
-msgstr "Klik hier om je af te melden"
+msgstr "Aanmelden"
 
 # @ wp-members
-#: wp-members-dialogs.php:186 wp-members-sidebar.php:41
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
 #, fuzzy
 msgid "click to log out"
-msgstr "Klik hier om je af te melden"
+msgstr "Aanmelden"
 
 # @ wp-members
-#: wp-members-dialogs.php:217
+#: wp-members-dialogs.php:271
 msgid "Password fields cannot be empty"
 msgstr "Wachtwoord veld mag niet leeg zijn"
 
@@ -1269,6 +1288,18 @@ msgstr "De gebruikersnaam kan geen niet alfanumerieke karakters bevatten."
 #: wp-members-register.php:98 wp-members-register.php:245
 msgid "You must enter a valid email address."
 msgstr "Je moet een geldig mail adres invoeren."
+
+# @ wp-members
+#: wp-members-register.php:115
+#, fuzzy
+msgid "Passwords did not match."
+msgstr "Wachtwoord is niet correct"
+
+# @ wp-members
+#: wp-members-register.php:116 wp-members-register.php:264
+#, fuzzy
+msgid "Emails did not match."
+msgstr "Wachtwoord is niet correct"
 
 # @ default
 #: wp-members-register.php:108
@@ -1328,7 +1359,7 @@ msgstr "Je bent aangemeld als %s"
 
 #: wp-members-sidebar.php:163
 msgid "log in"
-msgstr ""
+msgstr "Aanmelden"
 
 # @ wp-members
 #: wp-members-sidebar.php:167
@@ -1364,10 +1395,6 @@ msgstr "%s sluiten %s"
 msgid "%sprint%s"
 msgstr "%sprint%s"
 
-#. Plugin URI of the plugin/theme
-msgid "http://rocketgeek.com"
-msgstr ""
-
 #. Description of the plugin/theme
 msgid ""
 "WP access restriction and user registration.  For more information on plugin "
@@ -1377,16 +1404,9 @@ msgid ""
 "available. WP-Members(tm) is a trademark of butlerblog.com."
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "Chad Butler"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://butlerblog.com/"
-msgstr ""
-
 # @ wp-members
-#: wp-members-install.php:49
+#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
+#: Strings wp-members-install.php:49
 msgid "First Name"
 msgstr "Voornaam"
 
@@ -1456,15 +1476,16 @@ msgid "Biographical Info"
 msgstr "Persoonlijke info."
 
 # @ wp-members
-#: wp-members-install.php:64 wp-members-install.php:208
+#: wp-members-install.php:64 wp-members-install.php:211
 msgid "TOS"
 msgstr "A.V."
 
 # @ wp-members
-#: wp-members-install.php:96
+#: Error message dialog strings wp-members-install.php:96
+#, fuzzy
 msgid ""
 "This content is restricted to site members.  If you are an existing user, "
-"please login.  New users may register below."
+"please log in.  New users may register below."
 msgstr ""
 "Deze inhoud is beschermd voor alleen site leden. Log in indien je een "
 "bestaande gebruiker bent. Nieuwe gebruikers kunnen hieronder registreren."
@@ -1484,9 +1505,10 @@ msgstr ""
 
 # @ wp-members
 #: wp-members-install.php:99
+#, fuzzy
 msgid ""
 "Congratulations! Your registration was successful.<br /><br />You may now "
-"login using the password that was emailed to you."
+"log in using the password that was emailed to you."
 msgstr ""
 "Gefeliciteerd! Je registratie is succesvol.<br /><br />Je mag nu inloggen "
 "met het wachtwoord dat naar je is verstuurd per e-mail."

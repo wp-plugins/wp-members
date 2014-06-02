@@ -30,15 +30,16 @@
 function wpmem_do_wp_register_form()
 {
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
+	foreach ( $wpmem_fields as $field ) {
+	//for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 	
-		$req = ( $wpmem_fields[$row][5] == 'y' ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
+		$req = ( $field[5] == 'y' ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
 		
-		if( $wpmem_fields[$row][4] == 'y' && $wpmem_fields[$row][2] != 'user_email' ) {
+		if( $field[4] == 'y' && $field[2] != 'user_email' ) {
 		
-			if( $wpmem_fields[$row][3] == 'checkbox' ) {
+			if( $field[3] == 'checkbox' ) {
 			
-				if( $wpmem_fields[$row][2] == 'tos' ) {
+				if( $field[2] == 'tos' ) {
 					$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
 					if( stristr( $tos_content, '[wp-members page="tos"' ) ) {
 						
@@ -64,48 +65,77 @@ function wpmem_do_wp_register_form()
 					$tos = apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
 				
 				}
-				
-				$label = ( $wpmem_fields[$row][2] == 'tos' ) ? $tos : __( $wpmem_fields[$row][2], 'wp-members' );
-
-				$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
-				$val = ( ! $_POST && $wpmem_fields[$row][8] == 'y' ) ? $wpmem_fields[$row][7] : $val;
 			
-				echo '<p class="wpmem-checkbox">' . wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
-				echo '<label for="' . $wpmem_fields[$row][2] . '">' . $label . $req . '</label></p>';
+				$label = ( $field[2] == 'tos' ) ? $tos : __( $field[2], 'wp-members' );
+
+				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+				$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
+			
+				$row_before = '<p class="wpmem-checkbox">';
+				$label = '<label for="' . $field[2] . '">' . $label . $req;
+				$input = wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
+				$row_after = '</label></p>';
 				
 			} else {
 			
-				echo '<p>
-						<label for="' . $wpmem_fields[$row][2] . '">' . __( $wpmem_fields[$row][1], 'wp-members' ) . $req . '<br />';
+				$row_before = '<p>';
+				$label = '<label for="' . $field[2] . '">' . __( $field[1], 'wp-members' ) . $req . '<br />';
+				
 				
 				// determine the field type and generate accordingly...
 				
-				switch( $wpmem_fields[$row][3] ) {
+				switch( $field[3] ) {
 				
 				case( 'select' ):
-					$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
-					echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
+					$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+					$input = wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
 					break;
 					
 				case( 'textarea' ):
-					echo '<textarea name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="textarea">'; 
-					echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? esc_textarea( $_POST[ $wpmem_fields[$row][2] ] ) : ''; 
-					echo '</textarea>';		
+					$input = '<textarea name="' . $field[2] . '" id="' . $field[2] . '" class="textarea">'; 
+					$input.= ( isset( $_POST[ $field[2] ] ) ) ? esc_textarea( $_POST[ $field[2] ] ) : ''; 
+					$input.= '</textarea>';		
 					break;
 
 				default:
-					echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; 
-					echo ( $_POST ) ? esc_attr( $_POST[ $wpmem_fields[$row][2] ] ) : ''; 
-					echo '" size="25" />';
+					$input = '<input type="' . $field[3] . '" name="' . $field[2] . '" id="' . $field[2] . '" class="input" value="'; 
+					$input.= ( $_POST ) ? esc_attr( $_POST[ $field[2] ] ) : ''; 
+					$input.= '" size="25" />';
 					break;
 				}
-					
-				echo '</label>
-					</p>';	
+				
+				$row_after = '</label></p>';
 			
 			}
+			
+			// if the row is set to display, add the row to the form array
+			$rows[$field[2]] = array(
+				'type'         => $field[3],
+				'row_before'   => $row_before,
+				'label'        => $label,
+				'field'        => $input,
+				'row_after'    => $row_after
+			);
 		}
 	}
+	
+	/**
+	 * Filter the native registration form rows.
+	 *
+	 * @since 2.9.3.
+	 *
+	 * @param array $rows The custom rows added to the form.
+	 */
+	$rows = apply_filters( 'wpmem_native_form_rows', $rows );
+	
+	foreach( $rows as $row_item ) {
+		if( $row_item['type'] == 'checkbox' ) {
+			echo $row_item['row_before'] . $row_item['field'] . $row_item['label'] . $row_item['row_after'];
+		} else { 
+			echo $row_item['row_before'] . $row_item['label'] . $row_item['field'] . $row_item['row_after'];
+		}
+	}
+	
 }
 
 
@@ -120,38 +150,41 @@ function wpmem_do_wp_newuser_form()
 	echo '<table class="form-table"><tbody>';
 	
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {	
-		if( $wpmem_fields[$row][4] == 'y' && $wpmem_fields[$row][6] == 'n' ) {
+	$exclude = wpmem_get_excluded_meta();
 
-			$req = ( $wpmem_fields[$row][5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+	foreach( $wpmem_fields as $field ) {
+
+		if( $field[4] == 'y' && $field[6] == 'n' && ! in_array( $field[2], $exclude ) ) {
+
+			$req = ( $field[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 		
 			echo '<tr>
 				<th scope="row">
-					<label for="' . $wpmem_fields[$row][2] . '">' . __( $wpmem_fields[$row][1], 'wp-members' ) . $req . '</label>
+					<label for="' . $field[2] . '">' . __( $field[1], 'wp-members' ) . $req . '</label>
 				</th>
 				<td>';
 		
 			// determine the field type and generate accordingly...
 			
-			switch( $wpmem_fields[$row][3] ) {
+			switch( $field[3] ) {
 			
 			case( 'select' ):
-				$val = ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? $_POST[ $wpmem_fields[$row][2] ] : '';
-				echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], $val );
+				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+				echo wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
 				break;
 				
 			case( 'textarea' ):
-				echo '<textarea name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="textarea">'; 
-				echo ( isset( $_POST[ $wpmem_fields[$row][2] ] ) ) ? esc_textarea( $_POST[ $wpmem_fields[$row][2] ] ) : ''; 
+				echo '<textarea name="' . $field[2] . '" id="' . $field[2] . '" class="textarea">'; 
+				echo ( isset( $_POST[ $field[2] ] ) ) ? esc_textarea( $_POST[ $field[2] ] ) : ''; 
 				echo '</textarea>';		
 				break;
 				
 			case( 'checkbox' ):
-				echo wpmem_create_formfield( $wpmem_fields[$row][2], $wpmem_fields[$row][3], $wpmem_fields[$row][7], '' );
+				echo wpmem_create_formfield( $field[2], $field[3], $field[7], '' );
 				break;
 
 			default:
-				echo '<input type="' . $wpmem_fields[$row][3] . '" name="' . $wpmem_fields[$row][2] . '" id="' . $wpmem_fields[$row][2] . '" class="input" value="'; echo ( $_POST ) ? esc_attr( $_POST[ $wpmem_fields[$row][2] ] ) : ''; echo '" size="25" />';
+				echo '<input type="' . $field[3] . '" name="' . $field[2] . '" id="' . $field[2] . '" class="input" value="'; echo ( $_POST ) ? esc_attr( $_POST[ $field[2] ] ) : ''; echo '" size="25" />';
 				break;
 			}
 				

@@ -292,4 +292,22 @@ function wpmem_test_shortcode( $content, $tag )
 }
 endif;
 
+
+/**
+ * Sets an array of user meta fields to be excluded from update/insert
+ *
+ * @since 2.9.3
+ */
+function wpmem_get_excluded_meta()
+{
+	/**
+	 * Filter the fields to be excluded when user is created/updated.
+	 *
+	 * @since 2.9.3
+	 *
+	 * @param array An array of the field meta names to exclude.
+	 */
+	return apply_filters( 'wpmem_exclude_fields', array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' ) );
+}
+
 /** End of File **/
