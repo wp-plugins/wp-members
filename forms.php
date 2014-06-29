@@ -746,8 +746,9 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	$rows = apply_filters( 'wpmem_register_form_rows', $rows, $toggle );
 	
 	// put the rows from the array into $form
-	$form = '';
+	$form = ''; $enctype = '';
 	foreach( $rows as $row_item ) {
+		$enctype = ( $row_item['type'] == 'file' ) ? "multipart/form-data" : $enctype;
 		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $n . $row_item['label'] . $n : $row_item['label'] . $n;
 		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $n . $t . $row_item['field'] . $n . $row_item['field_after'] . $n : $row_item['field'] . $n;
 		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $n : '';
@@ -844,7 +845,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	$form = ( defined( 'WPMEM_USE_NONCE' ) || $use_nonce ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) . $n . $form : $form;
 	
 	// apply form wrapper
-	$form = '<form name="form" method="post" action="' . get_permalink() . '" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form. $n . '</form>';
+	$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
+	$form = '<form name="form" method="post"' . $enctype . ' action="' . get_permalink() . '" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form. $n . '</form>';
 	
 	// apply anchor
 	$form = '<a name="register"></a>' . $n . $form;

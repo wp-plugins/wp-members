@@ -281,26 +281,42 @@ function wpmem_registration( $toggle )
 		// if the _pre_update_data hook sends back an error message
 		// @todo - double check this. it should probably return "updaterr" and the hook should globalize wpmem_themsg
 		if( $wpmem_themsg ){ return $wpmem_themsg; }
+		
+		// a list of fields that can be updated by wp_update_user
+		$native_fields = array( 
+			'user_nicename',
+			'user_url',
+			'user_email',
+			'display_name',
+			'nickname',
+			'first_name',
+			'last_name',
+			'description',
+			'role',
+			'jabber',
+			'aim',
+			'yim' );
+		$native_update = array( 'ID' => $user_ID );
 
 		foreach( $wpmem_fields as $meta ) {
 			// if the field is not excluded, update accordingly
 			if( ! in_array( $meta[2], wpmem_get_excluded_meta( 'update' ) ) ) {
 				switch( $meta[2] ) {
 
-				case( 'user_url' ):
-				case( 'user_email'  ):
-				case( 'user_nicename' ):
-				case( 'display_name' ):
-				case( 'nickname' ):
+				// if the field can be updated by wp_update_user
+				case( in_array( $meta[2], $native_fields ) ):
 					$fields[$meta[2]] = ( isset( $fields[$meta[2]] ) ) ? $fields[$meta[2]] : '';
-					wp_update_user( array( 'ID' => $user_ID, $meta[2] => $fields[$meta[2]] ) );
+					//wp_update_user( array( 'ID' => $user_ID, $meta[2] => $fields[$meta[2]] ) );
+					$native_update[$meta[2]] = $fields[$meta[2]];
 					break;
 			
+				// if the field is password
 				case( 'password' ):
 					// do nothing...
 					break;
 
-				default: // everything else goes into wp_usermeta
+				// everything else goes into wp_usermeta
+				default:
 					if( $meta[4] == 'y' ) {
 						update_user_meta( $user_ID, $meta[2], $fields[$meta[2]] );
 					}
@@ -308,6 +324,9 @@ function wpmem_registration( $toggle )
 				}
 			}
 		}
+		
+		// update wp_update_user fields
+		wp_update_user( $native_update );
 		
 		// _post_update_data hook is after insertion
 		do_action( 'wpmem_post_update_data', $fields );

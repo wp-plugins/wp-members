@@ -1,16 +1,16 @@
 === WP-Members ===
 Contributors: cbutlerjr
-Tags: authentication, captcha, community, content, login, password, register, registration, restriction, security, user, users, membership, access, block, permissions, members
+Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
-WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to be viewable by registered site members.  WP-Members&trade; puts the registration process inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works "out-of-the-box" with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
 = Features: =
 
@@ -19,14 +19,14 @@ WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driv
 * Login/Registration is inline with content rather than the WP login page
 * User registration and profile integrated into your theme
 * Sidebar login widget
-* Create custom registration fields
+* Create custom registration and profile fields
 * Set which fields display and which are required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
 * Automatically create post excerpts
 * Show excerpt on pages/posts for better SEO
 * Optional CAPTCHA for registration
-* Action and filter hooks for extensibility
+* More than 80 action and filter hooks for extensibility
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
@@ -39,7 +39,7 @@ There are also some special pages that can be created with simple shortcodes:
 * A Login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
 * And more!
 
-The plugin runs on a framework with over 30 action and filter hooks so you can fully customize your implementation.
+The plugin runs on a framework with over 80 action and filter hooks so you can fully customize your implementation.
 
 In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
 
@@ -82,7 +82,7 @@ WP-Members&trade; is designed to be an out-of-the-box usable plugin, but also ha
 
 See [this page](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
 
-The plugin has 40 filter and action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
+The plugin has 80 filter and action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
 
 The plugin's premium support site has __loads__ of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).  Members of the premium support site also have access to premium add-on modules.
 
@@ -109,7 +109,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.3 is a minor update from 2.9.2.
+WP-Members 2.9.4 is primarily a bug fix release.
 WP-Members 2.9.0 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
 
 == Screenshots ==
@@ -130,6 +130,14 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.4 =
+
+* Bug fix for moderated password registration (changes in 2.9.3 introduced a bug that caused moderated registration to send a blank password).
+* Bug fix for premium PayPal Subscription extension showing expired users, improved user query.
+* Fixed user profile update so that wp_update_user is called only once.
+* Added [wpmem_logged_out] shortcode to show content to logged out users. Same as [wp-members status="out"] shortcode but can be used on blocked content without changing security status.
+* Removed checkbox for adding password and confirmation fields to the User Screen since these are not stored data.
 
 = 2.9.3 =
 
@@ -371,127 +379,3 @@ New Filters:
 Other Updates:
 
 * Added a new pre-loaded stylesheet for Twenty Twelve theme.  New installs will default to this style.  Note: with the addition of the new style selector in the admin panel, you can easily toggle between the preloaded stylesheets.  You can also add your own using the new wpmem_admin_style_list filter, enter the URL location in the Custom Stylesheet field, or load one using wp_enqueue_scripts.
-
-
-= 2.7.7 =
-
-New Features:
-
-* Added a new filter hook wpmem_securify.  This hook applies a filter to the $content variable at the end of the wpmem_securify function.  The primary reason for this hook is to be able to run filters on $content that would give you the ability to block content even if the user is logged in (the wpmem_block filter only works for non-logged in state).  This will bring in the ability to block users from content based on defined criteria such as content is for members of "group A" but the user is does not have access to "group A" content.
-* Added wpmem_email_headers filter hook.  This will allow you to easily filter the headers for the email process of the plugin giving you the ability to send HTML email without modifying the plugin.
-* Added wpmem_user_activated action hook.  This hook will give you the ability to run actions at the end of user activation.  For sites that moderate registration, this gives you the ability to hook in actions that you might not want to do before approval of the registration (such as would normally be done with wpmem_post_register_data).
-* Added new shortcode for creating a user list/member directory.  __This shortcode requires installation of the premium add-on module WP-Members User List [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__. The shortcode has parameters for including a member search function as well as filter hooks for filtering the layout of the directory elements.
-* Added new shortcode for protecting inline content with the __premium add-on module WP-Members PayPal Subscription [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__.
-
-Bug Fix:
-
-* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/page-shortcodes/).
-
-Code Improvement:
-
-* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
-
-= 2.7.6 =
-
-This release has some new features and some code updates
-
-* Added ability to use same redirect_to querystring that WP uses in the wp-login form.  This allows more seamless replacement of the wp-login.
-* Added a new page shortcode for password reset/change [wp-members page="password"].  If the user is logged out, it works the reset forgotten password functionality.  If the user is logged in, it will offer the change password functionality.  These functions do also remain in the members-area page shortcode as well, but now can be placed in a stand-alone location as well.
-* Added a new page shortcode for the user edit page [wp-members page="user-edit"].  This needs to be used if the user is logged in and can be used with the login status shortcode.
-* Removed $content global from the page shortcode function.  This should correct the double form issue when used with plugins/themes that filter $content.
-* Added do_shortcode to the page shortcode call.  This should allow the page shortcodes to be used in conjuction with other shortcodes on the page (although this is not necessarily recommended).
-* Added translations for Russian, Slovak, and Hindi.
-* Moved _OLD forms to wp-members-deprecated.php.  These forms can still be used, but will be deprecated in a future version.  It is highly recommended that users still using legacy forms begin converting to the _NEW forms.
-
-= 2.7.5 =
-
-This is a new feature release (see [release announcement](http://wp.me/p1zYcs-xf) for full details.)
-
-* Added 5 new filter hooks
-* Final deprecation of the old style shortcodes for special pages (<!--members-area-->, <!--reg-area-->). If you are using these you need simply need to update to the modern shortcodes such as [wp-members page="members-area"]
-* Added a check for the error message variable immediately following the wpmem_pre_register_data and wpmem_pre_update_data action hooks.  This will allow for use of these hooks to include your own custom validation and still be able to return a relevant error message.
-* Added a check to see if the TOS field is not being used and thus don't display it on the User Profile for the admin.
-* Fixed a bug that showed the incorrect heading on the User Edit page when there is an empty field error.
-* Added completely updated .pot file for translations
-* Updated all .po/.mo translation files from the new .pot (still need some strings translated for some languages).
-* Added all .po/.mo files to the download package.
-
-= 2.7.4 =
-
-This is a new feature release (see [release announcement](http://wp.me/p1zYcs-wQ) for full details.)
-
-* Added 14 new filter hooks
-* Added full user export function
-* Force email in password reset to be non-case sensitive (changes to wpmem_reset_password in wp-members-core.php)
-* Changed "Existing users Login" to "Existing Users Login" in wpmem_inc_login in wp-members-dialogs.php
-
-= 2.7.3 =
-
-This is a code improvement release (see [release announcement](http://wp.me/p1zYcs-wD) for full details.)
-
-* Improved a number of functions in various files for improved functionality.
-* Added p tag with class .noinput to the username field when updating profile, added property definition to the stylesheet as well to better align the username.
-* Added css property to better align checkboxes in the reg form (a change to wp-members.css).
-* Added a class to captcha, and a cooresponding css property in wp-members.css for top/bottom margin of captcha form.
-
-New features (shortcodes and hooks):
-
-* Added 'field' shortcode for displaying user data with a shortcode - currently considered experimental and subject to changes.
-* Added wpmem_restricted_msg filter hook to filter the restricted post message.
-* Added wpmem_login_failed filter hook to filter the login failed message (includes filtering display markup).
-* Added wpmem_login_failed_sb filter hook to filter the login failed message in the sidebar (filters message only, not formatting).
-
-= 2.7.2 =
-
-This is primarily a bug fix release (see [release announcement](http://wp.me/p1zYcs-vW) for full details.)
-
-* Fixed a bug where, when using moderated registration, updating a user's backend profile deactivates the user.
-* Improved the login error message for login via wp-login.php.
-* Added wpmem_pre_register_data action hook.
-* Added wpmem_post_register_data action hook.
-* Added wpmem_pre_update_data action hook.
-* Added wpmem_post_update_data action hook.
-
-= 2.7.1 =
-
-This release contains some new features that didn't get completed for 2.7.0 and some fixes (see [release announcement](http://wp.me/p1zYcs-vq) for full details.)
-
-New features:
-
-* Deactivate/reactivate users
-* Registration moderation added for user defined passwords
-* Include an optional stylesheet based on TwentyEleven Theme
-* Include an optional stylesheet based on Kubrick (for narrower content areas)
-* Added wpmem_register_redirect action hook
-* Added wpmem_login_redirect filter hook
-* Added wpmem_logout_redirect filter hook
-* Added wpmem_sidebar_status filter hook
-* Added wpmem_register_links filter hook
-* Added wpmem_member_links filter hook
-* Added wpmem_login_links filter hook
-
-
-Fixes:
-
-* rebuilt default email install function
-* skip password in [fields] shortcode (changes in wpmem_notify_admin)
-* fixed widget sidebar div tag (changes in class widget_wpmemwidget) 
-* fixed form field validation for invalid email still registered user (changes in wpmem_registration)
-* fixed rememberme in login process (changes in wpmem_login)
-* moved send from filters to just the wp-members email processes (changes in wpmem_inc_regemail && wpmem_notify_admin)
-
-
-= 2.7.0 =
-
-This is new feature release with the following features and improvements (see :
-
-* Email messages can be customized via the plugin admin panel.
-* Dropdown fields can be added via the field managment panel.
-* Moved location of pluggable file load so that constants may be used without loading twice.
-* Registration stores the url the user registered on for all registrations, not just if registration is moderated.
-* Trim trailing whitespace on members area, register, and custom css urls.
-* Added wp_specialchars_decode to blogname in emails to decode any special characters (such as &amp;) in the title.
-* Registration function is now pluggable.
-* Updated sidebar widget to be multi-widget compatible.
-* TOS can be stored in dialogs OR be a WP page (set in dialogs with a shortcode).
-* Plugin can be set up for users to select their own passwords at registration (cannot be used with moderated registration).

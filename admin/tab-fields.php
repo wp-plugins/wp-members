@@ -452,7 +452,9 @@ function wpmem_a_field_table( $wpmem_fields )
 						<td width="10%"><?php echo ( $wpmem_fields[$row][6] == 'y' ) ? 'native' : wpmem_fields_edit_link( $wpmem_fields[$row][2] ); ?></td>
 
 						<td align="center" width="10%">
-						<?php if( $wpmem_fields[$row][2] != 'user_email' ) { ?>
+						<?php
+						$wpmem_ut_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );
+						if ( !in_array( $wpmem_fields[$row][2], $wpmem_ut_fields_skip ) ) { ?>
 							<input type="checkbox" name="ut_fields[<?php echo $wpmem_fields[$row][2]; ?>]" 
 							value="<?php echo $wpmem_fields[$row][1]; ?>" 
 							<?php echo ( ( $wpmem_ut_fields ) && ( in_array( $wpmem_fields[$row][1], $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />

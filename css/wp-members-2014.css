@@ -189,6 +189,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin-right:5px;
 }
 
+#wpmem_login .link-text {
+	float:right;
+	width:100%;
+}
+
 
 /* Buttons */
 

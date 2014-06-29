@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
 "POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
-"PO-Revision-Date: 2014-06-02 13:16-0600\n"
+"PO-Revision-Date: 2014-06-24 13:46-0600\n"
 "Last-Translator: \n"
 "Language-Team: Menne Biomed Consulting\n"
 "Language: de\n"
@@ -613,7 +613,7 @@ msgstr "Hinzufügen/Löschen"
 
 #: admin/tab-fields.php:416
 msgid "Checked?"
-msgstr "Geprüft?"
+msgstr "Angekreuzt?"
 
 #: admin/tab-fields.php:417
 msgid "Edit"

@@ -480,6 +480,11 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 		// return content (or empty content) depending on the result of the above logic
 		return ( $do_return ) ? do_shortcode( $content ) : '';
 	}
+	
+	// handles the wpmem_logged_out tag with no attributes & the user is not logged in
+	if( $tag == 'wpmem_logged_out' && ( ! $attr ) && ! is_user_logged_in() ) {
+		return do_shortcode( $content );
+	}
 
 	// handles the 'field' attribute
 	if( $field || $tag == 'wpmem_field' ) {

@@ -240,4 +240,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	#wpmem_msg, .wpmem_msg {
 		width: 100%;
 	}
+	
+	#wpmem_reg .button_div, 
+	#wpmem_login .button_div,
+	#wpmem_login .link-text {
+		width:98%;
+	}
 }
