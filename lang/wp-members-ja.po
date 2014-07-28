@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
-"PO-Revision-Date: 2014-06-02 13:46-0600\n"
+"POT-Creation-Date: 2014-07-08 10:47-0600\n"
+"PO-Revision-Date: 2014-07-22 12:02-0600\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ja\n"
@@ -43,6 +43,7 @@ msgstr ""
 "れる設定ではありません。"
 
 #: admin/dialogs.php:110
+#, php-format
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
 "register\" is unchecked."
@@ -73,6 +74,7 @@ msgstr ""
 "設定ではありません。"
 
 #: admin/dialogs.php:118
+#, php-format
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
 "registered and logged in to comment.\""
@@ -100,6 +102,7 @@ msgstr ""
 "定ではありません。"
 
 #: admin/dialogs.php:126
+#, php-format
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
 "\" to \"Summary.\""
@@ -157,8 +160,9 @@ msgid "Version:"
 msgstr "Version:"
 
 #: admin/dialogs.php:172
+#, fuzzy
 msgid "Quick Start Guide"
-msgstr ""
+msgstr "登録情報の更新"
 
 #: admin/dialogs.php:173
 #, fuzzy
@@ -200,9 +204,9 @@ msgid "Unblock"
 msgstr ""
 
 #: admin/post.php:120
-#, fuzzy
-msgid "%s posts %ed."
-msgstr "投稿記事をブロック"
+#, php-format
+msgid "%s posts %sed."
+msgstr ""
 
 #: admin/post.php:138
 #, fuzzy
@@ -224,21 +228,16 @@ msgstr "投稿記事は個別にブロックまたはブロック解除するこ
 msgid "Blocked?"
 msgstr "投稿記事は個別にブロックまたはブロック解除することができます。"
 
-#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
-#: admin/user-export.php:211
-msgid "Yes"
-msgstr "Yes"
-
-#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
-#: admin/tab-fields.php:45 admin/tab-options.php:36
+#: admin/tab-captcha.php:35 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:37
 msgid "Need help?"
 msgstr ""
 
-#: admin/tab-captcha.php:45
+#: admin/tab-captcha.php:46
 msgid "Manage reCAPTCHA Options"
 msgstr "reCAPTCHA 設定"
 
-#: admin/tab-captcha.php:52
+#: admin/tab-captcha.php:60
 msgid ""
 "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
 "while blocking spam on your blog."
@@ -246,7 +245,8 @@ msgstr ""
 "reCAPTCHAは、投稿されたデータが実際に人間の手によるものなかスパムボットによる"
 "ものなのかを画像を使って判別するシステムです。"
 
-#: admin/tab-captcha.php:53
+#: admin/tab-captcha.php:61
+#, php-format
 msgid ""
 "reCAPTCHA asks commenters to retype two words scanned from a book to prove "
 "that they are a human. This verifies that they are not a spambot while also "
@@ -255,11 +255,12 @@ msgid ""
 "the %s reCAPTCHA website%s"
 msgstr "詳細については %s reCAPTCHAのWebサイト %s を参照してください。"
 
-#: admin/tab-captcha.php:58
+#: admin/tab-captcha.php:66
 msgid "reCAPTCHA Keys"
 msgstr "reCAPTCHA キー"
 
-#: admin/tab-captcha.php:60
+#: admin/tab-captcha.php:68
+#, php-format
 msgid ""
 "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
 "key. You can sign up for a %s free reCAPTCHA key%s"
@@ -267,54 +268,85 @@ msgstr ""
 "reCAPTCHA は public key と private key で構成されているAPIキーが必要です。%s "
 "free reCAPTCHA key%s にサインアップしてください。"
 
-#: admin/tab-captcha.php:61
+#: admin/tab-captcha.php:69
 msgid "Public Key"
 msgstr "Public Key"
 
-#: admin/tab-captcha.php:62
+#: admin/tab-captcha.php:70
 msgid "Private Key"
 msgstr "Private Key"
 
-#: admin/tab-captcha.php:66
+#: admin/tab-captcha.php:74
 msgid "Choose Theme"
 msgstr "テーマ選択"
 
-#. Plugin Name of the plugin/theme
-#: admin/tab-captcha.php:69
-msgid "WP-Members"
-msgstr "WP-Members"
-
-#: admin/tab-captcha.php:70
+#: admin/tab-captcha.php:77
 msgid "Red"
 msgstr "Red"
 
-#: admin/tab-captcha.php:71
+#: admin/tab-captcha.php:78
 msgid "White"
 msgstr "White"
 
-#: admin/tab-captcha.php:72
+#: admin/tab-captcha.php:79
 msgid "Black Glass"
 msgstr "Black Glass"
 
-#: admin/tab-captcha.php:73
+#: admin/tab-captcha.php:80
 msgid "Clean"
 msgstr "Clean"
 
-#: admin/tab-captcha.php:74
-msgid "Custom"
-msgstr "カスタム"
+#: admin/tab-captcha.php:112
+#, fuzzy
+msgid "Characters for image"
+msgstr "タイプ"
 
-#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
-#: admin/tab-options.php:107 admin/tab-options.php:121
-msgid "Optional"
-msgstr "（オプション）"
+#: admin/tab-captcha.php:116
+#, fuzzy
+msgid "Number of characters"
+msgstr "抜粋を表示"
 
-#: admin/tab-captcha.php:86
-msgid "Update reCAPTCHA Settings"
+#: admin/tab-captcha.php:120
+#, fuzzy
+msgid "Image dimensions"
+msgstr "タイプ"
+
+#: admin/tab-captcha.php:124
+msgid "Font color of characters"
+msgstr ""
+
+#: admin/tab-captcha.php:128
+#, fuzzy
+msgid "Background color of image"
+msgstr "タイプ"
+
+#: admin/tab-captcha.php:132
+msgid "Font size"
+msgstr ""
+
+#: admin/tab-captcha.php:136
+msgid "Width between characters"
+msgstr ""
+
+#: admin/tab-captcha.php:140
+#, fuzzy
+msgid "Image type"
+msgstr "タイプ"
+
+#: admin/tab-captcha.php:154
+msgid ""
+"To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin "
+"installed and activated."
+msgstr ""
+
+#: admin/tab-captcha.php:166
+#, fuzzy
+msgid "Update CAPTCHA Settings"
 msgstr "reCAPTCHA設定を保存"
 
-#: admin/tab-captcha.php:119
-msgid "reCAPTCHA was updated for WP-Members"
+#: admin/tab-captcha.php:230
+#, fuzzy
+msgid "CAPTCHA was updated for WP-Members"
 msgstr "WP-Members reCAPTCHA を更新しました"
 
 #: admin/tab-dialogs.php:29
@@ -361,12 +393,13 @@ msgid "Dialogs and Error Messages"
 msgstr "ダイアログ/エラーメッセージ設定"
 
 #: admin/tab-dialogs.php:56
+#, fuzzy, php-format
 msgid ""
 "You can customize the text for dialogs and error messages. Simple HTML is "
 "allowed %s etc."
 msgstr ""
 "ダイアログやエラーメッセージのテキストをカスタマイズすることができます。HTML"
-"タグも使用できます。"
+"タグも使用できます (%s) 。"
 
 #: admin/tab-dialogs.php:69
 msgid "Terms of Service (TOS)"
@@ -457,128 +490,127 @@ msgstr "フィールドのラベルを入力してください。"
 msgid "Option Name is required for adding a new field. Nothing was updated."
 msgstr "オプション名は必須です。"
 
-#: admin/tab-fields.php:196
+#: admin/tab-fields.php:184
+msgid "A field with that option name already exists"
+msgstr ""
+
+#: admin/tab-fields.php:201
 #, fuzzy
 msgid "Checked value is required for checkboxes. Nothing was updated."
 msgstr "フィールドのラベルを入力してください。"
 
-#: admin/tab-fields.php:218
+#: admin/tab-fields.php:223
 #, fuzzy
 msgid "field was added"
 msgstr "ラベル"
 
-#: admin/tab-fields.php:236
+#: admin/tab-fields.php:241
 #, fuzzy
 msgid "field was updated"
 msgstr "WP-Members フィールド設定 を更新しました。"
 
-#: admin/tab-fields.php:257
-#, fuzzy
-msgid "edit"
-msgstr "登録情報の編集"
-
-#: admin/tab-fields.php:284 admin/tab-fields.php:380
+#: admin/tab-fields.php:289 admin/tab-fields.php:385
 #, fuzzy
 msgid "Edit Field"
 msgstr "登録情報の編集"
 
-#: admin/tab-fields.php:284
+#: admin/tab-fields.php:289
 #, fuzzy
 msgid "Add a Field"
 msgstr "追加/削除"
 
-#: admin/tab-fields.php:290 admin/tab-fields.php:411
+#: admin/tab-fields.php:295 admin/tab-fields.php:416
 msgid "Field Label"
 msgstr "ラベル"
 
-#: admin/tab-fields.php:292
+#: admin/tab-fields.php:297
 msgid "The name of the field as it will be displayed to the user."
 msgstr ""
 
-#: admin/tab-fields.php:295 admin/tab-fields.php:412
+#: admin/tab-fields.php:300 admin/tab-fields.php:417
 msgid "Option Name"
 msgstr "オプション名"
 
-#: admin/tab-fields.php:301
+#: admin/tab-fields.php:306
 msgid ""
 "The database meta value for the field. It must be unique and contain no "
 "spaces (underscores are ok)."
 msgstr ""
 
-#: admin/tab-fields.php:305 admin/tab-fields.php:413
+#: admin/tab-fields.php:310 admin/tab-fields.php:418
 msgid "Field Type"
 msgstr "タイプ"
 
-#: admin/tab-fields.php:311
+#: admin/tab-fields.php:316
 msgid "text"
 msgstr "テキスト"
 
-#: admin/tab-fields.php:312
+#: admin/tab-fields.php:317
 msgid "textarea"
 msgstr "テキストエリア"
 
-#: admin/tab-fields.php:313
+#: admin/tab-fields.php:318
 msgid "checkbox"
 msgstr "チェックボックス"
 
-#: admin/tab-fields.php:314
+#: admin/tab-fields.php:319
 msgid "dropdown"
 msgstr "ドロップダウン"
 
-#: admin/tab-fields.php:315
+#: admin/tab-fields.php:320
 msgid "password"
 msgstr "パスワード"
 
-#: admin/tab-fields.php:320 admin/tab-fields.php:414
+#: admin/tab-fields.php:325 admin/tab-fields.php:419
 msgid "Display?"
 msgstr "表示"
 
-#: admin/tab-fields.php:324 admin/tab-fields.php:415
+#: admin/tab-fields.php:329 admin/tab-fields.php:420
 msgid "Required?"
 msgstr "必須"
 
-#: admin/tab-fields.php:329
+#: admin/tab-fields.php:334
 #, fuzzy
 msgid "Additional information for checkbox fields"
 msgstr "WP-Members 追加フィールド"
 
-#: admin/tab-fields.php:332
+#: admin/tab-fields.php:337
 #, fuzzy
 msgid "Checked by default?"
 msgstr "初期チェック"
 
-#: admin/tab-fields.php:336
+#: admin/tab-fields.php:341
 #, fuzzy
 msgid "Stored value if checked:"
 msgstr "初期チェック"
 
-#: admin/tab-fields.php:342
+#: admin/tab-fields.php:347
 #, fuzzy
 msgid "Additional information for dropdown fields"
 msgstr "WP-Members 追加フィールド"
 
-#: admin/tab-fields.php:345
+#: admin/tab-fields.php:350
 msgid "For dropdown, array of values:"
 msgstr "ドロップダウンの値の配列"
 
-#: admin/tab-fields.php:370
+#: admin/tab-fields.php:375
 msgid "Options should be Option Name|option_value,"
 msgstr "オプションの記述方法（オプション名|値,）"
 
-#: admin/tab-fields.php:374
+#: admin/tab-fields.php:379
 msgid "Visit plugin site for more information"
 msgstr "詳細はプラグインのサイトを参照してください。"
 
-#: admin/tab-fields.php:380
+#: admin/tab-fields.php:385
 #, fuzzy
 msgid "Add Field"
 msgstr "追加/削除"
 
-#: admin/tab-fields.php:402
+#: admin/tab-fields.php:407
 msgid "Manage Fields"
 msgstr "フィールド設定"
 
-#: admin/tab-fields.php:404
+#: admin/tab-fields.php:409
 msgid ""
 "Determine which fields will display and which are required.  This includes "
 "all fields, both native WP fields and WP-Members custom fields."
@@ -586,227 +618,219 @@ msgstr ""
 "フィールドの設定を行います。WPネイティブフィールドとWP-Membersカスタムフィー"
 "ルドの両方が含まれます。"
 
-#: admin/tab-fields.php:405
-msgid "(Note: Email is always mandatory. and cannot be changed.)"
+#: admin/tab-fields.php:410
+msgid "(Note: Email is always mandatory and cannot be changed.)"
 msgstr "（メールアドレスは常に必須です。変更することはできません。）"
 
-#: admin/tab-fields.php:410
+#: admin/tab-fields.php:415
 msgid "Add/Delete"
 msgstr "追加/削除"
 
-#: admin/tab-fields.php:416
+#: admin/tab-fields.php:421
 msgid "Checked?"
 msgstr "初期チェック"
 
-#: admin/tab-fields.php:417
+#: admin/tab-fields.php:423
 #, fuzzy
-msgid "Edit"
-msgstr "登録情報の編集"
-
-#: admin/tab-fields.php:418
 msgid "Users Screen"
-msgstr ""
+msgstr "エクスポート"
 
-#: admin/tab-fields.php:430
+#: admin/tab-fields.php:435
 msgid "Delete"
 msgstr "削除"
 
-#: admin/tab-fields.php:442
+#: admin/tab-fields.php:447
 msgid "(Email cannot be removed)"
 msgstr "（メールアドレスは削除できません）"
 
-#: admin/tab-fields.php:460
+#: admin/tab-fields.php:467
 #, fuzzy
 msgid "Registration Date"
 msgstr "登録完了"
 
-#: admin/tab-fields.php:463
+#: admin/tab-fields.php:470
 #, fuzzy
 msgid "native"
 msgstr ""
 "フィールドの設定を行います。WPネイティブフィールドとWP-Membersカスタムフィー"
 "ルドの両方が含まれます。"
 
-#: admin/tab-fields.php:473
+#: admin/tab-fields.php:480
 #, fuzzy
 msgid "Active"
 msgstr "承認"
 
-#: admin/tab-fields.php:485
+#: admin/tab-fields.php:492
 #, fuzzy
 msgid "Registration IP"
 msgstr "IP @ registration"
 
-#: admin/tab-fields.php:520
+#: admin/tab-fields.php:527
 msgid "Update Fields"
 msgstr "変更を保存"
 
-#: admin/tab-options.php:47
+#: admin/tab-options.php:48
 msgid "Manage Options"
 msgstr "オプション設定"
 
-#: admin/tab-options.php:53
+#: admin/tab-options.php:54
 msgid "Block Posts by default"
 msgstr "投稿記事をブロック"
 
-#: admin/tab-options.php:53
+#: admin/tab-options.php:54
 msgid ""
 "Note: Posts can still be individually blocked or unblocked at the article "
 "level"
 msgstr "投稿記事は個別にブロックまたはブロック解除することができます。"
 
-#: admin/tab-options.php:54
+#: admin/tab-options.php:55
 msgid "Block Pages by default"
 msgstr "固定ページをブロック"
 
-#: admin/tab-options.php:54
+#: admin/tab-options.php:55
 msgid ""
 "Note: Pages can still be individually blocked or unblocked at the article "
 "level"
 msgstr "固定ページは個別にブロックまたはブロック解除することができます。"
 
-#: admin/tab-options.php:55
+#: admin/tab-options.php:56
 msgid "Show excerpts"
 msgstr "抜粋を表示"
 
-#: admin/tab-options.php:55
+#: admin/tab-options.php:56
 msgid ""
 "Shows excerpted content above the login/registration on both Posts and Pages"
 msgstr "ログインおよび新規ユーザー登録フォームの上に、抜粋の内容を表示します。"
 
-#: admin/tab-options.php:56
+#: admin/tab-options.php:57
 msgid "Notify admin"
 msgstr "管理者に通知"
 
-#: admin/tab-options.php:56
-#, fuzzy
+#: admin/tab-options.php:57
+#, fuzzy, php-format
 msgid "Notify %s for each new registration? %s"
 msgstr "新規ユーザー登録の際、管理者にメールで通知します。"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:58
 msgid "Moderate registration"
 msgstr "承認登録"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:58
 msgid "Holds new registrations for admin approval"
 msgstr "新規ユーザー登録の際、管理者の承認を必要とします。"
 
-#: admin/tab-options.php:58
-msgid "Use reCAPTCHA"
-msgstr "reCAPTCHAの使用"
+#: admin/tab-options.php:91
+#, fuzzy
+msgid "Enable CAPTCHA"
+msgstr "CAPTCHAの使用"
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:59
 msgid "Turns on CAPTCHA for registration"
 msgstr "新規ユーザー登録の際、CAPTCHAを使用します。"
 
-#: admin/tab-options.php:59
+#: admin/tab-options.php:60
 #, fuzzy
 msgid "Hide registration"
 msgstr "登録完了"
 
-#: admin/tab-options.php:59
+#: admin/tab-options.php:60
 msgid "Removes the registration form from blocked content"
 msgstr ""
 
-#: admin/tab-options.php:61
+#: admin/tab-options.php:62
 msgid "Time-based expiration"
 msgstr "期限切れ"
 
-#: admin/tab-options.php:61
+#: admin/tab-options.php:62
 msgid "Allows for access to expire"
 msgstr "Allows for access to expire"
 
-#: admin/tab-options.php:62
+#: admin/tab-options.php:63
 msgid "Trial period"
 msgstr "試用期間"
 
-#: admin/tab-options.php:62
+#: admin/tab-options.php:63
 msgid "Allows for a trial period"
 msgstr "Allows for a trial period"
 
-#: admin/tab-options.php:63
+#: admin/tab-options.php:64
 msgid "Ignore warning messages"
 msgstr "警告メッセージを表示しない"
 
-#: admin/tab-options.php:63
+#: admin/tab-options.php:64
 msgid "Ignores WP-Members warning messages in the admin panel"
 msgstr "管理画面でWP-Membersの警告メッセージを表示しません。"
 
-#: admin/tab-options.php:79
+#: admin/tab-options.php:81
 msgid "Attribution"
 msgstr ""
 
-#: admin/tab-options.php:81
+#: admin/tab-options.php:83
 msgid ""
 "Attribution is appreciated!  Display \"powered by\" link on register form?"
 msgstr ""
 
-#: admin/tab-options.php:85
+#: admin/tab-options.php:87
 #, fuzzy
 msgid "Auto Excerpt:"
 msgstr "抜粋を表示"
 
-#: admin/tab-options.php:86
+#: admin/tab-options.php:88
+#, fuzzy
 msgid "Number of words in excerpt:"
-msgstr ""
+msgstr "抜粋を表示"
 
-#: admin/tab-options.php:86
-msgid "Automatically creates an excerpt"
-msgstr ""
+#: admin/tab-options.php:88 admin/tab-options.php:108
+#: admin/tab-options.php:118 admin/tab-options.php:132
+msgid "Optional"
+msgstr "（オプション）"
 
 #: admin/tab-options.php:88
 #, fuzzy
-msgid "Pages"
-msgstr "固定ページをブロック"
+msgid "Automatically creates an excerpt"
+msgstr "抜粋を表示"
 
-#: admin/tab-options.php:92
+#: admin/tab-options.php:103
 #, fuzzy
 msgid "User Profile Page:"
 msgstr "登録情報の更新"
 
-#: admin/tab-options.php:95
+#: admin/tab-options.php:106
 msgid "For creating a forgot password link in the login form"
 msgstr ""
 
-#: admin/tab-options.php:102
+#: admin/tab-options.php:113
 #, fuzzy
 msgid "Register Page:"
 msgstr "新規ユーザー登録ページのURL"
 
-#: admin/tab-options.php:105
+#: admin/tab-options.php:116
 msgid "For creating a register link in the login form"
 msgstr ""
 
-#: admin/tab-options.php:110
-msgid "Stylesheet"
-msgstr ""
-
-#: admin/tab-options.php:112
-msgid "Stylesheet:"
-msgstr ""
-
-#: admin/tab-options.php:115
+#: admin/tab-options.php:126
 msgid "Select a stylesheet or specify a custom stylesheet below"
 msgstr ""
 
-#: admin/tab-options.php:120
+#: admin/tab-options.php:131
 #, fuzzy
 msgid "Custom Stylesheet:"
 msgstr "カスタム"
 
-#: admin/tab-options.php:125
+#: admin/tab-options.php:136
 msgid "Update Settings"
 msgstr "変更を保存"
 
-#: admin/tab-options.php:235
+#: admin/tab-options.php:246
 msgid "WP-Members settings were updated"
 msgstr "WP-Members オプション設定 を更新しました。"
 
-#: admin/tab-options.php:285
+#: admin/tab-options.php:296
+#, fuzzy
 msgid "Select a page"
-msgstr ""
+msgstr "新規ユーザー登録"
 
-#: admin/tab-options.php:293
+#: admin/tab-options.php:304
 msgid "USE CUSTOM URL BELOW"
 msgstr ""
 
@@ -830,39 +854,30 @@ msgstr "登録済み"
 msgid "IP"
 msgstr "IP"
 
-#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
-msgid "No"
-msgstr "No"
-
 #: admin/user-profile.php:46
 msgid "WP-Members Additional Fields"
 msgstr "WP-Members 追加フィールド"
 
-#: admin/user-profile.php:58 native-registration.php:35
-#: native-registration.php:126 users.php:57
-#, fuzzy
+#: admin/user-profile.php:66 native-registration.php:36
+#: native-registration.php:159 users.php:62
 msgid "(required)"
 msgstr "必須"
 
-#: admin/user-profile.php:91
+#: admin/user-profile.php:98
 msgid "Activate this user?"
 msgstr "このユーザーを承認しますか？"
 
-#: admin/user-profile.php:96
+#: admin/user-profile.php:103
 msgid "Reactivate this user?"
 msgstr "このユーザーを再承認にしますか？"
 
-#: admin/user-profile.php:101
+#: admin/user-profile.php:108
 msgid "Deactivate this user?"
 msgstr "このユーザーの承認を却下しますか？"
 
-#: admin/user-profile.php:122
+#: admin/user-profile.php:129
 msgid "IP @ registration"
 msgstr "IP @ registration"
-
-#: admin/users.php:43 admin/users.php:47
-msgid "Activate"
-msgstr "承認"
 
 #: admin/users.php:45 admin/users.php:49
 msgid "Export"
@@ -873,30 +888,10 @@ msgstr "エクスポート"
 msgid "Export All Users"
 msgstr "エクスポート"
 
-#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
-msgid "Username"
-msgstr "ユーザー名"
-
-#: forms.php:77 wp-members-sidebar.php:148
-msgid "Password"
-msgstr "パスワード"
-
 #: forms.php:95
 #, fuzzy
 msgid "Existing Users Log In"
 msgstr "ログイン"
-
-#: forms.php:97
-msgid "Log In"
-msgstr "ログイン"
-
-#: forms.php:136
-msgid "New Password"
-msgstr "新しいパスワード"
-
-#: forms.php:143
-msgid "Repeat Password"
-msgstr "パスワード（再入力）"
 
 #: forms.php:161 wp-members-dialogs.php:192
 msgid "Change Password"
@@ -906,21 +901,9 @@ msgstr "パスワード変更"
 msgid "Update Password"
 msgstr "パスワードの変更"
 
-#: forms.php:209
-msgid "Email"
-msgstr "メールアドレス"
-
 #: forms.php:227
 msgid "Reset Forgotten Password"
 msgstr "パスワードリセット"
-
-#: forms.php:229
-msgid "Reset Password"
-msgstr "パスワードリセット"
-
-#: forms.php:375
-msgid "Remember me"
-msgstr "ログイン状態を保持する"
 
 #: forms.php:403
 msgid "Forgot password?"
@@ -947,10 +930,6 @@ msgstr "必須項目"
 msgid "Reset Form"
 msgstr "CAPTCHAフォームでエラーが発生しました。"
 
-#: forms.php:522 wp-members-sidebar.php:172
-msgid "Register"
-msgstr "新規ユーザー登録"
-
 #: forms.php:523
 #, fuzzy
 msgid "Update Profile"
@@ -960,23 +939,24 @@ msgstr "登録情報の更新"
 msgid "Choose a Username"
 msgstr "ユーザー名"
 
-#: forms.php:681 native-registration.php:64
+#: forms.php:683 native-registration.php:65
+#, php-format
 msgid "Please indicate that you agree to the %s TOS %s"
 msgstr "%s 利用規約 %s に同意する。"
 
-#: forms.php:832
+#: forms.php:852
 #, fuzzy
 msgid "New User Registration"
 msgstr "はじめての方はこちら"
+
+#: forms.php:1018
+msgid "Input the code:"
+msgstr ""
 
 #: users.php:38
 #, fuzzy
 msgid "Additional Information"
 msgstr "WP-Members 追加フィールド"
-
-#: utilities.php:242
-msgid "(more&hellip;)"
-msgstr ""
 
 #: wp-members-core.php:118 wp-members-core.php:245
 msgid "There was an error with the CAPTCHA form."
@@ -986,11 +966,12 @@ msgstr "CAPTCHAフォームでエラーが発生しました。"
 msgid "Edit Your Information"
 msgstr "登録情報の編集"
 
-#: wp-members-core.php:539
+#: wp-members-core.php:544
 msgid "<strong>ERROR</strong>: User has not been activated."
 msgstr "<strong>ERROR</strong>: User has not been activated."
 
-#: wp-members-core.php:897 wp-members-register.php:88
+#: wp-members-core.php:903 wp-members-register.php:93
+#, php-format
 msgid "Sorry, %s is a required field."
 msgstr "%s は必須項目です。"
 
@@ -1011,8 +992,9 @@ msgid "Edit My Information"
 msgstr "登録情報の編集"
 
 #: wp-members-dialogs.php:206 wp-members-dialogs.php:224
-#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
-#: wp-members-sidebar.php:204
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:46
+#: wp-members-sidebar.php:246
+#, php-format
 msgid "You are logged in as %s"
 msgstr "こんにちは %s さん"
 
@@ -1030,7 +1012,7 @@ msgstr "サイトを表示"
 msgid "Click to log out"
 msgstr "ログイン"
 
-#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:47
 #, fuzzy
 msgid "click to log out"
 msgstr "ログイン"
@@ -1039,94 +1021,102 @@ msgstr "ログイン"
 msgid "Password fields cannot be empty"
 msgstr "パスワードを入力してください。"
 
-#: wp-members-register.php:47
+#: wp-members-register.php:51
 #, fuzzy
 msgid "There was an error processing the form."
 msgstr "CAPTCHAフォームでエラーが発生しました。"
 
-#: wp-members-register.php:96
+#: wp-members-register.php:110
 msgid "Sorry, username is a required field"
 msgstr "このユーザー名はすでに使用済みです。"
 
-#: wp-members-register.php:97
+#: wp-members-register.php:111
 msgid "The username cannot include non-alphanumeric characters."
 msgstr "ユーザー名は英数字以外の文字を含めることはできません。"
 
-#: wp-members-register.php:98 wp-members-register.php:245
+#: wp-members-register.php:112 wp-members-register.php:282
 msgid "You must enter a valid email address."
 msgstr "有効なメールアドレスを入力してください。"
 
-#: wp-members-register.php:115
+#: wp-members-register.php:119
 #, fuzzy
 msgid "Passwords did not match."
 msgstr "パスワードの相違"
 
-#: wp-members-register.php:116 wp-members-register.php:264
+#: wp-members-register.php:120 wp-members-register.php:286
 #, fuzzy
 msgid "Emails did not match."
 msgstr "パスワードの相違"
 
-#: wp-members-register.php:108
+#: wp-members-register.php:127
 msgid "You must complete the CAPTCHA form."
 msgstr "CAPTCHAフォームを入力してください。"
 
-#: wp-members-register.php:316
+#: wp-members-register.php:377
 msgid "We were unable to validate the public key."
 msgstr "public key を検証することができません。"
 
-#: wp-members-register.php:320
+#: wp-members-register.php:381
 msgid "We were unable to validate the private key."
 msgstr "private key を検証することができません。"
 
-#: wp-members-register.php:324
+#: wp-members-register.php:385
 msgid "The challenge parameter of the verify script was incorrect."
 msgstr "検証スクリプトが正しくありません。"
 
-#: wp-members-register.php:328
+#: wp-members-register.php:389
 msgid "The CAPTCHA solution was incorrect."
 msgstr "CAPTCHAソリューションが正しくありません。"
 
-#: wp-members-register.php:332
+#: wp-members-register.php:393
 msgid "The parameters to verify were incorrect"
 msgstr "パラメーターが正しくありません。"
 
-#: wp-members-register.php:336
+#: wp-members-register.php:397
 msgid ""
 "reCAPTCHA API keys are tied to a specific domain name for security reasons."
 msgstr ""
 "reCAPTCHAのAPIキーは、セキュリティ上の理由から、特定のドメイン名に関連付けら"
 "れています。"
 
-#: wp-members-register.php:340
+#: wp-members-register.php:401
 msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
 msgstr "reCAPTCHA サーバエラーです。再送信してみてください。"
 
-#: wp-members-sidebar.php:124
+#: wp-members-register.php:405
+msgid "You have entered an incorrect code value. Please try again."
+msgstr ""
+
+#: wp-members-sidebar.php:117
 msgid "Login Failed!<br />You entered an invalid username or password."
 msgstr "ログインに失敗しました。<br />無効なユーザー名またはパスワードです。"
 
-#: wp-members-sidebar.php:125
+#: wp-members-sidebar.php:118
 #, fuzzy
 msgid "You are not logged in."
 msgstr "こんにちは %s さん"
 
-#: wp-members-sidebar.php:163
+#: wp-members-sidebar.php:169
 msgid "log in"
 msgstr "ログイン"
 
-#: wp-members-sidebar.php:167
+#: wp-members-sidebar.php:180
 msgid "Forgot?"
 msgstr "パスワードをお忘れですか？"
 
-#: wp-members-sidebar.php:205
-msgid "click here to logout"
+#: wp-members-sidebar.php:247
+msgid "click here to log out"
 msgstr "ログアウト"
 
-#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+#: wp-members-sidebar.php:279
+msgid "Displays the WP-Members sidebar login."
+msgstr ""
+
+#: wp-members-sidebar.php:294 wp-members-sidebar.php:333
 msgid "Login Status"
 msgstr "ログインステータス"
 
-#: wp-members-sidebar.php:250
+#: wp-members-sidebar.php:299
 msgid "Title:"
 msgstr "タイトル:"
 
@@ -1135,21 +1125,14 @@ msgid "Terms of Service"
 msgstr "利用規約"
 
 #: wp-members-tos.php:36
+#, php-format
 msgid "%sclose%s"
 msgstr "%s閉じる%s"
 
 #: wp-members-tos.php:38
+#, php-format
 msgid "%sprint%s"
 msgstr "%s印刷%s"
-
-#. Description of the plugin/theme
-msgid ""
-"WP access restriction and user registration.  For more information on plugin "
-"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
-"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
-"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
-"available. WP-Members(tm) is a trademark of butlerblog.com."
-msgstr ""
 
 #: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
 #: Strings wp-members-install.php:49
@@ -1270,6 +1253,63 @@ msgstr ""
 "パスワードをリセットしました。<br /><br />新しいパスワードを登録されている"
 "メールアドレスに送信しました。"
 
+#~ msgid "Yes"
+#~ msgstr "Yes"
+
+#~ msgid "WP-Members"
+#~ msgstr "WP-Members"
+
+#~ msgid "Custom"
+#~ msgstr "カスタム"
+
+#, fuzzy
+#~ msgid "edit"
+#~ msgstr "登録情報の編集"
+
+#, fuzzy
+#~ msgid "Edit"
+#~ msgstr "登録情報の編集"
+
+#~ msgid "Use reCAPTCHA"
+#~ msgstr "reCAPTCHAの使用"
+
+#, fuzzy
+#~ msgid "Pages"
+#~ msgstr "固定ページをブロック"
+
+#~ msgid "No"
+#~ msgstr "No"
+
+#~ msgid "Activate"
+#~ msgstr "承認"
+
+#~ msgid "Username"
+#~ msgstr "ユーザー名"
+
+#~ msgid "Password"
+#~ msgstr "パスワード"
+
+#~ msgid "Log In"
+#~ msgstr "ログイン"
+
+#~ msgid "New Password"
+#~ msgstr "新しいパスワード"
+
+#~ msgid "Repeat Password"
+#~ msgstr "パスワード（再入力）"
+
+#~ msgid "Email"
+#~ msgstr "メールアドレス"
+
+#~ msgid "Reset Password"
+#~ msgstr "パスワードリセット"
+
+#~ msgid "Remember me"
+#~ msgstr "ログイン状態を保持する"
+
+#~ msgid "Register"
+#~ msgstr "新規ユーザー登録"
+
 #~ msgid "Turn off registration"
 #~ msgstr "新規ユーザー登録のオフ"
 
@@ -1310,9 +1350,6 @@ msgstr ""
 #~ msgid "If you find this plugin useful, please consider making a donation"
 #~ msgstr ""
 #~ "このプラグインがお気に召しましたら、ご寄付をよろしくお願いいたします。"
-
-#~ msgid "reCAPTCHA"
-#~ msgstr "reCAPTCH"
 
 #~ msgid "Subscriptions"
 #~ msgstr "申し込み"

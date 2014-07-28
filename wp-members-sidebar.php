@@ -6,19 +6,19 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2014 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2014
+ *
+ * Functions Included:
+ * * wpmem_inc_status
+ * * wpmem_do_sidebar
+ * * widget_wpmemwidget
  */
-
-
-/*****************************************************
-LOGIN STATUS AND WIDGET FUNCTIONS
-*****************************************************/
 
 
 if( ! function_exists( 'wpmem_inc_status' ) ):
@@ -27,14 +27,20 @@ if( ! function_exists( 'wpmem_inc_status' ) ):
  *
  * @since 1.8
  *
- * @uses apply_filters Calls 'wpmem_logout_link' filter to change the default logout link
- *
  * @global $user_login
  * @return string $status
  */
 function wpmem_inc_status()
 {
 	global $user_login;
+	
+	/**
+	 * Filter the logout link.
+	 *
+	 * @since 2.8.3
+	 *
+	 * @param string The logout link.
+	 */
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login )
@@ -47,26 +53,13 @@ endif;
 
 if( ! function_exists( 'wpmem_do_sidebar' ) ):
 /**
- * Creates the sidebar login form and status
+ * Creates the sidebar login form and status.
  *
- * This function determines if the user is logged in
- * and displays either a login form, or the user's 
- * login status. Typically used for a sidebar.		
- * You can call this directly, or with the widget
+ * This function determines if the user is logged in and displays either
+ * a login form, or the user's login status. Typically used for a sidebar.		
+ * You can call this directly, or with the widget.
  *
  * @since 2.4
- *
- * Filters for logged out state
- * @uses apply_filters Calls 'wpmem_sb_login_args'
- * @uses apply_filters Calls 'wpmem_sb_hidden_fields'
- * @uses apply_filters Calls 'wpmem_forgot_link' filter to change the sidebar link to reset a forgotten password
- * @uses apply_filters Calls 'wpmem_reg_link' filter to change the sidebar link to the registration page
- * @uses apply_filters Calls 'wpmem_sidebar_form' filter to change the sidebar login form
- * @uses apply_filters Calls 'wpmem_login_failed_sb' filter to change the sidebar login failed message
- *
- * Filters for logged in state
- * @uses apply_filters Calls 'wpmem_logout_link' filter to change the default logout link
- * @uses apply_filters Calls 'wpmem_sidebar_status' filter to change the status message for a logged in user
  *
  * @global string $wpmem_regchk
  * @global string $user_login
@@ -131,7 +124,13 @@ function wpmem_do_sidebar()
 			't'               => "\t",
 		);
 		
-		// filter $args
+		/**
+		 * Filter arguments for the sidebar defaults.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array An array of the defaults to be changed.
+		 */
 		$args = apply_filters( 'wpmem_sb_login_args', '' );
 	
 		// merge $args with defaults and extract
@@ -139,13 +138,13 @@ function wpmem_do_sidebar()
 		
 		$form = '';
 		
-		$label = '<label for="username">' . __( 'Username', 'wp-members' ) . '</label>';
+		$label = '<label for="username">' . __( 'Username' ) . '</label>';
 		$input = '<input type="text" name="log" class="username" id="username" />';
 		
 		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
 		$row1  = $label . $n . $input . $n;
 		
-		$label = '<label for="password">' . __( 'Password', 'wp-members' ) . '</label>';
+		$label = '<label for="password">' . __( 'Password' ) . '</label>';
 		$input = '<input type="password" name="pwd" class="password" id="password" />';
 		
 		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
@@ -157,19 +156,40 @@ function wpmem_do_sidebar()
 				'<input type="hidden" name="redirect_to" value="' . $post_to . '" />' . $n .
 				'<input type="hidden" name="a" value="login" />' . $n .
 				'<input type="hidden" name="slog" value="true" />';
+		/**
+		 * Filter sidebar login form hidden fields.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $hidden The HTML for the hidden fields.
+		 */
 		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );	
 
 
 		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
 				
 			if( WPMEM_MSURL != null ) { 
+				/**
+				 * Filter the sidebar forgot password link.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param string The forgot password link.
+				 */
 				$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
 				$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
 			} 			
 	
 			if( WPMEM_REGURL != null ) {
+				/**
+				 * Filter the sidebar register link.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param string The register link.
+				 */
 				$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
-				$buttons.= ' <a href="' . $link . '">' . __( 'Register', 'wp-members' ) . '</a>';
+				$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
 			}
 		
 		$form = $form . $n . $buttons_before . $buttons . $n . $buttons_after;
@@ -184,12 +204,26 @@ function wpmem_do_sidebar()
 		// strip breaks
 		$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 		
+		/**
+		 * Filter the sidebar form.
+		 *
+		 * @since ?.?
+		 *
+		 * @param string $form The HTML for the sidebar login form.
+		 */
 		$form = apply_filters( 'wpmem_sidebar_form', $form );
 		
 		$do_error_msg = '';
 		if( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 			$do_error_msg = true;
 			$error_msg = $error_before . $error_msg . $error_after;
+			/**
+			 * Filter the sidebar login failed message.
+			 *
+			 * @since ?.?
+			 *
+			 * @param string $error_msg The error message.
+			 */
 			$error_msg = apply_filters( 'wpmem_login_failed_sb', $error_msg );
 		}
 		$form = ( $do_error_msg ) ? $error_msg . $form : $form;
@@ -199,11 +233,26 @@ function wpmem_do_sidebar()
 	} else { 
 	
 		global $user_login; 
+		
+		/**
+		 * Filter the sidebar logout link.
+		 *
+		 * @since ?.?
+		 *
+		 * @param string The logout link.
+		 */
 		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 		
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
-		  <a href="' . $logout . '">' . __( 'click here to logout', 'wp-members' ) . '</a></p>';
+		  <a href="' . $logout . '">' . __( 'click here to log out', 'wp-members' ) . '</a></p>';
 		
+		/**
+		 * Filter the sidebar user login status.
+		 *
+		 * @since ?.?
+		 *
+		 * @param string $str The login status for the user.
+		 */
 		$str = apply_filters( 'wpmem_sidebar_status', $str );
 		
 		echo $str;
@@ -227,7 +276,7 @@ class widget_wpmemwidget extends WP_Widget
 	{
         $widget_ops = array( 
 			'classname'   => 'wp-members', 
-			'description' => 'Display the WP-Members sidebar login.' 
+			'description' => __( 'Displays the WP-Members sidebar login.', 'wp-members' ) 
 			); 
         $this->WP_Widget( 'widget_wpmemwidget', 'WP-Members Login', $widget_ops );
     }
@@ -256,8 +305,8 @@ class widget_wpmemwidget extends WP_Widget
 	/**
 	 * Update the WP-Members login widget settings.
 	 *
-	 * @param array $new_instance
-	 * @param array $old_instance
+	 * @param  array $new_instance
+	 * @param  array $old_instance
 	 * @return array $instance
 	 */
     function update( $new_instance, $old_instance ) 
@@ -273,8 +322,6 @@ class widget_wpmemwidget extends WP_Widget
     /**
 	 * Displays the WP-Members login widget.
 	 *
-	 * @uses apply_filters Calls 'widget_title' a WP filter to change the widget title
-	 *
 	 * @param array $args
 	 * @param array $instance
 	 */
@@ -286,9 +333,22 @@ class widget_wpmemwidget extends WP_Widget
 		$title = ( array_key_exists( 'title', $instance ) ) ? $instance['title'] : __( 'Login Status', 'wp-members' );
 		
 		echo $before_widget;
+		/**
+		 * Filter the widget ID.
+		 *
+		 * @since ?.?
+		 *
+		 * @param string The ID for the sidebar widget.
+		 */
 		echo '<div id="' . apply_filters( 'wpmem_widget_id', 'wp-members' ) . '">';
 
-			// The Widget Title
+			/**
+			 * Filter the widget title.
+			 *
+			 * @since ?.?
+			 *
+			 * @param string $title The widget title.
+			 */
 			echo $before_title . apply_filters( 'wpmem_widget_title', $title ) . $after_title;
 
 			// The Widget

@@ -49,7 +49,7 @@ function wpmem_admin_fields()
 		// get fields
 		$wpmem_fields = get_option( 'wpmembers_fields' );
 		// get excluded meta
-		$exclude = wpmem_get_excluded_meta();
+		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 		
 		do_action( 'wpmem_admin_before_profile', $user_id, $wpmem_fields );
 		
@@ -161,7 +161,7 @@ function wpmem_admin_update()
 	foreach( $wpmem_fields as $meta ) {
 		if( $meta[6] == "n" && $meta[3] != 'password' && $meta[3] != 'checkbox' ) {
 			( isset( $_POST[$meta[2]] ) ) ? $fields[$meta[2]] = $_POST[$meta[2]] : false;
-		} elseif( $meta[2] == 'password' ) {
+		} elseif( $meta[2] == 'password' && $meta[4] == 'y' ) {
 			$chk_pass = true;
 		} elseif( $meta[3] == 'checkbox' ) {
 			$fields[$meta[2]] = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
@@ -179,7 +179,7 @@ function wpmem_admin_update()
 	$fields = apply_filters( 'wpmem_admin_profile_update', $fields, $user_id ); 
 	
 	// get any excluded meta fields
-	$exclude = wpmem_get_excluded_meta();
+	$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 	foreach( $fields as $key => $val ) {
 		if( ! in_array( $key, $exclude ) ) {
 			update_user_meta( $user_id, $key, $val );

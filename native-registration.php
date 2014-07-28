@@ -150,7 +150,7 @@ function wpmem_do_wp_newuser_form()
 	echo '<table class="form-table"><tbody>';
 	
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	$exclude = wpmem_get_excluded_meta();
+	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach( $wpmem_fields as $field ) {
 

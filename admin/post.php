@@ -117,7 +117,7 @@ function wpmem_posts_admin_notices()
 	global $post_type, $pagenow, $user_action_msg;
 	if( $pagenow == 'edit.php' && $post_type == 'post' &&
 		isset( $_REQUEST['block'] ) ) {
-		$message = sprintf( __( '%s posts %ed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
+		$message = sprintf( __( '%s posts %sed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
 }
@@ -276,7 +276,7 @@ function wpmem_post_columns( $columns ) {
 function wpmem_post_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
 		$block = ( WPMEM_BLOCK_POSTS == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes', 'wp-members' ) : '';
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes' ) : '';
     } 
 }
 
@@ -309,7 +309,7 @@ function wpmem_page_columns( $columns ) {
 function wpmem_page_columns_content( $column_name, $post_ID ) {
 	if( $column_name == 'wpmem_block' ) {  
 		$block = ( WPMEM_BLOCK_PAGES == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes', 'wp-members' ) : '';
+		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes' ) : '';
     } 
 }
 

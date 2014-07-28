@@ -508,7 +508,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 	
 	// logout link shortcode
 	if( is_user_logged_in() && $tag == 'wpmem_logout' ) {
-		$link = ( $url ) ? $url . '?a=logout' : get_permalink() . '?a=logout';
+		$link = ( $url ) ? wpmem_chk_qstr( $url ) . 'a=logout' : wpmem_chk_qstr( get_permalink() ) . 'a=logout';
 		$text = ( $content ) ? $content : 'Click here to log out.';
 		return do_shortcode( "<a href=\"$link\">$text</a>" );
 	}
@@ -889,7 +889,7 @@ function wpmem_wp_register_form() {
 function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
 {
 	$wpmem_fields = get_option( 'wpmembers_fields' );
-	$exclude = wpmem_get_excluded_meta();
+	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach( $wpmem_fields as $field ) {
 		$is_error = false;
@@ -923,7 +923,7 @@ function wpmem_wp_reg_finalize( $user_id )
 		// get the fields
 		$wpmem_fields = get_option( 'wpmembers_fields' );
 		// get any excluded meta fields
-		$exclude = wpmem_get_excluded_meta();
+		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach( $wpmem_fields as $meta ) {
 			if ( isset( $_POST[$meta[2]] ) && ! in_array( $meta[2], $exclude ) ) {
 				update_user_meta( $user_id, $meta[2], sanitize_text_field( $_POST[$meta[2]] ) );

@@ -259,7 +259,7 @@ function wpmem_update_fields( $action )
  * @param string $field_id The option name of the field to be edited
  */
 function wpmem_fields_edit_link( $field_id ) {
-	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">' . __( 'edit', 'wp-members' ) . '</a>';
+	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">' . __( 'Edit' ) . '</a>';
 }
 
 
@@ -407,7 +407,7 @@ function wpmem_a_field_table( $wpmem_fields )
 		<h3 class="title"><?php _e( 'Manage Fields', 'wp-members' ); ?></h3>
 		<div class="inside">
 			<p><?php _e( 'Determine which fields will display and which are required.  This includes all fields, both native WP fields and WP-Members custom fields.', 'wp-members' ); ?>
-				<br /><strong><?php _e( '(Note: Email is always mandatory. and cannot be changed.)', 'wp-members' ); ?></strong></p>
+				<br /><strong><?php _e( '(Note: Email is always mandatory and cannot be changed.)', 'wp-members' ); ?></strong></p>
 			<form name="updatefieldform" id="updatefieldform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 			<?php wp_nonce_field( 'wpmem-update-fields' ); ?>
 				<table class="widefat" id="wpmem-fields">
@@ -419,7 +419,7 @@ function wpmem_a_field_table( $wpmem_fields )
 						<th scope="col"><?php _e( 'Display?',    'wp-members' ); ?></th>
 						<th scope="col"><?php _e( 'Required?',   'wp-members' ); ?></th>
 						<th scope="col"><?php _e( 'Checked?',    'wp-members' ); ?></th>
-						<th scope="col"><?php _e( 'Edit',        'wp-members' ); ?></th>
+						<th scope="col"><?php _e( 'Edit'                      ); ?></th>
 						<th scope="col"><?php _e( 'Users Screen','wp-members' ); ?></th>
 					</tr></thead>
 				<?php

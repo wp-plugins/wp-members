@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.9.4
+Stable tag: 2.9.5
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -109,7 +109,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.4 is primarily a bug fix release.
+WP-Members 2.9.5 is primarily a new feature release for Really Simple CAPTCHA support.
 WP-Members 2.9.0 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
 
 == Screenshots ==
@@ -130,6 +130,14 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.5 =
+
+* Added support for Really Simple CAPTCHA (Really Simple CAPTCHA must also be installed).
+* Added support for custom field meta keys as shortcodes in emails.
+* Added support for default permalinks when using wpmem_logout shortcode.
+* Improved admin notification email to skip metas defined as excluded meta.
+* Fixed activation function for activations from user profile omitting passwords (see 2.9.4 bug fix for moderated password registration).
 
 = 2.9.4 =
 

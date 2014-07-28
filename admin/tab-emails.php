@@ -71,7 +71,7 @@ function wpmem_a_build_emails( $wpmem_settings )
 								</tr>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email name', 'wp-members' ); ?></th> 
-									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo get_option( 'wpmembers_email_wpname' ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
+									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo stripslashes( get_option( 'wpmembers_email_wpname' ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
 								</tr>
 								<tr><td colspan="2"><hr /></td></tr>
 							

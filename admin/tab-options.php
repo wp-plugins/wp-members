@@ -27,7 +27,8 @@ function wpmem_a_build_options( $wpmem_settings )
 { 
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
 	$chg_email   = __( sprintf( '%sChange%s or %sFilter%s this address', '<a href="' . site_url( 'wp-admin/options-general.php', 'admin' ) . '">', '</a>', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_notify_addr/">', '</a>' ), 'wp-members' );
-?>
+	$help_link   = __( sprintf( 'See the %sUsers Guide on plugin options%s.', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">', '</a>' ), 'wp-members' );	
+	?>
 	<div class="metabox-holder has-right-sidebar">
 	
 		<div class="inner-sidebar">
@@ -35,11 +36,11 @@ function wpmem_a_build_options( $wpmem_settings )
 			<div class="postbox">
 				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
-					<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">Users Guide on plugin options</a>.</i></strong>
+					<strong><i><?php echo $help_link; ?></i></strong>
 				</div>
 			</div>
 			<?php wpmem_a_rss_box(); ?>
-		</div> <!-- .inner-sidebar -->	
+		</div> <!-- .inner-sidebar -->
 
 		<div id="post-body">
 			<div id="post-body-content">
@@ -63,7 +64,8 @@ function wpmem_a_build_options( $wpmem_settings )
 								array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'))
 								);
 							for( $row = 0; $row < count( $arr ); $row++ ) {
-							  if( $row != 7 ) {
+							  
+							  if( $row != 7 && $row != 5 ) {  //if( $row != 7 ) {
 								if( ( $row < 8 || $row > 9 ) || ( WPMEM_EXP_MODULE == true ) ) { ?>
 							  <li>
 								<label><?php echo $arr[$row][0]; ?></label>
@@ -85,7 +87,16 @@ function wpmem_a_build_options( $wpmem_settings )
 							    <label><?php _e( 'Auto Excerpt:', 'wp-members' ); ?></label>
 								<input type="checkbox" name="wpmem_autoex" value="1" <?php if( $auto_ex['auto_ex'] == 1 ) { echo "checked"; } ?> />&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> <input name="wpmem_autoex_len" type="text" size="5" value="<?php if( $auto_ex['auto_ex_len'] ) { echo $auto_ex['auto_ex_len']; } ?>" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?>. <?php _e( 'Automatically creates an excerpt', 'wp-members' ); ?></span>
 							  </li>
-							<h3><?php _e( 'Pages', 'wp-members' ); ?></h3>
+							  <li>
+								<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
+								<select name="wpmem_settings_captcha">
+									<option value="0"<?php echo ( $wpmem_settings[6] == 0 ) ? ' selected ' : ''; ?>><?php _e( 'None' ); ?></option>
+									<option value="1"<?php echo ( $wpmem_settings[6] == 1 ) ? ' selected ' : ''; ?>>reCAPTCHA</option>
+									<?php // if rs captcha is enabled ?>
+									<option value="2"<?php echo ( $wpmem_settings[6] == 2 ) ? ' selected ' : ''; ?>>Really Simple CAPTCHA</option>
+								</select>
+							  </li>
+							<h3><?php _e( 'Pages' ); ?></h3>
 							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
 							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
 							  <li>
@@ -107,9 +118,9 @@ function wpmem_a_build_options( $wpmem_settings )
 								<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
 							  </li>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
-							<h3><?php _e( 'Stylesheet', 'wp-members' ); ?></h3>
+							<h3><?php _e( 'Stylesheet' ); ?></h3>
 							  <li>
-							    <label><?php _e( 'Stylesheet:', 'wp-members' ); ?></label>
+							    <label><?php _e( 'Stylesheet' ); ?>:</label>
 								<select name="wpmem_settings_style">
 								<?php wpmem_admin_style_list(); ?>
 								</select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>

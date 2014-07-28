@@ -67,14 +67,14 @@ function wpmem_inc_login( $page="page" )
 	/** create the default inputs **/
 	$default_inputs = array(
 		array(
-			'name'   => __( 'Username', 'wp-members' ), 
+			'name'   => __( 'Username' ), 
 			'type'   => 'text', 
 			'tag'    => 'log',
 			'class'  => 'username',
 			'div'    => 'div_text'
 		),
 		array( 
-			'name'   => __( 'Password', 'wp-members' ), 
+			'name'   => __( 'Password' ), 
 			'type'   => 'password', 
 			'tag'    => 'pwd', 
 			'class'  => 'password',
@@ -94,7 +94,7 @@ function wpmem_inc_login( $page="page" )
     $defaults = array( 
 		'heading'      => __( 'Existing Users Log In', 'wp-members' ), 
 		'action'       => 'login', 
-		'button_text'  => __( 'Log In', 'wp-members' ),
+		'button_text'  => __( 'Log In' ),
 		'inputs'       => $default_inputs
 	);	
 	
@@ -133,14 +133,14 @@ function wpmem_inc_changepassword()
 	/** create the default inputs **/
 	$default_inputs = array(
 		array(
-			'name'   => __('New Password', 'wp-members'), 
+			'name'   => __( 'New password' ), 
 			'type'   => 'password',
 			'tag'    => 'pass1',
 			'class'  => 'password',
 			'div'    => 'div_text'
 		),
 		array( 
-			'name'   => __('Repeat Password', 'wp-members'), 
+			'name'   => __( 'Confirm new password' ), 
 			'type'   => 'password', 
 			'tag'    => 'pass2',
 			'class'  => 'password',
@@ -199,14 +199,14 @@ function wpmem_inc_resetpassword()
 	/** create the default inputs **/
 	$default_inputs = array(
 		array(
-			'name'   => __('Username', 'wp-members'), 
+			'name'   => __( 'Username' ), 
 			'type'   => 'text',
 			'tag'    => 'user', 
 			'class'  => 'username',
 			'div'    => 'div_text'
 		),
 		array( 
-			'name'   => __('Email', 'wp-members'), 
+			'name'   => __( 'Email' ), 
 			'type'   => 'text', 
 			'tag'    => 'email', 
 			'class'  => 'password',
@@ -226,7 +226,7 @@ function wpmem_inc_resetpassword()
 	$defaults = array(
 		'heading'      => __('Reset Forgotten Password', 'wp-members'), 
 		'action'       => 'pwdreset', 
-		'button_text'  => __('Reset Password', 'wp-members'), 
+		'button_text'  => __( 'Reset Password' ), 
 		'inputs'       => $default_inputs
 	);
 
@@ -372,7 +372,7 @@ function wpmem_login_form( $page, $arr )
 
 	// build the buttons, filter, and add to the form
 	if ( $action == 'login' ) {
-		$remember_check = ( $remember_check ) ? $t . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __('Remember me', 'wp-members') . '&nbsp;&nbsp;' . $n : '';
+		$remember_check = ( $remember_check ) ? $t . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __( 'Remember Me' ) . '&nbsp;&nbsp;' . $n : '';
 		$buttons =  $remember_check . $t . '<input type="submit" name="Submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
 	} else {
 		$buttons = '<input type="submit" name="Submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
@@ -519,7 +519,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 		// buttons
 		'show_clear_form'  => true,
 		'clear_form'       => __( 'Reset Form', 'wp-members' ),
-		'submit_register'  => __( 'Register', 'wp-members' ),
+		'submit_register'  => __( 'Register' ),
 		'submit_update'    => __( 'Update Profile', 'wp-members' ),
 		
 		// other
@@ -551,7 +551,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	if( $toggle == 'edit' ) {
 		// this is the User Profile edit - username is not editable
 		$val   = $userdata->user_login;
-		$label = '<label for="username" class="text">' . __( 'Username', 'wp-members' ) . '</label>';
+		$label = '<label for="username" class="text">' . __( 'Username' ) . '</label>';
 		$input = '<p class="noinput">' . $val . '</p>';
 		$field_before = ( $wrap_inputs ) ? '<div class="div_text">' : '';
 		$field_after  = ( $wrap_inputs ) ? '</div>' : '';
@@ -730,6 +730,26 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 			);
 		}
 	}
+	
+	
+	// if captcha is Really Simple CAPTCHA
+	if( WPMEM_CAPTCHA == 2 ) {
+		$row = wpmem_build_rs_captcha();
+		$rows['captcha'] = array(
+			'order'        => '',
+			'meta'         => '', 
+			'type'         => 'text', 
+			'value'        => '',  
+			'row_before'   => $row_before,
+			'label'        => $row['label'],
+			'field_before' => $field_before,
+			'field'        => $row['field'],
+			'field_after'  => $field_after,
+			'row_after'    => $row_after		
+		);
+	}
+	
+	
 
 	/**
 	 * Filter the array of form rows.
@@ -755,19 +775,16 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 		$form.= $row;
 	}
 	
-	// do captcha if enabled
+	// do recaptcha if enabled
 	if( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) { // don't show on edit page!
 		
 		// get the captcha options
-		$wpmem_captcha = get_option('wpmembers_captcha'); 
+		$wpmem_captcha = get_option( 'wpmembers_captcha' ); 
 		
 		// start with a clean row
 		$row = '';
-		
-		if( $wpmem_captcha[0] && $wpmem_captcha[1] ) {
-			$row = '<div class="clear"></div>';
-			$row.= '<div align="right" class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha[0], $wpmem_captcha[2] ) . '</div>';
-		} 
+		$row = '<div class="clear"></div>';
+		$row.= '<div align="right" class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] ) . '</div>';
 		
 		// add the captcha row to the form
 		/**
@@ -897,19 +914,18 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  *
  * @since  2.6.0
  *
- * @param  string $key
- * @param  string $theme
+ * @param  array  $arr
  * @return string $str
  */
-function wpmem_inc_recaptcha( $key, $theme )
+function wpmem_inc_recaptcha( $arr )
 {
 	$http = ( is_ssl() ) ? 'https://' : 'http://';
 	$str  = '<script type="text/javascript">
-			var RecaptchaOptions = { theme : \''. $theme . '\' };
+			var RecaptchaOptions = { theme : \''. $arr['theme'] . '\' };
 		</script>
-		<script type="text/javascript" src="' . $http . 'www.google.com/recaptcha/api/challenge?k=' . $key . '"></script>
+		<script type="text/javascript" src="' . $http . 'www.google.com/recaptcha/api/challenge?k=' . $arr['public'] . '"></script>
 		<noscript>
-			<iframe src="' . $http . 'www.google.com/recaptcha/api/noscript?k=' . $key . '" height="300" width="500" frameborder="0"></iframe><br/>
+			<iframe src="' . $http . 'www.google.com/recaptcha/api/noscript?k=' . $arr['public'] . '" height="300" width="500" frameborder="0"></iframe><br/>
 			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
 			<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
 		</noscript>';
@@ -944,6 +960,66 @@ function wpmem_inc_attribution()
 	</div>';
 		
 	return ( get_option( 'wpmembers_attrib' ) ) ? $str : '';
+}
+
+
+/**
+ * Create Really Simple CAPTCHA.
+ *
+ * @since 2.9.5
+ *
+ * @return array Form elements for Really Simple CAPTCHA.
+ */
+function wpmem_build_rs_captcha()
+{
+	// setup defaults								
+	$defaults = array( 
+		'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
+		'num_char'     => '4',
+		'dim_w'        => '72',
+		'dim_h'        => '30',
+		'font_color'   => '0,0,0',
+		'bg_color'     => '255,255,255',
+		'font_size'    => '12',
+		'kerning'      => '14',
+		'img_type'     => 'png'
+	);
+	$wpmem_captcha = get_option( 'wpmembers_captcha' );
+	
+	extract( wp_parse_args( $wpmem_captcha['really_simple'], $defaults ) );
+	
+	$img_size = array( $dim_w, $dim_h );
+	$fg       = explode( ",", $font_color );
+	$bg       = explode( ",", $bg_color );
+	
+	$wpmem_captcha = new ReallySimpleCaptcha();
+	$wpmem_captcha->chars = $characters;
+	$wpmem_captcha->char_length = $num_char;
+	$wpmem_captcha->img_size = $img_size;
+	$wpmem_captcha->fg = $fg;
+	$wpmem_captcha->bg = $bg;
+	$wpmem_captcha->font_size = $font_size;
+	$wpmem_captcha->font_char_width = $kerning;
+	$wpmem_captcha->img_type = $img_type;
+
+	$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
+	$wpmem_captcha_prefix = mt_rand();
+
+	$wpmem_captcha_image_name = $wpmem_captcha->generate_image( $wpmem_captcha_prefix, $wpmem_captcha_word );
+	$wpmem_captcha_image_url  = get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/';
+
+	$img_w = $wpmem_captcha->img_size[0];
+	$img_h = $wpmem_captcha->img_size[1];
+	$src   = $wpmem_captcha_image_url . $wpmem_captcha_image_name;
+	$size  = $wpmem_captcha->char_length;
+	$pre   = $wpmem_captcha_prefix;
+
+	return array( 
+		'label' => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
+		'field' => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
+				<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
+				<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
+	);
 }
 
 /** End of File **/

@@ -6,13 +6,19 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2014 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2014
+ *
+ * Functions Included:
+ * * wpmem_inc_regemail
+ * * wpmem_notify_admin
+ * * wpmem_mail_from
+ * * wpmem_mail_from_name
  */
 
 
@@ -28,22 +34,38 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @param string $password
  * @param string $toggle
  */
-function wpmem_inc_regemail( $user_id, $password, $toggle )
+function wpmem_inc_regemail( $user_id, $password, $toggle, $fields = null )
 {
-	$user       = new WP_User( $user_id );
-	$user_login = stripslashes( $user->user_login );
-	$user_email = stripslashes( $user->user_email );
-	$blogname   = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
+	/** get the user ID */
+	$user = new WP_User( $user_id );
 	
-	$exp_type = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'exp_type', 'true' ) : '';
-	$exp_date = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'expires', 'true' )  : '';
-	
+	/** userdata for default shortcodes */
+	$user_login  = stripslashes( $user->user_login );
+	$user_email  = stripslashes( $user->user_email );
+	$blogname    = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
+	$exp_type    = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'exp_type', 'true' ) : '';
+	$exp_date    = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'expires', 'true' )  : '';
 	$wpmem_msurl = get_option( 'wpmembers_msurl', null );
 	$reg_link    = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 
+	/** Setup default shortcodes */
 	$shortcd = array( '[blogname]', '[username]', '[password]', '[reglink]', '[members-area]', '[exp-type]', '[exp-data]' );
 	$replace = array( $blogname, $user_login, $password, $reg_link, $wpmem_msurl, $exp_type, $exp_date );
+	
+	/** handle backward compatibility for customizations that may call the email function directly */
+	if( ! $fields ) {
+		$fields = get_option( 'wpmembers_fields' );
+	}
+	
+	/** create the custom field shortcodes */
+	foreach( $fields as $field ) {
+		$shortcd[] = '[' . $field[2] . ']'; 
+		$replace[] = get_user_meta( $user_id, $field[2], true );
+	}
 
+	/**
+	 * Determine which email is being sent
+	 */
 	switch ($toggle) {
 	
 	case 0: 
@@ -153,45 +175,32 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	$exp_date = ( WPMEM_USE_EXP == 1 ) ? get_user_meta( $user_id, 'expires',  'true' ) : '';	
 	
 	$field_str = '';
-	for( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-		if( $wpmem_fields[$row][4] == 'y' ) {
-			$name = $wpmem_fields[$row][1];
-			
-			if( ( $wpmem_fields[$row][2] != 'user_email' ) && ( $wpmem_fields[$row][2] != 'password' ) ) {
-				if( $wpmem_fields[$row][2] == 'user_url' ) {
-					$val  = esc_url( $user->user_url );
-				} else {
-					$val  = htmlspecialchars( get_user_meta( $user_id,$wpmem_fields[$row][2], 'true' ) );
+	foreach ( $wpmem_fields as $meta ) {
+		if( $meta[4] == 'y' ) {
+			$name = $meta[1];
+			if( ! in_array( $meta[2], wpmem_get_excluded_meta( 'email' ) ) ) {
+				if( ( $meta[2] != 'user_email' ) && ( $meta[2] != 'password' ) ) {
+					if( $meta[2] == 'user_url' ) {
+						$val  = esc_url( $user->user_url );
+					} else {
+						$val  = htmlspecialchars( get_user_meta( $user_id, $meta[2], 'true' ) );
+					}
+				
+					$field_str.= "$name: $val \r\n";
 				}
-			
-				$field_str.= "$name: $val \r\n";
 			}
 		}
 	}
 	
-	$shortcd = array( 
-		'[blogname]', 
-		'[username]',
-		'[email]',
-		'[reglink]',  
-		'[exp-type]', 
-		'[exp-data]',
-		'[user-ip]',
-		'[activate-user]',
-		'[fields]'
-	);
+	/** Setup default shortcodes */
+	$shortcd = array( '[blogname]', '[username]', '[email]', '[reglink]', '[exp-type]', '[exp-data]', '[user-ip]', '[activate-user]', '[fields]' );
+	$replace = array( $blogname, $user->user_login, $user->user_email, $reg_link, $exp_type, $exp_date, $user_ip, $act_link, $field_str );
 	
-	$replace = array( 
-		$blogname, 
-		$user->user_login, 
-		$user->user_email,
-		$reg_link,  
-		$exp_type, 
-		$exp_date,
-		$user_ip,
-		$act_link,
-		$field_str
-	);
+	/** create the custom field shortcodes */
+	foreach( $wpmem_fields as $field ) {
+		$shortcd[] = '[' . $field[2] . ']'; 
+		$replace[] = get_user_meta( $user_id, $field[2], true );
+	}
 	
 	$arr  = get_option( 'wpmembers_email_notify' );
 	
@@ -203,7 +212,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	
 	$body.= "\r\n" . $foot;
 	
-	/* *
+	/**
 	 * Filters the admin notification email.
 	 *
 	 * @since 2.8.2
@@ -224,6 +233,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 	 * @param string The email address of the admin to send to.
 	 */
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
+	
 	/**
 	 * Filters the email headers.
 	 *
@@ -245,7 +255,7 @@ endif;
  *
  * @since 2.7
  *
- * @param string $email
+ * @param  string $email
  * @return string $email
  */
 function wpmem_mail_from( $email )
@@ -262,13 +272,13 @@ function wpmem_mail_from( $email )
  *
  * @since 2.7
  *
- * @param string $name
+ * @param  string $name
  * @return string $name
  */
 function wpmem_mail_from_name( $name )
 {
 	if( get_option( 'wpmembers_email_wpname' ) ) {
-		$name = get_option( 'wpmembers_email_wpname' );
+		$name = stripslashes( get_option( 'wpmembers_email_wpname' ) );
 	}
     return $name;
 }

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-Members 2.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2014-05-19 15:02:15+00:00\n"
-"PO-Revision-Date: 2014-06-02 13:17-0600\n"
+"POT-Creation-Date: 2014-07-08 10:47-0600\n"
+"PO-Revision-Date: 2014-07-22 12:01-0600\n"
 "Last-Translator: \n"
 "Language-Team: Outshine Solutions <ash.pr@outshinesolutions.com>\n"
 "Language: hi_IN\n"
@@ -56,6 +56,7 @@ msgstr ""
 
 # @ wp-members
 #: admin/dialogs.php:110
+#, php-format
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
 "register\" is unchecked."
@@ -90,6 +91,7 @@ msgstr ""
 
 # @ wp-members
 #: admin/dialogs.php:118
+#, php-format
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
 "registered and logged in to comment.\""
@@ -119,6 +121,7 @@ msgstr "आपका WP सेटिंग्स पूर्ण पाठ आ�
 
 # @ wp-members
 #: admin/dialogs.php:126
+#, php-format
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
 "\" to \"Summary.\""
@@ -187,8 +190,9 @@ msgid "Version:"
 msgstr "संस्करण:"
 
 #: admin/dialogs.php:172
+#, fuzzy
 msgid "Quick Start Guide"
-msgstr ""
+msgstr "नवीनीकरण उपयोगकर्ता"
 
 #: admin/dialogs.php:173
 #, fuzzy
@@ -232,9 +236,9 @@ msgid "Unblock"
 msgstr ""
 
 #: admin/post.php:120
-#, fuzzy
-msgid "%s posts %ed."
-msgstr "डिफ़ॉल्ट रूप से ब्लॉक पोस्ट"
+#, php-format
+msgid "%s posts %sed."
+msgstr ""
 
 # @ wp-members
 #: admin/post.php:138
@@ -261,24 +265,18 @@ msgid "Blocked?"
 msgstr ""
 "नोट: पोस्ट अभी भी व्यक्तिगत रूप से अवरुद्ध या लेख के स्तर पर अनवरोधित कर हो सकता है"
 
-# @ wp-members
-#: admin/post.php:279 admin/post.php:312 admin/user-export.php:92
-#: admin/user-export.php:211
-msgid "Yes"
-msgstr "हां"
-
-#: admin/tab-captcha.php:34 admin/tab-dialogs.php:44 admin/tab-emails.php:113
-#: admin/tab-fields.php:45 admin/tab-options.php:36
+#: admin/tab-captcha.php:35 admin/tab-dialogs.php:44 admin/tab-emails.php:113
+#: admin/tab-fields.php:45 admin/tab-options.php:37
 msgid "Need help?"
 msgstr ""
 
 # @ wp-members
-#: admin/tab-captcha.php:45
+#: admin/tab-captcha.php:46
 msgid "Manage reCAPTCHA Options"
 msgstr "ReCAPTCHA विकल्प प्रबंधित करें"
 
 # @ wp-members
-#: admin/tab-captcha.php:52
+#: admin/tab-captcha.php:60
 msgid ""
 "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
 "while blocking spam on your blog."
@@ -287,7 +285,8 @@ msgstr ""
 "अपने ब्लॉग पर स्पैम अवरुद्ध है."
 
 # @ wp-members
-#: admin/tab-captcha.php:53
+#: admin/tab-captcha.php:61
+#, php-format
 msgid ""
 "reCAPTCHA asks commenters to retype two words scanned from a book to prove "
 "that they are a human. This verifies that they are not a spambot while also "
@@ -301,12 +300,13 @@ msgstr ""
 "हर कोई जीतता है! जानकारी के लिए,%s reCAPTCHA वेबसाइट%s की यात्रा"
 
 # @ wp-members
-#: admin/tab-captcha.php:58
+#: admin/tab-captcha.php:66
 msgid "reCAPTCHA Keys"
 msgstr "reCAPTCHA कुंजी"
 
 # @ wp-members
-#: admin/tab-captcha.php:60
+#: admin/tab-captcha.php:68
+#, php-format
 msgid ""
 "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
 "key. You can sign up for a %s free reCAPTCHA key%s"
@@ -315,66 +315,92 @@ msgstr ""
 "आप%s मुक्त reCAPTCHA कुंजी%s के लिए साइन अप कर सकते हैं"
 
 # @ wp-members
-#: admin/tab-captcha.php:61
+#: admin/tab-captcha.php:69
 msgid "Public Key"
 msgstr "सार्वजनिक कुंजी"
 
 # @ wp-members
-#: admin/tab-captcha.php:62
+#: admin/tab-captcha.php:70
 msgid "Private Key"
 msgstr "निजी कुंजी"
 
 # @ wp-members
-#: admin/tab-captcha.php:66
+#: admin/tab-captcha.php:74
 msgid "Choose Theme"
 msgstr "थीम चुनें"
 
 # @ wp-members
-#. Plugin Name of the plugin/theme
-#: admin/tab-captcha.php:69
-msgid "WP-Members"
-msgstr "WP-सदस्य"
-
-# @ wp-members
-#: admin/tab-captcha.php:70
+#: admin/tab-captcha.php:77
 msgid "Red"
 msgstr "लाल"
 
 # @ wp-members
-#: admin/tab-captcha.php:71
+#: admin/tab-captcha.php:78
 msgid "White"
 msgstr "सफ़ेद"
 
 # @ wp-members
-#: admin/tab-captcha.php:72
+#: admin/tab-captcha.php:79
 msgid "Black Glass"
 msgstr "काले ग्लास"
 
 # @ wp-members
-#: admin/tab-captcha.php:73
+#: admin/tab-captcha.php:80
 msgid "Clean"
 msgstr "स्वच्छ"
 
-# @ wp-members
-#: admin/tab-captcha.php:74
-msgid "Custom"
-msgstr "रिवाज"
+#: admin/tab-captcha.php:112
+#, fuzzy
+msgid "Characters for image"
+msgstr "फ़ील्ड प्रकार"
+
+#: admin/tab-captcha.php:116
+#, fuzzy
+msgid "Number of characters"
+msgstr "कुछ अंशः दिखाएँ"
+
+#: admin/tab-captcha.php:120
+#, fuzzy
+msgid "Image dimensions"
+msgstr "फ़ील्ड प्रकार"
+
+#: admin/tab-captcha.php:124
+msgid "Font color of characters"
+msgstr ""
+
+#: admin/tab-captcha.php:128
+#, fuzzy
+msgid "Background color of image"
+msgstr "फ़ील्ड प्रकार"
+
+#: admin/tab-captcha.php:132
+msgid "Font size"
+msgstr ""
+
+#: admin/tab-captcha.php:136
+msgid "Width between characters"
+msgstr ""
+
+#: admin/tab-captcha.php:140
+#, fuzzy
+msgid "Image type"
+msgstr "फ़ील्ड प्रकार"
+
+#: admin/tab-captcha.php:154
+msgid ""
+"To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin "
+"installed and activated."
+msgstr ""
 
 # @ wp-members
-#: admin/tab-captcha.php:80 admin/tab-options.php:86 admin/tab-options.php:97
-#: admin/tab-options.php:107 admin/tab-options.php:121
-msgid "Optional"
-msgstr "वैकल्पिक"
+#: admin/tab-captcha.php:166
+msgid "Update CAPTCHA Settings"
+msgstr "अपडेट करें CAPTCHA सेटिंग्स"
 
 # @ wp-members
-#: admin/tab-captcha.php:86
-msgid "Update reCAPTCHA Settings"
-msgstr "अपडेट करें reCAPTCHA सेटिंग्स"
-
-# @ wp-members
-#: admin/tab-captcha.php:119
-msgid "reCAPTCHA was updated for WP-Members"
-msgstr "reCAPTCHA WP-सदस्य के लिए अपडेट किया गया था"
+#: admin/tab-captcha.php:230
+msgid "CAPTCHA was updated for WP-Members"
+msgstr "CAPTCHA WP-सदस्य के लिए अपडेट किया गया था"
 
 # @ wp-members
 #: admin/tab-dialogs.php:29
@@ -428,6 +454,7 @@ msgstr "संवाद और त्रुटि संदेश"
 
 # @ wp-members
 #: admin/tab-dialogs.php:56
+#, php-format
 msgid ""
 "You can customize the text for dialogs and error messages. Simple HTML is "
 "allowed %s etc."
@@ -545,150 +572,149 @@ msgstr "क्षेत्र लेबल एक नए क्षेत्र �
 msgid "Option Name is required for adding a new field. Nothing was updated."
 msgstr "विकल्प नाम के एक नए क्षेत्र जोड़ने के लिए आवश्यक है.कुछ भी नहीं अपडेट किया गया था."
 
+#: admin/tab-fields.php:184
+msgid "A field with that option name already exists"
+msgstr ""
+
 # @ wp-members
-#: admin/tab-fields.php:196
+#: admin/tab-fields.php:201
 #, fuzzy
 msgid "Checked value is required for checkboxes. Nothing was updated."
 msgstr "क्षेत्र लेबल एक नए क्षेत्र जोड़ने के लिए आवश्यक है.कुछ भी नहीं अपडेट किया गया था."
 
-#: admin/tab-fields.php:218
+#: admin/tab-fields.php:223
 #, fuzzy
 msgid "field was added"
 msgstr "क्षेत्र लेबल"
 
 # @ wp-members
-#: admin/tab-fields.php:236
+#: admin/tab-fields.php:241
 #, fuzzy
 msgid "field was updated"
 msgstr "WP-सदस्य फ़ील्ड्स अपडेट की गई थीं"
 
-#: admin/tab-fields.php:257
-#, fuzzy
-msgid "edit"
-msgstr "जानकारी संपादित करें"
-
 # @ wp-members
-#: admin/tab-fields.php:284 admin/tab-fields.php:380
+#: admin/tab-fields.php:289 admin/tab-fields.php:385
 #, fuzzy
 msgid "Edit Field"
 msgstr "जानकारी संपादित करें"
 
 # @ wp-members
-#: admin/tab-fields.php:284
+#: admin/tab-fields.php:289
 #, fuzzy
 msgid "Add a Field"
 msgstr "जोड़ना"
 
 # @ wp-members
-#: admin/tab-fields.php:290 admin/tab-fields.php:411
+#: admin/tab-fields.php:295 admin/tab-fields.php:416
 msgid "Field Label"
 msgstr "क्षेत्र लेबल"
 
-#: admin/tab-fields.php:292
+#: admin/tab-fields.php:297
 msgid "The name of the field as it will be displayed to the user."
 msgstr ""
 
 # @ wp-members
-#: admin/tab-fields.php:295 admin/tab-fields.php:412
+#: admin/tab-fields.php:300 admin/tab-fields.php:417
 msgid "Option Name"
 msgstr "विकल्प नाम"
 
-#: admin/tab-fields.php:301
+#: admin/tab-fields.php:306
 msgid ""
 "The database meta value for the field. It must be unique and contain no "
 "spaces (underscores are ok)."
 msgstr ""
 
 # @ wp-members
-#: admin/tab-fields.php:305 admin/tab-fields.php:413
+#: admin/tab-fields.php:310 admin/tab-fields.php:418
 msgid "Field Type"
 msgstr "फ़ील्ड प्रकार"
 
 # @ wp-members
-#: admin/tab-fields.php:311
+#: admin/tab-fields.php:316
 msgid "text"
 msgstr "पाठ"
 
 # @ wp-members
-#: admin/tab-fields.php:312
+#: admin/tab-fields.php:317
 msgid "textarea"
 msgstr "textarea"
 
 # @ wp-members
-#: admin/tab-fields.php:313
+#: admin/tab-fields.php:318
 msgid "checkbox"
 msgstr "चेकबॉक्स"
 
 # @ wp-members
-#: admin/tab-fields.php:314
+#: admin/tab-fields.php:319
 msgid "dropdown"
 msgstr "ड्रॉपडाउन"
 
 # @ wp-members
-#: admin/tab-fields.php:315
+#: admin/tab-fields.php:320
 msgid "password"
 msgstr "पासवर्ड"
 
 # @ wp-members
-#: admin/tab-fields.php:320 admin/tab-fields.php:414
+#: admin/tab-fields.php:325 admin/tab-fields.php:419
 msgid "Display?"
 msgstr "प्रदर्शित करते हैं?"
 
 # @ wp-members
-#: admin/tab-fields.php:324 admin/tab-fields.php:415
+#: admin/tab-fields.php:329 admin/tab-fields.php:420
 msgid "Required?"
 msgstr "आवश्यकता है?"
 
-#: admin/tab-fields.php:329
+#: admin/tab-fields.php:334
 #, fuzzy
 msgid "Additional information for checkbox fields"
 msgstr "WP-सदस्य अतिरिक्त फ़ील्ड"
 
 # @ wp-members
-#: admin/tab-fields.php:332
+#: admin/tab-fields.php:337
 #, fuzzy
 msgid "Checked by default?"
 msgstr "जाँच की?"
 
 # @ wp-members
-#: admin/tab-fields.php:336
+#: admin/tab-fields.php:341
 #, fuzzy
 msgid "Stored value if checked:"
 msgstr "चेकबॉक्स के लिए, मान संग्रहीत यदि जांचा जाता है:"
 
-#: admin/tab-fields.php:342
+#: admin/tab-fields.php:347
 #, fuzzy
 msgid "Additional information for dropdown fields"
 msgstr "WP-सदस्य अतिरिक्त फ़ील्ड"
 
 # @ wp-members
-#: admin/tab-fields.php:345
+#: admin/tab-fields.php:350
 msgid "For dropdown, array of values:"
 msgstr "मूल्यों की ड्रॉपडाउन सरणी, "
 
 # @ wp-members
-#: admin/tab-fields.php:370
+#: admin/tab-fields.php:375
 msgid "Options should be Option Name|option_value,"
 msgstr "विकल्प का नाम होना चाहिए, option_value"
 
 # @ wp-members
-#: admin/tab-fields.php:374
+#: admin/tab-fields.php:379
 msgid "Visit plugin site for more information"
 msgstr "अधिक जानकारी के लिए प्लगइन साइट पर जाएँ"
 
 # @ wp-members
-#: admin/tab-fields.php:380
+#: admin/tab-fields.php:385
 #, fuzzy
 msgid "Add Field"
 msgstr "जोड़ना"
 
 # @ wp-members
-#: admin/tab-fields.php:402
+#: admin/tab-fields.php:407
 msgid "Manage Fields"
 msgstr "फील्ड्स प्रबंधित"
 
 # @ wp-members
-#: admin/tab-fields.php:404
+#: admin/tab-fields.php:409
 msgid ""
 "Determine which fields will display and which are required.  This includes "
 "all fields, both native WP fields and WP-Members custom fields."
@@ -697,81 +723,76 @@ msgstr ""
 "क्षेत्र और WP-सदस्य कस्टम फ़ील्ड्स शामिल हैं."
 
 # @ wp-members
-#: admin/tab-fields.php:405
-msgid "(Note: Email is always mandatory. and cannot be changed.)"
+#: admin/tab-fields.php:410
+msgid "(Note: Email is always mandatory and cannot be changed.)"
 msgstr "(नोट: ईमेल हमेशा अनिवार्य है और बदला नहीं जा सकता.)"
 
 # @ wp-members
-#: admin/tab-fields.php:410
+#: admin/tab-fields.php:415
 msgid "Add/Delete"
 msgstr "जोड़ें /हटाएँ"
 
 # @ wp-members
-#: admin/tab-fields.php:416
+#: admin/tab-fields.php:421
 msgid "Checked?"
 msgstr "जाँच की?"
 
-#: admin/tab-fields.php:417
-#, fuzzy
-msgid "Edit"
-msgstr "जानकारी संपादित करें"
-
-#: admin/tab-fields.php:418
+#: admin/tab-fields.php:423
 #, fuzzy
 msgid "Users Screen"
 msgstr "%d उपयोगकर्ताओं में सक्रिय थे."
 
 # @ wp-members
-#: admin/tab-fields.php:430
+#: admin/tab-fields.php:435
 msgid "Delete"
 msgstr "हटाना"
 
 # @ wp-members
-#: admin/tab-fields.php:442
+#: admin/tab-fields.php:447
 msgid "(Email cannot be removed)"
 msgstr "(ईमेल हटाया नहीं जा सकता है)"
 
 # @ wp-members
-#: admin/tab-fields.php:460
+#: admin/tab-fields.php:467
 #, fuzzy
 msgid "Registration Date"
 msgstr "पंजीकरण पूरा किया"
 
 # @ wp-members
-#: admin/tab-fields.php:463
+#: admin/tab-fields.php:470
 #, fuzzy
 msgid "native"
 msgstr "WP के मूल निवासी हैं?"
 
 # @ wp-members
-#: admin/tab-fields.php:473
+#: admin/tab-fields.php:480
 #, fuzzy
 msgid "Active"
 msgstr "सक्रिय"
 
 # @ wp-members
-#: admin/tab-fields.php:485
+#: admin/tab-fields.php:492
 #, fuzzy
 msgid "Registration IP"
 msgstr "आईपी ​​@ पंजीकरण"
 
 # @ wp-members
-#: admin/tab-fields.php:520
+#: admin/tab-fields.php:527
 msgid "Update Fields"
 msgstr "फ़ील्ड अपडेट करें"
 
 # @ wp-members
-#: admin/tab-options.php:47
+#: admin/tab-options.php:48
 msgid "Manage Options"
 msgstr "विकल्प प्रबंधित"
 
 # @ wp-members
-#: admin/tab-options.php:53
+#: admin/tab-options.php:54
 msgid "Block Posts by default"
 msgstr "डिफ़ॉल्ट रूप से ब्लॉक पोस्ट"
 
 # @ wp-members
-#: admin/tab-options.php:53
+#: admin/tab-options.php:54
 msgid ""
 "Note: Posts can still be individually blocked or unblocked at the article "
 "level"
@@ -779,180 +800,176 @@ msgstr ""
 "नोट: पोस्ट अभी भी व्यक्तिगत रूप से अवरुद्ध या लेख के स्तर पर अनवरोधित कर हो सकता है"
 
 # @ wp-members
-#: admin/tab-options.php:54
+#: admin/tab-options.php:55
 msgid "Block Pages by default"
 msgstr "डिफ़ॉल्ट रूप से ब्लॉक पन्ने"
 
 # @ wp-members
-#: admin/tab-options.php:54
+#: admin/tab-options.php:55
 msgid ""
 "Note: Pages can still be individually blocked or unblocked at the article "
 "level"
 msgstr "नोट: अभी भी पन्ने व्यक्तिगत अवरुद्ध किया जा सकता है या लेख के स्तर पर अनवरोधित"
 
 # @ wp-members
-#: admin/tab-options.php:55
+#: admin/tab-options.php:56
 msgid "Show excerpts"
 msgstr "कुछ अंशः दिखाएँ"
 
 # @ wp-members
-#: admin/tab-options.php:55
+#: admin/tab-options.php:56
 msgid ""
 "Shows excerpted content above the login/registration on both Posts and Pages"
 msgstr " दोनों पोस्ट और पृष्ठों पर लॉगिन और पंजीकरण के ऊपर सामग्री का कुछ अंश दिखाता है"
 
 # @ wp-members
-#: admin/tab-options.php:56
+#: admin/tab-options.php:57
 msgid "Notify admin"
 msgstr "व्यवस्थापक को सूचित करें"
 
 # @ wp-members
-#: admin/tab-options.php:56
-#, fuzzy
+#: admin/tab-options.php:57
+#, fuzzy, php-format
 msgid "Notify %s for each new registration? %s"
 msgstr "व्यवस्थापक करने के लिए प्रत्येक नए पंजीकरण के लिए ईमेल भेजता है?"
 
 # @ wp-members
-#: admin/tab-options.php:57
+#: admin/tab-options.php:58
 msgid "Moderate registration"
 msgstr "मध्यम पंजीकरण"
 
 # @ wp-members
-#: admin/tab-options.php:57
+#: admin/tab-options.php:58
 msgid "Holds new registrations for admin approval"
 msgstr "व्यवस्थापक अनुमोदन के लिए नए पंजीकरण धारण"
 
 # @ wp-members
-#: admin/tab-options.php:58
-msgid "Use reCAPTCHA"
-msgstr "reCAPTCHA का प्रयोग करें"
+#: admin/tab-options.php:91
+#, fuzzy
+msgid "Enable CAPTCHA"
+msgstr "CAPTCHA का प्रयोग करें"
 
 # @ wp-members
-#: admin/tab-options.php:58
+#: admin/tab-options.php:59
 msgid "Turns on CAPTCHA for registration"
 msgstr "कॅप्चा पर पंजीकरण के लिए बदल जाता है"
 
 # @ wp-members
-#: admin/tab-options.php:59
+#: admin/tab-options.php:60
 #, fuzzy
 msgid "Hide registration"
 msgstr "पंजीकरण पूरा किया"
 
-#: admin/tab-options.php:59
+#: admin/tab-options.php:60
 msgid "Removes the registration form from blocked content"
 msgstr ""
 
 # @ wp-members
-#: admin/tab-options.php:61
+#: admin/tab-options.php:62
 msgid "Time-based expiration"
 msgstr "समय - आधारित समाप्ति"
 
 # @ wp-members
-#: admin/tab-options.php:61
+#: admin/tab-options.php:62
 msgid "Allows for access to expire"
 msgstr "उपयोग के लिए समाप्त करने के लिए"
 
 # @ wp-members
-#: admin/tab-options.php:62
+#: admin/tab-options.php:63
 msgid "Trial period"
 msgstr "परीक्षण अवधि"
 
 # @ wp-members
-#: admin/tab-options.php:62
+#: admin/tab-options.php:63
 msgid "Allows for a trial period"
 msgstr "एक परीक्षण अवधि के लिए अनुमति देता"
 
 # @ wp-members
-#: admin/tab-options.php:63
+#: admin/tab-options.php:64
 msgid "Ignore warning messages"
 msgstr "चेतावनी संदेश पर ध्यान न दें"
 
 # @ wp-members
-#: admin/tab-options.php:63
+#: admin/tab-options.php:64
 msgid "Ignores WP-Members warning messages in the admin panel"
 msgstr "व्यवस्थापक पैनल में WP-सदस्य चेतावनी संदेश ध्यान नहीं देता है"
 
-#: admin/tab-options.php:79
+#: admin/tab-options.php:81
 msgid "Attribution"
 msgstr ""
 
-#: admin/tab-options.php:81
+#: admin/tab-options.php:83
 msgid ""
 "Attribution is appreciated!  Display \"powered by\" link on register form?"
 msgstr ""
 
 # @ wp-members
-#: admin/tab-options.php:85
+#: admin/tab-options.php:87
 #, fuzzy
 msgid "Auto Excerpt:"
 msgstr "कुछ अंशः दिखाएँ"
 
-#: admin/tab-options.php:86
+#: admin/tab-options.php:88
+#, fuzzy
 msgid "Number of words in excerpt:"
-msgstr ""
+msgstr "कुछ अंशः दिखाएँ"
 
-#: admin/tab-options.php:86
-msgid "Automatically creates an excerpt"
-msgstr ""
+# @ wp-members
+#: admin/tab-options.php:88 admin/tab-options.php:108
+#: admin/tab-options.php:118 admin/tab-options.php:132
+msgid "Optional"
+msgstr "वैकल्पिक"
 
 #: admin/tab-options.php:88
 #, fuzzy
-msgid "Pages"
-msgstr "डिफ़ॉल्ट रूप से ब्लॉक पन्ने"
+msgid "Automatically creates an excerpt"
+msgstr "कुछ अंशः दिखाएँ"
 
-#: admin/tab-options.php:92
+#: admin/tab-options.php:103
 #, fuzzy
 msgid "User Profile Page:"
 msgstr "रजिस्टर पृष्ठ URL:"
 
-#: admin/tab-options.php:95
+#: admin/tab-options.php:106
 msgid "For creating a forgot password link in the login form"
 msgstr ""
 
 # @ wp-members
-#: admin/tab-options.php:102
+#: admin/tab-options.php:113
 #, fuzzy
 msgid "Register Page:"
 msgstr "रजिस्टर पृष्ठ URL:"
 
-#: admin/tab-options.php:105
+#: admin/tab-options.php:116
 msgid "For creating a register link in the login form"
 msgstr ""
 
-#: admin/tab-options.php:110
-msgid "Stylesheet"
-msgstr ""
-
-#: admin/tab-options.php:112
-msgid "Stylesheet:"
-msgstr ""
-
-#: admin/tab-options.php:115
+#: admin/tab-options.php:126
 msgid "Select a stylesheet or specify a custom stylesheet below"
 msgstr ""
 
 # @ wp-members
-#: admin/tab-options.php:120
+#: admin/tab-options.php:131
 #, fuzzy
 msgid "Custom Stylesheet:"
 msgstr "रिवाज"
 
 # @ wp-members
-#: admin/tab-options.php:125
+#: admin/tab-options.php:136
 msgid "Update Settings"
 msgstr "सेटिंग्स अपडेट करें"
 
 # @ wp-members
-#: admin/tab-options.php:235
+#: admin/tab-options.php:246
 msgid "WP-Members settings were updated"
 msgstr "WP-सदस्य सेटिंग्स अपडेट की गई थीं"
 
-#: admin/tab-options.php:285
+#: admin/tab-options.php:296
 #, fuzzy
 msgid "Select a page"
 msgstr "रजिस्टर पृष्ठ URL:"
 
-#: admin/tab-options.php:293
+#: admin/tab-options.php:304
 msgid "USE CUSTOM URL BELOW"
 msgstr ""
 
@@ -982,46 +999,35 @@ msgid "IP"
 msgstr "IP"
 
 # @ wp-members
-#: admin/user-export.php:94 admin/user-export.php:213 admin/users.php:304
-msgid "No"
-msgstr "नहीं"
-
-# @ wp-members
 #: admin/user-profile.php:46
 msgid "WP-Members Additional Fields"
 msgstr "WP-सदस्य अतिरिक्त फ़ील्ड"
 
 # @ wp-members
-#: admin/user-profile.php:58 native-registration.php:35
-#: native-registration.php:126 users.php:57
-#, fuzzy
+#: admin/user-profile.php:66 native-registration.php:36
+#: native-registration.php:159 users.php:62
 msgid "(required)"
 msgstr "आवश्यकता है?"
 
 # @ wp-members
-#: admin/user-profile.php:91
+#: admin/user-profile.php:98
 msgid "Activate this user?"
 msgstr "इस उपयोगकर्ता को सक्रिय करें?"
 
 # @ wp-members
-#: admin/user-profile.php:96
+#: admin/user-profile.php:103
 msgid "Reactivate this user?"
 msgstr "इस उपयोगकर्ता को पुन: सक्रिय?"
 
 # @ wp-members
-#: admin/user-profile.php:101
+#: admin/user-profile.php:108
 msgid "Deactivate this user?"
 msgstr "इस उपयोगकर्ता को निष्क्रिय करें?"
 
 # @ wp-members
-#: admin/user-profile.php:122
+#: admin/user-profile.php:129
 msgid "IP @ registration"
 msgstr "आईपी ​​@ पंजीकरण"
-
-# @ wp-members
-#: admin/users.php:43 admin/users.php:47
-msgid "Activate"
-msgstr "सक्रिय"
 
 # @ wp-members
 #: admin/users.php:45 admin/users.php:49
@@ -1034,34 +1040,10 @@ msgid "Export All Users"
 msgstr "निर्यात"
 
 # @ wp-members
-#: forms.php:70 forms.php:202 forms.php:554 wp-members-sidebar.php:142
-msgid "Username"
-msgstr "प्रयोक्ता नाम"
-
-# @ wp-members
-#: forms.php:77 wp-members-sidebar.php:148
-msgid "Password"
-msgstr "पासवर्ड"
-
-# @ wp-members
 #: forms.php:95
 #, fuzzy
 msgid "Existing Users Log In"
 msgstr "मौजूदा प्रयोक्ता लॉगिन"
-
-#: forms.php:97
-msgid "Log In"
-msgstr "लॉग इन"
-
-# @ wp-members
-#: forms.php:136
-msgid "New Password"
-msgstr "नया पासवर्ड"
-
-# @ wp-members
-#: forms.php:143
-msgid "Repeat Password"
-msgstr "पासवर्ड दोहराएँ"
 
 # @ wp-members
 #: forms.php:161 wp-members-dialogs.php:192
@@ -1074,24 +1056,9 @@ msgid "Update Password"
 msgstr "पासवर्ड अद्यतन करें"
 
 # @ wp-members
-#: forms.php:209
-msgid "Email"
-msgstr "ईमेल"
-
-# @ wp-members
 #: forms.php:227
 msgid "Reset Forgotten Password"
 msgstr "भूल गया पासवर्ड रीसेट करें"
-
-# @ wp-members
-#: forms.php:229
-msgid "Reset Password"
-msgstr "पासवर्ड रीसेट"
-
-# @ wp-members
-#: forms.php:375
-msgid "Remember me"
-msgstr "मुझे याद है"
 
 # @ wp-members
 #: forms.php:403
@@ -1125,11 +1092,6 @@ msgid "Reset Form"
 msgstr "स्पष्ट फार्म"
 
 # @ wp-members
-#: forms.php:522 wp-members-sidebar.php:172
-msgid "Register"
-msgstr "रजिस्टर"
-
-# @ wp-members
 #: forms.php:523
 #, fuzzy
 msgid "Update Profile"
@@ -1141,25 +1103,26 @@ msgid "Choose a Username"
 msgstr "एक उपयोगकर्ता नाम चुनें"
 
 # @ wp-members
-#: forms.php:681 native-registration.php:64
+#: forms.php:683 native-registration.php:65
+#, php-format
 msgid "Please indicate that you agree to the %s TOS %s"
 msgstr "संकेत मिलता है कि आप%s के TOS %s करने के लिए सहमत"
 
 # @ wp-members
-#: forms.php:832
+#: forms.php:852
 #, fuzzy
 msgid "New User Registration"
 msgstr "नये उपयोगकर्ता"
+
+#: forms.php:1018
+msgid "Input the code:"
+msgstr ""
 
 # @ wp-members
 #: users.php:38
 #, fuzzy
 msgid "Additional Information"
 msgstr "अतिरिक्त जानकारी"
-
-#: utilities.php:242
-msgid "(more&hellip;)"
-msgstr ""
 
 # @ default
 #: wp-members-core.php:118 wp-members-core.php:245
@@ -1172,12 +1135,13 @@ msgid "Edit Your Information"
 msgstr "जानकारी संपादित करें"
 
 # @ wp-members
-#: wp-members-core.php:539
+#: wp-members-core.php:544
 msgid "<strong>ERROR</strong>: User has not been activated."
 msgstr "<strong>ERROR</strong>: उपयोगकर्ता सक्रिय नहीं किया गया है."
 
 # @ wp-members
-#: wp-members-core.php:897 wp-members-register.php:88
+#: wp-members-core.php:903 wp-members-register.php:93
+#, php-format
 msgid "Sorry, %s is a required field."
 msgstr "क्षमा करें,%s एक आवश्यक फ़ील्ड है."
 
@@ -1203,8 +1167,9 @@ msgstr "मेरी जानकारी संपादित करें"
 
 # @ wp-members
 #: wp-members-dialogs.php:206 wp-members-dialogs.php:224
-#: wp-members-dialogs.php:239 wp-members-sidebar.php:40
-#: wp-members-sidebar.php:204
+#: wp-members-dialogs.php:239 wp-members-sidebar.php:46
+#: wp-members-sidebar.php:246
+#, php-format
 msgid "You are logged in as %s"
 msgstr "आप%s के रूप में लॉग इन कर रहे हैं"
 
@@ -1226,7 +1191,7 @@ msgid "Click to log out"
 msgstr "लॉग इन"
 
 # @ wp-members
-#: wp-members-dialogs.php:240 wp-members-sidebar.php:41
+#: wp-members-dialogs.php:240 wp-members-sidebar.php:47
 #, fuzzy
 msgid "click to log out"
 msgstr "लॉग इन"
@@ -1237,111 +1202,119 @@ msgid "Password fields cannot be empty"
 msgstr "पासवर्ड फ़ील्ड रिक्त नहीं हो सकता"
 
 # @ default
-#: wp-members-register.php:47
+#: wp-members-register.php:51
 #, fuzzy
 msgid "There was an error processing the form."
 msgstr "कॅप्चा फार्म के साथ एक त्रुटि थी."
 
 # @ wp-members
-#: wp-members-register.php:96
+#: wp-members-register.php:110
 msgid "Sorry, username is a required field"
 msgstr "क्षमा करें, प्रयोक्ता नाम क्षेत्र जरूरी है"
 
 # @ wp-members
-#: wp-members-register.php:97
+#: wp-members-register.php:111
 msgid "The username cannot include non-alphanumeric characters."
 msgstr "उपयोक्तानाम गैर अल्फ़ान्यूमेरिक वर्णों को शामिल नहीं कर सकते."
 
 # @ wp-members
-#: wp-members-register.php:98 wp-members-register.php:245
+#: wp-members-register.php:112 wp-members-register.php:282
 msgid "You must enter a valid email address."
 msgstr "आपको एक मान्य ईमेल पता दर्ज करना होगा."
 
 # @ wp-members
-#: wp-members-register.php:115
+#: wp-members-register.php:119
 #, fuzzy
 msgid "Passwords did not match."
 msgstr "कूटशब्द मेल नहीं खाता"
 
 # @ wp-members
-#: wp-members-register.php:116 wp-members-register.php:264
+#: wp-members-register.php:120 wp-members-register.php:286
 #, fuzzy
 msgid "Emails did not match."
 msgstr "कूटशब्द मेल नहीं खाता"
 
 # @ default
-#: wp-members-register.php:108
+#: wp-members-register.php:127
 msgid "You must complete the CAPTCHA form."
 msgstr "कॅप्चा प्रपत्र को पूरा करना होगा."
 
 # @ wp-members
-#: wp-members-register.php:316
+#: wp-members-register.php:377
 msgid "We were unable to validate the public key."
 msgstr "हम सार्वजनिक कुंजी को मान्य करने में असमर्थ थे."
 
 # @ wp-members
-#: wp-members-register.php:320
+#: wp-members-register.php:381
 msgid "We were unable to validate the private key."
 msgstr "हम निजी कुंजी को मान्य करने में असमर्थ थे."
 
 # @ wp-members
-#: wp-members-register.php:324
+#: wp-members-register.php:385
 msgid "The challenge parameter of the verify script was incorrect."
 msgstr "सत्यापित स्क्रिप्ट की चुनौती पैरामीटर गलत थी."
 
 # @ wp-members
-#: wp-members-register.php:328
+#: wp-members-register.php:389
 msgid "The CAPTCHA solution was incorrect."
 msgstr "कॅप्चा समाधान गलत था"
 
 # @ wp-members
-#: wp-members-register.php:332
+#: wp-members-register.php:393
 msgid "The parameters to verify were incorrect"
 msgstr "सत्यापित करने के लिए पैरामीटर गलत थे"
 
 # @ wp-members
-#: wp-members-register.php:336
+#: wp-members-register.php:397
 msgid ""
 "reCAPTCHA API keys are tied to a specific domain name for security reasons."
 msgstr "reCAPTCHA एपीआई कुंजी सुरक्षा कारणों के लिए एक विशिष्ट डोमेन नाम के लिए बंधे हैं."
 
 # @ wp-members
-#: wp-members-register.php:340
+#: wp-members-register.php:401
 msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
 msgstr "ReCAPTCHA सर्वर तक पहुँच नहीं किया गया था. पुनः भेजने के लिये प्रयास करें"
 
+#: wp-members-register.php:405
+msgid "You have entered an incorrect code value. Please try again."
+msgstr ""
+
 # @ wp-members
-#: wp-members-sidebar.php:124
+#: wp-members-sidebar.php:117
 msgid "Login Failed!<br />You entered an invalid username or password."
 msgstr "विफल लॉगिन !<br /> तुम एक अवैध उपयोगकर्ता नाम या पासवर्ड में प्रवेश किया"
 
 # @ wp-members
-#: wp-members-sidebar.php:125
+#: wp-members-sidebar.php:118
 #, fuzzy
 msgid "You are not logged in."
 msgstr "आप%s के रूप में लॉग इन कर रहे हैं"
 
-#: wp-members-sidebar.php:163
+#: wp-members-sidebar.php:169
 msgid "log in"
 msgstr "लॉग इन"
 
 # @ wp-members
-#: wp-members-sidebar.php:167
+#: wp-members-sidebar.php:180
 msgid "Forgot?"
 msgstr "भूल गए?"
 
 # @ wp-members
-#: wp-members-sidebar.php:205
-msgid "click here to logout"
+#: wp-members-sidebar.php:247
+msgid "click here to log out"
 msgstr "यहाँ क्लिक करने के लिए लॉग आउट करें"
 
+#: wp-members-sidebar.php:279
+msgid "Displays the WP-Members sidebar login."
+msgstr ""
+
 # @ wp-members
-#: wp-members-sidebar.php:245 wp-members-sidebar.php:286
+#: wp-members-sidebar.php:294 wp-members-sidebar.php:333
 msgid "Login Status"
 msgstr "स्थिति लॉगिन"
 
 # @ wp-members
-#: wp-members-sidebar.php:250
+#: wp-members-sidebar.php:299
 msgid "Title:"
 msgstr "शीर्षक:"
 
@@ -1352,22 +1325,15 @@ msgstr "सेवा की शर्तें"
 
 # @ wp-members
 #: wp-members-tos.php:36
+#, php-format
 msgid "%sclose%s"
 msgstr "%sclose%s"
 
 # @ wp-members
 #: wp-members-tos.php:38
+#, php-format
 msgid "%sprint%s"
 msgstr "%sprint%s"
-
-#. Description of the plugin/theme
-msgid ""
-"WP access restriction and user registration.  For more information on plugin "
-"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
-"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
-"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
-"available. WP-Members(tm) is a trademark of butlerblog.com."
-msgstr ""
 
 # @ wp-members
 #: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
@@ -1510,3 +1476,27 @@ msgstr ""
 "पासवर्ड सफलतापूर्वक रीसेट!, /> <br /> एक युक्त ईमेल फ़ाइल पर अपने खाते के लिए ईमेल पते के "
 "लिए एक नया पासवर्ड भेज दिया गया है. आप अपने नए पासवर्ड के साथ इस यादृच्छिक तो फिर से "
 "लॉगिन पासवर्ड को बदल सकते हैं."
+
+# @ wp-members
+#~ msgid "Yes"
+#~ msgstr "हां"
+
+# @ wp-members
+#~ msgid "WP-Members"
+#~ msgstr "WP-सदस्य"
+
+# @ wp-members
+#~ msgid "Custom"
+#~ msgstr "रिवाज"
+
+#, fuzzy
+#~ msgid "edit"
+#~ msgstr "जानकारी संपादित करें"
+
+#, fuzzy
+#~ msgid "Edit"
+#~ msgstr "जानकारी संपादित करें"
+
+#, fuzzy
+#~ msgid "Pages"
+#~ msgstr "डिफ़ॉल्ट रूप से ब्लॉक पन्ने"

@@ -88,6 +88,8 @@ function wpmem_do_install()
 		
 	} else {
 	
+		update_captcha();
+	
 		update_dialogs();
 	
 		append_email();
@@ -295,7 +297,7 @@ password: [password]
 
 	// email for admin notification
 	$subj = 'New user registration for [blogname]';
-	$body = 'The following user registered for [blogname] (and is pending approval)
+	$body = 'The following user registered for [blogname]:
 	
 username: [username]
 email: [email]
@@ -333,7 +335,6 @@ Please do not reply to this address';
 }
 
 
-
 /**
  * Checks the dialogs array for string changes.
  *
@@ -360,5 +361,39 @@ function update_dialogs()
 	
 	return;
 }
+
+
+/**
+ * Checks the captcha settings and updates accordingly.
+ *
+ * @since 2.9.5
+ */
+function update_captcha()
+{
+	$captcha_settings = get_option( 'wpmembers_captcha' );
+	
+	// if there captcha settings, update them
+	if( $captcha_settings && ! array_key_exists( 'recaptcha' ) ) {
+		
+		// check to see if the array keys are numeric
+		$is_numeric = false;
+		foreach( $captcha_settings as $key => $setting ) {
+			$is_numeric = ( is_int( $key ) ) ? true : $is_numeric;
+		}
+		
+		if( $is_numeric ) {
+			$new_captcha = array();
+			// these are old recaptcha settings
+			$new_captcha['recaptcha']['public']  = $captcha_settings[0];
+			$new_captcha['recaptcha']['private'] = $captcha_settings[1];
+			$new_captcha['recaptcha']['theme']   = $captcha_settings[2];
+			update_option( 'wpmembers_captcha', $new_captcha );
+		}
+		
+	}
+	
+	return;
+}
+
 
 /** End of File **/

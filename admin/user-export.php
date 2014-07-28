@@ -89,9 +89,9 @@ function wpmem_export_selected( $user_arr )
 		if( WPMEM_MOD_REG == 1 ) {
 		
 			if( get_user_meta( $user, 'active', 1 ) ) {
-				$data.= '"' . __( 'Yes', 'wp-members' ) . '",';
+				$data.= '"' . __( 'Yes' ) . '",';
 			} else {
-				$data.= '"' . __( 'No', 'wp-members' ) . '",';
+				$data.= '"' . __( 'No' ) . '",';
 			}
 			
 		}
@@ -208,9 +208,9 @@ function wpmem_export_all_users()
 		if( WPMEM_MOD_REG == 1 ) {
 		
 			if( get_user_meta( $user->ID, 'active', 1 ) ) {
-				$data.= '"' . __( 'Yes', 'wp-members' ) . '",';
+				$data.= '"' . __( 'Yes' ) . '",';
 			} else {
-				$data.= '"' . __( 'No', 'wp-members' ) . '",';
+				$data.= '"' . __( 'No' ) . '",';
 			}
 			
 		}

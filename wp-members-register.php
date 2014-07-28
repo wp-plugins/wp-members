@@ -13,6 +13,10 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2014
+ *
+ * Functions Included:
+ * * wpmem_registration
+ * * wpmem_get_captcha_err
  */
 
 
@@ -51,7 +55,7 @@ function wpmem_registration( $toggle )
 
 	// is this a registration or a user profile update?
 	if( $toggle == 'register' ) { 
-		$fields['username'] = ( isset( $_POST['log'] ) ) ? $_POST['log'] : '';
+		$fields['username'] = ( isset( $_POST['log'] ) ) ? sanitize_user( $_POST['log'] ) : '';
 	}
 	
 	// add the user email to the $fields array for _data hooks
@@ -116,9 +120,9 @@ function wpmem_registration( $toggle )
 		if( array_key_exists( 'confirm_email', $fields ) && $fields['confirm_email'] != $fields ['user_email'] ) { $wpmem_themsg = __( 'Emails did not match.', 'wp-members' ); }
 		
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); // get the captcha settings (api keys) 
-		if( WPMEM_CAPTCHA == 1 && $wpmem_captcha[0] && $wpmem_captcha[1] ) { // if captcha is on, check the captcha
+		if( WPMEM_CAPTCHA == 1 && $wpmem_captcha['recaptcha'] ) { // if captcha is on, check the captcha
 			
-			if( $wpmem_captcha[0] && $wpmem_captcha[1] ) {   // if there is no api key, the captcha never displayed to the end user
+			if( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   // if there is no api key, the captcha never displayed to the end user
 				if( !$_POST["recaptcha_response_field"] ) { // validate for empty captcha field
 					$wpmem_themsg = __( 'You must complete the CAPTCHA form.', 'wp-members' );
 					return "empty"; exit();
@@ -128,8 +132,8 @@ function wpmem_registration( $toggle )
 			// check to see if the recaptcha library has already been loaded by another plugin
 			if( ! function_exists( '_recaptcha_qsencode' ) ) { require_once('lib/recaptchalib.php'); }
 
-			$publickey  = $wpmem_captcha[0];
-			$privatekey = $wpmem_captcha[1];
+			$publickey  = $wpmem_captcha['recaptcha']['public'];
+			$privatekey = $wpmem_captcha['recaptcha']['private'];
 
 			// the response from reCAPTCHA
 			$resp = null;
@@ -157,7 +161,25 @@ function wpmem_registration( $toggle )
 
 				} 
 			} // end check recaptcha
-		}		
+		} elseif( WPMEM_CAPTCHA == 2 ) {
+
+			/** Validate Really Simple Captcha */
+			$wpmem_captcha = new ReallySimpleCaptcha();
+			// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer
+			$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
+			// This variable holds the CAPTCHA response, entered by the user
+			$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
+			// Check CAPTCHA validity
+			$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
+			// clean up the tmp directory
+			$wpmem_captcha->remove( $wpmem_captcha_prefix );
+			$wpmem_captcha->cleanup();
+			// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error
+			if ( ! $wpmem_captcha_correct ) {
+				$wpmem_themsg = wpmem_get_captcha_err( 'really-simple' );
+				return "empty"; exit();
+			}	
+		}
 		
 		// check for user defined password
 		$fields['password'] = ( ! isset( $_POST['password'] ) ) ? wp_generate_password() : $_POST['password'];
@@ -173,9 +195,9 @@ function wpmem_registration( $toggle )
 		 * are added, use the $_POST value - otherwise, default to username. 
 		 * value can be filtered with wpmem_register_data
 	 	 */
-		$fields['user_nicename']   = ( isset( $_POST['user_nicename'] ) ) ? $_POST['user_nicename'] : $fields['username'];
-		$fields['display_name']    = ( isset( $_POST['display_name'] ) )  ? $_POST['display_name']  : $fields['username'];
-		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? $_POST['nickname']      : $fields['username'];
+		$fields['user_nicename']   = ( isset( $_POST['user_nicename'] ) ) ? sanitize_title( $_POST['user_nicename'] ) : $fields['username'];
+		$fields['display_name']    = ( isset( $_POST['display_name'] ) )  ? sanitize_user ( $_POST['display_name']  ) : $fields['username'];
+		$fields['nickname']        = ( isset( $_POST['nickname'] ) )      ? sanitize_user ( $_POST['nickname']      ) : $fields['username'];
 
 		/**
 		 * Filter registration data after validation before data insertion.
@@ -236,7 +258,7 @@ function wpmem_registration( $toggle )
 
 		// if this was successful, and you have email properly
 		// configured, send a notification email to the user
-		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG );
+		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG, $wpmem_fields );
 		
 		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }
@@ -377,6 +399,10 @@ function wpmem_get_captcha_err( $wpmem_captcha_err )
 		
 	case "recaptcha-not-reachable":
 		$wpmem_captcha_err = __( 'The reCAPTCHA server was not reached.  Please try to resubmit.', 'wp-members' );
+		break;
+	
+	case 'really-simple':
+		$wpmem_captcha_err = __( 'You have entered an incorrect code value. Please try again.', 'wp-members' );
 		break;
 	}
 	
