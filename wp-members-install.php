@@ -373,7 +373,7 @@ function update_captcha()
 	$captcha_settings = get_option( 'wpmembers_captcha' );
 	
 	// if there captcha settings, update them
-	if( $captcha_settings && ! array_key_exists( 'recaptcha' ) ) {
+	if( $captcha_settings && ! array_key_exists( 'recaptcha', $captcha_settings ) ) {
 		
 		// check to see if the array keys are numeric
 		$is_numeric = false;

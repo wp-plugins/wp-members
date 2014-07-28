@@ -83,7 +83,7 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 	// haven't entered recaptcha api keys
 	if( $wpmem_settings[11] == 0 && $wpmem_settings[6] == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
-		if( !$wpmem_captcha[0]  || !$wpmem_captcha[1] ) {
+		if( !$wpmem_captcha['recaptcha']['public'] || !$wpmem_captcha['recaptcha']['private'] ) {
 			wpmem_a_warning_msg(6);
 		}
 	}
