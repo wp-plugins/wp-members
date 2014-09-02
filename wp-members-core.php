@@ -185,7 +185,7 @@ function wpmem_securify( $content = null )
 		// Protects comments if expiration module is used and user is expired
 		} elseif( is_user_logged_in() && wpmem_block() == true ){
 
-			$content = ( WPMEM_USE_EXP == 1 ) ? wpmem_do_expmessage( $content ) : $content;
+			$content = ( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_do_expmessage' ) ) ? wpmem_do_expmessage( $content ) : $content;
 			
 		}
 		
@@ -509,7 +509,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 	// logout link shortcode
 	if( is_user_logged_in() && $tag == 'wpmem_logout' ) {
 		$link = ( $url ) ? wpmem_chk_qstr( $url ) . 'a=logout' : wpmem_chk_qstr( get_permalink() ) . 'a=logout';
-		$text = ( $content ) ? $content : 'Click here to log out.';
+		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
 		return do_shortcode( "<a href=\"$link\">$text</a>" );
 	}
 	

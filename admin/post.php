@@ -135,14 +135,14 @@ function wpmem_block_meta_add()
 	 *
 	 * @since 2.9.0
 	 */
-	$post_title = apply_filters( 'wpmem_admin_post_meta_title', __( 'Post Restriction' ) );
+	$post_title = apply_filters( 'wpmem_admin_post_meta_title', __( 'Post Restriction', 'wp-members' ) );
 	
 	/**
 	 * Filter the page meta box title
 	 *
 	 * @since 2.9.0
 	 */
-	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction' ) );
+	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction', 'wp-members' ) );
 
     add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
 	add_meta_box( 'wpmem-block-meta-id', $page_title, 'wpmem_block_meta', 'page', 'side', 'high' );	

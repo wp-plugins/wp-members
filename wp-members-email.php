@@ -164,7 +164,8 @@ if( ! function_exists( 'wpmem_notify_admin' ) ):
  */
 function wpmem_notify_admin( $user_id, $wpmem_fields )
 {
-	$user     = new WP_User( $user_id );
+	$wp_user_fields = array( 'user_login', 'user_nicename', 'user_url', 'user_registered', 'display_name', 'first_name', 'last_name', 'nickname', 'description' );
+	$user     = get_userdata( $user_id );
 	$blogname = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	
 	$user_ip  = get_user_meta( $user_id, 'wpmem_reg_ip', true );
@@ -181,9 +182,11 @@ function wpmem_notify_admin( $user_id, $wpmem_fields )
 			if( ! in_array( $meta[2], wpmem_get_excluded_meta( 'email' ) ) ) {
 				if( ( $meta[2] != 'user_email' ) && ( $meta[2] != 'password' ) ) {
 					if( $meta[2] == 'user_url' ) {
-						$val  = esc_url( $user->user_url );
+						$val = esc_url( $user->user_url );
+					} elseif( in_array( $meta[2], $wp_user_fields ) ) {
+						$val = esc_html( $user->$meta[2] );
 					} else {
-						$val  = htmlspecialchars( get_user_meta( $user_id, $meta[2], 'true' ) );
+						$val = esc_html( get_user_meta( $user_id, $meta[2], 'true' ) );
 					}
 				
 					$field_str.= "$name: $val \r\n";

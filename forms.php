@@ -224,7 +224,7 @@ function wpmem_inc_resetpassword()
 	$default_inputs = apply_filters( 'wpmem_inc_resetpassword_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => __('Reset Forgotten Password', 'wp-members'), 
+		'heading'      => __( 'Reset Forgotten Password', 'wp-members' ),
 		'action'       => 'pwdreset', 
 		'button_text'  => __( 'Reset Password' ), 
 		'inputs'       => $default_inputs
@@ -919,9 +919,17 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  */
 function wpmem_inc_recaptcha( $arr )
 {
+	// determine if reCAPTCHA should be another language
+	$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
+	$compare_lang  = strtolower( substr( WPLANG, -2 ) );
+	$use_the_lang  = ( in_array( $compare_lang, $allowed_langs ) ) ? $compare_lang : false;
+	$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
+
+	// determine if we need ssl
 	$http = ( is_ssl() ) ? 'https://' : 'http://';
+
 	$str  = '<script type="text/javascript">
-			var RecaptchaOptions = { theme : \''. $arr['theme'] . '\' };
+			var RecaptchaOptions = { theme : \''. $arr['theme'] . '\'' . $lang . ' };
 		</script>
 		<script type="text/javascript" src="' . $http . 'www.google.com/recaptcha/api/challenge?k=' . $arr['public'] . '"></script>
 		<noscript>
@@ -972,54 +980,58 @@ function wpmem_inc_attribution()
  */
 function wpmem_build_rs_captcha()
 {
-	// setup defaults								
-	$defaults = array( 
-		'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
-		'num_char'     => '4',
-		'dim_w'        => '72',
-		'dim_h'        => '30',
-		'font_color'   => '0,0,0',
-		'bg_color'     => '255,255,255',
-		'font_size'    => '12',
-		'kerning'      => '14',
-		'img_type'     => 'png'
-	);
-	$wpmem_captcha = get_option( 'wpmembers_captcha' );
-	
-	extract( wp_parse_args( $wpmem_captcha['really_simple'], $defaults ) );
-	
-	$img_size = array( $dim_w, $dim_h );
-	$fg       = explode( ",", $font_color );
-	$bg       = explode( ",", $bg_color );
-	
-	$wpmem_captcha = new ReallySimpleCaptcha();
-	$wpmem_captcha->chars = $characters;
-	$wpmem_captcha->char_length = $num_char;
-	$wpmem_captcha->img_size = $img_size;
-	$wpmem_captcha->fg = $fg;
-	$wpmem_captcha->bg = $bg;
-	$wpmem_captcha->font_size = $font_size;
-	$wpmem_captcha->font_char_width = $kerning;
-	$wpmem_captcha->img_type = $img_type;
+	if( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
+		// setup defaults								
+		$defaults = array( 
+			'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
+			'num_char'     => '4',
+			'dim_w'        => '72',
+			'dim_h'        => '30',
+			'font_color'   => '0,0,0',
+			'bg_color'     => '255,255,255',
+			'font_size'    => '12',
+			'kerning'      => '14',
+			'img_type'     => 'png'
+		);
+		$wpmem_captcha = get_option( 'wpmembers_captcha' );
+		
+		extract( wp_parse_args( $wpmem_captcha['really_simple'], $defaults ) );
+		
+		$img_size = array( $dim_w, $dim_h );
+		$fg       = explode( ",", $font_color );
+		$bg       = explode( ",", $bg_color );
+		
+		$wpmem_captcha = new ReallySimpleCaptcha();
+		$wpmem_captcha->chars = $characters;
+		$wpmem_captcha->char_length = $num_char;
+		$wpmem_captcha->img_size = $img_size;
+		$wpmem_captcha->fg = $fg;
+		$wpmem_captcha->bg = $bg;
+		$wpmem_captcha->font_size = $font_size;
+		$wpmem_captcha->font_char_width = $kerning;
+		$wpmem_captcha->img_type = $img_type;
 
-	$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
-	$wpmem_captcha_prefix = mt_rand();
+		$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
+		$wpmem_captcha_prefix = mt_rand();
 
-	$wpmem_captcha_image_name = $wpmem_captcha->generate_image( $wpmem_captcha_prefix, $wpmem_captcha_word );
-	$wpmem_captcha_image_url  = get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/';
+		$wpmem_captcha_image_name = $wpmem_captcha->generate_image( $wpmem_captcha_prefix, $wpmem_captcha_word );
+		$wpmem_captcha_image_url  = get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/';
 
-	$img_w = $wpmem_captcha->img_size[0];
-	$img_h = $wpmem_captcha->img_size[1];
-	$src   = $wpmem_captcha_image_url . $wpmem_captcha_image_name;
-	$size  = $wpmem_captcha->char_length;
-	$pre   = $wpmem_captcha_prefix;
+		$img_w = $wpmem_captcha->img_size[0];
+		$img_h = $wpmem_captcha->img_size[1];
+		$src   = $wpmem_captcha_image_url . $wpmem_captcha_image_name;
+		$size  = $wpmem_captcha->char_length;
+		$pre   = $wpmem_captcha_prefix;
 
-	return array( 
-		'label' => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
-		'field' => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
-				<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
-				<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
-	);
+		return array( 
+			'label' => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
+			'field' => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
+					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
+					<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
+		);
+	} else {
+		return;
+	}
 }
 
 /** End of File **/

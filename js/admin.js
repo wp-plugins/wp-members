@@ -360,4 +360,73 @@ jQuery.fn.extend(
 	}
 );
 
-/* END TableDnD plugin */
+/** END TableDnD plugin */
+
+
+/**
+ * JS for displaying custom url for:
+ * * Profile page
+ * * Register page
+ * * Custom stylesheet
+ *
+ * @since 2.9.6
+ */
+(function($) {
+	$(document).ready(function() {
+		if ($("#wpmem_mspage_select").val() == 'use_custom')
+			$("#wpmem_mspage_custom").show();
+		else
+			$("#wpmem_mspage_custom").hide();
+		if ($("#wpmem_regpage_select").val() == 'use_custom')
+			$("#wpmem_regpage_custom").show();
+		else
+			$("#wpmem_regpage_custom").hide();
+		if ($("#wpmem_stylesheet_select").val() == 'use_custom')
+			$("#wpmem_stylesheet_custom").show();
+		else
+			$("#wpmem_stylesheet_custom").hide();
+		$("#wpmem_mspage_select").change(function() {
+			if ($("#wpmem_mspage_select").val() == 'use_custom')
+				$("#wpmem_mspage_custom").show();
+			else
+				$("#wpmem_mspage_custom").hide();
+		});
+		$("#wpmem_regpage_select").change(function() {
+			if ($("#wpmem_regpage_select").val() == 'use_custom')
+				$("#wpmem_regpage_custom").show();
+			else
+				$("#wpmem_regpage_custom").hide();
+		});
+		$("#wpmem_stylesheet_select").change(function() {
+			if ($("#wpmem_stylesheet_select").val() == 'use_custom')
+				$("#wpmem_stylesheet_custom").show();
+			else
+				$("#wpmem_stylesheet_custom").hide();
+		});
+	});
+})(jQuery);
+
+
+/**
+ * JS for displaying additional info for checkbox/dropdowns
+ *
+ * @since 2.9.6
+ */
+(function($) {
+	$(document).ready(function() {
+		$("#wpmem_checkbox_info").hide();
+		$("#wpmem_dropdown_info").hide();
+	});
+	$(document).ready(function() {
+		$("#wpmem_field_type_select").change(function() {
+			if ($("#wpmem_field_type_select").val() == 'checkbox')
+				$("#wpmem_checkbox_info").show();
+			else
+				$("#wpmem_checkbox_info").hide();
+			if ($("#wpmem_field_type_select").val() == 'select')
+				$("#wpmem_dropdown_info").show();
+			else
+				$("#wpmem_dropdown_info").hide();
+		});
+	});
+})(jQuery);

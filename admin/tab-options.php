@@ -101,36 +101,42 @@ function wpmem_a_build_options( $wpmem_settings )
 							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
 							  <li>
 								<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
-								<select name="wpmem_settings_mspage">
+								<select name="wpmem_settings_mspage" id="wpmem_mspage_select">
 								<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
 								</select>&nbsp;<span class="description"><?php _e( 'For creating a forgot password link in the login form', 'wp-members' ); ?></span><br />
-								<label>&nbsp;</label>
-								<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
+								<div id="wpmem_mspage_custom">
+									<label>&nbsp;</label>
+									<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />
+								</div>
 							  </li>
 							  <?php $wpmem_regurl = get_option( 'wpmembers_regurl' );
 							  if( ! $wpmem_regurl ) { $wpmem_regurl = "http://"; } ?>
 							  <li>
 								<label><?php _e( 'Register Page:', 'wp-members' ); ?></label>
-								<select name="wpmem_settings_regpage">
+								<select name="wpmem_settings_regpage" id="wpmem_regpage_select">
 									<?php wpmem_admin_page_list( $wpmem_regurl ); ?>
 								</select>&nbsp;<span class="description"><?php _e( 'For creating a register link in the login form', 'wp-members' ); ?></span><br />
-								<label>&nbsp;</label>	
-								<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
+								<div id="wpmem_regpage_custom">
+									<label>&nbsp;</label>	
+									<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />
+								</div>
 							  </li>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
 							<h3><?php _e( 'Stylesheet' ); ?></h3>
 							  <li>
 							    <label><?php _e( 'Stylesheet' ); ?>:</label>
-								<select name="wpmem_settings_style">
+								<select name="wpmem_settings_style" id="wpmem_stylesheet_select">
 								<?php wpmem_admin_style_list(); ?>
-								</select>&nbsp;<span class="description"><?php _e( 'Select a stylesheet or specify a custom stylesheet below', 'wp-members' ); ?></span>
+								</select>
 							  </li>							  
 							  <?php $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
 							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = "http://"; } ?>
-							  <li>
-								<label><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></label>
-								<input class="regular-text code" type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" size="50" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?></span>
-							  </li>
+							  <div id="wpmem_stylesheet_custom">
+								  <li>
+									<label><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></label>
+									<input class="regular-text code" type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" size="50" />
+								  </li>
+							  </div>
 								<br /></br />
 								<input type="hidden" name="wpmem_admin_a" value="update_settings">
 								<input type="submit" name="UpdateSettings"  class="button-primary" value="<?php _e( 'Update Settings', 'wp-members' ); ?> &raquo;" /> 
@@ -208,17 +214,17 @@ function wpmem_update_options()
 	$wpmem_attribution = ( isset( $_POST['attribution'] ) ) ? 1 : 0;
 	update_option( 'wpmembers_attrib', $wpmem_attribution );
 
-	$wpmem_settings_msurl  = $_POST['wpmem_settings_msurl'];
-	$wpmem_settings_mspage = $_POST['wpmem_settings_mspage'];
+	$wpmem_settings_msurl  = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? $_POST['wpmem_settings_msurl'] : '';
+	$wpmem_settings_mspage = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? '' : $_POST['wpmem_settings_mspage'];
 	if( $wpmem_settings_mspage ) { update_option( 'wpmembers_msurl', $wpmem_settings_mspage ); }
-	if( $wpmem_settings_msurl != 'http://' && ! $wpmem_settings_mspage ) {
+	if( $wpmem_settings_msurl != 'http://' && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
 	}
 
-	$wpmem_settings_regurl  = $_POST['wpmem_settings_regurl'];
-	$wpmem_settings_regpage = $_POST['wpmem_settings_regpage'];
+	$wpmem_settings_regurl  = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? $_POST['wpmem_settings_regurl'] : '';
+	$wpmem_settings_regpage = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? '' : $_POST['wpmem_settings_regpage'];
 	if( $wpmem_settings_regpage ) { update_option( 'wpmembers_regurl', $wpmem_settings_regpage ); }
-	if( $wpmem_settings_regurl != 'http://' && ! $wpmem_settings_regpage ) {
+	if( $wpmem_settings_regurl != 'http://' && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
 	}
 	
@@ -228,11 +234,9 @@ function wpmem_update_options()
 		update_option( 'wpmembers_cssurl', trim( $wpmem_settings_cssurl ) );
 	}
 	
-	// new in 2.8
 	$wpmem_settings_style = ( isset( $_POST['wpmem_settings_style'] ) ) ? $_POST['wpmem_settings_style'] : false;
 	update_option( 'wpmembers_style', $wpmem_settings_style, false );
 	
-	// new in 2.8
 	$wpmem_autoex = array (
 		'auto_ex'     => isset( $_POST['wpmem_autoex'] ) ? $_POST['wpmem_autoex'] : 0,
 		'auto_ex_len' => isset( $_POST['wpmem_autoex_len'] ) ? $_POST['wpmem_autoex_len'] : ''
@@ -275,10 +279,14 @@ function wpmem_admin_style_list()
 	 * @param array $list An array of stylesheets that can be applied to the plugin's forms.
 	 */
 	$list = apply_filters( 'wpmem_admin_style_list', $list );
-
+	
+	$selected = false;
 	foreach( $list as $name => $location ) {
+		$selected = ( $location == $val ) ? true : $selected;
 		echo '<option value="' . $location . '" ' . wpmem_selected( $location, $val, 'select' ) . '>' . $name . "</option>\n";
 	}
+	$selected = ( ! $selected ) ? ' selected' : '';
+	echo '<option value="use_custom"' . $selected . '>' . __( 'USE CUSTOM URL BELOW', 'wp-members' ) . '</option>';
 	
 	return;
 }
@@ -295,13 +303,17 @@ function wpmem_admin_page_list( $val, $show_custom_url = true )
 {
 	echo '<option value="">'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
 	$pages = get_pages(); 
+	$selected = false;
 	foreach ( $pages as $page ) {
-		$option = '<option value="' . get_page_link( $page->ID ) . '" ' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
+		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected;
+		$option = '<option value="' . get_page_link( $page->ID ) . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
 		$option .= $page->post_title;
 		$option .= '</option>';
 		echo $option;
 	}
-	if( $show_custom_url ) { echo '<option value="">'; _e( 'USE CUSTOM URL BELOW', 'wp-members' ); echo '</option>'; }
+	if( $show_custom_url ) {
+		$selected = ( ! $selected ) ? ' selected' : '';
+		echo '<option value="use_custom"' . $selected . '>' . __( 'USE CUSTOM URL BELOW', 'wp-members' ) . '</option>'; }
 }
 
 /** End of File **/

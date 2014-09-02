@@ -162,22 +162,23 @@ function wpmem_registration( $toggle )
 				} 
 			} // end check recaptcha
 		} elseif( WPMEM_CAPTCHA == 2 ) {
-
-			/** Validate Really Simple Captcha */
-			$wpmem_captcha = new ReallySimpleCaptcha();
-			// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer
-			$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
-			// This variable holds the CAPTCHA response, entered by the user
-			$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
-			// Check CAPTCHA validity
-			$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
-			// clean up the tmp directory
-			$wpmem_captcha->remove( $wpmem_captcha_prefix );
-			$wpmem_captcha->cleanup();
-			// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error
-			if ( ! $wpmem_captcha_correct ) {
-				$wpmem_themsg = wpmem_get_captcha_err( 'really-simple' );
-				return "empty"; exit();
+			if( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
+				/** Validate Really Simple Captcha */
+				$wpmem_captcha = new ReallySimpleCaptcha();
+				// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer
+				$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
+				// This variable holds the CAPTCHA response, entered by the user
+				$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
+				// Check CAPTCHA validity
+				$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
+				// clean up the tmp directory
+				$wpmem_captcha->remove( $wpmem_captcha_prefix );
+				$wpmem_captcha->cleanup();
+				// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error
+				if ( ! $wpmem_captcha_correct ) {
+					$wpmem_themsg = wpmem_get_captcha_err( 'really-simple' );
+					return "empty"; exit();
+				}
 			}	
 		}
 		
@@ -213,9 +214,9 @@ function wpmem_registration( $toggle )
 		
 		// if the _pre_register_data hook sends back an error message
 		if( $wpmem_themsg ){ return $wpmem_themsg; }
-	
-		// inserts to wp_users table
-		$fields['ID'] = wp_insert_user( array (
+
+		// main new user fields are ready
+		$new_user_fields = array (
 			'user_pass'       => $fields['password'], 
 			'user_login'      => $fields['username'],
 			'user_nicename'   => $fields['user_nicename'],
@@ -224,20 +225,30 @@ function wpmem_registration( $toggle )
 			'nickname'        => $fields['nickname'],
 			'user_registered' => $fields['user_registered'],
 			'role'            => $fields['user_role']
-		) );
+		);
+		
+		// get any excluded meta fields
+		$excluded_meta = wpmem_get_excluded_meta( 'register' );
+		
+		// user_url, first_name, last_name, description, jabber, aim, yim
+		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
+		foreach( $wpmem_fields as $meta ) {
+			if( in_array( $meta[2], $new_user_fields_meta ) ) {
+				if( $meta[4] == 'y' && ! in_array( $meta[2], $excluded_meta ) ) {
+					$new_user_fields[$meta[2]] = $fields[$meta[2]];
+				}
+			}
+		}
+
+		// inserts to wp_users table
+		$fields['ID'] = wp_insert_user( $new_user_fields );
 		
 		// set remaining fields to wp_usermeta table
 		foreach( $wpmem_fields as $meta ) {
-			if( ! in_array( $meta[2], wpmem_get_excluded_meta( 'register' ) ) ) {
-				if( $meta[2] == 'user_url' ) { // if the field is user_url, it goes in the wp_users table
-					$fields['user_url'] = ( isset( $fields['user_url'] ) ) ? $fields['user_url'] : '';
-					wp_update_user( array ( 'ID' => $fields['ID'], 'user_url' => $fields['user_url'] ) );
-				} else {
-					if( $meta[2] != 'user_email' ) { // email is already done above, so if it's not email...
-						if( $meta[4] == 'y' ) { // are we using this field?
-							update_user_meta( $fields['ID'], $meta[2], $fields[$meta[2]] );
-						}
-					}
+			// if the field is not excluded, update accordingly
+			if( ! in_array( $meta[2], $excluded_meta ) && ! in_array( $meta[2], $new_user_fields_meta ) ) {
+				if( $meta[4] == 'y' && $meta[2] != 'user_email' ) {
+					update_user_meta( $fields['ID'], $meta[2], $fields[$meta[2]] );
 				}
 			}
 		}

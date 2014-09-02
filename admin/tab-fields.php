@@ -312,7 +312,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 							echo $field_arr[3]; ?>
 							<input type="hidden" name="add_type" value="<?php echo $field_arr[3]; ?>" /> 							
 						<?php } else { ?>						
-							<select name="add_type">
+							<select name="add_type" id="wpmem_field_type_select">
 								<option value="text"><?php     _e( 'text',     'wp-members' ); ?></option>
 								<option value="textarea"><?php _e( 'textarea', 'wp-members' ); ?></option>
 								<option value="checkbox"><?php _e( 'checkbox', 'wp-members' ); ?></option>
@@ -330,6 +330,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> />
 					</li>
 				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_checkbox_info">' : ''; ?>
 					<li>
 						<strong><?php _e( 'Additional information for checkbox fields', 'wp-members' ); ?></strong>
 					</li>
@@ -341,8 +342,10 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null )
 						<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?></label>
 						<input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? $field_arr[7] : false; ?>" class="small-text" />
 					</li>
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
 				<?php if( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'select' ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_dropdown_info">' : ''; ?>
 					<li>
 						<strong><?php _e( 'Additional information for dropdown fields', 'wp-members' ); ?></strong>
 					</li>
@@ -378,7 +381,9 @@ Last Row|last_row<?php } } ?></textarea>
 						<label>&nbsp;</label>
 						<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
 					</li>
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
+				
 				</ul><br />
 				<?php if( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $field_arr[2]; ?>" /><?php } ?>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />

@@ -3,14 +3,14 @@ Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 3.9.1
-Stable tag: 2.9.5
+Stable tag: 2.9.6
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
 
 == Description ==
 
-WP-Members&trade; is a plugin to make your WordPress&reg; blog a membership driven site.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+WP-Members&trade; is a membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
 [vimeo https://vimeo.com/84961265]
 
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.5 is primarily a new feature release for Really Simple CAPTCHA support.
+WP-Members 2.9.6 focuses on enhancement to the admin panels - specifically "Options" and "Fields". Includes some improvements to registration for use with cache plugins.
 WP-Members 2.9.0 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
 
 == Screenshots ==
@@ -132,6 +132,15 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.6 =
+* Updated admin.js to show/hide custom url fields for User Profile page, Register page, and Stylesheet settings.
+* Updated options panel to show/hide custom url fields mentioned above.
+* Updated admin.js to show/hide checkbox and dropdown extra settings when adding a custom field in Fields.
+* Updated fields panel to show/hide extra fields mentioned above.
+* Updated reCAPTCHA to automatically change language if the language is (1) set as WPLANG and (2) used by reCAPTCHA.
+* Added error checking if Really Simple CAPTCHA is enabled but not installed.
+* Updated registration function for improved operation when used with popular cache plugins.
 
 = 2.9.5 =
 
