@@ -799,10 +799,11 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	}
 
 	// create hidden fields
-	$var    = ( $toggle == 'edit' ) ? 'update' : 'register';
-	$hidden = '<input name="a" type="hidden" value="' . $var . '" />' . $n;
-	$hidden.= '<input name="redirect_to" type="hidden" value="' . get_permalink() . '" />' . $n;
-	$hidden = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $n : $hidden;
+	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
+	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
+	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $n;
+	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $n;
+	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $n : $hidden;
 	
 	/**
 	 * Filter the hidden field HTML.

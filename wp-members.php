@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.9.6
+Version:     2.9.7
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,7 +60,7 @@ License:     GPLv2
 
 
 /** initial constants **/
-define( 'WPMEM_VERSION', '2.9.6' );
+define( 'WPMEM_VERSION', '2.9.7' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -224,6 +224,10 @@ function wpmem_chk_admin()
 	 * @since 2.9.0
 	 */
 	do_action( 'wpmem_pre_admin_init' );
+
+	if( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
+		require_once(  WPMEM_PATH . 'admin/admin.php' );
+	}
 	
 	// if user has a role that can edit users, load the admin functions
 	if( current_user_can( 'edit_users' ) ) { 
@@ -264,8 +268,10 @@ function wpmem_chk_admin()
  * @since 2.5.2
  */
 function wpmem_admin_options() {
-	$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
-	add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
+	if( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
+		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
+		add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
+	}
 }
 
 

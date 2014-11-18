@@ -269,7 +269,7 @@ function wpmem_registration( $toggle )
 
 		// if this was successful, and you have email properly
 		// configured, send a notification email to the user
-		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG, $wpmem_fields );
+		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG, $wpmem_fields, $fields );
 		
 		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }

@@ -917,8 +917,8 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email )
  */
 function wpmem_wp_reg_finalize( $user_id )
 {
-	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == 'Register'   ) ? true : false;
-	$add_new    = ( isset( $_POST['action'] )    && $_POST['action']    == 'createuser' ) ? true : false;
+	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr_e( 'Register' ) ) ? true : false;
+	$add_new    = ( isset( $_POST['action'] )    && $_POST['action']    == 'createuser'             ) ? true : false;
 	if( $native_reg || $add_new ) {
 		// get the fields
 		$wpmem_fields = get_option( 'wpmembers_fields' );

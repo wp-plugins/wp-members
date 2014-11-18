@@ -47,7 +47,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 	switch( $type ) {
 
 	case "checkbox":
-		if( $class = 'textbox' ) { $class = "checkbox"; }
+		if( $class == 'textbox' ) { $class = "checkbox"; }
 		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . wpmem_selected( $value, $valtochk, $type ) . " />";
 		break;
 

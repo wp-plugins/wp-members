@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 4.0.0
-Stable tag: 2.9.6
+Stable tag: 2.9.7
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -132,6 +132,17 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.7 =
+* Fixed comparison for the checkbox CSS class in wpmem_create_formfield.
+* Corrected wp native registration function for use on localized sites.
+* Rebuilt export function, merges the two previous functions into one (export selected and export all) and will allow for calling custom exports.
+* Rebuilt user email function.
+* Added default "from" headers to email.
+* Added new filter wpmem_export_args.
+* Added new filter wpmem_email_filter.
+* Added a redirect_to parameter to the registration form similar to the login.
+* Fixed plugin admin page load for multisite, if user has theme options edit capabilities.
 
 = 2.9.6 =
 * Updated admin.js to show/hide custom url fields for User Profile page, Register page, and Stylesheet settings.
