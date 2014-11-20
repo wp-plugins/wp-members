@@ -1,4 +1,4 @@
-Th<?php
+<?php
 /**
  * WP-Members Export Functions
  *
