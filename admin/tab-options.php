@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  */
 
 
@@ -98,7 +98,7 @@ function wpmem_a_build_options( $wpmem_settings )
 							  </li>
 							<h3><?php _e( 'Pages' ); ?></h3>
 							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
-							  if( ! $wpmem_msurl ) { $wpmem_msurl = "http://"; } ?>
+							  if( ! $wpmem_msurl ) { $wpmem_msurl = wpmem_use_ssl(); } ?>
 							  <li>
 								<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
 								<select name="wpmem_settings_mspage" id="wpmem_mspage_select">
@@ -110,7 +110,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								</div>
 							  </li>
 							  <?php $wpmem_regurl = get_option( 'wpmembers_regurl' );
-							  if( ! $wpmem_regurl ) { $wpmem_regurl = "http://"; } ?>
+							  if( ! $wpmem_regurl ) { $wpmem_regurl = wpmem_use_ssl(); } ?>
 							  <li>
 								<label><?php _e( 'Register Page:', 'wp-members' ); ?></label>
 								<select name="wpmem_settings_regpage" id="wpmem_regpage_select">
@@ -130,7 +130,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								</select>
 							  </li>							  
 							  <?php $wpmem_cssurl = get_option( 'wpmembers_cssurl' );
-							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = "http://"; } ?>
+							  if( ! $wpmem_cssurl ) { $wpmem_cssurl = wpmem_use_ssl(); } ?>
 							  <div id="wpmem_stylesheet_custom">
 								  <li>
 									<label><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></label>
@@ -181,7 +181,7 @@ function wpmem_update_options()
 				
 	$wpmem_newsettings = array();
 	for( $row = 0; $row < count( $post_arr ); $row++ ) {
-		if( $post_arr == 'WPMEM_VERSION' ) {
+		if( $post_arr[$row] == 'WPMEM_VERSION' ) {
 			$wpmem_newsettings[$row] = 'WPMEM_VERSION';
 		} else {
 			if( isset( $_POST[$post_arr[$row]] ) != 1 ) {
@@ -217,20 +217,20 @@ function wpmem_update_options()
 	$wpmem_settings_msurl  = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? $_POST['wpmem_settings_msurl'] : '';
 	$wpmem_settings_mspage = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? '' : $_POST['wpmem_settings_mspage'];
 	if( $wpmem_settings_mspage ) { update_option( 'wpmembers_msurl', $wpmem_settings_mspage ); }
-	if( $wpmem_settings_msurl != 'http://' && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
+	if( $wpmem_settings_msurl != wpmem_use_ssl() && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
 		update_option( 'wpmembers_msurl', trim( $wpmem_settings_msurl ) );
 	}
 
 	$wpmem_settings_regurl  = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? $_POST['wpmem_settings_regurl'] : '';
 	$wpmem_settings_regpage = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? '' : $_POST['wpmem_settings_regpage'];
 	if( $wpmem_settings_regpage ) { update_option( 'wpmembers_regurl', $wpmem_settings_regpage ); }
-	if( $wpmem_settings_regurl != 'http://' && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
+	if( $wpmem_settings_regurl != wpmem_use_ssl() && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
 	}
 	
 	
 	$wpmem_settings_cssurl = $_POST['wpmem_settings_cssurl'];
-	if( $wpmem_settings_cssurl != 'http://' ) {
+	if( $wpmem_settings_cssurl != wpmem_use_ssl() ) {
 		update_option( 'wpmembers_cssurl', trim( $wpmem_settings_cssurl ) );
 	}
 	
@@ -262,12 +262,14 @@ function wpmem_admin_style_list()
 	$list = array(
 		'No Float'                   => WPMEM_DIR . 'css/generic-no-float.css',
 		'Rigid'                      => WPMEM_DIR . 'css/generic-rigid.css',
-		'Twenty Ten'                 => WPMEM_DIR . 'css/wp-members.css',
-		'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
-		'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
-		'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
+		'Twenty Fifteen'             => WPMEM_DIR . 'css/wp-members-2015.css',
+		'Twenty Fifteen - no float'  => WPMEM_DIR . 'css/wp-members-2015-no-float.css',
 		'Twenty Fourteen'            => WPMEM_DIR . 'css/wp-members-2014.css',
 		'Twenty Fourteen - no float' => WPMEM_DIR . 'css/wp-members-2014-no-float.css',
+		'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
+		'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
+		'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
+		'Twenty Ten'                 => WPMEM_DIR . 'css/wp-members.css',
 		'Kubrick'                    => WPMEM_DIR . 'css/wp-members-kubrick.css',
 	);
 	
@@ -300,20 +302,23 @@ function wpmem_admin_style_list()
  * @param string $val
  */
 function wpmem_admin_page_list( $val, $show_custom_url = true )
-{
-	echo '<option value="">'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
-	$pages = get_pages(); 
-	$selected = false;
+{ 
+	$selected = ( $val == 'http://' ) ? 'select a page' : false;
+	$pages    = get_pages(); 
+
+	echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
+
 	foreach ( $pages as $page ) {
 		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected;
-		$option = '<option value="' . get_page_link( $page->ID ) . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
-		$option .= $page->post_title;
-		$option .= '</option>';
+		$option   = '<option value="' . get_page_link( $page->ID ) . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
+		$option  .= $page->post_title;
+		$option  .= '</option>';
 		echo $option;
 	}
 	if( $show_custom_url ) {
 		$selected = ( ! $selected ) ? ' selected' : '';
-		echo '<option value="use_custom"' . $selected . '>' . __( 'USE CUSTOM URL BELOW', 'wp-members' ) . '</option>'; }
+		echo '<option value="use_custom"' . $selected . '>' . __( 'USE CUSTOM URL BELOW', 'wp-members' ) . '</option>'; 
+	}
 }
 
 /** End of File **/

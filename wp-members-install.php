@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  */
 
  
@@ -119,28 +119,8 @@ function wpmem_do_install()
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+' );
 			break;
-			
-		  case 12:
 		
-			// upgrading from 2.5.1 or higher
-			$wpmem_newsettings = array(
-				WPMEM_VERSION, 			//  0 version
-				$wpmem_settings[1],		//  1 block posts
-				$wpmem_settings[2],		//  2 block pages
-				$wpmem_settings[3],		//  3 show excerpts on posts/pages
-				$wpmem_settings[4],		//  4 notify admin
-				$wpmem_settings[5],		//  5 moderate registration
-				$wpmem_settings[6],		//  6 toggle captcha
-				$wpmem_settings[7],		//  7 turn off registration
-				$wpmem_settings[8],		//  8 add use legacy forms (tables)
-				$wpmem_settings[9],		//  9 time based expiration
-				$wpmem_settings[10],	// 10 offer trial period
-				$wpmem_settings[11]		// 11 ignore warnings		
-			);
-			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			break;
-		
-		  default: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
+		  case 10: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
 		
 			// upgrading from 2.3.0, 2.3.1, 2.3.2, 2.4.0, or 2.5.0
 			// update version, insert captcha toggle, keep other settings
@@ -160,6 +140,28 @@ function wpmem_do_install()
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			append_tos( '2.2+');
+			break;
+			
+		  case 12:
+
+			// upgrading from 2.5.1 or higher
+			// 2.5.1 - 2.9.7 only updated the version
+			// 2.9.8 requires a db update, so this allows the admin panel to produce a nag message
+			$wpmem_newsettings = array(
+				WPMEM_VERSION,	//  0 version
+				$wpmem_settings[1],		//  1 block posts
+				$wpmem_settings[2],		//  2 block pages
+				$wpmem_settings[3],		//  3 show excerpts on posts/pages
+				$wpmem_settings[4],		//  4 notify admin
+				$wpmem_settings[5],		//  5 moderate registration
+				$wpmem_settings[6],		//  6 toggle captcha
+				$wpmem_settings[7],		//  7 turn off registration
+				$wpmem_settings[8],		//  8 add use legacy forms (tables)
+				$wpmem_settings[9],		//  9 time based expiration
+				$wpmem_settings[10],	// 10 offer trial period
+				$wpmem_settings[11]		// 11 ignore warnings		
+			);
+			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			break;
 		}
 	}

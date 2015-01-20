@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2014
+ * @copyright 2006-2015
  *
  * Functions included:
  * * wpmem_create_formfield
@@ -192,7 +192,7 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  */
 function wpmem_enqueue_style() {		
 	$css_path = ( WPMEM_CSSURL != null ) ? WPMEM_CSSURL : WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ), "", plugin_basename( __FILE__ ) ) . "css/wp-members.css";
-	wp_register_style( 'wp-members', $css_path );
+	wp_register_style( 'wp-members', $css_path, '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wp-members' );
 }
 endif;
@@ -311,6 +311,16 @@ function wpmem_get_excluded_meta( $tag )
 	 * @param string $tag A tag so we know where the function is being used.
 	 */
 	return apply_filters( 'wpmem_exclude_fields', array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' ), $tag );
+}
+
+
+/**
+ * Returns http:// or https:// depending on ssl
+ *
+ * @ since 2.9.8
+ */
+function wpmem_use_ssl() {
+	return ( is_ssl() ) ? 'https://' : 'http://';
 }
 
 /** End of File **/

@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  */
 
 
@@ -70,29 +70,38 @@ function wpmem_posts_page_load()
 				foreach( $posts as $post_id ) {
 					$x++;
 					$post = get_post( $post_id );
+					$type = $post->post_type;
 					// update accordingly
-					if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
+					if( ( $type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || 
+						( $type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
 						if( $action == 'block' ) {
-							update_post_meta( $post_id, 'block', true);
+							update_post_meta( $post_id, '_wpmem_block', 1 );
 						} else {
-							delete_post_meta( $post_id, 'block' );
+							delete_post_meta( $post_id, '_wpmem_block' );
 						}
 					}
 					
-					if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
-					
+					if( ( $type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || 
+						( $type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
 						if( $action == 'unblock' ) {
-							update_post_meta( $post_id, 'unblock', true );	
+							update_post_meta( $post_id, '_wpmem_block', 0 );	
 						} else {
-							delete_post_meta( $post_id, 'unblock' );
+							delete_post_meta( $post_id, '_wpmem_block' );
 						}
 					}
 				}
 				/** set the return message */
-				$sendback = add_query_arg( array( 'block' => $action, 'b' => $x ), $sendback );
+				$arr = array( 
+					'a' => $action, 
+					'n' => $x
+				);
+				if( $type == 'page' ) {
+					$arr['post_type'] = 'page';
+				}
+				$sendback = add_query_arg( array( $arr ), '', $sendback );
 			} else {
 				/** set the return message */
-				$sendback = add_query_arg( array( 'block' => 'none' ), $sendback );
+				$sendback = add_query_arg( array( 'a' => 'none' ), '', $sendback );
 			}
 			break;
 		
@@ -114,11 +123,10 @@ function wpmem_posts_page_load()
  */
 function wpmem_posts_admin_notices()
 {    
-	global $post_type, $pagenow, $user_action_msg;
-	if( $pagenow == 'edit.php' && $post_type == 'post' &&
-		isset( $_REQUEST['block'] ) ) {
-		$message = sprintf( __( '%s posts %sed.', 'wp-members' ), $_REQUEST['b'], $_REQUEST['block'] );
-		echo "<div class=\"updated\"><p>{$message}</p></div>";
+	global $pagenow, $post_type;
+	if( $pagenow == 'edit.php' && isset( $_REQUEST['a'] ) ) {
+		$action = ( $_REQUEST['a'] == 'block' ) ? 'blocked' : 'unblocked';
+		echo '<div class="updated"><p>' . $_REQUEST['n'] . ' ' . $post_type . ' ' . $action . '</p></div>';
 	}
 }
 
@@ -144,7 +152,7 @@ function wpmem_block_meta_add()
 	 */
 	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction', 'wp-members' ) );
 
-    add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
+	add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
 	add_meta_box( 'wpmem-block-meta-id', $page_title, 'wpmem_block_meta', 'page', 'side', 'high' );	
 }
 
@@ -161,41 +169,47 @@ function wpmem_block_meta_add()
 function wpmem_block_meta()  
 {  
     global $post;
-	
-    wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
-	
-	if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
-	
-		$notice = '<p>' 
-			. ucfirst( $post->post_type ) 
-			. 's are blocked by default.&nbsp;&nbsp;<a href="' 
-			. get_admin_url() 
-			. '/options-general.php?page=wpmem-settings">Edit</a></p>';
-		$block = 'wpmem_unblock';
-		$meta = 'unblock';
-		$text = 'Unblock';
-	
-	} elseif( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
-	
-		$notice = '<p>' 
-			. ucfirst( $post->post_type ) 
-			. 's are not blocked by default.&nbsp;&nbsp;<a href="' 
-			. get_admin_url() 
-			. '/options-general.php?page=wpmem-settings">Edit</a></p>';
-		$block = 'wpmem_block';
-		$meta = 'block';
-		$text = 'Block';		
-	
-	}
 
-	echo $notice;
+    wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
+
+	$post_type = get_post_type_object( $post->post_type );
+
+	if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
+		$block = 0;
+		$notice_text = 'blocked';
+		$text = 'Unblock';
+	} elseif( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
+		$block = 1;
+		$notice_text = 'not blocked';
+		$text = 'Block';	
+	}
+	$meta = '_wpmem_block';
+	$admin_url = get_admin_url(); ?>
 	
-	?>
+	<p>
+		<?php
+		printf( '%s are %s by default.', $post_type->labels->name, $notice_text );
+		echo '&nbsp;&nbsp;';
+		printf( '<a href="%s/options-general.php?page=wpmem-settings">Edit</a>', $admin_url );
+		?>
+	</p>
     <p>
-		<input type="checkbox" id="<?php echo $block; ?>" name="<?php echo $block; ?>" value="true" <?php checked( get_post_meta( $post->ID, $meta, true ), 'true' ); ?> />
-		<label for="<?php echo $block; ?>"><?php echo $text; ?> this <?php echo $post->post_type; ?></label>
+	<?php if( $block == 1 ) { ?>
+		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="1" <?php checked( get_post_meta( $post->ID, $meta, true ), '1' ); ?> />
+	<?php } else { ?>
+		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="0" <?php checked( get_post_meta( $post->ID, $meta, true ), '0' ); ?> />
+	<?php } ?>
+		<label for="wpmem_block"><?php printf( '%s this %s', $text, strtolower( $post_type->labels->singular_name ) ); ?></label>
     </p>
     <?php
+	/**
+	 * Fires after the post block meta box.
+	 *
+	 * @since 2.8.8
+	 *
+	 * @param $post
+	 * @param $block
+	 */
 	do_action( 'wpmem_admin_after_block_meta', $post, $block );
 }
 
@@ -220,32 +234,20 @@ function wpmem_block_meta_save( $post_id )
 	// quit if the current user cannot edit posts
     if( ! current_user_can( 'edit_posts' ) ) return;  
     
-	// get values
-    $block   = isset( $_POST['wpmem_block'] )   ? $_POST['wpmem_block']   : false; 
-	$unblock = isset( $_POST['wpmem_unblock'] ) ? $_POST['wpmem_unblock'] : false;	
+	// get value
+    $block = isset( $_POST['wpmem_block'] ) ? $_POST['wpmem_block'] : null; 	
 	
 	// need the post object
 	global $post; 
 	
 	// update accordingly
-	if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
-		if( $block ) {
-			update_post_meta( $post_id, 'block', $block );
-		} else {
-			delete_post_meta( $post_id, 'block' );
-		}
+	if( $block != null ) {
+		update_post_meta( $post_id, '_wpmem_block', $block );
+	} else {
+		delete_post_meta( $post_id, '_wpmem_block' );
 	}
 	
-	if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
-	
-		if( $unblock ) {
-			update_post_meta( $post_id, 'unblock', $unblock );	
-		} else {
-			delete_post_meta( $post_id, 'unblock' );
-		}
-	}
-	
-	do_action( 'wpmem_admin_block_meta_save', $post, $block, $unblock );
+	do_action( 'wpmem_admin_block_meta_save', $post, $block, '' );
 }
 
 
@@ -274,9 +276,22 @@ function wpmem_post_columns( $columns ) {
  * @param $post_ID
  */
 function wpmem_post_columns_content( $column_name, $post_ID ) {
-	if( $column_name == 'wpmem_block' ) {  
-		$block = ( WPMEM_BLOCK_POSTS == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes' ) : '';
+	if( $column_name == 'wpmem_block' ) { 
+	
+		$block_meta = get_post_meta( $post_ID, '_wpmem_block', true );
+		
+		/**
+		 * Backward compatibility for old block/unblock meta
+		 */
+		if( ! $block_meta ) {
+			// check for old meta
+			$old_block   = get_post_meta( $post_ID, 'block',   true );
+			$old_unblock = get_post_meta( $post_ID, 'unblock', true );
+			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
+		}	
+		
+		echo ( WPMEM_BLOCK_POSTS == 1 && $block_meta == '0' ) ? __( 'Yes' ) : ''; 
+		echo ( WPMEM_BLOCK_POSTS == 0 && $block_meta == '1' ) ? __( 'Yes' ) : ''; 
     } 
 }
 
@@ -307,9 +322,22 @@ function wpmem_page_columns( $columns ) {
  * @param $post_ID
  */
 function wpmem_page_columns_content( $column_name, $post_ID ) {
-	if( $column_name == 'wpmem_block' ) {  
-		$block = ( WPMEM_BLOCK_PAGES == 1 ) ? 'unblock' : 'block';
-		echo ( get_post_custom_values( $block, $post_ID ) ) ? __( 'Yes' ) : '';
+	if( $column_name == 'wpmem_block' ) {
+	
+		$block_meta = get_post_meta( $post_ID, '_wpmem_block', true );
+	
+		/**
+		 * Backward compatibility for old block/unblock meta
+		 */
+		if( ! $block_meta ) {
+			// check for old meta
+			$old_block   = get_post_meta( $post_ID, 'block',   true );
+			$old_unblock = get_post_meta( $post_ID, 'unblock', true );
+			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
+		}	
+		
+		echo ( WPMEM_BLOCK_PAGES == 1 && $block_meta == '0' ) ? __( 'Yes' ) : ''; 
+		echo ( WPMEM_BLOCK_PAGES == 0 && $block_meta == '1' ) ? __( 'Yes' ) : ''; 
     } 
 }
 

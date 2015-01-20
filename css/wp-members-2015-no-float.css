@@ -1,7 +1,7 @@
 /**
  * WP-Members Styles CSS
  *
- * CSS for the WP-Members plugin using Twenty Fourteen Theme, no float
+ * CSS for the WP-Members plugin - Twenty Fifteen Theme, No Float
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
@@ -15,10 +15,11 @@
  */
 
 /*	
-This stylesheet is designed to integrate WP-Members with the Twenty Fourteen theme.
-There are quite a few examples in here of what you can do to style the forms.  
-You can build off of this or start from scratch and set your own 
-custom css for the plugin (set the location in the admin panel).
+This stylesheet is designed to integrate WP-Members floated form elements
+as simply as possible with most themes.  There are quite a few examples 
+in here of what you can do to style the forms.  You can build off of this
+or start from scratch and set your own custom css for the plugin 
+(set the location in the admin panel).
 
 See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
 for information on how to set up the plugin with a custom stylesheet.
@@ -31,16 +32,21 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 /* Error and Dialog Messages */
 
 #wpmem_msg, .wpmem_msg {
-	background: #F9F9F9;
-	border:1px solid lightGrey;
-	border-radius: 3px;
-	padding: 20px 0 0 0;
+	background: #F7F7F7;
+	border: 1px solid rgba(51, 51, 51, 0.3);
+	padding: 0;
+}
+#wpmem_msg h2 {
+	margin: 0;
+	padding: 30px;
 }
 #wpmem_msg {
 	width: 100%;
 }
 .wpmem_msg {
 	width: 74%;
+	margin: 0;
+	padding: 28px 26px 4px;
 }
 
 
@@ -71,12 +77,58 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	width:100%;
     padding: 5px;
 	font-family: inherit;
-	border: 1px solid #ccc;
-	border-radius: 3px;
+	background: #F7F7F7;
+	border: 1px solid rgba(51, 51, 51, 0.3);
 }
 
 
 /* Login Form and Registration Form */
+#wpmem_reg, #wpmem_login {
+
+}
+
+#wpmem_reg label,
+#wpmem_login label {
+	font-size: 1.6rem;
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: "Noto Sans", sans-serif;
+	font-weight: 700;
+	display: block;
+	letter-spacing: 0.04em;
+	line-height: 1.5;
+	text-transform: uppercase;
+	margin-bottom: 6px;
+}
+
+#wpmem_reg input[type="text"],
+#wpmem_reg textarea,
+#wpmem_login input[type="text"],
+#wpmem_login input[type="password"] {
+
+}
+
+#wpmem_reg input,
+#wpmem_reg button,
+#wpmem_reg select,
+#wpmem_reg textarea,
+#wpmem_login input,
+#wpmem_login button {
+
+}
+
+#wpmem_reg input:focus,
+#wpmem_reg textarea:focus,
+#wpmem_login input:focus {
+
+}
+
+#wpmem_reg select {
+	width:100%;
+	padding: 8px 10px 7px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	margin: 5px 0;
+}
 
 #wpmem_reg fieldset, #wpmem_login fieldset {
 	border: none;
@@ -84,10 +136,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 40px 0;
 }
 #wpmem_reg legend, #wpmem_login legend {
-	font-size: 24px;
-	line-height: 1;
 	font-weight: 700;
-	margin-bottom: 10px;
+	margin-bottom: 25px;
+	font-size: 27px;
+	font-size: 2.7rem;
+	line-height: 1.1852;
 }
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
@@ -114,23 +167,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .password, #wpmem_login .password {
 	width:100%;
 }
-#wpmem_reg .dropdown {
-	width:100%;
-	padding: 8px 10px 7px;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 2px;
-	color: rgb(43, 43, 43);
-	margin: 5px 0;
-}
-#wpmem_reg .dropdown:focus {
-	border: 1px solid rgba(0, 0, 0, 0.3);
-	outline: 0;
-}
-#wpmem_reg .textbox:focus, #wpmem_reg .textbox:hover, #wpmem_login .textbox:focus, #wpmem_login .textbox:hover,
-#wpmem_reg .username:focus, #wpmem_reg .username:hover, #wpmem_login .username:focus, #wpmem_login .username:hover,
-#wpmem_reg .password:focus, #wpmem_reg .password:hover, #wpmem_login .password:focus, #wpmem_login .password:hover {
-	background-color:inherit;
-}
+
+
 #wpmem_reg textarea {
 	height:185px;
 }
@@ -153,7 +191,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 5px 0;
 }
 
-#wpmem_reg .captcha {
+#wpmem_reg .captcha { 
 	width: 74%;
 	margin: 5px 0px; 
 }
@@ -173,7 +211,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 #wpmem_reg .button_div, #wpmem_login .button_div {
 	width:74%;
-	height:35px;
+	height: 62px;
 	padding: 6px 0;
 	text-align: right;
 }
@@ -206,5 +244,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	}
 	#wpmem_msg, .wpmem_msg {
 		width: 100%;
+	}
+	
+	#wpmem_reg .button_div, 
+	#wpmem_login .button_div,
+	#wpmem_login .link-text {
+		width:98%;
 	}
 }

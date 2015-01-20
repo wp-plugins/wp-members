@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.9.7
+Version:     2.9.8
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -11,7 +11,7 @@ License:     GPLv2
 
 
 /*  
-	Copyright (c) 2006-2014  Chad Butler
+	Copyright (c) 2006-2015  Chad Butler
 
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
@@ -60,7 +60,7 @@ License:     GPLv2
 
 
 /** initial constants **/
-define( 'WPMEM_VERSION', '2.9.7' );
+define( 'WPMEM_VERSION', '2.9.8' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -240,6 +240,11 @@ function wpmem_chk_admin()
 		add_action( 'show_user_profile', 'wpmem_user_profile'   );
 		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
+	}
+	
+	// do any admin approved plugin updates need to be processed?
+	if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'wpmem_update' ) {
+		require_once( 'admin/update.php' );
 	}
 	
 	// if user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns

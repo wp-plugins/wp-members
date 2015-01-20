@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2013  Chad Butler (email : plugins@butlerblog.com)
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2013
+ * @copyright 2006-2015
  */
 
  
@@ -37,7 +37,7 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 	
 	if( $did_update != false ) {
 
-/* 		if( $chkreq == "err" ) { ?>
+	/* if( $chkreq == "err" ) { ?>
 			<div class="error"><p><strong><?php _e('Settings were saved, but you have required fields that are not set to display!', 'wp-members'); ?></strong><br /><br />
 				<?php _e('Note: This will not cause an error for the end user, as only displayed fields are validated.  However, you should still check that your displayed and required fields match up.  Mismatched fields are highlighted below.', 'wp-members'); ?></p></div>
 		<?php } elseif( $add_field_err_msg ) { ?>
@@ -47,7 +47,6 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 		<?php //}
 
 	}
-
 
 	/**
 	 * Warning messages

@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014 Chad Butler
+ * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  *
  * Functions Included:
  * * wpmem_inc_login
@@ -36,9 +36,10 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @uses wpmem_login_form()
  *
  * @param  string $page
+ * @param  string $redirect_to
  * @return string $str the generated html for the login form
  */
-function wpmem_inc_login( $page="page" )
+function wpmem_inc_login( $page="page", $redirect_to = null )
 { 	
 	global $wpmem_regchk;
 
@@ -95,9 +96,10 @@ function wpmem_inc_login( $page="page" )
 		'heading'      => __( 'Existing Users Log In', 'wp-members' ), 
 		'action'       => 'login', 
 		'button_text'  => __( 'Log In' ),
-		'inputs'       => $default_inputs
+		'inputs'       => $default_inputs,
+		'redirect_to'  => $redirect_to
 	);	
-	
+
 	/**
 	 * Filter the arguments to override login form defaults.
 	 *
@@ -108,7 +110,7 @@ function wpmem_inc_login( $page="page" )
 	$args = apply_filters( 'wpmem_inc_login_args', '' );
 
 	$arr  = wp_parse_args( $args, $defaults );
-	
+
 	$str  = $str . wpmem_login_form( $page, $arr );
 	
 	return $str;
@@ -296,6 +298,7 @@ function wpmem_login_form( $page, $arr )
 		'remember_check'  => true,
 		'n'               => "\n",
 		't'               => "\t",
+		'redirect_to'     => ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( isset( $redirect_to ) ) ? $redirect_to : get_permalink() )
 		
 	);
 	
@@ -355,7 +358,7 @@ function wpmem_login_form( $page, $arr )
 	}
 
 	// build hidden fields, filter, and add to the form
-	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
+	//$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
 	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $redirect_to ) . $n;
 	$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $n;
 	$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
@@ -927,7 +930,7 @@ function wpmem_inc_recaptcha( $arr )
 	$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
 
 	// determine if we need ssl
-	$http = ( is_ssl() ) ? 'https://' : 'http://';
+	$http = wpmem_use_ssl();
 
 	$str  = '<script type="text/javascript">
 			var RecaptchaOptions = { theme : \''. $arr['theme'] . '\'' . $lang . ' };

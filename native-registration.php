@@ -8,13 +8,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014 Chad Butler
+ * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  *
  * Functions Included:
  * * wpmem_do_wp_register_form
@@ -66,7 +66,7 @@ function wpmem_do_wp_register_form()
 				
 				}
 			
-				$label = ( $field[2] == 'tos' ) ? $tos : __( $field[2], 'wp-members' );
+				$label = ( $field[2] == 'tos' ) ? $tos : __( $field[1], 'wp-members' );
 
 				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
 				$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
@@ -140,7 +140,7 @@ function wpmem_do_wp_register_form()
 
 
 /**
- * Appends WP-Members registration fields to wp-login.php registration form.
+ * Appends WP-Members registration fields to Users > Add New User screen.
  *
  * @since 2.9.0
  */
@@ -154,7 +154,7 @@ function wpmem_do_wp_newuser_form()
 
 	foreach( $wpmem_fields as $field ) {
 
-		if( $field[4] == 'y' && $field[6] == 'n' && ! in_array( $field[2], $exclude ) ) {
+		if( $field[6] == 'n' && ! in_array( $field[2], $exclude ) ) {
 
 			$req = ( $field[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 		
@@ -180,7 +180,9 @@ function wpmem_do_wp_newuser_form()
 				break;
 				
 			case( 'checkbox' ):
-				echo wpmem_create_formfield( $field[2], $field[3], $field[7], '' );
+				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+				$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
+				echo wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
 				break;
 
 			default:

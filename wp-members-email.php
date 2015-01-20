@@ -6,13 +6,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014 Chad Butler
+ * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2014
+ * @copyright 2006-2015
  *
  * Functions Included:
  * * wpmem_inc_regemail
@@ -144,7 +144,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			 *
 			 * @param string $arr['body'] The body content of the new registration email.
 			 */
-			$arr['body'] = apply_filters( 'wpmem_email_newreg', $body );
+			$body = apply_filters( 'wpmem_email_newreg', $body );
 			break;
 			
 		case 'newmod':

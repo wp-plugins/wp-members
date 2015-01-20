@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
-Tested up to: 4.0.1
-Stable tag: 2.9.7
+Tested up to: 4.1
+Stable tag: 2.9.8
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,8 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.6 focuses on enhancement to the admin panels - specifically "Options" and "Fields". Includes some improvements to registration for use with cache plugins.
-WP-Members 2.9.0 is a major update with changes to the form building functions, translation strings, and several additional fixes and updates.  Please test prior to updating a production site.
+WP-Members 2.9.8 is mostly minor updates with the exception of a change to the post meta field used for blocking/unblocking individual posts and pages. Be sure to read the release notes prior to updating.
 
 == Screenshots ==
 
@@ -132,6 +131,21 @@ WP-Members 2.9.0 is a major update with changes to the form building functions, 
 
 
 == Changelog ==
+
+= 2.9.8 =
+* Fixed bug in settings update that caused the stored version number to be erased.
+* Fixed bug with new email function that causes the wpmem_email_newreg not to apply any filtered changes to the email body.
+* Major updates to wpmem_block logic, changing to universal _wpmem_block from two separate metas (block & unblock).
+* Fixed bug in the page bulk action that caused the result to end up on the posts page.
+* Added wpmem_use_ssl utility function.
+* Added use of wpmem_use_ssl function to reCAPTCHA to load correctly (previously handled ssl directly).
+* Added use of wpmem_use_ssl function for default input text for custom register page, user profile page, and custom stylesheet settings inputs.
+* Added new redirect_to parameter to login page shortcode.
+* Fixed checkbox for checked by default on the add new user screen.
+* Fixed "admin only" fields to display on the add new user screen.
+* Added underscores parameter to the fields shortcode to strip underscores. Defaults to off.
+* Updated excerpt logic to not show excerpts on multipage posts if not the first page.
+* Added new 2015 stylesheets (currently available, but subject to changes/updates)
 
 = 2.9.7 =
 * Fixed comparison for the checkbox CSS class in wpmem_create_formfield.

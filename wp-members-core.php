@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2014  Chad Butler
+ * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler 
- * @copyright 2006-2014
+ * @copyright 2006-2015
  */
 
 
@@ -160,7 +160,13 @@ function wpmem_securify( $content = null )
 			} else {
 			
 				// toggle shows excerpt above login/reg on posts/pages
-				if( WPMEM_SHOW_EXCERPT == 1 ) {
+				global $wp_query;
+				if( $wp_query->query_vars['page'] > 1 ) {
+						
+						// shuts down excerpts on multipage posts if not on first page
+						$content = '';
+				
+				} elseif( WPMEM_SHOW_EXCERPT == 1 ) {
 
 					if( ! stristr( $content, '<span id="more' ) ) {
 						$content = wpmem_do_excerpt( $content );
@@ -223,12 +229,13 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * @since 2.6
  *
  * @param  string $page
+ * @param  string $redirect_to
  * @global string $wpmem_regchk
  * @global string $wpmem_themsg
  * @global string $wpmem_a
  * @return string $content 
  */
-function wpmem_do_sc_pages( $page )
+function wpmem_do_sc_pages( $page, $redirect_to = null )
 {
 	global $wpmem_regchk, $wpmem_themsg, $wpmem_a;
 	include_once( WPMEM_PATH . 'wp-members-dialogs.php' );
@@ -298,13 +305,13 @@ function wpmem_do_sc_pages( $page )
 
 				if( $wpmem_regchk == "updaterr" || $wpmem_regchk == "email" ) {
 
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_registration( 'edit', $heading );
 
 				} else {
 
 					//case "editsuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk,$wpmem_themsg );
+					$content = $content . wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_memberlinks();
 
 				}
@@ -335,8 +342,8 @@ function wpmem_do_sc_pages( $page )
 	}
 	
 	if( $page == 'login' ) {
-		$content = ( $wpmem_regchk == "loginfailed" ) ? wpmem_inc_loginfailed() : $content; 
-		$content = ( ! is_user_logged_in() ) ? $content . wpmem_inc_login( 'login' ) : wpmem_inc_memberlinks( 'login' );
+		$content = ( $wpmem_regchk == "loginfailed" ) ? wpmem_inc_loginfailed() : $content;
+		$content = ( ! is_user_logged_in() ) ? $content . wpmem_inc_login( 'login', $redirect_to ) : wpmem_inc_memberlinks( 'login' );
 	}
 	
 	if( $page == 'password' ) {
@@ -364,21 +371,52 @@ function wpmem_block()
 {
 	global $post; 
 	
-	$unblock_meta = get_post_custom_values( 'unblock', $post->ID );
-	$block_meta   = get_post_custom_values( 'block',   $post->ID );
-
-	$block = false;
-	
-	if( is_single() ) {
-		//$not_mem_area = 1; 
-		if( WPMEM_BLOCK_POSTS == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }	
-		if( WPMEM_BLOCK_POSTS == 0 &&   get_post_custom_values( 'block' ) )   { $block = true; }
+	/**
+	 * Backward compatibility for old block/unblock meta
+	 */
+	$meta = get_post_meta( $post->ID, '_wpmem_block', true );
+	if( ! $meta ) {
+		// check for old meta
+		$old_block   = get_post_meta( $post->ID, 'block',   true );
+		$old_unblock = get_post_meta( $post->ID, 'unblock', true );
+		$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
 	}
+	
+	// setup defaults
+	$defaults = array(
+		'post_id'    => $post->ID,
+		'post_type'  => $post->post_type,
+		'block'      => ( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1  ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) ? true : false,
+		'block_meta' => $meta, // get_post_meta( $post->ID, '_wpmem_block', true ),
+		'block_type' => ( $post->post_type == 'post' ) ? WPMEM_BLOCK_POSTS : ( ( $post->post_type == 'page' ) ? WPMEM_BLOCK_PAGES : 0 )
+	);
+	
+	/**
+	 * Filter the block arguments.
+	 *
+	 * @since 2.9.8
+	 *
+	 * @param array $args     Null.
+	 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
+	 */
+	$args = apply_filters( 'wpmem_block_args', '', $defaults );
+	
+	// merge $args with defaults and extract
+	extract( wp_parse_args( $args, $defaults ) );
 
-	if( is_page() && ! is_page( 'members-area' ) && ! is_page( 'register' ) ) { 
-		//$not_mem_area = 1; 
-		if( WPMEM_BLOCK_PAGES == 1 && ! get_post_custom_values( 'unblock' ) ) { $block = true; }
-		if( WPMEM_BLOCK_PAGES == 0 &&   get_post_custom_values( 'block' ) )   { $block = true; }
+	if( is_single() || is_page() ) {
+		switch( $block_type ) {
+			case 1: // if content is blocked by default
+				$block = ( $block_meta == '0' ) ? false : $block;
+				break;
+			case 0 : // if content is unblocked by default
+				$block = ( $block_meta == '1' ) ? true : $block;
+				break;
+		}
+	} else {
+	
+		$block = false;
+		
 	}
 	
 	/**
@@ -386,9 +424,10 @@ function wpmem_block()
 	 *
 	 * @since 2.7.5
 	 *
-	 * @param bool $block
+	 * @param bool  $block
+	 * @param array $args
 	 */
-	return apply_filters( 'wpmem_block', $block );
+	return apply_filters( 'wpmem_block', $block, $args );
 }
 endif;
 
@@ -413,12 +452,14 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 {
 	// set all default attributes to false
 	$defaults = array(
-		'page'      => false,
-		'url'       => false,
-		'status'    => false,
-		'msg'       => false,
-		'field'     => false,
-		'id'        => false
+		'page'        => false,
+		'redirect_to' => false,
+		'url'         => false,
+		'status'      => false,
+		'msg'         => false,
+		'field'       => false,
+		'id'          => false,
+		'underscores' => 'off'
 	);
 
 	// merge defaults with $attr and extract
@@ -435,7 +476,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 			return $url;
 		} else {
 			//return do_shortcode( wpmem_do_sc_pages( $page ) ); 
-			$content = do_shortcode( wpmem_do_sc_pages( $page ) );
+			$content = do_shortcode( wpmem_do_sc_pages( $page, $redirect_to ) );
 		}
 		
 		// resolve any texturize issues...
@@ -499,7 +540,11 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 			// get the current user
 			$the_user_ID = get_current_user_id();
 		}
-		$user_info = get_userdata( $the_user_ID );	
+		$user_info = get_userdata( $the_user_ID );
+		
+		if( $underscores == 'off' ) {
+			$user_info->$field = str_replace( '_', ' ', $user_info->$field );
+		}
 
 		// @todo - check this change
 		return ( $user_info ) ? htmlspecialchars( $user_info->$field ) . do_shortcode( $content ) : do_shortcode( $content );
