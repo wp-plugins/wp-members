@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 2.9.8
+Stable tag: 2.9.8.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,6 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
+WP-Members 2.9.8.1 corrects a bug created by the inclusion of the new redirect_to parameter in the login page shortcode.  If you use this shortcode, you should apply this update.
 WP-Members 2.9.8 is mostly minor updates with the exception of a change to the post meta field used for blocking/unblocking individual posts and pages. Be sure to read the release notes prior to updating.
 
 == Screenshots ==
@@ -131,6 +132,9 @@ WP-Members 2.9.8 is mostly minor updates with the exception of a change to the p
 
 
 == Changelog ==
+
+= 2.9.8.1 =
+* Fixed a bug that causes the login page shortcode to fail if the new redirect_to parameter is not included.  If you use the login page shortcode, you should update.
 
 = 2.9.8 =
 * Fixed bug in settings update that caused the stored version number to be erased.
