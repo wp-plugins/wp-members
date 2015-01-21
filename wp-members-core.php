@@ -453,7 +453,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 	// set all default attributes to false
 	$defaults = array(
 		'page'        => false,
-		'redirect_to' => false,
+		'redirect_to' => null,
 		'url'         => false,
 		'status'      => false,
 		'msg'         => false,
