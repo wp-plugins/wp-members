@@ -305,7 +305,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 			 * If the column is "active", then return the value or empty.
 			 * Returning in here keeps us from displaying another value.
 			 */
-				return ( get_user_meta( $user_id , 'active', 'true' ) != 1 ) ? __( 'No' ) : '';
+				return ( get_user_meta( $user_id , 'active', true ) != 1 ) ? __( 'No' ) : '';
 			} else {
 				return;
 			}
