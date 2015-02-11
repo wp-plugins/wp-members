@@ -173,9 +173,9 @@ function wpmem_update_fields( $action )
 		global $add_field_err_msg;
 	
 		// error check that field label and option name are included and unique
-		$add_field_err_msg = ( ! $_POST['add_name'] )   ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
-		$add_field_err_msg = ( ! $_POST['add_option'] ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
-		
+		$add_field_err_msg = ( $_POST['add_name']   == '' ) ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
+		$add_field_err_msg = ( $_POST['add_option'] == '' ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
+			
 		// check for duplicate field names
 		$chk_fields = array();
 		foreach ( $wpmem_fields as $field ) {
