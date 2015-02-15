@@ -133,8 +133,14 @@ WP-Members 2.9.8 is mostly minor updates with the exception of a change to the p
 
 == Changelog ==
 
-= 2.9.8.1 =
-* Fixed a bug that causes the login page shortcode to fail if the new redirect_to parameter is not included.  If you use the login page shortcode, you should update.
+= 2.9.9 =
+* code standards in wp-members-email.php
+* rebuilt admin notification email to follow new regular email structure with more filters in wp-members-email.com
+* added $toggle to headers filter that is used in both emails so that headers could be filtered based on the email being sent (i.e. sending plain text for admin notification vs html for others. in wp-members-email.php
+* added redirect_to parameter as a widget entry in wp-members-sidebar.php
+* corrected error checking for adding new fields in /admin/tab-fields.php
+* added functions for updating user_status in wp_users table in /admin/users.php
+* fixed get_user_meta 'true' error in wp-members-core.php, users.php, /admin/users.php, /admin/user-profile.php
 
 = 2.9.8 =
 * Fixed bug in settings update that caused the stored version number to be erased.
@@ -412,7 +418,7 @@ Admin Panel Updates:
 * Add field dialog was updated and improved.
 * Added an admin process to edit existing fields.
 * Added new option in the plugin options to load one of the predefined stylesheets from a dropdown.
-* Block/Unblock post meta box added to the post/page editor – no need to use custom fields anymore (this feature actually updates the custom fields accordingly, so you can use custom fields if you want to).
+* Block/Unblock post meta box added to the post/page editor Â– no need to use custom fields anymore (this feature actually updates the custom fields accordingly, so you can use custom fields if you want to).
 * Added dropdown selector for preloaded stylesheets - no need to enter the location of the preloaded stylesheets to use them.
 
 New Filters:
