@@ -24,7 +24,9 @@ add_action( 'load-users.php', 'wpmem_users_page_load' );
 add_action( 'admin_notices', 'wpmem_users_admin_notices' );
 add_filter( 'views_users', 'wpmem_users_views' );
 add_filter( 'manage_users_columns', 'wpmem_add_user_column' );
-add_action( 'manage_users_custom_column',  'wpmem_add_user_column_content', 10, 3 );
+add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3 );
+add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
+add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
 if( WPMEM_MOD_REG == 1 ) {
 	add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
 }
@@ -305,7 +307,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 			 * If the column is "active", then return the value or empty.
 			 * Returning in here keeps us from displaying another value.
 			 */
-				return ( get_user_meta( $user_id , 'active', true ) != 1 ) ? __( 'No' ) : '';
+				return ( get_user_meta( $user_id , 'active', 'true' ) != 1 ) ? __( 'No' ) : '';
 			} else {
 				return;
 			}
@@ -442,6 +444,44 @@ function wpmem_a_pre_user_query( $user_search )
 	}
 	
 	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query,	$user_search->query_where );
+}
+
+
+/**
+ * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user
+ * http://codex.wordpress.org/Function_Reference/wp_update_user
+ *
+ * @uses  wpmem_set_user_status
+ * @param $fields
+ */
+function wpmem_set_new_user_non_active( $fields ) {
+	wpmem_set_user_status( $fields['ID'], 2 )
+	return;
+}
+
+
+/**
+ * Use wpmem_user_activated to set the user_status field to 0 using wp_update_user
+ *
+ * @uses  wpmem_set_user_status
+ * @param $user_id
+ */
+function wpmem_set_activated_user( $user_id ) {
+	wpmem_set_user_status( $user_id, 0 )
+	return;
+}
+
+
+/**
+ * Updates the user_status value in the wp_users table
+ *
+ * @param $user_id
+ * @param $status
+ */
+function wpmem_set_user_status( $user_id, $status ) {
+	global $wpdb;
+	$wpdb->update( $wpdb->users, array( 'user_status' => $status ), array( 'ID' => $user_id ) );
+	return;
 }
 
 /** End of File **/
