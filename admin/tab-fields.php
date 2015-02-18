@@ -171,18 +171,23 @@ function wpmem_update_fields( $action )
 		check_admin_referer( 'wpmem-add-fields' );
 	
 		global $add_field_err_msg;
+		
+		$add_field_err_msg = false;
 	
 		// error check that field label and option name are included and unique
-		$add_field_err_msg = ( $_POST['add_name']   == '' ) ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
-		$add_field_err_msg = ( $_POST['add_option'] == '' ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : false;
-			
+		$add_field_err_msg = ( $_POST['add_name']   == '' ) ? __( 'Field Label is required for adding a new field. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
+		$add_field_err_msg = ( $_POST['add_option'] == '' ) ? __( 'Option Name is required for adding a new field. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
+		
+		//$option_len = strlen( $_POST['add_option'] );
+		$add_field_err_msg = ( !preg_match("/^[A-Za-z0-9_]*$/", $_POST['add_option'] ) ) ? __( 'Option Name must contain only letters, numbers, and underscores', 'wp-members' ) : $add_field_err_msg;
+	
 		// check for duplicate field names
 		$chk_fields = array();
 		foreach ( $wpmem_fields as $field ) {
 			$chk_fields[] = $field[2];
 		}
-		$add_field_err_msg = ( in_array( $_POST['add_option'], $chk_fields ) ) ? __( 'A field with that option name already exists', 'wp-members' ) : false;
-	
+		$add_field_err_msg = ( in_array( $_POST['add_option'], $chk_fields ) ) ? __( 'A field with that option name already exists', 'wp-members' ) : $add_field_err_msg;
+
 		// error check option name for spaces and replace with underscores
 		$us_option = $_POST['add_option'];
 		$us_option = preg_replace( "/ /", '_', $us_option );
@@ -198,7 +203,7 @@ function wpmem_update_fields( $action )
 		$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 		
 		if( $_POST['add_type'] == 'checkbox' ) { 
-			$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : false;
+			$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
 			$arr[7] = ( isset( $_POST['add_checked_value'] ) )   ? $_POST['add_checked_value']   : false;
 			$arr[8] = ( isset( $_POST['add_checked_default'] ) ) ? $_POST['add_checked_default'] : 'n';
 		}
