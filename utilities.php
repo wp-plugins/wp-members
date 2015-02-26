@@ -191,8 +191,7 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  * @uses wp_enqueue_style
  */
 function wpmem_enqueue_style() {		
-	$css_path = ( WPMEM_CSSURL != null ) ? WPMEM_CSSURL : WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ), "", plugin_basename( __FILE__ ) ) . "css/wp-members.css";
-	wp_register_style( 'wp-members', $css_path, '', WPMEM_VERSION );
+	wp_register_style( 'wp-members', WPMEM_CSSURL, '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wp-members' );
 }
 endif;
