@@ -88,8 +88,6 @@ function wpmem_do_install()
 		
 	} else {
 	
-		wpmem_update_active();
-	
 		wpmem_update_captcha();
 	
 		wpmem_update_dialogs();
@@ -120,6 +118,7 @@ function wpmem_do_install()
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			wpmem_append_tos( '2.2+' );
+			wpmem_update_active( 0 );
 			break;
 		
 		  case 10: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
@@ -142,6 +141,7 @@ function wpmem_do_install()
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
 			wpmem_append_tos( '2.2+');
+			wpmem_update_active( $wpmem_settings[5] );
 			break;
 			
 		  case 12:
@@ -164,6 +164,7 @@ function wpmem_do_install()
 				$wpmem_settings[11]		// 11 ignore warnings		
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
+			wpmem_update_active( $wpmem_settings[5] );
 			break;
 		}
 	}
@@ -400,15 +401,17 @@ function wpmem_update_captcha()
 }
 
 
-function wpmem_update_active(){
-	global $wpdb;
-	$users = get_users( array( 'fields'=>'ID' ) );
-		$is_active = get_user_meta( $user, 'active', true );
-	foreach( $users as $user ){
-		if( ! $is_active || $is_active != 1 ) {	
-			$wpdb->update( $wpdb->users, array( 'user_status' => '2' ), array( 'ID' => $user ) );
-		} elseif( $is_active == 1 ) {
-			$wpdb->update( $wpdb->users, array( 'user_status' => '0' ), array( 'ID' => $user ) );
+function wpmem_update_active( $mod ) {
+	if( $mod == 1 ) {
+		global $wpdb;
+		$users = get_users( array( 'fields'=>'ID' ) );
+		foreach( $users as $user ){
+			$is_active = get_user_meta( $user, 'active', true );
+			if( ! $is_active || $is_active != 1 ) {	
+				$wpdb->update( $wpdb->users, array( 'user_status' => '2' ), array( 'ID' => $user ) );
+			} elseif( $is_active == 1 ) {
+				$wpdb->update( $wpdb->users, array( 'user_status' => '0' ), array( 'ID' => $user ) );
+			}
 		}
 	}
 	return;
