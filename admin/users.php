@@ -455,7 +455,7 @@ function wpmem_a_pre_user_query( $user_search )
  * @param $fields
  */
 function wpmem_set_new_user_non_active( $fields ) {
-	wpmem_set_user_status( $fields['ID'], 2 )
+	wpmem_set_user_status( $fields['ID'], 2 );
 	return;
 }
 
@@ -467,7 +467,7 @@ function wpmem_set_new_user_non_active( $fields ) {
  * @param $user_id
  */
 function wpmem_set_activated_user( $user_id ) {
-	wpmem_set_user_status( $user_id, 0 )
+	wpmem_set_user_status( $user_id, 0 );
 	return;
 }
 
