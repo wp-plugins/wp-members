@@ -27,6 +27,7 @@ add_filter( 'manage_users_columns', 'wpmem_add_user_column' );
 add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3 );
 add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
 add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
+add_action( 'wpmem_user_deactivated', 'wpmem_set_deactivated_user' );
 if( WPMEM_MOD_REG == 1 ) {
 	add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
 }
@@ -393,6 +394,7 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
  */
 function wpmem_a_deactivate_user( $user_id ) {
 	update_user_meta( $user_id, 'active', 0 );
+	do_action( 'wpmem_user_deactivated', $user_id );
 }
 
 
@@ -448,7 +450,7 @@ function wpmem_a_pre_user_query( $user_search )
 
 
 /**
- * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user
+ * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user.
  * http://codex.wordpress.org/Function_Reference/wp_update_user
  *
  * @uses  wpmem_set_user_status
@@ -461,13 +463,25 @@ function wpmem_set_new_user_non_active( $fields ) {
 
 
 /**
- * Use wpmem_user_activated to set the user_status field to 0 using wp_update_user
+ * Use wpmem_user_activated to set the user_status field to 0 using wp_update_user.
  *
  * @uses  wpmem_set_user_status
  * @param $user_id
  */
 function wpmem_set_activated_user( $user_id ) {
 	wpmem_set_user_status( $user_id, 0 );
+	return;
+}
+
+
+/**
+ * Use wpmem_user_deactivated to set the user_status field to 2 using wp_update_user.
+ *
+ * @uses  wpmem_set_user_status
+ * @param $user_id
+ */
+function wpmem_set_deactivated_user( $user_id ) {
+	wpmem_set_user_status( $user_id, 2 );
 	return;
 }
 
