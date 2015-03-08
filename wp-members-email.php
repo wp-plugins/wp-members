@@ -99,9 +99,9 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	 * @since 2.7.4
 	 *
 	 * @param mixed  $default_header The email headers.
-	 * @param string $toggle         Toggle to determine what email is being generated (newreg|newmod|appmod|repass|admin).
+	 * @param string $arr['toggle']  Toggle to determine what email is being generated (newreg|newmod|appmod|repass|admin).
 	 */
-	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $toggle );
+	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $arr['toggle'] );
 
 	/** handle backward compatibility for customizations that may call the email function directly */
 	if ( ! $wpmem_fields ) {
@@ -124,19 +124,16 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	 * @param array $field_data   An array of the posted registration data.
 	 */
 	$arr = apply_filters( 'wpmem_email_filter', $arr, $wpmem_fields, $field_data );
-
-	/** extract the array **/
-	extract( $arr );
 	
 	/**
 	 * If emails are not disabled, continue the email process
 	 */
-	if ( ! $disable ) {
+	if ( ! $arr['disable'] ) {
 
 		/**
 		 * Legacy email filters applied
 		 */
-		switch ( $toggle ) {
+		switch ( $arr['toggle'] ) {
 		
 		case 'newreg': 
 			//this is a new registration
@@ -147,7 +144,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			 *
 			 * @param string $arr['body'] The body content of the new registration email.
 			 */
-			$body = apply_filters( 'wpmem_email_newreg', $body );
+			$arr['body'] = apply_filters( 'wpmem_email_newreg', $arr['body'] );
 			break;
 			
 		case 'newmod':
@@ -157,9 +154,9 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			 *
 			 * @since 2.7.4
 			 *
-			 * @param string $body The body content of the moderated registration email.
+			 * @param string $arr['body'] The body content of the moderated registration email.
 			 */
-			$body = apply_filters( 'wpmem_email_newmod', $body );
+			$arr['body'] = apply_filters( 'wpmem_email_newmod', $arr['body'] );
 			break;
 
 		case 'appmod':
@@ -169,9 +166,9 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			 *
 			 * @since 2.7.4
 			 *
-			 * @param string $body The body content of the reset password email.
+			 * @param string $arr['body'] The body content of the reset password email.
 			 */
-			$body = apply_filters( 'wpmem_email_appmod', $body );
+			$arr['body'] = apply_filters( 'wpmem_email_appmod', $arr['body'] );
 			break;
 
 		case 'repass':
@@ -181,21 +178,40 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			 *
 			 * @since 2.7.4
 			 *
-			 * @param string $body The body content of the approved registration email.
+			 * @param string $arr['body'] The body content of the approved registration email.
 			 */
-			$body = apply_filters( 'wpmem_email_repass', $body );
+			$arr['body'] = apply_filters( 'wpmem_email_repass', $arr['body'] );
 			break;
 			
 		}
 
 		/** Get the email footer if needed */
-		$foot = ( $add_footer ) ? get_option ( 'wpmembers_email_footer' ) : '';
+		$foot = ( $arr['add_footer'] ) ? get_option ( 'wpmembers_email_footer' ) : '';
 
 		/** if doing shortcode replacements **/
-		if ( $do_shortcodes ) {
+		if ( $arr['do_shortcodes'] ) {
+			
 			/** Setup default shortcodes */
-			$shortcd = array( '[blogname]', '[username]', '[password]', '[reglink]', '[members-area]', '[exp-type]', '[exp-data]' );
-			$replace = array( $blogname, $user_login, $password, $reg_link, $wpmem_msurl, $exp_type, $exp_date );
+			$shortcd = array(
+				'[blogname]',
+				'[username]',
+				'[password]',
+				'[reglink]',
+				'[members-area]',
+				'[exp-type]',
+				'[exp-data]',
+			);
+			
+			/** Replacement values for default shortcodes */
+			$replace = array(
+				$arr['blogname'],
+				$arr['user_login'],
+				$password,
+				$arr['reg_link'],
+				$arr['wpmem_msurl'],
+				$arr['exp_type'],
+				$arr['exp_date'],
+			);
 
 			/** Setup custom field shortcodes */
 			foreach ( $wpmem_fields as $field ) {
@@ -203,17 +219,17 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 				$replace[] = get_user_meta( $user_id, $field[2], true );
 			}
 
-			/* Get the subject, body, and footer shortcodes */
-			$subj = str_replace( $shortcd, $replace, $subj );
-			$body = str_replace( $shortcd, $replace, $body );
-			$foot = ( $add_footer ) ? str_replace( $shortcd, $replace, $foot ) : '';
+			/* Do replacements for subject, body, and footer shortcodes */
+			$arr['subj'] = str_replace( $shortcd, $replace, $arr['subj'] );
+			$arr['body'] = str_replace( $shortcd, $replace, $arr['body'] );
+			$foot = ( $arr['add_footer'] ) ? str_replace( $shortcd, $replace, $foot ) : '';
 		}
 
 		/** Append footer if needed **/
-		$body = ( $add_footer ) ? $body . "\r\n" . $foot : $body;
+		$arr['body'] = ( $arr['add_footer'] ) ? $arr['body'] . "\r\n" . $foot : $arr['body'];
 
 		/* Send the message */
-		wp_mail( $user_email, stripslashes( $subj ), stripslashes( $body ), $headers );
+		wp_mail( $arr['user_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
 
 	}
 
@@ -237,9 +253,20 @@ if ( ! function_exists( 'wpmem_notify_admin' ) ):
  */
 function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
-	$wp_user_fields = array( 'user_login', 'user_nicename', 'user_url', 'user_registered', 'display_name', 'first_name', 'last_name', 'nickname', 'description' );
+	/** WP default user fields **/
+	$wp_user_fields = array(
+		'user_login',
+		'user_nicename',
+		'user_url',
+		'user_registered',
+		'display_name',
+		'first_name',
+		'last_name',
+		'nickname',
+		'description',
+	);
 
-	/** get the user ID */
+	/** get the user data */
 	$user = get_userdata( $user_id );
 	
 	/** get the email stored values */
@@ -259,6 +286,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['add_footer']    = true;
 	$arr['disable']       = false;
 
+	/** builds an array of the user data fields */
 	$field_arr = array();
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
@@ -320,34 +348,54 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	 *
 	 * @since 2.9.8
 	 *
-	 * @param array $arr          An array containing email body, subject, user id, and additional settings.
-	 * @param array $wpmem_fields An array of the WP-Members fields.
-	 * @param array $field_arr    An array of the posted registration data.
+	 * @param array $arr              An array containing email body, subject, user id, and additional settings.
+	 * @param array $wpmem_fields     An array of the WP-Members fields.
+	 * @param array $arr['field_arr'] An array of the posted registration data.
 	 */
 	$arr = apply_filters( 'wpmem_notify_filter', $arr, $wpmem_fields, $field_data );
-
-	/** extract the array **/
-	extract( $arr );
 
 	/**
 	 * If emails are not disabled, continue the email process
 	 */
-	if ( ! $disable ) {
+	if ( ! $arr['disable'] ) {
 
 		/** split field_arr into field_str */
 		$field_str = '';
-		foreach ( $field_arr as $key => $val ) {
+		foreach ( $arr['field_arr'] as $key => $val ) {
 			$field_str.= $key . ': ' . $val . "\r\n";
 		}
 
 		/** Get the email footer if needed */
-		$foot = ( $add_footer ) ? get_option ( 'wpmembers_email_footer' ) : '';
+		$foot = ( $arr['add_footer'] ) ? get_option ( 'wpmembers_email_footer' ) : '';
 
 		/** if doing shortcode replacements **/
-		if ( $do_shortcodes ) {
+		if ( $arr['do_shortcodes'] ) {
+
 			/** Setup default shortcodes */
-			$shortcd = array( '[blogname]', '[username]', '[email]', '[reglink]', '[exp-type]', '[exp-data]', '[user-ip]', '[activate-user]', '[fields]' );
-			$replace = array( $blogname, $user->user_login, $user->user_email, $reg_link, $exp_type, $exp_date, $user_ip, $act_link, $field_str );
+			$shortcd = array(
+				'[blogname]',
+				'[username]',
+				'[email]',
+				'[reglink]',
+				'[exp-type]',
+				'[exp-data]',
+				'[user-ip]',
+				'[activate-user]',
+				'[fields]',
+			);
+			
+			/** Replacement values for default shortcodes */
+			$replace = array(
+				$arr['blogname'],
+				$arr['user_login'],
+				$arr['user_email'],
+				$arr['reg_link'],
+				$arr['exp_type'],
+				$arr['exp_date'],
+				$arr['user_ip'],
+				$arr['act_link'],
+				$field_str,
+			);
 
 			/** create the custom field shortcodes */
 			foreach ( $wpmem_fields as $field ) {
@@ -356,25 +404,25 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 			}
 
 			/** Get the subject, body, and footer shortcodes */
-			$subj = str_replace( $shortcd, $replace, $subj );
-			$body = str_replace( $shortcd, $replace, $body );
-			$foot = ( $add_footer ) ? str_replace( $shortcd, $replace, $foot ) : '';
+			$arr['subj'] = str_replace( $shortcd, $replace, $arr['subj'] );
+			$arr['body'] = str_replace( $shortcd, $replace, $arr['body'] );
+			$foot = ( $arr['add_footer'] ) ? str_replace( $shortcd, $replace, $foot ) : '';
 		}
 
 		/** Append footer if needed **/
-		$body = ( $add_footer ) ? $body . "\r\n" . $foot : $body;
+		$arr['body'] = ( $arr['add_footer'] ) ? $arr['body'] . "\r\n" . $foot : $arr['body'];
 
 		/**
 		 * Filters the admin notification email.
 		 *
 		 * @since 2.8.2
 		 *
-		 * @param string $body The admin notification email body.
+		 * @param string $arr['body'] The admin notification email body.
 		 */
-		$body = apply_filters( 'wpmem_email_notify', $body );
+		$arr['body'] = apply_filters( 'wpmem_email_notify', $arr['body'] );
 
 		/* Send the message */
-		wp_mail( $admin_email, stripslashes( $subj ), stripslashes( $body ), $headers );
+		wp_mail( $admin_email, stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
 	}
 }
 endif;
