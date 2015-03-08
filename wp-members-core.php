@@ -706,12 +706,20 @@ if ( ! function_exists( 'wpmem_login_status' ) ):
  *
  * @since 2.0
  *
- * @uses wpmem_inc_memberlinks()
+ * @uses   wpmem_inc_memberlinks().
+ * @param  boolean $echo   Determines whether function should print result or not (default: true).
+ * @return string  $status The user status string produced by wpmem_inc_memberlinks().
  */
-function wpmem_login_status()
+function wpmem_login_status( $echo = true )
 {
-	include_once('wp-members-dialogs.php');
-	if (is_user_logged_in()) { echo wpmem_inc_memberlinks( 'status' ); }
+	include_once( 'wp-members-dialogs.php' );
+	if ( is_user_logged_in() ) { 
+		$status = wpmem_inc_memberlinks( 'status' );
+		if ( $echo ) {
+			echo $status; 
+		}
+		return $status;
+	}
 }
 endif;
 
