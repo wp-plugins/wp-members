@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 2.9.8.1
+Stable tag: 2.9.9
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,8 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.8.1 corrects a bug created by the inclusion of the new redirect_to parameter in the login page shortcode.  If you use this shortcode, you should apply this update.
-WP-Members 2.9.8 is mostly minor updates with the exception of a change to the post meta field used for blocking/unblocking individual posts and pages. Be sure to read the release notes prior to updating.
+WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 == Screenshots ==
 
@@ -134,13 +133,17 @@ WP-Members 2.9.8 is mostly minor updates with the exception of a change to the p
 == Changelog ==
 
 = 2.9.9 =
-* code standards in wp-members-email.php
-* rebuilt admin notification email to follow new regular email structure with more filters in wp-members-email.com
-* added $toggle to headers filter that is used in both emails so that headers could be filtered based on the email being sent (i.e. sending plain text for admin notification vs html for others. in wp-members-email.php
-* added redirect_to parameter as a widget entry in wp-members-sidebar.php
-* corrected error checking for adding new fields in /admin/tab-fields.php
-* added functions for updating user_status in wp_users table in /admin/users.php
-* fixed get_user_meta 'true' error in wp-members-core.php, users.php, /admin/users.php, /admin/user-profile.php
+* Code standards in wp-members-email.php
+* Rebuilt admin notification email to follow new regular email structure with more filters in wp-members-email.com
+* Added $toggle to headers filter that is used in both emails so that headers could be filtered based on the email being sent (i.e. sending plain text for admin notification vs html for others. in wp-members-email.php
+* Added redirect_to parameter as a widget entry in wp-members-sidebar.php
+* Corrected flaws in error checking for adding new fields in /admin/tab-fields.php
+* Added functions for updating user_status in wp_users table in /admin/users.php
+* Fixed get_user_meta 'true' error in wp-members-core.php, users.php, /admin/users.php, /admin/user-profile.php
+* Added dummy comments template to protect comments without post password.
+* Added new action for deactivting a user (opposite of wpmem_user_activated).
+* Added check to remove password, confirm_password, and confirm_email from export (data for these was already skipped, but the field space was there).
+* Added wpmem_status_msg_args and wpmem_login_links_args filters.
 
 = 2.9.8 =
 * Fixed bug in settings update that caused the stored version number to be erased.
