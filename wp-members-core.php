@@ -996,4 +996,23 @@ function wpmem_wplogin_stylesheet() {
     echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
 }
 
+
+/**
+ * Securifies the comments.
+ *
+ * If the user is not logged in and the content is blocked
+ * (i.e. wpmem_block() returns true), function loads a 
+ * dummy/empty comments template.
+ *
+ * @since 2.9.9
+ *
+ * @return string $template The location of the comments template.
+ */
+function wpmem_securify_comments( $template ) {
+	if ( ! is_user_logged_in() && wpmem_block() ) {
+		return dirname( __FILE__ ) . '/lib/comments-template.php';
+	}
+	return $template;
+}
+
 /** End of File **/

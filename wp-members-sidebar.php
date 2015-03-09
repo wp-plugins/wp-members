@@ -298,7 +298,7 @@ class widget_wpmemwidget extends WP_Widget
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect:', 'wp-members'); ?></label>
+			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect to (optional):', 'wp-members'); ?></label>
 			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
 		</p>
 		<?php
