@@ -39,7 +39,9 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
 function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null, $field_data = null ) {
 
 	/**
-	 * Determine which email is being sent
+	 * Determine which email is being sent.
+	 *
+	 * Stored option is an array with keys 'body' and 'subj'.
 	 */
 	switch ( $toggle ) {
 
@@ -291,7 +293,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	 * @param mixed  $default_header The email headers (default = null).
 	 * @param string $toggle         Toggle to determine what email is being generated (newreg|newmod|appmod|repass|admin).
 	 */
-	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $toggle );
+	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
 
 	/** handle backward compatibility for customizations that may call the email function directly */
 	if ( ! $wpmem_fields ) {
@@ -333,7 +335,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	if ( ! $disable ) {
 
 		/** split field_arr into field_str */
-		$fields_str = '';
+		$field_str = '';
 		foreach ( $field_arr as $key => $val ) {
 			$field_str.= $key . ': ' . $val . "\r\n";
 		}
@@ -353,7 +355,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 				$replace[] = get_user_meta( $user_id, $field[2], true );
 			}
 
-			/* Get the subject, body, and footer shortcodes */
+			/** Get the subject, body, and footer shortcodes */
 			$subj = str_replace( $shortcd, $replace, $subj );
 			$body = str_replace( $shortcd, $replace, $body );
 			$foot = ( $add_footer ) ? str_replace( $shortcd, $replace, $foot ) : '';
