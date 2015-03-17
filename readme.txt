@@ -1,6 +1,6 @@
 === WP-Members ===
 Contributors: cbutlerjr
-Tags: access, authentication, block, captcha, community, content, login, member, members, members only, membership, memberships, password, permissions, premium content, protect, protect content, register, registration, restrict access, restrict content, restriction, security, signup, subscriber, subscribers, user, users, wordpress members, wordpress membership, wordpress membership plugin
+Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.1
 Stable tag: 2.9.9
