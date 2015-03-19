@@ -344,8 +344,6 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  *
  * @since 2.4
  *
- * @uses do_action Calls 'wpmem_user_activated' action
- *
  * @param int  $user_id
  * @param bool $chk_pass
  * @uses $wpdb WordPress Database object
@@ -376,6 +374,13 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
 	// set the active flag in usermeta
 	update_user_meta( $user_id, 'active', 1 );
 	
+	/**
+	 * Fires after the user activation process is complete.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param int $user_id The user's ID.
+	 */
 	do_action( 'wpmem_user_activated', $user_id );
 	
 	return;
@@ -394,6 +399,14 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
  */
 function wpmem_a_deactivate_user( $user_id ) {
 	update_user_meta( $user_id, 'active', 0 );
+	
+	/**
+	 * Fires after the user deactivation process is complete.
+	 *
+	 * @since 2.9.9
+	 *
+	 * @param int $user_id The user's ID.
+	 */
 	do_action( 'wpmem_user_deactivated', $user_id );
 }
 

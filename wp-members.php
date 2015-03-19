@@ -85,7 +85,7 @@ register_activation_hook( __FILE__, 'wpmem_install' );
 function wpmem_init()
 {
 	/**
-	 * Action for pre-initialization of plugin options.
+	 * Fires before initialization of plugin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -201,7 +201,7 @@ function wpmem_init()
 	}
 	
 	/**
-	 * Action at the end of initialization of plugin options.
+	 * Fires after initialization of plugin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -220,7 +220,7 @@ function wpmem_init()
 function wpmem_chk_admin()
 {
 	/**
-	 * Action for initialization of admin options.
+	 * Fires before initialization of admin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -260,7 +260,7 @@ function wpmem_chk_admin()
 	}
 	
 	/**
-	 * Action at the end of admin options.
+	 * Fires after initialization of admin options.
 	 *
 	 * @since 2.9.0
 	 */

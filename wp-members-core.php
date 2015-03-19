@@ -670,7 +670,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_logout' ) ):
 /**
- * Logs the user out then redirects
+ * Logs the user out then redirects.
  *
  * @since 2.0
  *
@@ -679,8 +679,8 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  * @uses nocache_headers
  * @uses wp_redirect
  */
-function wpmem_logout()
-{
+function wpmem_logout() {
+
 	/**
 	 * Filter the where the user goes when logged out.
 	 *
@@ -691,7 +691,10 @@ function wpmem_logout()
 	$redirect_to = apply_filters( 'wpmem_logout_redirect', get_bloginfo( 'url' ) );
 
 	wp_clear_auth_cookie();
+	
+	/** This action is defined in /wp-includes/pluggable.php **/
 	do_action( 'wp_logout' );
+	
 	nocache_headers();
 
 	wp_redirect( $redirect_to );
@@ -786,11 +789,11 @@ function wpmem_change_password()
 			wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
 			
 			/**
-			 * Password change action
+			 * Fires after password change.
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param int $user_ID The user's numeric ID
+			 * @param int $user_ID The user's numeric ID.
 			 */
 			do_action( 'wpmem_pwd_change', $user_ID );
 			
@@ -857,11 +860,11 @@ function wpmem_reset_password()
 					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
 					
 					/**
-					 * Password reset action
+					 * Fires after password reset.
 					 *
 					 * @since 2.9.0
 					 *
-					 * @param int $user_ID The user's numeric ID
+					 * @param int $user_ID The user's numeric ID.
 					 */
 					do_action( 'wpmem_pwd_reset', $user->ID );
 					

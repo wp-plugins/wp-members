@@ -162,12 +162,10 @@ function wpmem_block_meta_add()
  *
  * @since 2.8
  *
- * @uses do_action Calls 'wpmem_admin_after_block_meta' Allows actions at the end of the block meta box on pages and posts
- *
- * @global $post The WordPress post object
+ * @global $post The WordPress post object.
  */
-function wpmem_block_meta()  
-{  
+function wpmem_block_meta() {
+	
     global $post;
 
     wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
@@ -205,10 +203,12 @@ function wpmem_block_meta()
 	/**
 	 * Fires after the post block meta box.
 	 *
+	 * Allows actions at the end of the block meta box on pages and posts.
+	 *
 	 * @since 2.8.8
 	 *
-	 * @param $post
-	 * @param $block
+	 * @param $post  object  The WP Post Object.
+	 * @param $block boolean The WP-Members block value.
 	 */
 	do_action( 'wpmem_admin_after_block_meta', $post, $block );
 }
@@ -219,12 +219,10 @@ function wpmem_block_meta()
  *
  * @since 2.8
  *
- * @uses do_action Calls 'wpmem_admin_block_meta_save' allows actions to be hooked to the meta save process
- *
  * @param int $post_id The post ID
  */
-function wpmem_block_meta_save( $post_id )  
-{  
+function wpmem_block_meta_save( $post_id ) {
+	
     // quit if we are doing autosave
     if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return; 
 	
@@ -246,7 +244,17 @@ function wpmem_block_meta_save( $post_id )
 	} else {
 		delete_post_meta( $post_id, '_wpmem_block' );
 	}
-	
+
+	/**
+	 * Fires after the post block meta box is saved.
+	 *
+	 * Allows actions to be hooked to the meta save process.
+	 *
+	 * @since 2.8.8
+	 *
+	 * @param $post  object  The WP Post Object.
+	 * @param $block boolean The WP-Members block value.
+	 */
 	do_action( 'wpmem_admin_block_meta_save', $post, $block, '' );
 }
 

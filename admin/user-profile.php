@@ -51,6 +51,14 @@ function wpmem_admin_fields()
 		// get excluded meta
 		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 		
+		/**
+		 * Fires at the beginning of generating the WP-Members fields in the user profile.
+		 *
+		 * @since 2.9.3
+		 *
+		 * @param int   $user_id      The user's ID.
+		 * @param array $wpmem_fields The WP-Members fields.
+		 */
 		do_action( 'wpmem_admin_before_profile', $user_id, $wpmem_fields );
 		
 		foreach( $wpmem_fields as $meta ) {
@@ -129,8 +137,16 @@ function wpmem_admin_fields()
 			<th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
 			<td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', true ); ?></td>
 		</tr>
-		
-		<?php do_action( 'wpmem_admin_after_profile', $user_id, $wpmem_fields ); ?>
+		<?php
+		/**
+		 * Fires after generating the WP-Members fields in the user profile.
+		 *
+		 * @since 2.9.3
+		 *
+		 * @param int   $user_id      The user's ID.
+		 * @param array $wpmem_fields The WP-Members fields.
+		 */
+		do_action( 'wpmem_admin_after_profile', $user_id, $wpmem_fields ); ?>
 		
 	</table><?php
 }
@@ -141,13 +157,13 @@ function wpmem_admin_fields()
  *
  * @since 2.1
  */
-function wpmem_admin_update()
-{
+function wpmem_admin_update() {
+
 	$user_id = $_REQUEST['user_id'];
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 
 	/**
-	 * Action before the user profile is updated.
+	 * Fires before the user profile is updated.
 	 *
 	 * @since 2.9.2
 	 *
@@ -200,7 +216,7 @@ function wpmem_admin_update()
 	( WPMEM_USE_EXP == 1 ) ? wpmem_a_extend_user( $user_id ) : '';
 	
 	/**
-	 * Action after the user profile is updated.
+	 * Fires after the user profile is updated.
 	 *
 	 * @since 2.9.2
 	 *
