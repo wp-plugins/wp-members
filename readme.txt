@@ -144,6 +144,7 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 * Added new action for deactivting a user (opposite of wpmem_user_activated).
 * Added check to remove password, confirm_password, and confirm_email from export (data for these was already skipped, but the field space was there).
 * Added wpmem_status_msg_args and wpmem_login_links_args filters.
+* Corrected Really Simple Captcha, added field wrapper and should not display on user profile edit.
 
 = 2.9.8 =
 * Fixed bug in settings update that caused the stored version number to be erased.
