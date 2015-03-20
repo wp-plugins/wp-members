@@ -542,7 +542,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 		}
 		$user_info = get_userdata( $the_user_ID );
 		
-		if( $underscores == 'off' ) {
+		if( $underscores == 'off' && $user_info ) {
 			$user_info->$field = str_replace( '_', ' ', $user_info->$field );
 		}
 
