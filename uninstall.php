@@ -60,6 +60,7 @@ function wpmem_uninstall_options()
 	delete_option( 'wpmembers_export'   );
 	delete_option( 'wpmembers_msurl'    );
 	delete_option( 'wpmembers_regurl'   );
+	delete_option( 'wpmembers_logurl'   );
 	delete_option( 'wpmembers_cssurl'   );
 	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );

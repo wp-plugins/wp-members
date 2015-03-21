@@ -127,6 +127,7 @@ function wpmem_init()
 
 	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) ) : '';
 	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) ) : '';
+	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', get_option( 'wpmembers_logurl',null ) ) : '';
 
 	/**
 	 * define the stylesheet

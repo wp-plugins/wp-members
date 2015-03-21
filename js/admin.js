@@ -373,29 +373,39 @@ jQuery.fn.extend(
  */
 (function($) {
 	$(document).ready(function() {
-		if ($("#wpmem_mspage_select").val() == 'use_custom')
-			$("#wpmem_mspage_custom").show();
+		if ($("#wpmem_logpage_select").val() == 'use_custom')
+			$("#wpmem_logpage_custom").show();
 		else
-			$("#wpmem_mspage_custom").hide();
+			$("#wpmem_logpage_custom").hide();
 		if ($("#wpmem_regpage_select").val() == 'use_custom')
 			$("#wpmem_regpage_custom").show();
 		else
 			$("#wpmem_regpage_custom").hide();
+		if ($("#wpmem_mspage_select").val() == 'use_custom')
+			$("#wpmem_mspage_custom").show();
+		else
+			$("#wpmem_mspage_custom").hide();
 		if ($("#wpmem_stylesheet_select").val() == 'use_custom')
 			$("#wpmem_stylesheet_custom").show();
 		else
 			$("#wpmem_stylesheet_custom").hide();
-		$("#wpmem_mspage_select").change(function() {
-			if ($("#wpmem_mspage_select").val() == 'use_custom')
-				$("#wpmem_mspage_custom").show();
+		$("#wpmem_logpage_select").change(function() {
+			if ($("#wpmem_logpage_select").val() == 'use_custom')
+				$("#wpmem_logpage_custom").show();
 			else
-				$("#wpmem_mspage_custom").hide();
+				$("#wpmem_logpage_custom").hide();
 		});
 		$("#wpmem_regpage_select").change(function() {
 			if ($("#wpmem_regpage_select").val() == 'use_custom')
 				$("#wpmem_regpage_custom").show();
 			else
 				$("#wpmem_regpage_custom").hide();
+		});
+		$("#wpmem_mspage_select").change(function() {
+			if ($("#wpmem_mspage_select").val() == 'use_custom')
+				$("#wpmem_mspage_custom").show();
+			else
+				$("#wpmem_mspage_custom").hide();
 		});
 		$("#wpmem_stylesheet_select").change(function() {
 			if ($("#wpmem_stylesheet_select").val() == 'use_custom')
