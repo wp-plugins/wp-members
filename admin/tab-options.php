@@ -103,7 +103,7 @@ function wpmem_a_build_options( $wpmem_settings )
 								<label><?php _e( 'Login Page:', 'wp-members' ); ?></label>
 								<select name="wpmem_settings_logpage" id="wpmem_logpage_select">
 								<?php wpmem_admin_page_list( $wpmem_logurl ); ?>
-								</select>&nbsp;<span class="description"><?php _e( 'Specify a login page, if you have one', 'wp-members' ); ?></span><br />
+								</select>&nbsp;<span class="description"><?php _e( 'Specify a login page (optional)', 'wp-members' ); ?></span><br />
 								<div id="wpmem_logpage_custom">
 									<label>&nbsp;</label>
 									<input class="regular-text code" type="text" name="wpmem_settings_logurl" value="<?php echo $wpmem_logurl; ?>" size="50" />
