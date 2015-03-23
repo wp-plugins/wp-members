@@ -24,7 +24,10 @@ add_action( 'load-users.php', 'wpmem_users_page_load' );
 add_action( 'admin_notices', 'wpmem_users_admin_notices' );
 add_filter( 'views_users', 'wpmem_users_views' );
 add_filter( 'manage_users_columns', 'wpmem_add_user_column' );
-add_action( 'manage_users_custom_column',  'wpmem_add_user_column_content', 10, 3 );
+add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3 );
+add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
+add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
+add_action( 'wpmem_user_deactivated', 'wpmem_set_deactivated_user' );
 if( WPMEM_MOD_REG == 1 ) {
 	add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
 }
@@ -341,8 +344,6 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  *
  * @since 2.4
  *
- * @uses do_action Calls 'wpmem_user_activated' action
- *
  * @param int  $user_id
  * @param bool $chk_pass
  * @uses $wpdb WordPress Database object
@@ -373,6 +374,13 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
 	// set the active flag in usermeta
 	update_user_meta( $user_id, 'active', 1 );
 	
+	/**
+	 * Fires after the user activation process is complete.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param int $user_id The user's ID.
+	 */
 	do_action( 'wpmem_user_activated', $user_id );
 	
 	return;
@@ -391,6 +399,15 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
  */
 function wpmem_a_deactivate_user( $user_id ) {
 	update_user_meta( $user_id, 'active', 0 );
+	
+	/**
+	 * Fires after the user deactivation process is complete.
+	 *
+	 * @since 2.9.9
+	 *
+	 * @param int $user_id The user's ID.
+	 */
+	do_action( 'wpmem_user_deactivated', $user_id );
 }
 
 
@@ -442,6 +459,56 @@ function wpmem_a_pre_user_query( $user_search )
 	}
 	
 	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query,	$user_search->query_where );
+}
+
+
+/**
+ * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user.
+ * http://codex.wordpress.org/Function_Reference/wp_update_user
+ *
+ * @uses  wpmem_set_user_status
+ * @param $fields
+ */
+function wpmem_set_new_user_non_active( $fields ) {
+	wpmem_set_user_status( $fields['ID'], 2 );
+	return;
+}
+
+
+/**
+ * Use wpmem_user_activated to set the user_status field to 0 using wp_update_user.
+ *
+ * @uses  wpmem_set_user_status
+ * @param $user_id
+ */
+function wpmem_set_activated_user( $user_id ) {
+	wpmem_set_user_status( $user_id, 0 );
+	return;
+}
+
+
+/**
+ * Use wpmem_user_deactivated to set the user_status field to 2 using wp_update_user.
+ *
+ * @uses  wpmem_set_user_status
+ * @param $user_id
+ */
+function wpmem_set_deactivated_user( $user_id ) {
+	wpmem_set_user_status( $user_id, 2 );
+	return;
+}
+
+
+/**
+ * Updates the user_status value in the wp_users table
+ *
+ * @param $user_id
+ * @param $status
+ */
+function wpmem_set_user_status( $user_id, $status ) {
+	global $wpdb;
+	$wpdb->update( $wpdb->users, array( 'user_status' => $status ), array( 'ID' => $user_id ) );
+	return;
 }
 
 /** End of File **/

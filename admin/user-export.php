@@ -24,15 +24,15 @@
  * @param array $args
  * @param array $users
  */
-function wpmem_export_users( $args, $users = null )
-{
+function wpmem_export_users( $args, $users = null ) {
 	$today = date( "m-d-y" ); 
 
 	/** Setup defaults **/
 	$defaults = array(
-		'export'        => 'all',
-		'filename'      => 'wp-members-user-export-' . $today . '.csv',
-		'export_fields' => array()
+		'export'         => 'all',
+		'filename'       => 'wp-members-user-export-' . $today . '.csv',
+		'export_fields'  => array(),
+		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 	);
 
 	/** merge $args with defaults and extract **/
@@ -64,16 +64,18 @@ function wpmem_export_users( $args, $users = null )
 	/** do the header row */
 	$hrow = "User ID,Username,";
 
-	foreach( $wpmem_fields as $meta ) {
-		$hrow.= $meta[1] . ",";
+	foreach ( $wpmem_fields as $meta ) {
+		if ( ! in_array( $meta[2], $exclude_fields ) ) {
+			$hrow.= $meta[1] . ",";
+		}
 	}
 
-	$hrow.= ( WPMEM_MOD_REG == 1 ) ? __( 'Activated?', 'wp-members' ) . "," : '';
-	$hrow.= ( WPMEM_USE_EXP == 1 ) ? __( 'Subscription', 'wp-members' ) . "," . __( 'Expires', 'wp-members' ) . "," : '';
+	$hrow .= ( WPMEM_MOD_REG == 1 ) ? __( 'Activated?', 'wp-members' ) . "," : '';
+	$hrow .= ( WPMEM_USE_EXP == 1 ) ? __( 'Subscription', 'wp-members' ) . "," . __( 'Expires', 'wp-members' ) . "," : '';
 
-	$hrow.= __( 'Registered', 'wp-members' ) . ",";
-	$hrow.= __( 'IP', 'wp-members' );
-	$data = $hrow . "\r\n";
+	$hrow .= __( 'Registered', 'wp-members' ) . ",";
+	$hrow .= __( 'IP', 'wp-members' );
+	$data  = $hrow . "\r\n";
 
 	/**
 	 * we used the fields array once,
@@ -86,31 +88,33 @@ function wpmem_export_users( $args, $users = null )
 	 * build the data, delimit by commas, wrap fields with double quotes, 
 	 * use \n switch for new line
 	 */
-	foreach( $users as $user ) {
+	foreach ( $users as $user ) {
 
 		$user_info = get_userdata( $user );
 
-		$data.= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
+		$data .= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
 		
 		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
-		foreach( $wpmem_fields as $meta ) {
-			if( in_array( $meta[2], $wp_user_fields ) ){
-				$data.= '"' . $user_info->$meta[2] . '",';	
-			} else {
-				$data.= '"' . get_user_meta( $user, $meta[2], true ) . '",';
+		foreach ( $wpmem_fields as $meta ) {
+			if ( ! in_array( $meta[2], $exclude_fields ) ) {
+				if ( in_array( $meta[2], $wp_user_fields ) ){
+					$data .= '"' . $user_info->$meta[2] . '",';	
+				} else {
+					$data .= '"' . get_user_meta( $user, $meta[2], true ) . '",';
+				}
 			}
 		}
 		
-		$data.= ( WPMEM_MOD_REG == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ) ? __( 'Yes' ) : __( 'No' ) . '",' : '';
-		$data.= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
-		$data.= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
+		$data .= ( WPMEM_MOD_REG == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ) ? __( 'Yes' ) : __( 'No' ) . '",' : '';
+		$data .= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
+		$data .= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
 		
-		$data.= '"' . $user_info->user_registered . '",';
-		$data.= '"' . get_user_meta( $user, "wpmem_reg_ip", true ). '"';
-		$data.= "\r\n";
+		$data .= '"' . $user_info->user_registered . '",';
+		$data .= '"' . get_user_meta( $user, "wpmem_reg_ip", true ). '"';
+		$data .= "\r\n";
 		
 		/** update the user record as being exported */
-		if( $export != 'all' ){
+		if ( $export != 'all' ){
 			update_user_meta( $user, 'exported', 1 );
 		}
 	}

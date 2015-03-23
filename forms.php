@@ -736,7 +736,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 	
 	
 	// if captcha is Really Simple CAPTCHA
-	if( WPMEM_CAPTCHA == 2 ) {
+	if( WPMEM_CAPTCHA == 2 && $toggle != 'edit' ) {
 		$row = wpmem_build_rs_captcha();
 		$rows['captcha'] = array(
 			'order'        => '',
@@ -745,9 +745,9 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' )
 			'value'        => '',  
 			'row_before'   => $row_before,
 			'label'        => $row['label'],
-			'field_before' => $field_before,
+			'field_before' => ( $wrap_inputs ) ? '<div class="div_text">' : '',
 			'field'        => $row['field'],
-			'field_after'  => $field_after,
+			'field_after'  => ( $wrap_inputs ) ? '</div>' : '',
 			'row_after'    => $row_after		
 		);
 	}

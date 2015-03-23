@@ -97,16 +97,16 @@ function wpmem_a_build_options( $wpmem_settings )
 								</select>
 							  </li>
 							<h3><?php _e( 'Pages' ); ?></h3>
-							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
-							  if( ! $wpmem_msurl ) { $wpmem_msurl = wpmem_use_ssl(); } ?>
+							  <?php $wpmem_logurl = get_option( 'wpmembers_logurl' );
+							  if( ! $wpmem_logurl ) { $wpmem_logurl = wpmem_use_ssl(); } ?>
 							  <li>
-								<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
-								<select name="wpmem_settings_mspage" id="wpmem_mspage_select">
-								<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
-								</select>&nbsp;<span class="description"><?php _e( 'For creating a forgot password link in the login form', 'wp-members' ); ?></span><br />
-								<div id="wpmem_mspage_custom">
+								<label><?php _e( 'Login Page:', 'wp-members' ); ?></label>
+								<select name="wpmem_settings_logpage" id="wpmem_logpage_select">
+								<?php wpmem_admin_page_list( $wpmem_logurl ); ?>
+								</select>&nbsp;<span class="description"><?php _e( 'Specify a login page (optional)', 'wp-members' ); ?></span><br />
+								<div id="wpmem_logpage_custom">
 									<label>&nbsp;</label>
-									<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />
+									<input class="regular-text code" type="text" name="wpmem_settings_logurl" value="<?php echo $wpmem_logurl; ?>" size="50" />
 								</div>
 							  </li>
 							  <?php $wpmem_regurl = get_option( 'wpmembers_regurl' );
@@ -119,6 +119,18 @@ function wpmem_a_build_options( $wpmem_settings )
 								<div id="wpmem_regpage_custom">
 									<label>&nbsp;</label>	
 									<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />
+								</div>
+							  </li>
+							  <?php $wpmem_msurl = get_option( 'wpmembers_msurl' );
+							  if( ! $wpmem_msurl ) { $wpmem_msurl = wpmem_use_ssl(); } ?>
+							  <li>
+								<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
+								<select name="wpmem_settings_mspage" id="wpmem_mspage_select">
+								<?php wpmem_admin_page_list( $wpmem_msurl ); ?>
+								</select>&nbsp;<span class="description"><?php _e( 'For creating a forgot password link in the login form', 'wp-members' ); ?></span><br />
+								<div id="wpmem_mspage_custom">
+									<label>&nbsp;</label>
+									<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />
 								</div>
 							  </li>
 							  <?php $wpmem_style = get_option( 'wpmembers_style' ); ?>
@@ -228,6 +240,12 @@ function wpmem_update_options()
 		update_option( 'wpmembers_regurl', trim( $wpmem_settings_regurl ) );
 	}
 	
+	$wpmem_settings_logurl  = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? $_POST['wpmem_settings_logurl'] : '';
+	$wpmem_settings_logpage = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? '' : $_POST['wpmem_settings_logpage'];
+	if( $wpmem_settings_logpage ) { update_option( 'wpmembers_logurl', $wpmem_settings_logpage ); }
+	if( $wpmem_settings_logurl != wpmem_use_ssl() && $wpmem_settings_logurl != 'use_custom' && ! $wpmem_settings_logpage ) {
+		update_option( 'wpmembers_logurl', trim( $wpmem_settings_logurl ) );
+	}
 	
 	$wpmem_settings_cssurl = $_POST['wpmem_settings_cssurl'];
 	if( $wpmem_settings_cssurl != wpmem_use_ssl() ) {

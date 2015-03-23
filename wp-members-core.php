@@ -542,7 +542,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' )
 		}
 		$user_info = get_userdata( $the_user_ID );
 		
-		if( $underscores == 'off' ) {
+		if( $underscores == 'off' && $user_info ) {
 			$user_info->$field = str_replace( '_', ' ', $user_info->$field );
 		}
 
@@ -584,7 +584,7 @@ function wpmem_check_activated( $user, $username, $password )
 	}
 
 	// activation flag must be validated
-	$active = get_user_meta( $user->ID, 'active', 1 );
+	$active = get_user_meta( $user->ID, 'active', true );
 	if( $active != 1 ) {
 		return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
 	}
@@ -670,7 +670,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_logout' ) ):
 /**
- * Logs the user out then redirects
+ * Logs the user out then redirects.
  *
  * @since 2.0
  *
@@ -679,8 +679,8 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  * @uses nocache_headers
  * @uses wp_redirect
  */
-function wpmem_logout()
-{
+function wpmem_logout() {
+
 	/**
 	 * Filter the where the user goes when logged out.
 	 *
@@ -691,7 +691,10 @@ function wpmem_logout()
 	$redirect_to = apply_filters( 'wpmem_logout_redirect', get_bloginfo( 'url' ) );
 
 	wp_clear_auth_cookie();
+	
+	/** This action is defined in /wp-includes/pluggable.php **/
 	do_action( 'wp_logout' );
+	
 	nocache_headers();
 
 	wp_redirect( $redirect_to );
@@ -706,12 +709,20 @@ if ( ! function_exists( 'wpmem_login_status' ) ):
  *
  * @since 2.0
  *
- * @uses wpmem_inc_memberlinks()
+ * @uses   wpmem_inc_memberlinks().
+ * @param  boolean $echo   Determines whether function should print result or not (default: true).
+ * @return string  $status The user status string produced by wpmem_inc_memberlinks().
  */
-function wpmem_login_status()
+function wpmem_login_status( $echo = true )
 {
-	include_once('wp-members-dialogs.php');
-	if (is_user_logged_in()) { echo wpmem_inc_memberlinks( 'status' ); }
+	include_once( 'wp-members-dialogs.php' );
+	if ( is_user_logged_in() ) { 
+		$status = wpmem_inc_memberlinks( 'status' );
+		if ( $echo ) {
+			echo $status; 
+		}
+		return $status;
+	}
 }
 endif;
 
@@ -778,11 +789,11 @@ function wpmem_change_password()
 			wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
 			
 			/**
-			 * Password change action
+			 * Fires after password change.
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param int $user_ID The user's numeric ID
+			 * @param int $user_ID The user's numeric ID.
 			 */
 			do_action( 'wpmem_pwd_change', $user_ID );
 			
@@ -849,11 +860,11 @@ function wpmem_reset_password()
 					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
 					
 					/**
-					 * Password reset action
+					 * Fires after password reset.
 					 *
 					 * @since 2.9.0
 					 *
-					 * @param int $user_ID The user's numeric ID
+					 * @param int $user_ID The user's numeric ID.
 					 */
 					do_action( 'wpmem_pwd_reset', $user->ID );
 					
@@ -986,6 +997,25 @@ function wpmem_wp_reg_finalize( $user_id )
  */
 function wpmem_wplogin_stylesheet() {
     echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
+}
+
+
+/**
+ * Securifies the comments.
+ *
+ * If the user is not logged in and the content is blocked
+ * (i.e. wpmem_block() returns true), function loads a 
+ * dummy/empty comments template.
+ *
+ * @since 2.9.9
+ *
+ * @return string $template The location of the comments template.
+ */
+function wpmem_securify_comments( $template ) {
+	if ( ! is_user_logged_in() && wpmem_block() ) {
+		return dirname( __FILE__ ) . '/lib/comments-template.php';
+	}
+	return $template;
 }
 
 /** End of File **/

@@ -79,20 +79,20 @@ function wpmem_do_install()
 		
 		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 
-		append_tos( 'new' );
+		wpmem_append_tos( 'new' );
 
-		append_email();
+		wpmem_append_email();
 		
 		// if it's a new install, use the Twenty Twelve stylesheet
 		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
 		
 	} else {
 	
-		update_captcha();
+		wpmem_update_captcha();
 	
-		update_dialogs();
+		wpmem_update_dialogs();
 	
-		append_email();
+		wpmem_append_email();
 	
 		$wpmem_settings = get_option( 'wpmembers_settings' );
 		
@@ -117,7 +117,8 @@ function wpmem_do_install()
 				$wpmem_settings[3]		// 11 ignore warnings
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			append_tos( '2.2+' );
+			wpmem_append_tos( '2.2+' );
+			wpmem_update_active( 0 );
 			break;
 		
 		  case 10: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
@@ -139,7 +140,8 @@ function wpmem_do_install()
 				$wpmem_settings[9]		// 11 ignore warnings
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			append_tos( '2.2+');
+			wpmem_append_tos( '2.2+');
+			wpmem_update_active( $wpmem_settings[5] );
 			break;
 			
 		  case 12:
@@ -162,6 +164,7 @@ function wpmem_do_install()
 				$wpmem_settings[11]		// 11 ignore warnings		
 			);
 			update_option( 'wpmembers_settings', $wpmem_newsettings );
+			wpmem_update_active( $wpmem_settings[5] );
 			break;
 		}
 	}
@@ -173,7 +176,7 @@ function wpmem_do_install()
  *
  * @since 2.4
  */
-function append_tos( $upgrade )
+function wpmem_append_tos( $upgrade )
 {		
 	// check if _tos has been put in before; if not, populate dummy data	
 	if( !get_option('wpmembers_tos') ) {
@@ -200,7 +203,7 @@ function append_tos( $upgrade )
  *
  * @since 2.7
  */
-function append_email()
+function wpmem_append_email()
 {
 
 	//email for a new registration
@@ -342,7 +345,7 @@ Please do not reply to this address';
  *
  * @since 2.9.3
  */
-function update_dialogs()
+function wpmem_update_dialogs()
 {
 	$wpmem_dialogs_arr = get_option( 'wpmembers_dialogs' );
 	$do_update = false;
@@ -370,7 +373,7 @@ function update_dialogs()
  *
  * @since 2.9.5
  */
-function update_captcha()
+function wpmem_update_captcha()
 {
 	$captcha_settings = get_option( 'wpmembers_captcha' );
 	
@@ -398,4 +401,19 @@ function update_captcha()
 }
 
 
+function wpmem_update_active( $mod ) {
+	if( $mod == 1 ) {
+		global $wpdb;
+		$users = get_users( array( 'fields'=>'ID' ) );
+		foreach( $users as $user ){
+			$is_active = get_user_meta( $user, 'active', true );
+			if( ! $is_active || $is_active != 1 ) {	
+				$wpdb->update( $wpdb->users, array( 'user_status' => '2' ), array( 'ID' => $user ) );
+			} elseif( $is_active == 1 ) {
+				$wpdb->update( $wpdb->users, array( 'user_status' => '0' ), array( 'ID' => $user ) );
+			}
+		}
+	}
+	return;
+}
 /** End of File **/

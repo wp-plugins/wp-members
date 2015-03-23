@@ -111,8 +111,6 @@ function wpmem_add_captcha_tab( $tabs ) {
  * Primary admin function
  *
  * @since 2.1
- *
- * @uses do_action wpmem_admin_do_tab
  */
 function wpmem_admin()
 {
@@ -134,6 +132,18 @@ function wpmem_admin()
 		
 		wpmem_a_do_warnings( $did_update, $wpmem_settings );
 
+		/**
+		 * Fires at the end of creating an admin panel tab.
+		 *
+		 * This action is part of the plugin's admin panel API for adding
+		 * additional admin tabs. This action is for adding content for
+		 * a custom tab.
+		 *
+		 * @since 2.8
+		 *
+		 * @param string $tab            The tab being generated.
+		 * @param array  $wpmem_settings The plugin settings.
+		 */
 		do_action( 'wpmem_admin_do_tab', $tab, $wpmem_settings );
 		?>
 	</div><!-- .wrap --><?php

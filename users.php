@@ -45,7 +45,7 @@ function wpmem_user_profile()
 		
 		foreach( $wpmem_fields as $meta ) {
 		
-			$val = get_user_meta( $user_id, $meta[2], 'true' );
+			$val = get_user_meta( $user_id, $meta[2], true );
 			$valtochk = '';
 			
 			$chk_tos = true;
@@ -65,7 +65,7 @@ function wpmem_user_profile()
 						<th><label>' . __( $meta[1], 'wp-members' ) . $req . '</label></th>
 						<td>';
 					
-					$val = get_user_meta( $user_id, $meta[2], 'true' );
+					$val = get_user_meta( $user_id, $meta[2], true );
 					if( $meta[3] == 'checkbox' || $meta[3] == 'select' ) {
 						$valtochk = $val; 
 						$val = $meta[7];

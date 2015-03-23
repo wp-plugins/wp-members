@@ -28,12 +28,6 @@ if( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @uses do_action Calls 'wpmem_pre_register_data' action
- * @uses do_action Calls 'wpmem_post_register_data' action
- * @uses do_action Calls 'wpmem_register_redirect' action
- * @uses do_action Calls 'wpmem_pre_update_data' action
- * @uses do_action Calls 'wpmem_post_update_data' action
- *
  * @param  string $toggle toggles the function between 'register' and 'update'.
  * @global int    $user_ID
  * @global string $wpmem_themsg
@@ -209,7 +203,18 @@ function wpmem_registration( $toggle )
 		 */
 		$fields = apply_filters( 'wpmem_register_data', $fields ); 
 		
-		// _data hook is before any insertion/emails
+		/**
+		 * Fires before any insertion/emails.
+		 *
+		 * This action is the final step in pre registering a user. This
+		 * can be used for attaching custom validation to the registration
+		 * process. It cannot be used for changing any user registration
+		 * data. Use the wpmem_register_data filter for that.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $fields The user's submitted registration data.
+		 */
 		do_action( 'wpmem_pre_register_data', $fields );
 		
 		// if the _pre_register_data hook sends back an error message
@@ -261,8 +266,14 @@ function wpmem_registration( $toggle )
 
 		// set user expiration, if used
 		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $fields['ID'] ); }
-		
-		// _data hook after insertion but before email
+
+		/**
+		 * Fires after user insertion but before email.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $fields The user's submitted registration data.
+		 */
 		do_action( 'wpmem_post_register_data', $fields );
 		
 		require_once( 'wp-members-email.php' );
@@ -274,7 +285,11 @@ function wpmem_registration( $toggle )
 		// notify admin of new reg, if needed;
 		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }
 		
-		// add action for redirection
+		/**
+		 * Fires after registration is complete.
+		 *
+		 * @since 2.7.1
+		 */
 		do_action( 'wpmem_register_redirect' );
 
 		// successful registration message
@@ -308,7 +323,18 @@ function wpmem_registration( $toggle )
 		 */
 		$fields = apply_filters( 'wpmem_register_data', $fields ); 
 		
-		// _pre_update_data hook is before data insertion
+		/**
+		 * Fires before data insertion.
+		 *
+		 * This action is the final step in pre updating a user. This
+		 * can be used for attaching custom validation to the update
+		 * process. It cannot be used for changing any user update
+		 * data. Use the wpmem_register_data filter for that.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $fields The user's submitted update data.
+		 */
 		do_action( 'wpmem_pre_update_data', $fields );
 		
 		// if the _pre_update_data hook sends back an error message
@@ -361,7 +387,13 @@ function wpmem_registration( $toggle )
 		// update wp_update_user fields
 		wp_update_user( $native_update );
 		
-		// _post_update_data hook is after insertion
+		/**
+		 * Fires at the end of user update data insertion.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $fields The user's submitted registration data.
+		 */
 		do_action( 'wpmem_post_update_data', $fields );
 
 		return "editsuccess"; exit();

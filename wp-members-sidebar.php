@@ -61,37 +61,32 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  *
  * @since 2.4
  *
+ * @param  string $post_to      A URL to redirect to upon login, default null.
  * @global string $wpmem_regchk
  * @global string $user_login
  */
-function wpmem_do_sidebar()
+function wpmem_do_sidebar( $post_to = null )
 {
 	global $wpmem_regchk;
 	
 	$url = get_bloginfo('url'); // used here and in the logout
 
-	//this returns us to the right place
-	if( isset( $_REQUEST['redirect_to'] ) ) {
-		$post_to = $_REQUEST['redirect_to'];
-		
-	} elseif( is_home() || is_front_page() ) {
-		$post_to = $_SERVER['REQUEST_URI'];
-			
-	} elseif( is_single() || is_page() ) {
-		$post_to = get_permalink();
-
-	} elseif( is_category() ) {
-		global $wp_query;
-		$cat_id  = get_query_var( 'cat' );
-		$post_to = get_category_link( $cat_id );
-		
-	} elseif( is_search() ) {
-		$post_to = $url . '/?s=' . get_search_query();
-		
-	} else {
-		
-		$post_to = $_SERVER['REQUEST_URI'];
-
+	if ( ! $post_to ) {
+		if ( isset( $_REQUEST['redirect_to'] ) ) {
+			$post_to = $_REQUEST['redirect_to'];
+		} elseif ( is_home() || is_front_page() ) {
+			$post_to = $_SERVER['REQUEST_URI'];
+		} elseif ( is_single() || is_page() ) {
+			$post_to = get_permalink();
+		} elseif ( is_category() ) {
+			global $wp_query;
+			$cat_id  = get_query_var( 'cat' );
+			$post_to = get_category_link( $cat_id );
+		} elseif ( is_search() ) {
+			$post_to = $url . '/?s=' . get_search_query();
+		} else {
+			$post_to = $_SERVER['REQUEST_URI'];
+		}
 	}
 	
 	// clean whatever the url is
@@ -291,13 +286,20 @@ class widget_wpmemwidget extends WP_Widget
 	{
 	
 		/* Default widget settings. */
-		$defaults = array( 'title' => __('Login Status', 'wp-members') );
+		$defaults = array( 
+			'title'       => __('Login Status', 'wp-members'),
+			'redirect_to' => '',
+		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults );
 		
 		/* Title input */ ?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'wp-members'); ?></label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect to (optional):', 'wp-members'); ?></label>
+			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
 		</p>
 		<?php
     }
@@ -314,7 +316,8 @@ class widget_wpmemwidget extends WP_Widget
 		$instance = $old_instance;
 		
 		/* Strip tags for title to remove HTML. */
-		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['title']       = strip_tags( $new_instance['title'] );
+		$instance['redirect_to'] = strip_tags( $new_instance['redirect_to'] );
 		
         return $instance;
     }
@@ -330,7 +333,8 @@ class widget_wpmemwidget extends WP_Widget
 		extract( $args );
 
 		// Get the Widget Title
-		$title = ( array_key_exists( 'title', $instance ) ) ? $instance['title'] : __( 'Login Status', 'wp-members' );
+		$title       = ( array_key_exists( 'title', $instance ) )       ? $instance['title']       : __( 'Login Status', 'wp-members' );
+		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
 		
 		echo $before_widget;
 		/**
@@ -352,7 +356,7 @@ class widget_wpmemwidget extends WP_Widget
 			echo $before_title . apply_filters( 'wpmem_widget_title', $title ) . $after_title;
 
 			// The Widget
-			if( function_exists( 'wpmem' ) ) { wpmem_do_sidebar(); }
+			if ( function_exists( 'wpmem' ) ) { wpmem_do_sidebar( $redirect_to ); }
 
 		echo '</div>';
 		echo $after_widget;

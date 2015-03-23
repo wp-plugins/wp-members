@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.9.8.1
+Version:     2.9.9
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,7 +60,7 @@ License:     GPLv2
 
 
 /** initial constants **/
-define( 'WPMEM_VERSION', '2.9.8.1' );
+define( 'WPMEM_VERSION', '2.9.9' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -85,7 +85,7 @@ register_activation_hook( __FILE__, 'wpmem_install' );
 function wpmem_init()
 {
 	/**
-	 * Action for pre-initialization of plugin options.
+	 * Fires before initialization of plugin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -127,12 +127,13 @@ function wpmem_init()
 
 	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) ) : '';
 	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) ) : '';
+	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', get_option( 'wpmembers_logurl',null ) ) : '';
 
 	/**
 	 * define the stylesheet
 	 */
-	$wpmem_style = get_option( 'wpmembers_cssurl', null );
-	$wpmem_style = ( ! $wpmem_style ) ? get_option( 'wpmembers_style', null ) : $wpmem_style;
+	$wpmem_style = get_option( 'wpmembers_style', null );
+	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? get_option( 'wpmembers_cssurl', null ) : $wpmem_style;
 	define( 'WPMEM_CSSURL', $wpmem_style );
 
 
@@ -169,6 +170,7 @@ function wpmem_init()
 	add_action( 'admin_menu', 'wpmem_admin_options' );       // adds admin menu
 	add_action( 'user_register', 'wpmem_wp_reg_finalize' );  // handles wp native registration
 	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
+	add_filter( 'comments_template', 'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
 	add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // no password reset for non-activated users
 	add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
@@ -200,7 +202,7 @@ function wpmem_init()
 	}
 	
 	/**
-	 * Action at the end of initialization of plugin options.
+	 * Fires after initialization of plugin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -219,7 +221,7 @@ function wpmem_init()
 function wpmem_chk_admin()
 {
 	/**
-	 * Action for initialization of admin options.
+	 * Fires before initialization of admin options.
 	 *
 	 * @since 2.9.0
 	 */
@@ -259,7 +261,7 @@ function wpmem_chk_admin()
 	}
 	
 	/**
-	 * Action at the end of admin options.
+	 * Fires after initialization of admin options.
 	 *
 	 * @since 2.9.0
 	 */

@@ -219,11 +219,32 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		break;	
 	
 	case 'login':
+	
+		$args = array(
+			'wrapper_before' => '<p>',
+			'wrapper_after'  => '</p>',
+			'user_login'     => $user_login,
+			'welcome'        => __( 'You are logged in as %s', 'wp-members' ),
+			'logout_text'    => __( 'Click to log out', 'wp-members' ),
+			'logout_link'    => '<a href="' . $logout . '">%s</a>',
+			'separator'      => '<br />',
+		);
+		/**
+		 * Filter the status message parts.
+		 *
+		 * @since 2.9.9
+		 *
+		 * @param array $args.
+		 */
+		$args = apply_filters( 'wpmem_login_links_args', $args );
 
-		$str = '<p>
-		  	' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
-		  	<a href="' . $logout . '">' . __( 'Click to log out', 'wp-members' ) . '</a>
-			</p>';
+		/** Assemble the message string **/
+		$str = $args['wrapper_before']
+			. sprintf( $args['welcome'], $args['user_login'] )
+			. $args['separator']
+			. sprintf( $args['logout_link'], $args['logout_text'] )
+			. $args['wrapper_after'];
+
 		/**
 		 * Filter the links displayed on the Log In page (logged in state).
 		 *
@@ -235,10 +256,30 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		break;	
 			
 	case 'status':
-		$str ='<p>
-			' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '  | 
-			<a href="' . $logout . '">' . __( 'click to log out', 'wp-members' ) . '</a>
-			</p>';
+		$args = array(
+			'wrapper_before' => '<p>',
+			'wrapper_after'  => '</p>',
+			'user_login'     => $user_login,
+			'welcome'        => __( 'You are logged in as %s', 'wp-members' ),
+			'logout_text'    => __( 'click to log out', 'wp-members' ),
+			'logout_link'    => '<a href="' . $logout . '">%s</a>',
+			'separator'      => ' | ',
+		);
+		/**
+		 * Filter the status message parts.
+		 *
+		 * @since 2.9.9
+		 *
+		 * @param array $args.
+		 */
+		$args = apply_filters( 'wpmem_status_msg_args', $args );
+
+		/** Assemble the message string **/
+		$str = $args['wrapper_before']
+			. sprintf( $args['welcome'], $args['user_login'] )
+			. $args['separator']
+			. sprintf( $args['logout_link'], $args['logout_text'] )
+			. $args['wrapper_after'];
 		break;
 	
 	}
