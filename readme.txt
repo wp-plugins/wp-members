@@ -111,6 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
+WP-Members 2.9.9.1 patches an issue with the admin notification email update in 2.9.9.
 WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 == Screenshots ==
@@ -131,6 +132,9 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 
 == Changelog ==
+
+= 2.9.9.1 = 
+* Patches an issue with the admin notification email update in 2.9.9.
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
