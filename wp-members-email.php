@@ -422,7 +422,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 		$arr['body'] = apply_filters( 'wpmem_email_notify', $arr['body'] );
 
 		/* Send the message */
-		wp_mail( $admin_email, stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
+		wp_mail( $arr['admin_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
 	}
 }
 endif;
