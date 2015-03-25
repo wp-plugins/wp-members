@@ -1,9 +1,9 @@
-=== WP-Members ===
+﻿=== WP-Members ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 2.9.9
+Stable tag: 2.9.9.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
