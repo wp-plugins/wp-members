@@ -7,7 +7,7 @@
   
 **Tested up to:** 4.1
   
-**Stable tag:** 2.9.9
+**Stable tag:** 2.9.9.1
   
 **License:** GPLv2
   
@@ -18,7 +18,7 @@ WP-Members&trade; is a free membership management framework for WordPress&reg; t
 
 WP-Members&trade; is a membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
-[vimeo https://vimeo.com/84961265]
+[vimeo https://youtu.be/x4MEoRLSY_U]
 
 ### Features: ###
 
@@ -117,54 +117,58 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 ## Upgrade Notice ##
 
+WP-Members 2.9.9.1 patches an issue with the admin notification email update in 2.9.9.
 WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 ## Screenshots ##
 
-###1. The default when viewing a blocked post - the plugin will deliver a login screen and registration form in place of blocked content (this default can be changed to other options).
-###
+1. The default when viewing a blocked post - the plugin will deliver a login screen and registration form in place of blocked content (this default can be changed to other options).
+
 ![The default when viewing a blocked post - the plugin will deliver a login screen and registration form in place of blocked content (this default can be changed to other options).
 ](https://ps.w.org/wp-members/assets/screenshot-1.png)
 
 
-###2. Admin Panel - Options Tab - the various option settings for the plugin.
-###
+2. Admin Panel - Options Tab - the various option settings for the plugin.
+
 ![Admin Panel - Options Tab - the various option settings for the plugin.
 ](https://ps.w.org/wp-members/assets/screenshot-2.png)
 
 
-###3. Admin Panel - Fields Tab - the plugin field manager allows you to manage (or delete) the installed extra fields and field order, and also add your own custom fields.
-###
+3. Admin Panel - Fields Tab - the plugin field manager allows you to manage (or delete) the installed extra fields and field order, and also add your own custom fields.
+
 ![Admin Panel - Fields Tab - the plugin field manager allows you to manage (or delete) the installed extra fields and field order, and also add your own custom fields.
 ](https://ps.w.org/wp-members/assets/screenshot-3.png)
 
 
-###4. Admin Panel - Dialogs Tab - the major dialogs that the plugin uses for error and other messages can be edited in the plugin's admin panel.
-###
+4. Admin Panel - Dialogs Tab - the major dialogs that the plugin uses for error and other messages can be edited in the plugin's admin panel.
+
 ![Admin Panel - Dialogs Tab - the major dialogs that the plugin uses for error and other messages can be edited in the plugin's admin panel.
 ](https://ps.w.org/wp-members/assets/screenshot-4.png)
 
 
-###5. Admin Panel - Emails Tab - all of the emails that are sent by the plugin can be edited in the admin panel.
-###
+5. Admin Panel - Emails Tab - all of the emails that are sent by the plugin can be edited in the admin panel.
+
 ![Admin Panel - Emails Tab - all of the emails that are sent by the plugin can be edited in the admin panel.
 ](https://ps.w.org/wp-members/assets/screenshot-5.png)
 
 
-###6. Posts > All Posts - The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab).
-###
+6. Posts > All Posts - The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab).
+
 ![Posts > All Posts - The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab).
 ](https://ps.w.org/wp-members/assets/screenshot-6.png)
 
 
-###7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
-###
+7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
+
 ![Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
 ](https://ps.w.org/wp-members/assets/screenshot-7.png)
 
 
 
 ## Changelog ##
+
+### 2.9.9.1 ### 
+* Patches an issue with the admin notification email update in 2.9.9.
 
 ### 2.9.9 ###
 * Code standards in wp-members-email.php
