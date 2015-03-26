@@ -1,9 +1,9 @@
-=== WP-Members ===
+﻿=== WP-Members ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 2.9.9
+Stable tag: 2.9.9.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,6 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
+WP-Members 2.9.9.1 patches an issue with the admin notification email update in 2.9.9.
 WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 == Screenshots ==
@@ -131,6 +132,9 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 
 == Changelog ==
+
+= 2.9.9.1 = 
+* Patches an issue with the admin notification email update in 2.9.9.
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
