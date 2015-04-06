@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     2.9.9.1
+Version:     3.0 build 2.9.9.1 base
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,7 +60,7 @@ License:     GPLv2
 
 
 /** initial constants **/
-define( 'WPMEM_VERSION', '2.9.9.1' );
+define( 'WPMEM_VERSION', '3.0 build 2.9.9.1 base' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -82,8 +82,8 @@ register_activation_hook( __FILE__, 'wpmem_install' );
  *
  * @since 2.9.0
  */
-function wpmem_init()
-{
+function wpmem_init() {
+
 	/**
 	 * Fires before initialization of plugin options.
 	 *
@@ -92,13 +92,13 @@ function wpmem_init()
 	do_action( 'wpmem_pre_init' );
 	
 	/**
-	 * start with any potential translation
+	 * Start with any potential translation.
 	 */
 	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 
 	/**
-	 * load options
+	 * Load options.
 	 */
 	$wpmem_settings = get_option( 'wpmembers_settings' );
 
@@ -112,7 +112,7 @@ function wpmem_init()
 	$wpmem_settings = apply_filters( 'wpmem_settings', $wpmem_settings );
 
 	/**
-	 * define constants based on option settings
+	 * define constants based on option settings.
 	 */
 	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1]  ) : '';
 	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2]  ) : '';
@@ -130,12 +130,18 @@ function wpmem_init()
 	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', get_option( 'wpmembers_logurl',null ) ) : '';
 
 	/**
-	 * define the stylesheet
+	 * Define the stylesheet.
 	 */
 	$wpmem_style = get_option( 'wpmembers_style', null );
 	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? get_option( 'wpmembers_cssurl', null ) : $wpmem_style;
 	define( 'WPMEM_CSSURL', $wpmem_style );
-
+	
+	/**
+	 * Fires after main settings are loaded.
+	 *
+	 * @since 3.0
+	 */
+	add_action( 'wpmem_settings_loaded' );
 
 	/**
 	 * Filter the location and name of the pluggable file.
@@ -147,39 +153,45 @@ function wpmem_init()
 	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
 	
 	/**
-	 * preload any custom functions, if available
+	 * Preload any custom functions, if available.
 	 */
-	if( file_exists( $wpmem_pluggable ) ) {
+	if ( file_exists( $wpmem_pluggable ) ) {
 		include( $wpmem_pluggable );
 	}
 
-
 	/**
-	 * preload the expiration module, if available
+	 * Preload the expiration module, if available.
 	 */
 	$exp_module = ( in_array( 'wp-members-expiration/module.php', get_option( 'active_plugins' ) ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
-
+	/**
+	 * Load core file.
+	 */
 	include_once( 'wp-members-core.php' );
-
+	
+	/**
+	 * Add actions.
+	 */
 	add_action( 'init', 'wpmem' );                           // runs before headers are sent
 	add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // initializes the widget
 	add_action( 'wp_head', 'wpmem_head' );                   // anything added to header
 	add_action( 'admin_init', 'wpmem_chk_admin' );           // check user role to load correct dashboard
 	add_action( 'admin_menu', 'wpmem_admin_options' );       // adds admin menu
 	add_action( 'user_register', 'wpmem_wp_reg_finalize' );  // handles wp native registration
-	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
-	add_filter( 'comments_template', 'wpmem_securify_comments', 20, 1 ); // securifies the comments
+	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' );   // styles the native registration
 
+	/**
+	 * Add filters.
+	 */
 	add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // no password reset for non-activated users
 	add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
 	add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds fields to the default wp registration
 	add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 ); // native registration validation
-
+	add_filter( 'comments_template', 'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
 	/**
-	 * add the wp-members shortcodes
+	 * Add shortcodes.
 	 */
 	add_shortcode( 'wp-members',       'wpmem_shortcode' );
 	add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
@@ -187,17 +199,15 @@ function wpmem_init()
 	add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
 	add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
 
-
 	/**
-	 * load the stylesheet if using the new forms
+	 * Load the stylesheet if using the new forms.
 	 */
 	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
 
-
 	/**
-	 * if registration is moderated, check for activation (blocks backend login by non-activated users)
+	 * If registration is moderated, check for activation (blocks backend login by non-activated users).
 	 */
-	if( WPMEM_MOD_REG == 1 ) { 
+	if ( WPMEM_MOD_REG == 1 ) { 
 		add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
 	}
 	
@@ -218,8 +228,8 @@ function wpmem_init()
  *
  * @since 2.5.2
  */
-function wpmem_chk_admin()
-{
+function wpmem_chk_admin() {
+
 	/**
 	 * Fires before initialization of admin options.
 	 *
@@ -227,30 +237,30 @@ function wpmem_chk_admin()
 	 */
 	do_action( 'wpmem_pre_admin_init' );
 
-	if( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
+	if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
 		require_once(  WPMEM_PATH . 'admin/admin.php' );
 	}
 	
-	// if user has a role that can edit users, load the admin functions
-	if( current_user_can( 'edit_users' ) ) { 
+	/**
+	 * If user has a role that can edit users, load the admin functions,
+	 * otherwise, load profile actions for non-admins.
+	 */
+	if ( current_user_can( 'edit_users' ) ) { 
 		require_once( 'admin/admin.php' );
 		require_once( 'admin/users.php' );
 		include_once( 'admin/user-profile.php' );
 	} else {
-		// user profile actions for non-admins
 		require_once( WPMEM_PATH . 'users.php' );
 		add_action( 'show_user_profile', 'wpmem_user_profile'   );
 		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
 	}
 	
-	// do any admin approved plugin updates need to be processed?
-	if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'wpmem_update' ) {
-		require_once( 'admin/update.php' );
-	}
-	
-	// if user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns
-	if( current_user_can( 'edit_posts' ) ) {
+	/**
+	 * If user has a role that can edit posts, add the block/unblock
+	 * meta boxes and custom post/page columns.
+	 */
+	if ( current_user_can( 'edit_posts' ) ) {
 		include_once( 'admin/post.php' );
 		add_action( 'add_meta_boxes', 'wpmem_block_meta_add' );  
 		add_action( 'save_post', 'wpmem_block_meta_save' );
@@ -275,8 +285,8 @@ function wpmem_chk_admin()
  * @since 2.5.2
  */
 function wpmem_admin_options() {
-	if( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
-		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin'    );
+	if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
+		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
 		add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 	}
 }
@@ -289,17 +299,17 @@ function wpmem_admin_options() {
  */
 function wpmem_install() {
 	require_once( 'wp-members-install.php' );
-	if( is_multisite() ) {
+	if ( is_multisite() ) {
 		// if it is multisite, install options for each blog
 		global $wpdb;
-		$blogs = $wpdb->get_results("
-			SELECT blog_id
+		$blogs = $wpdb->get_results(
+			"SELECT blog_id
 			FROM {$wpdb->blogs}
 			WHERE site_id = '{$wpdb->siteid}'
 			AND spam = '0'
 			AND deleted = '0'
-			AND archived = '0'
-		");
+			AND archived = '0'"
+		);
 		$original_blog_id = get_current_blog_id();   
 		foreach ( $blogs as $blog_id ) {
 			switch_to_blog( $blog_id->blog_id );
