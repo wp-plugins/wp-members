@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Sidebar Functions
+ * WP-Members Sidebar Functions.
  *
  * Handles functions for the sidebar.
  * 
@@ -21,17 +21,17 @@
  */
 
 
-if( ! function_exists( 'wpmem_inc_status' ) ):
+if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**
- * Generate users login status if logged in and gives logout link
+ * Generate users login status if logged in and gives logout link.
  *
  * @since 1.8
  *
  * @global $user_login
  * @return string $status
  */
-function wpmem_inc_status()
-{
+function wpmem_inc_status() {
+
 	global $user_login;
 	
 	/**
@@ -51,7 +51,7 @@ function wpmem_inc_status()
 endif;
 
 
-if( ! function_exists( 'wpmem_do_sidebar' ) ):
+if ( ! function_exists( 'wpmem_do_sidebar' ) ):
 /**
  * Creates the sidebar login form and status.
  *
@@ -65,8 +65,8 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  * @global string $wpmem_regchk
  * @global string $user_login
  */
-function wpmem_do_sidebar( $post_to = null )
-{
+function wpmem_do_sidebar( $post_to = null ) {
+
 	global $wpmem_regchk;
 	
 	$url = get_bloginfo('url'); // used here and in the logout
@@ -92,7 +92,7 @@ function wpmem_do_sidebar( $post_to = null )
 	// clean whatever the url is
 	$post_to = esc_url( $post_to );
 
-	if( ! is_user_logged_in() ){
+	if ( ! is_user_logged_in() ){
 	
 		// if the user is not logged in, we need the form
 		
@@ -128,7 +128,7 @@ function wpmem_do_sidebar( $post_to = null )
 		 */
 		$args = apply_filters( 'wpmem_sb_login_args', '' );
 	
-		// merge $args with defaults and extract
+		// merge $args with defaults
 		extract( wp_parse_args( $args, $defaults ) );
 		
 		$form = '';
@@ -163,7 +163,7 @@ function wpmem_do_sidebar( $post_to = null )
 
 		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
 				
-			if( WPMEM_MSURL != null ) { 
+			if ( WPMEM_MSURL != null ) { 
 				/**
 				 * Filter the sidebar forgot password link.
 				 *
@@ -175,7 +175,7 @@ function wpmem_do_sidebar( $post_to = null )
 				$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
 			} 			
 	
-			if( WPMEM_REGURL != null ) {
+			if ( WPMEM_REGURL != null ) {
 				/**
 				 * Filter the sidebar register link.
 				 *
@@ -209,7 +209,7 @@ function wpmem_do_sidebar( $post_to = null )
 		$form = apply_filters( 'wpmem_sidebar_form', $form );
 		
 		$do_error_msg = '';
-		if( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
+		if ( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 			$do_error_msg = true;
 			$error_msg = $error_before . $error_msg . $error_after;
 			/**
@@ -257,18 +257,16 @@ endif;
 
 
 /**
- * Class for the sidebar login widget
+ * Class for the sidebar login widget.
  *
  * @since 2.7
  */
-class widget_wpmemwidget extends WP_Widget 
-{
+class widget_wpmemwidget extends WP_Widget {
 
     /**
 	 * Sets up the WP-Members login widget.
 	 */
-    function widget_wpmemwidget() 
-	{
+    function widget_wpmemwidget() {
         $widget_ops = array( 
 			'classname'   => 'wp-members', 
 			'description' => __( 'Displays the WP-Members sidebar login.', 'wp-members' ) 
@@ -282,8 +280,7 @@ class widget_wpmemwidget extends WP_Widget
 	 *
 	 * @param array $instance
 	 */
-    function form( $instance ) 
-	{
+    function form( $instance ) {
 	
 		/* Default widget settings. */
 		$defaults = array( 
@@ -311,8 +308,7 @@ class widget_wpmemwidget extends WP_Widget
 	 * @param  array $old_instance
 	 * @return array $instance
 	 */
-    function update( $new_instance, $old_instance ) 
-	{
+    function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		
 		/* Strip tags for title to remove HTML. */
@@ -328,8 +324,7 @@ class widget_wpmemwidget extends WP_Widget
 	 * @param array $args
 	 * @param array $instance
 	 */
-    function widget( $args, $instance ) 
-	{
+    function widget( $args, $instance ) {
 		extract( $args );
 
 		// Get the Widget Title
