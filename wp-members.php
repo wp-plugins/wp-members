@@ -141,7 +141,7 @@ function wpmem_init() {
 	 *
 	 * @since 3.0
 	 */
-	add_action( 'wpmem_settings_loaded' );
+	do_action( 'wpmem_settings_loaded' );
 
 	/**
 	 * Filter the location and name of the pluggable file.
