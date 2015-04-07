@@ -21,8 +21,8 @@
  *
  * @since 2.2.2
  */
-function wpmem_do_install()
-{
+function wpmem_do_install() {
+
 	/*
 		if you need to force an install, set $chk_force = true
 		
@@ -37,11 +37,46 @@ function wpmem_do_install()
 	
 	$chk_force = false;
 
-	if( !get_option( 'wpmembers_settings' ) || $chk_force == true ) {
+	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
 		// this is a clean install (or an upgrade from 2.1 or earlier)
 		
-		$wpmem_settings = array( WPMEM_VERSION, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
+		$wpmem_settings = array( 
+			'version' => WPMEM_VERSION, 
+			'block'   => array(
+				'post' => 1,
+				'page' => 0,
+			),
+			'show_excerpt' => array(
+				'post' => 0,
+				'page' => 0,
+			),
+			'show_reg' => array(
+				'post' => 1,
+				'page' => 1,
+			),
+			'show_login' => array(
+				'post' => 1,
+				'page' => 1,
+			),
+			'notify'    => 0,
+			'mod_reg'   => 0,
+			'captcha'   => 0,
+			'use_exp'   => 0,
+			'use_trial' => 0,
+			'warnings'  => 0,
+			'user_pages' => array(
+				'profile'  => '',
+				'register' => '',
+				'login'    => '',
+			),
+			'cssurl'    => '',
+			'style'     => '',
+			'autoex'    => '',
+			'attrib'    => 0,
+			
+			
+		);
 		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // using update_option to allow for forced update
 		
 		// order, label, optionname, type, display, required, native, checked value, checked by default
@@ -61,7 +96,8 @@ function wpmem_do_install()
 			array( 13, 'Biographical Info',  'description',      'textarea', 'n', 'n', 'y' ),
 			array( 14, 'Password',           'password',         'password', 'n', 'n', 'n' ),
 			array( 15, 'Confirm Password',   'confirm_password', 'password', 'n', 'n', 'n' ),
-			array( 16, 'TOS',                'tos',              'checkbox', 'n', 'n', 'n', 'agree', 'n' )
+			array( 16, 'TOS',                'tos',              'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
+		);
 		);
 		update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
 		
@@ -77,123 +113,74 @@ function wpmem_do_install()
 			"Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account."
 		);
 		
+		// insert TOS dialog placeholder
+		$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";	
+		update_option( 'wpmembers_tos', $dummy_tos );
+		
 		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 
-		wpmem_append_tos( 'new' );
-
-		wpmem_append_email();
+		append_email();
 		
 		// if it's a new install, use the Twenty Twelve stylesheet
 		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
 		
 	} else {
 	
-		wpmem_update_captcha();
+		update_captcha();
+		
+		update_dialogs();
 	
-		wpmem_update_dialogs();
-	
-		wpmem_append_email();
+		append_email();
 	
 		$wpmem_settings = get_option( 'wpmembers_settings' );
 		
-		switch( count ( $wpmem_settings ) ) {
+		// can only upgrade from 2.5.1 or higher
+		$show_reg = ( $wpmem_settings[7] == 0 ) ? 1 : 0;
+		$wpmem_newsettings = array(
+			'version' => WPMEM_VERSION,
+			'block'   => array(
+				'post' => $wpmem_settings[1],
+				'page' => $wpmem_settings[2],
+			),
+			'show_excerpt' => array(
+				'post' => $wpmem_settings[3],
+				'page' => $wpmem_settings[3],
+			),
+			'show_reg' => array(
+				'post' => $show_reg,
+				'page' => $show_reg,
+			),
+			'show_login' => array(
+				'post' => 1,
+				'page' => 1,
+			),
+			'notify'     => $wpmem_settings[4],
+			'mod_reg'    => $wpmem_settings[5],
+			'captcha'    => $wpmem_settings[6],
+			'use_exp'    => $wpmem_settings[9],
+			'use_trial'  => $wpmem_settings[10],
+			'warnings'   => $wpmem_settings[11],
+			'user_pages' => array(
+				'profile'  => get_option( 'wpmembers_msurl'  ),
+				'register' => get_option( 'wpmembers_regurl' ),
+				'login'    => get_option( 'wpmembers_logurl' ),
+			),
+			'cssurl'     => get_option( 'wpmembers_cssurl' ),
+			'style'      => get_option( 'wpmembers_style'  ),
+			'autoex'     => get_option( 'wpmembers_autoex' ),
+			'attrib'     => get_option( 'wpmembers_attrib' ),
+		);
+		update_option( 'wpmembers_settings', $wpmem_newsettings );
 		
-		  case 4:
+		// remove old settings
+		delete_option( 'wpmembers_msurl'  );
+		delete_option( 'wpmembers_regurl' );
+		delete_option( 'wpmembers_logurl' );
+		delete_option( 'wpmembers_cssurl' );
+		delete_option( 'wpmembers_style'  );
+		delete_option( 'wpmembers_autoex' );
+		delete_option( 'wpmembers_attrib' );
 		
-			// upgrading from 2.2.x
-			// update version, insert new toggles, keep other settings
-			$wpmem_newsettings = array(
-				WPMEM_VERSION, 			//  0 version
-				$wpmem_settings[1],		//  1 block posts
-				$wpmem_settings[2],		//  2 block pages
-				'0', 					//  3 show excerpts on posts/pages
-				'0',					//  4 notify admin
-				'0',					//  5 moderate registration
-				'0',					//  6 toggle captcha
-				'0',					//  7 turn off registration
-				'1',					//  8 add use legacy forms (tables)
-				'0',					//  9 time based expiration
-				'0',					// 10 offer trial period
-				$wpmem_settings[3]		// 11 ignore warnings
-			);
-			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			wpmem_append_tos( '2.2+' );
-			wpmem_update_active( 0 );
-			break;
-		
-		  case 10: // count($wpmem_settings) > 4 && count($wpmem_settings) < 12 
-		
-			// upgrading from 2.3.0, 2.3.1, 2.3.2, 2.4.0, or 2.5.0
-			// update version, insert captcha toggle, keep other settings
-			$wpmem_newsettings = array(
-				WPMEM_VERSION, 			//  0 version
-				$wpmem_settings[1],		//  1 block posts
-				$wpmem_settings[2],		//  2 block pages
-				$wpmem_settings[3],		//  3 show excerpts on posts/pages
-				$wpmem_settings[4],		//  4 notify admin
-				$wpmem_settings[5],		//  5 moderate registration
-				'0',					//  6 toggle captcha
-				$wpmem_settings[6],		//  7 turn off registration
-				'1',					//  8 add use legacy forms (tables)
-				$wpmem_settings[7],		//  9 time based expiration
-				$wpmem_settings[8],		// 10 offer trial period
-				$wpmem_settings[9]		// 11 ignore warnings
-			);
-			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			wpmem_append_tos( '2.2+');
-			wpmem_update_active( $wpmem_settings[5] );
-			break;
-			
-		  case 12:
-
-			// upgrading from 2.5.1 or higher
-			// 2.5.1 - 2.9.7 only updated the version
-			// 2.9.8 requires a db update, so this allows the admin panel to produce a nag message
-			$wpmem_newsettings = array(
-				WPMEM_VERSION,	//  0 version
-				$wpmem_settings[1],		//  1 block posts
-				$wpmem_settings[2],		//  2 block pages
-				$wpmem_settings[3],		//  3 show excerpts on posts/pages
-				$wpmem_settings[4],		//  4 notify admin
-				$wpmem_settings[5],		//  5 moderate registration
-				$wpmem_settings[6],		//  6 toggle captcha
-				$wpmem_settings[7],		//  7 turn off registration
-				$wpmem_settings[8],		//  8 add use legacy forms (tables)
-				$wpmem_settings[9],		//  9 time based expiration
-				$wpmem_settings[10],	// 10 offer trial period
-				$wpmem_settings[11]		// 11 ignore warnings		
-			);
-			update_option( 'wpmembers_settings', $wpmem_newsettings );
-			wpmem_update_active( $wpmem_settings[5] );
-			break;
-		}
-	}
-}
-
-
-/**
- * Adds TOS field to upgrades if appropriate
- *
- * @since 2.4
- */
-function wpmem_append_tos( $upgrade )
-{		
-	// check if _tos has been put in before; if not, populate dummy data	
-	if( !get_option('wpmembers_tos') ) {
-		$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";	
-		update_option( 'wpmembers_tos', $dummy_tos );
-
-		if( $upgrade == '2.2+' ) {
-			// append a TOS field to the end of the fields array
-			$fields = get_option( 'wpmembers_fields' );
-
-			$x = count( $fields );
-			$x = $x + 1;
-
-			$fields[] = array( $x, 'TOS', 'tos', 'checkbox', 'y', 'y', 'n', 'agree', 'n' );
-
-			update_option( 'wpmembers_fields', $fields );
-		}
 	}
 }
 
@@ -203,8 +190,7 @@ function wpmem_append_tos( $upgrade )
  *
  * @since 2.7
  */
-function wpmem_append_email()
-{
+function append_email() {
 
 	//email for a new registration
 	$subj = 'Your registration info for [blogname]';		
@@ -228,7 +214,7 @@ You may change your password here:
 		"body" => $body
 	);
 	
-	if( ! get_option( 'wpmembers_email_newreg' ) ) { 
+	if ( ! get_option( 'wpmembers_email_newreg' ) ) { 
 		update_option( 'wpmembers_email_newreg', $arr, false ); 
 	}
 	
@@ -246,7 +232,7 @@ You will receive login instructions upon approval of your account
 		"body" => $body
 	);
 	
-	if( ! get_option( 'wpmembers_email_newmod' ) ) { 
+	if ( ! get_option( 'wpmembers_email_newmod' ) ) { 
 		update_option( 'wpmembers_email_newmod', $arr, false );
 	}
 	
@@ -274,7 +260,7 @@ You originally registered at:
 		"body" => $body
 	);
 	
-	if( ! get_option( 'wpmembers_email_appmod' ) ) { 
+	if ( ! get_option( 'wpmembers_email_appmod' ) ) { 
 		update_option( 'wpmembers_email_appmod', $arr, false );
 	}
 	
@@ -294,7 +280,7 @@ password: [password]
 		"body" => $body
 	);
 	
-	if( ! get_option( 'wpmembers_email_repass' ) ) { 
+	if ( ! get_option( 'wpmembers_email_repass' ) ) { 
 		update_option( 'wpmembers_email_repass', $arr, false );
 	}
 	
@@ -321,7 +307,7 @@ activate user: [activate-user]
 		"body" => $body
 	);
 	
-	if( ! get_option( 'wpmembers_email_notify' ) ) { 
+	if ( ! get_option( 'wpmembers_email_notify' ) ) { 
 		update_option( 'wpmembers_email_notify', $arr, false );
 	}
 	
@@ -332,7 +318,7 @@ activate user: [activate-user]
 This is an automated message from [blogname]
 Please do not reply to this address';
 
-	if( ! get_option( 'wpmembers_email_footer' ) ) { 
+	if ( ! get_option( 'wpmembers_email_footer' ) ) { 
 		update_option( 'wpmembers_email_footer', $body, false );
 	}
 	
@@ -345,22 +331,22 @@ Please do not reply to this address';
  *
  * @since 2.9.3
  */
-function wpmem_update_dialogs()
-{
+function update_dialogs() {
+
 	$wpmem_dialogs_arr = get_option( 'wpmembers_dialogs' );
 	$do_update = false;
 	
-	if( $wpmem_dialogs_arr[0] == "This content is restricted to site members.  If you are an existing user, please login.  New users may register below." ) {
+	if ( $wpmem_dialogs_arr[0] == "This content is restricted to site members.  If you are an existing user, please login.  New users may register below." ) {
 		$wpmem_dialogs_arr[0] = "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.";
 		$do_update = true;
 	}
 	
-	if( $wpmem_dialogs_arr[3] == "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you." ) {
+	if ( $wpmem_dialogs_arr[3] == "Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you." ) {
 		$wpmem_dialogs_arr[3] = "Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you.";
 		$do_update = true;
 	}
 	
-	if( $do_update ) {
+	if ( $do_update ) {
 		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' );
 	}
 	
@@ -373,20 +359,20 @@ function wpmem_update_dialogs()
  *
  * @since 2.9.5
  */
-function wpmem_update_captcha()
-{
+function update_captcha() {
+
 	$captcha_settings = get_option( 'wpmembers_captcha' );
 	
 	// if there captcha settings, update them
-	if( $captcha_settings && ! array_key_exists( 'recaptcha', $captcha_settings ) ) {
+	if ( $captcha_settings && ! array_key_exists( 'recaptcha', $captcha_settings ) ) {
 		
 		// check to see if the array keys are numeric
 		$is_numeric = false;
-		foreach( $captcha_settings as $key => $setting ) {
+		foreach ( $captcha_settings as $key => $setting ) {
 			$is_numeric = ( is_int( $key ) ) ? true : $is_numeric;
 		}
 		
-		if( $is_numeric ) {
+		if ( $is_numeric ) {
 			$new_captcha = array();
 			// these are old recaptcha settings
 			$new_captcha['recaptcha']['public']  = $captcha_settings[0];
@@ -401,19 +387,4 @@ function wpmem_update_captcha()
 }
 
 
-function wpmem_update_active( $mod ) {
-	if( $mod == 1 ) {
-		global $wpdb;
-		$users = get_users( array( 'fields'=>'ID' ) );
-		foreach( $users as $user ){
-			$is_active = get_user_meta( $user, 'active', true );
-			if( ! $is_active || $is_active != 1 ) {	
-				$wpdb->update( $wpdb->users, array( 'user_status' => '2' ), array( 'ID' => $user ) );
-			} elseif( $is_active == 1 ) {
-				$wpdb->update( $wpdb->users, array( 'user_status' => '0' ), array( 'ID' => $user ) );
-			}
-		}
-	}
-	return;
-}
 /** End of File **/

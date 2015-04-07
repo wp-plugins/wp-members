@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions
+ * WP-Members Admin Functions.
  *
  * Functions to manage administration.
  * 
@@ -30,7 +30,7 @@ add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 );
 
 
 /**
- * Calls the function to reorder fields
+ * Calls the function to reorder fields.
  *
  * @since 2.8.0
  *
@@ -43,7 +43,7 @@ function wpmem_a_do_field_reorder(){
 
 
 /**
- * filter to add link to settings from plugin panel
+ * filter to add link to settings from plugin panel.
  *
  * @since 2.4
  *
@@ -52,11 +52,10 @@ function wpmem_a_do_field_reorder(){
  * @static string $wpmem_plugin
  * @return array  $links
  */
-function wpmem_admin_plugin_links( $links, $file )
-{
+function wpmem_admin_plugin_links( $links, $file ) {
 	static $wpmem_plugin;
-	if( !$wpmem_plugin ) $wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
-	if( $file == $wpmem_plugin ) {
+	if ( !$wpmem_plugin ) $wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
+	if ( $file == $wpmem_plugin ) {
 		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings' ) . '</a>';
 		$links = array_merge( array( $settings_link ), $links );
 	}
@@ -65,23 +64,22 @@ function wpmem_admin_plugin_links( $links, $file )
 
 
 /**
- * Loads the admin javascript and css files
+ * Loads the admin javascript and css files.
  *
  * @since 2.5.1
  *
  * @uses wp_enqueue_script
  * @uses wp_enqueue_style
  */
-function wpmem_load_admin_js()
-{
-	// queue up admin ajax and styles 
-	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js',   '', WPMEM_VERSION ); 
+function wpmem_load_admin_js() {
+	// queue up admin ajax and styles
+	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js',   '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
 }
 
 
 /**
- * Creates the captcha tab
+ * Creates the captcha tab.
  *
  * @since 2.8
  *
@@ -95,12 +93,12 @@ function wpmem_a_captcha_tab( $tab ) {
 
 
 /**
- * Adds the captcha tab
+ * Adds the captcha tab.
  *
  * @since 2.8
  *
- * @param  array $tabs The array of tabs for the admin panel
- * @return array The updated array of tabs for the admin panel
+ * @param  array $tabs The array of tabs for the admin panel.
+ * @return array       The updated array of tabs for the admin panel.
  */
 function wpmem_add_captcha_tab( $tabs ) {
 	return array_merge( $tabs, array( 'captcha' => 'Captcha' ) );
@@ -108,16 +106,16 @@ function wpmem_add_captcha_tab( $tabs ) {
 
 
 /**
- * Primary admin function
+ * Primary admin function.
  *
  * @since 2.1
  */
-function wpmem_admin()
-{
+function wpmem_admin() {
+
 	$did_update = ( isset( $_POST['wpmem_admin_a'] ) ) ? wpmem_admin_action( $_POST['wpmem_admin_a'] ) : false;
 
 	$wpmem_settings = get_option( 'wpmembers_settings' );
-	if( $wpmem_settings[6] ) {
+	if ( $wpmem_settings[6] ) {
 		add_filter( 'wpmem_admin_tabs', 'wpmem_add_captcha_tab' );
 		add_action( 'wpmem_admin_do_tab', 'wpmem_a_captcha_tab', 1, 1 );
 	} ?>
@@ -153,15 +151,15 @@ function wpmem_admin()
 
 
 /**
- * Displays the content for default tabs
+ * Displays the content for default tabs.
  * 
  * @since 2.8
  *
- * @param string $tab The tab that we are on and displaying
- * @param array  $wpmem_settings The array of plugin settings
+ * @param string $tab            The tab that we are on and displaying.
+ * @param array  $wpmem_settings The array of plugin settings.
  */
-function wpmem_admin_do_tab( $tab, $wpmem_settings )
-{
+function wpmem_admin_do_tab( $tab, $wpmem_settings ) {
+
 	switch ( $tab ) {
 	
 	case 'options' :
@@ -185,19 +183,19 @@ function wpmem_admin_do_tab( $tab, $wpmem_settings )
 
 
 /**
- * Assemble the tabs for the admin panel
+ * Assemble the tabs for the admin panel.
  *
  * @since 2.8
  *
- * @param string $current The tab that we are on
+ * @param string $current The tab that we are on.
  */
-function wpmem_admin_tabs( $current = 'options' ) 
-{
-    $tabs = array( 
-		'options' => 'WP-Members ' . __( 'Options', 'wp-members' ), 
-		'fields'  => __( 'Fields', 'wp-members' ), 
-		'dialogs' => __( 'Dialogs', 'wp-members' ), 
-		'emails'  => __( 'Emails', 'wp-members' ) 
+function wpmem_admin_tabs( $current = 'options' ) {
+
+	$tabs = array(
+		'options' => 'WP-Members ' . __( 'Options', 'wp-members' ),
+		'fields'  => __( 'Fields', 'wp-members' ),
+		'dialogs' => __( 'Dialogs', 'wp-members' ),
+		'emails'  => __( 'Emails', 'wp-members' ),
 	);
 	
 	/**
@@ -209,56 +207,55 @@ function wpmem_admin_tabs( $current = 'options' )
 	 */
 	$tabs = apply_filters( 'wpmem_admin_tabs', $tabs );
 	
-    $links = array();
-    foreach( $tabs as $tab => $name ) {
-	
+	$links = array();
+	foreach ( $tabs as $tab => $name ) {
 		$class = ( $tab == $current ) ? 'nav-tab nav-tab-active' : 'nav-tab';
 		$links[] = '<a class="' . $class . '" href="?page=wpmem-settings&amp;tab=' . $tab . '">' . $name . '</a>';
-    
 	}
-    
+
 	echo '<h2 class="nav-tab-wrapper">';
-    foreach( $links as $link )
-        echo $link;
-    echo '</h2>';
+	foreach ( $links as $link ) {
+		echo $link;
+	}
+	echo '</h2>';
 }
 
 
 /**
- * Handles the various update actions for the default tabs
+ * Handles the various update actions for the default tabs.
  *
  * @since 2.8
  *
- * @param string $action The action that is being done
+ * @param string $action The action that is being done.
  */
-function wpmem_admin_action( $action )
-{
-	$did_update = ''; // makes sure $did_update is defined
-	switch( $action ) {
+function wpmem_admin_action( $action ) {
 
-	case( 'update_settings' ):
+	$did_update = ''; // makes sure $did_update is defined
+	switch ( $action ) {
+
+	case 'update_settings':
 		include_once( 'tab-options.php' );
-		$did_update = wpmem_update_options();			
+		$did_update = wpmem_update_options();
 		break;
 
-	case( 'update_fields' ):
-	case( 'add_field' ): 
-	case( 'edit_field' ):
+	case 'update_fields':
+	case 'add_field': 
+	case 'edit_field':
 		include_once( 'tab-fields.php' );
 		$did_update = wpmem_update_fields( $action );
 		break;
 	
-	case( 'update_dialogs' ):
+	case 'update_dialogs':
 		include_once( 'tab-dialogs.php' );
 		$did_update = wpmem_update_dialogs();
 		break;
 	
-	case( 'update_emails' ):
+	case 'update_emails':
 		include_once( 'tab-emails.php' );
 		$did_update = wpmem_update_emails();
 		break;
 	
-	case( 'update_captcha' ):
+	case 'update_captcha':
 		include_once( 'tab-captcha.php' );
 		$did_update = wpmem_update_captcha();
 		break;
@@ -269,12 +266,11 @@ function wpmem_admin_action( $action )
 
 
 /**
- * Adds WP-Members custom fields to the WP Add New User form
+ * Adds WP-Members custom fields to the WP Add New User form.
  *
  * @since 2.9.1
  */
-function wpmem_admin_add_new_user()
-{
+function wpmem_admin_add_new_user() {
 	include_once( WPMEM_PATH . '/native-registration.php' );
 	echo wpmem_do_wp_newuser_form();
 	return;

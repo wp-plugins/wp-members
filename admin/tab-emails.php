@@ -25,7 +25,7 @@
  */
 function wpmem_a_build_emails( $wpmem_settings )
 { 
-	if( $wpmem_settings[5] == 0 ) {
+	if( $wpmem_settings['mod_reg'] == 0 ) {
 		$wpmem_email_title_arr = array(
 			array( __( "New Registration", 'wp-members' ), 'wpmembers_email_newreg' )
 		);
@@ -39,7 +39,7 @@ function wpmem_a_build_emails( $wpmem_settings )
 		$wpmem_email_title_arr,
         array( __( "Password Reset", 'wp-members' ), 'wpmembers_email_repass' )
 	);
-	if( $wpmem_settings[4] == 1 ) {
+	if( $wpmem_settings['notify'] == 1 ) {
 		array_push(
 			$wpmem_email_title_arr,
 			array( __( "Admin Notification", 'wp-members' ), 'wpmembers_email_notify' )

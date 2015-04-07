@@ -51,36 +51,32 @@ function wpmem_a_do_warnings( $did_update, $wpmem_settings )
 	/**
 	 * Warning messages
  	 */
+	
+	// are warnings turned off?
+	$warnings_off = ( $wpmem_settings['warnings'] == 0 ) ? true : false;
 
 	// settings allow anyone to register
-	if( get_option( 'users_can_register' ) != 0 && $wpmem_settings[11] == 0 ) { 
+	if( get_option( 'users_can_register' ) != 0 && $warnings_off ) { 
 		wpmem_a_warning_msg(1);
 	}
 
 	// settings allow anyone to comment
-	if( get_option( 'comment_registration' ) !=1 && $wpmem_settings[11] == 0 ) { 
+	if( get_option( 'comment_registration' ) !=1 && $warnings_off ) { 
 		wpmem_a_warning_msg(2);
 	} 
 	
 	// rss set to full text feeds
-	if( get_option( 'rss_use_excerpt' ) !=1 && $wpmem_settings[11] == 0 ) { 
+	if( get_option( 'rss_use_excerpt' ) !=1 && $warnings_off ) { 
 		wpmem_a_warning_msg(3);
 	} 
 
 	// holding registrations but haven't changed default successful registration message
-	if( $wpmem_settings[11] == 0 && $wpmem_settings[5] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
+	if( $warnings_off && $wpmem_settings['mod_reg'] == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) { 
 		wpmem_a_warning_msg(4);
-	}  
-
-	// turned off registration but also have set to moderate and/or email new registrations
-	if( $wpmem_settings[11] == 0 && $wpmem_settings[7] == 1 ) { 
-		if( $wpmem_settings[5] == 1 || $wpmem_settings[4] ==1 ) { 
-			wpmem_a_warning_msg(5);
-		}  
-	}
+	} 
 	
 	// haven't entered recaptcha api keys
-	if( $wpmem_settings[11] == 0 && $wpmem_settings[6] == 1 ) {
+	if( $warnings_off && $wpmem_settings['captcha'] == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
 		if( !$wpmem_captcha['recaptcha']['public'] || !$wpmem_captcha['recaptcha']['private'] ) {
 			wpmem_a_warning_msg(6);
