@@ -199,9 +199,10 @@ function wpmem_registration( $toggle )
 		 *
 		 * @since 2.8.2
 		 *
-		 * @param array $fields An array of the registration field data.
+		 * @param array  $fields An array of the registration field data.
+		 * @param string $toggle A switch to indicate the action (new|edit).
 		 */
-		$fields = apply_filters( 'wpmem_register_data', $fields ); 
+		$fields = apply_filters( 'wpmem_register_data', $fields, 'new' ); 
 		
 		/**
 		 * Fires before any insertion/emails.
@@ -319,9 +320,10 @@ function wpmem_registration( $toggle )
 		 *
 		 * @since 2.8.2
 		 *
-		 * @param array $fields An array of the registration field data.
+		 * @param array  $fields An array of the registration field data.
+		 * @param string $toggle A switch to indicate the action (new|edit).
 		 */
-		$fields = apply_filters( 'wpmem_register_data', $fields ); 
+		$fields = apply_filters( 'wpmem_register_data', $fields, 'edit' ); 
 		
 		/**
 		 * Fires before data insertion.
