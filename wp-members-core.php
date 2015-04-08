@@ -118,7 +118,7 @@ function wpmem_securify( $content = null ) {
 		}
 
 		// Block/unblock Posts
-		if ( !is_user_logged_in() && wpmem_block() == true ) {
+		if ( ! is_user_logged_in() && wpmem_block() == true ) {
 		
 			// protects comments if user is not logged in
 			global $post;
@@ -333,12 +333,10 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 		} elseif ( is_user_logged_in() && $page == 'register' ) {
 
-			//return wpmem_inc_memberlinks( 'register' );
-			
 			$content = $content . wpmem_inc_memberlinks( 'register' );
-		
+
 		}
-			
+
 	}
 	
 	if ( $page == 'login' ) {
@@ -365,7 +363,7 @@ if ( ! function_exists( 'wpmem_block' ) ):
  *
  * @since 2.6
  *
- * @return bool $block 
+ * @return bool $block true|false
  */
 function wpmem_block() {
 
