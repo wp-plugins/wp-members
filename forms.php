@@ -1014,9 +1014,16 @@ function wpmem_build_rs_captcha() {
 
 		$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
 		$wpmem_captcha_prefix = mt_rand();
-
 		$wpmem_captcha_image_name = $wpmem_captcha->generate_image( $wpmem_captcha_prefix, $wpmem_captcha_word );
-		$wpmem_captcha_image_url  = get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/';
+		
+		/**
+		 * Filters the default Really Simple Captcha folder location.
+		 *
+		 * @since 3.0
+		 *
+		 * @param string The default location of RS Captcha.
+		 */
+		$wpmem_captcha_image_url = apply_filters( 'wpmem_rs_captcha_folder', get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/' );
 
 		$img_w = $wpmem_captcha->img_size[0];
 		$img_h = $wpmem_captcha->img_size[1];
