@@ -87,7 +87,7 @@ function wpmem_init() {
 	/**
 	 * Setup globals
 	 */
-	global $wpmem_settings;
+	global $wpmem;
 	
 	/**
 	 * Fires before initialization of plugin options.
@@ -101,45 +101,36 @@ function wpmem_init() {
 	 */
 	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
-
 	/**
-	 * Load options.
+	 * Load WP_Members class.
 	 */
-	$wpmem_settings = get_option( 'wpmembers_settings' );
-
-	/**
-	 * Filter the options before they are loaded into constants.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param array $wpmem_settings An array of the WP-Members settings.
-	 */
-	$wpmem_settings = apply_filters( 'wpmem_settings', $wpmem_settings );
+	include_once( 'class-wp-members.php' );
+	$wpmem = new WP_Members();
 
 	/**
 	 * Define constants based on option settings.
 	 */
-	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings['block']['post']        ) : '';
-	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings['block']['page']        ) : '';
-	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings['show_excerpt']['post'] ) : '';
-	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings['notify']               ) : '';
-	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem_settings['mod_reg']              ) : '';
-	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem_settings['warnings']             ) : '';
+	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']        ) : '';
+	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem->block['page']        ) : '';
+	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem->show_excerpt['post'] ) : '';
+	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem->notify               ) : '';
+	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem->mod_reg              ) : '';
+	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem->warnings             ) : '';
 	
-	( ! defined( 'WPMEM_MOD_REG' ) ) ? define( 'WPMEM_MOD_REG', $wpmem_settings['mod_reg']   ) : '';
-	( ! defined( 'WPMEM_CAPTCHA' ) ) ? define( 'WPMEM_CAPTCHA', $wpmem_settings['captcha']   ) : '';
-	( ! defined( 'WPMEM_USE_EXP' ) ) ? define( 'WPMEM_USE_EXP', $wpmem_settings['use_exp']   ) : '';
-	( ! defined( 'WPMEM_USE_TRL' ) ) ? define( 'WPMEM_USE_TRL', $wpmem_settings['use_trial'] ) : '';
+	( ! defined( 'WPMEM_MOD_REG' ) ) ? define( 'WPMEM_MOD_REG', $wpmem->mod_reg   ) : '';
+	( ! defined( 'WPMEM_CAPTCHA' ) ) ? define( 'WPMEM_CAPTCHA', $wpmem->captcha   ) : '';
+	( ! defined( 'WPMEM_USE_EXP' ) ) ? define( 'WPMEM_USE_EXP', $wpmem->use_exp   ) : '';
+	( ! defined( 'WPMEM_USE_TRL' ) ) ? define( 'WPMEM_USE_TRL', $wpmem->use_trial ) : '';
 
-	( ! defined( 'WPMEM_MSURL'   ) ) ? define( 'WPMEM_MSURL',   $wpmem_settings['user_pages']['profile']  ) : '';
-	( ! defined( 'WPMEM_REGURL'  ) ) ? define( 'WPMEM_REGURL',  $wpmem_settings['user_pages']['register'] ) : '';
-	( ! defined( 'WPMEM_LOGURL'  ) ) ? define( 'WPMEM_LOGURL',  $wpmem_settings['user_pages']['login']    ) : '';
+	( ! defined( 'WPMEM_MSURL'   ) ) ? define( 'WPMEM_MSURL',   $wpmem->user_pages['profile']  ) : '';
+	( ! defined( 'WPMEM_REGURL'  ) ) ? define( 'WPMEM_REGURL',  $wpmem->user_pages['register'] ) : '';
+	( ! defined( 'WPMEM_LOGURL'  ) ) ? define( 'WPMEM_LOGURL',  $wpmem->user_pages['login']    ) : '';
 
 	/**
 	 * Define the stylesheet.
 	 */
-	$wpmem_style =  $wpmem_settings['style'];
-	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? $wpmem_settings['cssurl'] : $wpmem_style;
+	$wpmem_style =  $wpmem->style;
+	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? $wpmem->cssurl : $wpmem_style;
 	define( 'WPMEM_CSSURL', $wpmem_style );
 	
 	/**
