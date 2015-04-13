@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions
+ * WP-Members Admin Functions.
  *
  * Functions to manage the captcha tab.
  * 
@@ -13,22 +13,29 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions included:
+ * * wpmem_a_build_captcha_options
+ * * wpmem_update_captcha
  */
 
 
 /**
- * builds the captcha options
+ * Builds the captcha options.
  *
  * @since 2.4.0
  */
-function wpmem_a_build_captcha_options()
-{ 
+function wpmem_a_build_captcha_options() {
+
+	// global settings
+	global $wpmem;
+
 	$wpmem_captcha = get_option( 'wpmembers_captcha' );
 	$url           = home_url();
 	$help_link     = __( sprintf( 'See the %sUsers Guide on CAPTCHA%s.', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">', '</a>' ), 'wp-members' );	
 	?>
 	<div class="metabox-holder has-right-sidebar">
-	
+
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
@@ -36,24 +43,20 @@ function wpmem_a_build_captcha_options()
 				<div class="inside">
 					<strong><i><?php echo $help_link; ?></i></strong>
 				</div>
-			</div>			
-		</div> <!-- .inner-sidebar -->	
+			</div>
+		</div> <!-- .inner-sidebar -->
 
 		<div id="post-body">
 			<div id="post-body-content">
 				<div class="postbox">
-				
+
 					<h3><?php _e( 'Manage reCAPTCHA Options', 'wp-members' ); ?></h3>
 					<div class="inside">
-						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
+						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 						<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
 							<table class="form-table">
-							<?php 
-							// @todo re-thing getting settings this way in 3.0
-							$wpmem_settings = get_option( 'wpmembers_settings' );
-
-							// if reCAPTCHA is enabled... 
-							if( $wpmem_settings[6] == 1 ) {
+							<?php // if reCAPTCHA is enabled...
+							if ( $wpmem->captcha == 1 ) {
 								$show_update_button = true; ?>
 								<tr>
 									<td colspan="2">
@@ -61,14 +64,14 @@ function wpmem_a_build_captcha_options()
 										<p><?php printf( __( 'reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s', 'wp-members' ), '<a href="http://www.google.com/recaptcha/intro/index.html" target="_blank">', '</a>' ); ?>.</p>
 										<p>
 									</td>
-								</tr>        
-								<tr valign="top"> 
-									<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th> 
+								</tr>
+								<tr valign="top">
+									<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th>
 									<td>
 										<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "public" and a "private" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
 										<?php _e( 'Public Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $wpmem_captcha['recaptcha']['public']; ?>" /><br />
 										<?php _e( 'Private Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $wpmem_captcha['recaptcha']['private']; ?>" />
-									 </td> 
+									 </td>
 								</tr>
 								<tr valign="top">
 									<th scope="row"><?php _e( 'Choose Theme', 'wp-members' ); ?></th>
@@ -82,9 +85,9 @@ function wpmem_a_build_captcha_options()
 									</td>
 								</tr>
 							<?php 
-							// if Really Simple CAPTCHA is enabled... 
-							} elseif( $wpmem_settings[6] == 2 ) {
-							
+							// if Really Simple CAPTCHA is enabled...
+							} elseif ( $wpmem->captcha == 2 ) {
+
 								// setup defaults								
 								$defaults = array( 
 									'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
@@ -95,17 +98,17 @@ function wpmem_a_build_captcha_options()
 									'bg_color'     => '255,255,255',
 									'font_size'    => '12',
 									'kerning'      => '14',
-									'img_type'     => 'png'
+									'img_type'     => 'png',
 								);
-								
+
 								$args = ( is_array( $wpmem_captcha['really_simple'] ) ) ? $wpmem_captcha['really_simple'] : array();
-								
+
 								extract( wp_parse_args( $args, $defaults ) );
-							
+
 								// explode colors
 								$font_color = explode( ',', $font_color );
 								$bg_color   = explode( ',', $bg_color   );
-							
+
 								$show_update_button = true;
 								if ( is_plugin_active( 'really-simple-captcha/really-simple-captcha.php' ) ) { ?>
 									<tr>
@@ -154,60 +157,60 @@ function wpmem_a_build_captcha_options()
 											<p><?php _e( 'To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin installed and activated.', 'wp-members' ); ?></p>
 											<p><?php _e( sprintf( 'You can download Really Simple CAPTCHA from the %swordpress.org plugin repository%s.', '<a href="http://wordpress.org/plugins/really-simple-captcha/">', '</a>' ), 'wp-members' ); ?></p>
 										</td>
-									</tr><?php 
+									</tr><?php
 								}
 							} // end if RSC is selected
-								if( $show_update_button ) { ?>						
-								<tr valign="top"> 
-									<th scope="row">&nbsp;</th> 
+								if ( $show_update_button ) { ?>
+								<tr valign="top">
+									<th scope="row">&nbsp;</th>
 									<td>
-										<input type="hidden" name="wpmem_recaptcha_type" value="<?php echo ( $wpmem_settings[6] == 1 ) ? 'recaptcha' : 'really_simple'; ?>" />
+										<input type="hidden" name="wpmem_recaptcha_type" value="<?php echo ( $wpmem->captcha == 1 ) ? 'recaptcha' : 'really_simple'; ?>" />
 										<input type="hidden" name="wpmem_admin_a" value="update_captcha" />
 										<input type="submit" name="save"  class="button-primary" value="<?php _e( 'Update CAPTCHA Settings', 'wp-members' ); ?> &raquo;" />
-									</td> 
-								</tr>	
-							<?php } ?>								
-							</table> 
+									</td>
+								</tr>
+							<?php } ?>
+							</table>
 						</form>
 					</div><!-- .inside -->
 				</div>
 			</div><!-- #post-body-content -->
 		</div><!-- #post-body -->
 	</div><!-- .metabox-holder -->
-	<?php 
+	<?php
 }
 
 
 /**
- * Updates the captcha options
+ * Updates the captcha options.
  *
  * @since 2.8
  *
- * @return string The captcha option update message
+ * @return string The captcha option update message.
  */
-function wpmem_update_captcha()
-{
+function wpmem_update_captcha() {
+
 	//check nonce
 	check_admin_referer( 'wpmem-update-captcha' );
-	
+
 	$settings     = get_option( 'wpmembers_captcha' );
 	$update_type  = $_POST['wpmem_recaptcha_type'];
 	$new_settings = array();
-	
-	if( $update_type == 'recaptcha' ) {
-		if( array_key_exists( 'really_simple', $settings ) ) {
+
+	if ( $update_type == 'recaptcha' ) {
+		if ( array_key_exists( 'really_simple', $settings ) ) {
 			// updating recaptcha but need to maintain really_simple
 			$new_settings['really_simple'] = $settings['really_simple'];
 		}
 		$new_settings['recaptcha'] = array(
 			'public'  => $_POST['wpmem_captcha_publickey'],
 			'private' => $_POST['wpmem_captcha_privatekey'],
-			'theme'   => $_POST['wpmem_captcha_theme']
+			'theme'   => $_POST['wpmem_captcha_theme'],
 		);
 	}
 
-	if( $update_type == 'really_simple' ) {
-		if( array_key_exists( 'recaptcha', $settings ) ) {
+	if ( $update_type == 'really_simple' ) {
+		if ( array_key_exists( 'recaptcha', $settings ) ) {
 			// updating really_simple but need to maintain recaptcha
 			$new_settings['recaptcha'] = $settings['recaptcha'];
 		}
@@ -225,7 +228,7 @@ function wpmem_update_captcha()
 				'img_type'     => $_POST['img_type'],
 		);
 	}
-	
+
 	update_option( 'wpmembers_captcha', $new_settings );
 	return __( 'CAPTCHA was updated for WP-Members', 'wp-members' );
 }

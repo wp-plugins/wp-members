@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions
+ * WP-Members Admin Functions.
  *
  * Functions to manage the dialogs tab.
  * 
@@ -13,31 +13,35 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions included:
+ * * wpmem_a_build_dialogs
+ * * wpmem_update_dialogs
  */
 
 
 /**
- * builds the dialogs panel
+ * Builds the dialogs panel.
  *
  * @since 2.2.2
  */
-function wpmem_a_build_dialogs()
-{ 
+function wpmem_a_build_dialogs() {
+
 	$wpmem_dialogs  = get_option( 'wpmembers_dialogs' );
 
 	$wpmem_dialog_title_arr = array(
-    	__( "Restricted post (or page), displays above the login/registration form", 'wp-members' ),
-        __( "Username is taken", 'wp-members' ),
-        __( "Email is registered", 'wp-members' ),
-        __( "Registration completed", 'wp-members' ),
-        __( "User update", 'wp-members' ),
-        __( "Passwords did not match", 'wp-members' ),
-        __( "Password changes", 'wp-members' ),
-        __( "Username or email do not exist when trying to reset forgotten password", 'wp-members' ),
-        __( "Password reset", 'wp-members' ) 
-    ); ?>
+		__( "Restricted post (or page), displays above the login/registration form", 'wp-members' ),
+		__( "Username is taken", 'wp-members' ),
+		__( "Email is registered", 'wp-members' ),
+		__( "Registration completed", 'wp-members' ),
+		__( "User update", 'wp-members' ),
+		__( "Passwords did not match", 'wp-members' ),
+		__( "Password changes", 'wp-members' ),
+		__( "Username or email do not exist when trying to reset forgotten password", 'wp-members' ),
+		__( "Password reset", 'wp-members' ),
+	); ?>
 	<div class="metabox-holder has-right-sidebar">
-	
+
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
 			<div class="postbox">
@@ -56,27 +60,27 @@ function wpmem_a_build_dialogs()
 						<p><?php printf( __( 'You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc.', 'wp-members' ), '- &lt;p&gt;, &lt;b&gt;, &lt;i&gt;,' ); ?></p>
 						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
 						<?php wp_nonce_field( 'wpmem-update-dialogs' ); ?>
-							<table class="form-table">        
+							<table class="form-table">
 							<?php for( $row = 0; $row < count( $wpmem_dialog_title_arr ); $row++ ) { ?>
 								<tr valign="top"> 
 									<th scope="row"><?php echo $wpmem_dialog_title_arr[$row]; ?></th> 
 									<td><textarea name="<?php echo "dialogs_".$row; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $wpmem_dialogs[$row] ); ?></textarea></td> 
 								</tr>
 							<?php } ?>
-							
+
 							<?php $wpmem_tos = stripslashes( get_option( 'wpmembers_tos' ) ); ?>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Terms of Service (TOS)', 'wp-members' ); ?></th> 
 									<td><textarea name="dialogs_tos" rows="3" cols="50" id="" class="large-text code"><?php echo $wpmem_tos; ?></textarea></td> 
-								</tr>		
-								<tr valign="top"> 
-									<th scope="row">&nbsp;</th> 
+								</tr>
+								<tr valign="top">
+									<th scope="row">&nbsp;</th>
 									<td>
 										<input type="hidden" name="wpmem_admin_a" value="update_dialogs" />
 										<input type="submit" name="save" class="button-primary" value="<?php _e( 'Update Dialogs', 'wp-members' ); ?> &raquo;" />
 									</td> 
-								</tr>	
-							</table> 
+								</tr>
+							</table>
 						</form>
 					</div><!-- .inside -->
 				</div><!-- #post-box -->
@@ -88,17 +92,17 @@ function wpmem_a_build_dialogs()
 
 
 /**
- * Updates the dialog settings
+ * Updates the dialog settings.
  *
  * @since 2.8
  *
- * @return string The dialogs updated message
+ * @return string The dialogs updated message.
  */
-function wpmem_update_dialogs()
-{
+function wpmem_update_dialogs() {
+
 	//check nonce
 	check_admin_referer( 'wpmem-update-dialogs' );
-	
+
 	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
 
 	for( $row = 0; $row < count( $wpmem_dialogs); $row++ ) {
@@ -108,11 +112,11 @@ function wpmem_update_dialogs()
 
 	update_option( 'wpmembers_dialogs', $wpmem_newdialogs );
 	$wpmem_dialogs = $wpmem_newdialogs;
-		
+
 	// Terms of Service
-	update_option( 'wpmembers_tos', $_POST['dialogs_tos'] );		
-		
-	return __( 'WP-Members dialogs were updated', 'wp-members' );	
+	update_option( 'wpmembers_tos', $_POST['dialogs_tos'] );
+
+	return __( 'WP-Members dialogs were updated', 'wp-members' );
 }
 
 /** End of File **/

@@ -13,6 +13,18 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions included:
+ * * wpmem_a_do_field_reorder
+ * * wpmem_admin_plugin_links
+ * * wpmem_load_admin_js
+ * * wpmem_a_captcha_tab
+ * * wpmem_add_captcha_tab
+ * * wpmem_admin
+ * * wpmem_admin_do_tab
+ * * wpmem_admin_tabs
+ * * wpmem_admin_action
+ * * wpmem_admin_add_new_user
  */
 
 
@@ -23,7 +35,7 @@ include_once( 'dialogs.php' );
 
 
 /** Actions and Filters */
-add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab', 10, 2 );
+add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab' );
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
 add_action( 'user_new_form', 'wpmem_admin_add_new_user' );
 add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 );
@@ -114,12 +126,13 @@ function wpmem_admin() {
 
 	$did_update = ( isset( $_POST['wpmem_admin_a'] ) ) ? wpmem_admin_action( $_POST['wpmem_admin_a'] ) : false;
 
-	$wpmem_settings = get_option( 'wpmembers_settings' );
-	if ( $wpmem_settings[6] ) {
+	global $wpmem;
+
+	if ( $wpmem->captcha ) {
 		add_filter( 'wpmem_admin_tabs', 'wpmem_add_captcha_tab' );
 		add_action( 'wpmem_admin_do_tab', 'wpmem_a_captcha_tab', 1, 1 );
 	} ?>
-	
+
 	<div class="wrap">
 		<?php screen_icon( 'options-general' ); ?>
 		<!--<h2>WP-Members <?php _e('Settings', 'wp-members'); ?></h2>-->
@@ -128,7 +141,7 @@ function wpmem_admin() {
 
 		wpmem_admin_tabs( $tab );
 		
-		wpmem_a_do_warnings( $did_update, $wpmem_settings );
+		wpmem_a_do_warnings( $did_update );
 
 		/**
 		 * Fires at the end of creating an admin panel tab.
@@ -139,13 +152,12 @@ function wpmem_admin() {
 		 *
 		 * @since 2.8
 		 *
-		 * @param string $tab            The tab being generated.
-		 * @param array  $wpmem_settings The plugin settings.
+		 * @param string $tab The tab being generated.
 		 */
-		do_action( 'wpmem_admin_do_tab', $tab, $wpmem_settings );
+		do_action( 'wpmem_admin_do_tab', $tab );
 		?>
 	</div><!-- .wrap --><?php
-	
+
 	return;
 }
 
@@ -155,16 +167,15 @@ function wpmem_admin() {
  * 
  * @since 2.8
  *
- * @param string $tab            The tab that we are on and displaying.
- * @param array  $wpmem_settings The array of plugin settings.
+ * @param string $tab The tab that we are on and displaying.
  */
-function wpmem_admin_do_tab( $tab, $wpmem_settings ) {
+function wpmem_admin_do_tab( $tab ) {
 
 	switch ( $tab ) {
-	
+
 	case 'options' :
 		include_once( 'tab-options.php' );
-		wpmem_a_build_options( $wpmem_settings );
+		wpmem_a_build_options();
 		break;
 	case 'fields' :
 		include_once( 'tab-fields.php' );
@@ -176,7 +187,7 @@ function wpmem_admin_do_tab( $tab, $wpmem_settings ) {
 		break;
 	case 'emails' :
 		include_once( 'tab-emails.php' );
-		wpmem_a_build_emails( $wpmem_settings );
+		wpmem_a_build_emails();
 		break;
 	}
 }
@@ -197,7 +208,7 @@ function wpmem_admin_tabs( $current = 'options' ) {
 		'dialogs' => __( 'Dialogs', 'wp-members' ),
 		'emails'  => __( 'Emails', 'wp-members' ),
 	);
-	
+
 	/**
 	 * Filter the admin tabs for the plugin settings page.
 	 *
@@ -206,7 +217,7 @@ function wpmem_admin_tabs( $current = 'options' ) {
 	 * @param array $tabs An array of the tabs to be displayed on the plugin settings page.
 	 */
 	$tabs = apply_filters( 'wpmem_admin_tabs', $tabs );
-	
+
 	$links = array();
 	foreach ( $tabs as $tab => $name ) {
 		$class = ( $tab == $current ) ? 'nav-tab nav-tab-active' : 'nav-tab';
@@ -244,23 +255,23 @@ function wpmem_admin_action( $action ) {
 		include_once( 'tab-fields.php' );
 		$did_update = wpmem_update_fields( $action );
 		break;
-	
+
 	case 'update_dialogs':
 		include_once( 'tab-dialogs.php' );
 		$did_update = wpmem_update_dialogs();
 		break;
-	
+
 	case 'update_emails':
 		include_once( 'tab-emails.php' );
 		$did_update = wpmem_update_emails();
 		break;
-	
+
 	case 'update_captcha':
 		include_once( 'tab-captcha.php' );
 		$did_update = wpmem_update_captcha();
 		break;
 	}
-	
+
 	return $did_update;
 }
 
