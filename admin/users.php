@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions
+ * WP-Members Admin Functions.
  *
  * Functions to manage the Users > All Users page.
  * 
@@ -13,6 +13,22 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions included:
+ * * wpmem_bulk_user_action
+ * * wpmem_insert_activate_link
+ * * wpmem_users_page_load
+ * * wpmem_users_admin_notices
+ * * wpmem_users_views
+ * * wpmem_add_user_column
+ * * wpmem_add_user_column_content
+ * * wpmem_a_activate_user
+ * * wpmem_a_deactivate_user
+ * * wpmem_a_pre_user_query
+ * * wpmem_set_new_user_non_active
+ * * wpmem_set_activated_user
+ * * wpmem_set_deactivated_user
+ * * wpmem_set_user_status
  */
 
 
@@ -28,37 +44,36 @@ add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3
 add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
 add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
 add_action( 'wpmem_user_deactivated', 'wpmem_set_deactivated_user' );
-if( WPMEM_MOD_REG == 1 ) {
+global $wpmem; // @todo Is there a better way to do this?
+if ( $wpmem->mod_reg == 1 ) {
 	add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
 }
 
 
 /**
- * Function to add activate/export to the bulk dropdown list
+ * Function to add activate/export to the bulk dropdown list.
  *
  * @since 2.8.2
  */
-function wpmem_bulk_user_action()
-{ ?>
-    <script type="text/javascript">
-      jQuery(document).ready(function() {
+function wpmem_bulk_user_action() { ?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
 	<?php if( WPMEM_MOD_REG == 1 ) { ?>
-        jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action']");
+		jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action']");
 	<?php } ?>
 		jQuery('<option>').val('export').text('<?php _e( 'Export', 'wp-members' )?>').appendTo("select[name='action']");
 	<?php if( WPMEM_MOD_REG == 1 ) { ?>
-        jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action2']");
 	<?php } ?>
 		jQuery('<option>').val('export').text('<?php _e( 'Export', 'wp-members' )?>').appendTo("select[name='action2']");
 		jQuery('<input id="export_all" name="export_all" class="button action" type="submit" value="<?php _e( 'Export All Users', 'wp-members' ); ?>" />').appendTo(".bottom .bulkactions");
-      });
-    </script>
-    <?php
+	});
+	</script><?php
 }
 
 
 /**
- * Function to add activate link to the user row action
+ * Function to add activate link to the user row action.
  *
  * @since 2.8.2
  *
@@ -67,112 +82,110 @@ function wpmem_bulk_user_action()
  * @return array $actions
  */
 function wpmem_insert_activate_link( $actions, $user_object ) {
-    if( current_user_can( 'edit_users', $user_object->ID ) ) {
-	
+	if ( current_user_can( 'edit_users', $user_object->ID ) ) {
+
 		$var = get_user_meta( $user_object->ID, 'active', true );
-		
-		if( $var != 1 ) {
+
+		if ( $var != 1 ) {
 			$url = "users.php?action=activate-single&amp;user=$user_object->ID";
 			$url = wp_nonce_url( $url, 'activate-user' );
 			$actions['activate'] = '<a href="' . $url . '">Activate</a>';
 		}
 	}
-    return $actions;
+	return $actions;
 }
 
 
 /**
- * Function to handle bulk actions at page load
+ * Function to handle bulk actions at page load.
  *
  * @since 2.8.2
  *
  * @uses WP_Users_List_Table
  */
-function wpmem_users_page_load()
-{
+function wpmem_users_page_load() {
+
 	// if exporting all users, do it, then exit
-	if( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
+	if ( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
 		include_once( WPMEM_PATH . 'admin/user-export.php' );
 		$today = date( "m-d-y" ); 
 		wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ), '' );
 		exit();
 	}
-	
+
 	$wp_list_table = _get_list_table( 'WP_Users_List_Table' );
 	$action = $wp_list_table->current_action();
 	$sendback = '';
-	
-	if( $action == 'activate' || 'activate-single' ) {
+
+	if ( $action == 'activate' || 'activate-single' ) {
 		// find out if we need to set passwords
 		$chk_pass = false;
 		$wpmem_fields = get_option( 'wpmembers_fields' );
-		foreach( $wpmem_fields as $field ) {
-			if( $field[2] == 'password' && $field[4] == 'y' ) { 
-				$chk_pass = true; 
+		foreach ( $wpmem_fields as $field ) {
+			if ( $field[2] == 'password' && $field[4] == 'y' ) {
+				$chk_pass = true;
 				break;
 			}
 		}
 	}
-	
-	switch( $action ) {
-		
+
+	switch ( $action ) {
+
 	case 'activate':
-		
+
 		/** validate nonce */
 		check_admin_referer( 'bulk-users' );
-		
+
 		/** get the users */
 		$users = $_REQUEST['users'];
 		
 		/** update the users */
 		$x = 0;
-		foreach( $users as $user ) {
+		foreach ( $users as $user ) {
 			// check to see if the user is already activated, if not, activate
-			if( ! get_user_meta( $user, 'active', true ) ) {
+			if ( ! get_user_meta( $user, 'active', true ) ) {
 				wpmem_a_activate_user( $user, $chk_pass );
 				$x++;
 			}
 		}
-		
+
 		/** set the return message */
 		$sendback = add_query_arg( array('activated' => $x . ' users activated' ), $sendback );
-		
 		break;
-		
+
 	case 'activate-single':
-		
+
 		/** validate nonce */
 		check_admin_referer( 'activate-user' );
-		
+
 		/** get the users */
 		$users = $_REQUEST['user'];
 
 		/** check to see if the user is already activated, if not, activate */
-		if( ! get_user_meta( $users, 'active', true ) ) {
-			
+		if ( ! get_user_meta( $users, 'active', true ) ) {
+
 			wpmem_a_activate_user( $users, $chk_pass );
-			
+
 			/** get the user data */
 			$user_info = get_userdata( $users );
 
 			/** set the return message */
 			$sendback = add_query_arg( array('activated' => "$user_info->user_login activated" ), $sendback );
-		
+
 		} else {
 
 			/** get the return message */
 			$sendback = add_query_arg( array('activated' => "That user is already active" ), $sendback );
-		
+
 		}
-		
 		break;
-		
+
 	case 'show':
 		
 		add_action( 'pre_user_query', 'wpmem_a_pre_user_query' );
 		return;
 		break;
-		
+
 	case 'export':
 
 		$users  = ( isset( $_REQUEST['users'] ) ) ? $_REQUEST['users'] : false;
@@ -180,7 +193,7 @@ function wpmem_users_page_load()
 		wpmem_export_users( array( 'export'=>'selected' ), $users );
 		return;
 		break;
-		
+
 	default:
 		return;
 		break;
@@ -195,53 +208,67 @@ function wpmem_users_page_load()
 
 
 /**
- * Function to echo admin update message
+ * Function to echo admin update message.
  *
  * @since 2.8.2
  */
-function wpmem_users_admin_notices()
-{    
+function wpmem_users_admin_notices() {
+
 	global $pagenow, $user_action_msg;
-	if( $pagenow == 'users.php' && isset( $_REQUEST['activated'] ) ) {
+	 if( $pagenow == 'users.php' && isset( $_REQUEST['activated'] ) ) {
 		$message = $_REQUEST['activated'];
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
 
-	if( $user_action_msg ) {
+	if ( $user_action_msg ) {
 		echo "<div class=\"updated\"><p>{$user_action_msg}</p></div>";
 	}
 }
 
 
 /**
- * Function to add user views to the top list
+ * Function to add user views to the top list.
  *
  * @since 2.8.2
  *
  * @param  array $views
  * @return array $views
  */
-function wpmem_users_views( $views )
-{
-	$arr = array();	
-	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Pending'; }
-	if( defined( 'WPMEM_USE_TRL' ) && WPMEM_USE_TRL == 1 ) { $arr[] = 'Trial'; }
-	if( defined( 'WPMEM_USE_EXP' ) && WPMEM_USE_EXP == 1 ) { $arr[] = 'Subscription'; $arr[] = 'Expired'; }
-	if( defined( 'WPMEM_MOD_REG' ) && WPMEM_MOD_REG == 1 ) { $arr[] = 'Not Active'; }
+function wpmem_users_views( $views ) {
+
+	global $wpmem;
+
+	$arr = array();
+	if ( $wpmem->use_exp == 1 ) {
+		$arr[] = 'Pending';
+	}
+	if ( $wpmem->use_trial == 1 ) {
+		$arr[] = 'Trial';
+	}
+	if ( $wpmem->use_exp == 1 ) {
+		$arr[] = 'Subscription';
+		$arr[] = 'Expired';
+	}
+	if ( $wpmem->mod_reg == 1 ) {
+		$arr[] = 'Not Active';
+	}
 	$arr[] = 'Not Exported';
 	$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false;
-	
-	for( $row = 0; $row < count( $arr ); $row++ )
-	{
+
+	for ( $row = 0; $row < count( $arr ); $row++ ) {
 		$link = "users.php?action=show&amp;show=";
 		$lcas = str_replace( " ", "", strtolower( $arr[$row] ) );
 		$link.= $lcas;
 		$curr = ( $show == $lcas ) ? ' class="current"' : '';
-		
+
 		$echolink = true;
-		if( $lcas == "notactive" && WPMEM_MOD_REG != 1 ) { $echolink = false; }
+		if ( $lcas == "notactive" && $wpmem->mod_reg != 1 ) {
+			$echolink = false;
+		}
 		
-		if( $echolink ) { $views[$lcas] = "<a href=\"$link\" $curr>$arr[$row] <span class=\"count\"></span></a>"; }
+		if ( $echolink ) {
+			$views[$lcas] = "<a href=\"$link\" $curr>$arr[$row] <span class=\"count\"></span></a>";
+		}
 	}
 
 	/** @todo if $show, then run function search query for the users */
@@ -251,59 +278,59 @@ function wpmem_users_views( $views )
 
 
 /**
- * Function to add custom user columns to the user table
+ * Function to add custom user columns to the user table.
  *
  * @since 2.8.2
  *
  * @param  array $columns
  * @return array $columns
  */
-function wpmem_add_user_column( $columns ) 
-{
-	global $wpmem_user_columns;
+function wpmem_add_user_column( $columns ) {
+
+	global $wpmem_user_columns, $wpmem;
 	$wpmem_user_columns = get_option( 'wpmembers_utfields' );
 	
-	if( $wpmem_user_columns ) {
-		foreach( $wpmem_user_columns as $key => $val ) {
+	if ( $wpmem_user_columns ) {
+		foreach ( $wpmem_user_columns as $key => $val ) {
 
-			if( $key == 'active' ) {
+			if ( $key == 'active' ) {
 			
-				if( WPMEM_MOD_REG == 1 ) {
+				if ( $wpmem->mod_reg == 1 ) {
 					$columns[$key] = $val;
 				}
-			
+
 			} else {
 				$columns[$key] = $val;
 			}
 		}
 	}
-	
+
 	return $columns;
 } 
 
 
 /**
- * Function to add the user content to the custom column
+ * Function to add the user content to the custom column.
  *
  * @since 2.8.2
  * 
- * @param $value
- * @param $column_name
- * @param $user_id
- * @return The user value for the custom column
+ * @param  $value
+ * @param  $column_name
+ * @param  $user_id
+ * @return The user value for the custom column.
  */
 function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 
 	// is the column a WP-Members column?
-	global $wpmem_user_columns;
+	global $wpmem_user_columns, $wpmem;
 	$is_wpmem = ( is_array( $wpmem_user_columns ) && array_key_exists( $column_name, $wpmem_user_columns ) ) ? true : false;
+
+	if ( $is_wpmem ) {
 	
-	if( $is_wpmem ) {
-	
-		switch( $column_name ) {
+		switch ( $column_name ) {
 		
 		case 'active':
-			if( WPMEM_MOD_REG == 1 ) {
+			if ( $wpmem->mod_reg == 1 ) {
 			/**
 			 * If the column is "active", then return the value or empty.
 			 * Returning in here keeps us from displaying another value.
@@ -322,20 +349,20 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 			$user_info = get_userdata( $user_id );
 			return $user_info->$column_name;
 			break;
-			
+
 		default:
 			return get_user_meta( $user_id, $column_name, true );
 			break;
 		}
-	
+
 	}
-	
+
 	return $value;
 }
 
 
 /**
- * Activates a user
+ * Activates a user.
  *
  * If registration is moderated, sets the activated flag 
  * in the usermeta. Flag prevents login when WPMEM_MOD_REG
@@ -344,36 +371,40 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  *
  * @since 2.4
  *
- * @param int  $user_id
- * @param bool $chk_pass
- * @uses $wpdb WordPress Database object
+ * @param int   $user_id
+ * @param bool  $chk_pass
+ * @uses  $wpdb WordPress Database object.
  */
-function wpmem_a_activate_user( $user_id, $chk_pass = false )
-{
+function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
+
+	global $wpmem;
+
 	// define new_pass
 	$new_pass = '';
-	
+
 	// If passwords are user defined skip this
-	if( ! $chk_pass ) {
+	if ( ! $chk_pass ) {
 		// generates a password to send the user
 		$new_pass = wp_generate_password();
 		$new_hash = wp_hash_password( $new_pass );
-		
+
 		// update the user with the new password
 		global $wpdb;
 		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
 	}
-	
+
 	// if subscriptions can expire, set the user's expiration date
-	if( WPMEM_USE_EXP == 1 ) { wpmem_set_exp( $user_id ); }
+	if( $wpmem->use_exp == 1 ) {
+		wpmem_set_exp( $user_id );
+	}
 
 	// generate and send user approved email to user
 	require_once( WPMEM_PATH . 'wp-members-email.php' );
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
-	
+
 	// set the active flag in usermeta
 	update_user_meta( $user_id, 'active', 1 );
-	
+
 	/**
 	 * Fires after the user activation process is complete.
 	 *
@@ -382,13 +413,13 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
 	 * @param int $user_id The user's ID.
 	 */
 	do_action( 'wpmem_user_activated', $user_id );
-	
+
 	return;
 }
 
 
 /**
- * Deactivates a user
+ * Deactivates a user.
  *
  * Reverses the active flag from the activation process
  * preventing login when registration is moderated.
@@ -399,7 +430,7 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false )
  */
 function wpmem_a_deactivate_user( $user_id ) {
 	update_user_meta( $user_id, 'active', 0 );
-	
+
 	/**
 	 * Fires after the user deactivation process is complete.
 	 *
@@ -418,8 +449,8 @@ function wpmem_a_deactivate_user( $user_id ) {
  *
  * @param $user_search
  */
-function wpmem_a_pre_user_query( $user_search ) 
-{
+function wpmem_a_pre_user_query( $user_search ) {
+
 	global $wpdb;
 	$show = $_GET['show'];	
 	switch ( $show ) {
@@ -500,7 +531,7 @@ function wpmem_set_deactivated_user( $user_id ) {
 
 
 /**
- * Updates the user_status value in the wp_users table
+ * Updates the user_status value in the wp_users table.
  *
  * @param $user_id
  * @param $status
