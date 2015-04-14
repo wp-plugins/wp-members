@@ -175,7 +175,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 				$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
 			} 			
 	
-			if ( $wpmem->user_pages['register' != null ) {
+			if ( $wpmem->user_pages['register'] != null ) {
 				/**
 				 * Filter the sidebar register link.
 				 *
@@ -183,7 +183,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 				 *
 				 * @param string The register link.
 				 */
-				$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register' );
+				$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 				$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
 			}
 		

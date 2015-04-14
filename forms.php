@@ -410,7 +410,7 @@ function wpmem_login_form( $page, $arr ) {
 		
 	}
 	
-	if ( ( $wpmem->user_pages['register' != null ) && $action == 'login' ) { 
+	if ( ( $wpmem->user_pages['register'] != null ) && $action == 'login' ) { 
 
 		/**
 		 * Filter the link to the registration page.
@@ -419,7 +419,7 @@ function wpmem_login_form( $page, $arr ) {
 		 *
 		 * @param string The registration page link.
 	 	 */
-		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register' );
+		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 		$str  = __( 'New User?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to register', 'wp-members' ) . '</a>';
 		$form = $form . $link_before . apply_filters( 'wpmem_reg_link_str', $str ) . $link_after . $n;
 		
