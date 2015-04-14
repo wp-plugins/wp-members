@@ -412,6 +412,7 @@ Last Row|last_row<?php } } ?></textarea>
  */
 function wpmem_a_field_table( $wpmem_fields )
 {
+	global $wpmem;
 	?>
 	<div class="postbox">
 		<h3 class="title"><?php _e( 'Manage Fields', 'wp-members' ); ?></h3>
@@ -484,7 +485,7 @@ function wpmem_a_field_table( $wpmem_fields )
 								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Registration Date', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
 						</td>
 					</tr>
-				<?php if( WPMEM_MOD_REG == 1 ) { ?>
+				<?php if( $wpmem->mod_reg == 1 ) { ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
 						<td><i><?php _e( 'Active', 'wp-members' ); ?></i></td>
@@ -508,7 +509,7 @@ function wpmem_a_field_table( $wpmem_fields )
 								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Registration IP', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
 						</td>
 					</tr>
-				<?php if( WPMEM_USE_EXP == 1 ) { ?>
+				<?php if( $wpmem->use_exp == 1 ) { ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
 						<td><i>Subscription Type</i></td>

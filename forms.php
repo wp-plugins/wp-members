@@ -264,6 +264,8 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  */
 function wpmem_login_form( $page, $arr ) {
 
+	global $wpmem;
+
 	// extract the arguments array
 	extract( $arr );
 
@@ -393,7 +395,7 @@ function wpmem_login_form( $page, $arr ) {
  	 */
 	$form = $form . apply_filters( 'wpmem_login_form_buttons', $buttons_before . $n . $buttons . $buttons_after . $n, $action );
 
-	if ( ( WPMEM_MSURL != null || $page == 'members' ) && $action == 'login' ) { 
+	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $action == 'login' ) { 
 		
 		/**
 		 * Filter the forgot password link.
@@ -402,13 +404,13 @@ function wpmem_login_form( $page, $arr ) {
 		 *
 		 * @param string The forgot password link.
 	 	 */
-		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
+		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
 		$str  = __( 'Forgot password?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to reset', 'wp-members' ) . '</a>';
 		$form = $form . $link_before . apply_filters( 'wpmem_forgot_link_str', $str ) . $link_after . $n;
 		
 	}
 	
-	if ( ( WPMEM_REGURL != null ) && $action == 'login' ) { 
+	if ( ( $wpmem->user_pages['register' != null ) && $action == 'login' ) { 
 
 		/**
 		 * Filter the link to the registration page.
@@ -417,7 +419,7 @@ function wpmem_login_form( $page, $arr ) {
 		 *
 		 * @param string The registration page link.
 	 	 */
-		$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
+		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register' );
 		$str  = __( 'New User?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to register', 'wp-members' ) . '</a>';
 		$form = $form . $link_before . apply_filters( 'wpmem_reg_link_str', $str ) . $link_after . $n;
 		
@@ -488,7 +490,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  */
 function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 
-	global $wpmem_regchk, $userdata; 
+	global $wpmem, $wpmem_regchk, $userdata; 
 	
 	// set up default wrappers
 	$defaults = array(
@@ -735,7 +737,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	}
 	
 	// if captcha is Really Simple CAPTCHA
-	if ( WPMEM_CAPTCHA == 2 && $toggle != 'edit' ) {
+	if ( $wpmem->captcha == 2 && $toggle != 'edit' ) {
 		$row = wpmem_build_rs_captcha();
 		$rows['captcha'] = array(
 			'order'        => '',
@@ -776,7 +778,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	}
 	
 	// do recaptcha if enabled
-	if ( WPMEM_CAPTCHA == 1 && $toggle != 'edit' ) { // don't show on edit page!
+	if ( $wpmem->captcha == 1 && $toggle != 'edit' ) { // don't show on edit page!
 		
 		// get the captcha options
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); 

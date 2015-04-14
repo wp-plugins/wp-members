@@ -35,10 +35,10 @@ include_once( 'dialogs.php' );
 
 
 /** Actions and Filters */
-add_action( 'wpmem_admin_do_tab', 'wpmem_admin_do_tab' );
+add_action( 'wpmem_admin_do_tab',            'wpmem_admin_do_tab' );
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
-add_action( 'user_new_form', 'wpmem_admin_add_new_user' );
-add_filter( 'plugin_action_links', 'wpmem_admin_plugin_links', 10, 2 );
+add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
+add_filter( 'plugin_action_links',           'wpmem_admin_plugin_links', 10, 2 );
 
 
 /**

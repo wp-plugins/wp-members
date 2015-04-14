@@ -55,14 +55,15 @@ if ( $wpmem->mod_reg == 1 ) {
  *
  * @since 2.8.2
  */
-function wpmem_bulk_user_action() { ?>
+function wpmem_bulk_user_action() { 
+	global $wpmem; ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
-	<?php if( WPMEM_MOD_REG == 1 ) { ?>
+	<?php if( $wpmem->mod_reg == 1 ) { ?>
 		jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action']");
 	<?php } ?>
 		jQuery('<option>').val('export').text('<?php _e( 'Export', 'wp-members' )?>').appendTo("select[name='action']");
-	<?php if( WPMEM_MOD_REG == 1 ) { ?>
+	<?php if( $wpmem->mod_reg == 1 ) { ?>
 		jQuery('<option>').val('activate').text('<?php _e( 'Activate' )?>').appendTo("select[name='action2']");
 	<?php } ?>
 		jQuery('<option>').val('export').text('<?php _e( 'Export', 'wp-members' )?>').appendTo("select[name='action2']");
@@ -365,7 +366,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  * Activates a user.
  *
  * If registration is moderated, sets the activated flag 
- * in the usermeta. Flag prevents login when WPMEM_MOD_REG
+ * in the usermeta. Flag prevents login when $wpmem->mod_reg
  * is true (1). Function is fired from bulk user edit or
  * user profile update.
  *

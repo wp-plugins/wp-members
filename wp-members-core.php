@@ -817,6 +817,8 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  */
 function wpmem_reset_password() {
 
+	global $wpmem;
+
 	if ( isset( $_POST['formsubmit'] ) ) {
 
 		/**
@@ -842,7 +844,7 @@ function wpmem_reset_password() {
 
 				$user = get_user_by( 'login', $arr['user'] );
 
-				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( WPMEM_MOD_REG == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
+				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
 					// the username was there, but the email did not match OR the user hasn't been activated
 					return "pwdreseterr";
 
@@ -892,6 +894,8 @@ if ( ! function_exists( 'wpmem_no_reset' ) ):
  */
 function wpmem_no_reset() {
 
+	global $wpmem;
+
 	if ( strpos( $_POST['user_login'], '@' ) ) {
 		$user = get_user_by( 'email', trim( $_POST['user_login'] ) );
 	} else {
@@ -899,7 +903,7 @@ function wpmem_no_reset() {
 		$user     = get_user_by( 'login', $username );
 	}
 
-	if ( WPMEM_MOD_REG == 1 ) { 
+	if ( $wmem->mod_reg == 1 ) { 
 		if ( get_user_meta( $user->ID, 'active', true ) != 1 ) {
 			return false;
 		}

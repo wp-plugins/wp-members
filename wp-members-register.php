@@ -37,7 +37,7 @@ if( ! function_exists( 'wpmem_registration' ) ):
 function wpmem_registration( $toggle )
 {
 	// get the globals
-	global $user_ID, $wpmem_themsg, $userdata; 
+	global $user_ID, $wpmem, $wpmem_themsg, $userdata; 
 	
 	// check the nonce
 	if( defined( 'WPMEM_USE_NONCE' ) ) {
@@ -114,7 +114,7 @@ function wpmem_registration( $toggle )
 		if( array_key_exists( 'confirm_email', $fields ) && $fields['confirm_email'] != $fields ['user_email'] ) { $wpmem_themsg = __( 'Emails did not match.', 'wp-members' ); }
 		
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); // get the captcha settings (api keys) 
-		if( WPMEM_CAPTCHA == 1 && $wpmem_captcha['recaptcha'] ) { // if captcha is on, check the captcha
+		if( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { // if captcha is on, check the captcha
 			
 			if( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   // if there is no api key, the captcha never displayed to the end user
 				if( !$_POST["recaptcha_response_field"] ) { // validate for empty captcha field
@@ -155,7 +155,7 @@ function wpmem_registration( $toggle )
 
 				} 
 			} // end check recaptcha
-		} elseif( WPMEM_CAPTCHA == 2 ) {
+		} elseif( $wpmem->captcha == 2 ) {
 			if( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
 				/** Validate Really Simple Captcha */
 				$wpmem_captcha = new ReallySimpleCaptcha();
@@ -266,7 +266,7 @@ function wpmem_registration( $toggle )
 		update_user_meta( $fields['ID'], 'wpmem_reg_url', $fields['wpmem_reg_url'] );
 
 		// set user expiration, if used
-		if( WPMEM_USE_EXP == 1 && WPMEM_MOD_REG != 1 ) { wpmem_set_exp( $fields['ID'] ); }
+		if( $wpmem->use_exp == 1 && $wpmem->mod_reg != 1 ) { wpmem_set_exp( $fields['ID'] ); }
 
 		/**
 		 * Fires after user insertion but before email.
@@ -281,10 +281,10 @@ function wpmem_registration( $toggle )
 
 		// if this was successful, and you have email properly
 		// configured, send a notification email to the user
-		wpmem_inc_regemail( $fields['ID'], $fields['password'], WPMEM_MOD_REG, $wpmem_fields, $fields );
+		wpmem_inc_regemail( $fields['ID'], $fields['password'], $wpmem->mod_reg, $wpmem_fields, $fields );
 		
 		// notify admin of new reg, if needed;
-		if( WPMEM_NOTIFY_ADMIN == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }
+		if( $wpmem->notify == 1 ) { wpmem_notify_admin( $fields['ID'], $wpmem_fields ); }
 		
 		/**
 		 * Fires after registration is complete.
