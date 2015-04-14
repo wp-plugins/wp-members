@@ -41,17 +41,17 @@ function wpmem_a_build_emails() {
 	}
 	array_push( 
 		$wpmem_email_title_arr,
-		array( __( "Password Reset", 'wp-members' ), 'wpmembers_email_repass' ),
+		array( __( "Password Reset", 'wp-members' ), 'wpmembers_email_repass' )
 	);
 	if ( $wpmem->notify == 1 ) {
 		array_push(
 			$wpmem_email_title_arr,
-			array( __( "Admin Notification", 'wp-members' ), 'wpmembers_email_notify' ),
+			array( __( "Admin Notification", 'wp-members' ), 'wpmembers_email_notify' )
 		);
 	}
 	array_push(
 		$wpmem_email_title_arr,
-		array( __( "Email Signature", 'wp-members' ), 'wpmembers_email_footer' ),
+		array( __( "Email Signature", 'wp-members' ), 'wpmembers_email_footer' )
 	); ?>
 	<div class="metabox-holder">
 
