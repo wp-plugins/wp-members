@@ -1012,13 +1012,10 @@ function wpmem_wplogin_stylesheet() {
  *
  * @since 2.9.9
  *
- * @return string $template The location of the comments template.
+ * @return bool $open Whether the current post is open for comments.
  */
-function wpmem_securify_comments( $template ) {
-	if ( ! is_user_logged_in() && wpmem_block() ) {
-		return dirname( __FILE__ ) . '/lib/comments-template.php';
-	}
-	return $template;
+function wpmem_securify_comments( $open ) {
+	return ( ! is_user_logged_in() && wpmem_block() ) ? false : $open;
 }
 
 /** End of File **/

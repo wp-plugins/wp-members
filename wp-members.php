@@ -186,7 +186,7 @@ function wpmem_init() {
 	add_filter( 'the_content',          'wpmem_securify', 1, 1 );           // securifies the_content
 	add_filter( 'register_form',        'wpmem_wp_register_form' );         // adds fields to the default wp registration
 	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
-	add_filter( 'comments_template',    'wpmem_securify_comments', 20, 1 ); // securifies the comments
+	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
 	/**
 	 * Add shortcodes.
