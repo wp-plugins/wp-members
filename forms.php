@@ -522,7 +522,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 		'req_label_after'  => '</div>',
 		
 		// buttons
-		'show_clear_form'  => true,
+		'show_clear_form'  => false,
 		'clear_form'       => __( 'Reset Form', 'wp-members' ),
 		'submit_register'  => __( 'Register' ),
 		'submit_update'    => __( 'Update Profile', 'wp-members' ),
