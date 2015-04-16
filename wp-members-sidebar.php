@@ -67,7 +67,7 @@ if ( ! function_exists( 'wpmem_do_sidebar' ) ):
  */
 function wpmem_do_sidebar( $post_to = null ) {
 
-	global $wpmem_regchk;
+	global $wpmem, $wpmem_regchk;
 	
 	$url = get_bloginfo('url'); // used here and in the logout
 
@@ -163,7 +163,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 
 		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
 				
-			if ( WPMEM_MSURL != null ) { 
+			if ( $wpmem->user_pages['profile'] != null ) { 
 				/**
 				 * Filter the sidebar forgot password link.
 				 *
@@ -171,11 +171,11 @@ function wpmem_do_sidebar( $post_to = null ) {
 				 *
 				 * @param string The forgot password link.
 				 */
-				$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
+				$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
 				$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
 			} 			
 	
-			if ( WPMEM_REGURL != null ) {
+			if ( $wpmem->user_pages['register'] != null ) {
 				/**
 				 * Filter the sidebar register link.
 				 *
@@ -183,7 +183,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 				 *
 				 * @param string The register link.
 				 */
-				$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
+				$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 				$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
 			}
 		

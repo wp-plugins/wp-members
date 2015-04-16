@@ -58,14 +58,14 @@ function wpmem_uninstall_options()
 	delete_option( 'wpmembers_captcha'  );
 	delete_option( 'wpmembers_tos'      );
 	delete_option( 'wpmembers_export'   );
-	delete_option( 'wpmembers_msurl'    );
-	delete_option( 'wpmembers_regurl'   );
-	delete_option( 'wpmembers_logurl'   );
-	delete_option( 'wpmembers_cssurl'   );
-	delete_option( 'wpmembers_style'    );
-	delete_option( 'wpmembers_autoex'   );
+//	delete_option( 'wpmembers_msurl'    );
+//	delete_option( 'wpmembers_regurl'   );
+//	delete_option( 'wpmembers_logurl'   );
+//	delete_option( 'wpmembers_cssurl'   );
+//	delete_option( 'wpmembers_style'    );
+//	delete_option( 'wpmembers_autoex'   );
 	delete_option( 'wpmembers_utfields' );
-	delete_option( 'wpmembers_attrib'   );
+//	delete_option( 'wpmembers_attrib'   );
 
 	delete_option( 'wpmembers_email_newreg' );
 	delete_option( 'wpmembers_email_newmod' );

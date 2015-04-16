@@ -16,7 +16,7 @@ License:     GPLv2
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as 
+	it under the terms of the GNU General Public License, version 2, as
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
@@ -85,57 +85,55 @@ register_activation_hook( __FILE__, 'wpmem_install' );
 function wpmem_init() {
 
 	/**
+	 * Setup globals
+	 */
+	global $wpmem;
+
+	/**
 	 * Fires before initialization of plugin options.
 	 *
 	 * @since 2.9.0
 	 */
 	do_action( 'wpmem_pre_init' );
-	
+
 	/**
 	 * Start with any potential translation.
 	 */
 	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
+	/**
+	 * Load WP_Members class.
+	 */
+	include_once( 'class-wp-members.php' );
+	$wpmem = new WP_Members();
 
 	/**
-	 * Load options.
-	 */
-	$wpmem_settings = get_option( 'wpmembers_settings' );
+	 * Define constants based on option settings.
+	 
+	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']        ) : '';
+	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem->block['page']        ) : '';
+	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem->show_excerpt['post'] ) : '';
+	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem->notify               ) : '';
+	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem->mod_reg              ) : '';
+	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem->warnings             ) : '';
 
-	/**
-	 * Filter the options before they are loaded into constants.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param array $wpmem_settings An array of the WP-Members settings.
-	 */
-	$wpmem_settings = apply_filters( 'wpmem_settings', $wpmem_settings );
+	( ! defined( 'WPMEM_MOD_REG' ) ) ? define( 'WPMEM_MOD_REG', $wpmem->mod_reg   ) : '';
+	( ! defined( 'WPMEM_CAPTCHA' ) ) ? define( 'WPMEM_CAPTCHA', $wpmem->captcha   ) : '';
+	( ! defined( 'WPMEM_USE_EXP' ) ) ? define( 'WPMEM_USE_EXP', $wpmem->use_exp   ) : '';
+	( ! defined( 'WPMEM_USE_TRL' ) ) ? define( 'WPMEM_USE_TRL', $wpmem->use_trial ) : '';
 
-	/**
-	 * define constants based on option settings.
-	 */
-	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem_settings[1]  ) : '';
-	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem_settings[2]  ) : '';
-	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem_settings[3]  ) : '';
-	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem_settings[4]  ) : '';
-	( ! defined( 'WPMEM_MOD_REG'      ) ) ? define( 'WPMEM_MOD_REG',      $wpmem_settings[5]  ) : '';
-	( ! defined( 'WPMEM_CAPTCHA'      ) ) ? define( 'WPMEM_CAPTCHA',      $wpmem_settings[6]  ) : '';
-	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem_settings[7]  ) : '';
-	( ! defined( 'WPMEM_USE_EXP'      ) ) ? define( 'WPMEM_USE_EXP',      $wpmem_settings[9]  ) : '';
-	( ! defined( 'WPMEM_USE_TRL'      ) ) ? define( 'WPMEM_USE_TRL',      $wpmem_settings[10] ) : '';
-	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem_settings[11] ) : '';
-
-	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  get_option( 'wpmembers_msurl', null ) ) : '';
-	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', get_option( 'wpmembers_regurl',null ) ) : '';
-	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', get_option( 'wpmembers_logurl',null ) ) : '';
+	( ! defined( 'WPMEM_MSURL'   ) ) ? define( 'WPMEM_MSURL',   $wpmem->user_pages['profile']  ) : '';
+	( ! defined( 'WPMEM_REGURL'  ) ) ? define( 'WPMEM_REGURL',  $wpmem->user_pages['register'] ) : '';
+	( ! defined( 'WPMEM_LOGURL'  ) ) ? define( 'WPMEM_LOGURL',  $wpmem->user_pages['login']    ) : '';
+	*/
 
 	/**
 	 * Define the stylesheet.
 	 */
-	$wpmem_style = get_option( 'wpmembers_style', null );
-	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? get_option( 'wpmembers_cssurl', null ) : $wpmem_style;
+	$wpmem_style =  $wpmem->style;
+	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? $wpmem->cssurl : $wpmem_style;
 	define( 'WPMEM_CSSURL', $wpmem_style );
-	
+
 	/**
 	 * Fires after main settings are loaded.
 	 *
@@ -151,7 +149,7 @@ function wpmem_init() {
 	 * @param string The path to wp-members-pluggable.php.
 	 */
 	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
-	
+
 	/**
 	 * Preload any custom functions, if available.
 	 */
@@ -169,26 +167,26 @@ function wpmem_init() {
 	 * Load core file.
 	 */
 	include_once( 'wp-members-core.php' );
-	
+
 	/**
 	 * Add actions.
 	 */
-	add_action( 'init', 'wpmem' );                           // runs before headers are sent
-	add_action( 'widgets_init', 'widget_wpmemwidget_init' ); // initializes the widget
-	add_action( 'wp_head', 'wpmem_head' );                   // anything added to header
-	add_action( 'admin_init', 'wpmem_chk_admin' );           // check user role to load correct dashboard
-	add_action( 'admin_menu', 'wpmem_admin_options' );       // adds admin menu
-	add_action( 'user_register', 'wpmem_wp_reg_finalize' );  // handles wp native registration
-	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' );   // styles the native registration
+	add_action( 'init',                  'wpmem' );                    // runs before headers are sent
+	add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
+	add_action( 'wp_head',               'wpmem_head' );               // anything added to header
+	add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
+	add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
+	add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
+	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 
 	/**
 	 * Add filters.
 	 */
-	add_filter( 'allow_password_reset', 'wpmem_no_reset' );  // no password reset for non-activated users
-	add_filter( 'the_content', 'wpmem_securify', 1, 1 );     // securifies the_content
-	add_filter( 'register_form', 'wpmem_wp_register_form' ); // adds fields to the default wp registration
-	add_filter( 'registration_errors', 'wpmem_wp_reg_validate', 10, 3 ); // native registration validation
-	add_filter( 'comments_template', 'wpmem_securify_comments', 20, 1 ); // securifies the comments
+	add_filter( 'allow_password_reset', 'wpmem_no_reset' );                 // no password reset for non-activated users
+	add_filter( 'the_content',          'wpmem_securify', 1, 1 );           // securifies the_content
+	add_filter( 'register_form',        'wpmem_wp_register_form' );         // adds fields to the default wp registration
+	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
+	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
 	/**
 	 * Add shortcodes.
@@ -207,10 +205,10 @@ function wpmem_init() {
 	/**
 	 * If registration is moderated, check for activation (blocks backend login by non-activated users).
 	 */
-	if ( WPMEM_MOD_REG == 1 ) { 
+	if ( $wpmem->mod_reg == 1 ) { 
 		add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
 	}
-	
+
 	/**
 	 * Fires after initialization of plugin options.
 	 *
@@ -240,7 +238,7 @@ function wpmem_chk_admin() {
 	if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
 		require_once(  WPMEM_PATH . 'admin/admin.php' );
 	}
-	
+
 	/**
 	 * If user has a role that can edit users, load the admin functions,
 	 * otherwise, load profile actions for non-admins.
@@ -255,21 +253,21 @@ function wpmem_chk_admin() {
 		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
 	}
-	
+
 	/**
 	 * If user has a role that can edit posts, add the block/unblock
 	 * meta boxes and custom post/page columns.
 	 */
 	if ( current_user_can( 'edit_posts' ) ) {
 		include_once( 'admin/post.php' );
-		add_action( 'add_meta_boxes', 'wpmem_block_meta_add' );  
-		add_action( 'save_post', 'wpmem_block_meta_save' );
-		add_filter( 'manage_posts_columns', 'wpmem_post_columns' );  
+		add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
+		add_action( 'save_post',                  'wpmem_block_meta_save' );
+		add_filter( 'manage_posts_columns',       'wpmem_post_columns' );
 		add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
-		add_filter( 'manage_pages_columns', 'wpmem_page_columns' );
-		add_action( 'manage_pages_custom_column', 'wpmem_page_columns_content', 10, 2 );
+		add_filter( 'manage_pages_columns',       'wpmem_post_columns' );
+		add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
 	}
-	
+
 	/**
 	 * Fires after initialization of admin options.
 	 *
@@ -314,7 +312,7 @@ function wpmem_install() {
 		foreach ( $blogs as $blog_id ) {
 			switch_to_blog( $blog_id->blog_id );
 			wpmem_do_install();
-		}   
+		}
 		switch_to_blog( $original_blog_id );
 	} else {
 		// normal single install

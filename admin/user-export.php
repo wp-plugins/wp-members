@@ -25,6 +25,9 @@
  * @param array $users
  */
 function wpmem_export_users( $args, $users = null ) {
+
+	global $wpmem;
+
 	$today = date( "m-d-y" ); 
 
 	/** Setup defaults **/
@@ -70,8 +73,8 @@ function wpmem_export_users( $args, $users = null ) {
 		}
 	}
 
-	$hrow .= ( WPMEM_MOD_REG == 1 ) ? __( 'Activated?', 'wp-members' ) . "," : '';
-	$hrow .= ( WPMEM_USE_EXP == 1 ) ? __( 'Subscription', 'wp-members' ) . "," . __( 'Expires', 'wp-members' ) . "," : '';
+	$hrow .= ( $wpmem->mod_reg == 1 ) ? __( 'Activated?', 'wp-members' ) . "," : '';
+	$hrow .= ( $wpmem->use_exp == 1 ) ? __( 'Subscription', 'wp-members' ) . "," . __( 'Expires', 'wp-members' ) . "," : '';
 
 	$hrow .= __( 'Registered', 'wp-members' ) . ",";
 	$hrow .= __( 'IP', 'wp-members' );
@@ -105,9 +108,9 @@ function wpmem_export_users( $args, $users = null ) {
 			}
 		}
 		
-		$data .= ( WPMEM_MOD_REG == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ) ? __( 'Yes' ) : __( 'No' ) . '",' : '';
-		$data .= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
-		$data .= ( WPMEM_USE_EXP == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
+		$data .= ( $wpmem->mod_reg == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ) ? __( 'Yes' ) : __( 'No' ) . '",' : '';
+		$data .= ( $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
+		$data .= ( $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
 		
 		$data .= '"' . $user_info->user_registered . '",';
 		$data .= '"' . get_user_meta( $user, "wpmem_reg_ip", true ). '"';

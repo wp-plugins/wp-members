@@ -172,10 +172,10 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  */
 function wpmem_inc_memberlinks( $page = 'members' ) {
 
-	global $user_login; 
-	
+	global $user_login, $wpmem;
+
 	$link = wpmem_chk_qstr();
-	
+
 	/**
 	 * Filter the log out link.
 	 *
@@ -184,13 +184,13 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 	 * @param string $link The default logout link.
 	 */
 	$logout = apply_filters( 'wpmem_logout_link', $link . 'a=logout' );
-	
+
 	switch ( $page ) {
-	
+
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if ( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
+		if ( $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
 		/**
 		 * Filter the links displayed on the User Profile page (logged in state).
@@ -201,8 +201,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 */
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
-		
-	case 'register':	
+
+	case 'register':
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
 			<ul>
 				<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>
@@ -216,10 +216,10 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 * @param string $str The default links.
 		 */
 		$str = apply_filters( 'wpmem_register_links', $str );
-		break;	
-	
+		break;
+
 	case 'login':
-	
+
 		$args = array(
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
@@ -253,8 +253,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 * @param string $str The default links.
 		 */
 		$str = apply_filters( 'wpmem_login_links', $str );
-		break;	
-			
+		break;
+
 	case 'status':
 		$args = array(
 			'wrapper_before' => '<p>',
@@ -281,9 +281,9 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			. sprintf( $args['logout_link'], $args['logout_text'] )
 			. $args['wrapper_after'];
 		break;
-	
+
 	}
-	
+
 	return $str;
 }
 endif;

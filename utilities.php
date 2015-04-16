@@ -190,7 +190,7 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  * @uses wp_register_style
  * @uses wp_enqueue_style
  */
-function wpmem_enqueue_style() {		
+function wpmem_enqueue_style() {
 	wp_register_style( 'wp-members', WPMEM_CSSURL, '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wp-members' );
 }
