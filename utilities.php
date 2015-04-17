@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Utility Functions
+ * WP-Members Utility Functions.
  *
  * Handles primary functions that are carried out in most
  * situations. Includes commonly used utility functions.
@@ -37,12 +37,12 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  *
  * @since 1.8
  *
- * @param  string $name the name of the field
- * @param  string $type the field type
- * @param  string $value the default value for the field
- * @param  string $valtochk optional for comparing the default value of the field
- * @param  string $class optional for setting a specific CSS class for the field 
- * @return string $str the field returned as a string
+ * @param  string $name     The name of the field.
+ * @param  string $type     The field type.
+ * @param  string $value    The default value for the field.
+ * @param  string $valtochk Optional for comparing the default value of the field.
+ * @param  string $class    Optional for setting a specific CSS class for the field.
+ * @return string $str      The field returned as a string.
  */
 function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' ) {
 
@@ -95,7 +95,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_selected' ) ):
 /**
- * Determines if a form field is selected (i.e. lists & checkboxes)
+ * Determines if a form field is selected (i.e. lists & checkboxes).
  *
  * @since 0.1
  *
@@ -113,7 +113,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_chk_qstr' ) ):
 /**
- * Checks querystrings
+ * Checks querystrings.
  *
  * @since 2.0
  *
@@ -136,11 +136,11 @@ endif;
 
 if ( ! function_exists( 'wpmem_generatePassword' ) ):
 /**
- * Generates a random password 
+ * Generates a random password.
  *
  * @since 2.0
  *
- * @return string the random password
+ * @return string The random password.
  */
 function wpmem_generatePassword() {	
 	return substr( md5( uniqid( microtime() ) ), 0, 7 );
@@ -150,9 +150,9 @@ endif;
 
 if ( ! function_exists( 'wpmem_texturize' ) ):
 /**
- * Overrides the wptexturize filter
+ * Overrides the wptexturize filter.
  *
- * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me"
+ * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
  *
  * @since 2.6.4
  *
@@ -181,7 +181,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_enqueue_style' ) ):
 /**
- * Loads the stylesheet for tableless forms
+ * Loads the stylesheet for tableless forms.
  *
  * @since 2.6
  *
@@ -197,7 +197,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_do_excerpt' ) ):
 /**
- * Creates an excerpt on the fly if there is no 'more' tag
+ * Creates an excerpt on the fly if there is no 'more' tag.
  *
  * @since 2.6
  *
@@ -264,7 +264,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_test_shortcode' ) ):
 /**
- * Tests $content for the presence of the [wp-members] shortcode
+ * Tests $content for the presence of the [wp-members] shortcode.
  *
  * @since 2.6
  *
@@ -316,7 +316,7 @@ function wpmem_get_excluded_meta( $tag ) {
 
 
 /**
- * Returns http:// or https:// depending on ssl
+ * Returns http:// or https:// depending on ssl.
  *
  * @ since 2.9.8
  */
