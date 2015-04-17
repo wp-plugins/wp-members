@@ -185,11 +185,13 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  *
  * @since 2.6
  *
- * @uses wp_register_style
- * @uses wp_enqueue_style
+ * @global $wpmem
+ * @uses   wp_register_style
+ * @uses   wp_enqueue_style
  */
 function wpmem_enqueue_style() {
-	wp_register_style( 'wp-members', WPMEM_CSSURL, '', WPMEM_VERSION );
+	global $wpmem;
+	wp_register_style( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wp-members' );
 }
 endif;

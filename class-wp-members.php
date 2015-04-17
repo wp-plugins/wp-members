@@ -23,6 +23,11 @@ class WP_Members {
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
 		}
+		
+		/**
+		 * Handle the stylesheet.
+		 */
+		$this->cssurl = ( $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
 	
 	}
 

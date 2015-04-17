@@ -108,33 +108,6 @@ function wpmem_init() {
 	$wpmem = new WP_Members();
 
 	/**
-	 * Define constants based on option settings.
-	 
-	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']        ) : '';
-	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem->block['page']        ) : '';
-	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem->show_excerpt['post'] ) : '';
-	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem->notify               ) : '';
-	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       $wpmem->mod_reg              ) : '';
-	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem->warnings             ) : '';
-
-	( ! defined( 'WPMEM_MOD_REG' ) ) ? define( 'WPMEM_MOD_REG', $wpmem->mod_reg   ) : '';
-	( ! defined( 'WPMEM_CAPTCHA' ) ) ? define( 'WPMEM_CAPTCHA', $wpmem->captcha   ) : '';
-	( ! defined( 'WPMEM_USE_EXP' ) ) ? define( 'WPMEM_USE_EXP', $wpmem->use_exp   ) : '';
-	( ! defined( 'WPMEM_USE_TRL' ) ) ? define( 'WPMEM_USE_TRL', $wpmem->use_trial ) : '';
-
-	( ! defined( 'WPMEM_MSURL'   ) ) ? define( 'WPMEM_MSURL',   $wpmem->user_pages['profile']  ) : '';
-	( ! defined( 'WPMEM_REGURL'  ) ) ? define( 'WPMEM_REGURL',  $wpmem->user_pages['register'] ) : '';
-	( ! defined( 'WPMEM_LOGURL'  ) ) ? define( 'WPMEM_LOGURL',  $wpmem->user_pages['login']    ) : '';
-	*/
-
-	/**
-	 * Define the stylesheet.
-	 */
-	$wpmem_style =  $wpmem->style;
-	$wpmem_style = ( $wpmem_style == 'use_custom' || ! $wpmem_style ) ? $wpmem->cssurl : $wpmem_style;
-	define( 'WPMEM_CSSURL', $wpmem_style );
-
-	/**
 	 * Fires after main settings are loaded.
 	 *
 	 * @since 3.0
