@@ -21,9 +21,11 @@
  * * wpmem_chk_qstr
  * * wpmem_generatePassword
  * * wpmem_texturize
- * * wpmem_enqueue
+ * * wpmem_enqueue_style
  * * wpmem_do_excerpt
  * * wpmem_test_shortcode
+ * * wpmem_get_excluded_meta
+ * * wpmem_use_ssl
  */
 
 
@@ -42,12 +44,12 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  * @param  string $class optional for setting a specific CSS class for the field 
  * @return string $str the field returned as a string
  */
-function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' )
-{
-	switch( $type ) {
+function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' ) {
+
+	switch ( $type ) {
 
 	case "checkbox":
-		if( $class == 'textbox' ) { $class = "checkbox"; }
+		$class = ( $class == 'textbox' ) ? "checkbox" : $class;
 		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . wpmem_selected( $value, $valtochk, $type ) . " />";
 		break;
 
@@ -58,7 +60,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 
 	case "textarea":
 		$value = stripslashes( esc_textarea( $value ) );
-		if( $class == 'textbox' ) { $class = "textarea"; }
+		$class = ( $class == 'textbox' ) ? "textarea" : $class;
 		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
 		break;
 
@@ -75,9 +77,9 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		break;
 
 	case "select":
-		if( $class == 'textbox' ) { $class = "dropdown"; }
+		$class = ( $class == 'textbox' ) ? "dropdown" : $class;
 		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
-		foreach( $value as $option ) {
+		foreach ( $value as $option ) {
 			$pieces = explode( '|', $option );
 			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
 		}
@@ -85,7 +87,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		break;
 
 	}
-	
+
 	return $str;
 }
 endif;
@@ -102,10 +104,9 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  * @param  string $type
  * @return string $issame
  */
-function wpmem_selected( $value, $valtochk, $type=null )
-{
+function wpmem_selected( $value, $valtochk, $type=null ) {
 	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
-	if( $value == $valtochk ){ return $issame; }
+	return ( $value == $valtochk ) ? $issame : '';
 }
 endif;
 
@@ -120,15 +121,13 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  * @param  string $url
  * @return string $return_url
  */
-function wpmem_chk_qstr( $url = null )
-{
+function wpmem_chk_qstr( $url = null ) {
+
 	$permalink = get_option( 'permalink_structure' );
-	if( ! $permalink ) {
-		if( ! $url ) { $url = get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING']; }
-		$return_url = $url . "&amp;";
+	if ( ! $permalink ) {
+		$return_url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url . "&amp;";
 	} else {
-		if( !$url ) { $url = get_permalink(); }
-		$return_url = $url . "?";
+		$return_url = ( ! $url ) ? get_permalink() : $url . "?";
 	}
 	return $return_url;
 }
@@ -143,9 +142,8 @@ if ( ! function_exists( 'wpmem_generatePassword' ) ):
  *
  * @return string the random password
  */
-function wpmem_generatePassword()
-{	
-	return substr( md5( uniqid( microtime() ) ), 0, 7);
+function wpmem_generatePassword() {	
+	return substr( md5( uniqid( microtime() ) ), 0, 7 );
 }
 endif;
 
@@ -161,15 +159,15 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  * @param  string $content
  * @return string $new_content
  */
-function wpmem_texturize( $content ) 
-{
+function wpmem_texturize( $content ) {
+
 	$new_content = '';
 	$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
 	$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
 	$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
 
-	foreach( $pieces as $piece ) {
-		if( preg_match( $pattern_contents, $piece, $matches ) ) {
+	foreach ( $pieces as $piece ) {
+		if ( preg_match( $pattern_contents, $piece, $matches ) ) {
 			$new_content .= $matches[1];
 		} else {
 			$new_content .= wptexturize( wpautop( $piece ) );
@@ -206,37 +204,39 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  * @param  string $content
  * @return string $content
  */
-function wpmem_do_excerpt( $content )
-{	
+function wpmem_do_excerpt( $content ) {
+
 	$arr = get_option( 'wpmembers_autoex' );
-	
+
 	/** is there already a 'more' link in the content? */
 	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
-	
+
 	/** if auto_ex is on */
-	if( $arr['auto_ex'] == true ) {
-		
+	if ( $arr['auto_ex'] == true ) {
+
 		/** build an excerpt if one does not exist */
-		if( ! $has_more_link ) {
-		
+		if ( ! $has_more_link ) {
+
 			$words = explode( ' ', $content, ( $arr['auto_ex_len'] + 1 ) );
-			if( count( $words ) > $arr['auto_ex_len'] ) { array_pop( $words ); }
+			if ( count( $words ) > $arr['auto_ex_len'] ) {
+				array_pop( $words );
+			}
 			$content = implode( ' ', $words );
-			
+
 			/** check for common html tags */
 			$common_tags = array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' );
 			foreach ( $common_tags as $tag ) {
-				if( stristr( $content, '<' . $tag . '>' ) ) {
+				if ( stristr( $content, '<' . $tag . '>' ) ) {
 					$after = stristr( $content, '</' . $tag . '>' );
 					$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
 				}
 			}
-		} 		
+		}
 	}
 
 	global $post, $more;
 	/** if there is no 'more' link and auto_ex is on **/
-	if( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
+	if ( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
 		// the default $more_link_text
 		$more_link_text = __( '(more&hellip;)' );
 		// the default $more_link
@@ -246,7 +246,7 @@ function wpmem_do_excerpt( $content )
 		// add the more link to the excerpt
 		$content = $content . $more_link;
 	}
-	
+
 	/**
 	 * Filter the auto excerpt.
 	 *
@@ -255,7 +255,7 @@ function wpmem_do_excerpt( $content )
 	 * @param string $content The excerpt.
 	 */
 	$content = apply_filters( 'wpmem_auto_excerpt', $content );
-	
+
 	/** return the excerpt */
 	return $content;
 }
@@ -274,17 +274,19 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  *
  * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
  */
-function wpmem_test_shortcode( $content, $tag )
-{
+function wpmem_test_shortcode( $content, $tag ) {
+
 	global $shortcode_tags; 
-	if( array_key_exists( $tag, $shortcode_tags ) ) {
+	if ( array_key_exists( $tag, $shortcode_tags ) ) {
 		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
-		if ( empty( $matches ) )
+		if ( empty( $matches ) ) {
 			return false;
+		}
 
 		foreach ( $matches as $shortcode ) {
-			if ( $tag === $shortcode[2] )
+			if ( $tag === $shortcode[2] ) {
 				return true;
+			}
 		}
 	}
 	return false;
@@ -299,8 +301,8 @@ endif;
  *
  * @param string $tag A tag so we know where the function is being used.
  */
-function wpmem_get_excluded_meta( $tag )
-{
+function wpmem_get_excluded_meta( $tag ) {
+
 	/**
 	 * Filter the fields to be excluded when user is created/updated.
 	 *
