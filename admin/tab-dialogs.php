@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the dialogs tab.
  * 
@@ -15,8 +15,8 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_build_dialogs
- * * wpmem_update_dialogs
+ * - wpmem_a_build_dialogs
+ * - wpmem_update_dialogs
  */
 
 
@@ -100,7 +100,7 @@ function wpmem_a_build_dialogs() {
  */
 function wpmem_update_dialogs() {
 
-	//check nonce
+	// Check nonce.
 	check_admin_referer( 'wpmem-update-dialogs' );
 
 	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
@@ -113,7 +113,7 @@ function wpmem_update_dialogs() {
 	update_option( 'wpmembers_dialogs', $wpmem_newdialogs );
 	$wpmem_dialogs = $wpmem_newdialogs;
 
-	// Terms of Service
+	// Terms of Service.
 	update_option( 'wpmembers_tos', $_POST['dialogs_tos'] );
 
 	return __( 'WP-Members dialogs were updated', 'wp-members' );

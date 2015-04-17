@@ -5,8 +5,6 @@
  * @since 3.0
  */
 class WP_Members {
-	
-	//public $regchk = '';
 
 	function __construct() {
 		

@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the captcha tab.
  * 
@@ -15,8 +15,8 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_build_captcha_options
- * * wpmem_update_captcha
+ * - wpmem_a_build_captcha_options
+ * - wpmem_update_captcha
  */
 
 
@@ -27,7 +27,7 @@
  */
 function wpmem_a_build_captcha_options() {
 
-	// global settings
+	// Global settings.
 	global $wpmem;
 
 	$wpmem_captcha = get_option( 'wpmembers_captcha' );
@@ -55,8 +55,7 @@ function wpmem_a_build_captcha_options() {
 						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 						<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
 							<table class="form-table">
-							<?php // if reCAPTCHA is enabled...
-							if ( $wpmem->captcha == 1 ) {
+							<?php // I reCAPTCHA is enabled.
 								$show_update_button = true; ?>
 								<tr>
 									<td colspan="2">
@@ -85,10 +84,10 @@ function wpmem_a_build_captcha_options() {
 									</td>
 								</tr>
 							<?php 
-							// if Really Simple CAPTCHA is enabled...
+							// If Really Simple CAPTCHA is enabled.
 							} elseif ( $wpmem->captcha == 2 ) {
 
-								// setup defaults								
+								// Setup defaults.
 								$defaults = array( 
 									'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
 									'num_char'     => '4',
@@ -105,7 +104,7 @@ function wpmem_a_build_captcha_options() {
 
 								extract( wp_parse_args( $args, $defaults ) );
 
-								// explode colors
+								// Explode colors.
 								$font_color = explode( ',', $font_color );
 								$bg_color   = explode( ',', $bg_color   );
 
@@ -159,7 +158,7 @@ function wpmem_a_build_captcha_options() {
 										</td>
 									</tr><?php
 								}
-							} // end if RSC is selected
+							} // End if RSC is selected.
 								if ( $show_update_button ) { ?>
 								<tr valign="top">
 									<th scope="row">&nbsp;</th>
@@ -190,7 +189,7 @@ function wpmem_a_build_captcha_options() {
  */
 function wpmem_update_captcha() {
 
-	//check nonce
+	// Check nonce.
 	check_admin_referer( 'wpmem-update-captcha' );
 
 	$settings     = get_option( 'wpmembers_captcha' );
@@ -199,7 +198,7 @@ function wpmem_update_captcha() {
 
 	if ( $update_type == 'recaptcha' ) {
 		if ( array_key_exists( 'really_simple', $settings ) ) {
-			// updating recaptcha but need to maintain really_simple
+			// Updating recaptcha but need to maintain really_simple.
 			$new_settings['really_simple'] = $settings['really_simple'];
 		}
 		$new_settings['recaptcha'] = array(
@@ -211,7 +210,7 @@ function wpmem_update_captcha() {
 
 	if ( $update_type == 'really_simple' ) {
 		if ( array_key_exists( 'recaptcha', $settings ) ) {
-			// updating really_simple but need to maintain recaptcha
+			// Updating really_simple but need to maintain recaptcha.
 			$new_settings['recaptcha'] = $settings['recaptcha'];
 		}
 		$font_color = $_POST['font_color_r'] . ',' . $_POST['font_color_g'] . ',' . $_POST['font_color_b'];

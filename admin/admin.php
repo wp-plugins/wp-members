@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage administration.
  * 
@@ -15,16 +15,16 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_do_field_reorder
- * * wpmem_admin_plugin_links
- * * wpmem_load_admin_js
- * * wpmem_a_captcha_tab
- * * wpmem_add_captcha_tab
- * * wpmem_admin
- * * wpmem_admin_do_tab
- * * wpmem_admin_tabs
- * * wpmem_admin_action
- * * wpmem_admin_add_new_user
+ * - wpmem_a_do_field_reorder
+ * - wpmem_admin_plugin_links
+ * - wpmem_load_admin_js
+ * - wpmem_a_captcha_tab
+ * - wpmem_add_captcha_tab
+ * - wpmem_admin
+ * - wpmem_admin_do_tab
+ * - wpmem_admin_tabs
+ * - wpmem_admin_action
+ * - wpmem_admin_add_new_user
  */
 
 
@@ -55,7 +55,7 @@ function wpmem_a_do_field_reorder(){
 
 
 /**
- * filter to add link to settings from plugin panel.
+ * Filter to add link to settings from plugin panel.
  *
  * @since 2.4
  *
@@ -84,7 +84,7 @@ function wpmem_admin_plugin_links( $links, $file ) {
  * @uses wp_enqueue_style
  */
 function wpmem_load_admin_js() {
-	// queue up admin ajax and styles
+	// Queue up admin ajax and styles.
 	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js',   '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
 }

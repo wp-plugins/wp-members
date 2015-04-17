@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Utility Functions.
+ * WP-Members Utility Functions
  *
  * Handles primary functions that are carried out in most
  * situations. Includes commonly used utility functions.
@@ -16,16 +16,16 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_create_formfield
- * * wpmem_selected
- * * wpmem_chk_qstr
- * * wpmem_generatePassword
- * * wpmem_texturize
- * * wpmem_enqueue_style
- * * wpmem_do_excerpt
- * * wpmem_test_shortcode
- * * wpmem_get_excluded_meta
- * * wpmem_use_ssl
+ * - wpmem_create_formfield
+ * - wpmem_selected
+ * - wpmem_chk_qstr
+ * - wpmem_generatePassword
+ * - wpmem_texturize
+ * - wpmem_enqueue_style
+ * - wpmem_do_excerpt
+ * - wpmem_test_shortcode
+ * - wpmem_get_excluded_meta
+ * - wpmem_use_ssl
  */
 
 
@@ -142,7 +142,7 @@ if ( ! function_exists( 'wpmem_generatePassword' ) ):
  *
  * @return string The random password.
  */
-function wpmem_generatePassword() {	
+function wpmem_generatePassword() {
 	return substr( md5( uniqid( microtime() ) ), 0, 7 );
 }
 endif;
@@ -210,13 +210,13 @@ function wpmem_do_excerpt( $content ) {
 
 	$arr = get_option( 'wpmembers_autoex' );
 
-	/** is there already a 'more' link in the content? */
+	// Is there already a 'more' link in the content?
 	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
 
-	/** if auto_ex is on */
+	// If auto_ex is on.
 	if ( $arr['auto_ex'] == true ) {
 
-		/** build an excerpt if one does not exist */
+		// Build an excerpt if one does not exist.
 		if ( ! $has_more_link ) {
 
 			$words = explode( ' ', $content, ( $arr['auto_ex_len'] + 1 ) );
@@ -225,7 +225,7 @@ function wpmem_do_excerpt( $content ) {
 			}
 			$content = implode( ' ', $words );
 
-			/** check for common html tags */
+			// Check for common html tags.
 			$common_tags = array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' );
 			foreach ( $common_tags as $tag ) {
 				if ( stristr( $content, '<' . $tag . '>' ) ) {
@@ -237,15 +237,15 @@ function wpmem_do_excerpt( $content ) {
 	}
 
 	global $post, $more;
-	/** if there is no 'more' link and auto_ex is on **/
+	// If there is no 'more' link and auto_ex is on.
 	if ( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
-		// the default $more_link_text
+		// The default $more_link_text.
 		$more_link_text = __( '(more&hellip;)' );
-		// the default $more_link
+		// The default $more_link.
 		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
-		// apply the_content_more_link filter if one exists (will match up all 'more' link text)
+		// Apply the_content_more_link filter if one exists (will match up all 'more' link text).
 		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
-		// add the more link to the excerpt
+		// Add the more link to the excerpt.
 		$content = $content . $more_link;
 	}
 
@@ -258,7 +258,7 @@ function wpmem_do_excerpt( $content ) {
 	 */
 	$content = apply_filters( 'wpmem_auto_excerpt', $content );
 
-	/** return the excerpt */
+	// Return the excerpt.
 	return $content;
 }
 endif;
@@ -278,7 +278,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  */
 function wpmem_test_shortcode( $content, $tag ) {
 
-	global $shortcode_tags; 
+	global $shortcode_tags;
 	if ( array_key_exists( $tag, $shortcode_tags ) ) {
 		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
 		if ( empty( $matches ) ) {

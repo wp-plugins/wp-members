@@ -30,7 +30,7 @@ function wpmem_export_users( $args, $users = null ) {
 
 	$today = date( "m-d-y" ); 
 
-	/** Setup defaults **/
+	// Setup defaults.
 	$defaults = array(
 		'export'         => 'all',
 		'filename'       => 'wp-members-user-export-' . $today . '.csv',
@@ -38,7 +38,7 @@ function wpmem_export_users( $args, $users = null ) {
 		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 	);
 
-	/** merge $args with defaults and extract **/
+	// Merge $args with defaults and extract.
 	/**
 	 * Filter the default export arguments.
 	 *
@@ -48,23 +48,23 @@ function wpmem_export_users( $args, $users = null ) {
  	 */
 	extract( wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults ) );
 
-	/** Output needs to be buffered, start the buffer */
+	// Output needs to be buffered, start the buffer.
 	ob_start();
-	
-	/** If exporting all, get all of the users */
+
+	// If exporting all, get all of the users.
 	$users = ( $export == 'all' ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
 
-	/** Generate headers and a filename based on date of export */
+	// Generate headers and a filename based on date of export.
 	header( "Content-Description: File Transfer" );
 	header( "Content-type: application/octet-stream" );
 	header( "Content-Disposition: attachment; filename=" . $filename );
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
-	/** get the fields */
+	// Get the fields.
 	$wpmem_fields = get_option( 'wpmembers_fields' );
 
-	/** do the header row */
+	// Do the header row.
 	$hrow = "User ID,Username,";
 
 	foreach ( $wpmem_fields as $meta ) {
@@ -80,16 +80,16 @@ function wpmem_export_users( $args, $users = null ) {
 	$hrow .= __( 'IP', 'wp-members' );
 	$data  = $hrow . "\r\n";
 
-	/**
-	 * we used the fields array once,
-	 * rewind so we can use it again
+	/*
+	 * We used the fields array once,
+	 * rewind so we can use it again.
 	 */
 	reset( $wpmem_fields );
 
-	/**
+	/*
 	 * Loop through the array of users,
 	 * build the data, delimit by commas, wrap fields with double quotes, 
-	 * use \n switch for new line
+	 * use \n switch for new line.
 	 */
 	foreach ( $users as $user ) {
 
@@ -116,16 +116,16 @@ function wpmem_export_users( $args, $users = null ) {
 		$data .= '"' . get_user_meta( $user, "wpmem_reg_ip", true ). '"';
 		$data .= "\r\n";
 		
-		/** update the user record as being exported */
+		// Update the user record as being exported.
 		if ( $export != 'all' ){
 			update_user_meta( $user, 'exported', 1 );
 		}
 	}
 
-	/** We are done, output the CSV */
+	// We are done, output the CSV.
 	echo $data; 
 
-	/** Clear the buffer */
+	// Clear the buffer.
 	ob_flush();
 
 	exit();

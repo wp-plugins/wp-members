@@ -2,7 +2,7 @@
 /**
  * WP-Members Installation Functions
  *
- * Functions to install and upgrade WP-Members
+ * Functions to install and upgrade WP-Members.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
@@ -15,38 +15,34 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_do_install
- * * wpmem_update_settings
- * * wpmem_append_email
- * * wpmem_update_captcha
+ * - wpmem_do_install
+ * - wpmem_update_settings
+ * - wpmem_append_email
+ * - wpmem_update_captcha
  */
 
  
 /**
- * Installs or upgrades the plugin
+ * Installs or upgrades the plugin.
  *
  * @since 2.2.2
  */
 function wpmem_do_install() {
 
 	/*
-		if you need to force an install, set $chk_force = true
-
-		IMPORTANT NOTES:
-
-		(1) This will override any settings you already have
-			for any of the plugin settings.
-
-		(2) This will not effect any WP settings or registered
-			users.
-	*/
+	 * If you need to force an install, set $chk_force = true
+	 *
+	 *IMPORTANT NOTES:
+	 *
+	 * 1. This will override any settings you already have for any of the plugin settings.
+	 * 2. This will not effect any WP settings or registered users.
+	 */
 
 	$chk_force = false;
 
 	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
-		// this is a clean install (or an upgrade from 2.1 or earlier)
-		
+		// This is a clean install (or an upgrade from 2.1 or earlier).
 		$wpmem_settings = array(
 			'version' => WPMEM_VERSION,
 			'block'   => array(
@@ -82,7 +78,7 @@ function wpmem_do_install() {
 			'attrib'    => 0,
 		);
 
-		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // using update_option to allow for forced update
+		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // Using update_option to allow for forced update.
 
 		// order, label, optionname, type, display, required, native, checked value, checked by default
 		$wpmem_fields_options_arr = array(
@@ -118,13 +114,13 @@ function wpmem_do_install() {
 			"Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.",
 		);
 
-		// insert TOS dialog placeholder
+		// Insert TOS dialog placeholder.
 		$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";
 		update_option( 'wpmembers_tos', $dummy_tos );
 		update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 		wpmem_append_email();
 
-		// if it's a new install, use the Twenty Twelve stylesheet
+		// If it's a new install, use the Twenty Twelve stylesheet.
 		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
 
 	} else {
@@ -146,16 +142,14 @@ function wpmem_update_settings() {
 
 	$wpmem_settings = get_option( 'wpmembers_settings' );
 
-	/**
-	 * Is this an update from pre-3.0 or 3.0+?
-	 */
+	// Is this an update from pre-3.0 or 3.0+?
 	$is_three = ( array_key_exists( 'version', $wpmem_settings ) ) ? true : false;
 
 	if ( $is_three ) {
 		return;
 	} else {
 
-		// can only upgrade from 2.5.1 or higher
+		// Can only upgrade from 2.5.1 or higher.
 		$show_reg = ( $wpmem_settings[7] == 0 ) ? 1 : 0;
 		$wpmem_newsettings = array(
 			'version' => WPMEM_VERSION,
@@ -193,7 +187,7 @@ function wpmem_update_settings() {
 		);
 		update_option( 'wpmembers_settings', $wpmem_newsettings );
 
-		// remove old settings
+		// Remove old settings.
 		delete_option( 'wpmembers_msurl'  );
 		delete_option( 'wpmembers_regurl' );
 		delete_option( 'wpmembers_logurl' );
@@ -214,7 +208,7 @@ function wpmem_update_settings() {
  */
 function wpmem_append_email() {
 
-	//email for a new registration
+	// Email for a new registration.
 	$subj = 'Your registration info for [blogname]';
 	$body = 'Thank you for registering for [blogname]
 
@@ -242,7 +236,7 @@ You may change your password here:
 
 	$arr = $subj = $body = '';
 
-	// email for new registration, registration is moderated
+	// Email for new registration, registration is moderated.
 	$subj = 'Thank you for registering for [blogname]';
 	$body = 'Thank you for registering for [blogname]. 
 Your registration has been received and is pending approval.
@@ -260,7 +254,7 @@ You will receive login instructions upon approval of your account
 
 	$arr = $subj = $body = '';
 
-	// email for registration is moderated, user is approved
+	// Email for registration is moderated, user is approved.
 	$subj = 'Your registration for [blogname] has been approved';
 	$body = 'Your registration for [blogname] has been approved.
 
@@ -288,7 +282,7 @@ You originally registered at:
 
 	$arr = $subj = $body = '';
 
-	// email for password reset
+	// Email for password reset.
 	$subj = 'Your password reset for [blogname]';
 	$body = 'Your password for [blogname] has been reset
 
@@ -308,7 +302,7 @@ password: [password]
 
 	$arr = $subj = $body = '';
 
-	// email for admin notification
+	// Email for admin notification.
 	$subj = 'New user registration for [blogname]';
 	$body = 'The following user registered for [blogname]:
 
@@ -335,7 +329,7 @@ activate user: [activate-user]
 
 	$arr = $subj = $body = '';
 
-	// email footer (no subject)
+	// Email footer (no subject).
 	$body = '----------------------------------
 This is an automated message from [blogname]
 Please do not reply to this address';
@@ -389,10 +383,10 @@ function wpmem_update_captcha() {
 
 	$captcha_settings = get_option( 'wpmembers_captcha' );
 
-	// if there captcha settings, update them
+	// If there captcha settings, update them.
 	if ( $captcha_settings && ! array_key_exists( 'recaptcha', $captcha_settings ) ) {
 
-		// check to see if the array keys are numeric
+		// Check to see if the array keys are numeric.
 		$is_numeric = false;
 		foreach ( $captcha_settings as $key => $setting ) {
 			$is_numeric = ( is_int( $key ) ) ? true : $is_numeric;
@@ -400,7 +394,7 @@ function wpmem_update_captcha() {
 
 		if ( $is_numeric ) {
 			$new_captcha = array();
-			// these are old recaptcha settings
+			// These are old recaptcha settings.
 			$new_captcha['recaptcha']['public']  = $captcha_settings[0];
 			$new_captcha['recaptcha']['private'] = $captcha_settings[1];
 			$new_captcha['recaptcha']['theme']   = $captcha_settings[2];

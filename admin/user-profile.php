@@ -15,8 +15,8 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_admin_fields
- * * wpmem_admin_update
+ * - wpmem_admin_fields
+ * - wpmem_admin_update
  */
 
  
@@ -27,7 +27,7 @@ add_action( 'profile_update',    'wpmem_admin_update' );
 
 
 /**
- * add WP-Members fields to the WP user profile screen
+ * Add WP-Members fields to the WP user profile screen.
  *
  * @since 2.1
  *
@@ -50,9 +50,9 @@ function wpmem_admin_fields() {
 	echo apply_filters( 'wpmem_admin_profile_heading', __( 'WP-Members Additional Fields', 'wp-members' ) ); ?></h3>   
  	<table class="form-table">
 		<?php
-		// get fields
+		// Get fields.
 		$wpmem_fields = get_option( 'wpmembers_fields' );
-		// get excluded meta
+		// Get excluded meta.
 		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 
 		/**
@@ -69,12 +69,12 @@ function wpmem_admin_fields() {
 
 			$valtochk = '';
 
-			/** determine which fields to show in the additional fields area */
+			// Determine which fields to show in the additional fields area.
 			$show = ( $meta[6] == 'n' && ! in_array( $meta[2], $exclude ) ) ? true : false;
 			$show = ( $meta[1] == 'TOS' && $meta[4] != 'y' ) ? null : $show;
 
 			if ( $show ) {
-				// is the field required
+				// Is the field required?
 				$req = ( $meta[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 
 				$show_field = '
@@ -101,7 +101,7 @@ function wpmem_admin_fields() {
 			}
 		}
 
-		// see if reg is moderated, and if the user has been activated
+		// See if reg is moderated, and if the user has been activated.
 		if ( $wpmem->mod_reg == 1 ) {
 			$user_active_flag = get_user_meta( $user_id, 'active', true );
 			switch( $user_active_flag ) {
@@ -130,8 +130,11 @@ function wpmem_admin_fields() {
 
 		<?php }
 
-		// if using subscription model, show expiration
-		// if registration is moderated, this doesn't show if user is not active yet.
+		/*
+		 * If using subscription model, show expiration.
+		 * If registration is moderated, this doesn't show 
+		 * if user is not active yet.
+		 */
 		if ( $wpmem->use_exp == 1 ) {
 			if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmwm->mod_reg != 1 ) ) {
 				wpmem_a_extenduser( $user_id );
@@ -200,7 +203,7 @@ function wpmem_admin_update() {
 	 */
 	$fields = apply_filters( 'wpmem_admin_profile_update', $fields, $user_id );
 
-	// get any excluded meta fields
+	// Get any excluded meta fields.
 	$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 	foreach ( $fields as $key => $val ) {
 		if ( ! in_array( $key, $exclude ) ) {

@@ -17,10 +17,8 @@
  */
 
 
-/**
- * Include utility functions
- */
-require_once( 'utilities.php' ); 
+// Include utility functions.
+require_once( 'utilities.php' );
 
 
 if ( ! function_exists( 'wpmem' ) ):
@@ -72,15 +70,15 @@ function wpmem_securify( $content = null ) {
 			$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 		}
 
-		// Block/unblock Posts
+		// Block/unblock Posts.
 		if ( ! is_user_logged_in() && wpmem_block() == true ) {
 
 			include_once( WPMEM_PATH . 'wp-members-dialogs.php' );
 			
-			// show the login and registration forms
+			//Show the login and registration forms.
 			if ( $wpmem->regchk ) {
 				
-				// empty content in any of these scenarios
+				// Empty content in any of these scenarios.
 				$content = '';
 
 				switch ( $wpmem->regchk ) {
@@ -102,11 +100,11 @@ function wpmem_securify( $content = null ) {
 
 			} else {
 
-				// toggle shows excerpt above login/reg on posts/pages
+				// Toggle shows excerpt above login/reg on posts/pages.
 				global $wp_query;
 				if ( $wp_query->query_vars['page'] > 1 ) {
 
-						// shuts down excerpts on multipage posts if not on first page
+						// Shuts down excerpts on multipage posts if not on first page.
 						$content = '';
 
 				} elseif ( $wpmem->show_excerpt[ $post->post_type ] == 1 ) {
@@ -120,7 +118,7 @@ function wpmem_securify( $content = null ) {
 
 				} else {
 
-					// empty all content
+					// Empty all content.
 					$content = '';
 
 				}
@@ -130,7 +128,7 @@ function wpmem_securify( $content = null ) {
 				$content = ( $wpmem->show_reg[ $post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
-		// Protects comments if expiration module is used and user is expired
+		// Protects comments if expiration module is used and user is expired.
 		} elseif ( is_user_logged_in() && wpmem_block() == true ){
 
 			$content = ( $wpmem->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) ? wpmem_do_expmessage( $content ) : $content;
@@ -148,7 +146,7 @@ function wpmem_securify( $content = null ) {
 	$content = apply_filters( 'wpmem_securify', $content );
 
 	if ( strstr( $content, '[wpmem_txt]' ) ) {
-		// fix the wptexturize
+		// Fix the wptexturize.
 		remove_filter( 'the_content', 'wpautop' );
 		remove_filter( 'the_content', 'wptexturize' );
 		add_filter( 'the_content', 'wpmem_texturize', 99 );
@@ -156,7 +154,7 @@ function wpmem_securify( $content = null ) {
 
 	return $content;
 
-} // end wpmem_securify
+} // End wpmem_securify.
 endif;
 
 
@@ -186,7 +184,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 	$content = '';
 
-	// deprecating members-area parameter to be replaced by user-profile
+	// Deprecating members-area parameter to be replaced by user-profile.
 	$page = ( $page == 'user-profile' ) ? 'members-area' : $page;
 
 	if ( $page == 'members-area' || $page == 'register' ) {
@@ -245,7 +243,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 			case "update":
 
-				// determine if there are any errors/empty fields
+				// Determine if there are any errors/empty fields.
 
 				if ( $wpmem->regchk == "updaterr" || $wpmem->regchk == "email" ) {
 
@@ -254,7 +252,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 				} else {
 
-					//case "editsuccess":
+					//Case "editsuccess".
 					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_memberlinks();
 
@@ -272,7 +270,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 			default:
 				$content = wpmem_inc_memberlinks();
-				break;					  
+				break;
 			}
 
 		} elseif ( is_user_logged_in() && $page == 'register' ) {
@@ -282,22 +280,22 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 		}
 
 	}
-	
+
 	if ( $page == 'login' ) {
 		$content = ( $wpmem->regchk == "loginfailed" ) ? wpmem_inc_loginfailed() : $content;
 		$content = ( ! is_user_logged_in() ) ? $content . wpmem_inc_login( 'login', $redirect_to ) : wpmem_inc_memberlinks( 'login' );
 	}
-	
+
 	if ( $page == 'password' ) {
 		$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
 	}
-	
+
 	if ( $page == 'user-edit' ) {
 		$content = wpmem_page_user_edit( $wpmem->regchk, $content );
 	}
-	
+
 	return $content;
-} // end wpmem_do_sc_pages
+} // End wpmem_do_sc_pages.
 endif;
 
 
@@ -313,18 +311,16 @@ function wpmem_block() {
 
 	global $post, $wpmem; 
 
-	/**
-	 * Backward compatibility for old block/unblock meta
-	 */
+	// Backward compatibility for old block/unblock meta.
 	$meta = get_post_meta( $post->ID, '_wpmem_block', true );
 	if ( ! $meta ) {
-		// check for old meta
+		// Check for old meta.
 		$old_block   = get_post_meta( $post->ID, 'block',   true );
 		$old_unblock = get_post_meta( $post->ID, 'unblock', true );
 		$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
 	}
 
-	// setup defaults
+	// Setup defaults.
 		$defaults = array(
 		'post_id'    => $post->ID,
 		'post_type'  => $post->post_type,
@@ -343,15 +339,15 @@ function wpmem_block() {
 	 */
 	$args = apply_filters( 'wpmem_block_args', '', $defaults );
 
-	// merge $args with defaults
+	// Merge $args with defaults.
 	$args = ( wp_parse_args( $args, $defaults ) );
 
 	if ( is_single() || is_page() ) {
 		switch( $args['block_type'] ) {
-			case 1: // if content is blocked by default
+			case 1: // If content is blocked by default.
 				$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
 				break;
-			case 0 : // if content is unblocked by default
+			case 0 : // If content is unblocked by default.
 				$args['block'] = ( $args['block_meta'] == '1' ) ? true : $args['block'];
 				break;
 		}
@@ -388,13 +384,13 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
  * @param  array  $attr page|url|status|msg|field|id
  * @param  string $content
  * @param  string $tag
- * @return string returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content
+ * @return string Returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content.
  */
 function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 
 	global $wpmem;
 
-	// set all default attributes to false
+	// Set all default attributes to false.
 	$defaults = array(
 		'page'        => false,
 		'redirect_to' => null,
@@ -406,10 +402,10 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		'underscores' => 'off',
 	);
 
-	// merge defaults with $attr
+	// Merge defaults with $attr.
 	$atts = shortcode_atts( $defaults, $attr, $tag );
 
-	// handles the 'page' attribute
+	// Handles the 'page' attribute.
 	if ( $atts['page'] ) {
 		if ( $atts['page'] == 'user-list' ) {
 			if ( function_exists( 'wpmem_list_users' ) ) {
@@ -421,9 +417,9 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 			$content = do_shortcode( wpmem_do_sc_pages( $atts['page'], $atts['redirect_to'] ) );
 		}
 
-		// resolve any texturize issues...
+		// Resolve any texturize issues.
 		if ( strstr( $content, '[wpmem_txt]' ) ) {
-			// fixes the wptexturize
+			// Fixes the wptexturize.
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );
 			add_filter( 'the_content', 'wpmem_texturize', 99 );
@@ -431,24 +427,24 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		return $content;
 	}
 
-	// handles the 'status' attribute
+	// Handles the 'status' attribute.
 	if ( ( $atts['status'] ) || $tag == 'wpmem_logged_in' ) {
 
 		$do_return = false;
 
-		// if using the wpmem_logged_in tag with no attributes & the user is logged in
+		// If using the wpmem_logged_in tag with no attributes & the user is logged in.
 		if ( $tag == 'wpmem_logged_in' && ( ! $attr ) && is_user_logged_in() )
 			$do_return = true;
 
-		// if there is a status attribute of "in" and the user is logged in
+		// If there is a status attribute of "in" and the user is logged in.
 		if ( $atts['status'] == 'in' && is_user_logged_in() )
 			$do_return = true;
 
-		// if there is a status attribute of "out" and the user is not logged in
+		// If there is a status attribute of "out" and the user is not logged in.
 		if ( $atts['status'] == 'out' && ! is_user_logged_in() ) 
 			$do_return = true;
 
-		// if there is a status attribute of "sub" and the user is logged in
+		// If there is a status attribute of "sub" and the user is logged in.
 		if ( $atts['status'] == 'sub' && is_user_logged_in() ) {
 			if ( $wpmem->use_exp == 1 ) {	
 				if ( ! wpmem_chk_exp() ) {
@@ -460,26 +456,26 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 			}
 		}
 
-		// return content (or empty content) depending on the result of the above logic
+		// Return content (or empty content) depending on the result of the above logic.
 		return ( $do_return ) ? do_shortcode( $content ) : '';
 	}
 
-	// handles the wpmem_logged_out tag with no attributes & the user is not logged in
+	// Handles the wpmem_logged_out tag with no attributes & the user is not logged in.
 	if ( $tag == 'wpmem_logged_out' && ( ! $attr ) && ! is_user_logged_in() ) {
 		return do_shortcode( $content );
 	}
 
-	// handles the 'field' attribute
+	// Handles the 'field' attribute.
 	if ( $atts['field'] || $tag == 'wpmem_field' ) {
 		if ( $atts['id'] ) {
-			// we are getting some other user
+			// We are getting some other user.
 			if ( $atts['id'] == 'get' ) {
 				$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
 			} else {
 				$the_user_ID = $atts['id'];
 			}
 		} else {
-			// get the current user
+			// Get the current user.
 			$the_user_ID = get_current_user_id();
 		}
 		$user_info = get_userdata( $the_user_ID );
@@ -491,7 +487,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		return ( $user_info ) ? htmlspecialchars( $user_info->$atts['field'] ) . do_shortcode( $content ) : do_shortcode( $content );
 	}
 
-	// logout link shortcode
+	// Logout link shortcode.
 	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
 		$link = ( $atts['url'] ) ? wpmem_chk_qstr( $atts['url'] ) . 'a=logout' : wpmem_chk_qstr( get_permalink() ) . 'a=logout';
 		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
@@ -516,20 +512,20 @@ if ( ! function_exists( 'wpmem_check_activated' ) ):
  */ 
 function wpmem_check_activated( $user, $username, $password ) {
 
-	// password must be validated
+	// Password must be validated.
 	$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
 
 	if ( ! $pass ) { 
 		return $user;
 	}
 
-	// activation flag must be validated
+	// Activation flag must be validated.
 	$active = get_user_meta( $user->ID, 'active', true );
 	if ( $active != 1 ) {
 		return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
 	}
 
-	// if the user is validated, return the $user object
+	// If the user is validated, return the $user object.
 	return $user;
 }
 endif;
@@ -554,28 +550,28 @@ function wpmem_login() {
 
 	if ( $_POST['log'] && $_POST['pwd'] ) {
 
-		/** get username and sanitize */
+		// Get username and sanitize.
 		$user_login = sanitize_user( $_POST['log'] );
 
-		/** are we setting a forever cookie? */
+		// Are we setting a forever cookie?
 		$rememberme = ( isset( $_POST['rememberme'] ) == 'forever' ) ? true : false;
 
-		/** assemble login credentials */
+		// Assemble login credentials.
 		$creds = array();
 		$creds['user_login']    = $user_login;
 		$creds['user_password'] = $_POST['pwd'];
 		$creds['remember']      = $rememberme;
 
-		/** wp_signon the user and get the $user object */
+		// Log in the user and get the user object.
 		$user = wp_signon( $creds, false );
 
-		/** if no error, user is a valid signon. continue */
+		// If no error, user is a valid signon. continue.
 		if ( ! is_wp_error( $user ) ) {
 
-			/** set the auth cookie */
+			// Set the auth cookie.
 			wp_set_auth_cookie( $user->ID, $rememberme );
 
-			/** determine where to put the user after login */			
+			// Determine where to put the user after login.
 			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['REQUEST_URI'];
 
 			/**
@@ -588,10 +584,10 @@ function wpmem_login() {
 			 */
 			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to, $user->ID );
 
-			/** and do the redirect */
+			// And do the redirect.
 			wp_redirect( $redirect_to );
 
-			/** wp_redirect requires us to exit() */
+			// wp_redirect requires us to exit()
 			exit();
 	
 		} else {
@@ -600,10 +596,10 @@ function wpmem_login() {
 		}
 
 	} else {
-		//login failed
+		// Login failed.
 		return "loginfailed";
 	}
-} // end of login function
+} // End of login function.
 endif;
 
 
@@ -631,7 +627,7 @@ function wpmem_logout() {
 
 	wp_clear_auth_cookie();
 
-	/** This action is defined in /wp-includes/pluggable.php **/
+	// This action is defined in /wp-includes/pluggable.php.
 	do_action( 'wp_logout' );
 
 	nocache_headers();
@@ -713,15 +709,15 @@ function wpmem_change_password() {
 		$pass1 = $_POST['pass1'];
 		$pass2 = $_POST['pass2'];
 
-		if ( ! $pass1 && ! $pass2 ) { // check for both fields being empty
+		if ( ! $pass1 && ! $pass2 ) { // Check for both fields being empty.
 
 			return "pwdchangempty";
 
-		} elseif ( $pass1 != $pass2 ) { // make sure the fields match
+		} elseif ( $pass1 != $pass2 ) { // Make sure the fields match.
 
 			return "pwdchangerr";
 
-		} else { // update password in db (wp_update_user hashes the password)
+		} else { // Update password in db (wp_update_user hashes the password).
 
 			wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
 
@@ -773,7 +769,7 @@ function wpmem_reset_password() {
 
 		if ( ! $arr['user'] || ! $arr['email'] ) { 
 
-			// there was an empty field
+			// There was an empty field.
 			return "pwdreseterr";
 
 		} else {
@@ -783,18 +779,18 @@ function wpmem_reset_password() {
 				$user = get_user_by( 'login', $arr['user'] );
 
 				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
-					// the username was there, but the email did not match OR the user hasn't been activated
+					// The username was there, but the email did not match OR the user hasn't been activated.
 					return "pwdreseterr";
 
 				} else {
 
-					// generate a new password
+					// Generate a new password.
 					$new_pass = wp_generate_password();
 
-					// update the users password
+					// Update the users password.
 					wp_update_user( array ( 'ID' => $user->ID, 'user_pass' => $new_pass ) );
 
-					// send it in an email
+					// Send it in an email.
 					require_once( 'wp-members-email.php' );
 					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
 
@@ -811,7 +807,7 @@ function wpmem_reset_password() {
 				}
 			} else {
 
-				// username did not exist
+				// Username did not exist.
 				return "pwdreseterr";
 			}
 		}
@@ -917,9 +913,9 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr( __( 'Register' ) ) ) ? true : false;
 	$add_new  = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
 	if ( $native_reg || $add_new ) {
-		// get the fields
+		// Get the fields.
 		$wpmem_fields = get_option( 'wpmembers_fields' );
-		// get any excluded meta fields
+		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach ( $wpmem_fields as $meta ) {
 			if ( isset( $_POST[$meta[2]] ) && ! in_array( $meta[2], $exclude ) ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Handles functions that output admin dialogs to adminstrative users.
  * 
@@ -15,12 +15,12 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_do_warnings
- * * wpmem_a_warning_msg
- * * wpmem_a_meta_box
- * * wpmem_a_rss_box
- * * butlerblog_dashboard_widget
- * * butlerblog_feed_output
+ * - wpmem_a_do_warnings
+ * - wpmem_a_warning_msg
+ * - wpmem_a_meta_box
+ * - wpmem_a_rss_box
+ * - butlerblog_dashboard_widget
+ * - butlerblog_feed_output
  */
 
  
@@ -48,34 +48,34 @@ function wpmem_a_do_warnings( $did_update ) {
 		<div id="message" class="updated fade"><p><strong><?php echo $did_update; ?></strong></p></div><?php
 	}
 
-	/**
+	/*
 	 * Warning messages
  	 */
 
-	// are warnings turned off?
+	// Are warnings turned off?
 	$warnings_off = ( $wpmem->warnings == 0 ) ? true : false;
 
-	// settings allow anyone to register
+	// Settings allow anyone to register.
 	if ( get_option( 'users_can_register' ) != 0 && $warnings_off ) {
 		wpmem_a_warning_msg(1);
 	}
 
-	// settings allow anyone to comment
+	// Settings allow anyone to comment.
 	if ( get_option( 'comment_registration' ) !=1 && $warnings_off ) {
 		wpmem_a_warning_msg(2);
 	}
 
-	// rss set to full text feeds
+	// Rss set to full text feeds.
 	if ( get_option( 'rss_use_excerpt' ) !=1 && $warnings_off ) {
 		wpmem_a_warning_msg(3);
 	}
 
-	// holding registrations but haven't changed default successful registration message
+	// Holding registrations but haven't changed default successful registration message.
 	if ( $warnings_off && $wpmem->mod_reg == 1 && $wpmem_dialogs[3] == 'Congratulations! Your registration was successful.<br /><br />You may now login using the password that was emailed to you.' ) {
 		wpmem_a_warning_msg(4);
 	}
 
-	// haven't entered recaptcha api keys
+	// Haven't entered recaptcha api keys.
 	if ( $warnings_off && $wpmem->captcha == 1 ) {
 		$wpmem_captcha = get_option('wpmembers_captcha');
 		if ( !$wpmem_captcha['recaptcha']['public'] || !$wpmem_captcha['recaptcha']['private'] ) {
@@ -96,7 +96,7 @@ function wpmem_a_do_warnings( $did_update ) {
 function wpmem_a_warning_msg( $msg ) {
 
 	$strong_msg = $remain_msg = $span_msg = '';
-	
+
 	switch ( $msg ) {
 
 	case 1:

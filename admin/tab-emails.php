@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the emails tab.
  * 
@@ -15,8 +15,8 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_build_emails
- * * wpmem_update_emails
+ * - wpmem_a_build_emails
+ * - wpmem_update_emails
  */
 
 
@@ -137,14 +137,14 @@ function wpmem_update_emails() {
 
 	global $wpmem;
 
-	//check nonce
+	// Check nonce.
 	check_admin_referer( 'wpmem-update-emails' );
 
-	// update the email address (if applicable)
+	// Update the email address (if applicable).
 	( $_POST['wp_mail_from'] ) ? update_option( 'wpmembers_email_wpfrom', $_POST['wp_mail_from'] ) : delete_option( 'wpmembers_email_wpfrom' );
 	( $_POST['wp_mail_from_name'] ) ? update_option( 'wpmembers_email_wpname', $_POST['wp_mail_from_name'] ) : delete_option( 'wpmembers_email_wpname' );
 
-	// update the various emails being used
+	// Update the various emails being used.
 	( $wpmem->mod_reg == 0 ) ? $arr = array( 'wpmembers_email_newreg' ) : $arr = array( 'wpmembers_email_newmod', 'wpmembers_email_appmod' );
 	array_push( $arr, 'wpmembers_email_repass' );
 	( $wpmem->notify == 1 ) ? array_push( $arr, 'wpmembers_email_notify' ) : false;
@@ -159,7 +159,7 @@ function wpmem_update_emails() {
 		$arr2 = '';
 	}
 
-	// updated the email footer
+	// Updated the email footer.
 	update_option( $arr[$row], $_POST[$arr[$row] . '_body'], false );
 
 	return __( 'WP-Members emails were updated', 'wp-members' );

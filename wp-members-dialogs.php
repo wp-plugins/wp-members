@@ -16,9 +16,7 @@
  */
 
 
-/**
- * Include the form building functions.
- */
+// Include the form building functions.
 include_once( 'forms.php' );
 
 
@@ -34,7 +32,7 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  */
 function wpmem_inc_loginfailed() {
 
-	// defaults
+	// Defaults.
 	$defaults = array(
 		'div_before'     => '<div align="center" id="wpmem_msg">',
 		'div_after'      => '</div>', 
@@ -56,7 +54,7 @@ function wpmem_inc_loginfailed() {
 	 */
 	$args = apply_filters( 'wpmem_login_failed_args', '' );
 	
-	// merge $args with defaults
+	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
 	
 	$str = $args['div_before']
@@ -120,7 +118,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 */
 	$args = apply_filters( 'wpmem_msg_args', '' );
 
-	// get dialogs set in the db
+	// Get dialogs set in the db.
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
 	for ( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
@@ -141,7 +139,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 */
 	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle );
 	
-	// merge $args with defaults
+	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
 	
 	$str = $args['div_before'] . $args['p_before'] . stripslashes( $msg ) . $args['p_after'] . $args['div_after'];
@@ -238,7 +236,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 */
 		$args = apply_filters( 'wpmem_login_links_args', $args );
 
-		/** Assemble the message string **/
+		// Assemble the message string.
 		$str = $args['wrapper_before']
 			. sprintf( $args['welcome'], $args['user_login'] )
 			. $args['separator']
@@ -274,7 +272,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 */
 		$args = apply_filters( 'wpmem_status_msg_args', $args );
 
-		/** Assemble the message string **/
+		// Assemble the message string.
 		$str = $args['wrapper_before']
 			. sprintf( $args['welcome'], $args['user_login'] )
 			. $args['separator']
@@ -306,8 +304,8 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 
 	if ( is_user_logged_in() ) {
 	
-		switch ( $wpmem_regchk ) { 
-				
+		switch ( $wpmem_regchk ) {
+
 		case "pwdchangempty":
 			$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
 			$content = $content . wpmem_inc_changepassword();
@@ -324,23 +322,23 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 
 		default:
 			$content = $content . wpmem_inc_changepassword();
-			break;				
+			break;
 		}
-	
+
 	} else {
-	
+
 		switch( $wpmem_regchk ) {
 
 		case "pwdreseterr":
 			$content = $content 
 				. wpmem_inc_regmessage( $wpmem_regchk )
 				. wpmem_inc_resetpassword();
-			$wpmem_regchk = ''; // clear regchk
+			$wpmem_regchk = ''; // Clear regchk.
 			break;
 
 		case "pwdresetsuccess":
 			$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-			$wpmem_regchk = ''; // clear regchk
+			$wpmem_regchk = ''; // Clear regchk.
 			break;
 
 		default:
@@ -349,7 +347,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 		}
 		
 	}
-	
+
 	return $content;
 
 }

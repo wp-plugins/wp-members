@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the post/page editor screens.
  * 
@@ -15,14 +15,14 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_bulk_posts_action
- * * wpmem_posts_page_load
- * * wpmem_posts_admin_notices
- * * wpmem_block_meta_add
- * * wpmem_block_meta
- * * wpmem_block_meta_save
- * * wpmem_post_columns
- * * wpmem_post_columns_content
+ * - wpmem_bulk_posts_action
+ * - wpmem_posts_page_load
+ * - wpmem_posts_admin_notices
+ * - wpmem_block_meta_add
+ * - wpmem_block_meta
+ * - wpmem_block_meta_save
+ * - wpmem_post_columns
+ * - wpmem_post_columns_content
  */
 
 
@@ -70,18 +70,18 @@ function wpmem_posts_page_load() {
 
 		case ( 'block' ):
 		case ( 'unblock' ):
-			/** validate nonce **/
+			// Validate nonce.
 			check_admin_referer( 'bulk-posts' );
-			/** get the posts **/
+			// Get the posts.
 			$posts = ( isset( $_REQUEST['post'] ) ) ? $_REQUEST['post'] : '';
-			/** update posts **/
+			// Update posts.
 			$x = '';
 			if ( $posts ) {
 				foreach ( $posts as $post_id ) {
 					$x++;
 					$post = get_post( $post_id );
 					$type = $post->post_type;
-					// update accordingly
+					// Update accordingly.
 					if ( $wpmem->block[ $type ] == 0 ) {
 						if ( $action == 'block' ) {
 							update_post_meta( $post_id, '_wpmem_block', 1 );
@@ -98,7 +98,7 @@ function wpmem_posts_page_load() {
 						}
 					}
 				}
-				/** set the return message */
+				// Set the return message.
 				$arr = array( 
 					'a' => $action,
 					'n' => $x,
@@ -108,7 +108,7 @@ function wpmem_posts_page_load() {
 				$sendback = add_query_arg( array( $arr ), '', $sendback );
 
 			} else {
-				/** set the return message */
+				// Set the return message.
 				$sendback = add_query_arg( array( 'a' => 'none' ), '', $sendback );
 			}
 			break;
@@ -118,7 +118,7 @@ function wpmem_posts_page_load() {
 
 	}
 
-	/** if we did not return already, we need to wp_redirect */
+	// If we did not return already, we need to wp_redirect.
 	wp_redirect( $sendback );
 	exit();
 }
@@ -235,28 +235,28 @@ function wpmem_block_meta() {
  */
 function wpmem_block_meta_save( $post_id ) {
 
-	// quit if we are doing autosave
+	// Quit if we are doing autosave.
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
 
-	// quit if the nonce isn't there, or is wrong
+	// Quit if the nonce isn't there, or is wrong.
 	if ( ! isset( $_POST['wpmem_block_meta_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_block_meta_nonce'], 'wpmem_block_meta_nonce' ) ) {
 		return;
 	}
 
-	// quit if the current user cannot edit posts
+	// Quit if the current user cannot edit posts.
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
 	}
 
-	// get value
+	// Get value.
 	$block = isset( $_POST['wpmem_block'] ) ? $_POST['wpmem_block'] : null;
 
-	// need the post object
+	// Need the post object.
 	global $post; 
 
-	// update accordingly
+	// Update accordingly.
 	if ( $block != null ) {
 		update_post_meta( $post_id, '_wpmem_block', $block );
 	} else {
@@ -312,11 +312,9 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
 
 		$block_meta = get_post_meta( $post_ID, '_wpmem_block', true );
 
-		/**
-		 * Backward compatibility for old block/unblock meta
-		 */
+		// Backward compatibility for old block/unblock meta.
 		if ( ! $block_meta ) {
-			// check for old meta
+			// Check for old meta.
 			$old_block   = get_post_meta( $post_ID, 'block',   true );
 			$old_unblock = get_post_meta( $post_ID, 'unblock', true );
 			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );

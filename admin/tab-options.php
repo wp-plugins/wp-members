@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the plugin options tab.
  * 
@@ -15,10 +15,10 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_a_build_options
- * * wpmem_update_options
- * * wpmem_admin_style_list
- * * wpmem_admin_page_list
+ * - wpmem_a_build_options
+ * - wpmem_update_options
+ * - wpmem_admin_style_list
+ * - wpmem_admin_page_list
  */
 
 
@@ -122,7 +122,6 @@ function wpmem_a_build_options() {
 							<?php $arr = array(
 								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
-								//array(__('Use reCAPTCHA','wp-members'),'wpmem_settings_captcha',__('Turns on CAPTCHA for registration','wp-members'),'captcha'),
 								array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
 							);
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
@@ -149,7 +148,6 @@ function wpmem_a_build_options() {
 								<select name="wpmem_settings_captcha">
 									<option value="0"<?php echo ( $wpmem->captcha == 0 ) ? ' selected ' : ''; ?>><?php _e( 'None', 'wp-members' ); ?></option>
 									<option value="1"<?php echo ( $wpmem->captcha == 1 ) ? ' selected ' : ''; ?>>reCAPTCHA</option>
-									<?php // if rs captcha is enabled ?>
 									<option value="2"<?php echo ( $wpmem->captcha == 2 ) ? ' selected ' : ''; ?>>Really Simple CAPTCHA</option>
 								</select>
 							  </li>
@@ -228,7 +226,7 @@ function wpmem_a_build_options() {
  */
 function wpmem_update_options() {
 
-	//check nonce
+	// Check nonce.
 	check_admin_referer( 'wpmem-update-settings' );
 
 	$wpmem_settings_msurl  = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? $_POST['wpmem_settings_msurl'] : '';
@@ -301,11 +299,11 @@ function wpmem_update_options() {
 
 	);
 
-	/* 	
-		if we are setting registration to be moderated, 
-		check to see if the current admin has been 
-		activated so they don't accidentally lock themselves
-		out later 
+	/*
+	 * If we are setting registration to be moderated, 
+	 * check to see if the current admin has been 
+	 * activated so they don't accidentally lock themselves
+	 * out later.
 	*/
 	if ( isset( $_POST['wpmem_settings_moderate'] ) == 1 ) {
 		global $current_user;

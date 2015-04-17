@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Admin Functions.
+ * WP-Members Admin Functions
  *
  * Functions to manage the Users > All Users page.
  * 
@@ -15,20 +15,20 @@
  * @copyright 2006-2015
  *
  * Functions included:
- * * wpmem_bulk_user_action
- * * wpmem_insert_activate_link
- * * wpmem_users_page_load
- * * wpmem_users_admin_notices
- * * wpmem_users_views
- * * wpmem_add_user_column
- * * wpmem_add_user_column_content
- * * wpmem_a_activate_user
- * * wpmem_a_deactivate_user
- * * wpmem_a_pre_user_query
- * * wpmem_set_new_user_non_active
- * * wpmem_set_activated_user
- * * wpmem_set_deactivated_user
- * * wpmem_set_user_status
+ * - wpmem_bulk_user_action
+ * - wpmem_insert_activate_link
+ * - wpmem_users_page_load
+ * - wpmem_users_admin_notices
+ * - wpmem_users_views
+ * - wpmem_add_user_column
+ * - wpmem_add_user_column_content
+ * - wpmem_a_activate_user
+ * - wpmem_a_deactivate_user
+ * - wpmem_a_pre_user_query
+ * - wpmem_set_new_user_non_active
+ * - wpmem_set_activated_user
+ * - wpmem_set_deactivated_user
+ * - wpmem_set_user_status
  */
 
 
@@ -106,7 +106,7 @@ function wpmem_insert_activate_link( $actions, $user_object ) {
  */
 function wpmem_users_page_load() {
 
-	// if exporting all users, do it, then exit
+	// If exporting all users, do it, then exit.
 	if ( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
 		include_once( WPMEM_PATH . 'admin/user-export.php' );
 		$today = date( "m-d-y" ); 
@@ -119,7 +119,7 @@ function wpmem_users_page_load() {
 	$sendback = '';
 
 	if ( $action == 'activate' || 'activate-single' ) {
-		// find out if we need to set passwords
+		// Find out if we need to set passwords.
 		$chk_pass = false;
 		$wpmem_fields = get_option( 'wpmembers_fields' );
 		foreach ( $wpmem_fields as $field ) {
@@ -134,48 +134,48 @@ function wpmem_users_page_load() {
 
 	case 'activate':
 
-		/** validate nonce */
+		// Validate nonce.
 		check_admin_referer( 'bulk-users' );
 
-		/** get the users */
+		// Get the users.
 		$users = $_REQUEST['users'];
-		
-		/** update the users */
+
+		// Update the users.
 		$x = 0;
 		foreach ( $users as $user ) {
-			// check to see if the user is already activated, if not, activate
+			// Check to see if the user is already activated, if not, activate.
 			if ( ! get_user_meta( $user, 'active', true ) ) {
 				wpmem_a_activate_user( $user, $chk_pass );
 				$x++;
 			}
 		}
 
-		/** set the return message */
+		// Set the return message.
 		$sendback = add_query_arg( array('activated' => $x . ' users activated' ), $sendback );
 		break;
 
 	case 'activate-single':
 
-		/** validate nonce */
+		// Validate nonce.
 		check_admin_referer( 'activate-user' );
 
-		/** get the users */
+		// Get the users.
 		$users = $_REQUEST['user'];
 
-		/** check to see if the user is already activated, if not, activate */
+		// Check to see if the user is already activated, if not, activate.
 		if ( ! get_user_meta( $users, 'active', true ) ) {
 
 			wpmem_a_activate_user( $users, $chk_pass );
 
-			/** get the user data */
+			// Get the user data.
 			$user_info = get_userdata( $users );
 
-			/** set the return message */
+			// Set the return message.
 			$sendback = add_query_arg( array('activated' => "$user_info->user_login activated" ), $sendback );
 
 		} else {
 
-			/** get the return message */
+			// Get the return message.
 			$sendback = add_query_arg( array('activated' => "That user is already active" ), $sendback );
 
 		}
@@ -201,7 +201,7 @@ function wpmem_users_page_load() {
 
 	}
 
-	/** if we did not return already, we need to wp_redirect */
+	// If we did not return already, we need to wp_redirect.
 	wp_redirect( $sendback );
 	exit();
 
@@ -322,7 +322,7 @@ function wpmem_add_user_column( $columns ) {
  */
 function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 
-	// is the column a WP-Members column?
+	// Is the column a WP-Members column?
 	global $wpmem_user_columns, $wpmem;
 	$is_wpmem = ( is_array( $wpmem_user_columns ) && array_key_exists( $column_name, $wpmem_user_columns ) ) ? true : false;
 
@@ -332,7 +332,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 		
 		case 'active':
 			if ( $wpmem->mod_reg == 1 ) {
-			/**
+			/*
 			 * If the column is "active", then return the value or empty.
 			 * Returning in here keeps us from displaying another value.
 			 */
@@ -344,9 +344,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 
 		case 'user_url':
 		case 'user_registered':
-			/**
-			 * Unlike other fields, website/url is not a meta field
-			 */
+			// Unlike other fields, website/url is not a meta field.
 			$user_info = get_userdata( $user_id );
 			return $user_info->$column_name;
 			break;
@@ -380,30 +378,30 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 
 	global $wpmem;
 
-	// define new_pass
+	// Define new_pass.
 	$new_pass = '';
 
-	// If passwords are user defined skip this
+	// If passwords are user defined skip this.
 	if ( ! $chk_pass ) {
-		// generates a password to send the user
+		// Generates a password to send the user.
 		$new_pass = wp_generate_password();
 		$new_hash = wp_hash_password( $new_pass );
 
-		// update the user with the new password
+		// Update the user with the new password.
 		global $wpdb;
 		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
 	}
 
-	// if subscriptions can expire, set the user's expiration date
+	// If subscriptions can expire, set the user's expiration date.
 	if( $wpmem->use_exp == 1 ) {
 		wpmem_set_exp( $user_id );
 	}
 
-	// generate and send user approved email to user
+	// Generate and send user approved email to user.
 	require_once( WPMEM_PATH . 'wp-members-email.php' );
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
 
-	// set the active flag in usermeta
+	// Set the active flag in usermeta.
 	update_user_meta( $user_id, 'active', 1 );
 
 	/**
@@ -444,7 +442,7 @@ function wpmem_a_deactivate_user( $user_id ) {
 
 
 /**
- * Adjusts user query based on custom views
+ * Adjusts user query based on custom views.
  *
  * @since 2.8.3
  *
@@ -453,10 +451,10 @@ function wpmem_a_deactivate_user( $user_id ) {
 function wpmem_a_pre_user_query( $user_search ) {
 
 	global $wpdb;
-	$show = $_GET['show'];	
+	$show = $_GET['show'];
 	switch ( $show ) {
-	
-		case 'notactive':        
+
+		case 'notactive':
 		case 'notexported':
 			$key = ( $show == 'notactive' ) ? 'active' : 'exported';
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID NOT IN (
@@ -464,23 +462,22 @@ function wpmem_a_pre_user_query( $user_search ) {
 				WHERE {$wpdb->usermeta}.meta_key = \"$key\"
 				AND {$wpdb->usermeta}.meta_value = '1' )";
 			break;
-			
+
 		case 'trial':
-		case 'subscription':			
-			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
-			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
-				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
-				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
-			break;
-			
-		case 'pending': 		
+		case 'subscription':
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
 			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
 				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
 				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
 			break;
 
-			
+		case 'pending':
+			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
+			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
+				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
+			break;
+
 		case 'expired':
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
 			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
@@ -489,7 +486,7 @@ function wpmem_a_pre_user_query( $user_search ) {
 				AND {$wpdb->usermeta}.meta_value != '01/01/1970' )";
 			break;
 	}
-	
+
 	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query,	$user_search->query_where );
 }
 

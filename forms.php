@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-Members Form Building Functions.
+ * WP-Members Form Building Functions
  *
  * Handles functions that build the various forms.
  * 
@@ -15,13 +15,13 @@
  * @copyright 2006-2015
  *
  * Functions Included:
- * * wpmem_inc_login
- * * wpmem_inc_changepassword
- * * wpmem_inc_resetpassword
- * * wpmem_login_form
- * * wpmem_inc_registration
- * * wpmem_inc_recaptcha
- * * wpmem_inc_attribution
+ * - wpmem_inc_login
+ * - wpmem_inc_changepassword
+ * - wpmem_inc_resetpassword
+ * - wpmem_login_form
+ * - wpmem_inc_registration
+ * - wpmem_inc_recaptcha
+ * - wpmem_inc_attribution
  */
 
 
@@ -65,7 +65,7 @@ function wpmem_inc_login( $page="page", $redirect_to = null ) {
 		} 	
 	} 
 	
-	/** create the default inputs **/
+	// create the default inputs
 	$default_inputs = array(
 		array(
 			'name'   => __( 'Username' ), 
@@ -132,7 +132,7 @@ if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
  */
 function wpmem_inc_changepassword() {
 
-	/** create the default inputs **/
+	// create the default inputs
 	$default_inputs = array(
 		array(
 			'name'   => __( 'New password' ), 
@@ -360,7 +360,6 @@ function wpmem_login_form( $page, $arr ) {
 	}
 
 	// build hidden fields, filter, and add to the form
-	//$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
 	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $redirect_to ) . $n;
 	$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $n;
 	$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
@@ -598,7 +597,6 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	 * @param string $toggle  Toggle new registration or profile update. new|edit.
  	 */
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', get_option( 'wpmembers_fields' ), $toggle );
-	//$wpmem_fields = get_option( 'wpmembers_fields' );
 	
 	// loop through the remaining fields
 	foreach ( $wpmem_fields as $field ) {
