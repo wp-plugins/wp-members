@@ -21,7 +21,6 @@
 require_once( 'utilities.php' );
 
 
-if ( ! function_exists( 'wpmem' ) ):
 /**
  * The Main Action Function.
  *
@@ -29,14 +28,11 @@ if ( ! function_exists( 'wpmem' ) ):
  * prior to headers being sent.
  *
  * @since 0.1 
- *
- * @global string $wpmem->action      The action variable also used in wpmem_securify.
- * @global string $wpmem->regchk Contains messages returned from $wpmem->action action functions, used in wpmem_securify.
  */
 function wpmem() {
-
+	global $wpmem;
+	$wpmem->get_action();
 }
-endif;
 
 
 if ( ! function_exists( 'wpmem_securify' ) ):
@@ -58,8 +54,6 @@ if ( ! function_exists( 'wpmem_securify' ) ):
 function wpmem_securify( $content = null ) {
 
 	global $wpmem, $wpmem_themsg, $post;
-
-	$post_type = get_post_type( $post );
 
 	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
@@ -125,7 +119,7 @@ function wpmem_securify( $content = null ) {
 
 				$content = $content . wpmem_inc_login();
 
-				$content = ( $wpmem->show_reg[ $post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
+				$content = ( $wpmem->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
 		// Protects comments if expiration module is used and user is expired.
@@ -180,8 +174,6 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 	global $wpmem, $wpmem_themsg, $post;
 	include_once( WPMEM_PATH . 'wp-members-dialogs.php' );
 
-	$post_type = get_post_type( $post );
-
 	$content = '';
 
 	// Deprecating members-area parameter to be replaced by user-profile.
@@ -221,7 +213,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 			} else {
 
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
-				$content = ( $page == 'register' || $wpmem->show_reg[ $post_type ] != 1 ) ? $content . wpmem_inc_registration() : $content;
+				$content = ( $page == 'register' || $wpmem->show_reg[ $post->post_type ] != 1 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
 		} elseif ( is_user_logged_in() && $page == 'members-area' ) {

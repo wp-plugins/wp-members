@@ -9,11 +9,6 @@ class WP_Members {
 	function __construct() {
 		
 		/**
-		 * Load dependencies.
-		 */
-		require_once( 'wp-members-core.php' );
-		
-		/**
 		 * Filter the options before they are loaded into constants.
 		 *
 		 * @since 2.9.0
@@ -33,15 +28,19 @@ class WP_Members {
 		 * Set the stylesheet.
 		 */
 		$this->cssurl = ( $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
+	}
+	
+	/**
+	 * Gets the requested action.
+	 *
+	 * @since 3.0.0
+	 */
+	function get_action() {
 
-		/**
-		 * Get the action being done (if any).
-		 */
-		$this->action = $this->get_action();
+		// Get the action being done (if any).
+		$this->action = ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
 		
-		/**
-		 * Get the regchk value (if any).
-		 */
+		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
 
 		/**
@@ -55,17 +54,7 @@ class WP_Members {
 		 * @param  string $this->regchk The value of wpmem_regchk.
 		 * @param  string $this->action The $wpmem_a action.
 		 */
-		$this->regchk = apply_filters( 'wpmem_regchk', $this->regchk, $this->action );	
-	
-	}
-	
-	/**
-	 * Gets the current action.
-	 *
-	 * @since 3.0.0
-	 */
-	function get_action() {
-		return ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
+		$this->regchk = apply_filters( 'wpmem_regchk', $this->regchk, $this->action );
 	}
 	
 	/**

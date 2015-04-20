@@ -84,9 +84,7 @@ register_activation_hook( __FILE__, 'wpmem_install' );
  */
 function wpmem_init() {
 
-	/**
-	 * Setup globals
-	 */
+	// Set the object as global.
 	global $wpmem;
 
 	/**
@@ -96,14 +94,10 @@ function wpmem_init() {
 	 */
 	do_action( 'wpmem_pre_init' );
 
-	/**
-	 * Start with any potential translation.
-	 */
+	// Start with any potential translation.
 	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
-	/**
-	 * Load WP_Members class.
-	 */
+	// Load WP_Members class.
 	include_once( 'class-wp-members.php' );
 	$wpmem = new WP_Members();
 
@@ -123,27 +117,19 @@ function wpmem_init() {
 	 */
 	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
 
-	/**
-	 * Preload any custom functions, if available.
-	 */
+	// Preload any custom functions, if available.
 	if ( file_exists( $wpmem_pluggable ) ) {
 		include( $wpmem_pluggable );
 	}
 
-	/**
-	 * Preload the expiration module, if available.
-	 */
+	// Preload the expiration module, if available.
 	$exp_module = ( in_array( 'wp-members-expiration/module.php', get_option( 'active_plugins' ) ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
-	/**
-	 * Load core file.
-	 */
+	// Load core file.
 	include_once( 'wp-members-core.php' );
 
-	/**
-	 * Add actions.
-	 */
+	// Add actions.
 	add_action( 'init',                  'wpmem' );                    // runs before headers are sent
 	add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
 	add_action( 'wp_head',               'wpmem_head' );               // anything added to header
@@ -152,32 +138,24 @@ function wpmem_init() {
 	add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 
-	/**
-	 * Add filters.
-	 */
+	// Add filters.
 	add_filter( 'allow_password_reset', 'wpmem_no_reset' );                 // no password reset for non-activated users
 	add_filter( 'the_content',          'wpmem_securify', 1, 1 );           // securifies the_content
 	add_filter( 'register_form',        'wpmem_wp_register_form' );         // adds fields to the default wp registration
 	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
-	/**
-	 * Add shortcodes.
-	 */
+	// Add shortcodes.
 	add_shortcode( 'wp-members',       'wpmem_shortcode' );
 	add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
 	add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
 	add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
 	add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
 
-	/**
-	 * Load the stylesheet if using the new forms.
-	 */
+	// Load the stylesheet if using the new forms.
 	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
 
-	/**
-	 * If registration is moderated, check for activation (blocks backend login by non-activated users).
-	 */
+	// If registration is moderated, check for activation (blocks backend login by non-activated users).
 	if ( $wpmem->mod_reg == 1 ) { 
 		add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
 	}
