@@ -86,7 +86,7 @@ function wpmem_a_field_reorder() {
 
 	update_option( 'wpmembers_fields', $wpmem_new_fields ); 
 
-	die(); // this is required to return a proper result
+	die(); // This is required to return a proper result.
 
 }
 
@@ -146,7 +146,11 @@ function wpmem_update_fields( $action ) {
 					$wpmem_newfields[$nrow][5] = 'y';
 				}
 
-				if ( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) { $chkreq = "err"; }
+				// @todo Does $chkreq get used anywhere? 
+				// if ( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) { $chkreq = "err"; }
+				// @todo Changed above to this:
+				$chkreq = ( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) ? 'err' : false;
+				
 				$wpmem_newfields[$nrow][6] = $wpmem_fields[$row][6];
 				$wpmem_newfields[$nrow][7] = ( isset( $wpmem_fields[$row][7] ) ) ? $wpmem_fields[$row][7] : '';
 				if ( $wpmem_fields[$row][3] == 'checkbox' ) { 
@@ -219,6 +223,10 @@ function wpmem_update_fields( $action ) {
 				$arr[7] = str_getcsv( $str, ',', '"' );
 			}
 		}
+		
+		if ( $_POST['add_type'] == 'file' ) {
+			$arr[7] = stripslashes( $_POST['add_file_value'] );
+		}
 
 		if ( $action == 'add_field' ) {
 			if ( ! $add_field_err_msg ) {
@@ -233,7 +241,7 @@ function wpmem_update_fields( $action ) {
 			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 				if ( $wpmem_fields[$row][2] == $_GET['edit'] ) {
 					$arr[0] = $wpmem_fields[$row][0];
-					$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' ) ? 7 : 6 );
+					$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' || $arr[3] == 'file' ) ? 7 : 6 );
 					for ( $r = 0; $r < $x+1; $r++ ) {
 						$wpmem_fields[$row][$r] = $arr[$r];
 					}
@@ -303,7 +311,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 						<?php if ( $mode == 'edit' ) { 
 							echo $field_arr[2]; ?>
 							<input type="hidden" name="add_option" value="<?php echo $field_arr[2]; ?>" /> 
-						<?php } else { ?>	
+						<?php } else { ?>
 							<input type="text" name="add_option" value="" />
 							<?php _e( 'The database meta value for the field. It must be unique and contain no spaces (underscores are ok).', 'wp-members' ); ?>
 						<?php } ?>
@@ -320,6 +328,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 								<option value="checkbox"><?php _e( 'checkbox', 'wp-members' ); ?></option>
 								<option value="select"><?php   _e( 'dropdown', 'wp-members' ); ?></option>
 								<option value="password"><?php _e( 'password', 'wp-members' ); ?></option>
+								<option value="file"><?php     _e( 'file',     'wp-members' ); ?></option>
 							</select>
 						<?php } ?>
 					</li>
@@ -331,6 +340,21 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 						<label><?php _e( 'Required?', 'wp-members' ); ?></label>
 						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> />
 					</li>
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'file' ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
+					<li>
+						<strong><?php _e( 'Additional information for field upload fields', 'wp-members' ); ?></strong>
+					</li>
+					<li>
+						<label><?php _e( 'Accepted file types:', 'wp-members' ); ?></label>
+						<input type="text" name="add_file_value" value="<?php echo ( $mode == 'edit' && $field_arr[3] == 'file' ) ? $field_arr[7] : false; ?>" />
+					</li>
+					<li>
+						<label>&nbsp;</label>
+						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?>
+					</li>
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php } ?>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_checkbox_info">' : ''; ?>
 					<li>
