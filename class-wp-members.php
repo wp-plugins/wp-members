@@ -7,7 +7,7 @@
 class WP_Members {
 
 	function __construct() {
-		
+
 		/**
 		 * Filter the options before they are loaded into constants.
 		 *
@@ -16,17 +16,13 @@ class WP_Members {
 		 * @param array $this->settings An array of the WP-Members settings.
 		 */
 		$settings = apply_filters( 'wpmem_settings', get_option( 'wpmembers_settings' ) );
-		
-		/**
-		 * Assemble settings.
-		 */
+
+		// Assemble settings.
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
 		}
 
-		/**
-		 * Set the stylesheet.
-		 */
+		// Set the stylesheet.
 		$this->cssurl = ( $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
 	}
 	
@@ -39,7 +35,7 @@ class WP_Members {
 
 		// Get the action being done (if any).
 		$this->action = ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
-		
+
 		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
 

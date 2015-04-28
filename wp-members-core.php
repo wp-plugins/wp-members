@@ -678,6 +678,7 @@ if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
  * @uses register_widget
  */
 function widget_wpmemwidget_init() {
+	include_once( 'class-wp-members-widget.php' );
 	include_once( 'wp-members-sidebar.php' );
 	register_widget( 'widget_wpmemwidget' );
 }
