@@ -120,14 +120,14 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  * @param  string $url
  * @return string $return_url
  */
-function wpmem_chk_qstr( $url = null )
-{
+function wpmem_chk_qstr( $url = null ) {
+
 	$permalink = get_option( 'permalink_structure' );
-	if( ! $permalink ) {
-		if( ! $url ) { $url = get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING']; }
+	if ( ! $permalink ) {
+		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : '';
 		$return_url = $url . "&amp;";
 	} else {
-		if( !$url ) { $url = get_permalink(); }
+		$url = ( ! $url ) ? get_permalink() : '';
 		$return_url = $url . "?";
 	}
 	return $return_url;
