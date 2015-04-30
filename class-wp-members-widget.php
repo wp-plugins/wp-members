@@ -68,13 +68,12 @@ class widget_wpmemwidget extends WP_Widget {
 	 * @param array $instance
 	 */
 	function widget( $args, $instance ) {
-		extract( $args );
 
 		// Get the Widget Title
 		$title       = ( array_key_exists( 'title', $instance ) )       ? $instance['title']       : __( 'Login Status', 'wp-members' );
 		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
 
-		echo $before_widget;
+		echo $args['before_widget'];
 		/**
 		 * Filter the widget ID.
 		 *
@@ -91,12 +90,12 @@ class widget_wpmemwidget extends WP_Widget {
 			 *
 			 * @param string $title The widget title.
 			 */
-			echo $before_title . apply_filters( 'wpmem_widget_title', $title ) . $after_title;
+			echo $args['before_title'] . apply_filters( 'wpmem_widget_title', $title ) . $args['after_title'];
 
 			// The Widget
 			if ( function_exists( 'wpmem' ) ) { wpmem_do_sidebar( $redirect_to ); }
 
 		echo '</div>';
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 }
