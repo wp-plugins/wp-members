@@ -24,8 +24,8 @@ require_once( 'utilities.php' );
 /**
  * The Main Action Function.
  *
- * Does actions required at initialization
- * prior to headers being sent.
+ * Does actions required at initialization prior to headers being sent.
+ * Since 3.0, this function is a wrapper for get_action().
  *
  * @since 0.1 
  */
@@ -41,10 +41,10 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * This is the primary function that picks up where wpmem() leaves off.
  * Determines whether content is shown or hidden for both post and pages.
+ * Since 3.0, this function is a wrapper for do_securify().
  *
  * @since 2.0
  *
- * @global object $wpmem             The WP_Members object.
  * @global string $wpmem_themsg      Contains messages to be output.
  * @global string $wpmem_captcha_err Contains error message for reCAPTCHA.
  * @global object $post              The post object.
@@ -52,103 +52,9 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  * @return string $content
  */
 function wpmem_securify( $content = null ) {
-
-	global $wpmem, $wpmem_themsg, $post;
-
-	$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
-
-	if ( ( ! wpmem_test_shortcode( $content, 'wp-members' ) ) ) {
-
-		if ( $wpmem->regchk == "captcha" ) {
-			global $wpmem_captcha_err;
-			$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
-		}
-
-		// Block/unblock Posts.
-		if ( ! is_user_logged_in() && wpmem_block() == true ) {
-
-			include_once( WPMEM_PATH . 'wp-members-dialogs.php' );
-			
-			//Show the login and registration forms.
-			if ( $wpmem->regchk ) {
-				
-				// Empty content in any of these scenarios.
-				$content = '';
-
-				switch ( $wpmem->regchk ) {
-
-				case "loginfailed":
-					$content = wpmem_inc_loginfailed();
-					break;
-
-				case "success":
-					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_login();
-					break;
-
-				default:
-					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_registration();
-					break;
-				}
-
-			} else {
-
-				// Toggle shows excerpt above login/reg on posts/pages.
-				global $wp_query;
-				if ( $wp_query->query_vars['page'] > 1 ) {
-
-						// Shuts down excerpts on multipage posts if not on first page.
-						$content = '';
-
-				} elseif ( $wpmem->show_excerpt[ $post->post_type ] == 1 ) {
-
-					if ( ! stristr( $content, '<span id="more' ) ) {
-						$content = wpmem_do_excerpt( $content );
-					} else {
-						$len = strpos( $content, '<span id="more' );
-						$content = substr( $content, 0, $len );
-					}
-
-				} else {
-
-					// Empty all content.
-					$content = '';
-
-				}
-
-				$content = $content . wpmem_inc_login();
-
-				$content = ( $wpmem->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
-			}
-
-		// Protects comments if expiration module is used and user is expired.
-		} elseif ( is_user_logged_in() && wpmem_block() == true ){
-
-			$content = ( $wpmem->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) ? wpmem_do_expmessage( $content ) : $content;
-
-		}
-	}
-
-	/**
-	 * Filter the value of $content after wpmem_securify has run.
-	 *
-	 * @since 2.7.7
-	 *
-	 * @param string $content The content after securify has run.
-	 */
-	$content = apply_filters( 'wpmem_securify', $content );
-
-	if ( strstr( $content, '[wpmem_txt]' ) ) {
-		// Fix the wptexturize.
-		remove_filter( 'the_content', 'wpautop' );
-		remove_filter( 'the_content', 'wptexturize' );
-		add_filter( 'the_content', 'wpmem_texturize', 99 );
-	}
-
-	return $content;
-
-} // End wpmem_securify.
+	global $wpmem;
+	return $wpmem->do_securify( $content );
+}
 endif;
 
 
@@ -295,69 +201,15 @@ if ( ! function_exists( 'wpmem_block' ) ):
 /**
  * Determines if content should be blocked.
  *
+ * Since 3.0, this function is a wrapper for is_blocked().
+ *
  * @since 2.6
  *
  * @return bool $block true|false
  */
 function wpmem_block() {
-
-	global $post, $wpmem; 
-
-	// Backward compatibility for old block/unblock meta.
-	$meta = get_post_meta( $post->ID, '_wpmem_block', true );
-	if ( ! $meta ) {
-		// Check for old meta.
-		$old_block   = get_post_meta( $post->ID, 'block',   true );
-		$old_unblock = get_post_meta( $post->ID, 'unblock', true );
-		$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
-	}
-
-	// Setup defaults.
-		$defaults = array(
-		'post_id'    => $post->ID,
-		'post_type'  => $post->post_type,
-		'block'      => ( $wpmem->block[ $post->post_type ] == 1 ) ? true : false,
-		'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
-		'block_type' => ( $post->post_type == 'post' ) ? $wpmem->block['post'] : ( ( $post->post_type == 'page' ) ? $wpmem->block['page'] : 0 ),
-	);
-
-	/**
-	 * Filter the block arguments.
-	 *
-	 * @since 2.9.8
-	 *
-	 * @param array $args     Null.
-	 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
-	 */
-	$args = apply_filters( 'wpmem_block_args', '', $defaults );
-
-	// Merge $args with defaults.
-	$args = ( wp_parse_args( $args, $defaults ) );
-
-	if ( is_single() || is_page() ) {
-		switch( $args['block_type'] ) {
-			case 1: // If content is blocked by default.
-				$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
-				break;
-			case 0 : // If content is unblocked by default.
-				$args['block'] = ( $args['block_meta'] == '1' ) ? true : $args['block'];
-				break;
-		}
-	} else {
-
-		$args['block'] = false;
-
-	}
-
-	/**
-	 * Filter the block boolean.
-	 *
-	 * @since 2.7.5
-	 *
-	 * @param bool  $args['block']
-	 * @param array $args
-	 */
-	return apply_filters( 'wpmem_block', $args['block'], $args );
+	global $wpmem;
+	return $wpmem->is_blocked();
 }
 endif;
 
@@ -658,12 +510,14 @@ if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
 /**
  * Displays the sidebar.
  *
+ * This function is a wrapper for wpmem_do_sidebar().
+ *
  * @since 2.0
  *
  * @uses wpmem_do_sidebar()
  */
 function wpmem_inc_sidebar() {
-	include_once('wp-members-sidebar.php');
+	include_once( 'sidebar.php' );
 	wpmem_do_sidebar();
 }
 endif;
@@ -679,7 +533,7 @@ if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
  */
 function widget_wpmemwidget_init() {
 	include_once( 'class-wp-members-widget.php' );
-	include_once( 'wp-members-sidebar.php' );
+	include_once( 'sidebar.php' );
 	register_widget( 'widget_wpmemwidget' );
 }
 endif;
@@ -842,22 +696,12 @@ endif;
 
 
 /**
- * Anything that gets added to the the <html> <head>.
- *
- * @since 2.2
- */
-function wpmem_head() { 
-	echo "<!-- WP-Members version ".WPMEM_VERSION.", available at http://rocketgeek.com/wp-members -->\r\n";
-}
-
-
-/**
  * Add registration fields to the native WP registration.
  *
  * @since 2.8.3
  */
 function wpmem_wp_register_form() {
-	include_once( 'native-registration.php' );
+	include_once( 'wp-registration.php' );
 	wpmem_do_wp_register_form();
 }
 

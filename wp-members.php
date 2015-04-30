@@ -130,17 +130,16 @@ function wpmem_init() {
 	include_once( 'wp-members-core.php' );
 
 	// Add actions.
-	add_action( 'init',                  'wpmem' );                    // runs before headers are sent
+	add_action( 'init',                  array( $wpmem, 'get_action' ) );
 	add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
-	add_action( 'wp_head',               'wpmem_head' );               // anything added to header
 	add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
 	add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 	add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 
 	// Add filters.
+	add_filter( 'the_content',          array( $wpmem, 'do_securify' ), 1, 1 );
 	add_filter( 'allow_password_reset', 'wpmem_no_reset' );                 // no password reset for non-activated users
-	add_filter( 'the_content',          'wpmem_securify', 1, 1 );           // securifies the_content
 	add_filter( 'register_form',        'wpmem_wp_register_form' );         // adds fields to the default wp registration
 	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
