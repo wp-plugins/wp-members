@@ -85,7 +85,7 @@ class WP_Members {
 			
 			case 'register':
 			case 'update':
-				require_once( 'wp-members-register.php' );
+				require_once( WPMEM_PATH . 'inc/register.php' );
 				return wpmem_registration( $action  );
 				break;
 		}
@@ -193,7 +193,7 @@ class WP_Members {
 			// Block/unblock Posts.
 			if ( ! is_user_logged_in() && $this->is_blocked() == true ) {
 
-				include_once( WPMEM_PATH . 'wp-members-dialogs.php' );
+				include_once( WPMEM_PATH . 'inc/dialogs.php' );
 				
 				//Show the login and registration forms.
 				if ( $this->regchk ) {

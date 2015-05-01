@@ -29,9 +29,7 @@
 
 
 /** File Includes */
-include_once( 'dialogs.php' );
-//include_once( 'users.php' );        // currently included in the main plugin file
-//include_once( 'user-profile.php' ); // currently included in the main plugin file
+include_once( WPMEM_PATH . 'admin/dialogs.php' );
 
 
 /** Actions and Filters */
@@ -49,7 +47,7 @@ add_filter( 'plugin_action_links',           'wpmem_admin_plugin_links', 10, 2 )
  * @uses wpmem_a_field_reorder
  */
 function wpmem_a_do_field_reorder(){
-	include_once( 'tab-fields.php' );
+	include_once( WPMEM_PATH . 'admin/tab-fields.php' );
 	wpmem_a_field_reorder();
 }
 
@@ -99,7 +97,7 @@ function wpmem_load_admin_js() {
  * @return
  */
 function wpmem_a_captcha_tab( $tab ) {
-	include_once( 'tab-captcha.php' );
+	include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 	return ( $tab == 'captcha' ) ? wpmem_a_build_captcha_options() : false ;
 }
 
@@ -174,19 +172,19 @@ function wpmem_admin_do_tab( $tab ) {
 	switch ( $tab ) {
 
 	case 'options' :
-		include_once( 'tab-options.php' );
+		include_once( WPMEM_PATH . 'admin/tab-options.php' );
 		wpmem_a_build_options();
 		break;
 	case 'fields' :
-		include_once( 'tab-fields.php' );
+		include_once( WPMEM_PATH . 'admin/tab-fields.php' );
 		wpmem_a_build_fields();
 		break;
 	case 'dialogs' :
-		include_once( 'tab-dialogs.php' );
+		include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 		wpmem_a_build_dialogs();
 		break;
 	case 'emails' :
-		include_once( 'tab-emails.php' );
+		include_once( WPMEM_PATH . 'admin/tab-emails.php' );
 		wpmem_a_build_emails();
 		break;
 	}
@@ -245,29 +243,29 @@ function wpmem_admin_action( $action ) {
 	switch ( $action ) {
 
 	case 'update_settings':
-		include_once( 'tab-options.php' );
+		include_once( WPMEM_PATH . 'admin/tab-options.php' );
 		$did_update = wpmem_update_options();
 		break;
 
 	case 'update_fields':
 	case 'add_field': 
 	case 'edit_field':
-		include_once( 'tab-fields.php' );
+		include_once( WPMEM_PATH . 'admin/tab-fields.php' );
 		$did_update = wpmem_update_fields( $action );
 		break;
 
 	case 'update_dialogs':
-		include_once( 'tab-dialogs.php' );
+		include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 		$did_update = wpmem_update_dialogs();
 		break;
 
 	case 'update_emails':
-		include_once( 'tab-emails.php' );
+		include_once( WPMEM_PATH . 'admin/tab-emails.php' );
 		$did_update = wpmem_update_emails();
 		break;
 
 	case 'update_captcha':
-		include_once( 'tab-captcha.php' );
+		include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 		$did_update = wpmem_update_captcha();
 		break;
 	}
@@ -282,7 +280,7 @@ function wpmem_admin_action( $action ) {
  * @since 2.9.1
  */
 function wpmem_admin_add_new_user() {
-	include_once( WPMEM_PATH . '/native-registration.php' );
+	include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	echo wpmem_do_wp_newuser_form();
 	return;
 }

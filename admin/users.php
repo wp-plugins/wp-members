@@ -398,7 +398,7 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 	}
 
 	// Generate and send user approved email to user.
-	require_once( WPMEM_PATH . 'wp-members-email.php' );
+	require_once( WPMEM_PATH . '/inc/email.php' );
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
 
 	// Set the active flag in usermeta.

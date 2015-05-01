@@ -98,7 +98,7 @@ function wpmem_init() {
 	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 	// Load WP_Members class.
-	include_once( 'class-wp-members.php' );
+	include_once( 'inc/class-wp-members.php' );
 	$wpmem = new WP_Members();
 
 	/**
@@ -127,7 +127,7 @@ function wpmem_init() {
 	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
 	// Load core file.
-	include_once( 'wp-members-core.php' );
+	include_once( 'inc/core.php' );
 
 	// Add actions.
 	add_action( 'init',                  array( $wpmem, 'get_action' ) );
@@ -198,7 +198,7 @@ function wpmem_chk_admin() {
 		require_once( 'admin/users.php' );
 		include_once( 'admin/user-profile.php' );
 	} else {
-		require_once( WPMEM_PATH . 'users.php' );
+		require_once( WPMEM_PATH . 'inc/users.php' );
 		add_action( 'show_user_profile', 'wpmem_user_profile'   );
 		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
@@ -209,7 +209,7 @@ function wpmem_chk_admin() {
 	 * meta boxes and custom post/page columns.
 	 */
 	if ( current_user_can( 'edit_posts' ) ) {
-		include_once( 'admin/post.php' );
+		include_once( WPMEM_PATH . 'admin/post.php' );
 		add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
 		add_action( 'save_post',                  'wpmem_block_meta_save' );
 		add_filter( 'manage_posts_columns',       'wpmem_post_columns' );
@@ -246,7 +246,7 @@ function wpmem_admin_options() {
  * @since 2.5.2
  */
 function wpmem_install() {
-	require_once( 'wp-members-install.php' );
+	require_once( WPMEM_PATH . 'wp-members-install.php' );
 	if ( is_multisite() ) {
 		// if it is multisite, install options for each blog
 		global $wpdb;
@@ -285,7 +285,7 @@ add_action( 'wpmu_new_blog', 'wpmem_mu_new_site', 10, 6 );
  * @param $meta
  */
 function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
-	require_once( 'wp-members-install.php' );
+	require_once( WPMEM_PATH . 'wp-members-install.php' );
 	switch_to_blog( $blog_id );
 	wpmem_do_install();
 	restore_current_blog();
