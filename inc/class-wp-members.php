@@ -276,4 +276,26 @@ class WP_Members {
 		
 	}
 
+	/**
+	 * Plugin initialization function to load shortcodes.
+	 *
+	 * @since 3.0.0
+	 */
+	function load_shortcodes() {
+
+		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
+		add_shortcode( 'wp-members',       'wpmem_shortcode' );
+		add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
+		add_shortcode( 'wpmem_form',       'wpmem_form_sc'  );
+		
+		/**
+		 * Fires after shortcodes load (for adding additional custom shortcodes).
+		 *
+		 * @since 3.0.0
+		 */
+		do_action( 'wpmem_load_shortcodes' );
+	}
 }

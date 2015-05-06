@@ -144,12 +144,8 @@ function wpmem_init() {
 	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
 
-	// Add shortcodes.
-	add_shortcode( 'wp-members',       'wpmem_shortcode' );
-	add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
-	add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
-	add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
-	add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
+	// Load shortcodes.
+	$wpmem->load_shortcodes();
 
 	// Load the stylesheet if using the new forms.
 	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
