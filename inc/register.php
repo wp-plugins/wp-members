@@ -77,7 +77,7 @@ function wpmem_registration( $toggle ) {
 	 */
 	$fields = apply_filters( 'wpmem_pre_validate_form', $fields );
 
-	// Check for required fields
+	// Check for required fields, reverse the array for logical error message order.
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
 
 	foreach ( $wpmem_fields_rev as $meta ) {
@@ -85,7 +85,7 @@ function wpmem_registration( $toggle ) {
 		$pass_chk = ( $toggle == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
 			if ( ! $fields[ $meta[2] ] ) { 
-				$wpmem_themsg = sprintf( __('Sorry, %s is a required field.', 'wp-members'), $meta[1] ); 
+				$wpmem_themsg = sprintf( __( 'Sorry, %s is a required field.', 'wp-members' ), $meta[1] ); 
 			}
 		}
 	}
@@ -93,43 +93,28 @@ function wpmem_registration( $toggle ) {
 	switch ( $toggle ) {
 
 	case "register":
-
+		
 		if ( is_multisite() ) {
 			// Multisite has different requirements.
-			$result = wpmu_validate_user_signup($fields['username'], $fields['user_email']); 
+			$result = wpmu_validate_user_signup( $fields['username'], $fields['user_email'] ); 
 			$errors = $result['errors'];
 			if ( $errors->errors ) {
 				$wpmem_themsg = $errors->get_error_message(); return $wpmem_themsg; exit;
 			}
 
 		} else {
-			if ( ! $fields['username'] ) { 
-				$wpmem_themsg = __( 'Sorry, username is a required field', 'wp-members' ); 
+			// Validate username and email fields.
+			$wpmem_themsg = ( email_exists( $fields['user_email'] ) ) ? "email" : $wpmem_themsg;
+			$wpmem_themsg = ( username_exists( $fields['username'] ) ) ? "user" : $wpmem_themsg;
+			$wpmem_themsg = ( ! is_email( $fields['user_email']) ) ? __( 'You must enter a valid email address.', 'wp-members' ) : $wpmem_themsg;
+			$wpmem_themsg = ( ! validate_username( $fields['username'] ) ) ? __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ) : $wpmem_themsg;
+			$wpmem_themsg = ( ! $fields['username'] ) ? __( 'Sorry, username is a required field', 'wp-members' ) : $wpmem_themsg;
+			
+			// If there is an error from username, email, or required field validation, stop registration and return the error.
+			if ( $wpmem_themsg ) {
 				return $wpmem_themsg;
-				exit(); 
-			} 
-			if ( ! validate_username( $fields['username'] ) ) { 
-				$wpmem_themsg = __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ); 
-				return $wpmem_themsg; 
-				exit(); 
+				exit();
 			}
-			if ( ! is_email( $fields['user_email']) ) { 
-				$wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' ); 
-				return $wpmem_themsg; 
-				exit(); 
-			}
-			if ( username_exists( $fields['username'] ) ) { 
-				return "user"; 
-				exit(); 
-			}
-			if ( email_exists( $fields['user_email'] ) ) { 
-				return "email"; 
-				exit(); 
-			}
-		}
-		if ( $wpmem_themsg ) { 
-			return "empty"; 
-			exit(); 
 		}
 
 		// If form contains password and email confirmation, validate that they match.
@@ -271,7 +256,7 @@ function wpmem_registration( $toggle ) {
 		// Get any excluded meta fields.
 		$excluded_meta = wpmem_get_excluded_meta( 'register' );
 
-		// User_url, first_name, last_name, description, jabber, aim, yim.
+		// Fields for wp_insert_user: user_url, first_name, last_name, description, jabber, aim, yim.
 		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
 		foreach ( $wpmem_fields as $meta ) {
 			if ( in_array( $meta[2], $new_user_fields_meta ) ) {
