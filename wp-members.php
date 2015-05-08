@@ -59,16 +59,19 @@ License:     GPLv2
 */
 
 
-/** initial constants **/
+// Initialize constants.
 define( 'WPMEM_VERSION', '3.0 build 2.9.9.1 base' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
 
-/** initialize the plugin **/
+// Localization.
+add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
+
+// Initialize the plugin.
 add_action( 'after_setup_theme', 'wpmem_init', 10 );
 
-/** install the pluign **/
+// Install the plugin.
 register_activation_hook( __FILE__, 'wpmem_install' );
 
 
@@ -94,11 +97,8 @@ function wpmem_init() {
 	 */
 	do_action( 'wpmem_pre_init' );
 
-	// Start with any potential translation.
-	load_plugin_textdomain( 'wp-members', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
-
 	// Load WP_Members class.
-	include_once( 'inc/class-wp-members.php' );
+	include_once( WPMEM_PATH . 'inc/class-wp-members.php' );
 	$wpmem = new WP_Members();
 
 	/**
@@ -127,33 +127,13 @@ function wpmem_init() {
 	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
 	// Load core file.
-	include_once( 'inc/core.php' );
+	include_once( WPMEM_PATH . 'inc/core.php' );
 
-	// Add actions.
-	add_action( 'init',                  array( $wpmem, 'get_action' ) );
-	add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
-	add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
-	add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
-	add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
-	add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
-
-	// Add filters.
-	add_filter( 'the_content',          array( $wpmem, 'do_securify' ), 1, 1 );
-	add_filter( 'allow_password_reset', 'wpmem_no_reset' );                 // no password reset for non-activated users
-	add_filter( 'register_form',        'wpmem_wp_register_form' );         // adds fields to the default wp registration
-	add_filter( 'registration_errors',  'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
-	add_filter( 'comments_open',        'wpmem_securify_comments', 20, 1 ); // securifies the comments
+	// Load actions and filters.
+	$wpmem->load_hooks();
 
 	// Load shortcodes.
 	$wpmem->load_shortcodes();
-
-	// Load the stylesheet if using the new forms.
-	add_action( 'wp_print_styles', 'wpmem_enqueue_style' );
-
-	// If registration is moderated, check for activation (blocks backend login by non-activated users).
-	if ( $wpmem->mod_reg == 1 ) { 
-		add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
-	}
 
 	/**
 	 * Fires after initialization of plugin options.
@@ -288,4 +268,26 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
 }
 
 
-/** End of File **/
+/**
+ * Loads translation files.
+ *
+ * @since 3.0.0
+ */
+function wpmem_load_textdomain() {
+	
+	/**
+	 * Filter translation file.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $file The translation file to load.
+	 */
+	$file = apply_filters( 'wpmem_localization_file', dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+	
+	// Load the localization file.
+	load_plugin_textdomain( 'wp-members', false, $file );
+	
+	return;
+}
+
+// End of File.

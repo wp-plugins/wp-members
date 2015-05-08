@@ -8,6 +8,17 @@ class WP_Members {
 
 	function __construct() {
 
+		$this->load_settings();
+
+	}
+	
+	/**
+	 * Plugin initialization function.
+	 *
+	 * @since 3.0.0
+	 */
+	function load_settings() {
+		
 		/**
 		 * Filter the options before they are loaded into constants.
 		 *
@@ -24,6 +35,82 @@ class WP_Members {
 
 		// Set the stylesheet.
 		$this->cssurl = ( $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
+	}
+
+	/**
+	 * Plugin initialization function to load shortcodes.
+	 *
+	 * @since 3.0.0
+	 */
+	function load_shortcodes() {
+
+		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
+		add_shortcode( 'wp-members',       'wpmem_shortcode' );
+		add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
+		add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
+		add_shortcode( 'wpmem_form',       'wpmem_form_sc'  );
+		
+		/**
+		 * Fires after shortcodes load (for adding additional custom shortcodes).
+		 *
+		 * @since 3.0.0
+		 */
+		do_action( 'wpmem_load_shortcodes' );
+	}
+	
+	/**
+	 * Plugin initialization function to load hooks.
+	 *
+	 * @since 3.0.0
+	 */
+	function load_hooks() {
+
+		// Add actions.
+		add_action( 'init',                  array( $this, 'get_action' ) );
+		add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
+		add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
+		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
+		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
+		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
+		add_action( 'wp_print_styles',       'wpmem_enqueue_style' );      // load the stylesheet if using the new forms
+
+		// Add filters.
+		add_filter( 'the_content',           array( $this, 'do_securify' ), 1, 1 );
+		add_filter( 'allow_password_reset',  'wpmem_no_reset' );                 // no password reset for non-activated users
+		add_filter( 'register_form',         'wpmem_wp_register_form' );         // adds fields to the default wp registration
+		add_filter( 'registration_errors',   'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
+		add_filter( 'comments_open',         'wpmem_securify_comments', 20, 1 ); // securifies the comments
+		
+		// If registration is moderated, check for activation (blocks backend login by non-activated users).
+		if ( $this->mod_reg == 1 ) { 
+			add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
+		}
+	}
+	
+	/**
+	 * Load drop-ins.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @todo This is experimental. The function and its operation is subject to change.
+	 */
+	function load_dropins() {
+
+		/**
+		 * Filters the dropin file folder.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $folder The dropin file folder.
+		 */
+		$folder = apply_filters( 'wpmem_dropin_folder', WP_PLUGIN_DIR . '/wp-members-dropins/' );
+		
+		// Load any drop-ins.
+		foreach ( glob( $folder . '*.php' ) as $filename ) {
+			include_once( $filename );
+		}
 	}
 	
 	/**
@@ -276,26 +363,4 @@ class WP_Members {
 		
 	}
 
-	/**
-	 * Plugin initialization function to load shortcodes.
-	 *
-	 * @since 3.0.0
-	 */
-	function load_shortcodes() {
-
-		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
-		add_shortcode( 'wp-members',       'wpmem_shortcode' );
-		add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
-		add_shortcode( 'wpmem_form',       'wpmem_form_sc'  );
-		
-		/**
-		 * Fires after shortcodes load (for adding additional custom shortcodes).
-		 *
-		 * @since 3.0.0
-		 */
-		do_action( 'wpmem_load_shortcodes' );
-	}
 }
