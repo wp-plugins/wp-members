@@ -71,7 +71,7 @@ function wpmem_form_sc( $atts, $content = null, $tag = 'wpmem_form' ) {
 				$content = ( $wpmem->regchk == 'loginfailed' ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
 			}
 			break;
-		
+
 		case in_array( 'register', $atts ):
 			if ( is_user_logged_in() ) {
 				/*
@@ -89,6 +89,15 @@ function wpmem_form_sc( $atts, $content = null, $tag = 'wpmem_form' ) {
 				$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration();
 			}
 			break;
+
+		case in_array( 'password', $atts ):
+			$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
+			break;
+
+		case in_array( 'user-edit', $atts ):
+			$content = wpmem_page_user_edit( $wpmem->regchk, $content );
+			break;
+
 	}
 	
 	/*
@@ -106,6 +115,7 @@ function wpmem_form_sc( $atts, $content = null, $tag = 'wpmem_form' ) {
 		remove_filter( 'the_content', 'wptexturize' );
 		add_filter( 'the_content', 'wpmem_texturize', 99 );
 	}
+	// @todo - Look into shortcode_unautop().
 	/** End temporary texturize functions */
 	
 	return do_shortcode( $content );
