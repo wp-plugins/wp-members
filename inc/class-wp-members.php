@@ -45,12 +45,12 @@ class WP_Members {
 	function load_shortcodes() {
 
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
-		add_shortcode( 'wp-members',       'wpmem_shortcode' );
-		add_shortcode( 'wpmem_field',      'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logged_in',  'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logged_out', 'wpmem_shortcode' );
-		add_shortcode( 'wpmem_logout',     'wpmem_shortcode' );
-		add_shortcode( 'wpmem_form',       'wpmem_form_sc'  );
+		add_shortcode( 'wp-members',       'wpmem_shortcode'     );
+		add_shortcode( 'wpmem_field',      'wpmem_shortcode'     );
+		add_shortcode( 'wpmem_logged_in',  'wpmem_sc_logged_in'  );
+		add_shortcode( 'wpmem_logged_out', 'wpmem_sc_logged_out' );
+		add_shortcode( 'wpmem_logout',     'wpmem_shortcode'     );
+		add_shortcode( 'wpmem_form',       'wpmem_sc_forms'      );
 		
 		/**
 		 * Fires after shortcodes load (for adding additional custom shortcodes).

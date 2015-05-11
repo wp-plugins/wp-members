@@ -44,7 +44,7 @@
  * @param $tag
  * @return $content
  */
-function wpmem_form_sc( $atts, $content = null, $tag = 'wpmem_form' ) {
+function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 	
 	// Dependencies.
 	global $wpmem, $wpmem_themsg;
@@ -119,6 +119,102 @@ function wpmem_form_sc( $atts, $content = null, $tag = 'wpmem_form' ) {
 	/** End temporary texturize functions */
 	
 	return do_shortcode( $content );
+}
+
+
+/**
+ * Handles the logged in status shortcodes.
+ *
+ * There are two shortcodes to display content based on a user being logged
+ * in - [wp-members status=in] and [wpmem_logged_in] (status=in is a legacy
+ * shortcode, but will still function). There are several attributes that
+ * can be used with the shortcode: in|out, sub for subscription only info,
+ * id, and role. IDs and roles can be comma separated values for multiple
+ * users and roles. Additionally, status=out can be used to display content
+ * only to logged out users or visitors.
+ *
+ * @since 3.0.0
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) {
+
+	global $wpmem;
+
+	// Handles the 'status' attribute.
+	if ( ( isset( $atts['status'] ) ) || $tag == 'wpmem_logged_in' ) {
+
+		$do_return = false;
+
+		// If there is a status attribute of "out" and the user is not logged in.
+		$do_return = ( isset( $atts['status'] ) && $atts['status'] == 'out' && ! is_user_logged_in() ) ? true : $do_return;
+
+		if ( is_user_logged_in() ) {
+
+			// In case $current_user is not already global
+			$current_user = wp_get_current_user();
+
+			// If there is a status attribute of "in" and the user is logged in.
+			$do_return = ( isset( $atts['status'] ) && $atts['status'] == 'in' ) ? true : $do_return;
+			
+			// If using the wpmem_logged_in tag with no attributes & the user is logged in.
+			$do_return = ( $tag == 'wpmem_logged_in' && ( ! $atts ) ) ? true : $do_return;
+			
+			// If there is an "id" attribute and the user ID is in it.
+			if ( isset( $atts['id'] ) ) {
+				$ids = explode( ',', $atts['id'] );
+				foreach ( $ids as $id ) {
+					if ( trim( $id ) == $current_user->ID ) {
+						$do_return = true;
+					}
+				}
+			}
+			
+			// If there is a "role" attribute and the user has a matching role.
+			if ( isset( $atts['role'] ) ) {
+				$roles = explode( ',', $atts['role'] );
+				foreach ( $roles as $role ) {
+					if ( in_array( trim( $role ), $current_user->roles ) ) {
+						$do_return = true;
+					}
+				}
+			}
+			
+			// If there is a status attribute of "sub" and the user is logged in.
+			if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' && is_user_logged_in() ) {
+				if ( $wpmem->use_exp == 1 ) {	
+					if ( ! wpmem_chk_exp() ) {
+						$do_return = true;
+					} elseif ( $atts['msg'] == true ) {
+						$do_return = true;
+						$content = wpmem_sc_expmessage();
+					}
+				}
+			}
+		
+		}
+
+		// Return content (or empty content) depending on the result of the above logic.
+		return ( $do_return ) ? do_shortcode( $content ) : '';
+	}
+}
+
+
+/**
+ * Handles the [wpmem_logged_out] shortcode.
+ *
+ * @since 3.0.0
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_logged_out( $atts, $content = null, $tag ) {
+	return ( ! is_user_logged_in() ) ? do_shortcode( $content ) : '';
 }
 
 
@@ -209,41 +305,16 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 
 	// Handles the 'status' attribute.
 	if ( ( $atts['status'] ) || $tag == 'wpmem_logged_in' ) {
-
-		$do_return = false;
-
-		// If using the wpmem_logged_in tag with no attributes & the user is logged in.
-		if ( $tag == 'wpmem_logged_in' && ( ! $attr ) && is_user_logged_in() )
-			$do_return = true;
-
-		// If there is a status attribute of "in" and the user is logged in.
-		if ( $atts['status'] == 'in' && is_user_logged_in() )
-			$do_return = true;
-
-		// If there is a status attribute of "out" and the user is not logged in.
-		if ( $atts['status'] == 'out' && ! is_user_logged_in() ) 
-			$do_return = true;
-
-		// If there is a status attribute of "sub" and the user is logged in.
-		if ( $atts['status'] == 'sub' && is_user_logged_in() ) {
-			if ( $wpmem->use_exp == 1 ) {	
-				if ( ! wpmem_chk_exp() ) {
-					$do_return = true;
-				} elseif ( $atts['msg'] == true ) {
-					$do_return = true;
-					$content = wpmem_sc_expmessage();
-				}
-			}
-		}
-
-		// Return content (or empty content) depending on the result of the above logic.
-		return ( $do_return ) ? do_shortcode( $content ) : '';
+		return do_shortcode( wpmem_sc_logged_in( $atts, $content, $tag ) );
 	}
 
+	// @deprecated 3.0.0
 	// Handles the wpmem_logged_out tag with no attributes & the user is not logged in.
+	/*
 	if ( $tag == 'wpmem_logged_out' && ( ! $attr ) && ! is_user_logged_in() ) {
 		return do_shortcode( $content );
 	}
+	*/
 
 	// Handles the 'field' attribute.
 	if ( $atts['field'] || $tag == 'wpmem_field' ) {
