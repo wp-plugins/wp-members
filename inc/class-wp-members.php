@@ -87,6 +87,13 @@ class WP_Members {
 		if ( $this->mod_reg == 1 ) { 
 			add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
 		}
+
+		/**
+		 * Fires after action and filter hooks load (for adding/removing hooks).
+		 *
+		 * @since 3.0.0
+		 */
+		do_action( 'wpmem_load_hooks' );
 	}
 	
 	/**
@@ -111,6 +118,13 @@ class WP_Members {
 		foreach ( glob( $folder . '*.php' ) as $filename ) {
 			include_once( $filename );
 		}
+
+		/**
+		 * Fires after dropins load (for adding additional dropings).
+		 *
+		 * @since 3.0.0
+		 */
+		do_action( 'wpmem_load_dropins' );
 	}
 	
 	/**
@@ -125,19 +139,6 @@ class WP_Members {
 
 		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
-
-		/**
-		 * Filter wpmem_regchk.
-		 *
-		 * The value of regchk is determined by functions that may be run in the get_regchk function.
-		 * This value determines what happens in the wpmem_securify() function.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param  string $this->regchk The value of wpmem_regchk.
-		 * @param  string $this->action The $wpmem_a action.
-		 */
-		$this->regchk = apply_filters( 'wpmem_regchk', $this->regchk, $this->action );
 	}
 	
 	/**
@@ -155,28 +156,46 @@ class WP_Members {
 		switch ( $action ) {
 
 			case 'login':
-				return wpmem_login();
+				$regchk = wpmem_login();
 				break;
 
 			case 'logout':
-				wpmem_logout();
+				$regchk = wpmem_logout();
 				break;
 			
 			case 'pwdchange':
-				return wpmem_change_password();
+				$regchk = wpmem_change_password();
 				break;
 			
 			case 'pwdreset':
-				return wpmem_reset_password();
+				$regchk = wpmem_reset_password();
 				break;
 			
 			case 'register':
 			case 'update':
 				require_once( WPMEM_PATH . 'inc/register.php' );
-				return wpmem_registration( $action  );
+				$regchk = wpmem_registration( $action  );
+				break;
+
+			default:
+				$regchk = ( isset( $regchk ) ) ? $regchk : '';
 				break;
 		}
-		return;
+		
+		/**
+		 * Filter wpmem_regchk.
+		 *
+		 * The value of regchk is determined by functions that may be run in the get_regchk function.
+		 * This value determines what happens in the wpmem_securify() function.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param  string $this->regchk The value of wpmem_regchk.
+		 * @param  string $this->action The $wpmem_a action.
+		 */
+		$regchk = apply_filters( 'wpmem_regchk', $regchk, $action );
+		
+		return $regchk;
 	}
 	
 	/**
@@ -361,6 +380,17 @@ class WP_Members {
 
 		return $content;
 		
+	}
+
+	/**
+	 * Returns the registration fields.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array The registration fields.
+	 */
+	function load_fields() {
+		$this->fields = get_option( 'wpmembers_fields' );
 	}
 
 }
