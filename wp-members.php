@@ -135,6 +135,9 @@ function wpmem_init() {
 	// Load shortcodes.
 	$wpmem->load_shortcodes();
 
+	// Load fields.
+	$wpmem->load_fields();
+
 	/**
 	 * Fires after initialization of plugin options.
 	 *

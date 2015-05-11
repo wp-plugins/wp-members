@@ -596,7 +596,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	 * @param array           The array of form fields.
 	 * @param string $toggle  Toggle new registration or profile update. new|edit.
  	 */
-	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', get_option( 'wpmembers_fields' ), $toggle );
+	// $wpmem_fields = apply_filters( 'wpmem_register_fields_arr', get_option( 'wpmembers_fields' ), $toggle );
+	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $toggle );
 	
 	// loop through the remaining fields
 	foreach ( $wpmem_fields as $field ) {

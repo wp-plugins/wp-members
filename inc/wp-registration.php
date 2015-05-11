@@ -29,7 +29,8 @@
  */
 function wpmem_do_wp_register_form() {
 
-	$wpmem_fields = get_option( 'wpmembers_fields' );
+	global $wpmem;
+	$wpmem_fields = $wpmem->fields; //$wpmem_fields = get_option( 'wpmembers_fields' );
 	foreach ( $wpmem_fields as $field ) {
 	//for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 
@@ -145,9 +146,10 @@ function wpmem_do_wp_register_form() {
  */
 function wpmem_do_wp_newuser_form() {
 
+	global $wpmem;
 	echo '<table class="form-table"><tbody>';
 
-	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach ( $wpmem_fields as $field ) {

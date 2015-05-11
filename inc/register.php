@@ -56,7 +56,7 @@ function wpmem_registration( $toggle ) {
 	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
 
 	// Build the $fields array from $_POST data.
-	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
 			if ( $meta[2] != 'password' ) {

@@ -45,9 +45,7 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * @since 2.0
  *
- * @global string $wpmem_themsg      Contains messages to be output.
- * @global string $wpmem_captcha_err Contains error message for reCAPTCHA.
- * @global object $post              The post object.
+ * @global object $wpmem
  * @param  string $content
  * @return string $content
  */
@@ -451,7 +449,8 @@ function wpmem_wp_register_form() {
  */
 function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 
-	$wpmem_fields = get_option( 'wpmembers_fields' );
+	global $wpmem;
+	$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach ( $wpmem_fields as $field ) {
@@ -480,11 +479,12 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
  */
 function wpmem_wp_reg_finalize( $user_id ) {
 
+	global $wpmem;
 	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr( __( 'Register' ) ) ) ? true : false;
 	$add_new  = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
 	if ( $native_reg || $add_new ) {
 		// Get the fields.
-		$wpmem_fields = get_option( 'wpmembers_fields' );
+		$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach ( $wpmem_fields as $meta ) {

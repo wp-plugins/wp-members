@@ -27,7 +27,7 @@ if ( ! function_exists( 'wpmem_user_profile' ) ):
  */
 function wpmem_user_profile() {
 
-	global $user_id; 
+	global $wpmem, $user_id;
 	/**
 	 * Filter the heading for the user profile additional fields.
 	 *
@@ -39,7 +39,7 @@ function wpmem_user_profile() {
 	<table class="form-table">
 		<?php
 		// Get fields.
-		$wpmem_fields = get_option( 'wpmembers_fields' );
+		$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 		// Get excluded meta.
 		$exclude = wpmem_get_excluded_meta( 'user-profile' );
 
@@ -98,9 +98,9 @@ endif;
  */
 function wpmem_profile_update() {
 
-	global $user_id;
+	global $wpmem, $user_id;
 	// Get the fields.
-	$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 	// Get any excluded meta fields.
 	$exclude = wpmem_get_excluded_meta( 'user-profile' );
 	foreach ( $wpmem_fields as $meta ) {
