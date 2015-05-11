@@ -30,9 +30,9 @@
 function wpmem_do_install() {
 
 	/*
-	 * If you need to force an install, set $chk_force = true
+	 * If you need to force an install, set $chk_force = true.
 	 *
-	 *IMPORTANT NOTES:
+	 * Important notes:
 	 *
 	 * 1. This will override any settings you already have for any of the plugin settings.
 	 * 2. This will not effect any WP settings or registered users.
@@ -43,6 +43,7 @@ function wpmem_do_install() {
 	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
 		// This is a clean install (or an upgrade from 2.1 or earlier).
+		
 		$wpmem_settings = array(
 			'version' => WPMEM_VERSION,
 			'block'   => array(
@@ -78,9 +79,23 @@ function wpmem_do_install() {
 			'attrib'    => 0,
 		);
 
-		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // Using update_option to allow for forced update.
+		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' );
 
-		// order, label, optionname, type, display, required, native, checked value, checked by default
+		/*
+		 * Field array elements:
+		 * 
+		 * 	array(
+		 * 		order, 
+		 * 		label, 
+		 *		optionname, 
+		 * 		type, 
+		 * 		display, 
+		 * 		required, 
+		 * 		native, 
+		 * 		checked value, 
+		 * 		checked by default,
+		 * 	);
+		 */
 		$wpmem_fields_options_arr = array(
 			array( 1,  'First Name',         'first_name',       'text',     'y', 'y', 'y' ),
 			array( 2,  'Last Name',          'last_name',        'text',     'y', 'y', 'y' ),
@@ -185,9 +200,13 @@ function wpmem_update_settings() {
 			'autoex'     => get_option( 'wpmembers_autoex' ),
 			'attrib'     => get_option( 'wpmembers_attrib' ),
 		);
+		
+		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
+		
 		update_option( 'wpmembers_settings', $wpmem_newsettings );
 
-		// Remove old settings.
+		// Final 3.0 will remove the following settings when updating. 
+		/*
 		delete_option( 'wpmembers_msurl'  );
 		delete_option( 'wpmembers_regurl' );
 		delete_option( 'wpmembers_logurl' );
@@ -195,6 +214,7 @@ function wpmem_update_settings() {
 		delete_option( 'wpmembers_style'  );
 		delete_option( 'wpmembers_autoex' );
 		delete_option( 'wpmembers_attrib' );
+		*/
 	}
 }
 
