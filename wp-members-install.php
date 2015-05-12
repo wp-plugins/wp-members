@@ -75,7 +75,10 @@ function wpmem_do_install() {
 			),
 			'cssurl'    => '',
 			'style'     => '',
-			'autoex'    => '',
+			'autoex'    => array(
+				'auto_ex'     => '',
+				'auto_ex_len' => '',
+			),
 			'attrib'    => 0,
 		);
 
