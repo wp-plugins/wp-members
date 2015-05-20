@@ -74,13 +74,31 @@ function wpmem_do_install() {
 			),
 			'cssurl'    => '',
 			'style'     => '',
-			'autoex'    => '',
+			'autoex'    => array(
+				'auto_ex'     => '',
+				'auto_ex_len' => '',
+			),
 			'attrib'    => 0,
 		);
-
-		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' ); // Using update_option to allow for forced update.
-
-		// order, label, optionname, type, display, required, native, checked value, checked by default
+		
+		// Using update_option to allow for forced update.
+		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' );
+		
+		/*
+		 * Field array elements:
+		 * 
+		 * 	array(
+		 * 		order, 
+		 * 		label, 
+		 *		optionname, 
+		 * 		type, 
+		 * 		display, 
+		 * 		required, 
+		 * 		native, 
+		 * 		checked value, 
+		 * 		checked by default,
+		 * 	);
+		 */
 		$wpmem_fields_options_arr = array(
 			array( 1,  'First Name',         'first_name',       'text',     'y', 'y', 'y' ),
 			array( 2,  'Last Name',          'last_name',        'text',     'y', 'y', 'y' ),
