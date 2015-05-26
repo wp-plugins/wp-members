@@ -141,6 +141,7 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 * wpmem_settings_loaded action added.
 * securify comments changed to use comments_open instead of comments_template (with a blank template).
 * registration clear form button defaults to false
+* removed wp_set_auth_cookie from login function; it is already done as part of wp_signon
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
