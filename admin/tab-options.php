@@ -91,9 +91,9 @@ function wpmem_a_build_options() {
 							// Show Excerpts, Login Form, and Registration Form option groups.
 
 							$option_group_array = array( 
-								'excerpt' => 'Show Excerpts', 
-								'login'   => 'Show Login Form', 
-								'reg'     => 'Show Registration Form',
+								'show_excerpt' => 'Show Excerpts', 
+								'show_login'   => 'Show Login Form', 
+								'show_reg'     => 'Show Registration Form',
 							);
 
 							foreach ( $option_group_array as $item_key => $item_val ) {
@@ -102,7 +102,7 @@ function wpmem_a_build_options() {
 								foreach ( $post_arr as $key => $val ) { ?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 										<label><?php echo ( $i == 0 ) ? $item_val : '&nbsp;'; ?></label>
-										<input name="wpmem_show_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1" <?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 1 ) ? "checked" : ''; ?> /> <span><?php echo $val; ?></span>
+										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $wpmem->{$item_key}[ $key ] ); ?> /> <span><?php echo $val; ?></span>
 									</li>
 									<?php $i++;
 								}
@@ -325,9 +325,11 @@ function wpmem_update_options() {
 	}
 
 	update_option( 'wpmembers_settings', $wpmem_newsettings );
-	
+
 	global $wpmem;
-	$wpmem = new WP_Members();
+	foreach ( $wpmem_newsettings as $key => $val ) {
+		$wpmem->$key = $val;
+	}
 
 	return __( 'WP-Members settings were updated', 'wp-members' );
 }
