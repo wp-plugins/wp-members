@@ -41,12 +41,12 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  */
 function wpmem_inc_login( $page="page", $redirect_to = null ) {
  	
-	global $wpmem_regchk;
+	global $wpmem, $wpmem_regchk, $post;
 
 	$str = '';
 
 	if ( $page == "page" ){
-	     if ( $wpmem_regchk!="success" ){
+	     if ( $wpmem_regchk != "success" ){
 
 			$arr = get_option( 'wpmembers_dialogs' );
 			
@@ -111,7 +111,7 @@ function wpmem_inc_login( $page="page", $redirect_to = null ) {
 
 	$arr  = wp_parse_args( $args, $defaults );
 
-	$str  = $str . wpmem_login_form( $page, $arr );
+	$str  = ( $wpmem->show_login[ $post->post_type ] == 1 ) ? $str . wpmem_login_form( $page, $arr ) : $str;
 	
 	return $str;
 }
