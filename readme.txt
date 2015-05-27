@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.1
+Tested up to: 4.2.2
 Stable tag: 2.9.9.1
 License: GPLv2
 
@@ -130,6 +130,7 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
 
+8. Responsive Forms - The plugin has a number of available stylesheets that have mobile ready responsive form elements.
 
 == Changelog ==
 
