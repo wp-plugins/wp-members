@@ -55,7 +55,8 @@ function wpmem_a_build_captcha_options() {
 						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 						<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
 							<table class="form-table">
-							<?php // I reCAPTCHA is enabled.
+							<?php // if reCAPTCHA is enabled...
+							if ( $wpmem->captcha == 1 ) {
 								$show_update_button = true; ?>
 								<tr>
 									<td colspan="2">
