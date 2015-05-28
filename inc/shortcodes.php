@@ -94,7 +94,7 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 			$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
 			break;
 
-		case in_array( 'user-edit', $atts ):
+		case in_array( 'user_edit', $atts ):
 			$content = wpmem_page_user_edit( $wpmem->regchk, $content );
 			break;
 
@@ -486,5 +486,30 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 	return $content;
 } // End wpmem_do_sc_pages.
 endif;
+
+
+/**
+ * User count shortcode.
+ *
+ * @since 3.0
+ *
+ * @todo Evaluate this shortcode for full inclusion.
+ */
+add_shortcode( 'wpmem_show_count', 'wpmem_sc_user_count' );
+function wpmem_sc_user_count( $atts, $content = null ) {
+	global $wpdb;
+	$do_query = ( $atts['key'] && $atts['value'] ) ? true : false;
+	if ( $do_query ) {
+		$user_meta_query = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(*)
+			 FROM $wpdb->usermeta
+			 WHERE meta_key = %s
+			 AND meta_value = %s",
+			$atts['key'],
+			$atts['value']
+		) );
+	}
+	return ( $do_query ) ? $atts['label'] . $user_meta_query : '';
+}
 
  /** End of File **/

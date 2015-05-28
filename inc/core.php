@@ -143,9 +143,6 @@ function wpmem_login() {
 		// If no error, user is a valid signon. continue.
 		if ( ! is_wp_error( $user ) ) {
 
-			// Set the auth cookie.
-			wp_set_auth_cookie( $user->ID, $rememberme );
-
 			// Determine where to put the user after login.
 			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['REQUEST_URI'];
 

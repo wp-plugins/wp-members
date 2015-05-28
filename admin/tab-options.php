@@ -34,7 +34,20 @@ function wpmem_a_build_options() {
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
 	$chg_email   = __( sprintf( '%sChange%s or %sFilter%s this address', '<a href="' . site_url( 'wp-admin/options-general.php', 'admin' ) . '">', '</a>', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_notify_addr/">', '</a>' ), 'wp-members' );
 	$help_link   = __( sprintf( 'See the %sUsers Guide on plugin options%s.', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">', '</a>' ), 'wp-members' );	
-	?>
+
+	// Build an array of post types
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	$post_arr = array(
+		'post' => 'Posts',
+		'page' => 'Pages',
+	);
+	if ( $post_types ) {
+		foreach ( $post_types  as $post_type ) { 
+			$cpt_obj = get_post_type_object( $post_type );
+			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+		}
+	} ?>
+	
 	<div class="metabox-holder has-right-sidebar">
 
 		<div class="inner-sidebar">
@@ -57,48 +70,43 @@ function wpmem_a_build_options() {
 						<?php wp_nonce_field( 'wpmem-update-settings' ); ?>
 							<h3>Content</h3>
 							<ul>
-								<li>
-									<label>Content Blocking</label>
-									<select name="wpmem_block_post">
-										<option value="0"<?php echo ( $wpmem->block['post'] == 0 ) ? ' selected' : '';?>><?php _e( 'Do not block', 'wp-members' ); ?></option>
-										<option value="1"<?php echo ( $wpmem->block['post'] == 1 ) ? ' selected' : '';?>><?php _e( 'Block', 'wp-members' ); ?></option>
-										<option value="2"<?php echo ( $wpmem->block['post'] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>
+							<?php
+
+							// Content Blocking option group.
+							$i = 0;
+							$len = count( $post_arr );
+							foreach ( $post_arr as $key => $val ) { ?>
+								<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
+									<label><?php echo ( $i == 0 ) ? 'Content Blocking' : '&nbsp;'; ?></label>
+									<select name="wpmem_block_<?php echo $key; ?>">
+										<option value="0"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 0 ) ? ' selected' : '';?>><?php _e( 'Do not block', 'wp-members' ); ?></option>
+										<option value="1"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 1 ) ? ' selected' : '';?>><?php _e( 'Block', 'wp-members' ); ?></option>
+										<option value="2"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>
 									</select>
-									<span>Posts</span>
+									<span><?php echo $val; ?></span>
 								</li>
-								<li style="border-bottom:1px solid #eee;">
-									<label>&nbsp;</label>
-									<select name="wpmem_block_page">
-										<option value="0"<?php echo ( $wpmem->block['page'] == 0 ) ? ' selected' : '';?>><?php _e( 'Do not block', 'wp-members' ); ?></option>
-										<option value="1"<?php echo ( $wpmem->block['page'] == 1 ) ? ' selected' : '';?>><?php _e( 'Block', 'wp-members' ); ?></option>
-										<option value="2"<?php echo ( $wpmem->block['page'] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>
-									</select>
-									<span>Pages</span>
-								</li>
-								<li>
-									<label>Show Excerpts</label>
-									<input name="wpmem_show_excerpt_post" type="checkbox" id="" value="1" <?php if ( $wpmem->show_excerpt['post'] == 1 ) { echo "checked"; }?> /> <span>Posts</span>
-								</li>
-								<li style="border-bottom:1px solid #eee;">
-									<label>&nbsp;</label>
-									<input name="wpmem_show_excerpt_page" type="checkbox" id="" value="1" <?php if ( $wpmem->show_excerpt['page'] == 1 ) { echo "checked"; }?> /> <span>Pages</span>
-								</li>
-								<li>
-									<label>Show Login Form</label>
-									<input name="wpmem_show_login_post" type="checkbox" id="" value="1" <?php if ( $wpmem->show_login['post'] == 1 ) { echo "checked"; }?> /> <span>Posts</span>
-								</li>
-								<li style="border-bottom:1px solid #eee;">
-									<label>&nbsp;</label>
-									<input name="wpmem_show_login_page" type="checkbox" id="" value="1" <?php if ( $wpmem->show_login['page'] == 1 ) { echo "checked"; }?> /> <span>Pages</span>
-								</li>
-								<li>
-									<label>Show Registration Form</label>
-									<input name="wpmem_show_reg_post" type="checkbox" id="" value="1" <?php if ( $wpmem->show_reg['post'] == 1 ) { echo "checked"; }?> /> <span>Posts</span>
-								</li>
-								<li>
-									<label>&nbsp;</label>
-									<input name="wpmem_show_reg_page" type="checkbox" id="" value="1" <?php if ( $wpmem->show_reg['page'] == 1 ) { echo "checked"; }?> /> <span>Pages</span>
-								</li>
+								<?php $i++;
+							}
+
+							// Show Excerpts, Login Form, and Registration Form option groups.
+
+							$option_group_array = array( 
+								'show_excerpt' => 'Show Excerpts', 
+								'show_login'   => 'Show Login Form', 
+								'show_reg'     => 'Show Registration Form',
+							);
+
+							foreach ( $option_group_array as $item_key => $item_val ) {
+								$i = 0;
+								$len = count( $post_arr );
+								foreach ( $post_arr as $key => $val ) { ?>
+									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
+										<label><?php echo ( $i == 0 ) ? $item_val : '&nbsp;'; ?></label>
+										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $wpmem->{$item_key}[ $key ] ); ?> /> <span><?php echo $val; ?></span>
+									</li>
+									<?php $i++;
+								}
+							} ?>
 							</ul>
 							<?php
 							if ( $wpmem->use_exp == true ) {
@@ -264,23 +272,7 @@ function wpmem_update_options() {
 	);
 
 	$wpmem_newsettings = array(
-		'version' => WPMEM_VERSION, 
-		'block'   => array(
-			'post' => ( isset( $_POST['wpmem_block_post'] ) ) ? $_POST['wpmem_block_post'] : 0,
-			'page' => ( isset( $_POST['wpmem_block_page'] ) ) ? $_POST['wpmem_block_page'] : 0,
-		),
-		'show_excerpt' => array(
-			'post' => ( isset( $_POST['wpmem_show_excerpt_post'] ) ) ? $_POST['wpmem_show_excerpt_post'] : 0,
-			'page' => ( isset( $_POST['wpmem_show_excerpt_page'] ) ) ? $_POST['wpmem_show_excerpt_page'] : 0,
-		),
-		'show_reg' => array(
-			'post' => ( isset( $_POST['wpmem_show_reg_post'] ) ) ? $_POST['wpmem_show_reg_post'] : 0,
-			'page' => ( isset( $_POST['wpmem_show_reg_page'] ) ) ? $_POST['wpmem_show_reg_page'] : 0,
-		),
-		'show_login' => array(
-			'post' => ( isset( $_POST['wpmem_show_login_post'] ) ) ? $_POST['wpmem_show_login_post'] : 0,
-			'page' => ( isset( $_POST['wpmem_show_login_page'] ) ) ? $_POST['wpmem_show_login_page'] : 0,
-		),
+		'version' => WPMEM_VERSION,
 		'notify'    => ( isset( $_POST['wpmem_settings_notify']          ) ) ? $_POST['wpmem_settings_notify']          : 0,
 		'mod_reg'   => ( isset( $_POST['wpmem_settings_moderate']        ) ) ? $_POST['wpmem_settings_moderate']        : 0,
 		'captcha'   => ( isset( $_POST['wpmem_settings_captcha']         ) ) ? $_POST['wpmem_settings_captcha']         : 0,
@@ -296,8 +288,28 @@ function wpmem_update_options() {
 		'style'     => $wpmem_settings_style,
 		'autoex'    => $wpmem_autoex,
 		'attrib'    => ( isset( $_POST['attribution'] ) ) ? $_POST['attribution'] : 0,
-
 	);
+
+	// Build an array of post types
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	$post_arr = array( 'post', 'page' );
+	if ( $post_types ) {
+		foreach ( $post_types as $post_type ) { 
+			$cpt_obj = get_post_type_object( $post_type );
+			$post_arr[] = $cpt_obj->name;
+		}
+	}
+	
+	// Get settings for blocking, excerpts, show login, and show registration for posts, pages, and custom post types.
+	$option_group_array = array( 'block', 'show_excerpt', 'show_login', 'show_reg' );
+	foreach ( $option_group_array as $option_group_item ) {
+		$arr = array();
+		foreach ( $post_arr as $post_type ) {
+			$post_var = 'wpmem_' . $option_group_item . '_' . $post_type;
+			$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
+		}
+		$wpmem_newsettings[ $option_group_item ] = $arr;
+	}
 
 	/*
 	 * If we are setting registration to be moderated, 
@@ -313,9 +325,11 @@ function wpmem_update_options() {
 	}
 
 	update_option( 'wpmembers_settings', $wpmem_newsettings );
-	
+
 	global $wpmem;
-	$wpmem = new WP_Members();
+	foreach ( $wpmem_newsettings as $key => $val ) {
+		$wpmem->$key = $val;
+	}
 
 	return __( 'WP-Members settings were updated', 'wp-members' );
 }

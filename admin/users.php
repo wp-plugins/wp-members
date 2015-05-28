@@ -44,10 +44,7 @@ add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3
 add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
 add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
 add_action( 'wpmem_user_deactivated', 'wpmem_set_deactivated_user' );
-global $wpmem; // @todo Is there a better way to do this?
-if ( $wpmem->mod_reg == 1 ) {
-	add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
-}
+add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
 
 
 /**
@@ -83,7 +80,8 @@ function wpmem_bulk_user_action() {
  * @return array $actions
  */
 function wpmem_insert_activate_link( $actions, $user_object ) {
-	if ( current_user_can( 'edit_users', $user_object->ID ) ) {
+	global $wpmem;
+	if ( current_user_can( 'edit_users', $user_object->ID ) && $wpmem->mod_reg == 1 ) {
 
 		$var = get_user_meta( $user_object->ID, 'active', true );
 
@@ -289,22 +287,20 @@ function wpmem_users_views( $views ) {
 function wpmem_add_user_column( $columns ) {
 
 	global $wpmem_user_columns, $wpmem;
+
+	// Get any columns to be added to the Users > All Users screen.
 	$wpmem_user_columns = get_option( 'wpmembers_utfields' );
-	
+
 	if ( $wpmem_user_columns ) {
-		foreach ( $wpmem_user_columns as $key => $val ) {
-
-			if ( $key == 'active' ) {
-			
-				if ( $wpmem->mod_reg == 1 ) {
-					$columns[$key] = $val;
-				}
-
-			} else {
-				$columns[$key] = $val;
-			}
+		if ( $wpmem->mod_reg != 1 ) {
+			unset( $wpmem_user_columns['active'] );
 		}
+
+		$columns = array_merge( $columns, $wpmem_user_columns );
 	}
+
+	require_once( WPMEM_PATH . 'inc/class-wp-members-sortable-user-columns.php' );
+	new WP_Members_Sortable_User_Columns( $wpmem_user_columns );
 
 	return $columns;
 } 

@@ -64,7 +64,9 @@ function wpmem_a_do_field_reorder(){
  */
 function wpmem_admin_plugin_links( $links, $file ) {
 	static $wpmem_plugin;
-	if ( !$wpmem_plugin ) $wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
+	if ( ! $wpmem_plugin ) {
+		$wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
+	}
 	if ( $file == $wpmem_plugin ) {
 		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings' ) . '</a>';
 		$links = array_merge( array( $settings_link ), $links );
@@ -285,4 +287,4 @@ function wpmem_admin_add_new_user() {
 	return;
 }
 
-/** End of File **/
+// End of File.
