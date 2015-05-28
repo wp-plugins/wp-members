@@ -140,8 +140,10 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 * added new|edit toggle to wpmem-register_data filter hook.
 * wpmem_settings_loaded action added.
 * securify comments changed to use comments_open instead of comments_template (with a blank template).
-* registration clear form button defaults to false
-* removed wp_set_auth_cookie from login function; it is already done as part of wp_signon
+* registration clear form button defaults to false.
+* removed wp_set_auth_cookie from login function; it is already done as part of wp_signon.
+* added support for custom post types, both setting defaults and individual post blocking.
+* post meta box title filter is now for all post types wpmem_admin_{post type}_meta_title.
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
