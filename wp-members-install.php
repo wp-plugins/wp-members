@@ -82,6 +82,7 @@ function wpmem_do_install() {
 			'attrib'    => 0,
 		);
 
+		// Using update_option to allow for forced update.
 		update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' );
 
 		/*
