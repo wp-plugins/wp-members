@@ -146,26 +146,32 @@ function wpmem_posts_admin_notices() {
  */
 function wpmem_block_meta_add() {
 
-	/**
-	 * Filter the post meta box title.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param Post restriction title.
-	 */
-	$post_title = apply_filters( 'wpmem_admin_post_meta_title', __( 'Post Restriction', 'wp-members' ) );
-	
-	/**
-	 * Filter the page meta box title.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param Page restriction title.
-	 */
-	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction', 'wp-members' ) );
+	// Build an array of post types
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	$post_arr = array(
+		'post' => 'Posts',
+		'page' => 'Pages',
+	);
+	if ( $post_types ) {
+		foreach ( $post_types  as $post_type ) { 
+			$cpt_obj = get_post_type_object( $post_type );
+			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+		}
+	}
 
-	add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
-	add_meta_box( 'wpmem-block-meta-id', $page_title, 'wpmem_block_meta', 'page', 'side', 'high' );
+	foreach ( $post_arr as $key => $val ) {
+
+		/**
+		 * Filter the post meta box title.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param Post restriction title.
+		 */
+		$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', __( $val . ' Restriction', 'wp-members' ) );
+
+		add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+	}
 }
 
 
