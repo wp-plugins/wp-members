@@ -23,6 +23,7 @@
  * - wpmem_block_meta_save
  * - wpmem_post_columns
  * - wpmem_post_columns_content
+ * - wpmem_load_tinymce
  */
 
 
@@ -32,6 +33,7 @@
 add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action'   );
 add_action( 'load-edit.php',         'wpmem_posts_page_load'     );
 add_action( 'admin_notices',         'wpmem_posts_admin_notices' );
+add_action( 'load-post.php',         'wpmem_load_tinymce'        );
 
 
 /**
@@ -331,4 +333,16 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
 	}
 }
 
-/** End of File **/
+
+/**
+ * Adds shortcode dropdown to post editor tinymce.
+ *
+ * @since 3.0
+ */
+function wpmem_load_tinymce() {
+	global $wpmem_shortcode;
+	include( WPMEM_PATH . 'inc/class-wp-members-tinymce-buttons.php' );
+	$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
+}
+
+// End of File.
