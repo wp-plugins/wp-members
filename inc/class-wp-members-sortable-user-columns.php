@@ -25,7 +25,7 @@ class WP_Members_Sortable_User_Columns {
 		);
 
 	function __construct( $args ) {
-		$this->args = $args;
+		$this->args = ( is_array( $args ) ) ? $args : array();
 		add_action( 'pre_user_query', array( &$this, 'query' ) );
 		add_action( 'manage_users_custom_column', array( &$this, 'content' ), 10, 3 );
 		add_filter( 'manage_users_columns', array( &$this, 'columns' ) );
