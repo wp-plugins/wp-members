@@ -81,7 +81,7 @@ function wpmem_a_build_options() {
 									<select name="wpmem_block_<?php echo $key; ?>">
 										<option value="0"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 0 ) ? ' selected' : '';?>><?php _e( 'Do not block', 'wp-members' ); ?></option>
 										<option value="1"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 1 ) ? ' selected' : '';?>><?php _e( 'Block', 'wp-members' ); ?></option>
-										<option value="2"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>
+										<!--<option value="2"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>-->
 									</select>
 									<span><?php echo $val; ?></span>
 								</li>
@@ -99,10 +99,12 @@ function wpmem_a_build_options() {
 							foreach ( $option_group_array as $item_key => $item_val ) {
 								$i = 0;
 								$len = count( $post_arr );
-								foreach ( $post_arr as $key => $val ) { ?>
+								foreach ( $post_arr as $key => $val ) { 
+									$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0;
+									?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 										<label><?php echo ( $i == 0 ) ? $item_val : '&nbsp;'; ?></label>
-										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $wpmem->{$item_key}[ $key ] ); ?> /> <span><?php echo $val; ?></span>
+										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>
 									</li>
 									<?php $i++;
 								}
