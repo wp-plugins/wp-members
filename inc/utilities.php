@@ -133,7 +133,7 @@ function wpmem_chk_qstr( $url = null ) {
 		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : '';
 		$return_url = $url . "&amp;";
 	} else {
-		$url = ( ! $url ) ? get_permalink() : '';
+		$url = ( ! $url ) ? get_permalink() : $url;
 		$return_url = $url . "?";
 	}
 	return $return_url;
