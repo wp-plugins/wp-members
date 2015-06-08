@@ -328,7 +328,7 @@ class WP_Members {
 
 					// Toggle shows excerpt above login/reg on posts/pages.
 					global $wp_query;
-					if ( $wp_query->query_vars['page'] > 1 ) {
+					if ( isset( $wp_query->query_vars['page'] ) && $wp_query->query_vars['page'] > 1 ) {
 
 							// Shuts down excerpts on multipage posts if not on first page.
 							$content = '';
