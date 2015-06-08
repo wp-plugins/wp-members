@@ -181,21 +181,25 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  *
  * @since 2.0
  *
- * @uses wp_clearcookie
- * @uses wp_logout
- * @uses nocache_headers
- * @uses wp_redirect
+ * @uses  wp_clearcookie
+ * @uses  wp_logout
+ * @uses  nocache_headers
+ * @uses  wp_redirect
+ * @param string $redirect_to The URL to redirect to at logout.
  */
-function wpmem_logout() {
+function wpmem_logout( $redirect_to = null ) {
+
+	// Default redirect URL.
+	$redirect_to = ( $redirect_to ) ? $redirect_to : get_bloginfo( 'url' );
 
 	/**
-	 * Filter the where the user goes when logged out.
+	 * Filter where the user goes when logged out.
 	 *
 	 * @since 2.7.1
 	 *
 	 * @param string The blog home page.
 	 */
-	$redirect_to = apply_filters( 'wpmem_logout_redirect', get_bloginfo( 'url' ) );
+	$redirect_to = apply_filters( 'wpmem_logout_redirect', $redirect_to );
 
 	wp_clear_auth_cookie();
 
