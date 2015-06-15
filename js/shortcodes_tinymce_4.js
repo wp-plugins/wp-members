@@ -8,12 +8,14 @@
 
 		editor.addButton('wpmem_shortcodes_button', function() {
 			return {
-				title: "",
-				text: "[WP-Members Shortcodes]",
-				image: url + "/images/shortcodes.png",
+				title: "WP-Members Shortcodes",
+				text: "[ ]",
 				type: 'menubutton',
 				icons: false,
 				menu: [
+					{
+						text: 'WP-Members Shortcodes',
+					},
 					{
 						text: 'Login Forms',
 						menu: [

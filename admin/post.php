@@ -340,9 +340,12 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
  * @since 3.0
  */
 function wpmem_load_tinymce() {
-	global $wpmem_shortcode;
-	include( WPMEM_PATH . 'inc/class-wp-members-tinymce-buttons.php' );
-	$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
+	// @todo For now, only load if WP version is high enough.
+	if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
+		global $wpmem_shortcode;
+		include( WPMEM_PATH . 'inc/class-wp-members-tinymce-buttons.php' );
+		$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
+	}
 }
 
 // End of File.
