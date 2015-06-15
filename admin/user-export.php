@@ -96,10 +96,11 @@ function wpmem_export_users( $args, $users = null ) {
 		$user_info = get_userdata( $user );
 
 		$data .= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
-		
+
 		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
 		foreach ( $wpmem_fields as $meta ) {
 			if ( ! in_array( $meta[2], $exclude_fields ) ) {
+				// @todo Research using fputcsv to escape fields for export.
 				if ( in_array( $meta[2], $wp_user_fields ) ){
 					$data .= '"' . $user_info->$meta[2] . '",';	
 				} else {
