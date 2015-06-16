@@ -137,6 +137,9 @@ function wpmem_init() {
 
 	// Load fields.
 	$wpmem->load_fields();
+	
+	// Load contants.
+	$wpmem->load_contants();
 
 	/**
 	 * Fires after initialization of plugin options.
