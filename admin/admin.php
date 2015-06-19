@@ -68,7 +68,7 @@ function wpmem_admin_plugin_links( $links, $file ) {
 		$wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
 	}
 	if ( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings' ) . '</a>';
+		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings', 'wp-members' ) . '</a>';
 		$links = array_merge( array( $settings_link ), $links );
 	}
 	return $links;
