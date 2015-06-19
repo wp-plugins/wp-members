@@ -91,9 +91,9 @@ function wpmem_a_build_options() {
 							// Show Excerpts, Login Form, and Registration Form option groups.
 
 							$option_group_array = array( 
-								'show_excerpt' => 'Show Excerpts', 
-								'show_login'   => 'Show Login Form', 
-								'show_reg'     => 'Show Registration Form',
+								'show_excerpt' => __( 'Show Excerpts', 'wp-members' ), 
+								'show_login'   => __( 'Show Login Form', 'wp-members' ), 
+								'show_reg'     => __( 'Show Registration Form', 'wp-members' ),
 							);
 
 							foreach ( $option_group_array as $item_key => $item_val ) {
@@ -111,7 +111,7 @@ function wpmem_a_build_options() {
 							} ?>
 							</ul>
 							<?php
-							if ( $wpmem->use_exp == true ) {
+							if ( WPMEM_EXP_MODULE == true ) {
 								$arr = array( 
 									array(__('Time-based expiration','wp-members'),'wpmem_settings_time_exp',__('Allows for access to expire','wp-members'),'use_exp'),
 									array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period','wp-members'),'use_trial'),

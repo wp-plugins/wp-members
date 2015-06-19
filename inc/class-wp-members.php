@@ -219,6 +219,10 @@ class WP_Members {
 		 */
 		$regchk = apply_filters( 'wpmem_regchk', $regchk, $action );
 		
+		// @todo Remove legacy global variable.
+		global $wpmem_regchk;
+		$wpmem_regchk = $regchk;
+		
 		return $regchk;
 	}
 	
