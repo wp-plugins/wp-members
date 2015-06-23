@@ -434,7 +434,7 @@ function wpmem_login_form( $page, $arr ) {
 	$form = '<form action="' . get_permalink() . '" method="POST" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form . '</form>';
 	
 	// apply anchor
-	$form = '<a name="login"></a>' . $n . $form;
+	$form = '<a name="' . $action . '"></a>' . $n . $form;
 	
 	// apply main wrapper
 	$form = $main_div_before . $n . $form . $n . $main_div_after;
