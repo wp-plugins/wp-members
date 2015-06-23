@@ -520,7 +520,19 @@ function wpmem_wplogin_stylesheet() {
  * @return bool $open Whether the current post is open for comments.
  */
 function wpmem_securify_comments( $open ) {
-	return ( ! is_user_logged_in() && wpmem_block() ) ? false : $open;
+
+	$open = ( ! is_user_logged_in() && wpmem_block() ) ? false : $open;
+	
+	/**
+	 * Filters whether comments are open or not.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool $open Whether the current post is open for comments.
+	 */
+	$open = apply_filters( 'wpmem_securify_comments', $open );
+
+	return $open;
 }
 
 /** End of File **/
