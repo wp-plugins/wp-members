@@ -130,7 +130,7 @@ function wpmem_chk_qstr( $url = null ) {
 
 	$permalink = get_option( 'permalink_structure' );
 	if ( ! $permalink ) {
-		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : '';
+		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url;
 		$return_url = $url . "&amp;";
 	} else {
 		$url = ( ! $url ) ? get_permalink() : $url;
