@@ -74,7 +74,7 @@ function wpmem_do_install() {
 				'login'    => '',
 			),
 			'cssurl'    => '',
-			'style'     => '',
+			'style'     => plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css',
 			'autoex'    => array(
 				'auto_ex'     => '',
 				'auto_ex_len' => '',
