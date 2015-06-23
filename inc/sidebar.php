@@ -15,23 +15,23 @@
  * @copyright 2006-2015
  *
  * Functions Included:
- * * wpmem_inc_status
- * * wpmem_do_sidebar
- * * widget_wpmemwidget
+ * - wpmem_inc_status
+ * - wpmem_do_sidebar
+ * - widget_wpmemwidget
  */
 
 
-if( ! function_exists( 'wpmem_inc_status' ) ):
+if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**
- * Generate users login status if logged in and gives logout link
+ * Generate users login status if logged in and gives logout link.
  *
  * @since 1.8
  *
  * @global $user_login
  * @return string $status
  */
-function wpmem_inc_status()
-{
+function wpmem_inc_status() {
+
 	global $user_login;
 	
 	/**
@@ -51,7 +51,7 @@ function wpmem_inc_status()
 endif;
 
 
-if( ! function_exists( 'wpmem_do_sidebar' ) ):
+if ( ! function_exists( 'wpmem_do_sidebar' ) ):
 /**
  * Creates the sidebar login form and status.
  *
@@ -65,11 +65,12 @@ if( ! function_exists( 'wpmem_do_sidebar' ) ):
  * @global string $wpmem_regchk
  * @global string $user_login
  */
-function wpmem_do_sidebar( $post_to = null )
-{
-	global $wpmem_regchk;
-	
-	$url = get_bloginfo('url'); // used here and in the logout
+function wpmem_do_sidebar( $post_to = null ) {
+
+	global $wpmem, $wpmem_regchk;
+
+	 // Used here and in the logout.
+	$url = get_bloginfo('url');
 
 	if ( ! $post_to ) {
 		if ( isset( $_REQUEST['redirect_to'] ) ) {
@@ -88,17 +89,17 @@ function wpmem_do_sidebar( $post_to = null )
 			$post_to = $_SERVER['REQUEST_URI'];
 		}
 	}
-	
-	// clean whatever the url is
+
+	// Clean whatever the url is.
 	$post_to = esc_url( $post_to );
 
-	if( ! is_user_logged_in() ){
-	
-		// if the user is not logged in, we need the form
-		
-		// defaults
+	if ( ! is_user_logged_in() ){
+
+		// If the user is not logged in, we need the form.
+
+		// Defaults.
 		$defaults = array(
-			// wrappers
+			// Wrappers.
 			'error_before'    => '<p class="err">',
 			'error_after'     => '</p>',
 			'fieldset_before' => '<fieldset>',
@@ -107,18 +108,18 @@ function wpmem_do_sidebar( $post_to = null )
 			'inputs_after'    => '</div>',
 			'buttons_before'  => '<div class="button_div">',
 			'buttons_after'   => '</div>',
-			
-			// messages
+
+			// Messages.
 			'error_msg'  => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
 			'status_msg' => __( 'You are not logged in.', 'wp-members' ) . '<br />',
 			
-			// other
+			// Other.
 			'strip_breaks'    => true,
 			'wrap_inputs'     => true,
 			'n'               => "\n",
 			't'               => "\t",
 		);
-		
+
 		/**
 		 * Filter arguments for the sidebar defaults.
 		 *
@@ -127,24 +128,24 @@ function wpmem_do_sidebar( $post_to = null )
 		 * @param array An array of the defaults to be changed.
 		 */
 		$args = apply_filters( 'wpmem_sb_login_args', '' );
-	
-		// merge $args with defaults and extract
+
+		// Merge $args with defaults.
 		extract( wp_parse_args( $args, $defaults ) );
-		
+
 		$form = '';
-		
+
 		$label = '<label for="username">' . __( 'Username' ) . '</label>';
 		$input = '<input type="text" name="log" class="username" id="username" />';
-		
+
 		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
 		$row1  = $label . $n . $input . $n;
-		
+
 		$label = '<label for="password">' . __( 'Password' ) . '</label>';
 		$input = '<input type="password" name="pwd" class="password" id="password" />';
-		
+
 		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
 		$row2  = $label . $n . $input . $n;
-		
+
 		$form = $row1 . $row2;
 
 		$hidden = '<input type="hidden" name="rememberme" value="forever" />' . $n .
@@ -158,47 +159,47 @@ function wpmem_do_sidebar( $post_to = null )
 		 *
 		 * @param string $hidden The HTML for the hidden fields.
 		 */
-		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );	
+		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );
 
 
 		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
-				
-			if( WPMEM_MSURL != null ) { 
-				/**
-				 * Filter the sidebar forgot password link.
-				 *
-				 * @since 2.8.0
-				 *
-				 * @param string The forgot password link.
-				 */
-				$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( WPMEM_MSURL ) . 'a=pwdreset' );	
-				$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
-			} 			
-	
-			if( WPMEM_REGURL != null ) {
-				/**
-				 * Filter the sidebar register link.
-				 *
-				 * @since 2.8.0
-				 *
-				 * @param string The register link.
-				 */
-				$link = apply_filters( 'wpmem_reg_link', WPMEM_REGURL );
-				$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
-			}
-		
+
+		if ( $wpmem->user_pages['profile'] != null ) { 
+			/**
+			 * Filter the sidebar forgot password link.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param string The forgot password link.
+			 */
+			$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );
+			$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+		} 			
+
+		if ( $wpmem->user_pages['register'] != null ) {
+			/**
+			 * Filter the sidebar register link.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param string The register link.
+			 */
+			$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
+			$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
+		}
+
 		$form = $form . $n . $buttons_before . $buttons . $n . $buttons_after;
-		
+
 		$form = $fieldset_before . $n . $form . $n . $fieldset_after;
-		
+
 		$form = '<form name="form" method="post" action="' . $post_to . '">' . $n . $form . $n . '</form>';
-		
-		// add status message
+
+		// Add status message.
 		$form = $status_msg . $n . $form;
-		
-		// strip breaks
+
+		// Strip breaks.
 		$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
-		
+
 		/**
 		 * Filter the sidebar form.
 		 *
@@ -207,9 +208,9 @@ function wpmem_do_sidebar( $post_to = null )
 		 * @param string $form The HTML for the sidebar login form.
 		 */
 		$form = apply_filters( 'wpmem_sidebar_form', $form );
-		
+
 		$do_error_msg = '';
-		if( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
+		if ( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 			$do_error_msg = true;
 			$error_msg = $error_before . $error_msg . $error_after;
 			/**
@@ -222,13 +223,13 @@ function wpmem_do_sidebar( $post_to = null )
 			$error_msg = apply_filters( 'wpmem_login_failed_sb', $error_msg );
 		}
 		$form = ( $do_error_msg ) ? $error_msg . $form : $form;
-		
+
 		echo $form;
 
-	} else { 
-	
+	} else {
+
 		global $user_login; 
-		
+
 		/**
 		 * Filter the sidebar logout link.
 		 *
@@ -237,10 +238,10 @@ function wpmem_do_sidebar( $post_to = null )
 		 * @param string The logout link.
 		 */
 		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
-		
+
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
 		  <a href="' . $logout . '">' . __( 'click here to log out', 'wp-members' ) . '</a></p>';
-		
+
 		/**
 		 * Filter the sidebar user login status.
 		 *
@@ -249,118 +250,10 @@ function wpmem_do_sidebar( $post_to = null )
 		 * @param string $str The login status for the user.
 		 */
 		$str = apply_filters( 'wpmem_sidebar_status', $str );
-		
+
 		echo $str;
 	}
 }
 endif;
-
-
-/**
- * Class for the sidebar login widget
- *
- * @since 2.7
- */
-class widget_wpmemwidget extends WP_Widget 
-{
-
-    /**
-	 * Sets up the WP-Members login widget.
-	 */
-    function widget_wpmemwidget() 
-	{
-        $widget_ops = array( 
-			'classname'   => 'wp-members', 
-			'description' => __( 'Displays the WP-Members sidebar login.', 'wp-members' ) 
-			); 
-        $this->WP_Widget( 'widget_wpmemwidget', 'WP-Members Login', $widget_ops );
-    }
- 
-    /**
-	 * Displays the WP-Members login widget settings 
-	 * controls on the widget panel.
-	 *
-	 * @param array $instance
-	 */
-    function form( $instance ) 
-	{
-	
-		/* Default widget settings. */
-		$defaults = array( 
-			'title'       => __('Login Status', 'wp-members'),
-			'redirect_to' => '',
-		);
-		$instance = wp_parse_args( ( array ) $instance, $defaults );
-		
-		/* Title input */ ?>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'wp-members'); ?></label>
-			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect to (optional):', 'wp-members'); ?></label>
-			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
-		</p>
-		<?php
-    }
- 
-	/**
-	 * Update the WP-Members login widget settings.
-	 *
-	 * @param  array $new_instance
-	 * @param  array $old_instance
-	 * @return array $instance
-	 */
-    function update( $new_instance, $old_instance ) 
-	{
-		$instance = $old_instance;
-		
-		/* Strip tags for title to remove HTML. */
-		$instance['title']       = strip_tags( $new_instance['title'] );
-		$instance['redirect_to'] = strip_tags( $new_instance['redirect_to'] );
-		
-        return $instance;
-    }
- 
-    /**
-	 * Displays the WP-Members login widget.
-	 *
-	 * @param array $args
-	 * @param array $instance
-	 */
-    function widget( $args, $instance ) 
-	{
-		extract( $args );
-
-		// Get the Widget Title
-		$title       = ( array_key_exists( 'title', $instance ) )       ? $instance['title']       : __( 'Login Status', 'wp-members' );
-		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
-		
-		echo $before_widget;
-		/**
-		 * Filter the widget ID.
-		 *
-		 * @since ?.?
-		 *
-		 * @param string The ID for the sidebar widget.
-		 */
-		echo '<div id="' . apply_filters( 'wpmem_widget_id', 'wp-members' ) . '">';
-
-			/**
-			 * Filter the widget title.
-			 *
-			 * @since ?.?
-			 *
-			 * @param string $title The widget title.
-			 */
-			echo $before_title . apply_filters( 'wpmem_widget_title', $title ) . $after_title;
-
-			// The Widget
-			if ( function_exists( 'wpmem' ) ) { wpmem_do_sidebar( $redirect_to ); }
-
-		echo '</div>';
-		echo $after_widget;
-    }
-}
 
 /** End of File **/

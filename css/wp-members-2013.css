@@ -174,6 +174,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .captcha table{
 	line-height: 0px;
 }
+#wpmem_login .link-text {
+	float:right;
+	width:100%;
+}
+
 
 
 /** for smaller screens */

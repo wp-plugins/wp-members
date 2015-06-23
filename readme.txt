@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.2.2
-Stable tag: 2.9.9.1
+Stable tag: 3.0.0
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,8 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.9.1 patches an issue with the admin notification email update in 2.9.9.
-WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
+WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
 
@@ -130,12 +129,29 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 
 7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
 
-8. Responsive Forms - The plugin has a number of available stylesheets that have mobile ready responsive form elements.
 
 == Changelog ==
 
-= 2.9.9.1 = 
-* Patches an issue with the admin notification email update in 2.9.9.
+= 3.0.0 =
+
+This release makes significant changes to the plugin's main options in the way they are stored. While care has been taken to make sure that you can roll back to a previous version, you may need to resave settings in the plugin's main options tab when attempting to roll back. It is advised that you test this update prior upgrading an existing install on a production site.
+
+If you have any custom functions hooked to filters and actions that call any file includes directly from the plugin, please note that several file names have changed.
+
+* New settings and new plugin class WP_Members.
+* New settings now natively support Custom Post Types, both setting defaults and individual post blocking.
+* Settings constants removed in favor of using the $wpmem object class.
+* Added new|edit toggle to wpmem-register_data filter hook.
+* wpmem_settings_loaded action added.
+* Securify comments changed to use comments_open instead of comments_template (with a blank template).
+* New wpmem_securify_comments filter hook to customize whether comments load or not.
+* Registration clear form button defaults to false.
+* Removed wp_set_auth_cookie from login function; it is already done as part of wp_signon.
+* Post meta box title filter is now for all post types wpmem_admin_{post type}_meta_title.
+* New filter for Really Simple Captcha folder location: wpmem_rs_captcha_folder.
+* New shortcodes [wpmem_form] added.
+* Shortcode dropdown selector added to tinymce toolbar in Post/Page editor.
+* Added redirect_to as a function argument if calling wpmem_logout() directly.
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
@@ -277,168 +293,3 @@ Miscellaneous Changes
 * New filter hooks for post editor meta box titles: wpmem_admin_post_meta_title, wpmem_admin_page_meta_title
 * Some updates to existing stylesheets
 * Added new stylesheets, including two with non-floated elements. Generic, non-floated stylesheet new default for fresh installs
-
-
-= 2.8.10 = 
-
-This is a security update the closes 2 reported XSS vulnerabilities.  This update also includes a fix for using SSL with reCAPTCHA.
-
-= 2.8.9 =
-
-This is an interim update with some changes that need to get done prior to the 2.9 release.  Note: This is the last version that will be compatible with WordPress 3.1.  Also, this will be the last version to contain the legacy table based forms.  These have been deprecated since version 2.8.0.
-
-* Added a Twenty Fourteen stylesheet based on the new WP default theme.
-* Twenty Fourteen installs as the default stylesheet with a new install
-* User export fix - the new user export functions from 2.8.7 were inadvertenly incompatible with PHP 5.2.4 (WP minimum requirements)
-* Admin options tab style/layout updates to work better with new WP (3.8) admin theme
-* Moved the plugin's texurize process into wpmem_securify rather than in the form functions. This is going to happen in 2.9, and doing it as an interim update will allow users to test 2.9 with pluggable functions.
-* Added the texturize process to the shortcode function for the same reason as above, plus this runs on the User List extension as well.
-* Made the shortcode function pluggable
-* Improved the auto excerpt function
-
-= 2.8.8 =
-
-* Updated no password reset for non-activated users to use get_user_by('email')
-* Fixed undefined variable $sendback in users.php
-* Fixed undefined user object in wpmem_check_activated function
-* Set a column width for the WP-Members column in the All Posts and All Pages admin panels, load admin.css
-* Added wpmem_admin_after_block_meta and wpmem_admin_block_meta_save actions
-
-= 2.8.7 =
-
-* Upgraded the user export process.  Eliminates the need for directly loading an export file as in past versions.  This also eliminates the need for wp-load.php.
-* All user management functions that were in the Users > WP-Members menu are now included under Users > All Users.  The Users > WP-Members menu is fully deprecated and removed.
-* Corrected some undefined variable notices.
-* New filter for the widget title wpmem_widget_title
-* Further enhancements to the native WP registration. Even though the plugin was intended to put the registration process into the front end of your WP site, there are always users that either (a) prefer to use the backend native registration or (b) don't read or follow installation and usage instructions. So in an earlier version, I went ahead and added the WP-Members custom fields to the backend registration if it is turned on. This version finishes that process with proper support for dropdown select fields, checkboxes, and text area fields.  It also cleans up the error checking and CSS styling for that process.
-
-= 2.8.6 =
-
-* Continued updating the stylesheets, this update includes some minor changes to 2010, 2011, 2012, and 2013 to clean up the .noinput class (used in the User Profile update) and the reCAPTCHA area.
-* Added responsive elements to the Twenty Twelve stylesheet (remains the plugin's default)
-* Changed from PHP_SELF to REQUEST_URI for elements where the plugin forms need to post back to themselves and no other URL exists
-* Changed from "siteurl" to "home" for getting the home page link - corrects problems for users who have WP installed in a different directory
-
-= 2.8.5 =
-
-* Improved the Twenty Eleven and Twenty Twelve stylesheets (Twenty Twelve remains the plugin default).
-* Added a responsive stylesheet based on Twenty Thirteen theme.
-* Added a new filter hook for password reset args wpmem_pwdreset_args. This will allow mods for single stage reset (username only or email only).
-* Corrected update_user_meta during registration use the filtered value of the user's IP and registration URL.
-
-= 2.8.4 =
-
-* Fixed a small bug on admin-side user profile that caused checkboxes to not update correctly
-* Added optional small "powered by" attribution link at the bottom of the registration form.
-
-= 2.8.3 =
-
-Feature Updates
-
-* Allows native fields display_name, nicename, and nickname to be removed from the field manager.
-* New filter wpmem_logout_link filters all logout links.
-* Added default registration via wp-login page (backend).  This of course can be disabled by unchecking "anyone can register" in the WP settings.
-* Completion of user admin panel implementation.  Added screens for non-active and non-exported users.
-* Added a custom column to page/post tables to indicate if a post/page is blocked/unblocked opposite the chosen default setting.
-
-Fixes
-
-* Fixed bug in admin/post.php that caused an error due a typo in the selected capability.
-* Applied the patch for the users table custom columns that didn't return non-WP-Members custom column values.
-* Fixed the use of the nonce constant to check if the constant is defined.
-* Applied patch to the utilities file that left some debugging code artifacts in the 2.8.2 release.
-
-Improvements
-
-* Updated dashboard widget to either superadmin or not display for multisite.
-* Added a div tag to the "Required Field" text in the registration form - NOTE: if you run any filters on the registration form, you may need to test them and update accordingly.
-* Updated the included stylesheets for the addition of req-text class for the "Required Field" text in the registration form.
-* Added Portugese translation files (Thanks Joana!)
-
-= 2.8.2 =
-
-Feature Updates
-
-* Added WP user fields user_nicename, display_name, and nickname to the $fields array, defaults to $username for backward compatibility.
-* Updated field manager process to allow user_nicename, display_name, and nickname to be added via the fields manager as WP native fields
-* Added wpmem_register_data filter for $fields to allow filtering of all fields prior to new user insertion, including above new fields (added updates to registration function to make better use of the filter).
-* Added wpmem_pre_validate_form for $fields to allow filtering fields prior to default form field validation.
-* Begin implementation of moving bulk user management features into Users > All Users.  Users > All Users screen can now activate and export users, and will show additional fields as selected in the fields manager. 
-* Added wpmem_admin_profile_heading, wpmem_admin_profile_field, and wpmem_admin_profile_update filters. These filters are all part of the user profile section.
-
-Fixes, Patches, & Code Improvements
-
-* Fixed the conversion of update-profile to members-area shortcode.  The bug renders all page shortcodes as members-area.
-* Fixed the activate user process for user defined passwords, a bug from 2.8.0/2.8.1.
-* Fixed a bug that can cause the sidebar login widget to not post to the correct url when a static front page is used.
-* Fixed user profile update (updates with custom checkbox don't stay checked), an issue from 2.8.0.
-* Patch correcting the front-side registration form nonce.  This patch should improve reliability while still using nonces for security.
-* Patch for the dropdown field for users running < PHP 5.3.
-* Made front-side nonce optional, defaults to off.
-* Moved utility functions out of core.php to utility file utilities.php.
-* Moved the location of the wpmem_email_notify hook so the filter comes after shortcodes are parsed.
-* Updated the registration function to rely on the values contain in $fields, allowing for the array values to be filtered.
-* Updated the registration form to accommodate registration function updates.
-* Improved auto excerpt function screens for unclosed common html tags and provides a closing tag if none exists.
-* Improved export process to wrap fields with double quotes - fixes issues if field contains a comma.
-
-= 2.8.1 =
-
-Security update release: 2.8.1 primarily closes some potential security holes.  This update is highly recommended.
-
-Security Updates:
-
-* Closed potential cross site scripting exploit
-* Added nonces to front-side registration
-* Updated nonces in admin form submission
-* Security evaluation and updates to other areas
-
-Feature Updates:
-
-* Added dropdown option for User Profile (members-area) and Register page location
-* Updated dropdown field to accommodate commas in the values (ex: 1,000)
-
-Other Updates:
-
-* Updated TOS shortcode to be case-insensitive for the shortcode parameter (TOS/tos)
-* Begin deprecating members-area parameter to be replaced with user-profile
-* Separated User Profile functions from wp-members-core.php file
-* Applied post 2.8.0 patches and corrected missing files
-
-= 2.8.0 =
-
-New Feature release: 2.8.0 offers the beginning of a major rebuild of the admin panels with a few front-side features slipped in along the way.
-
-Security Improvements:
-
-* Added a dummy index.php file in all plugin directories.  This is a security improvement and disallows direct access to a directory (in case your server allows directory browsing).
-
-Code Improvements:
-
-* Added new constants WPMEM_DIR and WPMEM_PATH.  This will allow you to grab the directory of the plugin directly in action and filter functions.
-* Broke up the admin file wp-members-admin.php into multiple files based on function.  These are all now moved into an /admin/ directory.
-* Added the password field to the fields array in the registration function so that this can be used in the registration hooks and filters.
-* Updated the logout process to use wp_clear_auth_cookie.  The previous wp_clearcookie was deprecated and was causing header errors in some instances.
-* Improved the TOS shortcode. This should eliminate some of the parsing errors some users experienced in previous releases.
-
-Admin Panel Updates:
-
-* New admin look updates the tabs to the WP format.  This also was built to allow extensible tabs so you can hook in and create your own tabs and panels.
-* Add field dialog was updated and improved.
-* Added an admin process to edit existing fields.
-* Added new option in the plugin options to load one of the predefined stylesheets from a dropdown.
-* Block/Unblock post meta box added to the post/page editor  no need to use custom fields anymore (this feature actually updates the custom fields accordingly, so you can use custom fields if you want to).
-* Added dropdown selector for preloaded stylesheets - no need to enter the location of the preloaded stylesheets to use them.
-
-New Filters:
-
-* wpmem_admin_tabs - allows developers to hook into the admin tabs to add additional tabs.
-* wpmem_admin_style_list - allows developers to hook into the dropdown list of stylesheets to add additional stylesheets.
-* wpmem_auto_excerpt - filters the automatically generated excerpt.  Allows you to customize a 'read more' link.
-* wpmem_post_password - filters the automatically generated post password that blocks comments on blocked posts/pages.
-* wpmem_forgot_link - filters the forgot password link that shows in the login forms.
-* wpmem_reg_link - filters the register link that shows in the login forms.
-
-Other Updates:
-
-* Added a new pre-loaded stylesheet for Twenty Twelve theme.  New installs will default to this style.  Note: with the addition of the new style selector in the admin panel, you can easily toggle between the preloaded stylesheets.  You can also add your own using the new wpmem_admin_style_list filter, enter the URL location in the Custom Stylesheet field, or load one using wp_enqueue_scripts.

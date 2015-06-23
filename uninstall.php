@@ -15,16 +15,12 @@
  * @copyright 2006-2015
  */
 
-/**
- * If uninstall is not called from WordPress, kill the uninstall
- */
+// If uninstall is not called from WordPress, kill the uninstall.
 if( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die( 'invalid uninstall' );
 }
  
-/**
- * Uninstall process removes WP-Members settings from the WordPress database (_options table)
- */
+// Uninstall process removes WP-Members settings from the WordPress database (_options table).
 if ( WP_UNINSTALL_PLUGIN ) {
 
 	if( is_multisite() ) {
@@ -50,22 +46,15 @@ if ( WP_UNINSTALL_PLUGIN ) {
  *
  * @since 2.9.3
  */
-function wpmem_uninstall_options()
-{
+function wpmem_uninstall_options() {
+
 	delete_option( 'wpmembers_settings' );
 	delete_option( 'wpmembers_fields'   );
 	delete_option( 'wpmembers_dialogs'  );
 	delete_option( 'wpmembers_captcha'  );
 	delete_option( 'wpmembers_tos'      );
 	delete_option( 'wpmembers_export'   );
-	delete_option( 'wpmembers_msurl'    );
-	delete_option( 'wpmembers_regurl'   );
-	delete_option( 'wpmembers_logurl'   );
-	delete_option( 'wpmembers_cssurl'   );
-	delete_option( 'wpmembers_style'    );
-	delete_option( 'wpmembers_autoex'   );
 	delete_option( 'wpmembers_utfields' );
-	delete_option( 'wpmembers_attrib'   );
 
 	delete_option( 'wpmembers_email_newreg' );
 	delete_option( 'wpmembers_email_newmod' );

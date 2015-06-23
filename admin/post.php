@@ -13,118 +13,128 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions included:
+ * - wpmem_bulk_posts_action
+ * - wpmem_posts_page_load
+ * - wpmem_posts_admin_notices
+ * - wpmem_block_meta_add
+ * - wpmem_block_meta
+ * - wpmem_block_meta_save
+ * - wpmem_post_columns
+ * - wpmem_post_columns_content
+ * - wpmem_load_tinymce
  */
 
 
 /**
  * Actions
  */
-add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action' );
-add_action( 'load-edit.php', 'wpmem_posts_page_load' );
-add_action( 'admin_notices', 'wpmem_posts_admin_notices');
+add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action'   );
+add_action( 'load-edit.php',         'wpmem_posts_page_load'     );
+add_action( 'admin_notices',         'wpmem_posts_admin_notices' );
+add_action( 'load-post.php',         'wpmem_load_tinymce'        );
 
 
 /**
- * Function to add block/unblock to the bulk dropdown list
+ * Function to add block/unblock to the bulk dropdown list.
  *
  * @since 2.9.2
  */
-function wpmem_bulk_posts_action()
-{ ?>
-    <script type="text/javascript">
-      jQuery(document).ready(function() {
-        jQuery('<option>').val('block').text('<?php _e( 'Block', 'wp-members' )?>').appendTo("select[name='action']");
-		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('block').text('<?php _e( 'Block', 'wp-members' )?>').appendTo("select[name='action2']");
-		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' )?>').appendTo("select[name='action2']");
-      });
-    </script>
-    <?php
+function wpmem_bulk_posts_action() { ?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
+		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action']");
+		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action2']");
+		});
+	</script><?php
 }
 
 
 /**
- * Function to handle bulk actions at page load
+ * Function to handle bulk actions at page load.
  *
  * @since 2.9.2
  *
  * @uses WP_Users_List_Table
  */
-function wpmem_posts_page_load()
-{
+function wpmem_posts_page_load() {
+
+	global $wpmem;
+
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 	$action = $wp_list_table->current_action();
 	$sendback = '';
 
-	switch( $action ) { 
-	
+	switch ( $action ) {
+
 		case ( 'block' ):
 		case ( 'unblock' ):
-			/** validate nonce **/
+			// Validate nonce.
 			check_admin_referer( 'bulk-posts' );
-			/** get the posts **/
+			// Get the posts.
 			$posts = ( isset( $_REQUEST['post'] ) ) ? $_REQUEST['post'] : '';
-			/** update posts **/
+			// Update posts.
 			$x = '';
-			if( $posts ) {	
-				foreach( $posts as $post_id ) {
+			if ( $posts ) {
+				foreach ( $posts as $post_id ) {
 					$x++;
 					$post = get_post( $post_id );
 					$type = $post->post_type;
-					// update accordingly
-					if( ( $type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || 
-						( $type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
-						if( $action == 'block' ) {
+					// Update accordingly.
+					if ( $wpmem->block[ $type ] == 0 ) {
+						if ( $action == 'block' ) {
 							update_post_meta( $post_id, '_wpmem_block', 1 );
 						} else {
 							delete_post_meta( $post_id, '_wpmem_block' );
 						}
 					}
-					
-					if( ( $type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || 
-						( $type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
-						if( $action == 'unblock' ) {
-							update_post_meta( $post_id, '_wpmem_block', 0 );	
+
+					if ( $wpmem->block[ $type ] == 1 ) {
+						if ( $action == 'unblock' ) {
+							update_post_meta( $post_id, '_wpmem_block', 0 );
 						} else {
 							delete_post_meta( $post_id, '_wpmem_block' );
 						}
 					}
 				}
-				/** set the return message */
+				// Set the return message.
 				$arr = array( 
-					'a' => $action, 
-					'n' => $x
+					'a' => $action,
+					'n' => $x,
+					'post_type' => $type,
 				);
-				if( $type == 'page' ) {
-					$arr['post_type'] = 'page';
-				}
+	
 				$sendback = add_query_arg( array( $arr ), '', $sendback );
+
 			} else {
-				/** set the return message */
+				// Set the return message.
 				$sendback = add_query_arg( array( 'a' => 'none' ), '', $sendback );
 			}
 			break;
-		
+
 		default:
 			return;
 
 	}
 
-	/** if we did not return already, we need to wp_redirect */
+	// If we did not return already, we need to wp_redirect.
 	wp_redirect( $sendback );
 	exit();
 }
 
 
 /**
- * Function to echo admin update message
+ * Function to echo admin update message.
  *
  * @since 2.8.2
  */
-function wpmem_posts_admin_notices()
-{    
+function wpmem_posts_admin_notices() {
+
 	global $pagenow, $post_type;
-	if( $pagenow == 'edit.php' && isset( $_REQUEST['a'] ) ) {
+	if ( $pagenow == 'edit.php' && isset( $_REQUEST['a'] ) ) {
 		$action = ( $_REQUEST['a'] == 'block' ) ? 'blocked' : 'unblocked';
 		echo '<div class="updated"><p>' . $_REQUEST['n'] . ' ' . $post_type . ' ' . $action . '</p></div>';
 	}
@@ -136,24 +146,34 @@ function wpmem_posts_admin_notices()
  *
  * @since 2.8
  */
-function wpmem_block_meta_add() 
-{
-	/**
-	 * Filter the post meta box title
-	 *
-	 * @since 2.9.0
-	 */
-	$post_title = apply_filters( 'wpmem_admin_post_meta_title', __( 'Post Restriction', 'wp-members' ) );
-	
-	/**
-	 * Filter the page meta box title
-	 *
-	 * @since 2.9.0
-	 */
-	$page_title = apply_filters( 'wpmem_admin_page_meta_title', __( 'Page Restriction', 'wp-members' ) );
+function wpmem_block_meta_add() {
 
-	add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', 'post', 'side', 'high' );
-	add_meta_box( 'wpmem-block-meta-id', $page_title, 'wpmem_block_meta', 'page', 'side', 'high' );	
+	// Build an array of post types
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	$post_arr = array(
+		'post' => 'Posts',
+		'page' => 'Pages',
+	);
+	if ( $post_types ) {
+		foreach ( $post_types  as $post_type ) { 
+			$cpt_obj = get_post_type_object( $post_type );
+			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+		}
+	}
+
+	foreach ( $post_arr as $key => $val ) {
+
+		/**
+		 * Filter the post meta box title.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param Post restriction title.
+		 */
+		$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', __( $val . ' Restriction', 'wp-members' ) );
+
+		add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+	}
 }
 
 
@@ -165,18 +185,18 @@ function wpmem_block_meta_add()
  * @global $post The WordPress post object.
  */
 function wpmem_block_meta() {
-	
-    global $post;
 
-    wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
+	global $post, $wpmem;
+
+	wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
 
 	$post_type = get_post_type_object( $post->post_type );
 
-	if( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 1 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 1 ) ) {
+	if ( $wpmem->block[ $post->post_type ] == 1 ) {
 		$block = 0;
 		$notice_text = 'blocked';
 		$text = 'Unblock';
-	} elseif( ( $post->post_type == 'post' && WPMEM_BLOCK_POSTS == 0 ) || ( $post->post_type == 'page' && WPMEM_BLOCK_PAGES == 0 ) ) {
+	} elseif ( $wpmem->block[ $post->post_type ] == 0 ) {
 		$block = 1;
 		$notice_text = 'not blocked';
 		$text = 'Block';	
@@ -191,15 +211,15 @@ function wpmem_block_meta() {
 		printf( '<a href="%s/options-general.php?page=wpmem-settings">Edit</a>', $admin_url );
 		?>
 	</p>
-    <p>
+	<p>
 	<?php if( $block == 1 ) { ?>
 		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="1" <?php checked( get_post_meta( $post->ID, $meta, true ), '1' ); ?> />
 	<?php } else { ?>
 		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="0" <?php checked( get_post_meta( $post->ID, $meta, true ), '0' ); ?> />
 	<?php } ?>
 		<label for="wpmem_block"><?php printf( '%s this %s', $text, strtolower( $post_type->labels->singular_name ) ); ?></label>
-    </p>
-    <?php
+	</p>
+	<?php
 	/**
 	 * Fires after the post block meta box.
 	 *
@@ -222,24 +242,30 @@ function wpmem_block_meta() {
  * @param int $post_id The post ID
  */
 function wpmem_block_meta_save( $post_id ) {
-	
-    // quit if we are doing autosave
-    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return; 
-	
-    // quit if the nonce isn't there, or is wrong
-    if( ! isset( $_POST['wpmem_block_meta_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_block_meta_nonce'], 'wpmem_block_meta_nonce' ) ) return; 
-    
-	// quit if the current user cannot edit posts
-    if( ! current_user_can( 'edit_posts' ) ) return;  
-    
-	// get value
-    $block = isset( $_POST['wpmem_block'] ) ? $_POST['wpmem_block'] : null; 	
-	
-	// need the post object
+
+	// Quit if we are doing autosave.
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	// Quit if the nonce isn't there, or is wrong.
+	if ( ! isset( $_POST['wpmem_block_meta_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_block_meta_nonce'], 'wpmem_block_meta_nonce' ) ) {
+		return;
+	}
+
+	// Quit if the current user cannot edit posts.
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+
+	// Get value.
+	$block = isset( $_POST['wpmem_block'] ) ? $_POST['wpmem_block'] : null;
+
+	// Need the post object.
 	global $post; 
-	
-	// update accordingly
-	if( $block != null ) {
+
+	// Update accordingly.
+	if ( $block != null ) {
 		update_post_meta( $post_id, '_wpmem_block', $block );
 	} else {
 		delete_post_meta( $post_id, '_wpmem_block' );
@@ -260,23 +286,25 @@ function wpmem_block_meta_save( $post_id ) {
 
 
 /**
- * Adds WP-Members blocking status to Posts Table columns
+ * Adds WP-Members blocking status to Posts Table columns.
  *
  * @since 2.8.3
  *
- * @uses wp_enqueue_style Loads the WP-Members admin stylesheet
+ * @uses wp_enqueue_style Loads the WP-Members admin stylesheet.
  *
- * @param arr $columns The array of table columns
+ * @param arr $columns The array of table columns.
  */
 function wpmem_post_columns( $columns ) {
+	global $wpmem;
+	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
-	$columns['wpmem_block'] = ( WPMEM_BLOCK_POSTS == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
-    return $columns;
+	$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
+	return $columns;
 }
 
 
 /**
- * Adds blocking status to the Post Table column
+ * Adds blocking status to the Post Table column.
  *
  * @since 2.8.3
  *
@@ -284,69 +312,40 @@ function wpmem_post_columns( $columns ) {
  * @param $post_ID
  */
 function wpmem_post_columns_content( $column_name, $post_ID ) {
-	if( $column_name == 'wpmem_block' ) { 
-	
+
+	global $wpmem;
+	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
+
+	if ( $column_name == 'wpmem_block' ) { 
+
 		$block_meta = get_post_meta( $post_ID, '_wpmem_block', true );
-		
-		/**
-		 * Backward compatibility for old block/unblock meta
-		 */
-		if( ! $block_meta ) {
-			// check for old meta
+
+		// Backward compatibility for old block/unblock meta.
+		if ( ! $block_meta ) {
+			// Check for old meta.
 			$old_block   = get_post_meta( $post_ID, 'block',   true );
 			$old_unblock = get_post_meta( $post_ID, 'unblock', true );
 			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
-		}	
-		
-		echo ( WPMEM_BLOCK_POSTS == 1 && $block_meta == '0' ) ? __( 'Yes' ) : ''; 
-		echo ( WPMEM_BLOCK_POSTS == 0 && $block_meta == '1' ) ? __( 'Yes' ) : ''; 
-    } 
+		}
+
+		echo ( $wpmem->block[ $post_type ] == 1 && $block_meta == '0' ) ? __( 'Yes' ) : '';
+		echo ( $wpmem->block[ $post_type ] == 0 && $block_meta == '1' ) ? __( 'Yes' ) : '';
+	}
 }
 
 
 /**
- * Adds WP-Members blocking status to Page Table columns
+ * Adds shortcode dropdown to post editor tinymce.
  *
- * @since 2.8.3
- *
- * @uses wp_enqueue_style Loads the WP-Members admin stylesheet
- *
- * @param arr $columns The array of table columns
+ * @since 3.0
  */
-function wpmem_page_columns( $columns ) {
-	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
-	$columns['wpmem_block'] = ( WPMEM_BLOCK_PAGES == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );  
-    return $columns;
+function wpmem_load_tinymce() {
+	// @todo For now, only load if WP version is high enough.
+	if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
+		global $wpmem_shortcode;
+		include( WPMEM_PATH . 'inc/class-wp-members-tinymce-buttons.php' );
+		$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
+	}
 }
 
-
-/**
-
- * Adds blocking status to the Page Table column
- *
- * @since 2.8.3
- *
- * @param $column_name
- * @param $post_ID
- */
-function wpmem_page_columns_content( $column_name, $post_ID ) {
-	if( $column_name == 'wpmem_block' ) {
-	
-		$block_meta = get_post_meta( $post_ID, '_wpmem_block', true );
-	
-		/**
-		 * Backward compatibility for old block/unblock meta
-		 */
-		if( ! $block_meta ) {
-			// check for old meta
-			$old_block   = get_post_meta( $post_ID, 'block',   true );
-			$old_unblock = get_post_meta( $post_ID, 'unblock', true );
-			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
-		}	
-		
-		echo ( WPMEM_BLOCK_PAGES == 1 && $block_meta == '0' ) ? __( 'Yes' ) : ''; 
-		echo ( WPMEM_BLOCK_PAGES == 0 && $block_meta == '1' ) ? __( 'Yes' ) : ''; 
-    } 
-}
-
-/** End of File **/
+// End of File.

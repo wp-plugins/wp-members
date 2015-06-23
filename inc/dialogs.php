@@ -16,25 +16,23 @@
  */
 
 
-/**
- * include the form building functions
- */
-include_once( 'forms.php' );
+// Include the form building functions.
+include_once( WPMEM_PATH . 'inc/forms.php' );
 
 
 if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
 /**
- * Login Failed Dialog
+ * Login Failed Dialog.
  *
  * Returns the login failed error message.
  *
  * @since 1.8
  *
- * @return string $str the generated html for the login failed message
+ * @return string $str the generated html for the login failed message.
  */
-function wpmem_inc_loginfailed() 
-{ 
-	// defaults
+function wpmem_inc_loginfailed() {
+
+	// Defaults.
 	$defaults = array(
 		'div_before'     => '<div align="center" id="wpmem_msg">',
 		'div_after'      => '</div>', 
@@ -44,7 +42,7 @@ function wpmem_inc_loginfailed()
 		'p_before'       => '<p>',
 		'message'        => __( 'You entered an invalid username or password.', 'wp-members' ),
 		'p_after'        => '</p>',
-		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . __( 'Click here to continue.', 'wp-members' ) . '</a>'
+		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . __( 'Click here to continue.', 'wp-members' ) . '</a>',
 	);
 	
 	/**
@@ -56,14 +54,14 @@ function wpmem_inc_loginfailed()
 	 */
 	$args = apply_filters( 'wpmem_login_failed_args', '' );
 	
-	// merge $args with defaults and extract
-	extract( wp_parse_args( $args, $defaults ) );
+	// Merge $args with defaults.
+	$args = wp_parse_args( $args, $defaults );
 	
-	$str = $div_before 
-		. $heading_before . $heading . $heading_after 
-		. $p_before . $message . $p_after 
-		. $p_before . $link . $p_after
-		. $div_after;
+	$str = $args['div_before']
+		. $args['heading_before'] . $args['heading'] . $args['heading_after']
+		. $args['p_before'] . $args['message'] . $args['p_after']
+		. $args['p_before'] . $args['link'] . $args['p_after']
+		. $args['div_after'];
 	
 	/**
 	 * Filter the login failed dialog.
@@ -81,34 +79,34 @@ endif;
 
 if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
 /**
- * Message Dialog
+ * Message Dialog.
  *
  * Returns various dialogs and error messages.
  *
  * @since 1.8
  *
- * @param  string $toggle error message toggle to look for specific error messages
- * @param  string $msg a message that has no toggle that is passed directly to the function
- * @return string $str The final HTML for the message
+ * @param  string $toggle Error message toggle to look for specific error messages.
+ * @param  string $msg    A message that has no toggle that is passed directly to the function.
+ * @return string $str    The final HTML for the message.
  */
-function wpmem_inc_regmessage( $toggle, $msg = '' )
-{
+function wpmem_inc_regmessage( $toggle, $msg = '' ) {
+
 	// defaults
 	$defaults = array(
 		'div_before' => '<div class="wpmem_msg" align="center">',
 		'div_after'  => '</div>', 
 		'p_before'   => '<p>',
 		'p_after'    => '</p>',
-		'toggles'    => array( 
-							'user', 
-							'email', 
-							'success', 
-							'editsuccess', 
-							'pwdchangerr', 
-							'pwdchangesuccess', 
-							'pwdreseterr', 
-							'pwdresetsuccess' 
-						)
+		'toggles'    => array(
+			'user',
+			'email',
+			'success',
+			'editsuccess',
+			'pwdchangerr',
+			'pwdchangesuccess',
+			'pwdreseterr',
+			'pwdresetsuccess',
+		),
 	);
 	
 	/**
@@ -120,11 +118,11 @@ function wpmem_inc_regmessage( $toggle, $msg = '' )
 	 */
 	$args = apply_filters( 'wpmem_msg_args', '' );
 
-	// get dialogs set in the db
+	// Get dialogs set in the db.
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
-	for( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
-		if( $toggle == $defaults['toggles'][$r] ) {
+	for ( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
+		if ( $toggle == $defaults['toggles'][$r] ) {
 			$msg = __( stripslashes( $dialogs[$r+1] ), 'wp-members' );
 			break;
 		}
@@ -141,10 +139,10 @@ function wpmem_inc_regmessage( $toggle, $msg = '' )
 	 */
 	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle );
 	
-	// merge $args with defaults and extract
-	extract( wp_parse_args( $args, $defaults ) );
+	// Merge $args with defaults.
+	$args = wp_parse_args( $args, $defaults );
 	
-	$str = $div_before . $p_before . stripslashes( $msg ) . $p_after . $div_after;
+	$str = $args['div_before'] . $args['p_before'] . stripslashes( $msg ) . $args['p_after'] . $args['div_after'];
 
 	/**
 	 * Filter the message.
@@ -159,9 +157,9 @@ function wpmem_inc_regmessage( $toggle, $msg = '' )
 endif;
 
 
-if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
+if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
 /**
- * Member Links Dialog
+ * Member Links Dialog.
  *
  * Outputs the links used on the members area.
  *
@@ -170,12 +168,12 @@ if( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  * @param  string $page
  * @return string $str
  */
-function wpmem_inc_memberlinks( $page = 'members' ) 
-{
-	global $user_login; 
-	
+function wpmem_inc_memberlinks( $page = 'members' ) {
+
+	global $user_login, $wpmem;
+
 	$link = wpmem_chk_qstr();
-	
+
 	/**
 	 * Filter the log out link.
 	 *
@@ -184,13 +182,13 @@ function wpmem_inc_memberlinks( $page = 'members' )
 	 * @param string $link The default logout link.
 	 */
 	$logout = apply_filters( 'wpmem_logout_link', $link . 'a=logout' );
-	
-	switch( $page ) {
-	
+
+	switch ( $page ) {
+
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if( WPMEM_USE_EXP == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
+		if ( $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
 		/**
 		 * Filter the links displayed on the User Profile page (logged in state).
@@ -201,8 +199,8 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		 */
 		$str = apply_filters( 'wpmem_member_links', $str );
 		break;
-		
-	case 'register':	
+
+	case 'register':
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
 			<ul>
 				<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>
@@ -216,10 +214,10 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		 * @param string $str The default links.
 		 */
 		$str = apply_filters( 'wpmem_register_links', $str );
-		break;	
-	
+		break;
+
 	case 'login':
-	
+
 		$args = array(
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
@@ -238,7 +236,7 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		 */
 		$args = apply_filters( 'wpmem_login_links_args', $args );
 
-		/** Assemble the message string **/
+		// Assemble the message string.
 		$str = $args['wrapper_before']
 			. sprintf( $args['welcome'], $args['user_login'] )
 			. $args['separator']
@@ -253,8 +251,8 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		 * @param string $str The default links.
 		 */
 		$str = apply_filters( 'wpmem_login_links', $str );
-		break;	
-			
+		break;
+
 	case 'status':
 		$args = array(
 			'wrapper_before' => '<p>',
@@ -274,16 +272,16 @@ function wpmem_inc_memberlinks( $page = 'members' )
 		 */
 		$args = apply_filters( 'wpmem_status_msg_args', $args );
 
-		/** Assemble the message string **/
+		// Assemble the message string.
 		$str = $args['wrapper_before']
 			. sprintf( $args['welcome'], $args['user_login'] )
 			. $args['separator']
 			. sprintf( $args['logout_link'], $args['logout_text'] )
 			. $args['wrapper_after'];
 		break;
-	
+
 	}
-	
+
 	return $str;
 }
 endif;
@@ -291,7 +289,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_page_pwd_reset' ) ):
 /**
- * Password reset forms
+ * Password reset forms.
  *
  * This function creates both password reset and forgotten
  * password forms for page=password shortcode.
@@ -302,12 +300,12 @@ if ( ! function_exists( 'wpmem_page_pwd_reset' ) ):
  * @param  string $content
  * @return string $content
  */
-function wpmem_page_pwd_reset( $wpmem_regchk, $content )
-{
-	if( is_user_logged_in() ) {
+function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
+
+	if ( is_user_logged_in() ) {
 	
-		switch( $wpmem_regchk ) { 
-				
+		switch ( $wpmem_regchk ) {
+
 		case "pwdchangempty":
 			$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
 			$content = $content . wpmem_inc_changepassword();
@@ -324,23 +322,23 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content )
 
 		default:
 			$content = $content . wpmem_inc_changepassword();
-			break;				
+			break;
 		}
-	
+
 	} else {
-	
+
 		switch( $wpmem_regchk ) {
 
 		case "pwdreseterr":
 			$content = $content 
 				. wpmem_inc_regmessage( $wpmem_regchk )
 				. wpmem_inc_resetpassword();
-			$wpmem_regchk = ''; // clear regchk
+			$wpmem_regchk = ''; // Clear regchk.
 			break;
 
 		case "pwdresetsuccess":
 			$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-			$wpmem_regchk = ''; // clear regchk
+			$wpmem_regchk = ''; // Clear regchk.
 			break;
 
 		default:
@@ -349,7 +347,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content )
 		}
 		
 	}
-	
+
 	return $content;
 
 }
@@ -358,7 +356,7 @@ endif;
 
 if ( ! function_exists( 'wpmem_page_user_edit' ) ):
 /**
- * Creates a user edit page
+ * Creates a user edit page.
  *
  * @since 2.7.6
  *
@@ -366,8 +364,8 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  * @param  string $content
  * @return string $content
  */
-function wpmem_page_user_edit( $wpmem_regchk, $content )
-{
+function wpmem_page_user_edit( $wpmem_regchk, $content ) {
+
 	global $wpmem_a, $wpmem_themsg;
 	/**
 	 * Filter the default User Edit heading for shortcode.
@@ -378,7 +376,7 @@ function wpmem_page_user_edit( $wpmem_regchk, $content )
 	 */	
 	$heading = apply_filters( 'wpmem_user_edit_heading', __( 'Edit Your Information', 'wp-members' ) );
 	
-	if( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }
+	if ( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }
 	$content = $content . wpmem_inc_registration( 'edit', $heading );
 	
 	return $content;
