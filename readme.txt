@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.1
-Stable tag: 2.9.9.1
+Tested up to: 4.2.2
+Stable tag: 3.0.0
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,8 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 2.9.9.1 patches an issue with the admin notification email update in 2.9.9.
-WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
+WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.
 
 == Screenshots ==
 
@@ -134,16 +133,25 @@ WP-Members 2.9.9 is mostly minor updates preparing codebase for the 3.0 project.
 == Changelog ==
 
 = 3.0.0 =
-* New settings and new plugin class.
+
+This release makes significant changes to the plugin's main options in the way they are stored. While care has been taken to make sure that you can roll back to a previous version, you may need to resave settings in the plugin's main options tab when attempting to roll back. It is advised that you test this update prior upgrading an existing install on a production site.
+
+If you have any custom functions hooked to filters and actions that call any file includes directly from the plugin, please note that several file names have changed.
+
+* New settings and new plugin class WP_Members.
+* New settings now natively support Custom Post Types, both setting defaults and individual post blocking.
 * Settings constants removed in favor of using the $wpmem object class.
-* wpmem_rs_captcha_folder filter hook.
-* added new|edit toggle to wpmem-register_data filter hook.
+* Added new|edit toggle to wpmem-register_data filter hook.
 * wpmem_settings_loaded action added.
-* securify comments changed to use comments_open instead of comments_template (with a blank template).
-* registration clear form button defaults to false.
-* removed wp_set_auth_cookie from login function; it is already done as part of wp_signon.
-* added support for custom post types, both setting defaults and individual post blocking.
-* post meta box title filter is now for all post types wpmem_admin_{post type}_meta_title.
+* Securify comments changed to use comments_open instead of comments_template (with a blank template).
+* New wpmem_securify_comments filter hook to customize whether comments load or not.
+* Registration clear form button defaults to false.
+* Removed wp_set_auth_cookie from login function; it is already done as part of wp_signon.
+* Post meta box title filter is now for all post types wpmem_admin_{post type}_meta_title.
+* New filter for Really Simple Captcha folder location: wpmem_rs_captcha_folder.
+* New shortcodes [wpmem_form] added.
+* Shortcode dropdown selector added to tinymce toolbar in Post/Page editor.
+* Added redirect_to as a function argument if calling wpmem_logout() directly.
 
 = 2.9.9 =
 * Code standards in wp-members-email.php
