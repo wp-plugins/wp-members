@@ -139,7 +139,7 @@ function wpmem_init() {
 	$wpmem->load_fields();
 	
 	// Load contants.
-	$wpmem->load_contants();
+	$wpmem->load_constants();
 
 	/**
 	 * Fires after initialization of plugin options.
