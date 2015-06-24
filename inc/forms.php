@@ -39,7 +39,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @param  string $redirect_to
  * @return string $str         The generated html for the login form.
  */
-function wpmem_inc_login( $page="page", $redirect_to = null ) {
+function wpmem_inc_login( $page="page", $redirect_to = null, $show = 'show' ) {
  	
 	global $wpmem, $wpmem_regchk, $post;
 
@@ -111,7 +111,9 @@ function wpmem_inc_login( $page="page", $redirect_to = null ) {
 
 	$arr  = wp_parse_args( $args, $defaults );
 	
-	return $str . wpmem_login_form( $page, $arr );
+	$str  = ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
+	
+	return $str;
 }
 endif;
 
