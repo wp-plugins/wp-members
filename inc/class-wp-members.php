@@ -377,7 +377,7 @@ class WP_Members {
 
 					}
 
-					$content = $content . wpmem_inc_login();
+					$content = ( $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content;
 
 					$content = ( $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
 				}

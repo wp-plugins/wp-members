@@ -110,10 +110,8 @@ function wpmem_inc_login( $page="page", $redirect_to = null ) {
 	$args = apply_filters( 'wpmem_inc_login_args', '' );
 
 	$arr  = wp_parse_args( $args, $defaults );
-
-	$str  = ( $wpmem->show_login[ $post->post_type ] == 1 ) ? $str . wpmem_login_form( $page, $arr ) : $str;
 	
-	return $str;
+	return $str . wpmem_login_form( $page, $arr );
 }
 endif;
 

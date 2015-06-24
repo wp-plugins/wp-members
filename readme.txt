@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.2.2
-Stable tag: 3.0.0.1
+Stable tag: 3.0.0.2
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.0.1 is patch release correcting a flaw in the user profile shortcode page logic when registration forms are not displayed.
+WP-Members 3.0.0.2 is patch release. See the change log for detail.
 WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
@@ -132,6 +132,12 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 
 == Changelog ==
+
+= 3.0.0.2 =
+
+* Patch correcting logic flaw in the login form shortcode that caused the form to not display at all if "show login" was turned off (should not effect the shortcode forms).
+* Patch correcting bad path for reCAPTCHA php library include.
+* Update to the reCAPTCHA library to avoid namespace collision until reCAPTCHA can be updated to 2.x.
 
 = 3.0.0.1 =
 

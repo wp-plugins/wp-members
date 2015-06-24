@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.0.0.1
+Version:     3.0.0.2
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,7 +60,7 @@ License:     GPLv2
 
 
 // Initialize constants.
-define( 'WPMEM_VERSION', '3.0.0.1' );
+define( 'WPMEM_VERSION', '3.0.0.2' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -176,9 +176,9 @@ function wpmem_chk_admin() {
 	 * otherwise, load profile actions for non-admins.
 	 */
 	if ( current_user_can( 'edit_users' ) ) { 
-		require_once( 'admin/admin.php' );
-		require_once( 'admin/users.php' );
-		include_once( 'admin/user-profile.php' );
+		require_once( WPMEM_PATH . 'admin/admin.php' );
+		require_once( WPMEM_PATH . 'admin/users.php' );
+		include_once( WPMEM_PATH . 'admin/user-profile.php' );
 	} else {
 		require_once( WPMEM_PATH . 'inc/users.php' );
 		add_action( 'show_user_profile', 'wpmem_user_profile'   );
