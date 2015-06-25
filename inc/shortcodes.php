@@ -410,7 +410,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 			} else {
 
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
-				$content = ( $page == 'register' || $wpmem->show_reg[ $post->post_type ] != 1 ) ? $content . wpmem_inc_registration() : $content;
+				$content = ( $page == 'register' || $wpmem->show_reg[ $post->post_type ] != 0 ) ? $content . wpmem_inc_registration() : $content;
 			}
 
 		} elseif ( is_user_logged_in() && $page == 'members-area' ) {

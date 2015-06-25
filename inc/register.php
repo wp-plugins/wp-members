@@ -141,7 +141,7 @@ function wpmem_registration( $toggle ) {
 
 			// Check to see if the recaptcha library has already been loaded by another plugin.
 			if ( ! function_exists( '_recaptcha_qsencode' ) ) { 
-				require_once('lib/recaptchalib.php'); 
+				require_once( WPMEM_PATH . 'lib/recaptchalib.php' ); 
 			}
 
 			$publickey  = $wpmem_captcha['recaptcha']['public'];
