@@ -10,6 +10,13 @@ class WP_Members {
 
 		$this->load_settings();
 
+		// Temporary check to validate that version 3 settings were built.
+		if ( ! isset( $this->version ) ) {
+			// Settings were not properly built during plugin upgrade.
+			require_once( WPMEM_PATH . 'wp-members-install.php' );
+			wpmem_update_settings();
+			$this->load_settings();
+		}
 	}
 	
 	/**
@@ -253,7 +260,7 @@ class WP_Members {
 		$defaults = array(
 			'post_id'    => $post->ID,
 			'post_type'  => $post->post_type,
-			'block'      => ( $this->block[ $post->post_type ] == 1 ) ? true : false,
+			'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
 			'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
 			'block_type' => ( $post->post_type == 'post' ) ? $this->block['post'] : ( ( $post->post_type == 'page' ) ? $this->block['page'] : 0 ),
 		);

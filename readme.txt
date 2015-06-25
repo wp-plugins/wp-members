@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.2.2
-Stable tag: 3.0.0.2
+Stable tag: 3.0.0.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.0.2 is patch release. See the change log for detail.
+WP-Members 3.0.0.3 is bug fix release. See the change log for detail.
 WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
@@ -132,6 +132,13 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 
 == Changelog ==
+
+= 3.0.0.3 =
+
+* Removed sortable user columns. This class needs to be rebuilt to accommodate custom user columns outside of WP-Members.
+* Removed native support for Custom Post Types (CPTs). Native CPT support was to be included in 3.0. However, it became appearant during the initial rollout that there are some additional considerations that need to be made regarding CPT support. It is being rolled back until the issues that have come up can be addressed.
+* Changed the order of update functions for users upgrading from previous versions so that the rebuild of the plugin's settings happens first. The most critical function in 3.x updating is to rebuild the plugin's main options array to the new 3.0 format.
+* When settings are loaded, added a check to make sure that version 3 settings are there. If not, it runs the update script. (Resolves issues related to the "update now" link.)
 
 = 3.0.0.2 =
 

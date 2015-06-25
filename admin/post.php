@@ -41,7 +41,9 @@ add_action( 'load-post.php',         'wpmem_load_tinymce'        );
  *
  * @since 2.9.2
  */
-function wpmem_bulk_posts_action() { ?>
+function wpmem_bulk_posts_action() { 
+	// @todo - holding off on CPT support for now. 
+	if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'page' ) || ! isset( $_GET['post_type'] ) ) { ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
@@ -50,6 +52,7 @@ function wpmem_bulk_posts_action() { ?>
 		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action2']");
 		});
 	</script><?php
+	}
 }
 
 
@@ -149,17 +152,18 @@ function wpmem_posts_admin_notices() {
 function wpmem_block_meta_add() {
 
 	// Build an array of post types
-	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	// @todo - holding off on CPT support.
+	// $post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	$post_arr = array(
 		'post' => 'Posts',
 		'page' => 'Pages',
 	);
-	if ( $post_types ) {
+	/* if ( $post_types ) {
 		foreach ( $post_types  as $post_type ) { 
 			$cpt_obj = get_post_type_object( $post_type );
 			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
 		}
-	}
+	} */
 
 	foreach ( $post_arr as $key => $val ) {
 
@@ -192,11 +196,11 @@ function wpmem_block_meta() {
 
 	$post_type = get_post_type_object( $post->post_type );
 
-	if ( $wpmem->block[ $post->post_type ] == 1 ) {
+	if ( isset( $wpmem->block[ $post->post_type ] ) && $wpmem->block[ $post->post_type ] == 1 ) {
 		$block = 0;
 		$notice_text = 'blocked';
 		$text = 'Unblock';
-	} elseif ( $wpmem->block[ $post->post_type ] == 0 ) {
+	} else { //} elseif ( $wpmem->block[ $post->post_type ] == 0 ) {
 		$block = 1;
 		$notice_text = 'not blocked';
 		$text = 'Block';	
@@ -297,8 +301,11 @@ function wpmem_block_meta_save( $post_id ) {
 function wpmem_post_columns( $columns ) {
 	global $wpmem;
 	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
-	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
-	$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
+	
+	if ( $post_type == 'page' || $post_type == 'post' ) { // @todo - holding off on CPT support.
+		wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
+		$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
+	}
 	return $columns;
 }
 

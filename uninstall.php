@@ -66,6 +66,15 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_email_wpname' );
 
 	delete_option( 'widget_wpmemwidget' );
+	
+	// For pre-3.x settings that may remain.
+	delete_option( 'wpmembers_msurl'    );
+	delete_option( 'wpmembers_regurl'   );
+	delete_option( 'wpmembers_logurl'   );
+	delete_option( 'wpmembers_cssurl'   );
+	delete_option( 'wpmembers_style'    );
+	delete_option( 'wpmembers_autoex'   );
+	delete_option( 'wpmembers_attrib'   );
 }
 
 /** End of File **/

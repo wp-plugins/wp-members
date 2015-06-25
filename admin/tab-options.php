@@ -75,7 +75,8 @@ function wpmem_a_build_options() {
 							// Content Blocking option group.
 							$i = 0;
 							$len = count( $post_arr );
-							foreach ( $post_arr as $key => $val ) { ?>
+							foreach ( $post_arr as $key => $val ) { 
+								if ( $key == 'post' || $key == 'page' ) { // @todo - holding off on CPT support. ?>
 								<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 									<label><?php echo ( $i == 0 ) ? 'Content Blocking' : '&nbsp;'; ?></label>
 									<select name="wpmem_block_<?php echo $key; ?>">
@@ -86,6 +87,7 @@ function wpmem_a_build_options() {
 									<span><?php echo $val; ?></span>
 								</li>
 								<?php $i++;
+								}
 							}
 
 							// Show Excerpts, Login Form, and Registration Form option groups.
@@ -99,7 +101,8 @@ function wpmem_a_build_options() {
 							foreach ( $option_group_array as $item_key => $item_val ) {
 								$i = 0;
 								$len = count( $post_arr );
-								foreach ( $post_arr as $key => $val ) { 
+								foreach ( $post_arr as $key => $val ) {
+									if ( $key == 'post' || $key == 'page' ) { // @todo - holding off on CPT support.
 									$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0;
 									?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
@@ -107,6 +110,7 @@ function wpmem_a_build_options() {
 										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>
 									</li>
 									<?php $i++;
+									}
 								}
 							} ?>
 							</ul>
