@@ -10,6 +10,13 @@ class WP_Members {
 
 		$this->load_settings();
 
+		// Temporary check to validate that version 3 settings were built.
+		if ( ! isset( $this->version ) ) {
+			// Settings were not properly built during plugin upgrade.
+			require_once( WPMEM_PATH . 'wp-members-install.php' );
+			wpmem_update_settings();
+			$this->load_settings();
+		}
 	}
 	
 	/**
