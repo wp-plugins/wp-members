@@ -6,26 +6,13 @@
  */
 class WP_Members {
 
-	function __construct() {
-
-		$this->load_settings();
-
-		// Temporary check to validate that version 3 settings were built.
-		if ( ! isset( $this->version ) ) {
-			// Settings were not properly built during plugin upgrade.
-			require_once( WPMEM_PATH . 'wp-members-install.php' );
-			wpmem_update_settings();
-			$this->load_settings();
-		}
-	}
-	
 	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
 	 */
-	function load_settings() {
-		
+	function __construct() {
+	
 		/**
 		 * Filter the options before they are loaded into constants.
 		 *
@@ -35,13 +22,20 @@ class WP_Members {
 		 */
 		$settings = apply_filters( 'wpmem_settings', get_option( 'wpmembers_settings' ) );
 
+		// Validate that v3 settings are loaded.
+		if ( ! isset( $settings['version'] ) ) {
+			// If settings were not properly built during plugin upgrade.
+			require_once( WPMEM_PATH . 'wp-members-install.php' );
+			$settings = apply_filters( 'wpmem_settings', wpmem_update_settings() );
+		}
+		
 		// Assemble settings.
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
 		}
 
 		// Set the stylesheet.
-		$this->cssurl = ( $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
+		$this->cssurl = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
 	}
 
 	/**
