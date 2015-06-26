@@ -137,7 +137,8 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 * Removed sortable user columns. This class needs to be rebuilt to accommodate custom user columns outside of WP-Members.
 * Removed native support for Custom Post Types (CPTs). Native CPT support was to be included in 3.0. However, it became appearant during the initial rollout that there are some additional considerations that need to be made regarding CPT support. It is being rolled back until the issues that have come up can be addressed.
-* Changed the order of update functions for users upgrading from previous versions so that the rebuild of the plugin's settings happens first. The most critical function in 3.x updating is to rebuild the plugin's main options array to the new 3.0 format. 
+* Changed the order of update functions for users upgrading from previous versions so that the rebuild of the plugin's settings happens first. The most critical function in 3.x updating is to rebuild the plugin's main options array to the new 3.0 format.
+* When settings are loaded, added a check to make sure that version 3 settings are there. If not, it runs the update script. (Resolves issues related to the "update now" link.)
 
 = 3.0.0.2 =
 
