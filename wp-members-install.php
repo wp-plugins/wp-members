@@ -157,6 +157,8 @@ function wpmem_do_install() {
  * Updates the existing settings if doing an update.
  *
  * @since 3.0
+ *
+ * @return array $wpmem_newsettings
  */
 function wpmem_update_settings() {
 
@@ -220,6 +222,8 @@ function wpmem_update_settings() {
 		delete_option( 'wpmembers_autoex' );
 		delete_option( 'wpmembers_attrib' );
 		*/
+		
+		return $wpmem_newsettings;
 	}
 }
 
