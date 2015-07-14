@@ -192,6 +192,29 @@ function wpmem_registration( $toggle ) {
 					return "empty"; exit();
 				}
 			}
+		} elseif ( $wpmem->captcha == 3 && $wpmem_captcha['recaptcha'] ) {
+			// Get the captcha response.
+			if ( isset( $_POST['g-recaptcha-response'] ) ) {
+				$captcha = $_POST['g-recaptcha-response'];
+			}
+			
+			// If there is no captcha value, return error.
+			if ( ! $captcha ) {
+				$wpmem_themsg = __( 'You must complete the CAPTCHA form.', 'wp-members' );
+				return "empty"; exit();
+			}
+			
+			// We need the private key for validation.
+			$privatekey = $wpmem_captcha['recaptcha']['private'];
+			
+			// Validate the captcha.
+			$response = file_get_contents( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
+			
+			// If captcha validation was unsuccessful.
+			if ( $response['success'] == false ) {
+				$wpmem_themsg = __( 'CAPTCHA was not valid.', 'wp-members' );
+				return "empty"; exit();
+			}
 		}
 
 		// Check for user defined password.
