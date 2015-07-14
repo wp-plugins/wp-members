@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.2.2
-Stable tag: 3.0.1
+Stable tag: 3.0.1.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.1 is bug fix release. See the change log for detail.
+WP-Members 3.0.1.1 is bug fix release. See the change log for detail.
 WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
@@ -132,6 +132,10 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 
 == Changelog ==
+
+= 3.0.1.1 =
+
+* Fixed autoexcerpt to use setting from object and not wpmemembers_autoex option.
 
 = 3.0.1 =
 
