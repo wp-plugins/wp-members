@@ -85,8 +85,8 @@ function wpmem_admin_plugin_links( $links, $file ) {
  */
 function wpmem_load_admin_js() {
 	// Queue up admin ajax and styles.
-	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . '/js/admin.js',   '', WPMEM_VERSION );
-	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
+	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . 'js/admin.js',   '', WPMEM_VERSION );
+	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . 'css/admin.css', '', WPMEM_VERSION );
 }
 
 

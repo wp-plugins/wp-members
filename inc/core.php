@@ -138,7 +138,7 @@ function wpmem_login() {
 		$creds['remember']      = $rememberme;
 
 		// Log in the user and get the user object.
-		$user = wp_signon( $creds, false );
+		$user = wp_signon( $creds, is_ssl() );
 
 		// If no error, user is a valid signon. continue.
 		if ( ! is_wp_error( $user ) ) {

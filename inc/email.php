@@ -83,7 +83,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	$arr['exp_type']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
 	$arr['exp_date']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
-	$arr['wpmem_msurl']   = get_option( 'wpmembers_msurl', null );
+	$arr['wpmem_msurl']   = $wpmem->user_pages['profile'];
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
