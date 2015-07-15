@@ -10,11 +10,14 @@ class widget_wpmemwidget extends WP_Widget {
 	 * Sets up the WP-Members login widget.
 	 */
 	function __construct() {
-		$widget_ops = array( 
-			'classname'   => 'wp-members', 
-			'description' => __( 'Displays the WP-Members sidebar login.', 'wp-members' ) 
-			); 
-		$this->WP_Widget( 'widget_wpmemwidget', 'WP-Members Login', $widget_ops );
+		parent::__construct(
+			'widget_wpmemwidget',
+			'WP-Members Login',
+			array( 
+				'classname'   => 'wp-members', 
+				'description' => __( 'Displays the WP-Members sidebar login.', 'wp-members' ), 
+			)
+		);
 	}
 
 	/**
