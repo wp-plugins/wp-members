@@ -191,8 +191,12 @@ function wpmem_update_fields( $action ) {
 		}
 		$add_field_err_msg = ( in_array( $_POST['add_option'], $chk_fields ) ) ? __( 'A field with that option name already exists', 'wp-members' ) : $add_field_err_msg;
 		
-		// Error check for disallowed field names.
-		$add_field_err_msg = ( strtolower( $_POST['add_option'] ) == 'name' ) ? __( 'Sorry, "name" is not an allowed field name. Field was not added.', 'wp-members' ) : $add_field_err_msg;
+		// Error check for reserved terms.
+		$reserved_terms = wpmem_wp_reserved_terms();
+		$submitted_term = $_POST['add_option'];
+		if ( in_array( strtolower( $submitted_term ), $reserved_terms ) ) {
+			$add_field_err_msg = sprintf( __( 'Sorry, "%s" is a <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Reserved_Terms" target="_blank">reserved term</a>. Field was not added.', 'wp-members' ), $submitted_term );
+		}
 
 		// Error check option name for spaces and replace with underscores.
 		$us_option = $_POST['add_option'];
