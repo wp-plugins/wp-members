@@ -136,6 +136,7 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 = 3.0.1.1 =
 
 * Fixed autoexcerpt to use setting from object and not wpmemembers_autoex option.
+* Added filter to remove comments array if content is blocked.
 
 = 3.0.1 =
 

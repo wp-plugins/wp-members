@@ -531,8 +531,24 @@ function wpmem_securify_comments( $open ) {
 	 * @param bool $open Whether the current post is open for comments.
 	 */
 	$open = apply_filters( 'wpmem_securify_comments', $open );
+	
+	if ( ! $open ) {
+		add_filter( 'comments_array' , 'wpmem_securify_comments_array' , 10, 2 );
+	}
 
 	return $open;
+}
+
+/**
+ * Empties the comments array if content is blocked.
+ *
+ * @since 3.0.1
+ *
+ * @return array $comments The comments array.
+ */
+function wpmem_securify_comments_array( $comments , $post_id ) { 
+	$comments = ( ! is_user_logged_in() && wpmem_block() ) ? array() : $comments;
+	return $comments;
 }
 
 /** End of File **/
