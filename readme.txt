@@ -130,6 +130,8 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
 
+8. Responsive forms.
+
 
 == Changelog ==
 
