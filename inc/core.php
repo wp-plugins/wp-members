@@ -144,7 +144,11 @@ function wpmem_login() {
 		if ( ! is_wp_error( $user ) ) {
 
 			// Determine where to put the user after login.
-			$redirect_to = ( isset( $_POST['redirect_to'] ) ) ? $_POST['redirect_to'] : $_SERVER['REQUEST_URI'];
+			if ( isset( $_POST['redirect_to'] ) )  {
+				$redirect_to = trim( $_POST['redirect_to'] );
+			} else {
+				$redirect_to = $_SERVER['REQUEST_URI'] . ( ( isset( $_SERVER['QUERY_STRING'] ) ) ? $_SERVER['QUERY_STRING'] : '' );
+			}
 
 			/**
 			 * Filter the redirect url.
@@ -285,8 +289,8 @@ function wpmem_change_password() {
 	global $user_ID;
 	if ( isset( $_POST['formsubmit'] ) ) {
 
-		$pass1 = $_POST['pass1'];
-		$pass2 = $_POST['pass2'];
+		$pass1 = trim( $_POST['pass1'] );
+		$pass2 = trim( $_POST['pass2'] );
 
 		if ( ! $pass1 && ! $pass2 ) { // Check for both fields being empty.
 
@@ -342,8 +346,8 @@ function wpmem_reset_password() {
 		 * @param array The username and email.
 		 */
 		$arr = apply_filters( 'wpmem_pwdreset_args', array( 
-			'user'  => ( isset( $_POST['user']  ) ) ? $_POST['user']  : '', 
-			'email' => ( isset( $_POST['email'] ) ) ? $_POST['email'] : '',
+			'user'  => ( isset( $_POST['user']  ) ) ? trim( $_POST['user'] )  : '', 
+			'email' => ( isset( $_POST['email'] ) ) ? trim( $_POST['email'] ) : '',
 		) );
 
 		if ( ! $arr['user'] || ! $arr['email'] ) { 
@@ -539,6 +543,7 @@ function wpmem_securify_comments( $open ) {
 	return $open;
 }
 
+
 /**
  * Empties the comments array if content is blocked.
  *
@@ -551,4 +556,28 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
 	return $comments;
 }
 
-/** End of File **/
+
+/**
+ * Redirects a user to defined login page with return redirect.
+ *
+ * @since 3.0.2
+ */
+function wpmem_redirect_to_login() {
+	
+	global $wpmem;
+
+	if( ! is_user_logged_in() && $wpmem->is_blocked() ) {
+		global $post;
+		// Get the page location.
+		$page = urlencode( "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
+		
+		$url  = wpmem_chk_qstr( $wpmem->user_pages['login'] ) . 'redirect_to=' . $page;
+		
+		wp_redirect( $url );
+		exit();
+	}
+	return;
+}
+
+
+// End of File.
