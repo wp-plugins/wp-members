@@ -551,8 +551,9 @@ function wpmem_securify_comments( $open ) {
  *
  * @return array $comments The comments array.
  */
-function wpmem_securify_comments_array( $comments , $post_id ) { 
-	$comments = ( ! is_user_logged_in() && wpmem_block() ) ? array() : $comments;
+function wpmem_securify_comments_array( $comments , $post_id ) {
+	global $wpmem;
+	$comments = ( ! is_user_logged_in() && $wpmem->is_blocked() ) ? array() : $comments;
 	return $comments;
 }
 
