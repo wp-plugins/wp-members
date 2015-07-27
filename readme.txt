@@ -140,6 +140,8 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 * Added reCAPTCHA version 2 as an option. v1 will remain available for now, to be fully deprecated later.
 * Fixed widget to use __construct for WP 4.3 compatibility.
 * Added error checking for WP reserved names when adding new custom fields.
+* Added wpmem_wp_reserved_terms filter for overriding reserved terms list.
+* Added trim whitespace to password reset and password change form validation.
 
 = 3.0.1 =
 
