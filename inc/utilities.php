@@ -215,7 +215,9 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  */
 function wpmem_do_excerpt( $content ) {
 
-	$arr = get_option( 'wpmembers_autoex' );
+	global $wpmem;
+
+	$arr = $wpmem->autoex; // get_option( 'wpmembers_autoex' );
 
 	// Is there already a 'more' link in the content?
 	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;

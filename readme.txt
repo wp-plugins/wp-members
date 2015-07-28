@@ -128,7 +128,9 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 6. Posts > All Posts - The plugin adds a column to the list of posts and pages to display if a post or page is unblocked or blocked (the opposite of whatver you have set for the plugin's default in the options tab).
 
-7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatver your default setting is).
+7. Posts > Edit Post - The plugin adds a meta box to the post/page editor allowing you to set an individual post to be blocked or unblocked (the opposite of whatever your default setting is).
+
+8. Forms are responsive with most included stylesheets.
 
 
 == Changelog ==
@@ -138,6 +140,8 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 * Fixed use of wp_signon() for ssl.
 * Fixed [wpmem_msurl] email shortcode.
 * Fixed admin js and css load (removed unnecessary slash).
+* Fixed autoexcerpt to use setting from object and not wpmemembers_autoex option.
+* Added filter to remove comments array if content is blocked.
 
 = 3.0.0 =
 
