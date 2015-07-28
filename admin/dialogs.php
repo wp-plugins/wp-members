@@ -77,9 +77,11 @@ function wpmem_a_do_warnings( $did_update ) {
 
 	// Haven't entered recaptcha api keys.
 	if ( $warnings_off && $wpmem->captcha == 1 ) {
-		$wpmem_captcha = get_option('wpmembers_captcha');
-		if ( !$wpmem_captcha['recaptcha']['public'] || !$wpmem_captcha['recaptcha']['private'] ) {
-			wpmem_a_warning_msg(6);
+		$wpmem_captcha = get_option( 'wpmembers_captcha' );
+		if ( isset( $wpmem_captcha['recaptcha'] ) ) {
+			if ( ! $wpmem_captcha['recaptcha']['public'] || ! $wpmem_captcha['recaptcha']['private'] ) {
+				wpmem_a_warning_msg(6);
+			}
 		}
 	}
 

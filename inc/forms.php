@@ -777,7 +777,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	}
 	
 	// do recaptcha if enabled
-	if ( $wpmem->captcha == 1 && $toggle != 'edit' ) { // don't show on edit page!
+	if ( ( $wpmem->captcha == 1 || $wpmem->captcha == 3 ) && $toggle != 'edit' ) { // don't show on edit page!
 		
 		// get the captcha options
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); 
@@ -930,7 +930,10 @@ function wpmem_inc_recaptcha( $arr ) {
 	// determine if we need ssl
 	$http = wpmem_use_ssl();
 
-	$str  = '<script type="text/javascript">
+	global $wpmem;
+	if ( $wpmem->captcha == 1 ) {
+
+		$str  = '<script type="text/javascript">
 			var RecaptchaOptions = { theme : \''. $arr['theme'] . '\'' . $lang . ' };
 		</script>
 		<script type="text/javascript" src="' . $http . 'www.google.com/recaptcha/api/challenge?k=' . $arr['public'] . '"></script>
@@ -940,6 +943,12 @@ function wpmem_inc_recaptcha( $arr ) {
 			<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
 		</noscript>';
 	
+	} elseif ( $wpmem->captcha == 3 ) {
+		
+		$str = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<div class="g-recaptcha" data-sitekey="' . $arr['public'] . '"></div>';
+	}
+
 	/**
 	 * Filter the reCAPTCHA HTML.
 	 *

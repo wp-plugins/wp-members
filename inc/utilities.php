@@ -131,7 +131,7 @@ function wpmem_chk_qstr( $url = null ) {
 	$permalink = get_option( 'permalink_structure' );
 	if ( ! $permalink ) {
 		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url;
-		$return_url = $url . "&amp;";
+		$return_url = $url . "&";
 	} else {
 		$url = ( ! $url ) ? get_permalink() : $url;
 		$return_url = $url . "?";
@@ -333,6 +333,29 @@ function wpmem_get_excluded_meta( $tag ) {
  */
 function wpmem_use_ssl() {
 	return ( is_ssl() ) ? 'https://' : 'http://';
+}
+
+
+/**
+ * Returns an array of WordPress reserved terms.
+ *
+ * @since 3.0.2
+ *
+ * @return array An array of WordPress reserved terms.
+ */
+function wpmem_wp_reserved_terms() {
+	$reserved_terms = array( 'attachment', 'attachment_id', 'author', 'author_name', 'calendar', 'cat', 'category', 'category__and', 'category__in', 'category__not_in', 'category_name', 'comments_per_page', 'comments_popup', 'customize_messenger_channel', 'customized', 'cpage', 'day', 'debug', 'error', 'exact', 'feed', 'fields', 'hour', 'link_category', 'm', 'minute', 'monthnum', 'more', 'name', 'nav_menu', 'nonce', 'nopaging', 'offset', 'order', 'orderby', 'p', 'page', 'page_id', 'paged', 'pagename', 'pb', 'perm', 'post', 'post__in', 'post__not_in', 'post_format', 'post_mime_type', 'post_status', 'post_tag', 'post_type', 'posts', 'posts_per_archive_page', 'posts_per_page', 'preview', 'robots', 's', 'search', 'second', 'sentence', 'showposts', 'static', 'subpost', 'subpost_id', 'tag', 'tag__and', 'tag__in', 'tag__not_in', 'tag_id', 'tag_slug__and', 'tag_slug__in', 'taxonomy', 'tb', 'term', 'theme', 'type', 'w', 'withcomments', 'withoutcomments', 'year' );
+	
+	/**
+	 * Filter the array of reserved terms.
+	 *
+	 * @since 3.0.2
+	 *
+	 * @param array $reserved_terms
+	 */
+	$reserved_terms = apply_filters( 'wpmem_wp_reserved_terms', $reserved_terms );
+	
+	return $reserved_terms;
 }
 
 /** End of File **/
