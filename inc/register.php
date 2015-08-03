@@ -210,6 +210,9 @@ function wpmem_registration( $toggle ) {
 			// Validate the captcha.
 			$response = file_get_contents( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
 			
+			// Decode the json response.
+			$response = json_decode( $response, true );
+			
 			// If captcha validation was unsuccessful.
 			if ( $response['success'] == false ) {
 				$wpmem_themsg = __( 'CAPTCHA was not valid.', 'wp-members' );
