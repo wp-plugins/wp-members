@@ -106,7 +106,7 @@ function wpmem_a_build_emails() {
 									<th scope="row">&nbsp;</th>
 									<td>
 										<input type="hidden" name="wpmem_admin_a" value="update_emails" />
-										<input type="submit" name="save" class="button-primary" value="<?php _e( 'Update Emails', 'wp-members' ); ?> &raquo;" />
+										<?php submit_button( __( 'Update Emails', 'wp-members' ) ); ?>
 									</td>
 								</tr>
 							</table>

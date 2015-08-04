@@ -204,7 +204,7 @@ function wpmem_a_build_captcha_options() {
 									<td>
 										<input type="hidden" name="wpmem_recaptcha_type" value="<?php echo $captcha_type ?>" />
 										<input type="hidden" name="wpmem_admin_a" value="update_captcha" />
-										<input type="submit" name="save"  class="button-primary" value="<?php _e( 'Update CAPTCHA Settings', 'wp-members' ); ?> &raquo;" />
+										<?php submit_button( __( 'Update CAPTCHA Settings', 'wp-members' ) ); ?>
 									</td>
 								</tr>
 							<?php } ?>
