@@ -487,7 +487,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
  * @return string $form         The HTML for the entire form as a string.
  */
-function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
+function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = null ) {
 
 	global $wpmem, $wpmem_regchk, $userdata; 
 	
@@ -801,7 +801,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 
 	// create hidden fields
 	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
-	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
+	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
 	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $n;
 	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $n;
 	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $n : $hidden;

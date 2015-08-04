@@ -86,7 +86,7 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 					$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 				}
 				$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-				$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration();
+				$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration( 'new', '', $redirect_to );
 			}
 			break;
 
