@@ -136,7 +136,7 @@ function wpmem_admin_fields() {
 		 * if user is not active yet.
 		 */
 		if ( $wpmem->use_exp == 1 ) {
-			if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmwm->mod_reg != 1 ) ) {
+			if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmem->mod_reg != 1 ) ) {
 				wpmem_a_extenduser( $user_id );
 			}
 		} ?>
