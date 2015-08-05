@@ -1,8 +1,8 @@
-﻿=== WP-Members ===
+﻿=== WP-Members: WordPress Membership Framework ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.2.2
+Tested up to: 4.3
 Stable tag: 3.0.2
 License: GPLv2
 
