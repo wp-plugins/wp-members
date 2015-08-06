@@ -142,7 +142,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
 	
-	$str = $args['div_before'] . $args['p_before'] . stripslashes( $msg ) . $args['p_after'] . $args['div_after'];
+	$str = $args['div_before'] . $args['p_before'] . stripslashes( $args['msg'] ) . $args['p_after'] . $args['div_after'];
 
 	/**
 	 * Filter the message.
