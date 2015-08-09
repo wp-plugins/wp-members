@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.0.2
+Version:     3.0.3
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 License:     GPLv2
@@ -60,13 +60,13 @@ License:     GPLv2
 
 
 // Initialize constants.
-define( 'WPMEM_VERSION', '3.0.2' );
+define( 'WPMEM_VERSION', '3.0.3' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
 
 // Localization.
-add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
+add_action( 'init', 'wpmem_load_textdomain' ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
 
 // Initialize the plugin.
 add_action( 'after_setup_theme', 'wpmem_init', 10 );
@@ -281,6 +281,11 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
  */
 function wpmem_load_textdomain() {
 	
+	// @todo See: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
+	
+	$domain = 'wp-members';
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+	
 	/**
 	 * Filter translation file.
 	 *
@@ -288,11 +293,22 @@ function wpmem_load_textdomain() {
 	 *
 	 * @param string $file The translation file to load.
 	 */
-	$file = apply_filters( 'wpmem_localization_file', dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 	
-	// Load the localization file.
-	load_plugin_textdomain( 'wp-members', false, $file );
-	
+	if ( $loaded = load_textdomain( $domain, $file ) ) {
+		return $loaded;
+	} else {
+		
+		/**
+		 * Filter translation directory.
+		 *
+		 * @since 3.0.3
+		 *
+		 * @param string $dir The translation directory.
+		 */
+		$dir = apply_filters( 'wpmem_localization_dir', dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+		load_plugin_textdomain( $domain, FALSE, $dir );
+	}
 	return;
 }
 
