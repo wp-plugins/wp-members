@@ -1,9 +1,9 @@
-﻿=== WP-Members ===
+﻿=== WP-Members: Membership Framework ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.2.2
-Stable tag: 3.0.2
+Tested up to: 4.3
+Stable tag: 3.0.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.2 is feature and fix release. See the change log for detail.
+WP-Members 3.0.3 is feature and fix release. See the change log for detail.
 WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
@@ -134,6 +134,16 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 
 == Changelog ==
+
+= 3.0.3 =
+
+* Bug fix recaptcha v2 decode json response on validation.
+* Bug fix typo in $wpmem object name in admin/user-profile.php.
+* Fix register form shortcode redirect_to parameter.
+* Admin forms now use submit_button() function to generate submit button.
+* Changed localization to load on init action which will allow for more flexibility with filtering custom language files.
+* Added wpmem_localization_file and wpmem_localization_dir filters.
+* Localizaiton checks for file in /wp-content/ language directory first, then loads plugin default.
 
 = 3.0.2 =
 
