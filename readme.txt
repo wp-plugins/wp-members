@@ -139,11 +139,12 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 * Bug fix recaptcha v2 decode json response on validation.
 * Bug fix typo in $wpmem object name in admin/user-profile.php.
+* Bug fix message string variable in wpmem_msg_dialog_arr filter.
 * Fix register form shortcode redirect_to parameter.
 * Admin forms now use submit_button() function to generate submit button.
 * Changed localization to load on init action which will allow for more flexibility with filtering custom language files.
 * Added wpmem_localization_file and wpmem_localization_dir filters.
-* Localizaiton checks for file in /wp-content/ language directory first, then loads plugin default.
+* Localization checks for file in /wp-content/ language directory first, then loads plugin default.
 
 = 3.0.2 =
 
