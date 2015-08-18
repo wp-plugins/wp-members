@@ -13,6 +13,15 @@
  * @subpackage WP-Members
  * @author Chad Butler 
  * @copyright 2006-2015
+ *
+ * Functions Included:
+ * - wpmem_sc_forms
+ * - wpmem_sc_logged_in
+ * - wpmem_sc_logged_out
+ * - wpmem_shortcode
+ * - wpmem_do_sc_pages
+ * - wpmem_do_sc_pages
+ * - wpmem_sc_user_count
  */
 
 
@@ -512,4 +521,4 @@ function wpmem_sc_user_count( $atts, $content = null ) {
 	return ( $do_query ) ? $atts['label'] . $user_meta_query : '';
 }
 
- /** End of File **/
+// End of file.

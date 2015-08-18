@@ -13,6 +13,13 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions Included:
+ * - wpmem_inc_loginfailed
+ * - wpmem_inc_regmessage
+ * - wpmem_inc_memberlinks
+ * - wpmem_page_pwd_reset
+ * - wpmem_page_user_edit
  */
 
 
@@ -383,4 +390,4 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 }
 endif;
 
-/** End of File **/
+// End of file.
