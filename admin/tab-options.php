@@ -220,7 +220,7 @@ function wpmem_a_build_options() {
 							  </div>
 								<br /></br />
 								<input type="hidden" name="wpmem_admin_a" value="update_settings">
-								<input type="submit" name="UpdateSettings"  class="button-primary" value="<?php _e( 'Update Settings', 'wp-members' ); ?> &raquo;" /> 
+								<?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?>
 							</ul>
 						</form>
 					</div><!-- .inside -->

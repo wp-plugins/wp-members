@@ -210,6 +210,9 @@ function wpmem_registration( $toggle ) {
 			// Validate the captcha.
 			$response = file_get_contents( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
 			
+			// Decode the json response.
+			$response = json_decode( $response, true );
+			
 			// If captcha validation was unsuccessful.
 			if ( $response['success'] == false ) {
 				$wpmem_themsg = __( 'CAPTCHA was not valid.', 'wp-members' );
@@ -224,7 +227,7 @@ function wpmem_registration( $toggle ) {
 		$fields['user_registered'] = gmdate( 'Y-m-d H:i:s' );
 		$fields['user_role']       = get_option( 'default_role' );
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
-		$fields['wpmem_reg_url']   = $_REQUEST['redirect_to'];
+		$fields['wpmem_reg_url']   = ( isset( $_REQUEST['wpmem_reg_page'] ) ) ? $_REQUEST['wpmem_reg_page'] : $_REQUEST['redirect_to'];
 
 		/*
 		 * These native fields are not installed by default, but if they

@@ -95,19 +95,12 @@ function wpmem_a_build_captcha_options() {
 								$private_key = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['private'] : '';
 								$public_key  = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['public']  : '';
 								?>
-								<tr>
-									<td colspan="2">
-										<p><?php _e( 'reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog.', 'wp-members' ); ?></p>
-										<p><?php printf( __( 'reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s', 'wp-members' ), '<a href="http://www.google.com/recaptcha/intro/index.html" target="_blank">', '</a>' ); ?>.</p>
-										<p>
-									</td>
-								</tr>
 								<tr valign="top">
 									<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th>
 									<td>
-										<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "public" and a "private" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
-										<?php _e( 'Public Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $public_key; ?>" /><br />
-										<?php _e( 'Private Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $private_key; ?>" />
+										<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "site" and a "secret" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
+										<?php _e( 'Site Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $public_key; ?>" /><br />
+										<?php _e( 'Secret Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $private_key; ?>" />
 									 </td>
 								</tr>
 							<?php 
@@ -204,7 +197,7 @@ function wpmem_a_build_captcha_options() {
 									<td>
 										<input type="hidden" name="wpmem_recaptcha_type" value="<?php echo $captcha_type ?>" />
 										<input type="hidden" name="wpmem_admin_a" value="update_captcha" />
-										<input type="submit" name="save"  class="button-primary" value="<?php _e( 'Update CAPTCHA Settings', 'wp-members' ); ?> &raquo;" />
+										<?php submit_button( __( 'Update CAPTCHA Settings', 'wp-members' ) ); ?>
 									</td>
 								</tr>
 							<?php } ?>

@@ -200,22 +200,6 @@ msgstr ""
 msgid "Manage reCAPTCHA Options"
 msgstr ""
 
-#: admin/tab-captcha.php:63
-msgid ""
-"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
-"while blocking spam on your blog."
-msgstr ""
-
-#: admin/tab-captcha.php:64
-#, php-format
-msgid ""
-"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
-"that they are a human. This verifies that they are not a spambot while also "
-"correcting the automatic scans of old books. So you get less spam, and the "
-"world gets accurately digitized books. Everybody wins! For details, visit "
-"the %s reCAPTCHA website%s"
-msgstr ""
-
 #: admin/tab-captcha.php:69
 msgid "reCAPTCHA Keys"
 msgstr ""
@@ -223,16 +207,16 @@ msgstr ""
 #: admin/tab-captcha.php:71
 #, php-format
 msgid ""
-"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"reCAPTCHA requires an API key, consisting of a \"site\" and a \"secret\" "
 "key. You can sign up for a %s free reCAPTCHA key%s"
 msgstr ""
 
 #: admin/tab-captcha.php:72
-msgid "Public Key"
+msgid "Site Key"
 msgstr ""
 
 #: admin/tab-captcha.php:73
-msgid "Private Key"
+msgid "Secret Key"
 msgstr ""
 
 #: admin/tab-captcha.php:77

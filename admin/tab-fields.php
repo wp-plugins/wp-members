@@ -420,7 +420,8 @@ Last Row|last_row<?php } } ?></textarea>
 				</ul><br />
 				<?php if ( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $field_arr[2]; ?>" /><?php } ?>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />
-				<input type="submit" name="save"  class="button-primary" value="<?php echo ( $mode == 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?> &raquo;" /> 
+				<?php $text = ( $mode == 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?>
+				<?php submit_button( $text ); ?>
 			</form>
 		</div>
 	</div>
@@ -560,7 +561,7 @@ function wpmem_a_field_table( $wpmem_fields ) {
 				<?php } ?>
 				</table><br />
 				<input type="hidden" name="wpmem_admin_a" value="update_fields" />
-				<input type="submit" name="save"  class="button-primary" value="<?php _e( 'Update Fields', 'wp-members' ); ?> &raquo;" /> 
+				<?php submit_button( __( 'Update Fields', 'wp-members' ) ); ?>
 			</form>
 		</div><!-- .inside -->
 	</div>	

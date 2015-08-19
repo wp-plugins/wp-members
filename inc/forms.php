@@ -487,7 +487,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
  * @return string $form         The HTML for the entire form as a string.
  */
-function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
+function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = null ) {
 
 	global $wpmem, $wpmem_regchk, $userdata; 
 	
@@ -801,9 +801,12 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 
 	// create hidden fields
 	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
-	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : get_permalink();
+	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
 	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $n;
 	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $n;
+	if ( $redirect_to != get_permalink() ) {
+		$hidden.= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $n;
+	}
 	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $n : $hidden;
 	
 	/**
@@ -865,7 +868,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '' ) {
 	
 	// apply form wrapper
 	$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
-	$form = '<form name="form" method="post"' . $enctype . ' action="' . get_permalink() . '" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form. $n . '</form>';
+	$post_to = ( $redirect_to ) ? $redirect_to : get_permalink();
+	$form = '<form name="form" method="post"' . $enctype . ' action="' . $post_to . '" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form. $n . '</form>';
 	
 	// apply anchor
 	$form = '<a name="register"></a>' . $n . $form;

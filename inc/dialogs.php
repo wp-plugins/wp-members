@@ -13,6 +13,13 @@
  * @subpackage WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
+ *
+ * Functions Included:
+ * - wpmem_inc_loginfailed
+ * - wpmem_inc_regmessage
+ * - wpmem_inc_memberlinks
+ * - wpmem_page_pwd_reset
+ * - wpmem_page_user_edit
  */
 
 
@@ -142,7 +149,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
 	
-	$str = $args['div_before'] . $args['p_before'] . stripslashes( $msg ) . $args['p_after'] . $args['div_after'];
+	$str = $args['div_before'] . $args['p_before'] . stripslashes( $args['msg'] ) . $args['p_after'] . $args['div_after'];
 
 	/**
 	 * Filter the message.
@@ -383,4 +390,4 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 }
 endif;
 
-/** End of File **/
+// End of file.
