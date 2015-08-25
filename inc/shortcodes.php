@@ -122,7 +122,7 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 		// Fixes the wptexturize.
 		remove_filter( 'the_content', 'wpautop' );
 		remove_filter( 'the_content', 'wptexturize' );
-		add_filter( 'the_content', 'wpmem_texturize', 99 );
+		add_filter( 'the_content', 'wpmem_texturize', 999 );
 	}
 	// @todo - Look into shortcode_unautop().
 	/** End temporary texturize functions */
@@ -307,7 +307,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 			// Fixes the wptexturize.
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', 'wpmem_texturize', 99 );
+			add_filter( 'the_content', 'wpmem_texturize', 999 );
 		}
 		return $content;
 	}
