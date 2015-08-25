@@ -78,11 +78,11 @@ class WP_Members {
 		add_action( 'wp_print_styles',       'wpmem_enqueue_style' );      // load the stylesheet if using the new forms
 
 		// Add filters.
-		add_filter( 'the_content',           array( $this, 'do_securify' ), 1, 1 );
+		add_filter( 'the_content',           array( $this, 'do_securify' ), 99 );
 		add_filter( 'allow_password_reset',  'wpmem_no_reset' );                 // no password reset for non-activated users
 		add_filter( 'register_form',         'wpmem_wp_register_form' );         // adds fields to the default wp registration
 		add_filter( 'registration_errors',   'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
-		add_filter( 'comments_open',         'wpmem_securify_comments', 20, 1 ); // securifies the comments
+		add_filter( 'comments_open',         'wpmem_securify_comments', 99 );    // securifies the comments
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
@@ -161,6 +161,10 @@ class WP_Members {
 
 		// Get the action being done (if any).
 		$this->action = ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
+
+		// For backward compatibility with processes that check $wpmem_a.
+		global $wpmem_a;
+		$wpmem_a = $this->action;
 
 		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
@@ -404,7 +408,7 @@ class WP_Members {
 			// Fix the wptexturize.
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', 'wpmem_texturize', 99 );
+			add_filter( 'the_content', 'wpmem_texturize', 999 );
 		}
 
 		return $content;
