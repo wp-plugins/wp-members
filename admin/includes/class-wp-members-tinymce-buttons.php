@@ -37,9 +37,9 @@ class WP_Members_TinyMCE_Buttons {
 
 		// WP version 3.9 updated to tinymce 4.0
 		if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
-			$plugin_array['wpmem_shortcodes'] = WPMEM_DIR .'js/shortcodes_tinymce_4.js?ver=' . $ver;
+			$plugin_array['wpmem_shortcodes'] = WPMEM_DIR .'admin/js/shortcodes_tinymce_4.js?ver=' . $ver;
 		} else {
-			$plugin_array['wpmem_shortcodes'] = WPMEM_DIR .'js/shortcodes_tinymce.js?ver=' . $ver;
+			$plugin_array['wpmem_shortcodes'] = WPMEM_DIR .'admin/js/shortcodes_tinymce.js?ver=' . $ver;
 		}
 		return $plugin_array; 
 	}

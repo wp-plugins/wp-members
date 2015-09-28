@@ -351,7 +351,7 @@ function wpmem_load_tinymce() {
 	// @todo For now, only load if WP version is high enough.
 	if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
 		global $wpmem_shortcode;
-		include( WPMEM_PATH . 'inc/class-wp-members-tinymce-buttons.php' );
+		include( WPMEM_PATH . 'admin/includes/class-wp-members-tinymce-buttons.php' );
 		$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
 	}
 }
