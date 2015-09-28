@@ -296,6 +296,7 @@ function wpmem_load_textdomain() {
 	 */
 	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 	
+	$loaded = false;
 	if ( $loaded == load_textdomain( $domain, $file ) ) {
 		return $loaded;
 	} else {
