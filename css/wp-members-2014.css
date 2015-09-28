@@ -54,6 +54,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wp-members input[type="text"],
 #wp-members input[type="password"]{
 	margin: 0 0 4px 0;
+	width: 92%;
 }
 #wp-members input[type="submit"] {
 	padding: 5px 6px 4px;
@@ -192,6 +193,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_login .link-text {
 	float:right;
 	width:100%;
+	text-align:right;
 }
 
 
@@ -207,6 +209,29 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 
 /** for smaller screens */
+
+@media screen and (max-width: 1079px) {
+	#wp-members .button_div {
+		text-align:center;
+	}
+	#wp-members input[type="submit"] {
+		width: 92%;
+		margin: 0 10px 6px 0;
+	}
+}
+
+@media screen and (max-width: 1007px) {
+	#wp-members {
+		width: 179px;
+	}
+	#wp-members .button_div {
+		text-align: inherit;
+	}
+	#wp-members input[type="submit"] {
+		width: inherit;
+		margin: 0 4px 0 0;
+	}
+}
 
 @media screen and (max-width: 720px) {
 	#wpmem_reg label.text, #wpmem_reg label.checkbox, 
