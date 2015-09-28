@@ -298,10 +298,11 @@ function wpmem_add_user_column( $columns ) {
 
 		$columns = array_merge( $columns, $wpmem_user_columns );
 	}
-
+	
 	// Makes WP-Members columns sortable.
-	require_once( WPMEM_PATH . 'admin/includes/class-wp-members-sortable-user-columns.php' );
-	new WP_Members_Sortable_User_Columns( $wpmem_user_columns );
+	// @todo - finish debugging class or add sortable functions to users.php.
+	// require_once( WPMEM_PATH . 'admin/includes/class-wp-members-sortable-user-columns.php' );
+	// new WP_Members_Sortable_User_Columns( $wpmem_user_columns );
 
 	return $columns;
 } 

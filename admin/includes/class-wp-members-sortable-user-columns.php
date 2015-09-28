@@ -3,7 +3,7 @@
 /**
  * WP-Members Sortable Columns Class.
  *
- * @since 3.1
+ * @since 3.0
  */
 
 if( ! class_exists( 'WP_Members_Sortable_User_Columns' ) ):
@@ -33,22 +33,24 @@ class WP_Members_Sortable_User_Columns
 	/**
 	 * Initial contruct function.
 	 *
-	 * @since 3.1
+	 * @since 3.0
 	 *
 	 * @param array $args
 	 */
 	function __construct( $args ) {
 		$this->args = $args;
-		add_action( 'pre_user_query', array(&$this, 'query' ) );
-		add_action( 'manage_users_custom_column', array( &$this, 'content' ), 10, 3 );
-		add_filter( 'manage_users_columns', array( &$this, 'columns' ) );
-		add_filter( 'manage_users_sortable_columns', array( &$this, 'sortable') );
+		//add_action( 'pre_user_query', array(&$this, 'query' ) );
+		add_action( 'manage_users_custom_column', array( &$this, 'column_content' ), 10, 3 );
+		add_filter( 'manage_users_columns', array( &$this, 'add_to_columns' ) );
+		add_filter( 'manage_users_sortable_columns', array( &$this, 'make_column_sortable') );
+		
+		add_filter( 'request', array( &$this, 'custom_column_orderby' ) );
 	}
 	
 	/**
 	 * Prequery function.
 	 *
-	 * @since 3.1
+	 * @since 3.0
 	 * 
 	 * @param string $query
 	 */
@@ -66,13 +68,13 @@ class WP_Members_Sortable_User_Columns
 	}
 	
 	/**
-	 * Columns function.
+	 * Adds selected WP-Members columns to the Users > All Users columns.
 	 * 
-	 * @since 3.1
+	 * @since 3.0
 	 * 
 	 * @param array $columns
 	 */
-	function columns( $columns ) { echo 'you are here';
+	function add_to_columns( $columns ) {
 		foreach ( $this->args as $key => $value ) {
 			$columns[ $key ] = $value;
 		}
@@ -80,13 +82,13 @@ class WP_Members_Sortable_User_Columns
 	}
 	
 	/**
-	 * Column sorting function.
+	 * Sets selected WP-Members columns as sortable.
 	 * 
-	 * @since 3.1
+	 * @since 3.0
 	 * 
 	 * @param array $columns
 	 */
-	function sortable( $columns ) {
+	function make_column_sortable( $columns ) {
 		$custom = array();
 		foreach ( $this->args as $key => $value ) {
 			$custom[ $key ] = $key;
@@ -95,15 +97,15 @@ class WP_Members_Sortable_User_Columns
 	}
 	
 	/**
-	 * Column content function.
+	 * Returns the column content value for WP-Members selected columns.
 	 * 
-	 * @since 3.1
+	 * @since 3.0
 	 * 
 	 * @param string $value
 	 * @param string $column_name
 	 * @param int    $user_id
 	 */
-	function content( $value, $column_name, $user_id ) {
+	function column_content( $value, $column_name, $user_id ) {
 		foreach ( $this->args as $key => $val ) {
 			if ( $column_name == $key ) {
 				$user = get_userdata( $user_id );
@@ -112,5 +114,22 @@ class WP_Members_Sortable_User_Columns
 		}
 		return $value;
 	}
+	
+	/**
+	 * Sort custom column.
+	 *
+	 * @since 3.0.5
+	 */
+	function custom_column_orderby( $vars ) {
+		foreach ( $this->args as $key => $val ) {
+			if ( isset( $vars[ $key ] ) && $val == $vars[ $key ] ) {
+				$vars = array_merge( $vars, array(
+					'meta_key' => $key,
+					'orderby'  => $key,
+				) );
+			}
+		}
+		return $vars;
+	}	
 }
 endif;
