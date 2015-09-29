@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.3
-Stable tag: 3.0.4
+Tested up to: 4.3.1
+Stable tag: 3.0.5
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.4 is a functional improvement release. See the change log for details.
+WP-Members 3.0.5 is primarily a functional improvement release with minimal core changes. See the change log for details.
 WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
 
 == Screenshots ==
@@ -134,6 +134,16 @@ WP-Members 3.0.0 is a major version release. Please be sure you have reviewed th
 
 
 == Changelog ==
+
+= 3.0.5 =
+
+* Updated wpmem_pwd_change and wpmem_pwd_reset action hooks to include password as a parameter.
+* Stylesheet updates for 2015, 2014, and generic (both float and no float).
+* Fix to TinyMCE shortcode button, should now load button on new post/page editor.
+* Added [WP-Members] to the TinyMCE shortcode button for clarity as to what it is.
+* Moved admin js and css files to /admin/js/ and /admin/css/
+* Moved admin class files to /admin/includes/
+* Updated and verified all directories contain an index.php file to prevent directory browsing.
 
 = 3.0.4 =
 

@@ -45,7 +45,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 .wpmem_msg {
 	margin: 0;
-	padding: 28px 26px 4px;
+	padding: 32px 26px 4px;
 }
 
 
@@ -55,8 +55,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	width: 100%;
 }
 #wp-members fieldset {
-	border:none;
-	padding:0px
+	border: none;
+	padding: 0px
 }
 #wp-members input {
 	font-family: inherit;
@@ -69,12 +69,12 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	padding: 5px 6px 4px;
 	margin: 0 4px 0 0;
 }
-#wp-members .button_div { 
-	margin-top:4px; 
+#wp-members .button_div {
+	margin-top: 4px;  
 }
 #wp-members .err {
 	width:100%;
-    padding: 5px;
+	padding: 5px;
 	font-family: inherit;
 	background: #F7F7F7;
 	border: 1px solid rgba(51, 51, 51, 0.3);
@@ -82,32 +82,6 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 
 /* Login Form and Registration Form */
-#wpmem_reg, #wpmem_login {
-
-}
-
-#wpmem_reg input[type="text"],
-#wpmem_reg textarea,
-#wpmem_login input[type="text"],
-#wpmem_login input[type="password"] {
-
-}
-
-#wpmem_reg input,
-#wpmem_reg button,
-#wpmem_reg select,
-#wpmem_reg textarea,
-#wpmem_login input,
-#wpmem_login button {
-
-}
-
-#wpmem_reg input:focus,
-#wpmem_reg textarea:focus,
-#wpmem_login input:focus {
-
-}
-
 #wpmem_reg select {
 	width:100%;
 	padding: 6px 10px 7px;
@@ -124,15 +98,16 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	font-size: 24px;
 	line-height: 1;
 	font-weight: 700;
-	margin-bottom: 10px;
+	margin-bottom: 30px;
 }
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
-#wpmem_reg label.textarea , #wpmem_reg label.select,
+#wpmem_reg label.textarea, #wpmem_reg label.select,
 #wpmem_login label {
 	height: 30px;
 	width:32%;
 	float:left;
 	padding: 12px 0px 0px;
+	-webkit-padding: 15px 0px 0px;
 	margin: 0px 0px 14px;
 	height: 49px;
 }
@@ -147,7 +122,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	letter-spacing: 0.04em;
 	line-height: 1.5;
 	text-transform: uppercase;
-	margin-bottom: 6px;
+	margin-bottom: 13px;
+}
+#wpmem_reg label.textarea {
+	height: 185px;
 }
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
@@ -166,7 +144,13 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	float:right;
 	margin:0 0 14px 0;
 }
-#wpmem_reg .div_checkbox { height: 49px; }
+#wpmem_reg .div_text, #wpmem_reg .div_select, 
+#wpmem_login .div_text, #wpmem_reg .div_checkbox { 
+	height: 49px;
+}
+#wpmem_reg .div_checkbox { 
+	padding: 9px 0;
+}
 #wpmem_login input[type="checkbox"] {
 	margin: 18px 2px;
 }
@@ -189,6 +173,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 #wpmem_reg .req-text {
 	margin: 20px 0px 0px 5px;
+	display: inline-block;
+	width: 100%;
 }
 
 #wpmem_reg .noinput {
@@ -209,7 +195,9 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 #wpmem_login .link-text {
 	width: 100%;
+	margin: 4px 0;
 	float: right;
+	text-align: right;
 }
 
 #tos {
@@ -242,6 +230,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	#wpmem_reg label.text, #wpmem_reg label.checkbox, 
 	#wpmem_reg label.textarea , #wpmem_reg label.select,
 	#wpmem_login label {
+		height: 20px;
 		width: 90%;
 		padding: 5px 0 0 0;
 	}
@@ -252,6 +241,9 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	#wpmem_reg .div_select, #wpmem_login .div_text,
 	#wpmem_reg .div_checkbox {
 		width: 98%;
+	}
+	#wpmem_reg .div_text {
+	    font-size: 80%;
 	}
 	#wpmem_msg, .wpmem_msg {
 		width: 100%;

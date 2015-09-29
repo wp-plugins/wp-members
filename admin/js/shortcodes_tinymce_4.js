@@ -9,7 +9,7 @@
 		editor.addButton('wpmem_shortcodes_button', function() {
 			return {
 				title: "WP-Members Shortcodes",
-				text: "[ ]",
+				text: "[WP-Members]",
 				type: 'menubutton',
 				icons: false,
 				menu: [

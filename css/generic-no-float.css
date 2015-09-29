@@ -195,6 +195,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 #wpmem_login .link-text {
 	width: 74%;
+	text-align:right;
 }
 
 #tos {

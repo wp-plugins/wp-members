@@ -309,9 +309,10 @@ function wpmem_change_password() {
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param int $user_ID The user's numeric ID.
+			 * @param int    $user_ID The user's numeric ID.
+			 * @param string $pass1   The user's new plain text password.
 			 */
-			do_action( 'wpmem_pwd_change', $user_ID );
+			do_action( 'wpmem_pwd_change', $user_ID, $pass1 );
 
 			return "pwdchangesuccess";
 
@@ -382,9 +383,10 @@ function wpmem_reset_password() {
 					 *
 					 * @since 2.9.0
 					 *
-					 * @param int $user_ID The user's numeric ID.
+					 * @param int    $user_ID  The user's numeric ID.
+					 * @param string $new_pass The new plain text password.
 					 */
-					do_action( 'wpmem_pwd_reset', $user->ID );
+					do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
 
 					return "pwdresetsuccess";
 				}
