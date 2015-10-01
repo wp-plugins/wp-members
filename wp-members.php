@@ -284,20 +284,29 @@ function wpmem_load_textdomain() {
 	
 	// @todo See: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
 	
+	// Plugin textdomain.
 	$domain = 'wp-members';
-	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 	
+	// Wordpress locale.
+	/** This filter is documented in wp-includes/l10n.php */
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
 	/**
 	 * Filter translation file.
+	 *
+	 * If the translate.wordpress.org language pack is available, it will
+	 * be /wp-content/languages/plugins/wp-members-{locale}.mo by default.
+	 * You can filter this if you want to load a language pack from a
+	 * different location (or different file name).
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $file The translation file to load.
 	 */
 	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo' );
-	
-	$loaded = true;
-	if ( $loaded == load_textdomain( $domain, $file ) ) {
+
+	$loaded = load_textdomain( $domain, $file );
+	if ( $loaded ) {
 		return $loaded;
 	} else {
 		
