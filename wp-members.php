@@ -7,6 +7,7 @@ Version:     3.0.5.1
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 Text Domain: wp-members
+Domain Path: /lang
 License:     GPLv2
 */
 
