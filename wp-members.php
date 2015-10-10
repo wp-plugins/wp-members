@@ -294,9 +294,9 @@ function wpmem_load_textdomain() {
 	 *
 	 * @param string $file The translation file to load.
 	 */
-	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
+	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo' );
 	
-	$loaded = false;
+	$loaded = true;
 	if ( $loaded == load_textdomain( $domain, $file ) ) {
 		return $loaded;
 	} else {

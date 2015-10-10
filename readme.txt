@@ -111,8 +111,8 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.5 is primarily a functional improvement release with minimal core changes. See the change log for details.
-WP-Members 3.0.0 is a major version release. Please be sure you have reviewed the changelog before upgrading.  http://rkt.bz/v30
+WP-Members 3.0.5 is a functional improvement release with minimal core changes.
+WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
 
 == Screenshots ==
 
