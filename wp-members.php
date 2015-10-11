@@ -219,7 +219,6 @@ function wpmem_chk_admin() {
 function wpmem_admin_options() {
 	if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
 		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
-		add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 	}
 }
 

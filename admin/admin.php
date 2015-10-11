@@ -25,6 +25,7 @@
  * - wpmem_admin_tabs
  * - wpmem_admin_action
  * - wpmem_admin_add_new_user
+ * - wpmem_admin_enqueue_scripts
  */
 
 
@@ -33,6 +34,7 @@ include_once( WPMEM_PATH . 'admin/dialogs.php' );
 
 
 /** Actions and Filters */
+add_action( 'admin_enqueue_scripts',         'wpmem_admin_enqueue_scripts' );
 add_action( 'wpmem_admin_do_tab',            'wpmem_admin_do_tab' );
 add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
 add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
@@ -79,6 +81,7 @@ function wpmem_admin_plugin_links( $links, $file ) {
  * Loads the admin javascript and css files.
  *
  * @since 2.5.1
+ * @deprecated 3.0.6
  *
  * @uses wp_enqueue_script
  * @uses wp_enqueue_style
@@ -285,6 +288,26 @@ function wpmem_admin_add_new_user() {
 	include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	echo wpmem_do_wp_newuser_form();
 	return;
+}
+
+
+/**
+ * Enqueues the admin javascript and css files.
+ *
+ * @since 3.0.6
+ *
+ * @uses wp_enqueue_script
+ * @uses wp_enqueue_style
+ *
+ * @param str $hook The admin screen hook being loaded.
+ */
+function wpmem_admin_enqueue_scripts( $hook ) {
+	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+	}
+	if ( $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js',   '', WPMEM_VERSION );
+	}
 }
 
 // End of File.
