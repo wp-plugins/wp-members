@@ -109,7 +109,7 @@ function wpmem_export_users( $args, $users = null ) {
 			}
 		}
 		
-		$data .= ( $wpmem->mod_reg == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ) ? __( 'Yes' ) : __( 'No' ) . '",' : '';
+		$data .= ( $wpmem->mod_reg == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' ) ) . '",' : '';
 		$data .= ( $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
 		$data .= ( $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
 		

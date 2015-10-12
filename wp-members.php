@@ -3,10 +3,11 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.0.5
+Version:     3.0.6
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 Text Domain: wp-members
+Domain Path: /lang
 License:     GPLv2
 */
 
@@ -61,7 +62,7 @@ License:     GPLv2
 
 
 // Initialize constants.
-define( 'WPMEM_VERSION', '3.0.5' );
+define( 'WPMEM_VERSION', '3.0.6' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -218,7 +219,6 @@ function wpmem_chk_admin() {
 function wpmem_admin_options() {
 	if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
 		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
-		add_action( 'load-'.$plugin_page, 'wpmem_load_admin_js' ); // enqueues javascript for admin
 	}
 }
 
@@ -284,20 +284,29 @@ function wpmem_load_textdomain() {
 	
 	// @todo See: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
 	
+	// Plugin textdomain.
 	$domain = 'wp-members';
-	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 	
+	// Wordpress locale.
+	/** This filter is documented in wp-includes/l10n.php */
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
 	/**
 	 * Filter translation file.
+	 *
+	 * If the translate.wordpress.org language pack is available, it will
+	 * be /wp-content/languages/plugins/wp-members-{locale}.mo by default.
+	 * You can filter this if you want to load a language pack from a
+	 * different location (or different file name).
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $file The translation file to load.
 	 */
-	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
-	
-	$loaded = false;
-	if ( $loaded == load_textdomain( $domain, $file ) ) {
+	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo' );
+
+	$loaded = load_textdomain( $domain, $file );
+	if ( $loaded ) {
 		return $loaded;
 	} else {
 		

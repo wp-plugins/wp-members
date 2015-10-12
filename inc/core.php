@@ -567,14 +567,15 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
  */
 function wpmem_redirect_to_login() {
 	
-	global $wpmem;
+	global $wp, $post, $wpmem;
 
 	if( ! is_user_logged_in() && $wpmem->is_blocked() ) {
-		global $post;
-		// Get the page location.
-		$page = urlencode( "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
 		
-		$url  = wpmem_chk_qstr( $wpmem->user_pages['login'] ) . 'redirect_to=' . $page;
+		// Get current page location.
+		$current_page = home_url( add_query_arg( array(), $wp->request ) );
+		$redirect_to  = urlencode( $current_page );
+		
+		$url = wpmem_chk_qstr( $wpmem->user_pages['login'] ) . 'redirect_to=' . $redirect_to;
 		
 		wp_redirect( $url );
 		exit();

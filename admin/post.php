@@ -304,7 +304,6 @@ function wpmem_post_columns( $columns ) {
 	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
 	
 	if ( $post_type == 'page' || $post_type == 'post' ) { // @todo - holding off on CPT support.
-		wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . '/css/admin.css', '', WPMEM_VERSION );
 		$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
 	}
 	return $columns;
