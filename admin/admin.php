@@ -306,7 +306,7 @@ function wpmem_admin_enqueue_scripts( $hook ) {
 		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
 	}
 	if ( $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js',   '', WPMEM_VERSION );
+		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
 	}
 }
 
