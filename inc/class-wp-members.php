@@ -1,9 +1,16 @@
 <?php
 /**
- * The WP-Members Class.
+ * The WP_Members Class.
  *
- * @since 3.0
+ * This is the main WP_Members object class. This class contains functions
+ * for loading settings, shortcodes, hooks to WP, plugin dropins, constants,
+ * and registration fields. It also manages whether content should be blocked.
+ *
+ * @package WP-Members
+ * @subpackage WP_Members Object Class
+ * @since 3.0.0
  */
+
 class WP_Members {
 
 	/**
@@ -25,7 +32,11 @@ class WP_Members {
 		// Validate that v3 settings are loaded.
 		if ( ! isset( $settings['version'] ) ) {
 			// If settings were not properly built during plugin upgrade.
+			/**
+			 * Load installation routine.
+			 */
 			require_once( WPMEM_PATH . 'wp-members-install.php' );
+			// Update settings for 3.x
 			$settings = apply_filters( 'wpmem_settings', wpmem_update_settings() );
 		}
 		
@@ -45,13 +56,18 @@ class WP_Members {
 	 */
 	function load_shortcodes() {
 
+		/**
+		 * Load the shortcode functions.
+		 */
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
+		
 		add_shortcode( 'wp-members',       'wpmem_shortcode'     );
 		add_shortcode( 'wpmem_field',      'wpmem_shortcode'     );
 		add_shortcode( 'wpmem_logged_in',  'wpmem_sc_logged_in'  );
 		add_shortcode( 'wpmem_logged_out', 'wpmem_sc_logged_out' );
 		add_shortcode( 'wpmem_logout',     'wpmem_shortcode'     );
 		add_shortcode( 'wpmem_form',       'wpmem_sc_forms'      );
+		add_shortcode( 'wpmem_show_count', 'wpmem_sc_user_count' );
 		
 		/**
 		 * Fires after shortcodes load (for adding additional custom shortcodes).
@@ -131,7 +147,7 @@ class WP_Members {
 	/**
 	 * Loads pre-3.0 constants (included primarily for add-on compatibility).
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function load_constants() {
 		( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $this->block['post']  ) : '';
@@ -156,6 +172,8 @@ class WP_Members {
 	 * Gets the requested action.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @global string $wpmem_a The WP-Members action variable.
 	 */
 	function get_action() {
 
@@ -174,6 +192,8 @@ class WP_Members {
 	 * Gets the regchk value.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @global string $wpmem_a The WP-Members action variable.
 	 *
 	 * @param  string $action The action being done.
 	 * @return string         The regchk value.
@@ -237,7 +257,9 @@ class WP_Members {
 	 * This function was originally stand alone in the core file and
 	 * was moved to the WP_Members class in 3.0.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
+	 *
+	 * @global object $post The WordPress Post object.
 	 *
 	 * @return bool $block true|false
 	 */
@@ -308,11 +330,11 @@ class WP_Members {
 	 * This is the primary function that picks up where get_action() leaves off.
 	 * Determines whether content is shown or hidden for both post and pages.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 *
 	 * @global string $wpmem_themsg      Contains messages to be output.
-	 * @global string $wpmem_captcha_err Contains error message for reCAPTCHA.
-	 * @global object $post              The post object.
+	 * @global object $post              The WordPress Post object.
+	 *
 	 * @param  string $content
 	 * @return string $content
 	 */
@@ -416,14 +438,40 @@ class WP_Members {
 	}
 
 	/**
-	 * Returns the registration fields.
+	 * Sets the registration fields.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @return array The registration fields.
 	 */
 	function load_fields() {
 		$this->fields = get_option( 'wpmembers_fields' );
+	}
+	
+	/**
+	 * Get excluded meta fields.
+	 *
+	 * @since Unknown
+	 *
+	 * @param  string $tag A tag so we know where the function is being used.
+	 * @return array       The excluded fields.
+	 */
+	function excluded_fields( $tag ) {
+
+		// Default excluded fields.
+		$excluded_fields = array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' );
+
+		/**
+		 * Filter the fields to be excluded when user is created/updated.
+		 *
+		 * @since 2.9.3
+		 * @since Unknown Moved to new method in WP_Members Class.
+		 *
+		 * @param array       An array of the field meta names to exclude.
+		 * @param string $tag A tag so we know where the function is being used.
+		 */
+		$excluded_fields = apply_filters( 'wpmem_exclude_fields', $excluded_fields, $tag );
+
+		// Return excluded fields.
+		return $excluded_fields;
 	}
 
 }
