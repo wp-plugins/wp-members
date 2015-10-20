@@ -72,7 +72,7 @@ function wpmem_a_do_field_reorder() {
 function wpmem_admin_plugin_links( $links, $file ) {
 	static $wpmem_plugin;
 	if ( ! $wpmem_plugin ) {
-		$wpmem_plugin = plugin_basename( 'wp-members/wp-members.php' );
+		$wpmem_plugin = plugin_basename( WPMEM_PATH . '/wp-members.php' );
 	}
 	if ( $file == $wpmem_plugin ) {
 		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings', 'wp-members' ) . '</a>';
