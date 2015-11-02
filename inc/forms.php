@@ -33,24 +33,27 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  *
  * @since 1.8
  *
- * @uses wpmem_login_form()
+ * @global object $wpmem        The WP_Members object.
+ * @global string $wpmem_regchk The WP-Members message container.
+ * @global object $post         The WordPress Post object.
  *
  * @param  string $page
  * @param  string $redirect_to
  * @return string $str         The generated html for the login form.
  */
-function wpmem_inc_login( $page="page", $redirect_to = null, $show = 'show' ) {
+function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
  	
 	global $wpmem, $wpmem_regchk, $post;
 
 	$str = '';
 
-	if ( $page == "page" ){
-	     if ( $wpmem_regchk != "success" ){
+	if ( $page == "page" ) {
+
+	     if ( $wpmem_regchk != "success" ) {
 
 			$arr = get_option( 'wpmembers_dialogs' );
 			
-			// this shown above blocked content
+			// This shown above blocked content.
 			$str = '<p>' . __( stripslashes( $arr[0] ), 'wp-members' ) . '</p>';
 			
 			/**
@@ -65,7 +68,7 @@ function wpmem_inc_login( $page="page", $redirect_to = null, $show = 'show' ) {
 		} 	
 	} 
 	
-	// create the default inputs
+	// Create the default inputs.
 	$default_inputs = array(
 		array(
 			'name'   => __( 'Username' ), 
@@ -124,9 +127,7 @@ if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
  *
  * Loads the form for changing password.
  *
- * @since 2.0
- *
- * @uses wpmem_login_form()
+ * @since 2.0.0
  *
  * @return string $str the generated html for the change password form.
  */
@@ -190,15 +191,13 @@ if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
  *
  * Loads the form for resetting password.
  *
- * @since 2.1
- *
- * @uses wpmem_login_form()
+ * @since 2.1.0
  *
  * @return string $str the generated html fo the reset password form.
  */
-function wpmem_inc_resetpassword()
-{ 
-	/** create the default inputs **/
+function wpmem_inc_resetpassword() { 
+
+	// Create the default inputs.
 	$default_inputs = array(
 		array(
 			'name'   => __( 'Username' ), 
@@ -637,14 +636,18 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 						$val = htmlspecialchars( get_user_meta( $userdata->ID, 'description', 'true' ) );
 						break;
 
-					case( 'user_email' ):
-					case( 'confirm_email' ):
+					case 'user_email':
+					case 'confirm_email':
 						$val = $userdata->user_email;
 						break;
 
-					case( 'user_url' ):
+					case 'user_url':
 						$val = esc_url( $userdata->user_url );
 						break;
+						
+					case 'display_name':
+						$val = htmlspecialchars( $userdata->display_name );
+						break; 
 
 					default:
 						$val = htmlspecialchars( get_user_meta( $userdata->ID, $field[2], 'true' ) );
@@ -927,7 +930,8 @@ function wpmem_inc_recaptcha( $arr ) {
 
 	// determine if reCAPTCHA should be another language
 	$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
-	$compare_lang  = strtolower( substr( WPLANG, -2 ) );
+	$locale = apply_filters( 'plugin_locale', get_locale(), 'wp-members' );
+	$compare_lang  = strtolower( substr( $locale, -2 ) );
 	$use_the_lang  = ( in_array( $compare_lang, $allowed_langs ) ) ? $compare_lang : false;
 	$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
 
