@@ -24,6 +24,7 @@ class WP_Members {
 		 * Filter the options before they are loaded into constants.
 		 *
 		 * @since 2.9.0
+		 * @since 3.0.0 Moved to the WP_Members class.
 		 *
 		 * @param array $this->settings An array of the WP-Members settings.
 		 */
