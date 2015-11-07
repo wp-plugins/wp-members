@@ -212,7 +212,7 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 			
 			// If there is a status attribute of "sub" and the user is logged in.
 			if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' && is_user_logged_in() ) {
-				if ( $wpmem->use_exp == 1 ) {	
+				if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) {	
 					if ( ! wpmem_chk_exp() ) {
 						$do_return = true;
 					} elseif ( $atts['msg'] == true ) {

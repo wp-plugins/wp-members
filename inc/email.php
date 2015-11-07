@@ -81,8 +81,8 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['user_login']    = stripslashes( $user->user_login );
 	$arr['user_email']    = stripslashes( $user->user_email );
 	$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
-	$arr['exp_type']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
-	$arr['exp_date']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
+	$arr['exp_type']      = ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
+	$arr['exp_date']      = ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 	$arr['wpmem_msurl']   = $wpmem->user_pages['profile'];
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['do_shortcodes'] = true;
@@ -280,8 +280,8 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['user_ip']       = get_user_meta( $user_id, 'wpmem_reg_ip', true );
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['act_link']      = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
-	$arr['exp_type']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
-	$arr['exp_date']      = ( $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
+	$arr['exp_type']      = ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
+	$arr['exp_date']      = ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
 	$arr['disable']       = false;
