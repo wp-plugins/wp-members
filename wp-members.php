@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  http://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.0.6
+Version:     3.0.7
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 Text Domain: wp-members
@@ -62,7 +62,7 @@ License:     GPLv2
 
 
 // Initialize constants.
-define( 'WPMEM_VERSION', '3.0.6' );
+define( 'WPMEM_VERSION', '3.0.7' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
@@ -86,6 +86,8 @@ register_activation_hook( __FILE__, 'wpmem_install' );
  * its features and options.
  *
  * @since 2.9.0
+ *
+ * @global object $wpmem The WP-Members object class.
  */
 function wpmem_init() {
 
@@ -99,8 +101,12 @@ function wpmem_init() {
 	 */
 	do_action( 'wpmem_pre_init' );
 
-	// Load WP_Members class.
-	include_once( WPMEM_PATH . 'inc/class-wp-members.php' );
+	/**
+	 * Load the WP_Members class.
+	 */
+	require_once( WPMEM_PATH . 'inc/class-wp-members.php' );
+	
+	// Invoke the WP_Members class.
 	$wpmem = new WP_Members();
 
 	/**
@@ -115,7 +121,7 @@ function wpmem_init() {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string The path to wp-members-pluggable.php.
+	 * @param string The path to WP-Members plugin functions file.
 	 */
 	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
 
@@ -128,8 +134,10 @@ function wpmem_init() {
 	$exp_module = ( in_array( 'wp-members-expiration/module.php', get_option( 'active_plugins' ) ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_module ); 
 
-	// Load core file.
-	include_once( WPMEM_PATH . 'inc/core.php' );
+	/**
+	 * Load the WP-Members core functions file.
+	 */
+	require_once( WPMEM_PATH . 'inc/core.php' );
 
 	// Load actions and filters.
 	$wpmem->load_hooks();
@@ -170,6 +178,9 @@ function wpmem_chk_admin() {
 	do_action( 'wpmem_pre_admin_init' );
 
 	if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
+		/**
+		 * Load the main admin file.
+		 */
 		require_once(  WPMEM_PATH . 'admin/admin.php' );
 	}
 
@@ -178,11 +189,30 @@ function wpmem_chk_admin() {
 	 * otherwise, load profile actions for non-admins.
 	 */
 	if ( current_user_can( 'edit_users' ) ) { 
+
+		/**
+		 * Load the main admin file if not already loaded.
+		 */
 		require_once( WPMEM_PATH . 'admin/admin.php' );
+
+		/**
+		 * Load the admin user functions.
+		 */
 		require_once( WPMEM_PATH . 'admin/users.php' );
-		include_once( WPMEM_PATH . 'admin/user-profile.php' );
+
+		/**
+		 * Load the admin user profile functions.
+		 */
+		require_once( WPMEM_PATH . 'admin/user-profile.php' );
+
 	} else {
+
+		/**
+		 * Load the admin user functions.
+		 */
 		require_once( WPMEM_PATH . 'inc/users.php' );
+
+		// User actions and filters.
 		add_action( 'show_user_profile', 'wpmem_user_profile'   );
 		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 		add_action( 'profile_update',    'wpmem_profile_update' );
@@ -193,7 +223,13 @@ function wpmem_chk_admin() {
 	 * meta boxes and custom post/page columns.
 	 */
 	if ( current_user_can( 'edit_posts' ) ) {
-		include_once( WPMEM_PATH . 'admin/post.php' );
+
+		/**
+		 * Load the admin post functions.
+		 */
+		require_once( WPMEM_PATH . 'admin/post.php' );
+
+		// Post actions and filters.
 		add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
 		add_action( 'save_post',                  'wpmem_block_meta_save' );
 		add_filter( 'manage_posts_columns',       'wpmem_post_columns' );
@@ -229,9 +265,16 @@ function wpmem_admin_options() {
  * @since 2.5.2
  */
 function wpmem_install() {
+
+	/**
+	 * Load the install file.
+	 */
 	require_once( WPMEM_PATH . 'wp-members-install.php' );
+
+	// Multisite requires different install process.
 	if ( is_multisite() ) {
-		// if it is multisite, install options for each blog
+
+		// If it is multisite, install options for each blog.
 		global $wpdb;
 		$blogs = $wpdb->get_results(
 			"SELECT blog_id
@@ -247,8 +290,10 @@ function wpmem_install() {
 			wpmem_do_install();
 		}
 		switch_to_blog( $original_blog_id );
+
 	} else {
-		// normal single install
+
+		// Single site install.
 		wpmem_do_install();
 	}
 }
@@ -268,9 +313,19 @@ add_action( 'wpmu_new_blog', 'wpmem_mu_new_site', 10, 6 );
  * @param $meta
  */
 function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+
+	/**
+	 * Load the install file.
+	 */
 	require_once( WPMEM_PATH . 'wp-members-install.php' );
+
+	// Switch to the new blog.
 	switch_to_blog( $blog_id );
+
+	// Run the WP-Members install.
 	wpmem_do_install();
+
+	// Switch back to the current blog.
 	restore_current_blog();
 }
 
@@ -323,4 +378,4 @@ function wpmem_load_textdomain() {
 	return;
 }
 
-// End of File.
+// End of file.

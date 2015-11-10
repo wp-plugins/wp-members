@@ -10,14 +10,15 @@
  * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
- * @author Chad Butler 
+ * @package   WP-Members
+ * @author    Chad Butler 
  * @copyright 2006-2015
  */
 
 
-// Include utility functions.
+/**
+ * Load utility functions.
+ */
 require_once( WPMEM_PATH . 'inc/utilities.php' );
 
 
@@ -25,9 +26,12 @@ require_once( WPMEM_PATH . 'inc/utilities.php' );
  * The Main Action Function.
  *
  * Does actions required at initialization prior to headers being sent.
- * Since 3.0, this function is a wrapper for get_action().
+ * Since 3.0, this function is a wrapper for $wpmem->get_action().
  *
- * @since 0.1 
+ * @since 0.1.0
+ * @since 3.0.0 Now a wrapper for $wpmem->get_action().
+ *
+ * @global object $wpmem The WP-Members object class.
  */
 function wpmem() {
 	global $wpmem;
@@ -41,13 +45,15 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * This is the primary function that picks up where wpmem() leaves off.
  * Determines whether content is shown or hidden for both post and pages.
- * Since 3.0, this function is a wrapper for do_securify().
+ * Since 3.0, this function is a wrapper for $wpmem->do_securify().
  *
- * @since 2.0
+ * @since 2.0.0
+ * @since 3.0.0 Now a wrapper for $wpmem->do_securify().
  *
- * @global object $wpmem
- * @param  string $content
- * @return string $content
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @param  string $content Content of the current post.
+ * @return string $content Content of the current post or replaced content if post is blocked and user is not logged in.
  */
 function wpmem_securify( $content = null ) {
 	global $wpmem;
@@ -58,13 +64,14 @@ endif;
 
 if ( ! function_exists( 'wpmem_block' ) ):
 /**
- * Determines if content should be blocked.
+ * Determines if content is blocked.
  *
- * Since 3.0, this function is a wrapper for is_blocked().
+ * @since 2.6.0
+ * @since 3.0.0 Now a wrapper for $wpmem->is_blocked().
  *
- * @since 2.6
+ * @global object $wpmem The WP-Members object class.
  *
- * @return bool $block true|false
+ * @return bool $block true if content is blocked, false otherwise.
  */
 function wpmem_block() {
 	global $wpmem;
@@ -79,11 +86,10 @@ if ( ! function_exists( 'wpmem_check_activated' ) ):
  *
  * @since 2.7.1
  *
- * @uses   wp_check_password
- * @param  int    $user
- * @param  string $username
- * @param  string $password
- * @return int    $user
+ * @param  object $user     The WordPress User object.
+ * @param  string $username The user's username (user_login).
+ * @param  string $password The user's password.
+ * @return object $user     The WordPress User object.
  */ 
 function wpmem_check_activated( $user, $username, $password ) {
 
@@ -114,12 +120,12 @@ if ( ! function_exists( 'wpmem_login' ) ):
  * successful, it will set a cookie using wp_set_auth_cookie (since 2.7.7),
  * then it redirects and exits; otherwise "loginfailed" is returned.
  *
- * @since 0.1
+ * @since 0.1.0
+ * @since 2.5.2 Now uses wp_signon().
+ * @since 2.7.7 Sets cookie using wp_set_auth_cookie().
+ * @since 3.0.0 Removed wp_set_auth_cookie(), this already happens in wp_signon().
  *
- * @uses   wp_signon
- * @uses   wp_set_auth_cookie
- * @uses   wp_redirect        Redirects to $redirect_to if login is successful.
- * @return string             Returns "loginfailed" if the login fails.
+ * @return string Returns "loginfailed" if the login fails.
  */
 function wpmem_login() {
 
@@ -183,12 +189,8 @@ if ( ! function_exists( 'wpmem_logout' ) ):
 /**
  * Logs the user out then redirects.
  *
- * @since 2.0
+ * @since 2.0.0
  *
- * @uses  wp_clearcookie
- * @uses  wp_logout
- * @uses  nocache_headers
- * @uses  wp_redirect
  * @param string $redirect_to The URL to redirect to at logout.
  */
 function wpmem_logout( $redirect_to = null ) {
@@ -207,7 +209,7 @@ function wpmem_logout( $redirect_to = null ) {
 
 	wp_clear_auth_cookie();
 
-	// This action is defined in /wp-includes/pluggable.php.
+	/** This action is defined in /wp-includes/pluggable.php. */
 	do_action( 'wp_logout' );
 
 	nocache_headers();
@@ -220,17 +222,20 @@ endif;
 
 if ( ! function_exists( 'wpmem_login_status' ) ):
 /**
- * Displays the user's login status.
+ * Returns or displays the user's login status.
  *
- * @since 2.0
+ * @since 2.0.0
  *
- * @uses   wpmem_inc_memberlinks()
- * @param  boolean $echo           Determines whether function should print result or not (default: true).
- * @return string  $status         The user status string produced by wpmem_inc_memberlinks().
+ * @param  boolean $echo   Determines whether function should print result or not (default: true).
+ * @return string  $status The user status string produced by wpmem_inc_memberlinks().
  */
 function wpmem_login_status( $echo = true ) {
 
-	include_once( WPMEM_PATH . 'inc/dialogs.php' );
+	/**
+	 * Load the dialogs functions.
+	 */
+	require_once( WPMEM_PATH . 'inc/dialogs.php' );
+
 	if ( is_user_logged_in() ) { 
 		$status = wpmem_inc_memberlinks( 'status' );
 		if ( $echo ) {
@@ -248,12 +253,16 @@ if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
  *
  * This function is a wrapper for wpmem_do_sidebar().
  *
- * @since 2.0
+ * @since 2.0.0
  *
- * @uses wpmem_do_sidebar()
+ * @todo This function may be deprecated.
  */
 function wpmem_inc_sidebar() {
+	/**
+	 * Load the sidebar functions.
+	 */
 	include_once( WPMEM_PATH . 'inc/sidebar.php' );
+	// Render the sidebar.
 	wpmem_do_sidebar();
 }
 endif;
@@ -261,15 +270,23 @@ endif;
 
 if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
 /**
- * Initializes the widget.
+ * Initializes the WP-Members widget.
  *
- * @since 2.0
- *
- * @uses register_widget
+ * @since 2.0.0
  */
 function widget_wpmemwidget_init() {
-	include_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
-	include_once( WPMEM_PATH . 'inc/sidebar.php' );
+
+	/**
+	 * Load the WP-Members widget class.
+	 */
+	require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
+
+	/**
+	 * Load the sidebar functions.
+	 */
+	require_once( WPMEM_PATH . 'inc/sidebar.php' );
+
+	// Register the WP-Members widget.
 	register_widget( 'widget_wpmemwidget' );
 }
 endif;
@@ -279,10 +296,11 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
 /**
  * Handles user password change (not reset).
  *
- * @since 2.1
+ * @since 2.1.0
  *
- * @global $user_ID
- * @return string the value for $wpmem->regchk
+ * @global int $user_ID The WordPress user ID.
+ *
+ * @return string The value for $wpmem->regchk
  */
 function wpmem_change_password() {
 
@@ -308,6 +326,7 @@ function wpmem_change_password() {
 			 * Fires after password change.
 			 *
 			 * @since 2.9.0
+			 * @since 3.0.5 Added $pass1 to arguments passed.
 			 *
 			 * @param int    $user_ID The user's numeric ID.
 			 * @param string $pass1   The user's new plain text password.
@@ -327,11 +346,11 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
 /**
  * Resets a forgotten password.
  *
- * @since 2.1
+ * @since 2.1.0
  *
- * @uses   wp_generate_password
- * @uses   wp_update_user
- * @return string value for $wpmem->regchk
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @return string The value for $wpmem->regchk
  */
 function wpmem_reset_password() {
 
@@ -374,14 +393,19 @@ function wpmem_reset_password() {
 					// Update the users password.
 					wp_update_user( array ( 'ID' => $user->ID, 'user_pass' => $new_pass ) );
 
-					// Send it in an email.
+					/**
+					 * Load the email functions.
+					 */
 					require_once( WPMEM_PATH . 'inc/email.php' );
+					
+					// Send it in an email.
 					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
 
 					/**
 					 * Fires after password reset.
 					 *
 					 * @since 2.9.0
+					 * @since 3.0.5 Added $pass1 to arguments passed.
 					 *
 					 * @param int    $user_ID  The user's numeric ID.
 					 * @param string $new_pass The new plain text password.
@@ -404,12 +428,11 @@ endif;
 
 if ( ! function_exists( 'wpmem_no_reset' ) ):
 /**
- * Keeps users not activated from resetting their password 
- * via wp-login when using registration moderation.
+ * Prevents users not activated from resetting their password.
  *
  * @since 2.5.1
  *
- * @return bool
+ * @return bool Returns false if the user is not activated, otherwise true.
  */
 function wpmem_no_reset() {
 
@@ -439,7 +462,10 @@ endif;
  * @since 2.8.3
  */
 function wpmem_wp_register_form() {
-	include_once( WPMEM_PATH . 'inc/wp-registration.php' );
+	/**
+	 * Load native WP registration functions.
+	 */
+	require_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	wpmem_do_wp_register_form();
 }
 
@@ -449,24 +475,28 @@ function wpmem_wp_register_form() {
  *
  * @since 2.8.3
  *
- * @param $errors
- * @param $sanatized_user_login
- * @param $user_email
- * @return $errors
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @param  array  $errors               A WP_Error object containing any errors encountered during registration.
+ * @param  string $sanitized_user_login User's username after it has been sanitized.
+ * @param  string $user_email           User's email.
+ * @return array  $errors               A WP_Error object containing any errors encountered during registration.
  */
 function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 
 	global $wpmem;
-	$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
+
+	// Get any meta fields that should be excluded.
+	// @todo This needs to change to $wpmem->excluded_fields($tag).
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
-	foreach ( $wpmem_fields as $field ) {
+	foreach ( $wpmem->fields as $field ) {
 		$is_error = false;
 		if ( $field[5] == 'y' && $field[2] != 'user_email' && ! in_array( $field[2], $exclude ) ) {
-			if ( ( $field[3] == 'checkbox' ) && ( ! isset( $_POST[$field[2]] ) ) ) {
+			if ( ( $field[3] == 'checkbox' ) && ( ! isset( $_POST[ $field[2] ] ) ) ) {
 				$is_error = true;
 			} 
-			if ( ( $field[3] != 'checkbox' ) && ( ! $_POST[$field[2]] ) ) {
+			if ( ( $field[3] != 'checkbox' ) && ( ! $_POST[ $field[2] ] ) ) {
 				$is_error = true;
 			}
 			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $field[1] ) ); }
@@ -482,7 +512,9 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
  *
  * @since 2.8.3
  *
- * @param $user_id
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @param int $user_id The WP user ID.
  */
 function wpmem_wp_reg_finalize( $user_id ) {
 
@@ -490,13 +522,12 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	$native_reg = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr( __( 'Register' ) ) ) ? true : false;
 	$add_new  = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
 	if ( $native_reg || $add_new ) {
-		// Get the fields.
-		$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
 		// Get any excluded meta fields.
+		// @todo This needs to change to $wpmem->excluded_fields($tag).
 		$exclude = wpmem_get_excluded_meta( 'register' );
-		foreach ( $wpmem_fields as $meta ) {
-			if ( isset( $_POST[$meta[2]] ) && ! in_array( $meta[2], $exclude ) ) {
-				update_user_meta( $user_id, $meta[2], sanitize_text_field( $_POST[$meta[2]] ) );
+		foreach ( $wpmem->fields as $meta ) {
+			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) ) {
+				update_user_meta( $user_id, $meta[2], sanitize_text_field( $_POST[ $meta[2] ] ) );
 			}
 		}
 	}
@@ -510,6 +541,7 @@ function wpmem_wp_reg_finalize( $user_id ) {
  * @since 2.8.7
  */
 function wpmem_wplogin_stylesheet() {
+	// @todo Should this enqueue styles?
 	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
 }
 
@@ -518,27 +550,28 @@ function wpmem_wplogin_stylesheet() {
  * Securifies the comments.
  *
  * If the user is not logged in and the content is blocked
- * (i.e. wpmem_block() returns true), function loads a
+ * (i.e. wpmem->is_blocked() returns true), function loads a
  * dummy/empty comments template.
  *
  * @since 2.9.9
  *
- * @return bool $open Whether the current post is open for comments.
+ * @return bool $open true if current post is open for comments, otherwise false.
  */
 function wpmem_securify_comments( $open ) {
 
 	$open = ( ! is_user_logged_in() && wpmem_block() ) ? false : $open;
-	
+
 	/**
 	 * Filters whether comments are open or not.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool $open Whether the current post is open for comments.
+	 * @param bool $open true if current post is open for comments, otherwise false.
 	 */
 	$open = apply_filters( 'wpmem_securify_comments', $open );
-	
+
 	if ( ! $open ) {
+		/** This filter is documented in wp-includes/comment-template.php */
 		add_filter( 'comments_array' , 'wpmem_securify_comments_array' , 10, 2 );
 	}
 
@@ -550,6 +583,8 @@ function wpmem_securify_comments( $open ) {
  * Empties the comments array if content is blocked.
  *
  * @since 3.0.1
+ *
+ * @global object $wpmem The WP-Members object class.
  *
  * @return array $comments The comments array.
  */
@@ -564,12 +599,16 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
  * Redirects a user to defined login page with return redirect.
  *
  * @since 3.0.2
+ *
+ * @global object $wp    The WordPress object.
+ * @global object $post  The WordPress post object.
+ * @global object $wpmem The WP-Members object.
  */
 function wpmem_redirect_to_login() {
 	
 	global $wp, $post, $wpmem;
 
-	if( ! is_user_logged_in() && $wpmem->is_blocked() ) {
+	if ( ! is_user_logged_in() && $wpmem->is_blocked() ) {
 		
 		// Get current page location.
 		$current_page = home_url( add_query_arg( array(), $wp->request ) );
@@ -584,4 +623,4 @@ function wpmem_redirect_to_login() {
 }
 
 
-// End of File.
+// End of file.

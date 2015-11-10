@@ -10,8 +10,8 @@
  * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
+ * @package WP-Members
+ * @subpackage WP-Members Utility Functions
  * @author Chad Butler 
  * @copyright 2006-2015
  *
@@ -19,7 +19,7 @@
  * - wpmem_create_formfield
  * - wpmem_selected
  * - wpmem_chk_qstr
- * - wpmem_generatePassword
+ * - wpmem_generatePassword (deprecated)
  * - wpmem_texturize
  * - wpmem_enqueue_style
  * - wpmem_do_excerpt
@@ -35,7 +35,7 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  *
  * Creates various form fields and returns them as a string.
  *
- * @since 1.8
+ * @since 1.8.0
  *
  * @param  string $name     The name of the field.
  * @param  string $type     The field type.
@@ -102,7 +102,7 @@ if ( ! function_exists( 'wpmem_selected' ) ):
 /**
  * Determines if a form field is selected (i.e. lists & checkboxes).
  *
- * @since 0.1
+ * @since 0.1.0
  *
  * @param  string $value
  * @param  string $valtochk
@@ -120,9 +120,8 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
 /**
  * Checks querystrings.
  *
- * @since 2.0
+ * @since 2.0.0
  *
- * @uses   get_permalink
  * @param  string $url
  * @return string $return_url
  */
@@ -145,7 +144,8 @@ if ( ! function_exists( 'wpmem_generatePassword' ) ):
 /**
  * Generates a random password.
  *
- * @since 2.0
+ * @since 2.0.0
+ * @deprecated Unknown
  *
  * @return string The random password.
  */
@@ -192,9 +192,7 @@ if ( ! function_exists( 'wpmem_enqueue_style' ) ):
  *
  * @since 2.6
  *
- * @global $wpmem
- * @uses   wp_register_style
- * @uses   wp_enqueue_style
+ * @global object $wpmem The WP_Members object. 
  */
 function wpmem_enqueue_style() {
 	global $wpmem;
@@ -209,6 +207,8 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  * Creates an excerpt on the fly if there is no 'more' tag.
  *
  * @since 2.6
+ *
+ * @global object $wpmem The WP_Members object. 
  *
  * @param  string $content
  * @return string $content
@@ -277,10 +277,10 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
 /**
  * Tests $content for the presence of the [wp-members] shortcode.
  *
- * @since 2.6
+ * @since 2.6.0
  *
- * @global string $post
- * @uses   get_shortcode_regex
+ * @global $shortcode_tags
+ *
  * @return bool
  *
  * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
@@ -309,27 +309,24 @@ endif;
  * Sets an array of user meta fields to be excluded from update/insert.
  *
  * @since 2.9.3
+ * @since Unknown Now a wrapper for get_excluded_fields().
  *
- * @param string $tag A tag so we know where the function is being used.
+ * @param  string $tag A tag so we know where the function is being used.
+ * @return array       Array of fields to be excluded from the registration form.
  */
 function wpmem_get_excluded_meta( $tag ) {
 
-	/**
-	 * Filter the fields to be excluded when user is created/updated.
-	 *
-	 * @since 2.9.3
-	 *
-	 * @param array       An array of the field meta names to exclude.
-	 * @param string $tag A tag so we know where the function is being used.
-	 */
-	return apply_filters( 'wpmem_exclude_fields', array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' ), $tag );
+	global $wpmem;
+	return $wpmem->excluded_fields( $tag );
 }
 
 
 /**
  * Returns http:// or https:// depending on ssl.
  *
- * @ since 2.9.8
+ * @since 2.9.8
+ *
+ * @return string https://|http:// depending on whether ssl is being used.
  */
 function wpmem_use_ssl() {
 	return ( is_ssl() ) ? 'https://' : 'http://';

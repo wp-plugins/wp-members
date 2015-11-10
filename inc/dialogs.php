@@ -195,7 +195,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 	case 'members':
 		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
 				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if ( $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
+		if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
 		$str.= '</ul>';
 		/**
 		 * Filter the links displayed on the User Profile page (logged in state).

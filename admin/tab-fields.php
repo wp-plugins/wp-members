@@ -535,7 +535,7 @@ function wpmem_a_field_table( $wpmem_fields ) {
 								<?php echo ( ( $wpmem_ut_fields ) && ( in_array( 'Registration IP', $wpmem_ut_fields ) ) ) ? 'checked' : false; ?> />
 						</td>
 					</tr>
-				<?php if ( $wpmem->use_exp == 1 ) { ?>
+				<?php if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) { ?>
 					<tr class="nodrag nodrop">
 						<td>&nbsp;</td>
 						<td><i>Subscription Type</i></td>

@@ -9,8 +9,8 @@
  * Copyright (c) 2006-2015  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
+ * @package WP-Members
+ * @subpackage WP-Members Shortcodes
  * @author Chad Butler 
  * @copyright 2006-2015
  *
@@ -19,7 +19,6 @@
  * - wpmem_sc_logged_in
  * - wpmem_sc_logged_out
  * - wpmem_shortcode
- * - wpmem_do_sc_pages
  * - wpmem_do_sc_pages
  * - wpmem_sc_user_count
  */
@@ -46,87 +45,104 @@
 /**
  * Function for forms called by shortcode.
  *
- * @since 3.0
+ * @since 3.0.0
  *
- * @param $attr
- * @param $content
- * @param $tag
- * @return $content
+ * @global object $wpmem        The WP_Members object.
+ * @global string $wpmem_themsg The WP-Members message container.
+ *
+ * @param  array  $attr
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
  */
 function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 	
-	// Dependencies.
 	global $wpmem, $wpmem_themsg;
+	
+	/**
+	 * Load core functions if they are not already loaded.
+	 */
 	include_once( WPMEM_PATH . 'inc/core.php' );
+	
+	/**
+	 * Load dialog functions if they are not already loaded.
+	 */
 	include_once( WPMEM_PATH . 'inc/dialogs.php' );
+
 	// Defaults.
 	$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
 	$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
 
-	switch ( $atts ) {
-		
-		case in_array( 'login', $atts ):		
-			if ( is_user_logged_in() ) {
-				/*
-				 * If the user is logged in, return any nested content (if any)
-				 * or the default bullet links if no nested content.
-				 */
-				$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'login' );
-			} else {
-				/*
-				 * If the user is not logged in, return an error message if a login
-				 * error state exists, or return the login form.
-				 */
-				$content = ( $wpmem->regchk == 'loginfailed' ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
-			}
-			break;
-
-		case in_array( 'register', $atts ):
-			if ( is_user_logged_in() ) {
-				/*
-				 * If the user is logged in, return any nested content (if any)
-				 * or the default bullet links if no nested content.
-				 */
-				$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'register' );
-			} else {
-				// @todo Can this be moved into another function? Should $wpmem get an error message handler?
-				if ( $wpmem->regchk == 'captcha' ) {
-					global $wpmem_captcha_err;
-					$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
-				}
-				$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-				$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration( 'new', '', $redirect_to );
-			}
-			break;
-
-		case in_array( 'password', $atts ):
-			$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
-			break;
-
-		case in_array( 'user_edit', $atts ):
-			$content = wpmem_page_user_edit( $wpmem->regchk, $content );
-			break;
-
-	}
-	
 	/*
-	 * @todo - This is temporary for texturizing. Need to work it into an argument in the function call as
-	 * to whether the [wpmem_txt] shortcode is even included.  For now, this will allow this function to be
-	 * tested as an include during the 3.0 alpha/beta testing period and a permanent solution can be worked
-	 * out for 3.x.x.
+	 * The [wpmem_form] shortcode requires additional tags (login, register, etc) that
+	 * will be in the $atts array. If $atts is not an array, no additional tags were
+	 * given, so there is nothing to render.
 	 */
-	if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
-		$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
-	}
-	if ( strstr( $content, '[wpmem_txt]' ) ) {
-		// Fixes the wptexturize.
-		remove_filter( 'the_content', 'wpautop' );
-		remove_filter( 'the_content', 'wptexturize' );
-		add_filter( 'the_content', 'wpmem_texturize', 999 );
-	}
-	// @todo - Look into shortcode_unautop().
-	/** End temporary texturize functions */
+	if ( is_array( $atts ) ) {
+
+		// If $atts is an array, get the tag from the array so we know what form to render.
+		switch ( $atts ) {
+			
+			case in_array( 'login', $atts ):		
+				if ( is_user_logged_in() ) {
+					/*
+					 * If the user is logged in, return any nested content (if any)
+					 * or the default bullet links if no nested content.
+					 */
+					$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'login' );
+				} else {
+					/*
+					 * If the user is not logged in, return an error message if a login
+					 * error state exists, or return the login form.
+					 */
+					$content = ( $wpmem->regchk == 'loginfailed' ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
+				}
+				break;
 	
+			case in_array( 'register', $atts ):
+				if ( is_user_logged_in() ) {
+					/*
+					 * If the user is logged in, return any nested content (if any)
+					 * or the default bullet links if no nested content.
+					 */
+					$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'register' );
+				} else {
+					// @todo Can this be moved into another function? Should $wpmem get an error message handler?
+					if ( $wpmem->regchk == 'captcha' ) {
+						global $wpmem_captcha_err;
+						$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
+					}
+					$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
+					$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration( 'new', '', $redirect_to );
+				}
+				break;
+	
+			case in_array( 'password', $atts ):
+				$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
+				break;
+	
+			case in_array( 'user_edit', $atts ):
+				$content = wpmem_page_user_edit( $wpmem->regchk, $content );
+				break;
+	
+		}
+		
+		/*
+		 * This is for texturizing. Need to work it into an argument in the function call as to whether the 
+		 * [wpmem_txt] shortcode is even included.  @todo - Is this a temporary solution or is there something
+		 * cleaner that can be worked out?
+		 */
+		if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
+			$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
+		}
+		if ( strstr( $content, '[wpmem_txt]' ) ) {
+			// Fixes the wptexturize.
+			remove_filter( 'the_content', 'wpautop' );
+			remove_filter( 'the_content', 'wptexturize' );
+			add_filter( 'the_content', 'wpmem_texturize', 999 );
+		}
+		// End texturize functions */
+	}
 	return do_shortcode( $content );
 }
 
@@ -143,6 +159,8 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
  * only to logged out users or visitors.
  *
  * @since 3.0.0
+ *
+ * @global object $wpmem The WP_Members object.
  *
  * @param  array  $atts
  * @param  string $content
@@ -194,7 +212,7 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 			
 			// If there is a status attribute of "sub" and the user is logged in.
 			if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' && is_user_logged_in() ) {
-				if ( $wpmem->use_exp == 1 ) {	
+				if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) {	
 					if ( ! wpmem_chk_exp() ) {
 						$do_return = true;
 					} elseif ( $atts['msg'] == true ) {
@@ -230,7 +248,9 @@ function wpmem_sc_logged_out( $atts, $content = null, $tag ) {
 /**
  * Displays login form when called by shortcode.
  *
- * @since 3.0
+ * @since 3.0.0
+ *
+ * @global object $wpmem The WP_Members object.
  *
  * @param $atts
  * @param $content
@@ -264,7 +284,9 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
  * is used.  Also executes shortcodes for login status with the wpmem_logged_in tags
  * and fields when the wpmem_field tags are used.
  *
- * @since 2.4 
+ * @since 2.4.0
+ *
+ * @global object $wpmem The WP_Members object.
  *
  * @param  array  $attr page|url|status|msg|field|id
  * @param  string $content
@@ -366,13 +388,14 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * But where that function handles general content, this function 
  * handles building specific pages generated by shortcodes.
  *
- * @since 2.6
+ * @since 2.6.0
+ *
+ * @global object $wpmem        The WP_Members object.
+ * @global string $wpmem_themsg The WP-Members message container.
+ * @global object $post         The WordPress post object.
  *
  * @param  string $page
  * @param  string $redirect_to
- * @global object $wpmem
- * @global string $wpmem_themsg
- * @global object $post
  * @return string $content
  */
 function wpmem_do_sc_pages( $page, $redirect_to = null ) {
@@ -500,11 +523,14 @@ endif;
 /**
  * User count shortcode.
  *
- * @since 3.0
+ * @since 3.0.0
  *
- * @todo Evaluate this shortcode for full inclusion.
+ * @global object $wpdb The WordPress database object.
+ *
+ * @param  array  $atts Shortcode attributes.
+ * @param  string $content The shortcode content.
+ * @return string $content
  */
-add_shortcode( 'wpmem_show_count', 'wpmem_sc_user_count' );
 function wpmem_sc_user_count( $atts, $content = null ) {
 	global $wpdb;
 	$do_query = ( $atts['key'] && $atts['value'] ) ? true : false;
