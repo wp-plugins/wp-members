@@ -1,4 +1,4 @@
-﻿=== WP-Members: Membership Framework ===
+=== WP-Members: Membership Framework ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.7 is a functional improvement release with minimal core changes.
+WP-Members 3.0.7.1 is a minor bug fix release for 3.0.7, also a fix release.
 WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
 
 == Screenshots ==
@@ -134,6 +134,10 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 
 == Changelog ==
+
+= 3.0.7.1 =
+
+* Fix for password reset (typo in object name checking for moderated registration)
 
 = 3.0.7 =
 
