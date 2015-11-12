@@ -445,7 +445,7 @@ function wpmem_no_reset() {
 		$user     = get_user_by( 'login', $username );
 	}
 
-	if ( $wmem->mod_reg == 1 ) { 
+	if ( $wpmem->mod_reg == 1 ) { 
 		if ( get_user_meta( $user->ID, 'active', true ) != 1 ) {
 			return false;
 		}
