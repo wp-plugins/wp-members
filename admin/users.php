@@ -238,13 +238,13 @@ function wpmem_users_views( $views ) {
 	global $wpmem;
 
 	$arr = array();
-	if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) {
+	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
 		$arr[] = 'Pending';
 	}
 	if ( $wpmem->use_trial == 1 ) {
 		$arr[] = 'Trial';
 	}
-	if ( defined( WPMEM_EXP_MODULE ) && $wpmem->use_exp == 1 ) {
+	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
 		$arr[] = 'Subscription';
 		$arr[] = 'Expired';
 	}
