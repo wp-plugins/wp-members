@@ -316,10 +316,10 @@ function wpmem_login_form( $page, $arr ) {
  	 */
 	$args = apply_filters( 'wpmem_login_form_args', '', $action );
 	
-	// merge $args with defaults
+	// Merge $args with defaults.
 	extract( wp_parse_args( $args, $defaults ) );
 	
-	// build the input rows
+	// Build the input rows.
 	foreach ( $inputs as $input ) {
 		$label = '<label for="' . $input['tag'] . '">' . $input['name'] . '</label>';
 		$field = wpmem_create_formfield( $input['tag'], $input['type'], '', '', $input['class'] );
@@ -349,7 +349,7 @@ function wpmem_login_form( $page, $arr ) {
  	 */
 	$rows = apply_filters( 'wpmem_login_form_rows', $rows, $action );
 	
-	// put the rows from the array into $form
+	// Put the rows from the array into $form.
 	$form = '';
 	foreach ( $rows as $row_item ) {
 		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $n . $row_item['label'] . $n : $row_item['label'] . $n;
@@ -358,7 +358,7 @@ function wpmem_login_form( $page, $arr ) {
 		$form.= $row;
 	}
 
-	// build hidden fields, filter, and add to the form
+	// Build hidden fields, filter, and add to the form.
 	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $redirect_to ) . $n;
 	$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $n;
 	$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
@@ -373,7 +373,7 @@ function wpmem_login_form( $page, $arr ) {
  	 */
 	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $action );
 
-	// build the buttons, filter, and add to the form
+	// Build the buttons, filter, and add to the form.
 	if ( $action == 'login' ) {
 		$remember_check = ( $remember_check ) ? $t . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __( 'Remember Me' ) . '&nbsp;&nbsp;' . $n : '';
 		$buttons =  $remember_check . $t . '<input type="submit" name="Submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
@@ -423,25 +423,25 @@ function wpmem_login_form( $page, $arr ) {
 		
 	}			
 	
-	// apply the heading
+	// Apply the heading.
 	$form = $heading_before . $heading . $heading_after . $n . $form;
 	
-	// apply fieldset wrapper
+	// Apply fieldset wrapper.
 	$form = $fieldset_before . $n . $form . $fieldset_after . $n;
 	
-	// apply form wrapper
+	// Apply form wrapper.
 	$form = '<form action="' . get_permalink() . '" method="POST" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form . '</form>';
 	
-	// apply anchor
+	// Apply anchor.
 	$form = '<a name="' . $action . '"></a>' . $n . $form;
 	
-	// apply main wrapper
+	// Apply main wrapper.
 	$form = $main_div_before . $n . $form . $n . $main_div_after;
 	
-	// apply wpmem_txt wrapper
+	// Apply wpmem_txt wrapper.
 	$form = $txt_before . $form . $txt_after;
 	
-	// remove line breaks
+	// Remove line breaks.
 	$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 	
 	/**
@@ -468,7 +468,7 @@ function wpmem_login_form( $page, $arr ) {
 	$form = apply_filters( 'wpmem_login_form_before', '', $action ) . $form;
 	
 	return $form;
-} // end wpmem_login_form
+} // End wpmem_login_form.
 endif;
 
 
@@ -490,10 +490,10 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 	global $wpmem, $wpmem_regchk, $userdata; 
 	
-	// set up default wrappers
+	// Set up default wrappers.
 	$defaults = array(
 		
-		// wrappers
+		// Wrappers.
 		'heading_before'   => '<legend>',
 		'heading_after'    => '</legend>',
 		'fieldset_before'  => '<fieldset>',
@@ -507,25 +507,25 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		'buttons_before'   => '<div class="button_div">',
 		'buttons_after'    => '</div>',
 		
-		// classes & ids
+		// Classes & ids.
 		'form_id'          => '',
 		'form_class'       => 'form',
 		'button_id'        => '',
 		'button_class'     => 'buttons',
 		
-		// required field tags and text
-		'req_mark'         => '<font class="req">*</font>',
-		'req_label'        => __( 'Required field', 'wp-members' ),
+		// Required field tags and text.
+		'req_mark'         => '<span class="req">*</span>',
+		'req_label'        => '<span class="req">*</span>' . __( 'Required field', 'wp-members' ),
 		'req_label_before' => '<div class="req-text">',
 		'req_label_after'  => '</div>',
 		
-		// buttons
+		// Buttons.
 		'show_clear_form'  => false,
 		'clear_form'       => __( 'Reset Form', 'wp-members' ),
 		'submit_register'  => __( 'Register' ),
 		'submit_update'    => __( 'Update Profile', 'wp-members' ),
 		
-		// other
+		// Other.
 		'strip_breaks'     => true,
 		'use_nonce'        => false,
 		'wrap_inputs'      => true,
@@ -547,39 +547,39 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$args = apply_filters( 'wpmem_register_form_args', '', $toggle );
 	
-	// merge $args with defaults
-	extract( wp_parse_args( $args, $defaults ) );
+	// Merge $args with defaults.
+	$args = wp_parse_args( $args, $defaults );
 	
-	// Username is editable if new reg, otherwise user profile is not
+	// Username is editable if new reg, otherwise user profile is not.
 	if ( $toggle == 'edit' ) {
-		// this is the User Profile edit - username is not editable
+		// This is the User Profile edit - username is not editable.
 		$val   = $userdata->user_login;
 		$label = '<label for="username" class="text">' . __( 'Username' ) . '</label>';
 		$input = '<p class="noinput">' . $val . '</p>';
-		$field_before = ( $wrap_inputs ) ? '<div class="div_text">' : '';
-		$field_after  = ( $wrap_inputs ) ? '</div>' : '';
+		$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
+		$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 	} else { 
-		// this is a new registration
+		// This is a new registration.
 		$val   = ( isset( $_POST['log'] ) ) ? stripslashes( $_POST['log'] ) : '';
-		$label = '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . $req_mark . '</label>';
+		$label = '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . $args['req_mark'] . '</label>';
 		$input = wpmem_create_formfield( 'log', 'text', $val, '', 'username' );
 
 	}
-	$field_before = ( $wrap_inputs ) ? '<div class="div_text">' : '';
-	$field_after  = ( $wrap_inputs ) ? '</div>': '';
+	$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
+	$field_after  = ( $args['wrap_inputs'] ) ? '</div>': '';
 	
-	// add the username row to the array
+	// Add the username row to the array.
 	$rows['username'] = array( 
 		'order'        => 0,
 		'meta'         => 'username', 
 		'type'         => 'text', 
 		'value'        => $val,  
-		'row_before'   => $row_before,
+		'row_before'   => $args['row_before'],
 		'label'        => $label,
 		'field_before' => $field_before,
 		'field'        => $input,
 		'field_after'  => $field_after,
-		'row_after'    => $row_after,
+		'row_after'    => $args['row_after'],
 	);
 
 	/**
@@ -595,40 +595,39 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 * @param array           The array of form fields.
 	 * @param string $toggle  Toggle new registration or profile update. new|edit.
  	 */
-	// $wpmem_fields = apply_filters( 'wpmem_register_fields_arr', get_option( 'wpmembers_fields' ), $toggle );
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $toggle );
 	
-	// loop through the remaining fields
+	// Loop through the remaining fields.
 	foreach ( $wpmem_fields as $field ) {
 
-		// start with a clean row
+		// Start with a clean row.
 		$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 		
-		// skips user selected passwords for profile update
+		// Skips user selected passwords for profile update.
 		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
 		$do_row = ( $toggle == 'edit' && in_array( $field[2], $pass_arr ) ) ? false : true;
 		
-		// skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos
+		// Skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos.
 		if ( $field[2] == 'tos' && $toggle == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
 			$do_row = false; 
 			$hidden_tos = wpmem_create_formfield( $field[2], 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
 		}
 		
-		// if the field is set to display and we aren't skipping, construct the row
+		// If the field is set to display and we aren't skipping, construct the row.
 		if ( $field[4] == 'y' && $do_row == true ) {
 
-			// label for all but TOS
+			// Label for all but TOS.
 			if ( $field[2] != 'tos' ) {
 
 				$class = ( $field[3] == 'password' ) ? 'text' : $field[3];
 				
 				$label = '<label for="' . $field[2] . '" class="' . $class . '">' . __( $field[1], 'wp-members' );
-				$label = ( $field[5] == 'y' ) ? $label . $req_mark : $label;
+				$label = ( $field[5] == 'y' ) ? $label . $args['req_mark'] : $label;
 				$label = $label . '</label>';
 
 			} 
 
-			// gets the field value for both edit profile and submitted reg w/ error
+			// Gets the field value for both edit profile and submitted reg w/ error.
 			if ( ( $toggle == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
 
 				switch ( $field[2] ) {
@@ -660,17 +659,17 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 			}
 			
-			// does the tos field
+			// Does the tos field.
 			if ( $field[2] == 'tos' ) {
 
 				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : ''; 
 
-				// should be checked by default? and only if form hasn't been submitted
+				// Should be checked by default? and only if form hasn't been submitted.
 				$val   = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
 				$input = wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
-				$input = ( $field[5] == 'y' ) ? $input . $req_mark : $input;
+				$input = ( $field[5] == 'y' ) ? $input . $args['req_mark'] : $input;
 
-				// determine if TOS is a WP page or not...
+				// Determine if TOS is a WP page or not.
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
 				if ( ( wpmem_test_shortcode( $tos_content, 'wp-members' ) ) ) {	
 					$link = do_shortcode( $tos_content );
@@ -689,13 +688,13 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				 */
 				$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ), $toggle );
 				
-				// in previous versions, the div class would end up being the same as the row before.
-				$field_before = ( $wrap_inputs ) ? '<div class="div_text">' : '';
-				$field_after  = ( $wrap_inputs ) ? '</div>' : '';
+				// In previous versions, the div class would end up being the same as the row before.
+				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
+				$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 
 			} else {
 
-				// for checkboxes
+				// For checkboxes.
 				if ( $field[3] == 'checkbox' ) { 
 					$valtochk = $val;
 					$val = $field[7]; 
@@ -703,7 +702,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 					if ( $field[8] == 'y' && ( ! $_POST && $toggle != 'edit' ) ) { $val = $valtochk = $field[7]; }
 				}
 
-				// for dropdown select
+				// For dropdown select.
 				if ( $field[3] == 'select' ) {
 					$valtochk = $val;
 					$val = $field[7];
@@ -711,34 +710,34 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 				if ( ! isset( $valtochk ) ) { $valtochk = ''; }
 				
-				// for all other input types
+				// For all other input types.
 				$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
 				
-				// determine input wrappers
-				$field_before = ( $wrap_inputs ) ? '<div class="div_' . $class . '">' : '';
-				$field_after  = ( $wrap_inputs ) ? '</div>' : '';
+				// Determine input wrappers.
+				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_' . $class . '">' : '';
+				$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 			}
 
 		}
 
-		// if the row is set to display, add the row to the form array
+		// If the row is set to display, add the row to the form array.
 		if ( $field[4] == 'y' ) {
 			$rows[$field[2]] = array(
 				'order'        => $field[0],
 				'meta'         => $field[2], 
 				'type'         => $field[3], 
 				'value'        => $val,  
-				'row_before'   => $row_before,
+				'row_before'   => $args['row_before'],
 				'label'        => $label,
 				'field_before' => $field_before,
 				'field'        => $input,
 				'field_after'  => $field_after,
-				'row_after'    => $row_after,
+				'row_after'    => $args['row_after'],
 			);
 		}
 	}
 	
-	// if captcha is Really Simple CAPTCHA
+	// If captcha is Really Simple CAPTCHA.
 	if ( $wpmem->captcha == 2 && $toggle != 'edit' ) {
 		$row = wpmem_build_rs_captcha();
 		$rows['captcha'] = array(
@@ -746,12 +745,12 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 			'meta'         => '', 
 			'type'         => 'text', 
 			'value'        => '',  
-			'row_before'   => $row_before,
+			'row_before'   => $args['row_before'],
 			'label'        => $row['label'],
-			'field_before' => ( $wrap_inputs ) ? '<div class="div_text">' : '',
+			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
 			'field'        => $row['field'],
-			'field_after'  => ( $wrap_inputs ) ? '</div>' : '',
-			'row_after'    => $row_after,
+			'field_after'  => ( $args['wrap_inputs'] ) ? '</div>' : '',
+			'row_after'    => $args['row_after'],
 		);
 	}
 	
@@ -769,28 +768,28 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$rows = apply_filters( 'wpmem_register_form_rows', $rows, $toggle );
 	
-	// put the rows from the array into $form
+	// Put the rows from the array into $form.
 	$form = ''; $enctype = '';
 	foreach ( $rows as $row_item ) {
 		$enctype = ( $row_item['type'] == 'file' ) ? "multipart/form-data" : $enctype;
-		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $n . $row_item['label'] . $n : $row_item['label'] . $n;
-		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $n . $t . $row_item['field'] . $n . $row_item['field_after'] . $n : $row_item['field'] . $n;
-		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $n : '';
+		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
+		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
+		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
 		$form.= $row;
 	}
 	
-	// do recaptcha if enabled
+	// Do recaptcha if enabled.
 	if ( ( $wpmem->captcha == 1 || $wpmem->captcha == 3 ) && $toggle != 'edit' ) { // don't show on edit page!
 		
-		// get the captcha options
+		// Get the captcha options.
 		$wpmem_captcha = get_option( 'wpmembers_captcha' ); 
 		
-		// start with a clean row
+		// Start with a clean row.
 		$row = '';
 		$row = '<div class="clear"></div>';
 		$row.= '<div align="right" class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] ) . '</div>';
 		
-		// add the captcha row to the form
+		// Add the captcha row to the form.
 		/**
 		 * Filter the HTML for the CAPTCHA row.
 		 *
@@ -799,18 +798,18 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		 * @param string          The HTML for the entire row (includes HTML tags plus reCAPTCHA).
 		 * @param string $toggle  Toggle new registration or profile update. new|edit.
 	 	 */
-		$form.= apply_filters( 'wpmem_register_captcha_row', $row_before . $row . $row_after, $toggle );
+		$form.= apply_filters( 'wpmem_register_captcha_row', $args['row_before'] . $row . $args['row_after'], $toggle );
 	}
 
-	// create hidden fields
+	// Create hidden fields.
 	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
 	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
-	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $n;
-	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $n;
+	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
+	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
 	if ( $redirect_to != get_permalink() ) {
-		$hidden.= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $n;
+		$hidden.= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
 	}
-	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $n : $hidden;
+	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $args['n'] : $hidden;
 	
 	/**
 	 * Filter the hidden field HTML.
@@ -822,13 +821,13 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$hidden = apply_filters( 'wpmem_register_hidden_fields', $hidden, $toggle );
 	
-	// add the hidden fields to the form
+	// Add the hidden fields to the form.
 	$form.= $hidden;
 	
-	// create buttons and wrapper
-	$button_text = ( $toggle == 'edit' ) ? $submit_update : $submit_register;
-	$buttons = ( $show_clear_form ) ? '<input name="reset" type="reset" value="' . $clear_form . '" class="' . $button_class . '" /> ' . $n : '';
-	$buttons.= '<input name="submit" type="submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
+	// Create buttons and wrapper.
+	$button_text = ( $toggle == 'edit' ) ? $args['submit_update'] : $args['submit_register'];
+	$buttons = ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . $args['clear_form'] . '" class="' . $args['button_class'] . '" /> ' . $args['n'] : '';
+	$buttons.= '<input name="submit" type="submit" value="' . $button_text . '" class="' . $args['button_class'] . '" />' . $args['n'];
 	
 	/**
 	 * Filter the HTML for form buttons.
@@ -842,13 +841,13 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$buttons = apply_filters( 'wpmem_register_form_buttons', $buttons, $toggle );
 	
-	// add the buttons to the form
-	$form.= $buttons_before . $n . $buttons . $buttons_after . $n;
+	// Add the buttons to the form.
+	$form.= $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'];
 
-	// add the required field notation to the bottom of the form
-	$form.= $req_label_before . $req_mark . $req_label . $req_label_after;
+	// Add the required field notation to the bottom of the form.
+	$form.= $args['req_label_before'] . $args['req_label'] . $args['req_label_after'];
 	
-	// apply the heading
+	// Apply the heading.
 	/**
 	 * Filter the registration form heading.
 	 *
@@ -858,33 +857,33 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 * @param string $toggle Toggle new registration or profile update. new|edit.
  	 */
 	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', __( 'New User Registration', 'wp-members' ), $toggle ) : $heading;
-	$form = $heading_before . $heading . $heading_after . $n . $form;
+	$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 	
-	// apply fieldset wrapper
-	$form = $fieldset_before . $n . $form . $n . $fieldset_after;
+	// Apply fieldset wrapper.
+	$form = $args['fieldset_before'] . $args['n'] . $form . $args['n'] . $args['fieldset_after'];
 	
-	// apply attribution if enabled
+	// Apply attribution if enabled.
 	$form = $form . wpmem_inc_attribution();
 	
-	// apply nonce
-	$form = ( defined( 'WPMEM_USE_NONCE' ) || $use_nonce ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) . $n . $form : $form;
+	// Apply nonce.
+	$form = ( defined( 'WPMEM_USE_NONCE' ) || $args['use_nonce'] ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) . $args['n'] . $form : $form;
 	
-	// apply form wrapper
+	// Apply form wrapper.
 	$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
 	$post_to = ( $redirect_to ) ? $redirect_to : get_permalink();
-	$form = '<form name="form" method="post"' . $enctype . ' action="' . $post_to . '" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form. $n . '</form>';
+	$form = '<form name="form" method="post"' . $enctype . ' action="' . $post_to . '" id="' . $args['form_id'] . '" class="' . $args['form_class'] . '">' . $args['n'] . $form . $args['n'] . '</form>';
 	
-	// apply anchor
-	$form = '<a name="register"></a>' . $n . $form;
+	// Apply anchor.
+	$form = '<a name="register"></a>' . $args['n'] . $form;
 	
-	// apply main div wrapper
-	$form = $main_div_before . $n . $form . $n . $main_div_after . $n;
+	// Apply main div wrapper.
+	$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'] . $args['n'];
 	
-	// apply wpmem_txt wrapper
-	$form = $txt_before . $form . $txt_after;
+	// Apply wpmem_txt wrapper.
+	$form = $args['txt_before'] . $form . $args['txt_after'];
 	
-	// remove line breaks if enabled for easier filtering later
-	$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
+	// Remove line breaks if enabled for easier filtering later.
+	$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 	
 	/**
 	 * Filter the generated HTML of the entire form.
@@ -911,9 +910,9 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$form = apply_filters( 'wpmem_register_form_before', '', $toggle ) . $form;
 
-	// return the generated form
+	// Return the generated form.
 	return $form;
-} // end wpmem_inc_registration
+} // End wpmem_inc_registration.
 endif;
 
 
@@ -928,14 +927,14 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  */
 function wpmem_inc_recaptcha( $arr ) {
 
-	// determine if reCAPTCHA should be another language
+	// Determine if reCAPTCHA should be another language.
 	$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'wp-members' );
 	$compare_lang  = strtolower( substr( $locale, -2 ) );
 	$use_the_lang  = ( in_array( $compare_lang, $allowed_langs ) ) ? $compare_lang : false;
 	$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
 
-	// determine if we need ssl
+	// Determine if we need ssl.
 	$http = wpmem_use_ssl();
 
 	global $wpmem;
@@ -1060,4 +1059,4 @@ function wpmem_build_rs_captcha() {
 	}
 }
 
-/** End of File **/
+// End of file.
