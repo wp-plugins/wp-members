@@ -56,14 +56,15 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_export'   );
 	delete_option( 'wpmembers_utfields' );
 
-	delete_option( 'wpmembers_email_newreg' );
-	delete_option( 'wpmembers_email_newmod' );
-	delete_option( 'wpmembers_email_appmod' );
-	delete_option( 'wpmembers_email_repass' );
-	delete_option( 'wpmembers_email_footer' );
-	delete_option( 'wpmembers_email_notify' );
-	delete_option( 'wpmembers_email_wpfrom' );
-	delete_option( 'wpmembers_email_wpname' );
+	delete_option( 'wpmembers_email_newreg'  );
+	delete_option( 'wpmembers_email_newmod'  );
+	delete_option( 'wpmembers_email_appmod'  );
+	delete_option( 'wpmembers_email_repass'  );
+	delete_option( 'wpmembers_email_footer'  );
+	delete_option( 'wpmembers_email_notify'  );
+	delete_option( 'wpmembers_email_wpfrom'  );
+	delete_option( 'wpmembers_email_wpname'  );
+	delete_option( 'wpmembers_email_getuser' );
 
 	delete_option( 'widget_wpmemwidget' );
 	

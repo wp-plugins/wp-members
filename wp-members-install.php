@@ -366,6 +366,24 @@ Please do not reply to this address';
 	if ( ! get_option( 'wpmembers_email_footer' ) ) {
 		update_option( 'wpmembers_email_footer', $body, false );
 	}
+	
+	$arr = $subj = $body = '';
+	
+	// Email for retrieve username.
+	$subj = 'Username for [blogname]';
+	$body = 'Your username for [blogname] is below.
+
+username: [username]
+';
+
+		$arr = array(
+		"subj" => $subj,
+		"body" => $body,
+	);
+
+	if ( ! get_option( 'wpmembers_email_getuser' ) ) {
+		update_option( 'wpmembers_email_getuser', $arr, false );
+	}
 
 	return true;
 }
