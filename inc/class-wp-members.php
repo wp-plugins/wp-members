@@ -221,6 +221,10 @@ class WP_Members {
 				$regchk = wpmem_reset_password();
 				break;
 			
+			case 'getusername':
+				$regchk = wpmem_retrieve_username();
+				break;
+			
 			case 'register':
 			case 'update':
 				require_once( WPMEM_PATH . 'inc/register.php' );

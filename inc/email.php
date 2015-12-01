@@ -70,6 +70,12 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 		$arr = get_option( 'wpmembers_email_repass' );
 		$arr['toggle'] = 'repass';
 		break;
+		
+	case 4:
+		// This is a password reset.
+		$arr = get_option( 'wpmembers_email_getuser' );
+		$arr['toggle'] = 'getuser';
+		break;
 
 	}
 

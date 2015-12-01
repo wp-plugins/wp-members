@@ -439,6 +439,10 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 
 				$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
 
+			} elseif( $wpmem->action == 'getusername' ) {
+				
+				$content = wpmem_page_forgot_username( $wpmem->regchk, $content );
+				
 			} else {
 
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;

@@ -390,4 +390,104 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 }
 endif;
 
+
+/**
+ * Forgot username form.
+ *
+ * This function creates a form for retrieving a forgotten username.
+ *
+ * @since 3.0.8
+ *
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
+	
+	if ( ! is_user_logged_in() ) {
+
+		global $wpmem;
+		switch( $wpmem->regchk ) {
+
+		case "usernamefailed":
+			$msg = __( 'Sorry, that email address was not found.', 'wp-members' );
+			$content = $content
+				. wpmem_inc_regmessage( 'usernamefailed', $msg ) 
+				. wpmem_inc_forgotusername();
+			$wpmem->regchk = ''; // Clear regchk.
+			break;
+
+		case "usernamesuccess":
+			$email = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
+			$msg = sprintf( __( 'An email was sent to %s with your username.', 'wp-members' ), $email );
+			$content = $content . wpmem_inc_regmessage( 'usernamesuccess', $msg );
+			$wpmem->regchk = ''; // Clear regchk.
+			break;
+
+		default:
+			$content = $content . wpmem_inc_forgotusername();
+			break;
+		}
+		
+	}
+
+	return $content;
+
+}
+
+
+/**
+ * Forgot Username Form.
+ *
+ * Loads the form for retrieving a username.
+ *
+ * @since 3.0.8
+ *
+ * @return string $str The generated html for the forgot username form.
+ */
+function wpmem_inc_forgotusername() {
+
+	// create the default inputs
+	$default_inputs = array(
+		array(
+			'name'   => __( 'Email Address', 'wp-members' ), 
+			'type'   => 'text',
+			'tag'    => 'user_email',
+			'class'  => 'username',
+			'div'    => 'div_text',
+		),
+	);
+
+	/**
+	 * Filter the array of forgot username form fields.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array $default_inputs An array matching the elements used by default.
+ 	 */	
+	$default_inputs = apply_filters( 'wpmem_inc_forgotusername_inputs', $default_inputs );
+	
+	$defaults = array(
+		'heading'      => __( 'Retrieve username', 'wp-members' ), 
+		'action'       => 'getusername', 
+		'button_text'  => __( 'Retrieve username', 'wp-members' ), 
+		'inputs'       => $default_inputs,
+	);
+
+	/**
+	 * Filter the arguments to override change password form defaults.
+	 *
+	 * @since 
+	 *
+	 * @param array $args An array of arguments to use. Default null.
+ 	 */
+	$args = apply_filters( 'wpmem_inc_forgotusername_args', '' );
+
+	$arr  = wp_parse_args( $args, $defaults );
+
+    $str  = wpmem_login_form( 'page', $arr );
+	
+	return $str;
+}
+
 // End of file.

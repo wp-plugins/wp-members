@@ -623,4 +623,45 @@ function wpmem_redirect_to_login() {
 }
 
 
+/**
+ * Handles retrieving a forgotten username.
+ *
+ * @since 3.0.8
+ *
+ * @return string $regchk The regchk value.
+ */
+function wpmem_retrieve_username() {
+	
+	if ( isset( $_POST['formsubmit'] ) ) {
+	
+		$user = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $_POST['user_email'] ) : false;
+	
+		if ( $user ) {
+
+			/**
+			 * Load the email functions.
+			 */
+			require_once( WPMEM_PATH . 'inc/email.php' );
+			
+			// Send it in an email.
+			wpmem_inc_regemail( $user->ID, '', 4 );
+	
+			/**
+			 * Fires after retrieving username.
+			 *
+			 * @since 3.0.8
+			 *
+			 * @param int $user_ID The user's numeric ID.
+			 */
+			do_action( 'wpmem_get_username', $user->ID );
+
+			return 'usernamesuccess';
+			
+		} else {
+			return 'usernamefailed';
+		}
+	}
+	return;
+}
+
 // End of file.
