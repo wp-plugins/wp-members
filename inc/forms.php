@@ -637,7 +637,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 					case 'user_email':
 					case 'confirm_email':
-						$val = $userdata->user_email;
+						$val = sanitize_email( $userdata->user_email );
 						break;
 
 					case 'user_url':
@@ -645,11 +645,11 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 						break;
 						
 					case 'display_name':
-						$val = htmlspecialchars( $userdata->display_name );
+						$val = sanitize_text_field( $userdata->display_name );
 						break; 
 
 					default:
-						$val = htmlspecialchars( get_user_meta( $userdata->ID, $field[2], 'true' ) );
+						$val = sanitize_text_field( get_user_meta( $userdata->ID, $field[2], 'true' ) );
 						break;
 				}
 
