@@ -120,27 +120,27 @@ function wpmem_a_build_captcha_options() {
 									'img_type'     => 'png',
 								);
 
-								$args = ( is_array( $wpmem_captcha['really_simple'] ) ) ? $wpmem_captcha['really_simple'] : array();
+								$args = ( isset( $wpmem_captcha['really_simple'] ) && is_array( $wpmem_captcha['really_simple'] ) ) ? $wpmem_captcha['really_simple'] : array();
 
-								extract( wp_parse_args( $args, $defaults ) );
+								$args = wp_parse_args( $args, $defaults );
 
 								// Explode colors.
-								$font_color = explode( ',', $font_color );
-								$bg_color   = explode( ',', $bg_color   );
+								$font_color = explode( ',', $args['font_color'] );
+								$bg_color   = explode( ',', $args['bg_color']   );
 
 								$show_update_button = true;
 								if ( is_plugin_active( 'really-simple-captcha/really-simple-captcha.php' ) ) { ?>
 									<tr>
 										<th scope="row"><?php _e( 'Characters for image', 'wp-members' ); ?></th>
-										<td><input name="characters" type="text" size="34" value="<?php echo $characters; ?>" /></td>
+										<td><input name="characters" type="text" size="34" value="<?php echo $args['characters']; ?>" /></td>
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Number of characters', 'wp-members' ); ?></th>
-										<td><input name="num_char" type="text" size="2" value="<?php echo $num_char; ?>" /></td>
+										<td><input name="num_char" type="text" size="2" value="<?php echo $args['num_char']; ?>" /></td>
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Image dimensions', 'wp-members' ); ?></th>
-										<td><?php _e( 'Width' ); ?> <input name="dim_w" type="text" size="2" value="<?php echo $dim_w; ?>" /> <?php _e( 'Height' ); ?> <input name="dim_h" type="text" size="2" value="<?php echo $dim_h; ?>" /></td>
+										<td><?php _e( 'Width' ); ?> <input name="dim_w" type="text" size="2" value="<?php echo $args['dim_w']; ?>" /> <?php _e( 'Height' ); ?> <input name="dim_h" type="text" size="2" value="<?php echo $args['dim_h']; ?>" /></td>
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Font color of characters', 'wp-members' ); ?></th>
@@ -152,18 +152,18 @@ function wpmem_a_build_captcha_options() {
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Font size', 'wp-members' ); ?></th>
-										<td><input name="font_size" type="text" value="<?php echo $font_size; ?>" /></td>
+										<td><input name="font_size" type="text" value="<?php echo $args['font_size']; ?>" /></td>
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Width between characters', 'wp-members' ); ?></th>
-										<td><input name="kerning" type="text" value="<?php echo $kerning; ?>" /></td>
+										<td><input name="kerning" type="text" value="<?php echo $args['kerning']; ?>" /></td>
 									</tr>
 									<tr>
 										<th scope="row"><?php _e( 'Image type', 'wp-members' ); ?></th>
 										<td><select name="img_type">
-											<option<?php echo ( $img_type == 'png' ) ? ' selected' : ''; ?>>png</option>
-											<option<?php echo ( $img_type == 'gif' ) ? ' selected' : ''; ?>>gif</option>
-											<option<?php echo ( $img_type == 'jpg' ) ? ' selected' : ''; ?>>jpg</option>
+											<option<?php echo ( $args['img_type'] == 'png' ) ? ' selected' : ''; ?>>png</option>
+											<option<?php echo ( $args['img_type'] == 'gif' ) ? ' selected' : ''; ?>>gif</option>
+											<option<?php echo ( $args['img_type'] == 'jpg' ) ? ' selected' : ''; ?>>jpg</option>
 											</select>
 										</td>
 									</tr><?php
