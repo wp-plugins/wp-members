@@ -38,7 +38,7 @@ function wpmem_export_users( $args, $users = null ) {
 		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 	);
 
-	// Merge $args with defaults and extract.
+	// Merge $args with defaults.
 	/**
 	 * Filter the default export arguments.
 	 *
@@ -46,18 +46,18 @@ function wpmem_export_users( $args, $users = null ) {
 	 *
 	 * @param array $args An array of arguments to merge with defaults. Default null.
  	 */
-	extract( wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults ) );
+	$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
 
 	// Output needs to be buffered, start the buffer.
 	ob_start();
 
 	// If exporting all, get all of the users.
-	$users = ( $export == 'all' ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
+	$users = ( 'all' == $args'[export'] ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
 
 	// Generate headers and a filename based on date of export.
 	header( "Content-Description: File Transfer" );
 	header( "Content-type: application/octet-stream" );
-	header( "Content-Disposition: attachment; filename=" . $filename );
+	header( "Content-Disposition: attachment; filename=" . $args['filename'] );
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
@@ -68,7 +68,7 @@ function wpmem_export_users( $args, $users = null ) {
 	$hrow = "User ID,Username,";
 
 	foreach ( $wpmem_fields as $meta ) {
-		if ( ! in_array( $meta[2], $exclude_fields ) ) {
+		if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
 			$hrow.= $meta[1] . ",";
 		}
 	}
@@ -99,7 +99,7 @@ function wpmem_export_users( $args, $users = null ) {
 
 		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
 		foreach ( $wpmem_fields as $meta ) {
-			if ( ! in_array( $meta[2], $exclude_fields ) ) {
+			if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
 				// @todo Research using fputcsv to escape fields for export.
 				if ( in_array( $meta[2], $wp_user_fields ) ){
 					$data .= '"' . $user_info->$meta[2] . '",';	
@@ -118,7 +118,7 @@ function wpmem_export_users( $args, $users = null ) {
 		$data .= "\r\n";
 		
 		// Update the user record as being exported.
-		if ( $export != 'all' ){
+		if ( 'all' != $args['export'] ){
 			update_user_meta( $user, 'exported', 1 );
 		}
 	}
