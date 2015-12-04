@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.3.1
-Stable tag: 3.0.7.2
+Stable tag: 3.0.8
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.7.2 is a minor bug fix release for 3.0.7.
+WP-Members 3.0.8 is a feature release, see release notes.
 WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
 
 == Screenshots ==
@@ -135,16 +135,10 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 == Changelog ==
 
-= 3.0.7.2 =
+= 3.0.8 =
 
-* Fix for PayPal extension (http://rkt.bz/r3). 3.0.7 added some logic to avoid errors if the PayPal extension is disabled but the main option setting remained turned on. This release fixes a flaw in that logic that causes the extension to not display certain links or fields.
-
-= 3.0.7.1 =
-
-
-
-* Fix for password reset (typo in object name checking for moderated registration)
-
+* Added retrieval for forgotten username.
+* Removed last remaining instances of extract function.
 
 = 3.0.7 =
 
@@ -154,6 +148,10 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Fix to plugin_basename.
 * Changes in core to use fields from WP_Members class (preparing for new form field process).
 * Reviews and updates to code standards and inline documentation.
+
+* Fix for password reset (typo in object name checking for moderated registration)
+
+* Fix for PayPal extension (http://rkt.bz/r3); added logic to avoid errors if the PayPal extension is disabled but the main option setting remained turned on.
 
 = 3.0.6 =
 
