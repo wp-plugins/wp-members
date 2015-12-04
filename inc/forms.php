@@ -258,15 +258,31 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * @since 2.5.1
  *
  * @param  string $page 
- * @param  array  $arr   The elements needed to generate the form (login|reset password|forgotten password).
+ * @param  array  $arr {
+ *     The elements needed to generate the form (login|reset password|forgotten password).
+ *
+ *     @type string $heading     Form heading text.
+ *     @type string $action      The form action (login|pwdchange|pwdreset).
+ *     @type string $button_text Form submit button text.
+ *     @type array  $inputs {
+ *         The form input values.
+ *
+ *         @type array {
+ *
+ *             @type string $name  The field label.
+ *             @type string $type  Input type.
+ *             @type string $tag   Input tag name.
+ *             @type string $class Input tag class.
+ *             @type string $div   Div wrapper class.
+ *         }
+ *     }
+ *     @type string $redirect_to Optional. URL to redirect to.
+ * }
  * @return string $form  The HTML for the form as a string.
  */
 function wpmem_login_form( $page, $arr ) {
 
 	global $wpmem;
-
-	// extract the arguments array
-	extract( $arr );
 
 	// set up default wrappers
 	$defaults = array(
@@ -299,7 +315,7 @@ function wpmem_login_form( $page, $arr ) {
 		'remember_check'  => true,
 		'n'               => "\n",
 		't'               => "\t",
-		'redirect_to'     => ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( isset( $redirect_to ) ) ? $redirect_to : get_permalink() ),
+		'redirect_to'     => ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( isset( $arr['redirect_to'] ) ) ? $arr['redirect_to'] : get_permalink() ),
 		
 	);
 	
@@ -312,26 +328,26 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.9.0
 	 *
 	 * @param array          An array of arguments to merge with defaults. Default null.
-	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$args = apply_filters( 'wpmem_login_form_args', '', $action );
+	$args = apply_filters( 'wpmem_login_form_args', '', $arr['action'] );
 	
 	// Merge $args with defaults.
-	extract( wp_parse_args( $args, $defaults ) );
+	$args = wp_parse_args( $args, $defaults );
 	
 	// Build the input rows.
-	foreach ( $inputs as $input ) {
+	foreach ( $arr['inputs'] as $input ) {
 		$label = '<label for="' . $input['tag'] . '">' . $input['name'] . '</label>';
 		$field = wpmem_create_formfield( $input['tag'], $input['type'], '', '', $input['class'] );
-		$field_before = ( $wrap_inputs ) ? '<div class="' . $input['div'] . '">' : '';
-		$field_after  = ( $wrap_inputs ) ? '</div>' : '';
+		$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . $input['div'] . '">' : '';
+		$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 		$rows[] = array( 
-			'row_before'   => $row_before,
+			'row_before'   => $args['row_before'],
 			'label'        => $label,
 			'field_before' => $field_before,
 			'field'        => $field,
 			'field_after'  => $field_after,
-			'row_after'    => $row_after,
+			'row_after'    => $args['row_after'],
 		);
 	}
 	
@@ -345,23 +361,23 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.9.0
 	 *
 	 * @param array  $rows   An array containing the form rows.
-	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$rows = apply_filters( 'wpmem_login_form_rows', $rows, $action );
+	$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'] );
 	
 	// Put the rows from the array into $form.
 	$form = '';
 	foreach ( $rows as $row_item ) {
-		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $n . $row_item['label'] . $n : $row_item['label'] . $n;
-		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $n . $t . $row_item['field'] . $n . $row_item['field_after'] . $n : $row_item['field'] . $n;
-		$row .= ( $row_item['row_before']   != '' ) ? $row_item['row_after'] . $n : '';
+		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
+		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
+		$row .= ( $row_item['row_before']   != '' ) ? $row_item['row_after'] . $args['n'] : '';
 		$form.= $row;
 	}
 
 	// Build hidden fields, filter, and add to the form.
-	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $redirect_to ) . $n;
-	$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $n;
-	$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
+	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $args['redirect_to'] ) . $args['n'];
+	$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $arr['action'] ) . $args['n'];
+	$hidden = ( $arr['action'] != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
 
 	/**
 	 * Filter the hidden field HTML.
@@ -369,16 +385,16 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.9.0
 	 *
 	 * @param string $hidden The generated HTML of hidden fields.
-	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $action );
+	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $arr['action'] );
 
 	// Build the buttons, filter, and add to the form.
-	if ( $action == 'login' ) {
-		$remember_check = ( $remember_check ) ? $t . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __( 'Remember Me' ) . '&nbsp;&nbsp;' . $n : '';
-		$buttons =  $remember_check . $t . '<input type="submit" name="Submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
+	if ( $arr['action'] == 'login' ) {
+		$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __( 'Remember Me' ) . '&nbsp;&nbsp;' . $args['n'] : '';
+		$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
 	} else {
-		$buttons = '<input type="submit" name="Submit" value="' . $button_text . '" class="' . $button_class . '" />' . $n;
+		$buttons = '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
 	}
 	
 	/**
@@ -389,11 +405,11 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.9.0
 	 *
 	 * @param string $buttons The generated HTML of the form buttons.
-	 * @param string $action  The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action']  The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = $form . apply_filters( 'wpmem_login_form_buttons', $buttons_before . $n . $buttons . $buttons_after . $n, $action );
+	$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $arr['action'] );
 
-	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $action == 'login' ) { 
+	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'login' ) { 
 		
 		/**
 		 * Filter the forgot password link.
@@ -404,11 +420,11 @@ function wpmem_login_form( $page, $arr ) {
 	 	 */
 		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
 		$str  = __( 'Forgot password?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to reset', 'wp-members' ) . '</a>';
-		$form = $form . $link_before . apply_filters( 'wpmem_forgot_link_str', $str ) . $link_after . $n;
+		$form = $form . $args['link_before'] . apply_filters( 'wpmem_forgot_link_str', $str ) . $args['link_after'] . $args['n'];
 		
 	}
 	
-	if ( ( $wpmem->user_pages['register'] != null ) && $action == 'login' ) { 
+	if ( ( $wpmem->user_pages['register'] != null ) && $arr['action'] == 'login' ) { 
 
 		/**
 		 * Filter the link to the registration page.
@@ -419,30 +435,30 @@ function wpmem_login_form( $page, $arr ) {
 	 	 */
 		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 		$str  = __( 'New User?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to register', 'wp-members' ) . '</a>';
-		$form = $form . $link_before . apply_filters( 'wpmem_reg_link_str', $str ) . $link_after . $n;
+		$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str ) . $args['link_after'] . $args['n'];
 		
 	}			
 	
 	// Apply the heading.
-	$form = $heading_before . $heading . $heading_after . $n . $form;
+	$form = $args['heading_before'] . $arr['heading'] . $args['heading_after'] . $args['n'] . $form;
 	
 	// Apply fieldset wrapper.
-	$form = $fieldset_before . $n . $form . $fieldset_after . $n;
+	$form = $args['fieldset_before'] . $args['n'] . $form . $args['fieldset_after'] . $args['n'];
 	
 	// Apply form wrapper.
-	$form = '<form action="' . get_permalink() . '" method="POST" id="' . $form_id . '" class="' . $form_class . '">' . $n . $form . '</form>';
+	$form = '<form action="' . get_permalink() . '" method="POST" id="' . $args['form_id'] . '" class="' . $args['form_class'] . '">' . $args['n'] . $form . '</form>';
 	
 	// Apply anchor.
-	$form = '<a name="' . $action . '"></a>' . $n . $form;
+	$form = '<a name="' . $arr['action'] . '"></a>' . $args['n'] . $form;
 	
 	// Apply main wrapper.
-	$form = $main_div_before . $n . $form . $n . $main_div_after;
+	$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'];
 	
 	// Apply wpmem_txt wrapper.
-	$form = $txt_before . $form . $txt_after;
+	$form = $args['txt_before'] . $form . $args['txt_after'];
 	
 	// Remove line breaks.
-	$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
+	$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 	
 	/**
 	 * Filter the generated HTML of the entire form.
@@ -450,9 +466,9 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.7.4
 	 *
 	 * @param string $form   The HTML of the final generated form.
-	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = apply_filters( 'wpmem_login_form', $form, $action );
+	$form = apply_filters( 'wpmem_login_form', $form, $arr['action'] );
 	
 	/**
 	 * Filter before the form.
@@ -463,9 +479,9 @@ function wpmem_login_form( $page, $arr ) {
 	 * @since 2.7.4
 	 *
 	 * @param string $str    The HTML to add before the form. Default null.
-	 * @param string $action The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
  	 */
-	$form = apply_filters( 'wpmem_login_form_before', '', $action ) . $form;
+	$form = apply_filters( 'wpmem_login_form_before', '', $arr['action'] ) . $form;
 	
 	return $form;
 } // End wpmem_login_form.
@@ -1013,21 +1029,22 @@ function wpmem_build_rs_captcha() {
 		);
 		$wpmem_captcha = get_option( 'wpmembers_captcha' );
 		
-		extract( wp_parse_args( $wpmem_captcha['really_simple'], $defaults ) );
+		$args = ( isset( $wpmem_captcha['really_simple'] ) && is_array( $wpmem_captcha['really_simple'] ) ) ? $wpmem_captcha['really_simple'] : array();
+		$args = wp_parse_args( $args, $defaults );
 		
-		$img_size = array( $dim_w, $dim_h );
-		$fg       = explode( ",", $font_color );
-		$bg       = explode( ",", $bg_color );
+		$img_size = array( $args['dim_w'], $args['dim_h'] );
+		$fg       = explode( ",", $args['font_color'] );
+		$bg       = explode( ",", $args['bg_color'] );
 		
 		$wpmem_captcha = new ReallySimpleCaptcha();
-		$wpmem_captcha->chars = $characters;
-		$wpmem_captcha->char_length = $num_char;
+		$wpmem_captcha->chars = $args['characters'];
+		$wpmem_captcha->char_length = $args['num_char'];
 		$wpmem_captcha->img_size = $img_size;
 		$wpmem_captcha->fg = $fg;
 		$wpmem_captcha->bg = $bg;
-		$wpmem_captcha->font_size = $font_size;
-		$wpmem_captcha->font_char_width = $kerning;
-		$wpmem_captcha->img_type = $img_type;
+		$wpmem_captcha->font_size = $args['font_size'];
+		$wpmem_captcha->font_char_width = $args['kerning'];
+		$wpmem_captcha->img_type = $args['img_type'];
 
 		$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
 		$wpmem_captcha_prefix = mt_rand();
