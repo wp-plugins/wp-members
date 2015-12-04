@@ -130,27 +130,27 @@ function wpmem_do_sidebar( $post_to = null ) {
 		$args = apply_filters( 'wpmem_sb_login_args', '' );
 
 		// Merge $args with defaults.
-		extract( wp_parse_args( $args, $defaults ) );
+		$args = wp_parse_args( $args, $defaults );
 
 		$form = '';
 
 		$label = '<label for="username">' . __( 'Username' ) . '</label>';
 		$input = '<input type="text" name="log" class="username" id="username" />';
 
-		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
-		$row1  = $label . $n . $input . $n;
+		$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
+		$row1  = $label . $args['n'] . $input . $args['n'];
 
 		$label = '<label for="password">' . __( 'Password' ) . '</label>';
 		$input = '<input type="password" name="pwd" class="password" id="password" />';
 
-		$input = ( $wrap_inputs ) ? $inputs_before . $input . $inputs_after : $input;
-		$row2  = $label . $n . $input . $n;
+		$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
+		$row2  = $label . $args['n'] . $input . $args['n'];
 
 		$form = $row1 . $row2;
 
-		$hidden = '<input type="hidden" name="rememberme" value="forever" />' . $n .
-				'<input type="hidden" name="redirect_to" value="' . $post_to . '" />' . $n .
-				'<input type="hidden" name="a" value="login" />' . $n .
+		$hidden = '<input type="hidden" name="rememberme" value="forever" />' . $args['n'] .
+				'<input type="hidden" name="redirect_to" value="' . $post_to . '" />' . $args['n'] .
+				'<input type="hidden" name="a" value="login" />' . $args['n'] .
 				'<input type="hidden" name="slog" value="true" />';
 		/**
 		 * Filter sidebar login form hidden fields.
@@ -188,17 +188,17 @@ function wpmem_do_sidebar( $post_to = null ) {
 			$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
 		}
 
-		$form = $form . $n . $buttons_before . $buttons . $n . $buttons_after;
+		$form = $form . $args['n'] . $args['buttons_before'] . $buttons . $args['n'] . $args['buttons_after'];
 
-		$form = $fieldset_before . $n . $form . $n . $fieldset_after;
+		$form = $args['fieldset_before'] . $args['n'] . $form . $args['n'] . $args['fieldset_after'];
 
-		$form = '<form name="form" method="post" action="' . $post_to . '">' . $n . $form . $n . '</form>';
+		$form = '<form name="form" method="post" action="' . $post_to . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 		// Add status message.
-		$form = $status_msg . $n . $form;
+		$form = $args['status_msg'] . $args['n'] . $form;
 
 		// Strip breaks.
-		$form = ( $strip_breaks ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
+		$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 
 		/**
 		 * Filter the sidebar form.
@@ -212,7 +212,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 		$do_error_msg = '';
 		if ( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 			$do_error_msg = true;
-			$error_msg = $error_before . $error_msg . $error_after;
+			$error_msg = $args['error_before'] . $args['error_msg'] . $args['error_after'];
 			/**
 			 * Filter the sidebar login failed message.
 			 *
