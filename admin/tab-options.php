@@ -402,7 +402,7 @@ function wpmem_admin_page_list( $val, $show_custom_url = true ) {
 
 	foreach ( $pages as $page ) {
 		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected;
-		$option   = '<option value="' . get_page_link( $page->ID ) . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
+		$option   = '<option value="' . $page->ID . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
 		$option  .= $page->post_title;
 		$option  .= '</option>';
 		echo $option;

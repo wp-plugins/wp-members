@@ -137,8 +137,9 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 = 3.0.8 =
 
-* Added retrieval for forgotten username.
+* Added process for forgotten username retrieval.
 * Removed last remaining instances of extract function.
+* Updated settings for special pages (login|register|user-profile) to store only the numeric primary key ID. This will eliminate the need to update these settings if the site is moved (from a dev to live site, for example).  Legacy full URL settings will still be compatible without needing to be updated, but will be automatically updated when main options are saved.
 
 = 3.0.7 =
 

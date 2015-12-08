@@ -45,6 +45,8 @@ class WP_Members {
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
 		}
+		
+		$this->load_user_pages();
 
 		// Set the stylesheet.
 		$this->cssurl = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
@@ -477,6 +479,22 @@ class WP_Members {
 
 		// Return excluded fields.
 		return $excluded_fields;
+	}
+	
+	/**
+	 * Set page locations.
+	 *
+	 * Handles numeric page IDs while maintaining
+	 * compatibility with old full url settings.
+	 *
+	 * @since 3.0.8
+	 */
+	function load_user_pages() {
+		foreach ( $this->user_pages as $key => $val ) {
+			if ( is_numeric( $val ) ) {
+				$this->user_pages[ $key ] = get_page_link( $val );
+			}
+		}
 	}
 
 }
