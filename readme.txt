@@ -149,9 +149,7 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Fix to plugin_basename.
 * Changes in core to use fields from WP_Members class (preparing for new form field process).
 * Reviews and updates to code standards and inline documentation.
-
 * Fix for password reset (typo in object name checking for moderated registration)
-
 * Fix for PayPal extension (http://rkt.bz/r3); added logic to avoid errors if the PayPal extension is disabled but the main option setting remained turned on.
 
 = 3.0.6 =
