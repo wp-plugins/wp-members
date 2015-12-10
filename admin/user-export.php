@@ -52,7 +52,7 @@ function wpmem_export_users( $args, $users = null ) {
 	ob_start();
 
 	// If exporting all, get all of the users.
-	$users = ( 'all' == $args'[export'] ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
+	$users = ( 'all' == $args['export'] ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
 
 	// Generate headers and a filename based on date of export.
 	header( "Content-Description: File Transfer" );
