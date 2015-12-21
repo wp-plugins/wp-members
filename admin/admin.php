@@ -270,11 +270,12 @@ function wpmem_admin_action( $action ) {
 	switch ( $action ) {
 
 	case 'update_settings':
+	case 'update_cpts':
 		/**
 		 * Load Options tab functions.
 		 */
 		include_once( WPMEM_PATH . 'admin/tab-options.php' );
-		$did_update = wpmem_update_options();
+		$did_update = ( 'update_cpts' == $action ) ? wpmem_update_cpts() : wpmem_update_options();
 		break;
 
 	case 'update_fields':

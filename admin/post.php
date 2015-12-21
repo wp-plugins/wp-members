@@ -42,9 +42,9 @@ add_action( 'load-post-new.php',     'wpmem_load_tinymce'        );
  *
  * @since 2.9.2
  */
-function wpmem_bulk_posts_action() { 
-	// @todo - holding off on CPT support for now. 
-	if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'page' ) || ! isset( $_GET['post_type'] ) ) { ?>
+function wpmem_bulk_posts_action() {  
+	global $wpmem;
+	if ( ( isset( $_GET['post_type'] ) && ( $_GET['post_type'] == 'page' || array_key_exists( $_GET['post_type'], $wpmem->post_types ) ) ) || ! isset( $_GET['post_type'] ) ) { ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
@@ -151,33 +151,35 @@ function wpmem_posts_admin_notices() {
  * @since 2.8
  */
 function wpmem_block_meta_add() {
+	
+	global $wpmem;
 
 	// Build an array of post types
-	// @todo - holding off on CPT support.
-	// $post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	$post_arr = array(
 		'post' => 'Posts',
 		'page' => 'Pages',
 	);
-	/* if ( $post_types ) {
-		foreach ( $post_types  as $post_type ) { 
-			$cpt_obj = get_post_type_object( $post_type );
-			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+	if ( isset( $wpmem->post_types ) ) {
+		foreach ( $wpmem->post_types as $key => $val ) {
+			$post_arr[ $key ] = $val;
 		}
-	} */
+	}
 
 	foreach ( $post_arr as $key => $val ) {
+		//if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
 
-		/**
-		 * Filter the post meta box title.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param Post restriction title.
-		 */
-		$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', __( $val . ' Restriction', 'wp-members' ) );
-
-		add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+			/**
+			 * Filter the post meta box title.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param Post restriction title.
+			 */
+			$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', __( $val . ' Restriction', 'wp-members' ) );
+	
+			add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+		//}
 	}
 }
 

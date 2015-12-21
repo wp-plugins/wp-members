@@ -75,8 +75,9 @@ function wpmem_a_build_options() {
 							// Content Blocking option group.
 							$i = 0;
 							$len = count( $post_arr );
-							foreach ( $post_arr as $key => $val ) { 
-								if ( $key == 'post' || $key == 'page' ) { // @todo - holding off on CPT support. ?>
+							foreach ( $post_arr as $key => $val ) {  
+								if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
+								?>
 								<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 									<label><?php echo ( $i == 0 ) ? 'Content Blocking' : '&nbsp;'; ?></label>
 									<select name="wpmem_block_<?php echo $key; ?>">
@@ -102,7 +103,7 @@ function wpmem_a_build_options() {
 								$i = 0;
 								$len = count( $post_arr );
 								foreach ( $post_arr as $key => $val ) {
-									if ( $key == 'post' || $key == 'page' ) { // @todo - holding off on CPT support.
+									if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
 									$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0;
 									?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
@@ -225,10 +226,96 @@ function wpmem_a_build_options() {
 						</form>
 					</div><!-- .inside -->
 				</div>
+                <?php if ( $post_types ) { ?>
+                <div class="postbox">
+                    <h3><span><?php _e( 'Custom Post Types', 'wp-members' ); ?></span></h3>
+                    <div class="inside">
+                    	<form name="updatecpts" id="updatecpts" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+						<?php wp_nonce_field( 'wpmem-update-cpts' ); ?>
+                    		<table class="form-table">
+                                <tr>
+                                    <th scope="row">Add to WP-Members Settings</th>
+                                    <td><fieldset><?php
+									foreach ( $post_arr as $key => $val ) {
+										if ( 'post' != $key && 'page' != $key ) {
+											$checked = ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ? ' checked' : '';
+                                       		echo '<label for="' . $key . '"><input type="checkbox" name="wpmembers_handle_cpts[]" value="' . $key . '"' . $checked . ' />' . $val . '</label><br />';
+										}
+									}
+									?></fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<input type="hidden" name="wpmem_admin_a" value="update_cpts" />
+                                	<td colspan="2"><?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?></td>
+                                </tr>
+                        	</table>
+                        </form>
+                    </div>
+                </div>
+                <?php } ?>
 			</div><!-- #post-body-content -->
 		</div><!-- #post-body -->
 	</div><!-- .metabox-holder -->
 	<?php
+}
+
+
+/**
+ * Updates the plugin settings on Custom Post Types to manage.
+ *
+ * @since 3.0.9
+ *
+ * @return string The updated message.
+ */
+function wpmem_update_cpts() {
+	
+	// Check nonce.
+	check_admin_referer( 'wpmem-update-cpts' );
+	
+	// Get the main settings array as it stands.
+	$wpmem_newsettings = get_option( 'wpmembers_settings' );
+	
+	// Assemble CPT settings.
+	$cpts = array();
+	
+	$post_arr = array();
+	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	if ( $post_types ) {
+		foreach ( $post_types as $post_type ) { 
+			$cpt_obj = get_post_type_object( $post_type );
+			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+		}
+	}
+	
+	$post_vals = ( isset( $_POST['wpmembers_handle_cpts'] ) ) ? $_POST['wpmembers_handle_cpts'] : false;
+	if ( $post_vals ) {
+		foreach ( $post_vals as $val ) {
+			$cpts[ $val ] = $post_arr[ $val ];
+		}
+	}
+	$wpmem_newsettings['post_types'] = $cpts;
+	
+	// Update settings, remove or add CPTs.
+	$chk_settings = array( 'block', 'show_excerpt', 'show_login', 'show_reg' );
+	foreach ( $chk_settings as $chk ) {
+		foreach ( $wpmem_newsettings[ $chk ] as $key => $val ) {
+			if ( ( ! in_array( $key, $cpts ) ) && 'post' != $key && 'page' != $key ) {
+				unset( $wpmem_newsettings[ $chk ][ $key ] );
+			}
+		}
+	}
+	
+	// Update saved settings.
+	update_option( 'wpmembers_settings', $wpmem_newsettings );
+
+	// Update the currently loaded $wpmem object.
+	global $wpmem;
+	foreach ( $wpmem_newsettings as $key => $val ) {
+		$wpmem->$key = $val;
+	}
+	
+	return __( 'Custom Post Type settings were updated', 'wp-members' );
 }
 
 
@@ -413,4 +500,4 @@ function wpmem_admin_page_list( $val, $show_custom_url = true ) {
 	}
 }
 
-/** End of File **/
+// End of file.
