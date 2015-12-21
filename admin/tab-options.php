@@ -441,6 +441,7 @@ function wpmem_admin_style_list( $style ) {
 	$list = array(
 		'No Float'                   => WPMEM_DIR . 'css/generic-no-float.css',
 		'Rigid'                      => WPMEM_DIR . 'css/generic-rigid.css',
+		'Twenty Sixteen - no float'  => WPMEM_DIR . 'css/wp-members-2016-no-float.css',
 		'Twenty Fifteen'             => WPMEM_DIR . 'css/wp-members-2015.css',
 		'Twenty Fifteen - no float'  => WPMEM_DIR . 'css/wp-members-2015-no-float.css',
 		'Twenty Fourteen'            => WPMEM_DIR . 'css/wp-members-2014.css',
