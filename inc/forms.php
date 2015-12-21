@@ -412,7 +412,7 @@ function wpmem_login_form( $page, $arr ) {
 	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'login' ) { 
 		
 		/**
-		 * Filter the forgot password link.
+		 * Filters the forgot password link.
 		 *
 		 * @since 2.8.0
 		 *
@@ -420,6 +420,13 @@ function wpmem_login_form( $page, $arr ) {
 	 	 */
 		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
 		$str  = __( 'Forgot password?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to reset', 'wp-members' ) . '</a>';
+		/**
+		 * Filters the forgot password HTML.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $str The forgot password link HTML.
+		 */
 		$form = $form . $args['link_before'] . apply_filters( 'wpmem_forgot_link_str', $str ) . $args['link_after'] . $args['n'];
 		
 	}
@@ -427,7 +434,7 @@ function wpmem_login_form( $page, $arr ) {
 	if ( ( $wpmem->user_pages['register'] != null ) && $arr['action'] == 'login' ) { 
 
 		/**
-		 * Filter the link to the registration page.
+		 * Filters the link to the registration page.
 		 *
 		 * @since 2.8.0
 		 *
@@ -435,6 +442,13 @@ function wpmem_login_form( $page, $arr ) {
 	 	 */
 		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 		$str  = __( 'New User?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to register', 'wp-members' ) . '</a>';
+		/**
+		 * Filters the register link HTML.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $str The register link link HTML.
+		 */
 		$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str ) . $args['link_after'] . $args['n'];
 		
 	}			
