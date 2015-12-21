@@ -193,10 +193,44 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 	switch ( $page ) {
 
 	case 'members':
-		$str  = '<ul><li><a href="'  .$link . 'a=edit">' . __( 'Edit My Information', 'wp-members' ) . '</a></li>
-				<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' ) . '</a></li>';
-		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) { $str .= wpmem_user_page_detail(); }
-		$str.= '</ul>';
+		
+		$arr = array(
+			'before_wrapper' => '',
+			'wrapper_before' => '<ul>',
+			'wrapper_after'  => '</ul>',
+			'rows'           => array(
+				'<li><a href="' . $link . 'a=edit">'      . __( 'Edit My Information', 'wp-members' ) . '</a></li>',
+				'<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' )     . '</a></li>',
+			),
+		);
+
+		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) {
+			$arr['rows'][] = wpmem_user_page_detail();
+		}
+		
+		/**
+		 * Filter the member links array.
+		 *
+		 * @since 3.0.9
+		 *
+		 * @param array $arr {
+		 *      The components of the links.
+		 *
+		 *      @type string $before_wrapper Anything that comes before the wrapper.
+		 *      @type string $wrapper_before The wrapper opening tag (default: <ul>).
+		 *      @type string $wrapper_after  The wrapper closing tag (default: </ul>).
+		 *      @type array  $rows           Row items HTML.
+		 * }
+		 */
+		apply_filters( 'wpmem_member_links_args', $arr );
+		
+		$str = $arr['before_wrapper'];
+		$str.= $arr['wrapper_before'];
+		foreach ( $arr['rows'] as $row ) {
+			$str.= $row;
+		}
+		$str.= $arr['wrapper_after'];
+	
 		/**
 		 * Filter the links displayed on the User Profile page (logged in state).
 		 *
@@ -208,11 +242,40 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		break;
 
 	case 'register':
-		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>
-			<ul>
-				<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>
-				<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>
-			</ul>';
+		
+		$arr = array(
+			'before_wrapper' => '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>',
+			'wrapper_before' => '<ul>',
+			'wrapper_after'  => '</ul>',
+			'rows'           => array(
+				'<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>',
+				'<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>',
+			),
+		);
+		
+		/**
+		 * Filter the register links array.
+		 *
+		 * @since 3.0.9
+		 *
+		 * @param array $arr {
+		 *      The components of the links.
+		 *
+		 *      @type string $before_wrapper HTML before the wrapper (default: login status).
+		 *      @type string $wrapper_before The wrapper opening tag (default: <ul>).
+		 *      @type string $wrapper_after  The wrapper closing tag (default: </ul>).
+		 *      @type array  $rows           Row items HTML.
+		 * }
+		 */
+		apply_filters( 'wpmem_register_links_args', $arr );
+		
+		$str = $arr['before_wrapper'];
+		$str.= $arr['wrapper_before'];
+		foreach ( $arr['rows'] as $row ) {
+			$str.= $row;
+		}
+		$str.= $arr['wrapper_after'];
+		
 		/**
 		 * Filter the links displayed on the Register page (logged in state).
 		 *
