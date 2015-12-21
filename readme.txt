@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.8 is a feature release, see release notes.
+WP-Members 3.0.9 is a feature release, see release notes.
 WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
 
 == Screenshots ==
@@ -134,6 +134,12 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 
 == Changelog ==
+
+= 3.0.9 =
+
+* Added Custom Post Type support.
+* Added wpmem_member_links_args and wpmem_register_links_args filters.
+* Added TwentySixteen No Float stylesheet.
 
 = 3.0.8 =
 
