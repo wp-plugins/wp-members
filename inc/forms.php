@@ -601,9 +601,10 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	// Add the username row to the array.
 	$rows['username'] = array( 
 		'order'        => 0,
-		'meta'         => 'username', 
-		'type'         => 'text', 
-		'value'        => $val,  
+		'meta'         => 'username',
+		'type'         => 'text',
+		'value'        => $val,
+		'label_text'   => __( 'Choose a Username', 'wp-members' ),
 		'row_before'   => $args['row_before'],
 		'label'        => $label,
 		'field_before' => $field_before,
@@ -754,9 +755,10 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		if ( $field[4] == 'y' ) {
 			$rows[$field[2]] = array(
 				'order'        => $field[0],
-				'meta'         => $field[2], 
-				'type'         => $field[3], 
-				'value'        => $val,  
+				'meta'         => $field[2],
+				'type'         => $field[3],
+				'value'        => $val,
+				'label_text'   => __( $field[1], 'wp-members' ),
 				'row_before'   => $args['row_before'],
 				'label'        => $label,
 				'field_before' => $field_before,
