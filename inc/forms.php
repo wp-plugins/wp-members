@@ -965,6 +965,7 @@ function wpmem_inc_recaptcha( $arr ) {
 
 	// Determine if reCAPTCHA should be another language.
 	$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
+	/** This filter is documented in wp-includes/l10n.php */
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'wp-members' );
 	$compare_lang  = strtolower( substr( $locale, -2 ) );
 	$use_the_lang  = ( in_array( $compare_lang, $allowed_langs ) ) ? $compare_lang : false;

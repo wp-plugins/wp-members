@@ -323,14 +323,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 	$default_header = ( $wpmem_mail_from && $wpmem_mail_from_name ) ? 'From: ' . $wpmem_mail_from_name . ' <' . $wpmem_mail_from . '>' : '';
 
-	/**
-	 * Filters the email headers.
-	 *
-	 * @since 2.7.4
-	 *
-	 * @param mixed  $default_header The email headers (default = null).
-	 * @param string $toggle         Toggle to determine what email is being generated (newreg|newmod|appmod|repass|admin).
-	 */
+	/** This filter is documented in email.php */
 	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
 
 	// Handle backward compatibility for customizations that may call the email function directly.

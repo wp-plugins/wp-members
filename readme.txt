@@ -140,6 +140,7 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Added Custom Post Type support.
 * Added wpmem_member_links_args and wpmem_register_links_args filters.
 * Added $link parameter to wpmem_forgot_link_str and wpmem_reg_link_str filters (gives just the link as an available parameter).
+* Added new wpmem_sb_reg_link_str and wpmem_sb_forgot_link_str filters (same format as above).
 * Added [email] and [user-profile] shortcodes to the new user registration email.
 * Added label_text key to wpmem_register_form_rows filter.
 

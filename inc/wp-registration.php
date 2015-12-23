@@ -55,15 +55,7 @@ function wpmem_do_wp_register_form() {
 						} else { 
 							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
 						}
-						/**
-						 * Filter the TOS link text.
-						 *
-						 * When this filter is used for the WP native registration, the $toggle parameter is not passed.
-						 *
-						 * @since 2.7.5
-						 *
-						 * @param string The text and link for the TOS.
-						 */
+						/** This filter is documented in wp-members/inc/register.php */
 						$tos = apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
 					
 					}

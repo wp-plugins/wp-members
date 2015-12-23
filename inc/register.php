@@ -379,14 +379,7 @@ function wpmem_registration( $toggle ) {
 		// Add the user_ID to the fields array.
 		$fields['ID'] = $user_ID;
 		
-		/**
-		 * Filter registration data after validation before data insertion.
-		 *
-		 * @since 2.8.2
-		 *
-		 * @param array  $fields An array of the registration field data.
-		 * @param string $toggle A switch to indicate the action (new|edit).
-		 */
+		/** This filter is documented in register.php */
 		$fields = apply_filters( 'wpmem_register_data', $fields, 'edit' ); 
 		
 		/**
