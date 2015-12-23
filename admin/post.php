@@ -6,11 +6,10 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2015  Chad Butler
+ * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
+ * @package WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
  *
@@ -41,6 +40,8 @@ add_action( 'load-post-new.php',     'wpmem_load_tinymce'        );
  * Function to add block/unblock to the bulk dropdown list.
  *
  * @since 2.9.2
+ *
+ * @global object $wpmem The WP_Members object.
  */
 function wpmem_bulk_posts_action() {  
 	global $wpmem;
@@ -62,7 +63,7 @@ function wpmem_bulk_posts_action() {
  *
  * @since 2.9.2
  *
- * @uses WP_Users_List_Table
+ * @global object $wpmem The WP_Members object.
  */
 function wpmem_posts_page_load() {
 
@@ -134,6 +135,9 @@ function wpmem_posts_page_load() {
  * Function to echo admin update message.
  *
  * @since 2.8.2
+ *
+ * @global $pagenow
+ * @global $post_type
  */
 function wpmem_posts_admin_notices() {
 
@@ -149,13 +153,15 @@ function wpmem_posts_admin_notices() {
  * Adds the blocking meta boxes for post and page editor screens.
  *
  * @since 2.8
+ *
+ * @global object $wp_post_types The Post Type object.
+ * @global object $wpmem         The WP-Members object.
  */
 function wpmem_block_meta_add() {
 	
-	global $wpmem;
+	global $wp_post_types, $wpmem;
 
 	// Build an array of post types
-	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	$post_arr = array(
 		'post' => 'Posts',
 		'page' => 'Pages',
@@ -167,19 +173,18 @@ function wpmem_block_meta_add() {
 	}
 
 	foreach ( $post_arr as $key => $val ) {
-		//if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
+		
+		$post_type = $wp_post_types[ $key ];
+		/**
+		 * Filter the post meta box title.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param Post restriction title.
+		 */
+		$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', sprintf( __( '%s Restriction', 'wp-members' ), $post_type->labels->singular_name ) );
 
-			/**
-			 * Filter the post meta box title.
-			 *
-			 * @since 2.9.0
-			 *
-			 * @param Post restriction title.
-			 */
-			$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', __( $val . ' Restriction', 'wp-members' ) );
-	
-			add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
-		//}
+		add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
 	}
 }
 
@@ -189,42 +194,36 @@ function wpmem_block_meta_add() {
  *
  * @since 2.8
  *
- * @global $post The WordPress post object.
+ * @global object $post          The WordPress post object.
+ * @global object $wp_post_types The Post Type object.
+ * @global object $wpmem         The WP-Members object.
  */
 function wpmem_block_meta() {
 
-	global $post, $wpmem;
+	global $post, $wp_post_types, $wpmem;
 
 	wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
 
-	$post_type = get_post_type_object( $post->post_type );
+	$post_type = $wp_post_types[ $post->post_type ];
 
 	if ( isset( $wpmem->block[ $post->post_type ] ) && $wpmem->block[ $post->post_type ] == 1 ) {
 		$block = 0;
-		$notice_text = 'blocked';
-		$text = 'Unblock';
-	} else { //} elseif ( $wpmem->block[ $post->post_type ] == 0 ) {
+		$notice_text = sprintf( __( '%s are blocked by default.', 'wp-members' ), $post_type->labels->name );
+		$text = sprintf( __( 'Unblock this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
+	} else {
 		$block = 1;
-		$notice_text = 'not blocked';
-		$text = 'Block';	
+		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
+		$text = sprintf( __( 'Block this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
 	}
 	$meta = '_wpmem_block';
 	$admin_url = get_admin_url(); ?>
 	
 	<p>
-		<?php
-		printf( '%s are %s by default.', $post_type->labels->name, $notice_text );
-		echo '&nbsp;&nbsp;';
-		printf( '<a href="%s/options-general.php?page=wpmem-settings">Edit</a>', $admin_url );
-		?>
+		<?php echo $notice_text . '&nbsp;&nbsp;<a href="' . $admin_url . '/options-general.php?page=wpmem-settings">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
-	<?php if( $block == 1 ) { ?>
-		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="1" <?php checked( get_post_meta( $post->ID, $meta, true ), '1' ); ?> />
-	<?php } else { ?>
-		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="0" <?php checked( get_post_meta( $post->ID, $meta, true ), '0' ); ?> />
-	<?php } ?>
-		<label for="wpmem_block"><?php printf( '%s this %s', $text, strtolower( $post_type->labels->singular_name ) ); ?></label>
+		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="<?php echo $block; ?>" <?php checked( get_post_meta( $post->ID, $meta, true ), $block ); ?> />
+		<label for="wpmem_block"><?php echo $text; ?></label>
 	</p>
 	<?php
 	/**
@@ -246,7 +245,8 @@ function wpmem_block_meta() {
  *
  * @since 2.8
  *
- * @param int $post_id The post ID
+ * @global object $post
+ * @param  int $post_id The post ID
  */
 function wpmem_block_meta_save( $post_id ) {
 
@@ -297,15 +297,15 @@ function wpmem_block_meta_save( $post_id ) {
  *
  * @since 2.8.3
  *
- * @uses wp_enqueue_style Loads the WP-Members admin stylesheet.
- *
- * @param arr $columns The array of table columns.
+ * @global object $wpmem   The WP-Members Object
+ * @param  array  $columns The array of table columns.
+ * @return array  $columns
  */
 function wpmem_post_columns( $columns ) {
 	global $wpmem;
 	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
 	
-	if ( $post_type == 'page' || $post_type == 'post' ) { // @todo - holding off on CPT support.
+	if ( $post_type == 'page' || $post_type == 'post' || array_key_exists( $post_type, $wpmem->post_types ) ) {
 		$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
 	}
 	return $columns;
@@ -317,8 +317,9 @@ function wpmem_post_columns( $columns ) {
  *
  * @since 2.8.3
  *
- * @param $column_name
- * @param $post_ID
+ * @global object $wpmem       The WP_Members Object.
+ * @param  string $column_name
+ * @param  int    $post_ID
  */
 function wpmem_post_columns_content( $column_name, $post_ID ) {
 
@@ -347,6 +348,8 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
  * Adds shortcode dropdown to post editor tinymce.
  *
  * @since 3.0
+ *
+ * @global object $wpmem_shortcode The WP_Members_TinyMCE_Buttons object.
  */
 function wpmem_load_tinymce() {
 	// @todo For now, only load if WP version is high enough.

@@ -289,7 +289,8 @@ class WP_Members {
 			'post_type'  => $post->post_type,
 			'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
 			'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
-			'block_type' => ( $post->post_type == 'post' ) ? $this->block['post'] : ( ( $post->post_type == 'page' ) ? $this->block['page'] : 0 ),
+			//'block_type' => ( $post->post_type == 'post' ) ? $this->block['post'] : ( ( $post->post_type == 'page' ) ? $this->block['page'] : 0 ),
+			'block_type' => ( isset( $this->block[ $post->post_type ] ) ) ? $this->block[ $post->post_type ] : 0,
 		);
 
 		/**
@@ -395,7 +396,7 @@ class WP_Members {
 							// Shuts down excerpts on multipage posts if not on first page.
 							$content = '';
 
-					} elseif ( $this->show_excerpt[ $post->post_type ] == 1 ) {
+					} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
 
 						if ( ! stristr( $content, '<span id="more' ) ) {
 							$content = wpmem_do_excerpt( $content );
@@ -411,9 +412,9 @@ class WP_Members {
 
 					}
 
-					$content = ( $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
+					$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
 
-					$content = ( $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
+					$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
 				}
 
 			// Protects comments if expiration module is used and user is expired.

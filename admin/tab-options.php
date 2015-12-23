@@ -293,15 +293,27 @@ function wpmem_update_cpts() {
 		foreach ( $post_vals as $val ) {
 			$cpts[ $val ] = $post_arr[ $val ];
 		}
+	} else {
+		$cpts = array();
 	}
 	$wpmem_newsettings['post_types'] = $cpts;
 	
 	// Update settings, remove or add CPTs.
 	$chk_settings = array( 'block', 'show_excerpt', 'show_login', 'show_reg' );
 	foreach ( $chk_settings as $chk ) {
+		// Handle removing unmanaged CPTs.
 		foreach ( $wpmem_newsettings[ $chk ] as $key => $val ) {
-			if ( ( ! in_array( $key, $cpts ) ) && 'post' != $key && 'page' != $key ) {
-				unset( $wpmem_newsettings[ $chk ][ $key ] );
+			if ( 'post' != $key && 'page' != $key ) {
+				// If the $key is not in managed CPTs, remove it.
+				if ( ! array_key_exists( $key, $cpts ) ) {
+					unset( $wpmem_newsettings[ $chk ][ $key ] );
+				}
+			}
+		}
+		// Handle adding managed CPTs.
+		foreach ( $cpts as $key => $val ) {
+			if ( ! array_key_exists( $key, $wpmem_newsettings[ $chk ] ) ) {
+				$wpmem_newsettings[ $chk ][ $key ] = 0;
 			}
 		}
 	}
@@ -489,7 +501,7 @@ function wpmem_admin_page_list( $val, $show_custom_url = true ) {
 	echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
 
 	foreach ( $pages as $page ) {
-		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected;
+		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected; echo "VAL: " . $val . ' PAGE LINK: ' . get_page_link( $page->ID );
 		$option   = '<option value="' . $page->ID . '"' . wpmem_selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
 		$option  .= $page->post_title;
 		$option  .= '</option>';
