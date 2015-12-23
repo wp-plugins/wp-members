@@ -336,10 +336,13 @@ function wpmem_update_cpts() {
  *
  * @since 2.8.0
  *
- * @return string The options updated message.
+ * @global object $wpmem The WP_Members object.
+ * @return string        The options updated message.
  */
 function wpmem_update_options() {
 
+	global $wpmem;
+	
 	// Check nonce.
 	check_admin_referer( 'wpmem-update-settings' );
 
@@ -397,12 +400,11 @@ function wpmem_update_options() {
 	);
 
 	// Build an array of post types
-	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	$post_arr = array( 'post', 'page' );
-	if ( $post_types ) {
-		foreach ( $post_types as $post_type ) { 
-			$cpt_obj = get_post_type_object( $post_type );
-			$post_arr[] = $cpt_obj->name;
+	if ( isset( $wpmem->post_types ) ) {
+		$wpmem_newsettings['post_types'] = $wpmem->post_types;
+		foreach ( $wpmem_newsettings['post_types'] as $key => $val ) { 
+			$post_arr[] = $key;
 		}
 	}
 	
