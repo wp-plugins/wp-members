@@ -9,8 +9,7 @@
  * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
+ * @package WP-Members
  * @author Chad Butler
  * @copyright 2006-2015
  *
@@ -27,20 +26,14 @@ if ( ! function_exists( 'wpmem_inc_status' ) ):
  *
  * @since 1.8
  *
- * @global $user_login
+ * @global        $user_login
  * @return string $status
  */
 function wpmem_inc_status() {
 
 	global $user_login;
 	
-	/**
-	 * Filter the logout link.
-	 *
-	 * @since 2.8.3
-	 *
-	 * @param string The logout link.
-	 */
+	/** This filter is documented in wp-members/inc/dialogs.php */
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login )
@@ -161,31 +154,38 @@ function wpmem_do_sidebar( $post_to = null ) {
 		 */
 		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );
 
-
 		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
 
 		if ( $wpmem->user_pages['profile'] != null ) { 
-			/**
-			 * Filter the sidebar forgot password link.
-			 *
-			 * @since 2.8.0
-			 *
-			 * @param string The forgot password link.
-			 */
+			/** This filter is documented in wp-members/inc/forms.php */
 			$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );
-			$buttons.= ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+			$link_html = ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+			/**
+			 * Filter the sidebar forgot password.
+			 *
+			 * @since 3.0.9
+			 *
+			 * @param string $link_html
+			 * @param string $link
+			 */
+			$link_html = apply_filters( 'wpmem_sb_forgot_link_str', $link_html, $link );
+			$buttons.= $link_html;
 		} 			
 
 		if ( $wpmem->user_pages['register'] != null ) {
+			/** This filter is documented in wp-members/inc/forms.php */
+			$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
+			$link_html = ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
 			/**
 			 * Filter the sidebar register link.
 			 *
-			 * @since 2.8.0
+			 * @since 3.0.9
 			 *
-			 * @param string The register link.
+			 * @param string $link_html
+			 * @param string $link
 			 */
-			$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-			$buttons.= ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
+			$link_html = apply_filters( 'wpmem_sb_reg_link_str', $link_html, $link );
+			$buttons.= $link_html;
 		}
 
 		$form = $form . $args['n'] . $args['buttons_before'] . $buttons . $args['n'] . $args['buttons_after'];
@@ -203,7 +203,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 		/**
 		 * Filter the sidebar form.
 		 *
-		 * @since ?.?
+		 * @since unknown
 		 *
 		 * @param string $form The HTML for the sidebar login form.
 		 */
@@ -216,7 +216,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 			/**
 			 * Filter the sidebar login failed message.
 			 *
-			 * @since ?.?
+			 * @since unknown
 			 *
 			 * @param string $error_msg The error message.
 			 */
@@ -230,13 +230,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 
 		global $user_login; 
 
-		/**
-		 * Filter the sidebar logout link.
-		 *
-		 * @since ?.?
-		 *
-		 * @param string The logout link.
-		 */
+		/** This filter is documented in wp-members/inc/dialogs.php */
 		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
@@ -245,7 +239,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 		/**
 		 * Filter the sidebar user login status.
 		 *
-		 * @since ?.?
+		 * @since unknown
 		 *
 		 * @param string $str The login status for the user.
 		 */
@@ -256,4 +250,4 @@ function wpmem_do_sidebar( $post_to = null ) {
 }
 endif;
 
-/** End of File **/
+// End of file.
