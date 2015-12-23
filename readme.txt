@@ -141,6 +141,7 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Added wpmem_member_links_args and wpmem_register_links_args filters.
 * Added $link parameter to wpmem_forgot_link_str and wpmem_reg_link_str filters (gives just the link as an available parameter).
 * Added [email] and [user-profile] shortcodes to the new user registration email.
+* Added label_text key to wpmem_register_form_rows filter.
 
 = 3.0.8 =
 
