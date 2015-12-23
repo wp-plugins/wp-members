@@ -424,10 +424,12 @@ function wpmem_login_form( $page, $arr ) {
 		 * Filters the forgot password HTML.
 		 *
 		 * @since 2.9.0
+		 * @since 3.0.9 Added $link parameter.
 		 *
-		 * @param string $str The forgot password link HTML.
+		 * @param string $str  The forgot password link HTML.
+		 * @param string $link The forgot password link.
 		 */
-		$form = $form . $args['link_before'] . apply_filters( 'wpmem_forgot_link_str', $str ) . $args['link_after'] . $args['n'];
+		$form = $form . $args['link_before'] . apply_filters( 'wpmem_forgot_link_str', $str, $link ) . $args['link_after'] . $args['n'];
 		
 	}
 	
@@ -446,10 +448,12 @@ function wpmem_login_form( $page, $arr ) {
 		 * Filters the register link HTML.
 		 *
 		 * @since 2.9.0
+		 * @since 3.0.9 Added $link parameter.
 		 *
-		 * @param string $str The register link link HTML.
+		 * @param string $str  The register link HTML.
+		 * @param string $link The register link.
 		 */
-		$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str ) . $args['link_after'] . $args['n'];
+		$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str, $link ) . $args['link_after'] . $args['n'];
 		
 	}			
 	
