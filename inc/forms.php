@@ -780,7 +780,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 			'order'        => '',
 			'meta'         => '', 
 			'type'         => 'text', 
-			'value'        => '',  
+			'value'        => '',
+			'label_text'   => $row['label_text'],
 			'row_before'   => $args['row_before'],
 			'label'        => $row['label'],
 			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
@@ -799,7 +800,21 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $rows    An array containing the form rows. 
+	 * @param array  $rows    {
+	 *     An array containing the form rows. 
+	 *
+	 *     @type string order        Field display order.
+	 *     @type string meta         Field meta tag (not used for display).
+	 *     @type string type         Input field type (not used for display).
+	 *     @type string value        Input field value (not used for display).
+	 *     @type string label_text   Raw text for the label (not used for display).
+	 *     @type string row_before   Opening wrapper tag around the row.
+	 *     @type string label        Label tag.
+	 *     @type string field_before Opening wrapper tag before the input tag.
+	 *     @type string field        The field input tag.
+	 *     @type string field_after  Closing wrapper tag around the input tag.
+	 *     @type string row_after    Closing wrapper tag around the row.
+	 * }
 	 * @param string $toggle  Toggle new registration or profile update. new|edit.
  	 */
 	$rows = apply_filters( 'wpmem_register_form_rows', $rows, $toggle );
@@ -928,7 +943,21 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 *
 	 * @param string $form   The HTML of the final generated form.
 	 * @param string $toggle Toggle new registration or profile update. new|edit.
-	 * @param array  $rows   The rows array
+	 * @param array  $rows   {
+	 *     An array containing the form rows. 
+	 *
+	 *     @type string order        Field display order.
+	 *     @type string meta         Field meta tag (not used for display).
+	 *     @type string type         Input field type (not used for display).
+	 *     @type string value        Input field value (not used for display).
+	 *     @type string label_text   Raw text for the label (not used for display).
+	 *     @type string row_before   Opening wrapper tag around the row.
+	 *     @type string label        Label tag.
+	 *     @type string field_before Opening wrapper tag before the input tag.
+	 *     @type string field        The field input tag.
+	 *     @type string field_after  Closing wrapper tag around the input tag.
+	 *     @type string row_after    Closing wrapper tag around the row.
+	 * }
 	 * @param string $hidden The HTML string of hidden fields
  	 */
 	$form = apply_filters( 'wpmem_register_form', $form, $toggle, $rows, $hidden );
@@ -959,7 +988,7 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  * @since  2.6.0
  *
  * @param  array  $arr
- * @return string $str
+ * @return string $str HTML for reCAPTCHA display.
  */
 function wpmem_inc_recaptcha( $arr ) {
 
@@ -1031,7 +1060,13 @@ function wpmem_inc_attribution() {
  *
  * @since 2.9.5
  *
- * @return array Form elements for Really Simple CAPTCHA.
+ * @return array {
+ *     HTML Form elements for Really Simple CAPTCHA.
+ *
+ *     @type string label_text The raw text used for the label.
+ *     @type string label      The HTML for the label.
+ *     @type string field      The input tag and the CAPTCHA image.
+ * }
  */
 function wpmem_build_rs_captcha() {
 
@@ -1087,8 +1122,9 @@ function wpmem_build_rs_captcha() {
 		$pre   = $wpmem_captcha_prefix;
 
 		return array( 
-			'label' => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
-			'field' => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
+			'label_text' => __( 'Input the code:', 'wp-members' ),
+			'label'      => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
+			'field'      => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
 					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
 					<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
 		);
