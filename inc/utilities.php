@@ -208,64 +208,164 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  *
  * @since 2.6
  *
- * @global object $wpmem The WP_Members object. 
+ * @global object $post  The post object.
+ * @global object $wpmem The WP_Members object.
  *
  * @param  string $content
  * @return string $content
  */
 function wpmem_do_excerpt( $content ) {
 
-	global $wpmem;
+	global $post, $more, $wpmem;
 
-	$arr = $wpmem->autoex; // get_option( 'wpmembers_autoex' );
+	$autoex = ( isset( $wpmem->autoex[ $post->post_type ] ) && $wpmem->autoex[ $post->post_type ] != '' && $wpmem->autoex[ $post->post_type ] > -1 ) ? $wpmem->autoex[ $post->post_type ] : false;
 
 	// Is there already a 'more' link in the content?
 	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
 
 	// If auto_ex is on.
-	if ( $arr['auto_ex'] == true ) {
+	if ( $autoex ) {
 
 		// Build an excerpt if one does not exist.
 		if ( ! $has_more_link ) {
-
-			$words = explode( ' ', $content, ( $arr['auto_ex_len'] + 1 ) );
-			if ( count( $words ) > $arr['auto_ex_len'] ) {
-				array_pop( $words );
+			
+			if ( is_singular( $post->post_type ) ) {
+				// If it's a single post, we don't need the 'more' link.
+				$more_link_text = '';
+				$more_link      = '';
+			} else {
+				// The default $more_link_text.
+				$more_link_text = __( '(more&hellip;)' );
+				// The default $more_link.
+				$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
 			}
-			$content = implode( ' ', $words );
-
-			// Check for common html tags.
-			$common_tags = array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' );
-			foreach ( $common_tags as $tag ) {
-				if ( stristr( $content, '<' . $tag . '>' ) ) {
-					$after = stristr( $content, '</' . $tag . '>' );
-					$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
+			
+			// Apply the_content_more_link filter if one exists (will match up all 'more' link text).
+			/** This filter is documented in /wp-includes/post-template.php */
+			$more_link = apply_filters( 'the_content_more_link', $more_link, $more_link_text );
+			
+			$defaults = array(
+				'length'           => $autoex,
+				'strip_tags'       => false,
+				'close_tags'       => array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' ),
+				'parse_shortcodes' => false,
+				'strip_shortcodes' => false,
+				'add_ellipsis'     => false,
+				'more_link'        => $more_link,
+				'blocked_only'     => false,
+			);
+			/**
+			 * Filter auto excerpt defaults.
+			 *
+			 * @since 3.0.9
+			 *
+			 * @param array {
+			 *     An array of settings to override the function defaults.
+			 *
+			 *     @type int         $length           The default length of the excerpt.
+			 *     @type bool|string $strip_tags       Can be a boolean to strip HTML tags from the excerpt
+			 *                                         or a string of allowed tags. default: false.
+			 *     @type array       $close_tags       An array of tags to close (without < >: 
+			 *                                         for example i, b, h1, etc).
+			 *     @type bool        $parse_shortcodes Parse shortcodes in the excerpt. default: false.
+			 *     @type bool        $strip_shortcodes Remove shortcodes in the excerpt. default: false.
+			 *     @type bool        $add_ellipsis     Add ellipsis (...) to the end of the excerpt.
+			 *     @type string      $more_link        The more link HTML.
+			 * }
+			 * @param string $post->ID        The post ID.
+			 * @param string $post->post_type The content's post type.					 
+			 */
+			$args = apply_filters( 'wpmem_auto_excerpt_args', '', $post->ID, $post->post_type );
+			
+			// Merge settings.
+			$args = wp_parse_args( $args, $defaults );
+			
+			// Are we only excerpting blocked content?
+			if ( $args['blocked_only'] ) {
+				$post_meta = get_post_meta( $post->ID, '_wpmem_block', true );
+				if ( 1 == $wpmem->block[ $post->post_type ] ) {
+					// Post type is blocked, if post meta unblocks it, don't do excerpt.
+					$do_excerpt = ( "0" == $post_meta ) ? false : true;
+				} else {
+					// Post type is unblocked, if post meta blocks it, do excerpt.
+					$do_excerpt = ( "1" == $post_meta ) ? true : false;
+				} 
+			} else {
+				$do_excerpt = true;
+			}
+		
+			if ( $do_excerpt ) {
+			
+				// If strip_tags is enabled, remove HTML tags.
+				if ( $args['strip_tags'] ) {
+					$allowable_tags = ( ! is_bool( $args['strip_tags'] ) ) ? $args['strip_tags'] : '';
+					$content = strip_tags( $content, $allowable_tags );
 				}
-			}
-		}
-	}
+				
+				// If parse shortcodes is enabled, parse shortcodes in the excerpt.
+				$content = ( $args['parse_shortcodes'] ) ? do_shortcode( $content ) : $content;
+				
+				// If strip shortcodes is enabled, strip shortcodes from the excerpt.
+				$content = ( $args['strip_shortcodes'] ) ? strip_shortcodes( $content ) : $content;
+	
+				// Create the excerpt.
+				$words = preg_split( "/[\n\r\t ]+/", $content, $args['length'] + 1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_OFFSET_CAPTURE );
+				if ( count( $words ) > $args['length'] ) { 
+					end( $words );
+					$last_word = prev( $words );
+					$content   = substr( $content, 0, $last_word[1] + strlen( $last_word[0] ) );
+				}
+				 
+				/* @todo - Possible better excerpt creation.
+				$excerpt = ''; $x = 1; $end_chk = false;
+				$words = explode( ' ', $content, ( $args['length'] + 100 ) );
+				foreach ( $words as $word ) {
+					if ( $x < $args['length'] + 1 ) {
+						$excerpt.= trim( $word ) . ' ';		
+						$offset = ( $x == 1 ) ? 1 : 0;
+						if ( strpos( $word, '<', $offset ) || $end_chk ) {
+							$end_chk = true;
+							if ( strpos( $word, '>' ) && ! strpos( $word, '><' ) ) {
+								$end_chk = false;
+								$x++;
+							}
+						} else {
+							$x++; 
+						}
+					} else {
+						break;
+					}
+				}
+				$content = $excerpt;
+				*/
 
-	global $post, $more;
-	// If there is no 'more' link and auto_ex is on.
-	if ( ! $has_more_link && ( $arr['auto_ex'] == true ) ) {
-		// The default $more_link_text.
-		$more_link_text = __( '(more&hellip;)' );
-		// The default $more_link.
-		$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
-		// Apply the_content_more_link filter if one exists (will match up all 'more' link text).
-		$more_link = apply_filters( 'the_content_more_link' , $more_link, $more_link_text );
-		// Add the more link to the excerpt.
-		$content = $content . $more_link;
+				// Check for common html tags and make sure they're closed.
+				foreach ( $args['close_tags'] as $tag ) {
+					if ( stristr( $content, '<' . $tag . '>' ) || stristr( $content, '<' . $tag . ' ' ) ) {
+						$after = stristr( $content, '</' . $tag . '>' );
+						$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
+					}
+				}
+				$content = ( $args['add_ellipsis'] ) ? $content . '...' : $content; 
+				
+				// Add the more link to the excerpt.
+				$content = $content . ' ' . $args['more_link'];
+			}
+
+		}
 	}
 
 	/**
 	 * Filter the auto excerpt.
 	 *
 	 * @since 2.8.1
+	 * @since 3.0.9 Added post ID and post type parameters.
 	 * 
-	 * @param string $content The excerpt.
+	 * @param string $content         The content excerpt.
+	 * @param string $post->ID        The post ID.
+	 * @param string $post->post_type The content's post type.
 	 */
-	$content = apply_filters( 'wpmem_auto_excerpt', $content );
+	$content = apply_filters( 'wpmem_auto_excerpt', $content, $post->ID, $post->post_type );
 
 	// Return the excerpt.
 	return $content;

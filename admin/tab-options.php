@@ -98,6 +98,7 @@ function wpmem_a_build_options() {
 								'show_excerpt' => __( 'Show Excerpts', 'wp-members' ), 
 								'show_login'   => __( 'Show Login Form', 'wp-members' ), 
 								'show_reg'     => __( 'Show Registration Form', 'wp-members' ),
+								'autoex'       => __( 'Auto Excerpt:', 'wp-members' ),
 							);
 
 							foreach ( $option_group_array as $item_key => $item_val ) {
@@ -105,12 +106,24 @@ function wpmem_a_build_options() {
 								$len = count( $post_arr );
 								foreach ( $post_arr as $key => $val ) {
 									if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
-									$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0;
 									?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 										<label><?php echo ( $i == 0 ) ? $item_val : '&nbsp;'; ?></label>
-										<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>
-									</li>
+									<?php if ( 'autoex' == $item_key ) { 
+										if ( isset( $wpmem->{$item_key}[ $key ] ) && $wpmem->{$item_key}[ $key ] != '' && $wpmem->{$item_key}[ $key ] > -1 ) {
+											$setting = 1; 
+											$ex_len  = $wpmem->{$item_key}[ $key ];
+										} else {
+											$setting = 0;
+											$ex_len  = ''; 
+										} ?>
+                                    	<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+										<span><?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_len" type="text" size="5" value="<?php echo $ex_len; ?>" />
+									<?php } else {
+										$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0; ?>
+                                    	<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>
+									<?php } ?>
+                                    </li>
 									<?php $i++;
 									}
 								}
@@ -153,11 +166,6 @@ function wpmem_a_build_options() {
 								<label><?php _e( 'Attribution', 'wp-members' ); ?></label>
 								<input name="attribution" type="checkbox" id="attribution" value="1" <?php if ( $attribution == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
 								<span class="description"><?php _e( 'Attribution is appreciated!  Display "powered by" link on register form?', 'wp-members' ); ?></span>
-							  </li>
-							<?php $auto_ex = $wpmem->autoex; ?>
-							  <li>
-								<label><?php _e( 'Auto Excerpt:', 'wp-members' ); ?></label>
-								<input type="checkbox" name="wpmem_autoex" value="1" <?php if ( $auto_ex['auto_ex'] == 1 ) { echo "checked"; } ?> />&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> <input name="wpmem_autoex_len" type="text" size="5" value="<?php if ( $auto_ex['auto_ex_len'] ) { echo $auto_ex['auto_ex_len']; } ?>" />&nbsp;<span class="description"><?php _e( 'Optional', 'wp-members' ); ?>. <?php _e( 'Automatically creates an excerpt', 'wp-members' ); ?></span>
 							  </li>
 							  <li>
 								<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
@@ -376,11 +384,6 @@ function wpmem_update_options() {
 
 	$wpmem_settings_style = ( isset( $_POST['wpmem_settings_style'] ) ) ? $_POST['wpmem_settings_style'] : false;
 
-	$wpmem_autoex = array (
-		'auto_ex'     => isset( $_POST['wpmem_autoex'] ) ? $_POST['wpmem_autoex'] : 0,
-		'auto_ex_len' => isset( $_POST['wpmem_autoex_len'] ) ? $_POST['wpmem_autoex_len'] : '',
-	);
-
 	$wpmem_newsettings = array(
 		'version' => WPMEM_VERSION,
 		'notify'    => ( isset( $_POST['wpmem_settings_notify']          ) ) ? $_POST['wpmem_settings_notify']          : 0,
@@ -396,7 +399,6 @@ function wpmem_update_options() {
 		),
 		'cssurl'    => ( $cssurl ) ? $cssurl : '',
 		'style'     => $wpmem_settings_style,
-		'autoex'    => $wpmem_autoex,
 		'attrib'    => ( isset( $_POST['attribution'] ) ) ? $_POST['attribution'] : 0,
 	);
 
@@ -410,12 +412,16 @@ function wpmem_update_options() {
 	}
 	
 	// Get settings for blocking, excerpts, show login, and show registration for posts, pages, and custom post types.
-	$option_group_array = array( 'block', 'show_excerpt', 'show_login', 'show_reg' );
+	$option_group_array = array( 'block', 'show_excerpt', 'show_login', 'show_reg', 'autoex' );
 	foreach ( $option_group_array as $option_group_item ) {
 		$arr = array();
 		foreach ( $post_arr as $post_type ) {
 			$post_var = 'wpmem_' . $option_group_item . '_' . $post_type;
-			$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
+			if ( $option_group_item == 'autoex' ) {
+				$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var . '_len' ] : '';
+			} else {
+				$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
+			}
 		}
 		$wpmem_newsettings[ $option_group_item ] = $arr;
 	}
@@ -425,7 +431,7 @@ function wpmem_update_options() {
 	 * check to see if the current admin has been 
 	 * activated so they don't accidentally lock themselves
 	 * out later.
-	*/
+	 */
 	if ( isset( $_POST['wpmem_settings_moderate'] ) == 1 ) {
 		global $current_user;
 		get_currentuserinfo();
