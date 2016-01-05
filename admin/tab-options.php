@@ -308,7 +308,7 @@ function wpmem_update_cpts() {
 	$wpmem_newsettings['post_types'] = $cpts;
 	
 	// Update settings, remove or add CPTs.
-	$chk_settings = array( 'block', 'show_excerpt', 'show_login', 'show_reg' );
+	$chk_settings = array( 'block', 'show_excerpt', 'show_login', 'show_reg', 'autoex' );
 	foreach ( $chk_settings as $chk ) {
 		// Handle removing unmanaged CPTs.
 		foreach ( $wpmem_newsettings[ $chk ] as $key => $val ) {
