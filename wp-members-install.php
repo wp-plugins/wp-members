@@ -62,6 +62,10 @@ function wpmem_do_install() {
 				'post' => 1,
 				'page' => 1,
 			),
+			'autoex' => array(
+				'post' => -1,
+				'page' => -1,
+			),
 			'notify'    => 0,
 			'mod_reg'   => 0,
 			'captcha'   => 0,
@@ -75,10 +79,6 @@ function wpmem_do_install() {
 			),
 			'cssurl'    => '',
 			'style'     => plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css',
-			'autoex'    => array(
-				'auto_ex'     => '',
-				'auto_ex_len' => '',
-			),
 			'attrib'    => 0,
 		);
 
@@ -175,7 +175,7 @@ function wpmem_update_settings() {
 			$wpmem_settings['autoex']['post'] = $wpmem_settings['autoex']['auto_ex_len'];
 			$wpmem_settings['autoex']['page'] = $wpmem_settings['autoex']['auto_ex_len'];
 		} else {
-			// If it is turned on (!=1), set it to off in new setting (-1).
+			// If it is not turned on (!=1), set it to off in new setting (-1).
 			$wpmem_settings['autoex']['post'] = "-1";
 			$wpmem_settings['autoex']['page'] = "-1";
 		}
@@ -185,7 +185,9 @@ function wpmem_update_settings() {
 		return $wpmem_settings;
 	} else {
 		// Update pre 3.0 installs (must be 2.5.1 or higher).
+		// Handle show registration setting change.
 		$show_reg = ( $wpmem_settings[7] == 0 ) ? 1 : 0;
+		// Create new settings array.
 		$wpmem_newsettings = array(
 			'version' => WPMEM_VERSION,
 			'block'   => array(
@@ -217,9 +219,19 @@ function wpmem_update_settings() {
 			),
 			'cssurl'     => get_option( 'wpmembers_cssurl' ),
 			'style'      => get_option( 'wpmembers_style'  ),
-			'autoex'     => get_option( 'wpmembers_autoex' ),
 			'attrib'     => get_option( 'wpmembers_attrib' ),
 		);
+		// Handle auto excerpt setting change and add to setting array.
+		$autoex = get_option( 'wpmembers_autoex' );
+		if ( $autoex['auto_ex'] == 1 || $autoex['auto_ex'] == "1" ) {
+			// If Autoex is set, move it to posts/pages.
+			$wpmem_newsettings['autoex']['post'] = $autoex['auto_ex_len'];
+			$wpmem_newsettings['autoex']['page'] = $autoex['auto_ex_len'];
+		} else {
+			// If it is not turned on (!=1), set it to off in new setting (-1).
+			$wpmem_newsettings['autoex']['post'] = "-1";
+			$wpmem_newsettings['autoex']['page'] = "-1";
+		}
 		
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
 		
