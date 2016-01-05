@@ -167,11 +167,24 @@ function wpmem_update_settings() {
 	// Is this an update from pre-3.0 or 3.0+?
 	$is_three = ( array_key_exists( 'version', $wpmem_settings ) ) ? true : false;
 
+	// If install is 3.0 or higher.
 	if ( $is_three ) {
-		return;
+		// Update Autoex setting.
+		if ( $wpmem_settings['autoex']['auto_ex'] == 1 || $wpmem_settings['autoex']['auto_ex'] == "1" ) {
+			// If Autoex is set, move it to posts/pages.
+			$wpmem_settings['autoex']['post'] = $wpmem_settings['autoex']['auto_ex_len'];
+			$wpmem_settings['autoex']['page'] = $wpmem_settings['autoex']['auto_ex_len'];
+		} else {
+			// If it is turned on (!=1), set it to off in new setting (-1).
+			$wpmem_settings['autoex']['post'] = "-1";
+			$wpmem_settings['autoex']['page'] = "-1";
+		}
+		unset( $wpmem_settings['autoex']['auto_ex'] );
+		unset( $wpmem_settings['autoex']['auto_ex_len'] );
+		update_option( 'wpmembers_settings', $wpmem_settings );
+		return $wpmem_settings;
 	} else {
-
-		// Can only upgrade from 2.5.1 or higher.
+		// Update pre 3.0 installs (must be 2.5.1 or higher).
 		$show_reg = ( $wpmem_settings[7] == 0 ) ? 1 : 0;
 		$wpmem_newsettings = array(
 			'version' => WPMEM_VERSION,
