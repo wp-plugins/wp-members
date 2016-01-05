@@ -218,7 +218,7 @@ function wpmem_do_excerpt( $content ) {
 
 	global $post, $more, $wpmem;
 
-	$autoex = ( isset( $wpmem->autoex[ $post->post_type ] ) && $wpmem->autoex[ $post->post_type ] != '' && $wpmem->autoex[ $post->post_type ] > -1 ) ? $wpmem->autoex[ $post->post_type ] : false;
+	$autoex = ( isset( $wpmem->autoex[ $post->post_type ] ) && 1 == $wpmem->autoex[ $post->post_type ]['enabled'] ) ? $wpmem->autoex[ $post->post_type ] : false;
 
 	// Is there already a 'more' link in the content?
 	$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
@@ -245,7 +245,7 @@ function wpmem_do_excerpt( $content ) {
 			$more_link = apply_filters( 'the_content_more_link', $more_link, $more_link_text );
 			
 			$defaults = array(
-				'length'           => $autoex,
+				'length'           => $autoex['length'],
 				'strip_tags'       => false,
 				'close_tags'       => array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' ),
 				'parse_shortcodes' => false,

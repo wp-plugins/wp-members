@@ -110,9 +110,9 @@ function wpmem_a_build_options() {
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 										<label><?php echo ( $i == 0 ) ? $item_val : '&nbsp;'; ?></label>
 									<?php if ( 'autoex' == $item_key ) { 
-										if ( isset( $wpmem->{$item_key}[ $key ] ) && $wpmem->{$item_key}[ $key ] != '' && $wpmem->{$item_key}[ $key ] > -1 ) {
+										if ( isset( $wpmem->{$item_key}[ $key ] ) && $wpmem->{$item_key}[ $key ]['enabled'] == 1 ) {
 											$setting = 1; 
-											$ex_len  = $wpmem->{$item_key}[ $key ];
+											$ex_len  = $wpmem->{$item_key}[ $key ]['length'];
 										} else {
 											$setting = 0;
 											$ex_len  = ''; 
@@ -322,7 +322,16 @@ function wpmem_update_cpts() {
 		// Handle adding managed CPTs.
 		foreach ( $cpts as $key => $val ) {
 			if ( ! array_key_exists( $key, $wpmem_newsettings[ $chk ] ) ) {
-				$wpmem_newsettings[ $chk ][ $key ] = 0;
+				if ( 'autoex' == $chk ) {
+					// Auto excerpt is an array.
+					$wpmem_newsettings[ $chk ][ $key ] = array(
+						'enabled' => 0,
+						'length'  => '',
+					);
+				} else {
+					// All other settings are 0|1.
+					$wpmem_newsettings[ $chk ][ $key ] = 0;
+				}
 			}
 		}
 	}
@@ -418,8 +427,11 @@ function wpmem_update_options() {
 		foreach ( $post_arr as $post_type ) {
 			$post_var = 'wpmem_' . $option_group_item . '_' . $post_type;
 			if ( $option_group_item == 'autoex' ) {
-				$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var . '_len' ] : '';
+				// Auto excerpt is an array.
+				$arr[ $post_type ]['enabled'] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
+				$arr[ $post_type ]['length']  = ( isset( $_POST[ $post_var ] ) ) ? ( ( $_POST[ $post_var . '_len' ] == '' ) ? 0 : $_POST[ $post_var . '_len' ] ) : '';
 			} else {
+				// All other settings are 0|1.
 				$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
 			}
 		}

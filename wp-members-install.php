@@ -63,8 +63,8 @@ function wpmem_do_install() {
 				'page' => 1,
 			),
 			'autoex' => array(
-				'post' => -1,
-				'page' => -1,
+				'post' => array( 'enabled' => 0, 'length' => '' ),
+				'page' => array( 'enabled' => 0, 'length' => '' ),
 			),
 			'notify'    => 0,
 			'mod_reg'   => 0,
@@ -172,12 +172,12 @@ function wpmem_update_settings() {
 		// Update Autoex setting.
 		if ( $wpmem_settings['autoex']['auto_ex'] == 1 || $wpmem_settings['autoex']['auto_ex'] == "1" ) {
 			// If Autoex is set, move it to posts/pages.
-			$wpmem_settings['autoex']['post'] = $wpmem_settings['autoex']['auto_ex_len'];
-			$wpmem_settings['autoex']['page'] = $wpmem_settings['autoex']['auto_ex_len'];
+			$wpmem_settings['autoex']['post'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
+			$wpmem_settings['autoex']['page'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
 		} else {
 			// If it is not turned on (!=1), set it to off in new setting (-1).
-			$wpmem_settings['autoex']['post'] = "-1";
-			$wpmem_settings['autoex']['page'] = "-1";
+			$wpmem_settings['autoex']['post'] = array( 'enabled' => 0, 'length' => '' );
+			$wpmem_settings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
 		}
 		unset( $wpmem_settings['autoex']['auto_ex'] );
 		unset( $wpmem_settings['autoex']['auto_ex_len'] );
@@ -225,12 +225,12 @@ function wpmem_update_settings() {
 		$autoex = get_option( 'wpmembers_autoex' );
 		if ( $autoex['auto_ex'] == 1 || $autoex['auto_ex'] == "1" ) {
 			// If Autoex is set, move it to posts/pages.
-			$wpmem_newsettings['autoex']['post'] = $autoex['auto_ex_len'];
-			$wpmem_newsettings['autoex']['page'] = $autoex['auto_ex_len'];
+			$wpmem_newsettings['autoex']['post'] = array( 'enabled' => 1, 'length' => $autoex['auto_ex_len'] );
+			$wpmem_newsettings['autoex']['page'] = array( 'enabled' => 1, 'length' => $autoex['auto_ex_len'] );
 		} else {
-			// If it is not turned on (!=1), set it to off in new setting (-1).
-			$wpmem_newsettings['autoex']['post'] = "-1";
-			$wpmem_newsettings['autoex']['page'] = "-1";
+			// If it is not turned on (!=1), set it to off in new setting.		
+			$wpmem_newsettings['autoex']['post'] = array( 'enabled' => 0, 'length' => '' );
+			$wpmem_newsettings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
 		}
 		
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
