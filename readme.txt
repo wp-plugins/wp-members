@@ -145,6 +145,8 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Added label_text key to wpmem_register_form_rows filter.
 * Added new auto excerpt settings, can now be set by post type.
 * Added new auto excerpt features including new wpmem_auto_excerpt_args filter.
+* Added forgot username retrieveal link (included on forgot password reset form).
+* Added wpmem_username_link and wpmem_username_link_str for filtering forgot username retrieval link.
 * Fixed handling of post bulk actions to keep current screen (if one is used).
 
 = 3.0.8 =

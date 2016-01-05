@@ -455,7 +455,30 @@ function wpmem_login_form( $page, $arr ) {
 		 */
 		$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str, $link ) . $args['link_after'] . $args['n'];
 		
-	}			
+	}
+	
+	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'pwdreset' ) {
+		
+		/**
+		 * Filters the forgot username link.
+		 *
+		 * @since 3.0.9
+		 *
+		 * @param string The forgot username link.
+		 */
+		$link = apply_filters( 'wpmem_username_link',  wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=getusername' );	
+		$str  = __( 'Forgot username?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here', 'wp-members' ) . '</a>';
+		/**
+		 * Filters the forgot username link HTML.
+		 *
+		 * @since 3.0.9
+		 *
+		 * @param string $str  The forgot username link HTML.
+		 * @param string $link The forgot username link.
+		 */
+		$form = $form . $args['link_before'] . apply_filters( 'wpmem_username_link_str', $str, $link ) . $args['link_after'] . $args['n'];
+		
+	}
 	
 	// Apply the heading.
 	$form = $args['heading_before'] . $arr['heading'] . $args['heading_after'] . $args['n'] . $form;
