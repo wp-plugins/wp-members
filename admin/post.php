@@ -45,7 +45,7 @@ add_action( 'load-post-new.php',     'wpmem_load_tinymce'        );
  */
 function wpmem_bulk_posts_action() {  
 	global $wpmem;
-	if ( ( isset( $_GET['post_type'] ) && ( $_GET['post_type'] == 'page' || array_key_exists( $_GET['post_type'], $wpmem->post_types ) ) ) || ! isset( $_GET['post_type'] ) ) { ?>
+	if ( ( isset( $_GET['post_type'] ) && ( 'page' == $_GET['post_type'] || 'post' == $_GET['post_type'] || array_key_exists( $_GET['post_type'], $wpmem->post_types ) ) ) || ! isset( $_GET['post_type'] ) ) { ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
@@ -111,6 +111,9 @@ function wpmem_posts_page_load() {
 					'n' => $x,
 					'post_type' => $type,
 				);
+				if ( isset( $_GET['post_status'] ) && 'all' != $_GET['post_status'] ) {
+					$arr['post_status'] = $_GET['post_status'];
+				}
 	
 				$sendback = add_query_arg( array( $arr ), '', $sendback );
 
