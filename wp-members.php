@@ -62,7 +62,7 @@ License:     GPLv2
 
 
 // Initialize constants.
-define( 'WPMEM_VERSION', '3.0.9 Beta RC 2' );
+define( 'WPMEM_VERSION', '3.0.9 Beta RC 3' );
 define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
