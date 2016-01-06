@@ -453,8 +453,14 @@ function wpmem_update_options() {
 
 	update_option( 'wpmembers_settings', $wpmem_newsettings );
 
+	// Update the current WP_Members object with the new settings.
 	global $wpmem;
 	foreach ( $wpmem_newsettings as $key => $val ) {
+		if ( 'user_pages' == $key ) {
+			foreach ( $val as $subkey => $subval ) {
+				$val[ $subkey ] = ( is_numeric( $subval ) ) ? get_page_link( $subval ) : $subval;
+			}
+		}
 		$wpmem->$key = $val;
 	}
 

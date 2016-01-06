@@ -148,6 +148,7 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 * Added forgot username retrieveal link (included on forgot password reset form).
 * Added wpmem_username_link and wpmem_username_link_str for filtering forgot username retrieval link.
 * Fixed handling of post bulk actions to keep current screen (if one is used).
+* Fixed handling of updates to the user pages in the options tab.
 
 = 3.0.8 =
 
