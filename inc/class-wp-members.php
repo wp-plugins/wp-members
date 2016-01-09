@@ -273,24 +273,26 @@ class WP_Members {
 	function is_blocked() {
 	
 		global $post;
+		
+		$post_id   = ( isset( $post ) ) ? $post->ID        : '';
+		$post_type = ( isset( $post ) ) ? $post->post_type : '';	
 
 		// Backward compatibility for old block/unblock meta.
-		$meta = get_post_meta( $post->ID, '_wpmem_block', true );
+		$meta = get_post_meta( $post_id, '_wpmem_block', true );
 		if ( ! $meta ) {
 			// Check for old meta.
-			$old_block   = get_post_meta( $post->ID, 'block',   true );
-			$old_unblock = get_post_meta( $post->ID, 'unblock', true );
+			$old_block   = get_post_meta( $post_id, 'block',   true );
+			$old_unblock = get_post_meta( $post_id, 'unblock', true );
 			$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
 		}
 
 		// Setup defaults.
 		$defaults = array(
-			'post_id'    => $post->ID,
-			'post_type'  => $post->post_type,
-			'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
+			'post_id'    => $post_id,
+			'post_type'  => $post_type,
+			'block'      => ( isset( $this->block[ $post_type ] ) && $this->block[ $post_type ] == 1 ) ? true : false,
 			'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
-			//'block_type' => ( $post->post_type == 'post' ) ? $this->block['post'] : ( ( $post->post_type == 'page' ) ? $this->block['page'] : 0 ),
-			'block_type' => ( isset( $this->block[ $post->post_type ] ) ) ? $this->block[ $post->post_type ] : 0,
+			'block_type' => ( isset( $this->block[ $post_type ] ) ) ? $this->block[ $post_type ] : 0,
 		);
 
 		/**
