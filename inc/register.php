@@ -333,7 +333,7 @@ function wpmem_registration( $toggle ) {
 
 		// Notify admin of new reg, if needed.
 		if ( $wpmem->notify == 1 ) { 
-			wpmem_notify_admin( $fields['ID'], $wpmem_fields );
+			wpmem_notify_admin( $fields['ID'], $wpmem_fields, $fields );
 		}
 
 		/**

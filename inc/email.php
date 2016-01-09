@@ -224,7 +224,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 			// Setup custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
 				$shortcd[] = '[' . $field[2] . ']'; 
-				$replace[] = get_user_meta( $user_id, $field[2], true );
+				$replace[] = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
 			}
 
 			// Do replacements for subject, body, and footer shortcodes.
@@ -287,7 +287,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['user_login']    = stripslashes( $user->user_login );
 	$arr['user_email']    = stripslashes( $user->user_email );
 	$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
-	$arr['user_ip']       = get_user_meta( $user_id, 'wpmem_reg_ip', true );
+	$arr['user_ip']       = ( is_array( $field_data ) ) ? $field_data['wpmem_reg_ip'] : get_user_meta( $user_id, 'wpmem_reg_ip', true );
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['act_link']      = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
 	$arr['exp_type']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
@@ -308,7 +308,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 					} elseif ( in_array( $meta[2], $wp_user_fields ) ) {
 						$val = esc_html( $user->$meta[2] );
 					} else {
-						$val = esc_html( get_user_meta( $user_id, $meta[2], true ) );
+						$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta[2] ] ) : esc_html( get_user_meta( $user_id, $meta[2], true ) );
 					}
 					$field_arr[ $name ] = $val;
 				}
@@ -328,7 +328,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
 	// Handle backward compatibility for customizations that may call the email function directly.
 	if ( ! $wpmem_fields ) {
-		$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
+		$wpmem_fields = $wpmem->fields;
 	}
 
 	/**
@@ -401,7 +401,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 			// Create the custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
 				$shortcd[] = '[' . $field[2] . ']';
-				$replace[] = get_user_meta( $user_id, $field[2], true );
+				$replace[] = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
 			}
 
 			// Get the subject, body, and footer shortcodes.
