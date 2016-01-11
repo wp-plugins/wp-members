@@ -194,6 +194,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	line-height: 0px;
 }
 #wpmem_login .link-text {
+	padding: 4px 0;
 	width: 74%;
 	text-align:right;
 }
@@ -207,7 +208,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 #wpmem_reg .button_div, #wpmem_login .button_div {
 	width:74%;
-	height:35px;
+	height:45px;
 	padding: 6px 0;
 	text-align: right;
 }
