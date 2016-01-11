@@ -266,61 +266,62 @@ class WP_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global object $post The WordPress Post object.
-	 *
-	 * @return bool $block true|false
+	 * @global object $post  The WordPress Post object.
+	 * @return bool   $block true|false
 	 */
 	function is_blocked() {
 	
 		global $post;
 		
-		$post_id   = ( isset( $post ) ) ? $post->ID        : '';
-		$post_type = ( isset( $post ) ) ? $post->post_type : '';	
+		if ( $post ) {
 
-		// Backward compatibility for old block/unblock meta.
-		$meta = get_post_meta( $post_id, '_wpmem_block', true );
-		if ( ! $meta ) {
-			// Check for old meta.
-			$old_block   = get_post_meta( $post_id, 'block',   true );
-			$old_unblock = get_post_meta( $post_id, 'unblock', true );
-			$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
-		}
-
-		// Setup defaults.
-		$defaults = array(
-			'post_id'    => $post_id,
-			'post_type'  => $post_type,
-			'block'      => ( isset( $this->block[ $post_type ] ) && $this->block[ $post_type ] == 1 ) ? true : false,
-			'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
-			'block_type' => ( isset( $this->block[ $post_type ] ) ) ? $this->block[ $post_type ] : 0,
-		);
-
-		/**
-		 * Filter the block arguments.
-		 *
-		 * @since 2.9.8
-		 *
-		 * @param array $args     Null.
-		 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
-		 */
-		$args = apply_filters( 'wpmem_block_args', '', $defaults );
-
-		// Merge $args with defaults.
-		$args = ( wp_parse_args( $args, $defaults ) );
-
-		if ( is_single() || is_page() ) {
-			switch( $args['block_type'] ) {
-				case 1: // If content is blocked by default.
-					$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
-					break;
-				case 0 : // If content is unblocked by default.
-					$args['block'] = ( $args['block_meta'] == '1' ) ? true : $args['block'];
-					break;
+			// Backward compatibility for old block/unblock meta.
+			$meta = get_post_meta( $post->ID, '_wpmem_block', true );
+			if ( ! $meta ) {
+				// Check for old meta.
+				$old_block   = get_post_meta( $post->ID, 'block',   true );
+				$old_unblock = get_post_meta( $post->ID, 'unblock', true );
+				$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
 			}
+	
+			// Setup defaults.
+			$defaults = array(
+				'post_id'    => $post->ID,
+				'post_type'  => $post->post_type,
+				'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
+				'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
+				'block_type' => ( isset( $this->block[ $post->post_type ] ) ) ? $this->block[ $post->post_type ] : 0,
+			);
+	
+			/**
+			 * Filter the block arguments.
+			 *
+			 * @since 2.9.8
+			 *
+			 * @param array $args     Null.
+			 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
+			 */
+			$args = apply_filters( 'wpmem_block_args', '', $defaults );
+	
+			// Merge $args with defaults.
+			$args = ( wp_parse_args( $args, $defaults ) );
+	
+			if ( is_single() || is_page() ) {
+				switch( $args['block_type'] ) {
+					case 1: // If content is blocked by default.
+						$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
+						break;
+					case 0 : // If content is unblocked by default.
+						$args['block'] = ( $args['block_meta'] == '1' ) ? true : $args['block'];
+						break;
+				}
+
+			} else {
+				$args['block'] = false;
+			}
+
 		} else {
-
-			$args['block'] = false;
-
+			$args = array( 'block' => false );
 		}
 
 		/**
