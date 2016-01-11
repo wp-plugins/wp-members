@@ -6,13 +6,12 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2015  Chad Butler
+ * Copyright (c) 2006-2016  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WordPress
- * @subpackage WP-Members
+ * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2015
+ * @copyright 2006-2016
  *
  * Functions included:
  * - wpmem_admin_fields
@@ -236,4 +235,4 @@ function wpmem_admin_update() {
 	return;
 }
 
-/** End of File **/
+// End of file.

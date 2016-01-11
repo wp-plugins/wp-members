@@ -7,13 +7,13 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2015  Chad Butler
+ * Copyright (c) 2006-2016  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @subpackage WP-Members Utility Functions
  * @author Chad Butler 
- * @copyright 2006-2015
+ * @copyright 2006-2016
  *
  * Functions included:
  * - wpmem_create_formfield
@@ -26,6 +26,7 @@
  * - wpmem_test_shortcode
  * - wpmem_get_excluded_meta
  * - wpmem_use_ssl
+ * - wpmem_wp_reserved_terms
  */
 
 
@@ -109,7 +110,7 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  * @param  string $type
  * @return string $issame
  */
-function wpmem_selected( $value, $valtochk, $type=null ) {
+function wpmem_selected( $value, $valtochk, $type = null ) {
 	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
 	return ( $value == $valtochk ) ? $issame : '';
 }
@@ -379,8 +380,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  *
  * @since 2.6.0
  *
- * @global $shortcode_tags
- *
+ * @global string $shortcode_tags
  * @return bool
  *
  * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
@@ -455,4 +455,4 @@ function wpmem_wp_reserved_terms() {
 	return $reserved_terms;
 }
 
-/** End of File **/
+// End of file.
