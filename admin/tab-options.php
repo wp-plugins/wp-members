@@ -336,14 +336,7 @@ function wpmem_update_cpts() {
 		}
 	}
 	
-	// Update saved settings.
-	update_option( 'wpmembers_settings', $wpmem_newsettings );
-
-	// Update the currently loaded $wpmem object.
-	global $wpmem;
-	foreach ( $wpmem_newsettings as $key => $val ) {
-		$wpmem->$key = $val;
-	}
+	wpmem_admin_new_settings( $wpmem_newsettings );
 	
 	return __( 'Custom Post Type settings were updated', 'wp-members' );
 }
@@ -451,11 +444,29 @@ function wpmem_update_options() {
 		update_user_meta( $user_ID, 'active', 1 );
 	}
 
-	update_option( 'wpmembers_settings', $wpmem_newsettings );
+	wpmem_admin_new_settings( $wpmem_newsettings );
 
+	return __( 'WP-Members settings were updated', 'wp-members' );
+}
+
+
+/**
+ * Puts new settings into the current object.
+ *
+ * @since 3.0.9
+ *
+ * @global $wpmem
+ * @param $new
+ * @return $settings
+ */
+function wpmem_admin_new_settings( $new ) {
+	
+	// Update saved settings.
+	update_option( 'wpmembers_settings', $new );
+	
 	// Update the current WP_Members object with the new settings.
 	global $wpmem;
-	foreach ( $wpmem_newsettings as $key => $val ) {
+	foreach ( $new as $key => $val ) {
 		if ( 'user_pages' == $key ) {
 			foreach ( $val as $subkey => $subval ) {
 				$val[ $subkey ] = ( is_numeric( $subval ) ) ? get_page_link( $subval ) : $subval;
@@ -463,8 +474,6 @@ function wpmem_update_options() {
 		}
 		$wpmem->$key = $val;
 	}
-
-	return __( 'WP-Members settings were updated', 'wp-members' );
 }
 
 
