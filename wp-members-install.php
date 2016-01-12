@@ -80,6 +80,7 @@ function wpmem_do_install() {
 			'cssurl'    => '',
 			'style'     => plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css',
 			'attrib'    => 0,
+			'post_types' => array(),
 		);
 
 		// Using update_option to allow for forced update.
@@ -169,18 +170,28 @@ function wpmem_update_settings() {
 
 	// If install is 3.0 or higher.
 	if ( $is_three ) {
-		// Update Autoex setting.
-		if ( $wpmem_settings['autoex']['auto_ex'] == 1 || $wpmem_settings['autoex']['auto_ex'] == "1" ) {
-			// If Autoex is set, move it to posts/pages.
-			$wpmem_settings['autoex']['post'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
-			$wpmem_settings['autoex']['page'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
-		} else {
-			// If it is not turned on (!=1), set it to off in new setting (-1).
-			$wpmem_settings['autoex']['post'] = array( 'enabled' => 0, 'length' => '' );
-			$wpmem_settings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
+	
+		// If old auto excerpt settings exists, update it.
+		if ( isset( $wpmem_settings['autoex']['auto_ex'] ) ) {
+			// Update Autoex setting.
+			if ( $wpmem_settings['autoex']['auto_ex'] == 1 || $wpmem_settings['autoex']['auto_ex'] == "1" ) {
+				// If Autoex is set, move it to posts/pages.
+				$wpmem_settings['autoex']['post'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
+				$wpmem_settings['autoex']['page'] = array( 'enabled' => 1, 'length' => $wpmem_settings['autoex']['auto_ex_len'] );
+			} else {
+				// If it is not turned on (!=1), set it to off in new setting (-1).
+				$wpmem_settings['autoex']['post'] = array( 'enabled' => 0, 'length' => '' );
+				$wpmem_settings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
+			}
+			unset( $wpmem_settings['autoex']['auto_ex'] );
+			unset( $wpmem_settings['autoex']['auto_ex_len'] );
 		}
-		unset( $wpmem_settings['autoex']['auto_ex'] );
-		unset( $wpmem_settings['autoex']['auto_ex_len'] );
+		
+		// If post types settings does not exist, set as empty array.
+		if ( ! isset( $wpmem_settings['post_types'] ) ) {
+			 $wpmem_settings['post_types'] = array();
+		}
+		
 		update_option( 'wpmembers_settings', $wpmem_settings );
 		return $wpmem_settings;
 	} else {
@@ -233,6 +244,10 @@ function wpmem_update_settings() {
 			$wpmem_newsettings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
 		}
 		
+		// Add post types setting.
+		$wpmem_newsettings['post_types'] = array();
+		
+		// Merge settings.
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
 		
 		update_option( 'wpmembers_settings', $wpmem_newsettings );
