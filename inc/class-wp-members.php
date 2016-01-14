@@ -31,13 +31,12 @@ class WP_Members {
 		$settings = apply_filters( 'wpmem_settings', get_option( 'wpmembers_settings' ) );
 
 		// Validate that v3 settings are loaded.
-		if ( ! isset( $settings['version'] ) || isset( $settings['autoex']['auto_ex'] ) ) {
-			// If settings were not properly built during plugin upgrade.
+		if ( ! isset( $settings['version'] ) || $settings['version'] != WPMEM_VERSION ) {
 			/**
 			 * Load installation routine.
 			 */
 			require_once( WPMEM_PATH . 'wp-members-install.php' );
-			// Update settings for 3.x
+			// Update settings.
 			$settings = apply_filters( 'wpmem_settings', wpmem_update_settings() );
 		}
 		

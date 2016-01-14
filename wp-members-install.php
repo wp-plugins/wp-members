@@ -47,7 +47,7 @@ function wpmem_do_install() {
 		$wpmem_settings = array(
 			'version' => WPMEM_VERSION,
 			'block'   => array(
-				'post' => 1,
+				'post' => ( is_multisite() ) ? 0 : 1,
 				'page' => 0,
 			),
 			'show_excerpt' => array(
@@ -191,6 +191,9 @@ function wpmem_update_settings() {
 		if ( ! isset( $wpmem_settings['post_types'] ) ) {
 			 $wpmem_settings['post_types'] = array();
 		}
+		
+		// Version number should be updated no matter what.
+		$wpmem_settings['version'] = WPMEM_VERSION;
 		
 		update_option( 'wpmembers_settings', $wpmem_settings );
 		return $wpmem_settings;
