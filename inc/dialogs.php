@@ -221,7 +221,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type array  $rows           Row items HTML.
 		 * }
 		 */
-		apply_filters( 'wpmem_member_links_args', $arr );
+		$arr = apply_filters( 'wpmem_member_links_args', $arr );
 		
 		$str = $arr['before_wrapper'];
 		$str.= $arr['wrapper_before'];
@@ -266,7 +266,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type array  $rows           Row items HTML.
 		 * }
 		 */
-		apply_filters( 'wpmem_register_links_args', $arr );
+		$arr = apply_filters( 'wpmem_register_links_args', $arr );
 		
 		$str = $arr['before_wrapper'];
 		$str.= $arr['wrapper_before'];
