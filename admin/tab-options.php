@@ -141,8 +141,8 @@ function wpmem_a_build_options() {
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
 								<label><?php echo $arr[$row][0]; ?></label>
-								<?php if (WPMEM_DEBUG == true) { echo $wpmem->$arr[$row][3]; } ?>
-								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->$arr[$row][3] == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
+								<?php if (WPMEM_DEBUG == true) { echo $wpmem->{$arr[$row][3]}; } ?>
+								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->{$arr[$row][3]} == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
 								<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[$row][2]; ?></span><?php } ?>
 							  </li>
 							<?php } 
@@ -157,8 +157,8 @@ function wpmem_a_build_options() {
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
 								<label><?php echo $arr[$row][0]; ?></label>
-								<?php if (WPMEM_DEBUG == true) { echo $wpmem->$arr[$row][3]; } ?>
-								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->$arr[$row][3] == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
+								<?php if (WPMEM_DEBUG == true) { echo $wpmem->{$arr[$row][3]}; } ?>
+								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->{$arr[$row][3]} == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
 								<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[$row][2]; ?></span><?php } ?>
 							  </li>
 							<?php } ?>
