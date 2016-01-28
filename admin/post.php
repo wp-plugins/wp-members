@@ -176,18 +176,19 @@ function wpmem_block_meta_add() {
 	}
 
 	foreach ( $post_arr as $key => $val ) {
-		
-		$post_type = $wp_post_types[ $key ];
-		/**
-		 * Filter the post meta box title.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param Post restriction title.
-		 */
-		$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', sprintf( __( '%s Restriction', 'wp-members' ), $post_type->labels->singular_name ) );
-
-		add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+		if ( isset( $wp_post_types[ $key ] ) ) {
+			$post_type = $wp_post_types[ $key ];
+			/**
+			 * Filter the post meta box title.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param Post restriction title.
+			 */
+			$post_title = apply_filters( 'wpmem_admin_' . $key . '_meta_title', sprintf( __( '%s Restriction', 'wp-members' ), $post_type->labels->singular_name ) );
+	
+			add_meta_box( 'wpmem-block-meta-id', $post_title, 'wpmem_block_meta', $key, 'side', 'high' );
+		}
 	}
 }
 
