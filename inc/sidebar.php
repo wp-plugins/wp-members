@@ -52,35 +52,35 @@ if ( ! function_exists( 'wpmem_do_sidebar' ) ):
  * a login form, or the user's login status. Typically used for a sidebar.		
  * You can call this directly, or with the widget.
  *
- * @since 2.4
+ * @since 2.4.0
+ * @since 3.0.0 Added $post_to argument.
+ * @since 3.1.0 Changed $post_to to $redirect_to. 
  *
- * @param  string $post_to      A URL to redirect to upon login, default null.
+ * @param  string $redirect_to  A URL to redirect to upon login, default null.
  * @global string $wpmem_regchk
  * @global string $user_login
  */
-function wpmem_do_sidebar( $post_to = null ) {
+function wpmem_do_sidebar( $redirect_to = null ) {
 
 	global $wpmem, $wpmem_regchk;
 
 	 // Used here and in the logout.
 	$url = get_bloginfo('url');
 
-	if ( ! $post_to ) {
-		if ( isset( $_REQUEST['redirect_to'] ) ) {
-			$post_to = $_REQUEST['redirect_to'];
-		} elseif ( is_home() || is_front_page() ) {
-			$post_to = $_SERVER['REQUEST_URI'];
-		} elseif ( is_single() || is_page() ) {
-			$post_to = get_permalink();
-		} elseif ( is_category() ) {
-			global $wp_query;
-			$cat_id  = get_query_var( 'cat' );
-			$post_to = get_category_link( $cat_id );
-		} elseif ( is_search() ) {
-			$post_to = $url . '/?s=' . get_search_query();
-		} else {
-			$post_to = $_SERVER['REQUEST_URI'];
-		}
+	if ( isset( $_REQUEST['redirect_to'] ) ) {
+		$post_to = $_REQUEST['redirect_to'];
+	} elseif ( is_home() || is_front_page() ) {
+		$post_to = $_SERVER['REQUEST_URI'];
+	} elseif ( is_single() || is_page() ) {
+		$post_to = get_permalink();
+	} elseif ( is_category() ) {
+		global $wp_query;
+		$cat_id  = get_query_var( 'cat' );
+		$post_to = get_category_link( $cat_id );
+	} elseif ( is_search() ) {
+		$post_to = $url . '/?s=' . get_search_query();
+	} else {
+		$post_to = $_SERVER['REQUEST_URI'];
 	}
 
 	// Clean whatever the url is.
@@ -142,7 +142,7 @@ function wpmem_do_sidebar( $post_to = null ) {
 		$form = $row1 . $row2;
 
 		$hidden = '<input type="hidden" name="rememberme" value="forever" />' . $args['n'] .
-				'<input type="hidden" name="redirect_to" value="' . $post_to . '" />' . $args['n'] .
+				'<input type="hidden" name="redirect_to" value="' . ( ( $redirect_to ) ? $redirect_to : $post_to ) . '" />' . $args['n'] .
 				'<input type="hidden" name="a" value="login" />' . $args['n'] .
 				'<input type="hidden" name="slog" value="true" />';
 		/**
