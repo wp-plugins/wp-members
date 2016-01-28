@@ -339,14 +339,6 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		return do_shortcode( wpmem_sc_logged_in( $atts, $content, $tag ) );
 	}
 
-	// @deprecated 3.0.0
-	// Handles the wpmem_logged_out tag with no attributes & the user is not logged in.
-	/*
-	if ( $tag == 'wpmem_logged_out' && ( ! $attr ) && ! is_user_logged_in() ) {
-		return do_shortcode( $content );
-	}
-	*/
-
 	// Handles the 'field' attribute.
 	if ( $atts['field'] || $tag == 'wpmem_field' ) {
 		if ( $atts['id'] ) {
