@@ -37,7 +37,9 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  * Creates various form fields and returns them as a string.
  *
  * @since 1.8.0
+ * @since 3.1.0 Converted to wrapper for create_form_field() in utlities object.
  *
+ * @global object $wpmem    The WP_Members object class.
  * @param  string $name     The name of the field.
  * @param  string $type     The field type.
  * @param  string $value    The default value for the field.
@@ -46,55 +48,15 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  * @return string $str      The field returned as a string.
  */
 function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' ) {
-
-	switch ( $type ) {
-
-	case "file":
-		$class = ( $class == 'textbox' ) ? "file" : $class;
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />";
-		break;
-
-	case "checkbox":
-		$class = ( $class == 'textbox' ) ? "checkbox" : $class;
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . wpmem_selected( $value, $valtochk, $type ) . " />";
-		break;
-
-	case "text":
-		$value = stripslashes( esc_attr( $value ) );
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />";
-		break;
-
-	case "textarea":
-		$value = stripslashes( esc_textarea( $value ) );
-		$class = ( $class == 'textbox' ) ? "textarea" : $class;
-		$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
-		break;
-
-	case "password":
-		$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />";
-		break;
-
-	case "hidden":
-		$str = "<input name=\"$name\" type=\"$type\" value=\"$value\" />";
-		break;
-
-	case "option":
-		$str = "<option value=\"$value\" " . wpmem_selected( $value, $valtochk, 'select' ) . " >$name</option>";
-		break;
-
-	case "select":
-		$class = ( $class == 'textbox' ) ? "dropdown" : $class;
-		$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
-		foreach ( $value as $option ) {
-			$pieces = explode( '|', $option );
-			$str = $str . "<option value=\"$pieces[1]\"" . wpmem_selected( $pieces[1], $valtochk, 'select' ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
-		}
-		$str = $str . "</select>";
-		break;
-
-	}
-
-	return $str;
+	global $wpmem;
+	$args = array(
+		'name'     => $name,
+		'type'     => $type,
+		'value'    => $value,
+		'valtochk' => $valtochk,
+		'class'    => $class,
+	);
+	return $wpmem->utilities->create_form_field( $args );
 }
 endif;
 
@@ -104,6 +66,7 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  * Determines if a form field is selected (i.e. lists & checkboxes).
  *
  * @since 0.1.0
+ * @deprecated 3.1.0 Use selected() or checked() instead.
  *
  * @param  string $value
  * @param  string $valtochk
@@ -163,26 +126,14 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
  *
  * @since 2.6.4
+ * @since 3.1.0 Wrapper for texturize().
  *
  * @param  string $content
  * @return string $new_content
  */
 function wpmem_texturize( $content ) {
-
-	$new_content = '';
-	$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
-	$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
-	$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
-
-	foreach ( $pieces as $piece ) {
-		if ( preg_match( $pattern_contents, $piece, $matches ) ) {
-			$new_content .= $matches[1];
-		} else {
-			$new_content .= wptexturize( wpautop( $piece ) );
-		}
-	}
-
-	return $new_content;
+	global $wpmem;
+	return $wpmem->utilities->texturize( $content );
 }
 endif;
 
@@ -415,7 +366,6 @@ endif;
  * @return array       Array of fields to be excluded from the registration form.
  */
 function wpmem_get_excluded_meta( $tag ) {
-
 	global $wpmem;
 	return $wpmem->excluded_fields( $tag );
 }
