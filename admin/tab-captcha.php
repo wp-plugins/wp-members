@@ -228,6 +228,11 @@ function wpmem_update_captcha() {
 	$update_type  = $_POST['wpmem_recaptcha_type'];
 	$new_settings = array();
 
+	// If there are no current settings.
+	if ( ! $settings ) {
+		$settings = array();
+	}
+
 	if ( $update_type == 'recaptcha' || $update_type == 'recaptcha2' ) {
 		if ( array_key_exists( 'really_simple', $settings ) ) {
 			// Updating recaptcha but need to maintain really_simple.
