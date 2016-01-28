@@ -328,8 +328,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array          An array of arguments to merge with defaults. Default null.
-	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param array                 An array of arguments to merge with defaults. Default null.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$args = apply_filters( 'wpmem_login_form_args', '', $arr['action'] );
 	
@@ -361,8 +361,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $rows   An array containing the form rows.
-	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param array  $rows          An array containing the form rows.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'] );
 	
@@ -385,8 +385,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string $hidden The generated HTML of hidden fields.
-	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $hidden        The generated HTML of hidden fields.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $arr['action'] );
 
@@ -405,8 +405,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string $buttons The generated HTML of the form buttons.
-	 * @param string $arr['action']  The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $buttons        The generated HTML of the form buttons.
+	 * @param string $arr['action']  The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $arr['action'] );
 
@@ -507,8 +507,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.7.4
 	 *
-	 * @param string $form   The HTML of the final generated form.
-	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $form          The HTML of the final generated form.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$form = apply_filters( 'wpmem_login_form', $form, $arr['action'] );
 	
@@ -520,8 +520,8 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @since 2.7.4
 	 *
-	 * @param string $str    The HTML to add before the form. Default null.
-	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange.
+	 * @param string $str           The HTML to add before the form. Default null.
+	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
  	 */
 	$form = apply_filters( 'wpmem_login_form_before', '', $arr['action'] ) . $form;
 	
