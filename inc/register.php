@@ -374,6 +374,8 @@ function wpmem_registration( $toggle ) {
 		// If form includes email confirmation, validate that they match.
 		if ( array_key_exists( 'confirm_email', $fields ) && $fields['confirm_email'] != $fields ['user_email'] ) { 
 			$wpmem_themsg = __( 'Emails did not match.', 'wp-members' );
+			return "updaterr";
+			exit();
 		}
 		
 		// Add the user_ID to the fields array.
@@ -396,11 +398,10 @@ function wpmem_registration( $toggle ) {
 		 */
 		do_action( 'wpmem_pre_update_data', $fields );
 		
-		/*
-		 * If the _pre_update_data hook sends back an error message.
-		 * @todo - double check this. it should probably return "updaterr" and the hook should globalize wpmem_themsg
-		 */
-		if ( $wpmem_themsg ){ return $wpmem_themsg; }
+		// If the _pre_update_data hook sends back an error message.
+		if ( $wpmem_themsg ){ 
+			return "updaterr";
+		}
 
 		// A list of fields that can be updated by wp_update_user.
 		$native_fields = array( 
