@@ -1,4 +1,3 @@
-
 <?php
 /**
  * WP-Members Sortable Columns Class.
