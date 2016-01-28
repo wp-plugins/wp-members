@@ -167,8 +167,13 @@ function wpmem_init() {
  * current users capabilities.
  *
  * @since 2.5.2
+ * @since 3.1.0 Added admin api object class.
+ *
+ * @global object $wpmem_admin_api WP_Members_Admin_API object class.
  */
 function wpmem_chk_admin() {
+
+	global $wpmem_admin_api;
 
 	/**
 	 * Fires before initialization of admin options.
@@ -177,66 +182,15 @@ function wpmem_chk_admin() {
 	 */
 	do_action( 'wpmem_pre_admin_init' );
 
-	if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
-		/**
-		 * Load the main admin file.
-		 */
-		require_once(  WPMEM_PATH . 'admin/admin.php' );
-	}
-
 	/**
-	 * If user has a role that can edit users, load the admin functions,
-	 * otherwise, load profile actions for non-admins.
-	 */
-	if ( current_user_can( 'edit_users' ) ) { 
-
-		/**
-		 * Load the main admin file if not already loaded.
-		 */
-		require_once( WPMEM_PATH . 'admin/admin.php' );
-
-		/**
-		 * Load the admin user functions.
-		 */
-		require_once( WPMEM_PATH . 'admin/users.php' );
-
-		/**
-		 * Load the admin user profile functions.
-		 */
-		require_once( WPMEM_PATH . 'admin/user-profile.php' );
-
-	} else {
-
-		/**
-		 * Load the admin user functions.
-		 */
-		require_once( WPMEM_PATH . 'inc/users.php' );
-
-		// User actions and filters.
-		add_action( 'show_user_profile', 'wpmem_user_profile'   );
-		add_action( 'edit_user_profile', 'wpmem_user_profile'   );
-		add_action( 'profile_update',    'wpmem_profile_update' );
-	}
-
-	/**
-	 * If user has a role that can edit posts, add the block/unblock
-	 * meta boxes and custom post/page columns.
-	 */
-	if ( current_user_can( 'edit_posts' ) ) {
-
-		/**
-		 * Load the admin post functions.
-		 */
-		require_once( WPMEM_PATH . 'admin/post.php' );
-
-		// Post actions and filters.
-		add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
-		add_action( 'save_post',                  'wpmem_block_meta_save' );
-		add_filter( 'manage_posts_columns',       'wpmem_post_columns' );
-		add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
-		add_filter( 'manage_pages_columns',       'wpmem_post_columns' );
-		add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
-	}
+	 * Load the admin api class.
+	 *
+	 * @since 3.1
+	 */	
+	include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
+	
+	// Initilize the admin api.
+	$wpmem_admin_api = new WP_Members_Admin_API;
 
 	/**
 	 * Fires after initialization of admin options.

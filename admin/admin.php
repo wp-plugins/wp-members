@@ -134,14 +134,16 @@ function wpmem_add_captcha_tab( $tabs ) {
  * Primary admin function.
  *
  * @since 2.1.0
+ * @since 3.1.0 Added WP_Members_Admin_API.
  *
- * @global object $wpmem The WP_Members object.
+ * @global object $wpmem           The WP_Members object.
+ * @global object $wpmem_admin_api The WP_Members_Admin_API object class.
  */
 function wpmem_admin() {
 
 	$did_update = ( isset( $_POST['wpmem_admin_a'] ) ) ? wpmem_admin_action( $_POST['wpmem_admin_a'] ) : false;
 
-	global $wpmem;
+	global $wpmem, $wpmem_admin_api;
 
 	if ( $wpmem->captcha ) {
 		add_filter( 'wpmem_admin_tabs', 'wpmem_add_captcha_tab' );
@@ -155,7 +157,8 @@ function wpmem_admin() {
 		$tab = ( isset( $_GET['tab'] ) ) ? $_GET['tab'] : 'options';
 
 		// Render the tab being displayed.
-		wpmem_admin_tabs( $tab );
+		//wpmem_admin_tabs( $tab );
+		$wpmem_admin_api->do_tabs( $tab );
 
 		// Render any warning messages.
 		wpmem_a_do_warnings( $did_update );
@@ -221,38 +224,14 @@ function wpmem_admin_do_tab( $tab ) {
  * can be extended for custom admin tabs with the wpmem_admin_tabs filter.
  *
  * @since 2.8.0
+ * @since 3.1.0 Wrapper for API admin_tabs().
  *
- * @param string $current The tab that we are on.
+ * @global object $wpmem_admin_api The WP_Members_Admin_API object class.
+ * @param  string $current         The tab that we are on.
  */
 function wpmem_admin_tabs( $current = 'options' ) {
-
-	$tabs = array(
-		'options' => 'WP-Members ' . __( 'Options', 'wp-members' ),
-		'fields'  => __( 'Fields', 'wp-members' ),
-		'dialogs' => __( 'Dialogs', 'wp-members' ),
-		'emails'  => __( 'Emails', 'wp-members' ),
-	);
-
-	/**
-	 * Filter the admin tabs for the plugin settings page.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param array $tabs An array of the tabs to be displayed on the plugin settings page.
-	 */
-	$tabs = apply_filters( 'wpmem_admin_tabs', $tabs );
-
-	$links = array();
-	foreach ( $tabs as $tab => $name ) {
-		$class = ( $tab == $current ) ? 'nav-tab nav-tab-active' : 'nav-tab';
-		$links[] = '<a class="' . $class . '" href="?page=wpmem-settings&amp;tab=' . $tab . '">' . $name . '</a>';
-	}
-
-	echo '<h2 class="nav-tab-wrapper">';
-	foreach ( $links as $link ) {
-		echo $link;
-	}
-	echo '</h2>';
+	global $wpmem_admin_api;
+	$wpmem_admin_api->admin_tabs( $current );
 }
 
 
