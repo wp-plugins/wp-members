@@ -154,10 +154,12 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 * Filter the message.
 	 *
 	 * @since ?.?
+	 * @since 3.1 Added $toggle.
 	 *
-	 * @param string $str The message.
+	 * @param string $str    The message.
+	 * @param string $toggle The toggle of the message being displayed.
 	 */
-	return apply_filters( 'wpmem_msg_dialog', $str );
+	return apply_filters( 'wpmem_msg_dialog', $str, $toggle );
 
 }
 endif;
@@ -201,6 +203,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 				'<li><a href="' . $link . 'a=edit">'      . __( 'Edit My Information', 'wp-members' ) . '</a></li>',
 				'<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' )     . '</a></li>',
 			),
+			'after_wrapper'  => '',
 		);
 
 		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && function_exists( 'wpmem_user_page_detail' ) ) {
@@ -211,6 +214,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 * Filter the member links array.
 		 *
 		 * @since 3.0.9
+		 * @since 3.1.0 Added after_wrapper
 		 *
 		 * @param array $arr {
 		 *      The components of the links.
@@ -219,6 +223,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type string $wrapper_before The wrapper opening tag (default: <ul>).
 		 *      @type string $wrapper_after  The wrapper closing tag (default: </ul>).
 		 *      @type array  $rows           Row items HTML.
+		 *      @type string $after_wrapper  Anything that comes after the wrapper.
 		 * }
 		 */
 		$arr = apply_filters( 'wpmem_member_links_args', $arr );
@@ -229,6 +234,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			$str.= $row;
 		}
 		$str.= $arr['wrapper_after'];
+		$str.= $arr['after_wrapper'];
 	
 		/**
 		 * Filter the links displayed on the User Profile page (logged in state).
@@ -250,12 +256,14 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 				'<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>',
 				'<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>',
 			),
+			'after_wrapper'  => '',
 		);
 		
 		/**
 		 * Filter the register links array.
 		 *
 		 * @since 3.0.9
+		 * @since 3.1.0 Added after_wrapper
 		 *
 		 * @param array $arr {
 		 *      The components of the links.
@@ -264,6 +272,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type string $wrapper_before The wrapper opening tag (default: <ul>).
 		 *      @type string $wrapper_after  The wrapper closing tag (default: </ul>).
 		 *      @type array  $rows           Row items HTML.
+		 *      @type string $after_wrapper  Anything that comes after the wrapper.
 		 * }
 		 */
 		$arr = apply_filters( 'wpmem_register_links_args', $arr );
@@ -274,6 +283,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			$str.= $row;
 		}
 		$str.= $arr['wrapper_after'];
+		$str.= $arr['after_wrapper'];
 		
 		/**
 		 * Filter the links displayed on the Register page (logged in state).
