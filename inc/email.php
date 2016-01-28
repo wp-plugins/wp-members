@@ -94,7 +94,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
-	$arr['footer']        = get_option ( 'wpmembers_email_footer' );
+	$arr['footer']        = get_option( 'wpmembers_email_footer' );
 	$arr['disable']       = false;
 
 	// Apply filters (if set) for the sending email address.
@@ -316,6 +316,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
+	$arr['footer']        = get_option( 'wpmembers_email_footer' );
 	$arr['disable']       = false;
 
 	// Builds an array of the user data fields.
@@ -389,7 +390,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 		}
 
 		// Get the email footer if needed.
-		$foot = ( $arr['add_footer'] ) ? get_option ( 'wpmembers_email_footer' ) : '';
+		$foot = ( $arr['add_footer'] ) ? $arr['footer'] : '';
 
 		// If doing shortcode replacements.
 		if ( $arr['do_shortcodes'] ) {
