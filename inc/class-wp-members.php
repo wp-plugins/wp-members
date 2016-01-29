@@ -50,9 +50,10 @@ class WP_Members {
 		// Set the stylesheet.
 		$this->cssurl = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
 		
-		// Load utilities.
-		require_once( WPMEM_PATH . 'inc/class-wp-members-utilities.php' );
-		$this->utilities = new WP_Members_Utilities;
+		// Load forms.
+		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
+		$this->forms = new WP_Members_Forms;
+
 	}
 
 	/**

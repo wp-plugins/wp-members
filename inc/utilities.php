@@ -126,14 +126,26 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
  *
  * @since 2.6.4
- * @since 3.1.0 Wrapper for texturize().
  *
  * @param  string $content
  * @return string $new_content
  */
 function wpmem_texturize( $content ) {
-	global $wpmem;
-	return $wpmem->utilities->texturize( $content );
+	
+	$new_content = '';
+	$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
+	$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
+	$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+	foreach ( $pieces as $piece ) {
+		if ( preg_match( $pattern_contents, $piece, $matches ) ) {
+			$new_content .= $matches[1];
+		} else {
+			$new_content .= wptexturize( wpautop( $piece ) );
+		}
+	}
+
+	return $new_content;
 }
 endif;
 
