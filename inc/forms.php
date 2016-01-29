@@ -770,7 +770,15 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				if ( ! isset( $valtochk ) ) { $valtochk = ''; }
 				
 				// For all other input types.
-				$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
+				//$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
+				$input = $wpmem->forms->create_form_field( array( 
+					'name'     => $field[2],
+					'type'     => $field[3],
+					'value'    => $val,
+					'valtochk' => $valtochk,
+					//'class'    => ( $class ) ? $class : 'textbox',
+					'required' => ( 'y' == $field[5] ) ? true : false,
+				) );
 				
 				// Determine input wrappers.
 				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_' . $class . '">' : '';

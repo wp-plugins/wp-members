@@ -56,7 +56,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		'valtochk' => $valtochk,
 		'class'    => $class,
 	);
-	return $wpmem->utilities->create_form_field( $args );
+	return $wpmem->forms->create_form_field( $args );
 }
 endif;
 
