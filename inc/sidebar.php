@@ -233,9 +233,30 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 
 		/** This filter is documented in wp-members/inc/dialogs.php */
 		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
-
-		$str = '<p>' . sprintf( $wpmem->terms['sb_status'], $user_login ) . '<br />
-		  <a href="' . $logout . '">' . $wpmem->terms['sb_logout'] . '</a></p>';
+		
+		// Defaults.
+		$defaults = array(
+			'wrapper_before' => '<p>',
+			'status_text'    => sprintf( $wpmem->terms['sb_status'], $user_login ) . '<br />',
+			'link_text'      => $wpmem->terms['sb_logout'],
+			'wrapper_after'  => '</p>',
+		);
+		
+		/**
+		 * Filter sidebar login status arguments.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param  null
+		 * @return array
+		 */
+		$args = apply_filters( 'wpmem_sidebar_status_args', '' );
+		
+		// Merge $args with $defaults.
+		$args = wp_parse_args( $args, $defaults );
+		
+		// Generate the message string.
+		$str = $args['wrapper_before'] . $args['status_text'] . "<a href=\"$logout\">" . $args['link_text'] . '</a>' . $args['wrapper_after'];
 
 		/**
 		 * Filter the sidebar user login status.
