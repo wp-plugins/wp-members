@@ -12,6 +12,22 @@
  */
 
 class WP_Members {
+	
+	public $version;
+	public $block;
+	public $show_excerpt;
+	public $show_login;
+	public $show_reg;
+	public $autoex;
+	public $notify;
+	public $mod_reg;
+	public $captcha;
+	public $use_exp;
+	public $use_trial;
+	public $warnings;
+	public $user_pages;
+	public $post_types;
+	public $terms;
 
 	/**
 	 * Plugin initialization function.
@@ -53,7 +69,8 @@ class WP_Members {
 		// Load forms.
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		$this->forms = new WP_Members_Forms;
-
+		
+		$this->load_default_text();
 	}
 
 	/**
@@ -504,5 +521,95 @@ class WP_Members {
 			}
 		}
 	}
-
+	
+	
+	function load_default_text() {  
+		$defaults = array(
+			
+			// Login form.
+			'login_heading'        => __( 'Existing Users Log In', 'wp-members' ),
+			'login_username'       => __( 'Username' ),
+			'login_password'       => __( 'Password' ),
+			'login_button'         => __( 'Log In' ),
+			'remember_me'          => __( 'Remember Me' ),
+			'forgot_link_before'   => __( 'Forgot password?', 'wp-members' ) . '&nbsp;',
+			'forgot_link'          => __( 'Click here to reset', 'wp-members' ),
+			'register_link_before' => __( 'New User?', 'wp-members' ) . '&nbsp;',
+			'register_link'        => __( 'Click here to register', 'wp-members' ),
+			'username_link_before' => __( 'Forgot username?', 'wp-members' ) . '&nbsp;',
+			'username_link'        => __( 'Click here', 'wp-members' ),
+			
+			// Password change form.
+			'pwdchg_heading'       => __( 'Change Password', 'wp-members' ),
+			'pwdchg_password1'     => __( 'New password' ),
+			'pwdchg_password2'     => __( 'Confirm new password' ),
+			'pwdchg_button'        => __( 'Update Password', 'wp-members' ),
+			
+			// Password reset form.
+			'pwdreset_heading'     => __( 'Reset Forgotten Password', 'wp-members' ),
+			'pwdreset_username'    => __( 'Username' ),
+			'pwdreset_email'       => __( 'Email' ),
+			'pwdreset_button'      => __( 'Reset Password' ),
+			
+			// Retrieve username form.
+			'username_heading'     => __( 'Retrieve username', 'wp-members' ),
+			'username_email'       => __( 'Email Address', 'wp-members' ),
+			'username_button'      => __( 'Retrieve username', 'wp-members' ),
+			
+			// Register form.
+			'register_heading'     => __( 'New User Registration', 'wp-members' ),
+			'register_username'    => __( 'Choose a Username', 'wp-members' ),
+			'register_rscaptcha'   => __( 'Input the code:', 'wp-members' ),
+			'register_tos'         => __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ),
+			'register_clear'       => __( 'Reset Form', 'wp-members' ),
+			'register_submit'      => __( 'Register' ),
+			'register_req_mark'    => '<span class="req">*</span>',
+			'register_required'    => '<span class="req">*</span>' . __( 'Required field', 'wp-members' ),
+			
+			// User profile update form.
+			'profile_heading'      => __( 'Edit Your Information', 'wp-members' ),
+			'profile_username'     => __( 'Username' ),
+			'profile_submit'       => __( 'Update Profile', 'wp-members' ),
+			
+			// Error messages and dialogs.
+			'login_failed_heading' => __( 'Login Failed!', 'wp-members' ),
+			'login_failed'         => __( 'You entered an invalid username or password.', 'wp-members' ),
+			'login_failed_link'    => __( 'Click here to continue.', 'wp-members' ),
+			'pwdchangempty'        => __( 'Password fields cannot be empty', 'wp-members' ),
+			'usernamefailed'       => __( 'Sorry, that email address was not found.', 'wp-members' ),
+			'usernamesuccess'      => __( 'An email was sent to %s with your username.', 'wp-members' ),
+			
+			// Links.
+			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
+			'profile_password'     => __( 'Change Password', 'wp-members' ),
+			'register_status'      => __( 'You are logged in as %s', 'wp-members' ),
+			'register_logout'      => __( 'Click to log out.', 'wp-members' ),
+			'register_continue'    => __( 'Begin using the site.', 'wp-members' ),
+			'login_welcome'        => __( 'You are logged in as %s', 'wp-members' ),
+			'login_logout'         => __( 'Click to log out', 'wp-members' ),
+			'status_welcome'       => __( 'You are logged in as %s', 'wp-members' ),
+			'status_logout'        => __( 'click to log out', 'wp-members' ),
+			
+			// Widget.
+			'sb_status'            => __( 'You are logged in as %s', 'wp-members' ),
+			'sb_logout'            => __( 'click here to log out', 'wp-members' ),
+			'sb_login_failed'      => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
+			'sb_not_logged_in'     => __( 'You are not logged in.', 'wp-members' ),
+			'sb_login_username'    => __( 'Username' ),
+			'sb_login_password'    => __( 'Password' ),
+			'sb_login_button'      => __( 'log in', 'wp-members' ),
+			'sb_login_forgot'      => __( 'Forgot?', 'wp-members' ),
+			'sb_login_register'    => __( 'Register' ),
+		);
+		
+		/**
+		 * Filter default terms.
+		 *
+		 * @since 3.1.0
+		 */
+		$terms = apply_filters( 'wpmem_default_terms', '' );
+		
+		$this->terms = wp_parse_args( $terms, $defaults );
+		
+	} // End load_default_text()
 }
