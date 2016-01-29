@@ -34,21 +34,24 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  *
  * @since 1.8
  *
- * @return string $str the generated html for the login failed message.
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html for the login failed message.
  */
 function wpmem_inc_loginfailed() {
+	
+	global $wpmem;
 
 	// Defaults.
 	$defaults = array(
 		'div_before'     => '<div align="center" id="wpmem_msg">',
 		'div_after'      => '</div>', 
 		'heading_before' => '<h2>',
-		'heading'        => __( 'Login Failed!', 'wp-members' ),
+		'heading'        => $wpmem->terms['login_failed_heading'],
 		'heading_after'  => '</h2>',
 		'p_before'       => '<p>',
-		'message'        => __( 'You entered an invalid username or password.', 'wp-members' ),
+		'message'        => $wpmem->terms['login_failed'],
 		'p_after'        => '</p>',
-		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . __( 'Click here to continue.', 'wp-members' ) . '</a>',
+		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . $wpmem->terms['login_failed_link'] . '</a>',
 	);
 	
 	/**
@@ -173,6 +176,8 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  *
  * @since 2.0
  *
+ * @gloabl        $user_login
+ * @global object $wpmem
  * @param  string $page
  * @return string $str
  */
@@ -200,8 +205,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $link . 'a=edit">'      . __( 'Edit My Information', 'wp-members' ) . '</a></li>',
-				'<li><a href="' . $link . 'a=pwdchange">' . __( 'Change Password', 'wp-members' )     . '</a></li>',
+				'<li><a href="' . $link . 'a=edit">'      . $wpmem->terms['profile_edit']     . '</a></li>',
+				'<li><a href="' . $link . 'a=pwdchange">' . $wpmem->terms['profile_password'] . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -249,12 +254,12 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 	case 'register':
 		
 		$arr = array(
-			'before_wrapper' => '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '</p>',
+			'before_wrapper' => '<p>' . sprintf( $wpmem->terms['register_status'], $user_login ) . '</p>',
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $logout . '">' . __( 'Click to log out.', 'wp-members' ) . '</a></li>',
-				'<li><a href="' . get_option('home') . '">' . __( 'Begin using the site.', 'wp-members' ) . '</a></li>',
+				'<li><a href="' . $logout . '">' . $wpmem->terms['register_logout'] . '</a></li>',
+				'<li><a href="' . get_option('home') . '">' . $wpmem->terms['register_continue'] . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -301,8 +306,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
 			'user_login'     => $user_login,
-			'welcome'        => __( 'You are logged in as %s', 'wp-members' ),
-			'logout_text'    => __( 'Click to log out', 'wp-members' ),
+			'welcome'        => $wpmem->terms['login_welcome'],
+			'logout_text'    => $wpmem->terms['login_logout'],
 			'logout_link'    => '<a href="' . $logout . '">%s</a>',
 			'separator'      => '<br />',
 		);
@@ -337,8 +342,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
 			'user_login'     => $user_login,
-			'welcome'        => __( 'You are logged in as %s', 'wp-members' ),
-			'logout_text'    => __( 'click to log out', 'wp-members' ),
+			'welcome'        => $wpmem->terms['status_welcome'],
+			'logout_text'    => $wpmem->terms['status_logout'],
 			'logout_link'    => '<a href="' . $logout . '">%s</a>',
 			'separator'      => ' | ',
 		);
@@ -375,18 +380,21 @@ if ( ! function_exists( 'wpmem_page_pwd_reset' ) ):
  *
  * @since 2.7.6
  *
+ * @global object $wpmem
  * @param  string $wpmem_regchk
  * @param  string $content
  * @return string $content
  */
 function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
+	
+	global $wpmem;
 
 	if ( is_user_logged_in() ) {
 	
 		switch ( $wpmem_regchk ) {
 
 		case "pwdchangempty":
-			$content = wpmem_inc_regmessage( $wpmem_regchk, __( 'Password fields cannot be empty', 'wp-members' ) );
+			$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->terms['pwdchangempty'] );
 			$content = $content . wpmem_inc_changepassword();
 			break;
 
@@ -439,13 +447,16 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  *
  * @since 2.7.6
  *
+ * @global object $wpmem
+ * @global string $wpmem_a
+ * @global string $wpmem_themsg
  * @param  string $wpmem_regchk
  * @param  string $content
  * @return string $content
  */
 function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 
-	global $wpmem_a, $wpmem_themsg;
+	global $wpmem, $wpmem_a, $wpmem_themsg;
 	/**
 	 * Filter the default User Edit heading for shortcode.
 	 *
@@ -453,7 +464,7 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 	 *
 	 * @param string The default edit mode heading.
 	 */	
-	$heading = apply_filters( 'wpmem_user_edit_heading', __( 'Edit Your Information', 'wp-members' ) );
+	$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->terms['profile_heading'] );
 	
 	if ( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }
 	$content = $content . wpmem_inc_registration( 'edit', $heading );
@@ -482,7 +493,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 		switch( $wpmem->regchk ) {
 
 		case "usernamefailed":
-			$msg = __( 'Sorry, that email address was not found.', 'wp-members' );
+			$msg = $wpmem->terms['usernamefailed'];
 			$content = $content
 				. wpmem_inc_regmessage( 'usernamefailed', $msg ) 
 				. wpmem_inc_forgotusername();
@@ -491,7 +502,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 
 		case "usernamesuccess":
 			$email = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
-			$msg = sprintf( __( 'An email was sent to %s with your username.', 'wp-members' ), $email );
+			$msg = sprintf( $wpmem->terms['usernamesuccess'], $email );
 			$content = $content . wpmem_inc_regmessage( 'usernamesuccess', $msg );
 			$wpmem->regchk = ''; // Clear regchk.
 			break;
@@ -515,14 +526,17 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
  *
  * @since 3.0.8
  *
- * @return string $str The generated html for the forgot username form.
+ * @global object $wpmem The WP_Members object class.
+ * @return string $str   The generated html for the forgot username form.
  */
 function wpmem_inc_forgotusername() {
+	
+	global $wpmem;
 
 	// create the default inputs
 	$default_inputs = array(
 		array(
-			'name'   => __( 'Email Address', 'wp-members' ), 
+			'name'   => $wpmem->terms['username_email'], 
 			'type'   => 'text',
 			'tag'    => 'user_email',
 			'class'  => 'username',
@@ -540,9 +554,9 @@ function wpmem_inc_forgotusername() {
 	$default_inputs = apply_filters( 'wpmem_inc_forgotusername_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => __( 'Retrieve username', 'wp-members' ), 
+		'heading'      => $wpmem->terms['username_heading'], 
 		'action'       => 'getusername', 
-		'button_text'  => __( 'Retrieve username', 'wp-members' ), 
+		'button_text'  => $wpmem->terms['username_button'],
 		'inputs'       => $default_inputs,
 	);
 

@@ -27,17 +27,18 @@ if ( ! function_exists( 'wpmem_inc_status' ) ):
  * @since 1.8
  *
  * @global        $user_login
+ * @global object $wpmem
  * @return string $status
  */
 function wpmem_inc_status() {
 
-	global $user_login;
+	global $user_login, $wpmem;
 	
 	/** This filter is documented in wp-members/inc/dialogs.php */
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
-	$status = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login )
-		. ' | <a href="' . $logout . '">' . __( 'click to log out', 'wp-members' ) . '</a></p>';
+	$status = '<p>' . sprintf( $wpmem->terms['sb_login_status'], $user_login )
+		. ' | <a href="' . $logout . '">' . $wpmem->terms['sb_logout_link'] . '</a></p>';
 
 	return $status;
 }
@@ -103,8 +104,8 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 			'buttons_after'   => '</div>',
 
 			// Messages.
-			'error_msg'  => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
-			'status_msg' => __( 'You are not logged in.', 'wp-members' ) . '<br />',
+			'error_msg'  => $wpmem->terms['sb_login_failed'],
+			'status_msg' => $wpmem->terms['sb_not_logged_in'] . '<br />',
 			
 			// Other.
 			'strip_breaks'    => true,
@@ -127,13 +128,13 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 
 		$form = '';
 
-		$label = '<label for="username">' . __( 'Username' ) . '</label>';
+		$label = '<label for="username">' . $wpmem->terms['sb_login_username'] . '</label>';
 		$input = '<input type="text" name="log" class="username" id="username" />';
 
 		$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
 		$row1  = $label . $args['n'] . $input . $args['n'];
 
-		$label = '<label for="password">' . __( 'Password' ) . '</label>';
+		$label = '<label for="password">' . $wpmem->terms['sb_login_password'] . '</label>';
 		$input = '<input type="password" name="pwd" class="password" id="password" />';
 
 		$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
@@ -154,12 +155,12 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		 */
 		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );
 
-		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . __( 'log in', 'wp-members' ) . '" />';
+		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . $wpmem->terms['sb_login_button'] . '" />';
 
 		if ( $wpmem->user_pages['profile'] != null ) { 
 			/** This filter is documented in wp-members/inc/forms.php */
 			$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );
-			$link_html = ' <a href="' . $link . '">' . __( 'Forgot?', 'wp-members' ) . '</a>&nbsp;';
+			$link_html = ' <a href="' . $link . '">' . $wpmem->terms['sb_login_forgot'] . '</a>&nbsp;';
 			/**
 			 * Filter the sidebar forgot password.
 			 *
@@ -175,7 +176,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		if ( $wpmem->user_pages['register'] != null ) {
 			/** This filter is documented in wp-members/inc/forms.php */
 			$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-			$link_html = ' <a href="' . $link . '">' . __( 'Register' ) . '</a>';
+			$link_html = ' <a href="' . $link . '">' . $wpmem->terms['sb_login_register'] . '</a>';
 			/**
 			 * Filter the sidebar register link.
 			 *
@@ -233,8 +234,8 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		/** This filter is documented in wp-members/inc/dialogs.php */
 		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
-		$str = '<p>' . sprintf( __( 'You are logged in as %s', 'wp-members' ), $user_login ) . '<br />
-		  <a href="' . $logout . '">' . __( 'click here to log out', 'wp-members' ) . '</a></p>';
+		$str = '<p>' . sprintf( $wpmem->terms['sb_status'], $user_login ) . '<br />
+		  <a href="' . $logout . '">' . $wpmem->terms['sb_logout'] . '</a></p>';
 
 		/**
 		 * Filter the sidebar user login status.

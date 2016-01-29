@@ -72,14 +72,14 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 	// Create the default inputs.
 	$default_inputs = array(
 		array(
-			'name'   => __( 'Username' ), 
+			'name'   => $wpmem->terms['login_username'], 
 			'type'   => 'text', 
 			'tag'    => 'log',
 			'class'  => 'username',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => __( 'Password' ), 
+			'name'   => $wpmem->terms['login_password'], 
 			'type'   => 'password', 
 			'tag'    => 'pwd', 
 			'class'  => 'password',
@@ -97,9 +97,9 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 	$default_inputs = apply_filters( 'wpmem_inc_login_inputs', $default_inputs );
 	
     $defaults = array( 
-		'heading'      => __( 'Existing Users Log In', 'wp-members' ), 
+		'heading'      => $wpmem->terms['login_heading'], 
 		'action'       => 'login', 
-		'button_text'  => __( 'Log In' ),
+		'button_text'  => $wpmem->terms['login_button'],
 		'inputs'       => $default_inputs,
 		'redirect_to'  => $redirect_to,
 	);	
@@ -130,21 +130,24 @@ if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
  *
  * @since 2.0.0
  *
- * @return string $str the generated html for the change password form.
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html for the change password form.
  */
 function wpmem_inc_changepassword() {
+	
+	global $wpmem;
 
 	// create the default inputs
 	$default_inputs = array(
 		array(
-			'name'   => __( 'New password' ), 
+			'name'   => $wpmem->terms['pwdchg_password1'], 
 			'type'   => 'password',
 			'tag'    => 'pass1',
 			'class'  => 'password',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => __( 'Confirm new password' ), 
+			'name'   => $wpmem->terms['pwdchg_password2'], 
 			'type'   => 'password', 
 			'tag'    => 'pass2',
 			'class'  => 'password',
@@ -162,9 +165,9 @@ function wpmem_inc_changepassword() {
 	$default_inputs = apply_filters( 'wpmem_inc_changepassword_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => __('Change Password', 'wp-members'), 
+		'heading'      => $wpmem->terms['pwdchg_heading'], 
 		'action'       => 'pwdchange', 
-		'button_text'  => __('Update Password', 'wp-members'), 
+		'button_text'  => $wpmem->terms['pwdchg_button'], 
 		'inputs'       => $default_inputs,
 	);
 
@@ -194,21 +197,24 @@ if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
  *
  * @since 2.1.0
  *
- * @return string $str the generated html fo the reset password form.
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html fo the reset password form.
  */
 function wpmem_inc_resetpassword() { 
+
+	global $wpmem;
 
 	// Create the default inputs.
 	$default_inputs = array(
 		array(
-			'name'   => __( 'Username' ), 
+			'name'   => $wpmem->terms['pwdreset_username'], 
 			'type'   => 'text',
 			'tag'    => 'user', 
 			'class'  => 'username',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => __( 'Email' ), 
+			'name'   => $wpmem->terms['pwdreset_email'], 
 			'type'   => 'text', 
 			'tag'    => 'email', 
 			'class'  => 'password',
@@ -226,9 +232,9 @@ function wpmem_inc_resetpassword() {
 	$default_inputs = apply_filters( 'wpmem_inc_resetpassword_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => __( 'Reset Forgotten Password', 'wp-members' ),
+		'heading'      => $wpmem->terms['pwdreset_heading'],
 		'action'       => 'pwdreset', 
-		'button_text'  => __( 'Reset Password' ), 
+		'button_text'  => $wpmem->terms['pwdreset_button'], 
 		'inputs'       => $default_inputs,
 	);
 
@@ -392,7 +398,7 @@ function wpmem_login_form( $page, $arr ) {
 
 	// Build the buttons, filter, and add to the form.
 	if ( $arr['action'] == 'login' ) {
-		$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . __( 'Remember Me' ) . '&nbsp;&nbsp;' . $args['n'] : '';
+		$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . $wpmem->terms['remember_me'] . '&nbsp;&nbsp;' . $args['n'] : '';
 		$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
 	} else {
 		$buttons = '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
@@ -420,7 +426,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The forgot password link.
 	 	 */
 		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
-		$str  = __( 'Forgot password?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to reset', 'wp-members' ) . '</a>';
+		$str  = $wpmem->terms['forgot_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['forgot_link'] . '</a>';
 		/**
 		 * Filters the forgot password HTML.
 		 *
@@ -444,7 +450,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The registration page link.
 	 	 */
 		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-		$str  = __( 'New User?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here to register', 'wp-members' ) . '</a>';
+		$str  = $wpmem->terms['register_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['register_link'] . '</a>';
 		/**
 		 * Filters the register link HTML.
 		 *
@@ -468,7 +474,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The forgot username link.
 		 */
 		$link = apply_filters( 'wpmem_username_link',  wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=getusername' );	
-		$str  = __( 'Forgot username?', 'wp-members' ) . '&nbsp;<a href="' . $link . '">' . __( 'Click here', 'wp-members' ) . '</a>';
+		$str  = $wpmem->terms['username_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['username_link'] . '</a>';
 		/**
 		 * Filters the forgot username link HTML.
 		 *
@@ -538,10 +544,11 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  *
  * @since 2.5.1
  *
- * @param  string $toggle       (optional) Toggles between new registration ('new') and user profile edit ('edit').
- * @param  string $heading      (optional) The heading text for the form, null (default) for new registration.
+ * @global object $wpmem        The WP_Members object.
  * @global string $wpmem_regchk Used to determine if the form is in an error state.
  * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
+ * @param  string $toggle       (optional) Toggles between new registration ('new') and user profile edit ('edit').
+ * @param  string $heading      (optional) The heading text for the form, null (default) for new registration.
  * @return string $form         The HTML for the entire form as a string.
  */
 function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = null ) {
@@ -572,16 +579,16 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		'button_class'     => 'buttons',
 		
 		// Required field tags and text.
-		'req_mark'         => '<span class="req">*</span>',
-		'req_label'        => '<span class="req">*</span>' . __( 'Required field', 'wp-members' ),
+		'req_mark'         => $wpmem->terms['register_req_mark'],
+		'req_label'        => $wpmem->terms['register_required'],
 		'req_label_before' => '<div class="req-text">',
 		'req_label_after'  => '</div>',
 		
 		// Buttons.
 		'show_clear_form'  => false,
-		'clear_form'       => __( 'Reset Form', 'wp-members' ),
-		'submit_register'  => __( 'Register' ),
-		'submit_update'    => __( 'Update Profile', 'wp-members' ),
+		'clear_form'       => $wpmem->terms['register_clear'],
+		'submit_register'  => $wpmem->terms['register_submit'],
+		'submit_update'    => $wpmem->terms['profile_submit'],
 		
 		// Other.
 		'strip_breaks'     => true,
@@ -612,14 +619,14 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	if ( $toggle == 'edit' ) {
 		// This is the User Profile edit - username is not editable.
 		$val   = $userdata->user_login;
-		$label = '<label for="username" class="text">' . __( 'Username' ) . '</label>';
+		$label = '<label for="username" class="text">' . $wpmem->terms['profile_username'] . '</label>';
 		$input = '<p class="noinput">' . $val . '</p>';
 		$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
 		$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 	} else { 
 		// This is a new registration.
 		$val   = ( isset( $_POST['log'] ) ) ? stripslashes( $_POST['log'] ) : '';
-		$label = '<label for="username" class="text">' . __( 'Choose a Username', 'wp-members' ) . $args['req_mark'] . '</label>';
+		$label = '<label for="username" class="text">' . $wpmem->terms['register_username'] . $args['req_mark'] . '</label>';
 		$input = wpmem_create_formfield( 'log', 'text', $val, '', 'username' );
 
 	}
@@ -632,7 +639,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		'meta'         => 'username',
 		'type'         => 'text',
 		'value'        => $val,
-		'label_text'   => __( 'Choose a Username', 'wp-members' ),
+		'label_text'   => $wpmem->terms['register_username'],
 		'row_before'   => $args['row_before'],
 		'label'        => $label,
 		'field_before' => $field_before,
@@ -745,7 +752,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				 * @param string          The link text.
 				 * @param string $toggle  Toggle new registration or profile update. new|edit.
 				 */
-				$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ), $toggle );
+				$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->terms['register_tos'], $tos_pop, '</a>' ), $toggle );
 				
 				// In previous versions, the div class would end up being the same as the row before.
 				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
@@ -939,7 +946,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 * @param string $str
 	 * @param string $toggle Toggle new registration or profile update. new|edit.
  	 */
-	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', __( 'New User Registration', 'wp-members' ), $toggle ) : $heading;
+	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', $wpmem->terms['register_heading'], $toggle ) : $heading;
 	$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 	
 	// Apply fieldset wrapper.
@@ -1092,6 +1099,7 @@ function wpmem_inc_attribution() {
  *
  * @since 2.9.5
  *
+ * @global object $wpmem The WP_Members object.
  * @return array {
  *     HTML Form elements for Really Simple CAPTCHA.
  *
@@ -1101,6 +1109,8 @@ function wpmem_inc_attribution() {
  * }
  */
 function wpmem_build_rs_captcha() {
+	
+	global $wpmem;
 
 	if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
 		// setup defaults								
@@ -1154,8 +1164,8 @@ function wpmem_build_rs_captcha() {
 		$pre   = $wpmem_captcha_prefix;
 
 		return array( 
-			'label_text' => __( 'Input the code:', 'wp-members' ),
-			'label'      => '<label class="text" for="captcha">' . __( 'Input the code:', 'wp-members' ) . '</label>',
+			'label_text' => $wpmem->terms['register_rscaptcha'],
+			'label'      => '<label class="text" for="captcha">' . $wpmem->terms['register_rscaptcha'] . '</label>',
 			'field'      => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
 					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
 					<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
