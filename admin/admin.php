@@ -136,14 +136,13 @@ function wpmem_add_captcha_tab( $tabs ) {
  * @since 2.1.0
  * @since 3.1.0 Added WP_Members_Admin_API.
  *
- * @global object $wpmem           The WP_Members object.
- * @global object $wpmem_admin_api The WP_Members_Admin_API object class.
+ * @global object $wpmem The WP_Members object.
  */
 function wpmem_admin() {
 
 	$did_update = ( isset( $_POST['wpmem_admin_a'] ) ) ? wpmem_admin_action( $_POST['wpmem_admin_a'] ) : false;
 
-	global $wpmem, $wpmem_admin_api;
+	global $wpmem;
 
 	if ( $wpmem->captcha ) {
 		add_filter( 'wpmem_admin_tabs', 'wpmem_add_captcha_tab' );
@@ -157,8 +156,7 @@ function wpmem_admin() {
 		$tab = ( isset( $_GET['tab'] ) ) ? $_GET['tab'] : 'options';
 
 		// Render the tab being displayed.
-		//wpmem_admin_tabs( $tab );
-		$wpmem_admin_api->do_tabs( $tab );
+		$wpmem->admin->do_tabs( $tab );
 
 		// Render any warning messages.
 		wpmem_a_do_warnings( $did_update );
@@ -226,12 +224,12 @@ function wpmem_admin_do_tab( $tab ) {
  * @since 2.8.0
  * @since 3.1.0 Wrapper for API admin_tabs().
  *
- * @global object $wpmem_admin_api The WP_Members_Admin_API object class.
- * @param  string $current         The tab that we are on.
+ * @global object $wpmem   The WP_Members object class.
+ * @param  string $current he tab that we are on.
  */
 function wpmem_admin_tabs( $current = 'options' ) {
-	global $wpmem_admin_api;
-	$wpmem_admin_api->admin_tabs( $current );
+	global $wpmem;
+	$wpmem->admin->do_tabs( $current );
 }
 
 

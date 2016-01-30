@@ -167,13 +167,13 @@ function wpmem_init() {
  * current users capabilities.
  *
  * @since 2.5.2
- * @since 3.1.0 Added admin api object class.
+ * @since 3.1.0 Added admin api object.
  *
- * @global object $wpmem_admin_api WP_Members_Admin_API object class.
+ * @global object $wpmem WP_Members object class.
  */
 function wpmem_chk_admin() {
 
-	global $wpmem_admin_api;
+	global $wpmem;
 
 	/**
 	 * Fires before initialization of admin options.
@@ -190,7 +190,7 @@ function wpmem_chk_admin() {
 	include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
 	
 	// Initilize the admin api.
-	$wpmem_admin_api = new WP_Members_Admin_API;
+	$wpmem->load_admin_api();
 
 	/**
 	 * Fires after initialization of admin options.

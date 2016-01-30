@@ -25,11 +25,10 @@
  * @since 2.7
  *
  * @global object $wpmem
- * @global object $wpmem_admin_api
  */
 function wpmem_a_build_emails() {
 
-	global $wpmem, $wpmem_admin_api; ?>
+	global $wpmem; ?>
 	<div class="metabox-holder">
 
 		<div id="post-body">
@@ -55,9 +54,9 @@ function wpmem_a_build_emails() {
 									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo stripslashes( get_option( 'wpmembers_email_wpname' ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
 								</tr>
 								<tr><td colspan="2"><hr /></td></tr>
-							<?php if ( ! empty ( $wpmem_admin_api->emails ) ) {	
-									foreach( $wpmem_admin_api->emails as $email ) {
-										$wpmem_admin_api->do_email_input( $email );
+							<?php if ( ! empty ( $wpmem->admin->emails ) ) {	
+									foreach( $wpmem->admin->emails as $email ) {
+										$wpmem->admin->do_email_input( $email );
 									}
 								}
 								$arr = get_option( 'wpmembers_email_footer' ); ?>
@@ -95,7 +94,8 @@ function wpmem_a_build_emails() {
  *
  * @since 2.8
  *
- * @return string The emails updated message.
+ * @global object $wpmem The WP_Members object class.
+ * @return string        The emails updated message.
  */
 function wpmem_update_emails() {
 
@@ -127,10 +127,9 @@ function wpmem_update_emails() {
 	// Updated the email footer.
 	update_option( $arr[$row], $_POST[$arr[$row] . '_body'], false );
 	
-	global $wpmem_admin_api;
-	if ( ! empty ( $wpmem_admin_api->emails ) ) {
-		foreach( $wpmem_admin_api->emails as $email ) {
-			$wpmem_admin_api->email_update( $email );
+	if ( ! empty ( $wpmem->admin->emails ) ) {
+		foreach( $wpmem->admin->emails as $email ) {
+			$wpmem->admin->email_update( $email );
 		}
 	}
 

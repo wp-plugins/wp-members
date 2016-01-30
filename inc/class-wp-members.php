@@ -578,6 +578,14 @@ class WP_Members {
 			'pwdchangempty'        => __( 'Password fields cannot be empty', 'wp-members' ),
 			'usernamefailed'       => __( 'Sorry, that email address was not found.', 'wp-members' ),
 			'usernamesuccess'      => __( 'An email was sent to %s with your username.', 'wp-members' ),
+			'reg_empty_field'      => __( 'Sorry, %s is a required field.', 'wp-members' ),
+			'reg_valid_email'      => __( 'You must enter a valid email address.', 'wp-members' ),
+			'reg_non_alphanumeric' => __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ),
+			'reg_empty_username'   => __( 'Sorry, username is a required field', 'wp-members' ),
+			'reg_password_match'   => __( 'Passwords did not match.', 'wp-members' ),
+			'reg_email_match'      => __( 'Emails did not match.', 'wp-members' ),
+			'reg_empty_captcha'    => __( 'You must complete the CAPTCHA form.', 'wp-members' ),
+			'reg_invalid_captcha'  => __( 'CAPTCHA was not valid.', 'wp-members' ),
 			
 			// Links.
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
@@ -610,6 +618,19 @@ class WP_Members {
 		$terms = apply_filters( 'wpmem_default_terms', '' );
 		
 		$this->terms = wp_parse_args( $terms, $defaults );
-		
-	} // End load_default_text()
-}
+	
+	} // End of get_text().
+	
+	
+	/**
+	 * Load the admin api.
+	 *
+	 * @since 3.1.0
+	 */
+	function load_admin_api() {
+		if ( is_admin() ) {
+			$this->admin = new WP_Members_Admin_API;
+		}
+	}
+
+} // End of WP_Members class.

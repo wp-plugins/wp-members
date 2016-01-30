@@ -16,16 +16,16 @@ class WP_Members_Admin_API {
 	 * @access public
 	 * @var array
 	 */
-	public $tabs;
+	public $tabs = array();
 	
 	/**
-	 * Container for subscriptions.
+	 * Container for emails.
 	 *
 	 * @since 3.1.0
 	 * @access public
 	 * @var array
 	 */
-	public $emails;
+	public $emails = array();
 
 
 	/**
