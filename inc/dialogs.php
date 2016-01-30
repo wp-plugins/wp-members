@@ -46,12 +46,12 @@ function wpmem_inc_loginfailed() {
 		'div_before'     => '<div align="center" id="wpmem_msg">',
 		'div_after'      => '</div>', 
 		'heading_before' => '<h2>',
-		'heading'        => $wpmem->terms['login_failed_heading'],
+		'heading'        => $wpmem->get_text( 'login_failed_heading' ),
 		'heading_after'  => '</h2>',
 		'p_before'       => '<p>',
-		'message'        => $wpmem->terms['login_failed'],
+		'message'        => $wpmem->get_text( 'login_failed' ),
 		'p_after'        => '</p>',
-		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . $wpmem->terms['login_failed_link'] . '</a>',
+		'link'           => '<a href="' . $_SERVER['REQUEST_URI'] . '">' . $wpmem->get_text( 'login_failed_link' ) . '</a>',
 	);
 	
 	/**
@@ -205,8 +205,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $link . 'a=edit">'      . $wpmem->terms['profile_edit']     . '</a></li>',
-				'<li><a href="' . $link . 'a=pwdchange">' . $wpmem->terms['profile_password'] . '</a></li>',
+				'<li><a href="' . $link . 'a=edit">'      . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
+				'<li><a href="' . $link . 'a=pwdchange">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -254,12 +254,12 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 	case 'register':
 		
 		$arr = array(
-			'before_wrapper' => '<p>' . sprintf( $wpmem->terms['register_status'], $user_login ) . '</p>',
+			'before_wrapper' => '<p>' . sprintf( $wpmem->get_text( 'register_status' ), $user_login ) . '</p>',
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $logout . '">' . $wpmem->terms['register_logout'] . '</a></li>',
-				'<li><a href="' . get_option('home') . '">' . $wpmem->terms['register_continue'] . '</a></li>',
+				'<li><a href="' . $logout . '">' . $wpmem->get_text( 'register_logout' ) . '</a></li>',
+				'<li><a href="' . get_option('home') . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -306,8 +306,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
 			'user_login'     => $user_login,
-			'welcome'        => $wpmem->terms['login_welcome'],
-			'logout_text'    => $wpmem->terms['login_logout'],
+			'welcome'        => $wpmem->get_text( 'login_welcome' ),
+			'logout_text'    => $wpmem->get_text( 'login_logout' ),
 			'logout_link'    => '<a href="' . $logout . '">%s</a>',
 			'separator'      => '<br />',
 		);
@@ -342,8 +342,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
 			'user_login'     => $user_login,
-			'welcome'        => $wpmem->terms['status_welcome'],
-			'logout_text'    => $wpmem->terms['status_logout'],
+			'welcome'        => $wpmem->get_text( 'status_welcome' ),
+			'logout_text'    => $wpmem->get_text( 'status_logout' ),
 			'logout_link'    => '<a href="' . $logout . '">%s</a>',
 			'separator'      => ' | ',
 		);
@@ -394,7 +394,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 		switch ( $wpmem_regchk ) {
 
 		case "pwdchangempty":
-			$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->terms['pwdchangempty'] );
+			$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( 'pwdchangempty' ) );
 			$content = $content . wpmem_inc_changepassword();
 			break;
 
@@ -464,7 +464,7 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 	 *
 	 * @param string The default edit mode heading.
 	 */	
-	$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->terms['profile_heading'] );
+	$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
 	
 	if ( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }
 	$content = $content . wpmem_inc_registration( 'edit', $heading );
@@ -493,7 +493,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 		switch( $wpmem->regchk ) {
 
 		case "usernamefailed":
-			$msg = $wpmem->terms['usernamefailed'];
+			$msg = $wpmem->get_text( 'usernamefailed' );
 			$content = $content
 				. wpmem_inc_regmessage( 'usernamefailed', $msg ) 
 				. wpmem_inc_forgotusername();
@@ -502,7 +502,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 
 		case "usernamesuccess":
 			$email = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
-			$msg = sprintf( $wpmem->terms['usernamesuccess'], $email );
+			$msg = sprintf( $wpmem->get_text( 'usernamesuccess' ), $email );
 			$content = $content . wpmem_inc_regmessage( 'usernamesuccess', $msg );
 			$wpmem->regchk = ''; // Clear regchk.
 			break;
@@ -536,7 +536,7 @@ function wpmem_inc_forgotusername() {
 	// create the default inputs
 	$default_inputs = array(
 		array(
-			'name'   => $wpmem->terms['username_email'], 
+			'name'   => $wpmem->get_text( 'username_email' ), 
 			'type'   => 'text',
 			'tag'    => 'user_email',
 			'class'  => 'username',
@@ -554,9 +554,9 @@ function wpmem_inc_forgotusername() {
 	$default_inputs = apply_filters( 'wpmem_inc_forgotusername_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => $wpmem->terms['username_heading'], 
+		'heading'      => $wpmem->get_text( 'username_heading' ), 
 		'action'       => 'getusername', 
-		'button_text'  => $wpmem->terms['username_button'],
+		'button_text'  => $wpmem->get_text( 'username_button' ),
 		'inputs'       => $default_inputs,
 	);
 

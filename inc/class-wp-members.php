@@ -27,7 +27,6 @@ class WP_Members {
 	public $warnings;
 	public $user_pages;
 	public $post_types;
-	public $terms;
 
 	/**
 	 * Plugin initialization function.
@@ -70,7 +69,6 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		$this->forms = new WP_Members_Forms;
 		
-		$this->load_default_text();
 	}
 
 	/**
@@ -238,7 +236,7 @@ class WP_Members {
 			
 			case 'pwdchange':
 				$regchk = wpmem_change_password();
-				break;
+ 				break;
 			
 			case 'pwdreset':
 				$regchk = wpmem_reset_password();
@@ -364,9 +362,8 @@ class WP_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global string $wpmem_themsg      Contains messages to be output.
-	 * @global object $post              The WordPress Post object.
-	 *
+	 * @global string $wpmem_themsg Contains messages to be output.
+	 * @global object $post         The WordPress Post object.
 	 * @param  string $content
 	 * @return string $content
 	 */
@@ -522,8 +519,20 @@ class WP_Members {
 		}
 	}
 	
+
+	/**
+	 * Returns a requested text string.
+	 *
+	 * This function manages all of the front-end facing text.
+	 * All defaults can be filtered using wpmem_default_text_strings.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param  string $str
+	 * @return string $text
+	 */	
+	function get_text( $str ) {
 	
-	function load_default_text() {  
 		$defaults = array(
 			
 			// Login form.
@@ -608,16 +617,21 @@ class WP_Members {
 			'sb_login_button'      => __( 'log in', 'wp-members' ),
 			'sb_login_forgot'      => __( 'Forgot?', 'wp-members' ),
 			'sb_login_register'    => __( 'Register' ),
-		);
+		
+		); // End of $defaults array.
 		
 		/**
 		 * Filter default terms.
 		 *
 		 * @since 3.1.0
 		 */
-		$terms = apply_filters( 'wpmem_default_terms', '' );
+		$text = apply_filters( 'wpmem_default_text_strings', '' );
 		
-		$this->terms = wp_parse_args( $terms, $defaults );
+		// Merge filtered $terms with $defaults.
+		$text = wp_parse_args( $text, $defaults );
+		
+		// Return the requested text string.
+		return $text[ $str ];
 	
 	} // End of get_text().
 	

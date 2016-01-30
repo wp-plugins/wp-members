@@ -72,14 +72,14 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 	// Create the default inputs.
 	$default_inputs = array(
 		array(
-			'name'   => $wpmem->terms['login_username'], 
+			'name'   => $wpmem->get_text( 'login_username' ), 
 			'type'   => 'text', 
 			'tag'    => 'log',
 			'class'  => 'username',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => $wpmem->terms['login_password'], 
+			'name'   => $wpmem->get_text( 'login_password' ), 
 			'type'   => 'password', 
 			'tag'    => 'pwd', 
 			'class'  => 'password',
@@ -97,9 +97,9 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 	$default_inputs = apply_filters( 'wpmem_inc_login_inputs', $default_inputs );
 	
     $defaults = array( 
-		'heading'      => $wpmem->terms['login_heading'], 
+		'heading'      => $wpmem->get_text( 'login_heading' ), 
 		'action'       => 'login', 
-		'button_text'  => $wpmem->terms['login_button'],
+		'button_text'  => $wpmem->get_text( 'login_button' ),
 		'inputs'       => $default_inputs,
 		'redirect_to'  => $redirect_to,
 	);	
@@ -140,14 +140,14 @@ function wpmem_inc_changepassword() {
 	// create the default inputs
 	$default_inputs = array(
 		array(
-			'name'   => $wpmem->terms['pwdchg_password1'], 
+			'name'   => $wpmem->get_text( 'pwdchg_password1' ), 
 			'type'   => 'password',
 			'tag'    => 'pass1',
 			'class'  => 'password',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => $wpmem->terms['pwdchg_password2'], 
+			'name'   => $wpmem->get_text( 'pwdchg_password2' ), 
 			'type'   => 'password', 
 			'tag'    => 'pass2',
 			'class'  => 'password',
@@ -165,9 +165,9 @@ function wpmem_inc_changepassword() {
 	$default_inputs = apply_filters( 'wpmem_inc_changepassword_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => $wpmem->terms['pwdchg_heading'], 
+		'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
 		'action'       => 'pwdchange', 
-		'button_text'  => $wpmem->terms['pwdchg_button'], 
+		'button_text'  => $wpmem->get_text( 'pwdchg_button' ), 
 		'inputs'       => $default_inputs,
 	);
 
@@ -207,14 +207,14 @@ function wpmem_inc_resetpassword() {
 	// Create the default inputs.
 	$default_inputs = array(
 		array(
-			'name'   => $wpmem->terms['pwdreset_username'], 
+			'name'   => $wpmem->get_text( 'pwdreset_username' ), 
 			'type'   => 'text',
 			'tag'    => 'user', 
 			'class'  => 'username',
 			'div'    => 'div_text',
 		),
 		array( 
-			'name'   => $wpmem->terms['pwdreset_email'], 
+			'name'   => $wpmem->get_text( 'pwdreset_email' ), 
 			'type'   => 'text', 
 			'tag'    => 'email', 
 			'class'  => 'password',
@@ -232,9 +232,9 @@ function wpmem_inc_resetpassword() {
 	$default_inputs = apply_filters( 'wpmem_inc_resetpassword_inputs', $default_inputs );
 	
 	$defaults = array(
-		'heading'      => $wpmem->terms['pwdreset_heading'],
+		'heading'      => $wpmem->get_text( 'pwdreset_heading' ),
 		'action'       => 'pwdreset', 
-		'button_text'  => $wpmem->terms['pwdreset_button'], 
+		'button_text'  => $wpmem->get_text( 'pwdreset_button' ), 
 		'inputs'       => $default_inputs,
 	);
 
@@ -398,7 +398,7 @@ function wpmem_login_form( $page, $arr ) {
 
 	// Build the buttons, filter, and add to the form.
 	if ( $arr['action'] == 'login' ) {
-		$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . $wpmem->terms['remember_me'] . '&nbsp;&nbsp;' . $args['n'] : '';
+		$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . $wpmem->get_text( 'remember_me' ) . '&nbsp;&nbsp;' . $args['n'] : '';
 		$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
 	} else {
 		$buttons = '<input type="submit" name="Submit" value="' . $arr['button_text'] . '" class="' . $args['button_class'] . '" />' . $args['n'];
@@ -426,7 +426,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The forgot password link.
 	 	 */
 		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
-		$str  = $wpmem->terms['forgot_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['forgot_link'] . '</a>';
+		$str  = $wpmem->get_text( 'forgot_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'forgot_link' ) . '</a>';
 		/**
 		 * Filters the forgot password HTML.
 		 *
@@ -450,7 +450,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The registration page link.
 	 	 */
 		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-		$str  = $wpmem->terms['register_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['register_link'] . '</a>';
+		$str  = $wpmem->get_text( 'register_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'register_link' ) . '</a>';
 		/**
 		 * Filters the register link HTML.
 		 *
@@ -474,7 +474,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @param string The forgot username link.
 		 */
 		$link = apply_filters( 'wpmem_username_link',  wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=getusername' );	
-		$str  = $wpmem->terms['username_link_before'] . '<a href="' . $link . '">' . $wpmem->terms['username_link'] . '</a>';
+		$str  = $wpmem->get_text( 'username_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'username_link' ) . '</a>';
 		/**
 		 * Filters the forgot username link HTML.
 		 *
@@ -579,16 +579,16 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		'button_class'     => 'buttons',
 		
 		// Required field tags and text.
-		'req_mark'         => $wpmem->terms['register_req_mark'],
-		'req_label'        => $wpmem->terms['register_required'],
+		'req_mark'         => $wpmem->get_text( 'register_req_mark' ),
+		'req_label'        => $wpmem->get_text( 'register_required' ),
 		'req_label_before' => '<div class="req-text">',
 		'req_label_after'  => '</div>',
 		
 		// Buttons.
 		'show_clear_form'  => false,
-		'clear_form'       => $wpmem->terms['register_clear'],
-		'submit_register'  => $wpmem->terms['register_submit'],
-		'submit_update'    => $wpmem->terms['profile_submit'],
+		'clear_form'       => $wpmem->get_text( 'register_clear' ),
+		'submit_register'  => $wpmem->get_text( 'register_submit' ),
+		'submit_update'    => $wpmem->get_text( 'profile_submit' ),
 		
 		// Other.
 		'strip_breaks'     => true,
@@ -619,14 +619,14 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	if ( $toggle == 'edit' ) {
 		// This is the User Profile edit - username is not editable.
 		$val   = $userdata->user_login;
-		$label = '<label for="username" class="text">' . $wpmem->terms['profile_username'] . '</label>';
+		$label = '<label for="username" class="text">' . $wpmem->get_text( 'profile_username' ) . '</label>';
 		$input = '<p class="noinput">' . $val . '</p>';
 		$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
 		$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 	} else { 
 		// This is a new registration.
 		$val   = ( isset( $_POST['log'] ) ) ? stripslashes( $_POST['log'] ) : '';
-		$label = '<label for="username" class="text">' . $wpmem->terms['register_username'] . $args['req_mark'] . '</label>';
+		$label = '<label for="username" class="text">' . $wpmem->get_text( 'register_username' ) . $args['req_mark'] . '</label>';
 		$input = wpmem_create_formfield( 'log', 'text', $val, '', 'username' );
 
 	}
@@ -639,7 +639,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		'meta'         => 'username',
 		'type'         => 'text',
 		'value'        => $val,
-		'label_text'   => $wpmem->terms['register_username'],
+		'label_text'   => $wpmem->get_text( 'register_username' ),
 		'row_before'   => $args['row_before'],
 		'label'        => $label,
 		'field_before' => $field_before,
@@ -752,7 +752,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				 * @param string          The link text.
 				 * @param string $toggle  Toggle new registration or profile update. new|edit.
 				 */
-				$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->terms['register_tos'], $tos_pop, '</a>' ), $toggle );
+				$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->get_text( 'register_tos' ), $tos_pop, '</a>' ), $toggle );
 				
 				// In previous versions, the div class would end up being the same as the row before.
 				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
@@ -946,7 +946,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 * @param string $str
 	 * @param string $toggle Toggle new registration or profile update. new|edit.
  	 */
-	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', $wpmem->terms['register_heading'], $toggle ) : $heading;
+	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $toggle ) : $heading;
 	$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 	
 	// Apply fieldset wrapper.
@@ -1164,8 +1164,8 @@ function wpmem_build_rs_captcha() {
 		$pre   = $wpmem_captcha_prefix;
 
 		return array( 
-			'label_text' => $wpmem->terms['register_rscaptcha'],
-			'label'      => '<label class="text" for="captcha">' . $wpmem->terms['register_rscaptcha'] . '</label>',
+			'label_text' => $wpmem->get_text( 'register_rscaptcha' ),
+			'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
 			'field'      => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
 					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
 					<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'

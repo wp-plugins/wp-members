@@ -85,7 +85,7 @@ function wpmem_registration( $toggle ) {
 		$pass_chk = ( $toggle == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
 			if ( ! $fields[ $meta[2] ] ) { 
-				$wpmem_themsg = sprintf( __( 'Sorry, %s is a required field.', 'wp-members' ), $meta[1] ); 
+				$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), $meta[1] ); 
 			}
 		}
 	}
@@ -106,9 +106,9 @@ function wpmem_registration( $toggle ) {
 			// Validate username and email fields.
 			$wpmem_themsg = ( email_exists( $fields['user_email'] ) ) ? "email" : $wpmem_themsg;
 			$wpmem_themsg = ( username_exists( $fields['username'] ) ) ? "user" : $wpmem_themsg;
-			$wpmem_themsg = ( ! is_email( $fields['user_email']) ) ? __( 'You must enter a valid email address.', 'wp-members' ) : $wpmem_themsg;
-			$wpmem_themsg = ( ! validate_username( $fields['username'] ) ) ? __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ) : $wpmem_themsg;
-			$wpmem_themsg = ( ! $fields['username'] ) ? __( 'Sorry, username is a required field', 'wp-members' ) : $wpmem_themsg;
+			$wpmem_themsg = ( ! is_email( $fields['user_email']) ) ? $wpmem->get_text( 'reg_valid_email' ) : $wpmem_themsg;
+			$wpmem_themsg = ( ! validate_username( $fields['username'] ) ) ? $wpmem->get_text( 'reg_non_alphanumeric' ) : $wpmem_themsg;
+			$wpmem_themsg = ( ! $fields['username'] ) ? $wpmem->get_text( 'reg_empty_username' ) : $wpmem_themsg;
 			
 			// If there is an error from username, email, or required field validation, stop registration and return the error.
 			if ( $wpmem_themsg ) {
@@ -119,10 +119,10 @@ function wpmem_registration( $toggle ) {
 
 		// If form contains password and email confirmation, validate that they match.
 		if ( array_key_exists( 'confirm_password', $fields ) && $fields['confirm_password'] != $fields ['password'] ) { 
-			$wpmem_themsg = __( 'Passwords did not match.', 'wp-members' );
+			$wpmem_themsg = $wpmem->get_text( 'reg_password_match' );
 		}
 		if ( array_key_exists( 'confirm_email', $fields ) && $fields['confirm_email'] != $fields ['user_email'] ) { 
-			$wpmem_themsg = __( 'Emails did not match.', 'wp-members' ); 
+			$wpmem_themsg = $wpmem->get_text( 'reg_email_match' ); 
 		}
 		
 		// Get the captcha settings (api keys).
@@ -134,7 +134,7 @@ function wpmem_registration( $toggle ) {
 			// If there is no api key, the captcha never displayed to the end user.
 			if ( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   
 				if ( ! $_POST["recaptcha_response_field"] ) { // validate for empty captcha field
-					$wpmem_themsg = __( 'You must complete the CAPTCHA form.', 'wp-members' );
+					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
 					return "empty"; exit();
 				}
 			}
@@ -200,7 +200,7 @@ function wpmem_registration( $toggle ) {
 			
 			// If there is no captcha value, return error.
 			if ( ! $captcha ) {
-				$wpmem_themsg = __( 'You must complete the CAPTCHA form.', 'wp-members' );
+				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
 				return "empty"; exit();
 			}
 			
@@ -215,7 +215,7 @@ function wpmem_registration( $toggle ) {
 			
 			// If captcha validation was unsuccessful.
 			if ( $response['success'] == false ) {
-				$wpmem_themsg = __( 'CAPTCHA was not valid.', 'wp-members' );
+				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
 				return "empty"; exit();
 			}
 		}
@@ -365,7 +365,7 @@ function wpmem_registration( $toggle ) {
 				exit();
 			} 
 			if ( !is_email( $fields['user_email']) ) { 
-				$wpmem_themsg = __( 'You must enter a valid email address.', 'wp-members' );
+				$wpmem_themsg = $wpmem->get_text( 'reg_valid_email' );
 				return "updaterr";
 				exit();
 			}
@@ -373,7 +373,7 @@ function wpmem_registration( $toggle ) {
 
 		// If form includes email confirmation, validate that they match.
 		if ( array_key_exists( 'confirm_email', $fields ) && $fields['confirm_email'] != $fields ['user_email'] ) { 
-			$wpmem_themsg = __( 'Emails did not match.', 'wp-members' );
+			$wpmem_themsg = $wpmem->get_text( 'reg_email_match' );
 			return "updaterr";
 			exit();
 		}
