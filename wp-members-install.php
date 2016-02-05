@@ -81,6 +81,8 @@ function wpmem_do_install() {
 			'style'     => plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css',
 			'attrib'    => 0,
 			'post_types' => array(),
+			'form_tags'  => array( 'default' => 'Registration Default' ),
+			'email'      => array( 'from' => '', 'from_name' => '' ),
 		);
 
 		// Using update_option to allow for forced update.
@@ -190,6 +192,18 @@ function wpmem_update_settings() {
 		// If post types settings does not exist, set as empty array.
 		if ( ! isset( $wpmem_settings['post_types'] ) ) {
 			 $wpmem_settings['post_types'] = array();
+		}
+		
+		// Move email from and email from name to main settings.
+		$chk_from = get_option( 'wpmembers_email_wpfrom' );
+		if ( $chk_from ) {
+			$wpmem_settings['email']['from'] = $chk_from;
+			delete_option( 'wpmembers_email_wpfrom' );
+		}
+		$chk_from_name = get_option( 'wpmembers_email_wpname' );
+		if ( $chk_from_name ) {
+			$wpmem_settings['email']['from_name'] = $chk_from_name;
+			delete_option( 'wpmembers_email_wpname' );
 		}
 		
 		// Version number should be updated no matter what.

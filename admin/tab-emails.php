@@ -47,11 +47,11 @@ function wpmem_a_build_emails() {
 							<table class="form-table"> 
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email address', 'wp-members' ); ?></th> 
-									<td><input type="text" name="wp_mail_from" size="40" value="<?php echo get_option( 'wpmembers_email_wpfrom' ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> email@yourdomain.com</span></td> 
+									<td><input type="text" name="wp_mail_from" size="40" value="<?php echo $wpmem->email['from']; ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> email@yourdomain.com</span></td> 
 								</tr>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email name', 'wp-members' ); ?></th> 
-									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo stripslashes( get_option( 'wpmembers_email_wpname' ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
+									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo stripslashes( $wpmem->email['from_name'] ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
 								</tr>
 								<tr><td colspan="2"><hr /></td></tr>
 							<?php if ( ! empty ( $wpmem->admin->emails ) ) {	
@@ -105,9 +105,13 @@ function wpmem_update_emails() {
 	check_admin_referer( 'wpmem-update-emails' );
 
 	// Update the email address (if applicable).
-	( $_POST['wp_mail_from'] ) ? update_option( 'wpmembers_email_wpfrom', $_POST['wp_mail_from'] ) : delete_option( 'wpmembers_email_wpfrom' );
-	( $_POST['wp_mail_from_name'] ) ? update_option( 'wpmembers_email_wpname', $_POST['wp_mail_from_name'] ) : delete_option( 'wpmembers_email_wpname' );
-
+	$wpmem->email['from']      = $_POST['wp_mail_from'];
+	$wpmem->email['from_name'] = $_POST['wp_mail_from_name'];
+	$wpmem_newsettings = get_option( 'wpmembers_settings' );
+	$wpmem_newsettings['email']['from']      = $_POST['wp_mail_from'];
+	$wpmem_newsettings['email']['from_name'] = $_POST['wp_mail_from_name'];
+	update_option( 'wpmembers_settings', $wpmem_newsettings );
+	
 	// Update the various emails being used.
 	( $wpmem->mod_reg == 0 ) ? $arr = array( 'wpmembers_email_newreg' ) : $arr = array( 'wpmembers_email_newmod', 'wpmembers_email_appmod' );
 	array_push( $arr, 'wpmembers_email_repass' );

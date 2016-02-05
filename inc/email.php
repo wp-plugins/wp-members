@@ -98,10 +98,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['disable']       = false;
 
 	// Apply filters (if set) for the sending email address.
-	global $wpmem_mail_from, $wpmem_mail_from_name;
-	add_filter( 'wp_mail_from',      'wpmem_mail_from'      );
-	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
-	$default_header = ( $wpmem_mail_from && $wpmem_mail_from_name ) ? 'From: ' . $wpmem_mail_from_name . ' <' . $wpmem_mail_from . '>' : '';
+	$default_header = ( $wpmem->email['from'] && $wpmem->email['from_name'] ) ? 'From: "' . $wpmem->email['from_name'] . '" <' . $wpmem->email['from'] . '>' : '';
 
 	/**
 	 * Filters the email headers.
@@ -456,14 +453,15 @@ endif;
  * Filters the wp_mail from address (if set).
  *
  * @since 2.7
+ * @since 3.1 Converted to use email var in object.
  *
+ * @global object $wpmem
  * @param  string $email
  * @return string $wpmem_mail_from|$email
  */
 function wpmem_mail_from( $email ) {
-	global $wpmem_mail_from;
-	$wpmem_mail_from = ( get_option( 'wpmembers_email_wpfrom' ) );
-	return ( $wpmem_mail_from ) ? $wpmem_mail_from : $email;
+	global $wpmem;
+	return ( $wpmem->email['from'] ) ? $wpmem->email['from'] : $email;
 }
 
 
@@ -471,14 +469,15 @@ function wpmem_mail_from( $email ) {
  * Filters the wp_mail from name (if set).
  *
  * @since 2.7
+ * @since 3.1 Converted to use email var in object.
  *
+ * @global object $wpmem
  * @param  string $name
  * @return string $wpmem_mail_from_name|$name
  */
 function wpmem_mail_from_name( $name ) {
-	global $wpmem_mail_from_name;
-	$wpmem_mail_from_name = ( get_option( 'wpmembers_email_wpname' ) );
-	return ( $wpmem_mail_from_name ) ? $wpmem_mail_from_name : $name;
+	global $wpmem;
+	return ( $wpmem->email['from_name'] ) ? $wpmem->email['from_name'] : $name;
 }
 
 // End of file.
