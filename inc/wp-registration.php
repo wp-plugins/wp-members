@@ -55,7 +55,7 @@ function wpmem_do_wp_register_form() {
 							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
 						}
 						/** This filter is documented in wp-members/inc/register.php */
-						$tos = apply_filters( 'wpmem_tos_link_txt', sprintf( __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ), $tos_pop, '</a>' ) );
+						$tos = apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->get_text( 'register_tos' ), $tos_pop, '</a>' ) );
 					
 					}
 

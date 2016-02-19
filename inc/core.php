@@ -499,7 +499,7 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 			if ( ( $field[3] != 'checkbox' ) && ( ! $_POST[ $field[2] ] ) ) {
 				$is_error = true;
 			}
-			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( __('Sorry, %s is a required field.', 'wp-members'), $field[1] ) ); }
+			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field[1], 'wp-members' ) ) ); }
 		}
 	}
 

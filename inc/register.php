@@ -60,7 +60,18 @@ function wpmem_registration( $toggle ) {
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
 			if ( $meta[2] != 'password' ) {
-				$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? sanitize_text_field( $_POST[ $meta[2] ] ) : '';
+				if ( isset( $_POST[ $meta[2] ] ) ) {
+					switch ( $meta[3] ) {
+					case 'checkbox':
+						$fields[ $meta[2] ] = $_POST[ $meta[2] ];
+						break;
+					default:
+						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
+						break;
+					}
+				} else {
+					$fields[ $meta[2] ] = '';
+				}
 			} else {
 				// We do have password as part of the registration form.
 				$fields['password'] = ( isset( $_POST['password'] ) ) ? $_POST['password'] : '';
@@ -85,7 +96,7 @@ function wpmem_registration( $toggle ) {
 		$pass_chk = ( $toggle == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
 			if ( ! $fields[ $meta[2] ] ) { 
-				$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), $meta[1] ); 
+				$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
 			}
 		}
 	}
