@@ -614,7 +614,7 @@ function wpmem_redirect_to_login() {
 		$current_page = home_url( add_query_arg( array(), $wp->request ) );
 		$redirect_to  = urlencode( $current_page );
 		
-		$url = wpmem_chk_qstr( $wpmem->user_pages['login'] ) . 'redirect_to=' . $redirect_to;
+		$url = add_query_arg( 'redirect_to', $redirect_to, $wpmem->user_pages['login'] );
 		
 		wp_redirect( $url );
 		exit();
