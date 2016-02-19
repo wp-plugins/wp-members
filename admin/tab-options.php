@@ -414,6 +414,16 @@ function wpmem_update_options() {
 		}
 	}
 	
+	// Leave form tag settings alone.
+	if ( isset( $wpmem->form_tags ) ) {
+		$wpmem_newsettings['form_tags'] = $wpmem->form_tags;
+	}
+	
+	// Leave email settings alone.
+	if ( isset( $wpmem->email ) ) {
+		$wpmem_newsettings['email'] = $wpmem->email;
+	}
+	
 	// Get settings for blocking, excerpts, show login, and show registration for posts, pages, and custom post types.
 	$option_group_array = array( 'block', 'show_excerpt', 'show_login', 'show_reg', 'autoex' );
 	foreach ( $option_group_array as $option_group_item ) {
