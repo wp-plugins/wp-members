@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.4.0
-Stable tag: 3.0.9.2
+Tested up to: 4.4.1
+Stable tag: 3.0.10
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -12,7 +12,7 @@ WP-Members&trade; is a free membership management framework for WordPress&reg; t
 
 WP-Members&trade; is a membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
-[vimeo https://vimeo.com/84961265]
+[youtube http://www.youtube.com/watch?v=x4MEoRLSY_U]
 
 = Features: =
 
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.9 is a feature release, see release notes.
+WP-Members 3.0.10 is intermediate release leading to 3.1.0, see release notes.
 WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
 
 == Screenshots ==
@@ -134,6 +134,24 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 
 == Changelog ==
+
+= 3.0.10 =
+
+This is an intermediate update leading to 3.1.0.  This package contains several fixes included as part of the 3.1.0 development as well as some changes for new 3.1.0 settings.  As a result of testing the 3.1.0 development package up to this point, this package is being made available for testing.
+
+* Some general code cleanup, reviewing inline documentation and comments.
+* Fixed issue for sidebar with redirect_to parameter set in widget settings.
+* Fixed issue for custom error messages and email comparison error for profile update (so that errors show in form update state and not on links page).
+* Fixed main options tab where checkbox may not display correct setting if unchecked.
+* Added after_wrapper array value for wpmem_{$page}_links_args filters
+* Added a new admin api class.
+* Added utilities object class.
+* Added forms object class.
+* Added user facing strings as an array in the main $wpmem object class.
+* Added new wpmem_sidebar_status_args filter hook.
+* Added new container in main object for email from and from name settings.
+* Deprecated use of wpmem_chk_qstr() function in favor of add_query_arg().
+* Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
 
 = 3.0.9.2 =
 
