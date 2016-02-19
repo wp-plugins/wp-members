@@ -90,7 +90,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	$arr['exp_type']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
 	$arr['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
-	$arr['wpmem_msurl']   = $wpmem->user_pages['profile'];
+	$arr['wpmem_msurl']   = esc_url( $wpmem->user_pages['profile'] );
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
@@ -338,10 +338,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['field_arr'] = $field_arr;
 
 	// Apply filters (if set) for the sending email address.
-	global $wpmem_mail_from, $wpmem_mail_from_name;
-	add_filter( 'wp_mail_from',      'wpmem_mail_from'      );
-	add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
-	$default_header = ( $wpmem_mail_from && $wpmem_mail_from_name ) ? 'From: ' . $wpmem_mail_from_name . ' <' . $wpmem_mail_from . '>' : '';
+	$default_header = ( $wpmem->email['from'] && $wpmem->email['from_name'] ) ? 'From: "' . $wpmem->email['from_name'] . '" <' . $wpmem->email['from'] . '>' : '';
 
 	/** This filter is documented in email.php */
 	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
@@ -477,7 +474,7 @@ function wpmem_mail_from( $email ) {
  */
 function wpmem_mail_from_name( $name ) {
 	global $wpmem;
-	return ( $wpmem->email['from_name'] ) ? $wpmem->email['from_name'] : $name;
+	return ( $wpmem->email['from_name'] ) ? stripslashes( $wpmem->email['from_name'] ) : stripslashes( $name );
 }
 
 // End of file.
