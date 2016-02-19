@@ -107,13 +107,17 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 					 */
 					$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'register' );
 				} else {
+					if ( $wpmem->regchk == 'loginfailed' ) {
+						$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
+						break;
+					}
 					// @todo Can this be moved into another function? Should $wpmem get an error message handler?
 					if ( $wpmem->regchk == 'captcha' ) {
 						global $wpmem_captcha_err;
 						$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 					}
 					$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-					$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login() : wpmem_inc_registration( 'new', '', $redirect_to );
+					$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_inc_registration( 'new', '', $redirect_to );
 				}
 				break;
 	
