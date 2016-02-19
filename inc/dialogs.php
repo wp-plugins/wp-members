@@ -185,16 +185,14 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 
 	global $user_login, $wpmem;
 
-	$link = wpmem_chk_qstr();
-
 	/**
 	 * Filter the log out link.
 	 *
 	 * @since 2.8.3
 	 *
-	 * @param string $link The default logout link.
+	 * @param string The default logout link.
 	 */
-	$logout = apply_filters( 'wpmem_logout_link', $link . 'a=logout' );
+	$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
 
 	switch ( $page ) {
 
@@ -205,8 +203,8 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $link . 'a=edit">'      . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
-				'<li><a href="' . $link . 'a=pwdchange">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
+				'<li><a href="' . add_query_arg( 'a', 'edit' )      . '">' . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
+				'<li><a href="' . add_query_arg( 'a', 'pwdchange' ) . '">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);

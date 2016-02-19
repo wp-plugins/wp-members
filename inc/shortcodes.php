@@ -363,7 +363,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 
 	// Logout link shortcode.
 	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
-		$link = ( $atts['url'] ) ? wpmem_chk_qstr( $atts['url'] ) . 'a=logout' : wpmem_chk_qstr( get_permalink() ) . 'a=logout';
+		$link = ( $atts['url'] ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
 		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
 		return do_shortcode( "<a href=\"$link\">$text</a>" );
 	}

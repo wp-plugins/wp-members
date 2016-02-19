@@ -308,7 +308,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 	$arr['user_ip']       = ( is_array( $field_data ) ) ? $field_data['wpmem_reg_ip'] : get_user_meta( $user_id, 'wpmem_reg_ip', true );
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
-	$arr['act_link']      = get_bloginfo ( 'wpurl' ) . "/wp-admin/user-edit.php?user_id=".$user_id;
+	$arr['act_link']      = esc_url( add_query_arg( 'user_id', $user_id, get_admin_url( '', 'user-edit.php' ) ) );
 	$arr['exp_type']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
 	$arr['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 	$arr['do_shortcodes'] = true;

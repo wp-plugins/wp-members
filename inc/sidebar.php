@@ -159,7 +159,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 
 		if ( $wpmem->user_pages['profile'] != null ) { 
 			/** This filter is documented in wp-members/inc/forms.php */
-			$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );
+			$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
 			$link_html = ' <a href="' . $link . '">' . $wpmem->get_text( 'sb_login_forgot' ) . '</a>&nbsp;';
 			/**
 			 * Filter the sidebar forgot password.
