@@ -342,6 +342,9 @@ class WP_Members {
 		} else {
 			$args = array( 'block' => false );
 		}
+	
+		// Don't block user pages.
+		$args['block'] = ( in_array( get_permalink(), $this->user_pages ) ) ? false : $args['block'];
 
 		/**
 		 * Filter the block boolean.
