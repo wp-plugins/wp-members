@@ -524,7 +524,7 @@ function wpmem_admin_style_list( $style ) {
 	$selected = false;
 	foreach ( $list as $name => $location ) {
 		$selected = ( $location == $style ) ? true : $selected;
-		echo '<option value="' . $location . '" ' . wpmem_selected( $location, $style, 'select' ) . '>' . $name . "</option>\n";
+		echo '<option value="' . $location . '" ' . selected( $location, $style ) . '>' . $name . "</option>\n";
 	}
 	$selected = ( ! $selected ) ? ' selected' : '';
 	echo '<option value="use_custom"' . $selected . '>' . __( 'USE CUSTOM URL BELOW', 'wp-members' ) . '</option>';
