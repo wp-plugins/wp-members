@@ -425,7 +425,7 @@ function wpmem_login_form( $page, $arr ) {
 		 *
 		 * @param string The forgot password link.
 	 	 */
-		$link = apply_filters( 'wpmem_forgot_link', wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=pwdreset' );	
+		$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
 		$str  = $wpmem->get_text( 'forgot_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'forgot_link' ) . '</a>';
 		/**
 		 * Filters the forgot password HTML.
@@ -473,7 +473,7 @@ function wpmem_login_form( $page, $arr ) {
 		 *
 		 * @param string The forgot username link.
 		 */
-		$link = apply_filters( 'wpmem_username_link',  wpmem_chk_qstr( $wpmem->user_pages['profile'] ) . 'a=getusername' );	
+		$link = apply_filters( 'wpmem_username_link',  add_query_arg( 'a', 'getusername', $wpmem->user_pages['profile'] ) );
 		$str  = $wpmem->get_text( 'username_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'username_link' ) . '</a>';
 		/**
 		 * Filters the forgot username link HTML.
