@@ -194,16 +194,19 @@ function wpmem_update_settings() {
 			 $wpmem_settings['post_types'] = array();
 		}
 		
-		// Move email from and email from name to main settings.
-		$chk_from = get_option( 'wpmembers_email_wpfrom' );
-		if ( $chk_from ) {
-			$wpmem_settings['email']['from'] = $chk_from;
-			delete_option( 'wpmembers_email_wpfrom' );
+		// If form tags is not set, add default.
+		if ( ! isset( $wpmem_settings['form_tags'] ) ) {
+			$wpmem_settings['form_tags'] = array( 'default' => 'Registration Default' );
 		}
-		$chk_from_name = get_option( 'wpmembers_email_wpname' );
-		if ( $chk_from_name ) {
-			$wpmem_settings['email']['from_name'] = $chk_from_name;
-			delete_option( 'wpmembers_email_wpname' );
+		
+		// If email is not set, add it with existing setting or default.
+		if ( ! isset( $wpmem_settings['email'] ) ) {
+			$from = get_option( 'wpmembers_email_wpfrom' );
+			$name = get_option( 'wpmembers_email_wpname' );
+			$wpmem_settings['email'] = array(
+				'from'      => ( $from ) ? $from : '',
+				'from_name' => ( $name ) ? $name : '',
+			);
 		}
 		
 		// Version number should be updated no matter what.
@@ -256,29 +259,25 @@ function wpmem_update_settings() {
 			$wpmem_newsettings['autoex']['post'] = array( 'enabled' => 1, 'length' => $autoex['auto_ex_len'] );
 			$wpmem_newsettings['autoex']['page'] = array( 'enabled' => 1, 'length' => $autoex['auto_ex_len'] );
 		} else {
-			// If it is not turned on (!=1), set it to off in new setting.		
+			// If it is not turned on, set it to off in new setting.		
 			$wpmem_newsettings['autoex']['post'] = array( 'enabled' => 0, 'length' => '' );
 			$wpmem_newsettings['autoex']['page'] = array( 'enabled' => 0, 'length' => '' );
 		}
 		
-		// Add post types setting.
+		// Add new settings.
 		$wpmem_newsettings['post_types'] = array();
+		$wpmem_settings['form_tags'] = array( 'default' => 'Registration Default' );
+		$from = get_option( 'wpmembers_email_wpfrom' );
+		$name = get_option( 'wpmembers_email_wpname' );
+		$wpmem_settings['email'] = array(
+			'from'      => ( $from ) ? $from : '',
+			'from_name' => ( $name ) ? $name : '',
+		);
 		
 		// Merge settings.
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
 		
 		update_option( 'wpmembers_settings', $wpmem_newsettings );
-
-		// Final 3.0 will remove the following settings when updating. 
-		/*
-		delete_option( 'wpmembers_msurl'  );
-		delete_option( 'wpmembers_regurl' );
-		delete_option( 'wpmembers_logurl' );
-		delete_option( 'wpmembers_cssurl' );
-		delete_option( 'wpmembers_style'  );
-		delete_option( 'wpmembers_autoex' );
-		delete_option( 'wpmembers_attrib' );
-		*/
 		
 		return $wpmem_newsettings;
 	}
