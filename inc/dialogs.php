@@ -75,7 +75,7 @@ function wpmem_inc_loginfailed() {
 	/**
 	 * Filter the login failed dialog.
 	 *
-	 * @since ?.?
+	 * @since 2.7.3
 	 *
 	 * @param string $str The login failed dialog.
 	 */
@@ -156,8 +156,8 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	/**
 	 * Filter the message.
 	 *
-	 * @since ?.?
-	 * @since 3.1 Added $toggle.
+	 * @since 2.7.4
+	 * @since 3.1.0 Added $toggle.
 	 *
 	 * @param string $str    The message.
 	 * @param string $toggle The toggle of the message being displayed.
@@ -181,7 +181,7 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  * @param  string $page
  * @return string $str
  */
-function wpmem_inc_memberlinks( $page = 'members' ) {
+function wpmem_inc_memberlinks( $page = 'member' ) {
 
 	global $user_login, $wpmem;
 
@@ -196,7 +196,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 
 	switch ( $page ) {
 
-	case 'members':
+	case 'member':
 		
 		$arr = array(
 			'before_wrapper' => '',
@@ -229,7 +229,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type string $after_wrapper  Anything that comes after the wrapper.
 		 * }
 		 */
-		$arr = apply_filters( 'wpmem_member_links_args', $arr );
+		$arr = apply_filters( "wpmem_{$page}_links_args", $arr );
 		
 		$str = $arr['before_wrapper'];
 		$str.= $arr['wrapper_before'];
@@ -246,7 +246,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *
 		 * @param string $str The default links.
 		 */
-		$str = apply_filters( 'wpmem_member_links', $str );
+		$str = apply_filters( "wpmem_{$page}_links", $str );
 		break;
 
 	case 'register':
@@ -278,7 +278,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *      @type string $after_wrapper  Anything that comes after the wrapper.
 		 * }
 		 */
-		$arr = apply_filters( 'wpmem_register_links_args', $arr );
+		$arr = apply_filters( "wpmem_{$page}_links_args", $arr );
 		
 		$str = $arr['before_wrapper'];
 		$str.= $arr['wrapper_before'];
@@ -295,7 +295,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *
 		 * @param string $str The default links.
 		 */
-		$str = apply_filters( 'wpmem_register_links', $str );
+		$str = apply_filters( "wpmem_{$page}_links", $str );
 		break;
 
 	case 'login':
@@ -316,7 +316,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *
 		 * @param array $args.
 		 */
-		$args = apply_filters( 'wpmem_login_links_args', $args );
+		$args = apply_filters( "wpmem_{$page}_links_args", $args );
 
 		// Assemble the message string.
 		$str = $args['wrapper_before']
@@ -332,7 +332,7 @@ function wpmem_inc_memberlinks( $page = 'members' ) {
 		 *
 		 * @param string $str The default links.
 		 */
-		$str = apply_filters( 'wpmem_login_links', $str );
+		$str = apply_filters( "wpmem_{$page}_links", $str );
 		break;
 
 	case 'status':
