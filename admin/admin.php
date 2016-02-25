@@ -28,12 +28,6 @@
  */
 
 
-/**
- * Load dialog functions.
- */
-include_once( WPMEM_PATH . 'admin/dialogs.php' );
-
-
 /** 
  * Actions and Filters
  */
@@ -105,11 +99,6 @@ function wpmem_load_admin_js() {
  */
 function wpmem_a_captcha_tab( $tab ) {
 	if ( $tab == 'captcha' ) {
-		/**
-		 * Load the captcha tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
-		// Render the captcha tab.
 		return wpmem_a_build_captcha_options();
 	} else {
 		return false;
@@ -196,19 +185,15 @@ function wpmem_admin_do_tab( $tab ) {
 	switch ( $tab ) {
 
 	case 'options' :
-		include_once( WPMEM_PATH . 'admin/tab-options.php' );
 		wpmem_a_build_options();
 		break;
 	case 'fields' :
-		include_once( WPMEM_PATH . 'admin/tab-fields.php' );
 		wpmem_a_build_fields();
 		break;
 	case 'dialogs' :
-		include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 		wpmem_a_build_dialogs();
 		break;
 	case 'emails' :
-		include_once( WPMEM_PATH . 'admin/tab-emails.php' );
 		wpmem_a_build_emails();
 		break;
 	}
@@ -248,20 +233,12 @@ function wpmem_admin_action( $action ) {
 
 	case 'update_settings':
 	case 'update_cpts':
-		/**
-		 * Load Options tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-options.php' );
 		$did_update = ( 'update_cpts' == $action ) ? wpmem_update_cpts() : wpmem_update_options();
 		break;
 
 	case 'update_fields':
 	case 'add_field': 
 	case 'edit_field':
-		/**
-		 * Load Fields tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-fields.php' );
 		$did_update = wpmem_update_fields( $action );
 		break;
 

@@ -35,6 +35,9 @@ class WP_Members_Admin_API {
 	 */
 	function __construct() {
 		
+		// Load dependencies.
+		$this->load_dependencies();
+		
 		// Load admin hooks.
 		$this->load_hooks();
 
@@ -48,64 +51,51 @@ class WP_Members_Admin_API {
 
 
 	/**
+	 * Load dependencies.
+	 *
+	 * @since 3.1.0
+	 */
+	function load_dependencies() {
+		if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
+			require_once(  WPMEM_PATH . 'admin/admin.php' );
+		}
+		if ( current_user_can( 'edit_users' ) ) { 
+			require_once( WPMEM_PATH . 'admin/admin.php' );
+			require_once( WPMEM_PATH . 'admin/user-profile.php' );
+		}
+		if ( current_user_can( 'manage_options' ) ) {
+			require_once( WPMEM_PATH . 'admin/tab-options.php' );
+			require_once( WPMEM_PATH . 'admin/tab-fields.php' );
+			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
+			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
+			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
+			require_once( WPMEM_PATH . 'admin/dialogs.php' );
+			//require_once( WPMEM_PATH . 'admin/tab-about.php' );
+		}
+		if ( current_user_can( 'edit_posts' ) ) {
+			require_once( WPMEM_PATH . 'admin/post.php' );
+		}
+		require_once( WPMEM_PATH . 'admin/users.php' );
+	}
+
+
+	/**
 	 * Load admin.
 	 *
 	 * @since 3.1.0
 	 */
 	function load_hooks() {
 		
-		if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
-			/**
-			 * Load the main admin file.
-			 */
-			require_once(  WPMEM_PATH . 'admin/admin.php' );
-		}
-	
-		/*
-		 * If user has a role that can edit users, load the admin functions,
-		 * otherwise, load profile actions for non-admins.
-		 */
-		if ( current_user_can( 'edit_users' ) ) { 
-	
-			/**
-			 * Load the main admin file if not already loaded.
-			 */
-			require_once( WPMEM_PATH . 'admin/admin.php' );
-	
-			/**
-			 * Load the admin user functions.
-			 */
-			require_once( WPMEM_PATH . 'admin/users.php' );
-	
-			/**
-			 * Load the admin user profile functions.
-			 */
-			require_once( WPMEM_PATH . 'admin/user-profile.php' );
-	
-		} else {
-	
-			/**
-			 * Load the admin user functions.
-			 */
-			require_once( WPMEM_PATH . 'inc/users.php' );
-	
+		// If user has a role that cannot edit users, set profile actions for non-admins.
+		if ( ! current_user_can( 'edit_users' ) ) { 	
 			// User actions and filters.
 			add_action( 'show_user_profile', 'wpmem_user_profile'   );
 			add_action( 'edit_user_profile', 'wpmem_user_profile'   );
 			add_action( 'profile_update',    'wpmem_profile_update' );
 		}
 	
-		/*
-		 * If user has a role that can edit posts, add the block/unblock
-		 * meta boxes and custom post/page columns.
-		 */
-		if ( current_user_can( 'edit_posts' ) ) {
-	
-			/**
-			 * Load the admin post functions.
-			 */
-			require_once( WPMEM_PATH . 'admin/post.php' );
-	
+		// If user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns.
+		if ( current_user_can( 'edit_posts' ) ) {	
 			// Post actions and filters.
 			add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
 			add_action( 'save_post',                  'wpmem_block_meta_save' );
@@ -137,8 +127,10 @@ class WP_Members_Admin_API {
 	
 		$links = array();
 		foreach ( $this->tabs as $tab => $name ) {
+			$link_args = array( 'page' => 'wpmem-settings', 'tab'  => $tab );
+			$link = add_query_arg( $link_args, admin_url( 'options-general.php' ) );
 			$class = ( $tab == $current ) ? 'nav-tab nav-tab-active' : 'nav-tab';
-			$links[] = '<a class="' . $class . '" href="?page=wpmem-settings&amp;tab=' . $tab . '">' . $name . '</a>';
+			$links[] = sprintf( '<a class="%s" href="%s">%s</a>', $class, $link, $name );
 		}
 	
 		echo '<h2 class="nav-tab-wrapper">';
