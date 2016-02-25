@@ -155,6 +155,7 @@ This is an intermediate update leading to 3.1.0.  This package contains several 
 * Added new container in main object for email from and from name settings.
 * Deprecated use of wpmem_chk_qstr() function in favor of add_query_arg().
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
+* Changed get_action call from init action to template_redirect action.
 
 = 3.0.9.2 =
 
