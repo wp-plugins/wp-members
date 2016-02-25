@@ -107,7 +107,7 @@ class WP_Members {
 	function load_hooks() {
 
 		// Add actions.
-		add_action( 'init',                  array( $this, 'get_action' ) );
+		add_action( 'template_redirect',     array( $this, 'get_action' ) );
 		add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
 		add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
