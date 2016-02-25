@@ -535,6 +535,26 @@ class WP_Members {
 	 * @return string $text
 	 */	
 	function get_text( $str ) {
+
+		// Default Form Fields.
+		$default_form_fields = array(
+			'first_name'       => __( 'First Name', 'wp-members' ),
+			'last_name'        => __( 'Last Name', 'wp-members' ),
+			'addr1'            => __( 'Address 1', 'wp-members' ),
+			'addr2'            => __( 'Address 2', 'wp-members' ),
+			'city'             => __( 'City', 'wp-members' ),
+			'thestate'         => __( 'State', 'wp-members' ),
+			'zip'              => __( 'Zip', 'wp-members' ),
+			'country'          => __( 'Country', 'wp-members' ),
+			'phone1'           => __( 'Day Phone', 'wp-members' ),
+			'user_email'       => __( 'Email', 'wp-members' ),
+			'confirm_email'    => __( 'Confirm Email', 'wp-members' ),
+			'user_url'         => __( 'Website', 'wp-members' ),
+			'description'      => __( 'Biographical Info', 'wp-members' ),
+			'password'         => __( 'Password', 'wp-members' ),
+			'confirm_password' => __( 'Confirm Password', 'wp-members' ),
+			'tos'              => __( 'TOS', 'wp-members' ),
+		);
 	
 		$defaults = array(
 			
