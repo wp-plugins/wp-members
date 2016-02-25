@@ -253,6 +253,10 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 		// Append footer if needed.
 		$arr['body'] = ( $arr['add_footer'] ) ? $arr['body'] . "\r\n" . $foot : $arr['body'];
+		
+		// Apply from and from name email filters.
+		add_filter( 'wp_mail_from',      'wpmem_mail_from' );
+		add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
 		// Send the message.
 		wp_mail( $arr['user_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
@@ -438,6 +442,10 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 		 * @param string $arr['body'] The admin notification email body.
 		 */
 		$arr['body'] = apply_filters( 'wpmem_email_notify', $arr['body'] );
+		
+		// Apply from and from name email filters.
+		add_filter( 'wp_mail_from',      'wpmem_mail_from' );
+		add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
 		// Send the message.
 		wp_mail( $arr['admin_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
