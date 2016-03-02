@@ -434,11 +434,7 @@ jQuery.fn.extend(
 				$("#wpmem_checkbox_info").show();
 			else
 				$("#wpmem_checkbox_info").hide();
-			if ($("#wpmem_field_type_select").val() == 'select')
-				$("#wpmem_dropdown_info").show();
-			else
-				$("#wpmem_dropdown_info").hide();
-			if ($("#wpmem_field_type_select").val() == 'radio')
+			if ($("#wpmem_field_type_select").val() == 'select' || $("#wpmem_field_type_select").val() == 'radio')
 				$("#wpmem_dropdown_info").show();
 			else
 				$("#wpmem_dropdown_info").hide();
