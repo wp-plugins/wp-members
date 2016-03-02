@@ -327,15 +327,18 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 						<?php if ( $mode == 'edit' ) {
 							echo $field_arr[3]; ?>
 							<input type="hidden" name="add_type" value="<?php echo $field_arr[3]; ?>" /> 							
-						<?php } else { ?>						
+						<?php } else { ?>
 							<select name="add_type" id="wpmem_field_type_select">
-								<option value="text"><?php     _e( 'text',         'wp-members' ); ?></option>
-								<option value="textarea"><?php _e( 'textarea',     'wp-members' ); ?></option>
-								<option value="checkbox"><?php _e( 'checkbox',     'wp-members' ); ?></option>
-								<option value="select"><?php   _e( 'dropdown',     'wp-members' ); ?></option>
-                                <option value="radio"><?php    _e( 'radio group',  'wp-members' ); ?></option>
-								<option value="password"><?php _e( 'password',     'wp-members' ); ?></option>
-								<option value="file"><?php     _e( 'file',         'wp-members' ); ?></option>
+                                <option value="text"><?php     _e( 'text',        'wp-members' ); ?></option>
+                                <option value="email"><?php    _e( 'email',       'wp-members' ); ?></option>
+                                <option value="textarea"><?php _e( 'textarea',    'wp-members' ); ?></option>
+                                <option value="checkbox"><?php _e( 'checkbox',    'wp-members' ); ?></option>
+                                <option value="select"><?php   _e( 'dropdown',    'wp-members' ); ?></option>
+                                <option value="radio"><?php    _e( 'radio group', 'wp-members' ); ?></option>
+                                <option value="password"><?php _e( 'password',    'wp-members' ); ?></option>
+                                <option value="image"><?php    _e( 'image',       'wp-members' ); ?></option>
+                                <option value="file"><?php     _e( 'file',        'wp-members' ); ?></option>
+                                <option value="url"><?php      _e( 'url',         'wp-members' ); ?></option>
 							</select>
 						<?php } ?>
 					</li>
