@@ -438,6 +438,10 @@ jQuery.fn.extend(
 				$("#wpmem_dropdown_info").show();
 			else
 				$("#wpmem_dropdown_info").hide();
+			if ($("#wpmem_field_type_select").val() == 'radio')
+				$("#wpmem_dropdown_info").show();
+			else
+				$("#wpmem_dropdown_info").hide();
 			if ($("#wpmem_field_type_select").val() == 'file')
 				$("#wpmem_file_info").show();
 			else

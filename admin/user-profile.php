@@ -81,7 +81,7 @@ function wpmem_admin_fields() {
 						<th><label>' . __( $meta[1], 'wp-members' ) . $req . '</label></th>
 						<td>';
 				$val = htmlspecialchars( get_user_meta( $user_id, $meta[2], true ) );
-				if ( $meta[3] == 'checkbox' || $meta[3] == 'select' ) {
+				if ( $meta[3] == 'checkbox' || $meta[3] == 'select' || $meta[3] == 'radio' ) {
 					$valtochk = $val;
 					$val = $meta[7];
 				}

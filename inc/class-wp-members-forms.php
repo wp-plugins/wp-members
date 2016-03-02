@@ -94,6 +94,18 @@ class WP_Members_Forms {
 			}
 			$str = $str . "</select>";
 			break;
+			
+		case "radio":
+			$class = ( $class == 'textbox' ) ? "radio" : $class;
+			$str = '';
+			$num = 1;
+			foreach ( $value as $option ) {
+				$pieces = explode( '|', $option );
+				$id = $name . '_' . $num;
+				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $valtochk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "<br />\n";
+				$num++;
+			}
+			break;		
 	
 		} 
 	

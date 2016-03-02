@@ -217,7 +217,7 @@ function wpmem_update_fields( $action ) {
 			$arr[8] = ( isset( $_POST['add_checked_default'] ) ) ? $_POST['add_checked_default'] : 'n';
 		}
 
-		if ( $_POST['add_type'] == 'select' ) {
+		if ( $_POST['add_type'] == 'select' || $_POST['add_type'] == 'radio' ) {
 			// Get the values.
 			$str = stripslashes( $_POST['add_dropdown_value'] );
 			// Remove linebreaks.
@@ -329,12 +329,13 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 							<input type="hidden" name="add_type" value="<?php echo $field_arr[3]; ?>" /> 							
 						<?php } else { ?>						
 							<select name="add_type" id="wpmem_field_type_select">
-								<option value="text"><?php     _e( 'text',     'wp-members' ); ?></option>
-								<option value="textarea"><?php _e( 'textarea', 'wp-members' ); ?></option>
-								<option value="checkbox"><?php _e( 'checkbox', 'wp-members' ); ?></option>
-								<option value="select"><?php   _e( 'dropdown', 'wp-members' ); ?></option>
-								<option value="password"><?php _e( 'password', 'wp-members' ); ?></option>
-								<option value="file"><?php     _e( 'file',     'wp-members' ); ?></option>
+								<option value="text"><?php     _e( 'text',         'wp-members' ); ?></option>
+								<option value="textarea"><?php _e( 'textarea',     'wp-members' ); ?></option>
+								<option value="checkbox"><?php _e( 'checkbox',     'wp-members' ); ?></option>
+								<option value="select"><?php   _e( 'dropdown',     'wp-members' ); ?></option>
+                                <option value="radio"><?php    _e( 'radio group',  'wp-members' ); ?></option>
+								<option value="password"><?php _e( 'password',     'wp-members' ); ?></option>
+								<option value="file"><?php     _e( 'file',         'wp-members' ); ?></option>
 							</select>
 						<?php } ?>
 					</li>
