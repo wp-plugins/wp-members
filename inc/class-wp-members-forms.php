@@ -49,32 +49,32 @@ class WP_Members_Forms {
 		case "url":
 		case "email":
 			$class = ( $class == 'textbox' ) ? "textbox" : $class;
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "file":
 			$class = ( $class == 'textbox' ) ? "file" : $class;
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\" />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "checkbox":
 			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . checked( $value, $valtochk, false ) . " />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . checked( $value, $valtochk, false ) . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "text":
 			$value = stripslashes( esc_attr( $value ) );
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : " " ) . "/>";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "textarea":
 			$value = stripslashes( esc_textarea( $value ) );
 			$class = ( $class == 'textbox' ) ? "textarea" : $class;
-			$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\">$value</textarea>";
+			$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
 			break;
 	
 		case "password":
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\" />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "hidden":
@@ -87,7 +87,7 @@ class WP_Members_Forms {
 	
 		case "select":
 			$class = ( $class == 'textbox' ) ? "dropdown" : $class;
-			$str = "<select name=\"$name\" id=\"$name\" class=\"$class\">\n";
+			$str = "<select name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">\n";
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $valtochk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
@@ -102,7 +102,7 @@ class WP_Members_Forms {
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				$id = $name . '_' . $num;
-				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $valtochk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "<br />\n";
+				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $valtochk, false ) . ( ( $required ) ? " required " : " " ) . ">" . __( $pieces[0], 'wp-members' ) . "<br />\n";
 				$num++;
 			}
 			break;		
