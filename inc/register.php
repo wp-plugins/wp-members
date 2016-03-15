@@ -373,6 +373,11 @@ function wpmem_registration( $toggle ) {
 		if ( $wpmem->notify == 1 ) { 
 			wpmem_notify_admin( $fields['ID'], $wpmem_fields, $fields );
 		}
+		
+		if ( isset( $_POST['redirect_to'] ) ) {
+			wp_redirect( $_POST['redirect_to'] );
+			exit();
+		}
 
 		/**
 		 * Fires after registration is complete.

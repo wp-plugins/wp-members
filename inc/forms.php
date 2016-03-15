@@ -962,7 +962,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	
 	// Apply form wrapper.
 	$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
-	$post_to = ( $redirect_to ) ? $redirect_to : get_permalink();
+	$post_to = get_permalink();
 	$form = '<form name="form" method="post"' . $enctype . ' action="' . $post_to . '" id="' . $args['form_id'] . '" class="' . $args['form_class'] . '">' . $args['n'] . $form . $args['n'] . '</form>';
 	
 	// Apply anchor.
