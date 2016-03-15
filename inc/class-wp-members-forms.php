@@ -52,6 +52,7 @@ class WP_Members_Forms {
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
+		case "image":
 		case "file":
 			$class = ( $class == 'textbox' ) ? "file" : $class;
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
@@ -60,7 +61,7 @@ class WP_Members_Forms {
 		case "checkbox":
 			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . checked( $value, $valtochk, false ) . ( ( $required ) ? " required " : "" ) . " />";
-			break;
+			break;			
 	
 		case "text":
 			$value = stripslashes( esc_attr( $value ) );
@@ -119,14 +120,13 @@ class WP_Members_Forms {
 	 * @since 3.1.0
 	 *
 	 * @param  array    $file
+	 * @param  int      $user_id
 	 * @return int|bool
 	 */
-	function do_file_upload( $file = array() ) {
+	function do_file_upload( $file = array(), $user_id = null ) {
 	
 		// Get WordPress file upload processing scripts.
-		if ( ! function_exists( 'wp_handle_upload' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		}
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		
 		$file_return = wp_handle_upload( $file, array( 'test_form' => false ) );
 	
@@ -134,20 +134,19 @@ class WP_Members_Forms {
 			return false;
 		} else {
 	
-			$filename = $file_return['file'];
-	
 			$attachment = array(
 				'post_mime_type' => $file_return['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_return['file'] ) ),
 				'post_content'   => '',
 				'post_status'    => 'inherit',
 				'guid'           => $file_return['url'],
+				'post_author'    => ( $user_id ) ? $user_id : '',
 			);
 	
 			$attachment_id = wp_insert_attachment( $attachment, $file_return['url'] );
 	
 			require_once( ABSPATH . 'wp-admin/includes/image.php' );
-			$attachment_data = wp_generate_attachment_metadata( $attachment_id, $filename );
+			$attachment_data = wp_generate_attachment_metadata( $attachment_id, $file_return['file'] );
 			wp_update_attachment_metadata( $attachment_id, $attachment_data );
 	
 			if ( 0 < intval( $attachment_id ) ) {
@@ -159,28 +158,4 @@ class WP_Members_Forms {
 		return false;
 	} // End upload_file()
 	
-	
-	/**
-	 * Function to validate uploaded files.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @param array $args
-	 */
-	function upload_file_validate( $args ) {
-		
-		global $wpmem_themsg;
-
-		$required_file_fields = array( 
-			'upload_1' => 'Field Display Name',
-		);
-		
-		foreach ( $required_file_fields as $key => $val ) {
-			if ( empty( $_FILES[ $key ]['name'] ) ) {
-				$wpmem_themsg = "Sorry, $val is a required field.";
-			}
-		}
-		return;
-	} // End upload_file_validate()
-	
-} // End of WP_Members_Utilties class.
+} // End of WP_Members_Forms class.

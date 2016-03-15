@@ -94,9 +94,18 @@ function wpmem_registration( $toggle ) {
 	foreach ( $wpmem_fields_rev as $meta ) {
 		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
 		$pass_chk = ( $toggle == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
+		// Validation if the field is required.
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
-			if ( ! $fields[ $meta[2] ] ) { 
-				$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+			if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+				// If the required field is a file type.
+				if ( empty( $_FILES[ $meta[2] ]['name'] ) ) {
+					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+				}
+			} else {
+				// If the required field is any other field type.
+				if ( ! $fields[ $meta[2] ] ) { 
+					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+				}
 			}
 		}
 	}
@@ -323,7 +332,25 @@ function wpmem_registration( $toggle ) {
 		update_user_meta( $fields['ID'], 'wpmem_reg_url', $fields['wpmem_reg_url'] );
 
 		// Set user expiration, if used.
-		if ( $wpmem->use_exp == 1 && $wpmem->mod_reg != 1 ) { wpmem_set_exp( $fields['ID'] ); }
+		if ( $wpmem->use_exp == 1 && $wpmem->mod_reg != 1 ) {
+			wpmem_set_exp( $fields['ID'] );
+		}
+		
+		// Handle file uploads, if any.
+		if ( ! empty( $_FILES ) ) {
+	
+			foreach ( $wpmem->fields as $file_field ) {
+	
+				if ( 'file' == $file_field[3] && is_array( $_FILES[ $file_field[2] ] ) ) {
+	
+					// Upload the file and save it as an attachment.
+					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $file_field[2] ], $fields['ID'] );
+	
+					// Save the attachment ID as user meta.
+					update_user_meta( $fields['ID'], $file_field[2], $file_post_id );
+				}
+			}
+		}
 
 		/**
 		 * Fires after user insertion but before email.
