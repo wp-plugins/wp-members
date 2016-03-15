@@ -145,6 +145,8 @@ This is an intermediate update leading to 3.1.0.  This package contains several 
 * Fixed main options tab where checkbox may not display correct setting if unchecked.
 * Fixed translation issue for required field error where all of the message except the field name was translated.
 * Fixed issue for register shortcode page where if a user has registered, and is logging in but the login fails, display the login error message.
+* Fixed register shortcode redirect parameter.
+* Fixed confirm_password to bypass sanitize_text_field.
 * Added logic so that user_pages are not blocked (login, register, user_profile).
 * Added after_wrapper array value for wpmem_{$page}_links_args filters
 * Added a new admin api class.
