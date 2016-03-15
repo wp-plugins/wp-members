@@ -897,9 +897,9 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
 	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
 	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
-	$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
+	$hidden     .= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
 	if ( $redirect_to != get_permalink() ) {
-		$hidden.= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
+		$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
 	}
 	$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $args['n'] : $hidden;
 	
