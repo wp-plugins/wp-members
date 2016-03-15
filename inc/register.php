@@ -388,8 +388,9 @@ function wpmem_registration( $toggle ) {
 		 * Fires after registration is complete.
 		 *
 		 * @since 2.7.1
+		 * @since 3.1.0 Added $fields
 		 */
-		do_action( 'wpmem_register_redirect' );
+		do_action( 'wpmem_register_redirect', $fields );
 
 		// successful registration message
 		return "success"; exit();
