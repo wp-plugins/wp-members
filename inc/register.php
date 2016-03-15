@@ -59,7 +59,7 @@ function wpmem_registration( $toggle ) {
 	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
-			if ( $meta[2] != 'password' ) {
+			if ( $meta[2] != 'password' || $meta[2] != 'confirm_password' ) {
 				if ( isset( $_POST[ $meta[2] ] ) ) {
 					switch ( $meta[3] ) {
 					case 'checkbox':
@@ -74,7 +74,12 @@ function wpmem_registration( $toggle ) {
 				}
 			} else {
 				// We do have password as part of the registration form.
-				$fields['password'] = ( isset( $_POST['password'] ) ) ? $_POST['password'] : '';
+				if ( isset( $_POST['password'] ) ) {
+					$fields['password'] = $_POST['password'];
+				}
+				if ( isset( $_POST['confirm_password'] ) ) {
+					$fields['confirm_password'] = $_POST['confirm_password'];
+				}
 			}
 		}
 	}
