@@ -743,7 +743,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 					$link = do_shortcode( $tos_content );
 					$tos_pop = '<a href="' . $link . '" target="_blank">';
 				} else { 
-					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
+					$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WPMEM_DIR . "/wp-members-tos.php','mywindow');\">";
 				}
 				
 				/**
