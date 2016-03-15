@@ -720,9 +720,11 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				}
 
 			} else {
-
-				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
-
+				if ( 'file' == $field[3] ) {
+					$val = ( isset( $_FILES[ $field[2] ]['name'] ) ) ? $_FILES[ $field[2] ]['name'] : '' ;
+				} else {
+					$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+				}
 			}
 			
 			// Does the tos field.
