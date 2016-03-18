@@ -65,7 +65,7 @@ function wpmem_user_profile() {
 						<td>';
 
 					$val = get_user_meta( $user_id, $meta[2], true );
-					if ( $meta[3] == 'checkbox' || $meta[3] == 'select' ) {
+					if ( $meta[3] == 'checkbox' || $meta[3] == 'select' || $meta[3] == 'radio' || $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
 						$valtochk = $val; 
 						$val = $meta[7];
 					}
@@ -118,7 +118,11 @@ function wpmem_profile_update() {
 				}
 
 				// Check for field value.
-				$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
+				if ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
+					$field_val = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+				} else {
+					$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
+				}
 
 				if ( $chk == 'ok' ) {
 					update_user_meta( $user_id, $meta[2], $field_val );

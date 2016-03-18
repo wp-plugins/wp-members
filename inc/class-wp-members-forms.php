@@ -44,7 +44,7 @@ class WP_Members_Forms {
 		$class    = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
 		$required = ( isset( $args['required'] ) ) ? $args['required'] : false;
 	
-		switch ( $type ) {
+		switch ( $type ) { 
 			
 		case "url":
 		case "email":
@@ -87,13 +87,40 @@ class WP_Members_Forms {
 			break;
 	
 		case "select":
-			$class = ( $class == 'textbox' ) ? "dropdown" : $class;
-			$str = "<select name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">\n";
+		case "multiselect":
+			$class = ( 'textbox' == $class ) ? "dropdown" : $class;
+			$class = ( 'multiselect' == $type ) ? "multiselect" : $class;
+			$pname = ( 'multiselect' == $type ) ? $name . "[]" : $name;
+			$str = "<select name=\"$pname\" id=\"$name\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $valtochk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
+				if ( 'multiselect' == $type ) {
+					$chk = '';
+					$values = ( empty( $valtochk ) ) ? array() : explode( '|', $valtochk );
+				} else {
+					$chk = $valtochk;
+					$values = array();
+				}
+				$chk = ( ( isset( $pieces[2] ) && '' == $valtochk ) || in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk;
+				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $chk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
 			}
 			$str = $str . "</select>";
+			break;
+			
+		case "multicheckbox":
+			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
+			$str = '';
+			foreach ( $value as $option ) {
+				$pieces = explode( '|', $option );
+				$values = ( empty( $valtochk ) ) ? array() : explode( '|', $valtochk );
+				$chk = ( isset( $pieces[2] ) && '' == $valtochk ) ? $pieces[1] : '';
+				$str = $str . $this->create_form_field( array(
+					'name' => $name . '[]',
+					'type' => 'checkbox',
+					'value' => $pieces[1],
+					'valtochk' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
+				) ) . "&nbsp;" . $pieces[0] . "<br />\n";
+			}
 			break;
 			
 		case "radio":
@@ -103,7 +130,7 @@ class WP_Members_Forms {
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				$id = $name . '_' . $num;
-				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $valtochk, false ) . ( ( $required ) ? " required " : " " ) . ">" . __( $pieces[0], 'wp-members' ) . "<br />\n";
+				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $valtochk, false ) . ( ( $required ) ? " required " : " " ) . "> " . __( $pieces[0], 'wp-members' ) . "<br />\n";
 				$num++;
 			}
 			break;		

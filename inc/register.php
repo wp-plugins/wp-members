@@ -65,6 +65,10 @@ function wpmem_registration( $toggle ) {
 					case 'checkbox':
 						$fields[ $meta[2] ] = $_POST[ $meta[2] ];
 						break;
+					case 'multiselect':
+					case 'multicheckbox':
+						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+						break;
 					default:
 						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
 						break;

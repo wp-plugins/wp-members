@@ -75,6 +75,7 @@ class WP_Members_Admin_API {
 		if ( current_user_can( 'edit_posts' ) ) {
 			require_once( WPMEM_PATH . 'admin/post.php' );
 		}
+		require_once( WPMEM_PATH . 'inc/users.php' );
 		require_once( WPMEM_PATH . 'admin/users.php' );
 	}
 

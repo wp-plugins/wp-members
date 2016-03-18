@@ -434,11 +434,15 @@ jQuery.fn.extend(
 				$("#wpmem_checkbox_info").show();
 			else
 				$("#wpmem_checkbox_info").hide();
-			if ($("#wpmem_field_type_select").val() == 'select' || $("#wpmem_field_type_select").val() == 'radio')
+			if ( $("#wpmem_field_type_select").val() == 'select' 
+				|| $("#wpmem_field_type_select").val() == 'multiselect'
+				|| $("#wpmem_field_type_select").val() == 'radio'
+				|| $("#wpmem_field_type_select").val() == 'multicheckbox'
+			)
 				$("#wpmem_dropdown_info").show();
 			else
 				$("#wpmem_dropdown_info").hide();
-			if ($("#wpmem_field_type_select").val() == 'file')
+			if ($("#wpmem_field_type_select").val() == 'file' || $("#wpmem_field_type_select").val() == 'image' )
 				$("#wpmem_file_info").show();
 			else
 				$("#wpmem_file_info").hide();

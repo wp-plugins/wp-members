@@ -771,7 +771,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				}
 
 				// For dropdown select.
-				if ( $field[3] == 'select' || $field[3] == 'radio' ) {
+				if ( $field[3] == 'select' || $field[3] == 'radio' || $field[3] == 'multiselect' || $field[3] == 'multicheckbox' ) {
 					$valtochk = $val;
 					$val = $field[7];
 				}

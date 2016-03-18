@@ -80,8 +80,9 @@ function wpmem_admin_fields() {
 					<tr>
 						<th><label>' . __( $meta[1], 'wp-members' ) . $req . '</label></th>
 						<td>';
-				$val = htmlspecialchars( get_user_meta( $user_id, $meta[2], true ) );
-				if ( $meta[3] == 'checkbox' || $meta[3] == 'select' || $meta[3] == 'radio' ) {
+				$val = get_user_meta( $user_id, $meta[2], true );
+				$val = ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) ? $val : htmlspecialchars( $val );
+				if ( $meta[3] == 'checkbox' || $meta[3] == 'select' || $meta[3] == 'radio' || $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
 					$valtochk = $val;
 					$val = $meta[7];
 				}
@@ -183,12 +184,14 @@ function wpmem_admin_update() {
 	$fields = array();
 	$chk_pass = false;
 	foreach ( $wpmem_fields as $meta ) {
-		if ( $meta[6] == "n" && $meta[3] != 'password' && $meta[3] != 'checkbox' ) {
+		if ( $meta[6] == "n" && $meta[3] != 'password' && $meta[3] != 'checkbox' && $meta[3] != 'multiselect' && $meta[3] != 'multicheckbox') {
 			( isset( $_POST[ $meta[2] ] ) ) ? $fields[ $meta[2] ] = $_POST[ $meta[2] ] : false;
 		} elseif ( $meta[2] == 'password' && $meta[4] == 'y' ) {
 			$chk_pass = true;
 		} elseif ( $meta[3] == 'checkbox' ) {
 			$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? $_POST[ $meta[2] ] : '';
+		} elseif ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
+			$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
 		}
 	}
 
