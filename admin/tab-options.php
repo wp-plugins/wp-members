@@ -450,7 +450,7 @@ function wpmem_update_options() {
 	 */
 	if ( isset( $_POST['wpmem_settings_moderate'] ) == 1 ) {
 		global $current_user;
-		get_currentuserinfo();
+		wp_get_current_user();
 		$user_ID = $current_user->ID;
 		update_user_meta( $user_ID, 'active', 1 );
 	}

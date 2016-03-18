@@ -411,7 +411,7 @@ function wpmem_registration( $toggle ) {
 		 * Doing a check for existing email is not the same as a new reg. check first to 
 		 * see if it's different, then check if it is a valid address and it exists.
 		 */
-		global $current_user; get_currentuserinfo();
+		global $current_user; wp_get_current_user();
 		if ( $fields['user_email'] !=  $current_user->user_email ) {
 			if ( email_exists( $fields['user_email'] ) ) { 
 				return "email";
