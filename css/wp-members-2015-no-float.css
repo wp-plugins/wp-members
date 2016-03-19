@@ -104,31 +104,41 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 5px 0;
 }
 
-#wpmem_reg fieldset, #wpmem_login fieldset {
+#wpmem_reg fieldset, 
+#wpmem_login fieldset {
 	border: none;
 	padding: 0;
 	margin: 40px 0;
 }
-#wpmem_reg legend, #wpmem_login legend {
+#wpmem_reg legend, 
+#wpmem_login legend {
 	font-weight: 700;
 	margin-bottom: 25px;
 	font-size: 27px;
 	font-size: 2.7rem;
 	line-height: 1.1852;
 }
-#wpmem_reg .form, #wpmem_login .form {
+#wpmem_reg .form, 
+#wpmem_login .form {
 	margin:0;
 	padding:0;
 }
-#wpmem_reg .clear, #wpmem_login .clear {
+#wpmem_reg .clear, 
+#wpmem_login .clear {
 	clear:both;
 }
-#wpmem_reg .holder, #wpmem_login .holder {
+#wpmem_reg .holder, 
+#wpmem_login .holder {
 	background-color:#fff;
 }
-#wpmem_reg .div_text, #wpmem_reg .div_textarea, 
-#wpmem_reg .div_select, #wpmem_login .div_text,
-#wpmem_reg .div_checkbox { 
+#wpmem_login .div_text,
+#wpmem_reg .div_text, 
+#wpmem_reg .div_textarea, 
+#wpmem_reg .div_select, 
+#wpmem_reg .div_checkbox,
+#wpmem_reg .div_multicheckbox,
+#wpmem_reg .div_multiselect,
+#wpmem_reg .radio { 
 	width:74%;
 	margin:0 0 14px 0;
 }
@@ -136,9 +146,12 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 12px 2px;
 }
 #wpmem_reg .div_textarea textarea,
-#wpmem_reg .textbox, #wpmem_login .textbox,
-#wpmem_reg .username, #wpmem_login .username,
-#wpmem_reg .password, #wpmem_login .password {
+#wpmem_reg .textbox, 
+#wpmem_reg .username, 
+#wpmem_reg .password, 
+#wpmem_login .textbox,
+#wpmem_login .username,
+#wpmem_login .password {
 	width:100%;
 }
 
@@ -157,7 +170,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 
 #wpmem_reg .noinput {
-	width:93%;
+	width:100%;
 	padding: 8px 10px 7px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 2px;
@@ -185,7 +198,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 /* Buttons */
 
-#wpmem_reg .button_div, #wpmem_login .button_div {
+#wpmem_reg .button_div, 
+#wpmem_login .button_div {
 	width:74%;
 	height: 62px;
 	padding: 6px 0;

@@ -125,7 +125,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 
 
-#wpmem_reg .dropdown {
+#wpmem_reg select {
 	width:311px;
 }
 #wpmem_reg .dropdown:focus {
@@ -159,15 +159,20 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	display: block;
 }
 #wpmem_reg label.text, #wpmem_reg label.checkbox, 
-#wpmem_reg label.select, #wpmem_login label{
+#wpmem_reg label.select, #wpmem_reg label.radio
+#wpmem_reg label.multicheckbox, #wpmem_reg.multiselect,
+#wpmem_login label{
 	padding: 14px 0 4px 0;
 }
 #wpmem_reg label.textarea {
 	height: 176px;
 	padding: 16px 0 2px;
 }
-#wpmem_reg input[type="checkbox"]{
+#wpmem_reg input[type="checkbox"] {
 	margin-top:18px;
+}
+#wpmem_reg .div_multicheckbox input[type="checkbox"] {
+	margin: 0 0 0 0;
 }
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
@@ -179,9 +184,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .holder, #wpmem_login .holder {
 	background-color:#fff;
 }
-#wpmem_reg .div_text, #wpmem_login .div_text, 
+#wpmem_login .div_text, #wpmem_reg .div_text, 
 #wpmem_reg .div_checkbox, #wpmem_reg .div_select, 
-#wpmem_reg .div_textarea {
+#wpmem_reg .div_textarea, #wpmem_reg .div_multiselect,
+#wpmem_reg .div_multicheckbox, #wpmem_reg .div_radio {
 	width:311px;
 	float:right;
 }
@@ -215,6 +221,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	height: 36px;
 	padding: 8px 10px;
 	margin: 5px 0 4px 0;
+	background-color: transparent;
 }
 #wpmem_reg textarea {
 	height:185px;

@@ -31,7 +31,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 /* Error and Dialog Messages */
 
-#wpmem_msg, .wpmem_msg {
+#wpmem_msg, 
+.wpmem_msg {
 	background: #F9F9F9;
 	border:1px solid lightGrey;
 	border-radius: 3px;
@@ -78,7 +79,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 
 /* Login Form and Registration Form */
-#wpmem_reg, #wpmem_login {
+#wpmem_reg, 
+#wpmem_login {
 	color: rgb(43, 43, 43);
 	font-family: Arial,sans-serif;
 	font-size: 16px;
@@ -126,30 +128,41 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 5px 0;
 }
 
-#wpmem_reg fieldset, #wpmem_login fieldset {
+#wpmem_reg fieldset, 
+#wpmem_login fieldset {
 	border: none;
 	padding: 0;
 	margin: 40px 0;
 }
-#wpmem_reg legend, #wpmem_login legend {
+#wpmem_reg legend, 
+#wpmem_login legend {
 	font-size: 24px;
 	line-height: 1;
 	font-weight: 700;
 	margin-bottom: 10px;
 }
-#wpmem_reg .form, #wpmem_login .form {
+#wpmem_reg .form, 
+#wpmem_login .form {
 	margin:0;
 	padding:0;
 }
-#wpmem_reg .clear, #wpmem_login .clear {
+#wpmem_reg .clear, 
+#wpmem_login .clear {
 	clear:both;
 }
-#wpmem_reg .holder, #wpmem_login .holder {
+#wpmem_reg .holder, 
+#wpmem_login .holder {
 	background-color:#fff;
 }
-#wpmem_reg .div_text, #wpmem_reg .div_textarea, 
-#wpmem_reg .div_select, #wpmem_login .div_text,
-#wpmem_reg .div_checkbox { 
+
+#wpmem_login .div_text,
+#wpmem_reg .div_text, 
+#wpmem_reg .div_textarea, 
+#wpmem_reg .div_select, 
+#wpmem_reg .div_checkbox,
+#wpmem_reg .div_multiselect,
+#wpmem_reg .div_multicheckbox,
+#wpmem_reg .div_radio { 
 	width:74%;
 	margin:0 0 14px 0;
 }
@@ -157,9 +170,12 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	margin: 12px 2px;
 }
 #wpmem_reg .div_textarea textarea,
-#wpmem_reg .textbox, #wpmem_login .textbox,
-#wpmem_reg .username, #wpmem_login .username,
-#wpmem_reg .password, #wpmem_login .password {
+#wpmem_reg .textbox,
+#wpmem_login .textbox,
+#wpmem_reg .username,
+#wpmem_reg .password,
+#wpmem_login .username,
+#wpmem_login .password {
 	width:100%;
 }
 
