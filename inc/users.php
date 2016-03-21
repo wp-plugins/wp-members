@@ -69,7 +69,24 @@ function wpmem_user_profile() {
 						$valtochk = $val; 
 						$val = $meta[7];
 					}
-				$show_field.= wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk ) . '
+					
+				// Is this an image or a file?
+				if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+					$attachment_url = wp_get_attachment_url( $val );
+					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
+					if ( 'file' == $meta[3] ) {
+						$show_field.= ( 0 < $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
+					} else {
+						$show_field.= ( 0 < $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+					}
+					// @todo - come up with a way to handle file updates - user profile form does not support multitype
+					//$show_field.= '<br /><span class="description">' . __( 'Update this file:' ) . '</span><br />';
+					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
+				} else {
+					$show_field.=  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+				}
+				
+				$show_field.= '
 						</td>
 					</tr>';
 
@@ -106,7 +123,11 @@ function wpmem_profile_update() {
 		// If this is not an excluded meta field.
 		if ( ! in_array( $meta[2], $exclude ) ) {
 			// If the field is user editable.
-			if ( $meta[4] == "y" && $meta[6] == "n" && $meta[3] != 'password' ) {
+			if ( $meta[4] == "y" 
+			  && $meta[6] == "n" 
+			  && $meta[3] != 'password' 
+			  && $meta[3] != 'file' 
+			  && $meta[3] != 'image' ) {
 
 				// Check for required fields.
 				$chk = '';

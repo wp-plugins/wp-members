@@ -350,7 +350,7 @@ function wpmem_registration( $toggle ) {
 	
 			foreach ( $wpmem->fields as $file_field ) {
 	
-				if ( 'file' == $file_field[3] && is_array( $_FILES[ $file_field[2] ] ) ) {
+				if ( ( 'file' == $file_field[3] || 'image' == $file_field[3] ) && is_array( $_FILES[ $file_field[2] ] ) ) {
 	
 					// Upload the file and save it as an attachment.
 					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $file_field[2] ], $fields['ID'] );

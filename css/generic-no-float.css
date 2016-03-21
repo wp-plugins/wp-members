@@ -162,7 +162,9 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .div_checkbox,
 #wpmem_reg .div_multiselect,
 #wpmem_reg .div_multicheckbox,
-#wpmem_reg .div_radio { 
+#wpmem_reg .div_radio,
+#wpmem_reg .div_image,
+#wpmem_reg .div_file { 
 	width:74%;
 	margin:0 0 14px 0;
 }
@@ -174,6 +176,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_login .textbox,
 #wpmem_reg .username,
 #wpmem_reg .password,
+#wpmem_reg .file,
+#wpmem_reg .image,
 #wpmem_login .username,
 #wpmem_login .password {
 	width:100%;

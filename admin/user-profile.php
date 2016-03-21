@@ -86,7 +86,24 @@ function wpmem_admin_fields() {
 					$valtochk = $val;
 					$val = $meta[7];
 				}
-				$show_field.=  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk ) . '
+				
+				// Is this an image or a file?
+				if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+					$attachment_url = wp_get_attachment_url( $val );
+					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
+					if ( 'file' == $meta[3] ) {
+						$show_field.= ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
+					} else {
+						$show_field.= ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+					}
+					// @todo - come up with a way to handle file updates - user profile form does not support multitype
+					//$show_field.= ' <span class="description">' . __( 'Update this file:' ) . '</span><br />';
+					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
+				} else {
+					$show_field.=  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+				}
+				
+					$show_field.= '
 						</td>
 					</tr>';
 
@@ -184,7 +201,13 @@ function wpmem_admin_update() {
 	$fields = array();
 	$chk_pass = false;
 	foreach ( $wpmem_fields as $meta ) {
-		if ( $meta[6] == "n" && $meta[3] != 'password' && $meta[3] != 'checkbox' && $meta[3] != 'multiselect' && $meta[3] != 'multicheckbox') {
+		if ( $meta[6] == "n" 
+		  && $meta[3] != 'password' 
+		  && $meta[3] != 'checkbox' 
+		  && $meta[3] != 'multiselect' 
+		  && $meta[3] != 'multicheckbox' 
+		  && $meta[3] != 'file' 
+		  && $meta[3] != 'image' ) {
 			( isset( $_POST[ $meta[2] ] ) ) ? $fields[ $meta[2] ] = $_POST[ $meta[2] ] : false;
 		} elseif ( $meta[2] == 'password' && $meta[4] == 'y' ) {
 			$chk_pass = true;
