@@ -15,7 +15,7 @@ class WP_Members_Forms {
 	 * @since 3.1.0
 	 */
 	function __construct() {
-		add_filter( 'upload_dir', array( &$this,'file_upload_dir' ) );
+	//	add_filter( 'upload_dir', array( &$this,'file_upload_dir' ) );
 	}
 	
 	
@@ -153,7 +153,7 @@ class WP_Members_Forms {
 	function do_file_upload( $file = array(), $user_id = false ) {
 		
 		// Set up user ID for use in upload process.
-		$this->user_id = ( $user_id ) ? $user_id : 0;
+		$this->file_user_id = ( $user_id ) ? $user_id : 0;
 	
 		// Get WordPress file upload processing scripts.
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -190,7 +190,7 @@ class WP_Members_Forms {
 	
 	
 	function file_upload_dir( $param ) {
-		$user_id  = ( isset( $this->user_id ) ) ? $this->user_id : null;
+		$user_id  = ( isset( $this->file_user_id ) ) ? $this->file_user_id : null;
 		$user_dir = '/wpmembers/user_files';
 		$sub_dir  = '/' . $user_id;
 
