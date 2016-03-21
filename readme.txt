@@ -155,6 +155,7 @@ This is an intermediate update leading to 3.1.0.  This package contains several 
 * Added user facing strings as an array in the main $wpmem object class.
 * Added new wpmem_sidebar_status_args filter hook.
 * Added new container in main object for email from and from name settings.
+* Added file upload functions.
 * Deprecated use of wpmem_chk_qstr() function in favor of add_query_arg().
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
 * Changed get_action call from init action to template_redirect action.

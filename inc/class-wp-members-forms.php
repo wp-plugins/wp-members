@@ -61,7 +61,7 @@ class WP_Members_Forms {
 		case "checkbox":
 			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . checked( $value, $valtochk, false ) . ( ( $required ) ? " required " : "" ) . " />";
-			break;			
+			break;
 	
 		case "text":
 			$value = stripslashes( esc_attr( $value ) );
