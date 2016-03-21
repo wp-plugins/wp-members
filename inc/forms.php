@@ -778,16 +778,33 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 				if ( ! isset( $valtochk ) ) { $valtochk = ''; }
 				
-				// For all other input types.
-				//$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
-				$input = $wpmem->forms->create_form_field( array( 
-					'name'     => $field[2],
-					'type'     => $field[3],
-					'value'    => $val,
-					'valtochk' => $valtochk,
-					//'class'    => ( $class ) ? $class : 'textbox',
-					'required' => ( 'y' == $field[5] ) ? true : false,
-				) );
+				if ( 'edit' == $toggle && ( 'file' == $field[3] || 'image' == $field[3] ) ) {
+					
+					$attachment_url = wp_get_attachment_url( $val );
+					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
+					if ( 'file' == $field[3] ) {
+						$input = ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . get_the_title( $val ) . '</a>' : $empty_file;
+					} else {
+						$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+					}
+					// @todo - come up with a way to handle file updates - user profile form does not support multitype
+					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
+					$input.= wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
+					
+				} else {
+				
+					// For all other input types.
+					//$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
+					$input = $wpmem->forms->create_form_field( array( 
+						'name'     => $field[2],
+						'type'     => $field[3],
+						'value'    => $val,
+						'valtochk' => $valtochk,
+						//'class'    => ( $class ) ? $class : 'textbox',
+						'required' => ( 'y' == $field[5] ) ? true : false,
+					) );
+				
+				}
 				
 				// Determine input wrappers.
 				$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_' . $class . '">' : '';

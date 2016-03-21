@@ -476,25 +476,44 @@ function wpmem_registration( $toggle ) {
 		foreach ( $wpmem_fields as $meta ) {
 			// If the field is not excluded, update accordingly.
 			if ( ! in_array( $meta[2], wpmem_get_excluded_meta( 'update' ) ) ) {
-				switch ( $meta[2] ) {
-
-				// If the field can be updated by wp_update_user.
-				case( in_array( $meta[2], $native_fields ) ):
-					$fields[ $meta[2] ] = ( isset( $fields[ $meta[2] ] ) ) ? $fields[ $meta[2] ] : '';
-					$native_update[ $meta[2] ] = $fields[ $meta[2] ];
-					break;
-
-				// If the field is password.
-				case( 'password' ):
-					// Do nothing.
-					break;
-
-				// Everything else goes into wp_usermeta.
-				default:
-					if ( $meta[4] == 'y' ) {
-						update_user_meta( $user_ID, $meta[2], $fields[ $meta[2] ] );
+				if ( 'file' != $meta[3] && 'image' != $meta[3] ) {
+					switch ( $meta[2] ) {
+	
+					// If the field can be updated by wp_update_user.
+					case( in_array( $meta[2], $native_fields ) ):
+						$fields[ $meta[2] ] = ( isset( $fields[ $meta[2] ] ) ) ? $fields[ $meta[2] ] : '';
+						$native_update[ $meta[2] ] = $fields[ $meta[2] ];
+						break;
+	
+					// If the field is password.
+					case( 'password' ):
+						// Do nothing.
+						break;
+	
+					// Everything else goes into wp_usermeta.
+					default:
+						if ( $meta[4] == 'y' ) {
+							update_user_meta( $user_ID, $meta[2], $fields[ $meta[2] ] );
+						}
+						break;
 					}
-					break;
+				}
+			}
+		}
+		
+		// Handle file uploads, if any.
+		if ( ! empty( $_FILES ) ) {
+	
+			foreach ( $wpmem->fields as $file_field ) {
+	
+				if ( ( 'file' == $file_field[3] || 'image' == $file_field[3] ) && is_array( $_FILES[ $file_field[2] ] ) ) {
+					if ( ! empty( $_FILES[ $file_field[2] ]['name'] ) ) {
+						// Upload the file and save it as an attachment.
+						$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $file_field[2] ], $fields['ID'] );
+	
+						// Save the attachment ID as user meta.
+						update_user_meta( $fields['ID'], $file_field[2], $file_post_id );
+					}
 				}
 			}
 		}

@@ -602,6 +602,7 @@ class WP_Members {
 			'profile_heading'      => __( 'Edit Your Information', 'wp-members' ),
 			'profile_username'     => __( 'Username' ),
 			'profile_submit'       => __( 'Update Profile', 'wp-members' ),
+			'profile_upload'       => __( 'Update this file', 'wp-members' ),
 			
 			// Error messages and dialogs.
 			'login_failed_heading' => __( 'Login Failed!', 'wp-members' ),
