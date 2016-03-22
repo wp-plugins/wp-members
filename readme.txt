@@ -135,9 +135,9 @@ WP-Members 3.0.0 is a major version release. Please review the changelog: http:/
 
 == Changelog ==
 
-= 3.0.10 =
+= 3.1.0 =
 
-This is an intermediate update leading to 3.1.0.  This package contains several fixes included as part of the 3.1.0 development as well as some changes for new 3.1.0 settings.  As a result of testing the 3.1.0 development package up to this point, this package is being made available for testing.
+This package contains several fixes, some new filters, new field types and other functional improvements.
 
 * Some general code cleanup, reviewing inline documentation and comments.
 * Fixed issue for sidebar with redirect_to parameter set in widget settings.
@@ -146,28 +146,21 @@ This is an intermediate update leading to 3.1.0.  This package contains several 
 * Fixed translation issue for required field error where all of the message except the field name was translated.
 * Fixed issue for register shortcode page where if a user has registered, and is logging in but the login fails, display the login error message.
 * Fixed register shortcode redirect parameter.
-* Fixed confirm_password to bypass sanitize_text_field.
+* Fixed confirm_password to bypass sanitize_text_field (which breaks password comparison if certain characters are used).
 * Added logic so that user_pages are not blocked (login, register, user_profile).
 * Added after_wrapper array value for wpmem_{$page}_links_args filters
-* Added a new admin api class.
-* Added utilities object class.
-* Added forms object class.
+* Added a new admin api class, utilities object class, and forms object class.
 * Added user facing strings as an array in the main $wpmem object class.
 * Added new wpmem_sidebar_status_args filter hook.
 * Added new container in main object for email from and from name settings.
 * Added file upload functions.
-* Deprecated use of wpmem_chk_qstr() function in favor of add_query_arg().
+* Added new field types: multiple checkbox, multiple select, radio, file, image, email, url.
+* Added "values" key to the register form rows array to hold possible values (i.e. select, multiple select, multiple checkbox, and radio group) and the actual value to be in the "value" key.
+* Deprecated use of wpmem_chk_qstr() function, use add_query_arg() instead.
+* Deprecated use of get_currentuserinfo() (deprecated in WP 4.5), use wp_get_current_user() instead.
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
 * Changed get_action call from init action to template_redirect action.
-
-= 3.0.9.2 =
-
-* Fixes issue with plugin upgrade to new settings, introduces new upgrade process to WP_Members object class.
-* Fixes issue with new wpmem_member_links_args and wpmem_register_links_args filters where filter was not applied.
-
-= 3.0.9.1 =
-
-* Fixes issue with custom post types when a CPT is exists but is not set in the WP-Members settings.
+* Changed username in register form from log to user_login to match wp native registration form.
 
 = 3.0.9 =
 
@@ -181,6 +174,7 @@ This is an intermediate update leading to 3.1.0.  This package contains several 
 * Added new auto excerpt features including new wpmem_auto_excerpt_args filter.
 * Added forgot username retrieveal link (included on forgot password reset form).
 * Added wpmem_username_link and wpmem_username_link_str for filtering forgot username retrieval link.
+* Added new upgrade process to WP_Members object class.
 * Fixed handling of post bulk actions to keep current screen (if one is used).
 * Fixed handling of updates to the user pages in the options tab.
 * Fixed handling of empty post object in is_blocked() function.
