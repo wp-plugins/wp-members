@@ -164,7 +164,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .div_multicheckbox,
 #wpmem_reg .div_radio,
 #wpmem_reg .div_image,
-#wpmem_reg .div_file { 
+#wpmem_reg .div_file,
+#wpmem_reg .div_url { 
 	width:74%;
 	margin:0 0 14px 0;
 }
