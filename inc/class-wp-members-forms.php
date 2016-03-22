@@ -32,6 +32,7 @@ class WP_Members_Forms {
 	 *     @type string $value
 	 *     @type string $valtochk
 	 *     @type string $class
+	 *     @type string $required
 	 * }
 	 * @return string $str The field returned as a string.
 	 */
@@ -96,7 +97,7 @@ class WP_Members_Forms {
 				$pieces = explode( '|', $option );
 				if ( 'multiselect' == $type ) {
 					$chk = '';
-					$values = ( empty( $valtochk ) ) ? array() : explode( '|', $valtochk );
+					$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( '|', $valtochk ) );
 				} else {
 					$chk = $valtochk;
 					$values = array();
@@ -112,7 +113,7 @@ class WP_Members_Forms {
 			$str = '';
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$values = ( empty( $valtochk ) ) ? array() : explode( '|', $valtochk );
+				$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( '|', $valtochk ) );
 				$chk = ( isset( $pieces[2] ) && '' == $valtochk ) ? $pieces[1] : '';
 				$str = $str . $this->create_form_field( array(
 					'name' => $name . '[]',
