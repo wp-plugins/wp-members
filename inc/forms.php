@@ -625,9 +625,16 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 	} else { 
 		// This is a new registration.
-		$val   = ( isset( $_POST['log'] ) ) ? stripslashes( $_POST['log'] ) : '';
+		$val   = ( isset( $_POST['user_login'] ) ) ? stripslashes( $_POST['user_login'] ) : '';
 		$label = '<label for="username" class="text">' . $wpmem->get_text( 'register_username' ) . $args['req_mark'] . '</label>';
-		$input = wpmem_create_formfield( 'log', 'text', $val, '', 'username' );
+		//$input = wpmem_create_formfield( 'log', 'text', $val, '', 'username' );
+		$input = $wpmem->forms->create_form_field( array( 
+			'name'     => 'user_login',
+			'type'     => 'text',
+			'value'    => $val,
+			'valtochk' => '',
+			'required' => true,
+		) );
 
 	}
 	$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';

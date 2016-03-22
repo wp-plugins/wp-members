@@ -49,7 +49,7 @@ function wpmem_registration( $toggle ) {
 
 	// Is this a registration or a user profile update?
 	if ( $toggle == 'register' ) { 
-		$fields['username'] = ( isset( $_POST['log'] ) ) ? sanitize_user( $_POST['log'] ) : '';
+		$fields['username'] = ( isset( $_POST['user_login'] ) ) ? sanitize_user( $_POST['user_login'] ) : '';
 	}
 	
 	// Add the user email to the $fields array for _data hooks.
@@ -68,6 +68,9 @@ function wpmem_registration( $toggle ) {
 					case 'multiselect':
 					case 'multicheckbox':
 						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+						break;
+					case 'textarea':
+						$fields[ $meta[2] ] = $_POST[ $meta[2] ];
 						break;
 					default:
 						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
