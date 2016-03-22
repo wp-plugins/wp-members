@@ -822,11 +822,19 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 		// If the row is set to display, add the row to the form array.
 		if ( $field[4] == 'y' ) {
+			
+			$values = '';
+			if ( 'multicheckbox' == $field[3] || 'select' == $field[3] || 'multiselect' == $field[3] || 'radio' == $field[3] ) {
+				$values = $val;
+				$val = $valtochk;
+			}
+			
 			$rows[$field[2]] = array(
 				'order'        => $field[0],
 				'meta'         => $field[2],
 				'type'         => $field[3],
 				'value'        => $val,
+				'values'       => $values,
 				'label_text'   => __( $field[1], 'wp-members' ),
 				'row_before'   => $args['row_before'],
 				'label'        => $label,
