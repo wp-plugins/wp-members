@@ -670,6 +670,8 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
  	 */
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $toggle );
 	
+	$hidden = '';
+	
 	// Loop through the remaining fields.
 	foreach ( $wpmem_fields as $field ) {
 
@@ -684,6 +686,19 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 		if ( $field[2] == 'tos' && $toggle == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
 			$do_row = false; 
 			$hidden_tos = wpmem_create_formfield( $field[2], 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
+		}
+		
+		// Handle hidden fields
+		if ( 'hidden' == $field[3] ) {
+			$do_row = false;
+			$hidden.= $wpmem->forms->create_form_field( array( 
+				'name'     => $field[2],
+				'type'     => $field[3],
+				'value'    => $val,
+				'valtochk' => $valtochk,
+				//'class'    => ( $class ) ? $class : 'textbox',
+				'required' => ( 'y' == $field[5] ) ? true : false,
+			) );
 		}
 		
 		// If the field is set to display and we aren't skipping, construct the row.
@@ -928,7 +943,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	// Create hidden fields.
 	$var         = ( $toggle == 'edit' ) ? 'update' : 'register';
 	$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
-	$hidden      = '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
+	$hidden     .= '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
 	$hidden     .= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
 	if ( $redirect_to != get_permalink() ) {
 		$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
