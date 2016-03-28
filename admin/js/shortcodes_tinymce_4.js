@@ -54,24 +54,24 @@
 									editor.insertContent('[wpmem_form register]');
 								}
 							},
-							{
+							/*{
 								text: "registration + redirect",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register redirect_to="http://mysite.com/my-page/"]');
 								}
-							},
+							},*/
 							{
 								text: "registration + logged in content",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register]<br />This displays when logged in<br />[/wpmem_form]');
 								}
 							},
-							{
+							/*{
 								text: "registration + redirect + content",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register redirect_to="http://mysite.com/my-page/"]<br />This displays when logged in<br />[/wpmem_form]');
 								}
-							},
+							},*/
 						]
 					},
 					{
