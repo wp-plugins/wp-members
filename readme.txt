@@ -161,6 +161,7 @@ This package contains several fixes, some new filters, new field types and other
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
 * Changed get_action call from init action to template_redirect action.
 * Changed username in register form from log to user_login to match wp native registration form.
+* Removed redirect parameter from register shortcode in shortcode menu.
 
 = 3.0.9 =
 
