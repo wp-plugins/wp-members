@@ -243,26 +243,14 @@ function wpmem_admin_action( $action ) {
 		break;
 
 	case 'update_dialogs':
-		/**
-		 * Load Dialogs tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 		$did_update = wpmem_update_dialogs();
 		break;
 
 	case 'update_emails':
-		/**
-		 * Load Emails tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-emails.php' );
 		$did_update = wpmem_update_emails();
 		break;
 
 	case 'update_captcha':
-		/**
-		 * Load Captcha tab functions.
-		 */
-		include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 		$did_update = wpmem_update_captcha();
 		break;
 	}
