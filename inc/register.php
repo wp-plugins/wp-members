@@ -256,7 +256,7 @@ function wpmem_registration( $toggle ) {
 		$fields['password'] = ( ! isset( $_POST['password'] ) ) ? wp_generate_password() : $_POST['password'];
 
 		// Add for _data hooks
-		$fields['user_registered'] = gmdate( 'Y-m-d H:i:s' );
+		$fields['user_registered'] = current_time( 'mysql', 1 );
 		$fields['user_role']       = get_option( 'default_role' );
 		$fields['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
 		$fields['wpmem_reg_url']   = ( isset( $_REQUEST['wpmem_reg_page'] ) ) ? $_REQUEST['wpmem_reg_page'] : $_REQUEST['redirect_to'];
