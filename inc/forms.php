@@ -869,12 +869,13 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 			'meta'         => '', 
 			'type'         => 'text', 
 			'value'        => '',
+			'values'       => '',
 			'label_text'   => $row['label_text'],
 			'row_before'   => $args['row_before'],
 			'label'        => $row['label'],
-			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
+			'field_before' => $field_before,
 			'field'        => $row['field'],
-			'field_after'  => ( $args['wrap_inputs'] ) ? '</div>' : '',
+			'field_after'  => $field_after,
 			'row_after'    => $args['row_after'],
 		);
 	}
@@ -895,6 +896,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 *     @type string meta         Field meta tag (not used for display).
 	 *     @type string type         Input field type (not used for display).
 	 *     @type string value        Input field value (not used for display).
+	 *     @type string values       Possible field values (dropdown, multiple select/check, radio).
 	 *     @type string label_text   Raw text for the label (not used for display).
 	 *     @type string row_before   Opening wrapper tag around the row.
 	 *     @type string label        Label tag.
@@ -1038,6 +1040,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 *     @type string meta         Field meta tag (not used for display).
 	 *     @type string type         Input field type (not used for display).
 	 *     @type string value        Input field value (not used for display).
+	 *     @type string values       The possible values for the field (dropdown, multiple select/checkbox, radio group).
 	 *     @type string label_text   Raw text for the label (not used for display).
 	 *     @type string row_before   Opening wrapper tag around the row.
 	 *     @type string label        Label tag.
