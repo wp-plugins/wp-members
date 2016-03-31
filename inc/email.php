@@ -324,17 +324,18 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 	$field_arr = array();
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
-			$name = $meta[1];
 			if ( ! in_array( $meta[2], wpmem_get_excluded_meta( 'email' ) ) ) {
 				if ( ( $meta[2] != 'user_email' ) && ( $meta[2] != 'password' ) ) {
 					if ( $meta[2] == 'user_url' ) {
 						$val = esc_url( $user->user_url );
 					} elseif ( in_array( $meta[2], $wp_user_fields ) ) {
 						$val = esc_html( $user->$meta[2] );
+					} elseif ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+						$val = wp_get_attachment_url( get_user_meta( $user_id, $meta[2], true ) );
 					} else {
 						$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta[2] ] ) : esc_html( get_user_meta( $user_id, $meta[2], true ) );
 					}
-					$field_arr[ $name ] = $val;
+					$field_arr[ $meta[1] ] = $val;
 				}
 			}
 		}
