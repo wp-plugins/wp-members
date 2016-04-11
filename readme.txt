@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.4.1
-Stable tag: 3.0.10 (3.1.0 Beta 1)
+Stable tag: 3.1.0
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -156,11 +156,14 @@ This package contains several fixes, some new filters, new field types and other
 * Added file upload functions.
 * Added new field types: multiple checkbox, multiple select, radio, file, image, email, url.
 * Added "values" key to the register form rows array to hold possible values (i.e. select, multiple select, multiple checkbox, and radio group) and the actual value to be in the "value" key.
+* Added filter wpmem_user_upload_dir for filtering the location of user uploaded files.
+* Added wpmem_register_form_rows_admin and wpmem_register_form_rows_profile filter hooks.
 * Deprecated use of wpmem_chk_qstr() function, use add_query_arg() instead.
 * Deprecated use of get_currentuserinfo() (deprecated in WP 4.5), use wp_get_current_user() instead.
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
 * Changed get_action call from init action to template_redirect action.
 * Changed username in register form from log to user_login to match wp native registration form.
+* Changed [wp-members page="user-profile"] shortcode to [wpmem_profile] (old shortcode will still work).
 * Removed redirect parameter from register shortcode in shortcode menu.
 
 = 3.0.9 =
