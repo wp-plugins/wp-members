@@ -208,7 +208,7 @@ class WP_Members_Forms {
 		 *
 		 * @param array $args
 		 */
-		$args = apply_filters( 'wpmem_user_upload_directory', $args );
+		$args = apply_filters( 'wpmem_user_upload_dir', $args );
 
 		$param['subdir'] = $sub_dir;
 		$param['path']   = $param['basedir'] . '/' . $args['wpmem_dir'] . $args['user_dir'];
