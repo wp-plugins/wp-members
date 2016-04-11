@@ -15,7 +15,7 @@ class WP_Members_Forms {
 	 * @since 3.1.0
 	 */
 	function __construct() {
-	//	add_filter( 'upload_dir', array( &$this,'file_upload_dir' ) );
+		
 	}
 	
 	
@@ -153,6 +153,9 @@ class WP_Members_Forms {
 	 */
 	function do_file_upload( $file = array(), $user_id = false ) {
 		
+		// Filter the upload directory.
+		add_filter( 'upload_dir', array( &$this,'file_upload_dir' ) );
+		
 		// Set up user ID for use in upload process.
 		$this->file_user_id = ( $user_id ) ? $user_id : 0;
 	
@@ -192,12 +195,24 @@ class WP_Members_Forms {
 	
 	function file_upload_dir( $param ) {
 		$user_id  = ( isset( $this->file_user_id ) ) ? $this->file_user_id : null;
-		$user_dir = '/wpmembers/user_files';
-		$sub_dir  = '/' . $user_id;
+		
+		$args = array(
+			'user_id'   => $user_id,
+			'wpmem_dir' => 'wpmembers/',
+			'user_dir'  => 'user_files/' . $user_id,
+		);
+		/**
+		 * Filter the user directory elements.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $args
+		 */
+		$args = apply_filters( 'wpmem_user_upload_directory', $args );
 
 		$param['subdir'] = $sub_dir;
-		$param['path']   = $param['basedir'] . $user_dir . $sub_dir;
-		$param['url']    = $param['baseurl'] . $user_dir . $sub_dir;	
+		$param['path']   = $param['basedir'] . '/' . $args['wpmem_dir'] . $args['user_dir'];
+		$param['url']    = $param['baseurl'] . '/' . $args['wpmem_dir'] . $args['user_dir'];
 	
 		return $param;
 	}
