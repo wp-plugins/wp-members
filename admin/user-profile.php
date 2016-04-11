@@ -64,27 +64,27 @@ function wpmem_admin_fields() {
 		 */
 		do_action( 'wpmem_admin_before_profile', $user_id, $wpmem_fields );
 
+		$rows = array();
 		foreach ( $wpmem_fields as $meta ) {
 
-			$valtochk = '';
+			$valtochk = ''; $values = '';
 
 			// Determine which fields to show in the additional fields area.
 			$show = ( $meta[6] == 'n' && ! in_array( $meta[2], $exclude ) ) ? true : false;
 			$show = ( $meta[1] == 'TOS' && $meta[4] != 'y' ) ? null : $show;
 
 			if ( $show ) {
-				// Is the field required?
-				$req = ( $meta[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 
-				$show_field = '
-					<tr>
-						<th><label>' . __( $meta[1], 'wp-members' ) . $req . '</label></th>
-						<td>';
 				$val = get_user_meta( $user_id, $meta[2], true );
 				$val = ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) ? $val : htmlspecialchars( $val );
-				if ( $meta[3] == 'checkbox' || $meta[3] == 'select' || $meta[3] == 'radio' || $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
+				if ( $meta[3] == 'checkbox' ) {
 					$valtochk = $val;
 					$val = $meta[7];
+				}
+				
+				if ( 'multicheckbox' == $meta[3] || 'select' == $meta[3] || 'multiselect' == $meta[3] || 'radio' == $meta[3] ) {
+					$values = $meta[7];
+					$valtochk = $val;
 				}
 				
 				// Is this an image or a file?
@@ -92,30 +92,68 @@ function wpmem_admin_fields() {
 					$attachment_url = wp_get_attachment_url( $val );
 					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
 					if ( 'file' == $meta[3] ) {
-						$show_field.= ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
+						$input = ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
 					} else {
-						$show_field.= ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+						$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 					}
 					// @todo - come up with a way to handle file updates - user profile form does not support multitype
 					//$show_field.= ' <span class="description">' . __( 'Update this file:' ) . '</span><br />';
 					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
 				} else {
-					$show_field.=  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+					if ( 'multicheckbox' == $meta[3] || 'select' == $meta[3] || 'multiselect' == $meta[3] || 'radio' == $meta[3] ) {
+						$input =  wpmem_create_formfield( $meta[2], $meta[3], $values, $valtochk );
+					} else {
+						$input =  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+					}
 				}
 				
-					$show_field.= '
-						</td>
-					</tr>';
-
-				/**
-				 * Filter the profile field.
-				 * 
-				 * @since 2.8.2
-				 *
-				 * @param string $show_field The HTML string for the additional profile field.
-				 */
-				echo apply_filters( 'wpmem_admin_profile_field', $show_field );
+				// Is the field required?
+				$req = ( $meta[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+				$label = '<label>' . __( $meta[1], 'wp-members' ) . $req . '</label>';
+				
+				// Build the form rows for filtering.
+				$rows[ $meta[2] ] = array(
+					'order'        => $meta[0],
+					'meta'         => $meta[2],
+					'type'         => $meta[3],
+					'value'        => $val,
+					'values'       => $values,
+					'label_text'   => __( $meta[1], 'wp-members' ),
+					'row_before'   => '',
+					'label'        => $label,
+					'field_before' => '',
+					'field'        => $input,
+					'field_after'  => '',
+					'row_after'    => '',
+				);
 			}
+		}
+		
+		/**
+		 * Filter for rows
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array  $rows
+		 * @param string $toggle
+		 */
+		$rows = apply_filters( 'wpmem_register_form_rows_admin', $rows, 'adminprofile' );
+		
+		foreach ( $rows as $row ) {
+			$show_field = '
+				<tr>
+					<th>' . $row['label'] . '</th>
+					<td>' . $row['field'] . '</td>
+				</tr>';
+
+			/**
+			 * Filter the profile field.
+			 * 
+			 * @since 2.8.2
+			 *
+			 * @param string $show_field The HTML string for the additional profile field.
+			 */
+			echo apply_filters( 'wpmem_admin_profile_field', $show_field );
 		}
 
 		// See if reg is moderated, and if the user has been activated.
