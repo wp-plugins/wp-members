@@ -249,36 +249,6 @@ function wpmem_sc_logged_out( $atts, $content = null, $tag ) {
 }
 
 
-/**
- * Displays login form when called by shortcode.
- *
- * @since 3.0.0
- *
- * @global object $wpmem The WP_Members object.
- *
- * @param $atts
- * @param $content
- * @param $tag
- * @return $content
-
-function wpmem_sc_login_form( $atts, $content, $tag ) {
-	
-	// Dependencies.
-	global $wpmem;
-	include_once( WPMEM_PATH . 'inc/core.php' );
-	include_once( WPMEM_PATH . 'inc/dialogs.php' );
-	// Defaults.
-	$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
-	$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
-	
-	if ( is_user_logged_in() ) {
-		return ( $content ) ? $content : wpmem_inc_memberlinks( 'login' );
-	} else {
-		return ( $wpmem->regchk == 'loginfailed' ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to, $texturize );
-	}
-} */
-
-
 if ( ! function_exists( 'wpmem_shortcode' ) ):
 /**
  * Executes various shortcodes.
@@ -545,6 +515,19 @@ function wpmem_sc_user_count( $atts, $content = null ) {
 		) );
 	}
 	return ( $do_query ) ? $atts['label'] . $user_meta_query : '';
+}
+
+
+/**
+ * Creates the user profile dashboard area (to replace page=user-profile shortcode).
+ *
+ * @since 3.1.0
+ *
+ * @return string $content
+ */
+function wpmem_sc_user_profile() {
+	$content = wpmem_do_sc_pages( 'user-profile' );
+	return $content;
 }
 
 // End of file.

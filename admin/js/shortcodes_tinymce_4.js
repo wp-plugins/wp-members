@@ -80,7 +80,7 @@
 							{
 								text: "User Profile Page",
 								onclick: function(){
-									editor.insertContent('[wp-members page="user-profile"]');
+									editor.insertContent('[wpmem_profile]');
 								}
 							},
 							{
