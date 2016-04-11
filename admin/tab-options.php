@@ -509,7 +509,7 @@ function wpmem_admin_style_list( $style ) {
 		'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
 		'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
 		'Twenty Ten'                 => WPMEM_DIR . 'css/wp-members.css',
-		'Kubrick'                    => WPMEM_DIR . 'css/wp-members-kubrick.css',
+		//'Kubrick'                    => WPMEM_DIR . 'css/wp-members-kubrick.css',
 	);
 
 	/**
