@@ -161,10 +161,12 @@ This package contains several fixes, some new filters, new field types and other
 * Deprecated use of wpmem_chk_qstr() function, use add_query_arg() instead.
 * Deprecated use of get_currentuserinfo() (deprecated in WP 4.5), use wp_get_current_user() instead.
 * Email function updates, added 'footer' as an array value in the main wpmem_email_filter filter.
+* Changed install to set email/confirm_email and user_url as HTML5 field types "email" and "url" (now supported).
 * Changed get_action call from init action to template_redirect action.
 * Changed username in register form from log to user_login to match wp native registration form.
 * Changed [wp-members page="user-profile"] shortcode to [wpmem_profile] (old shortcode will still work).
 * Removed redirect parameter from register shortcode in shortcode menu.
+* Removed kubrick stylesheet from selector (still packaged with download, shows as custom url if used).
 
 = 3.0.9 =
 
