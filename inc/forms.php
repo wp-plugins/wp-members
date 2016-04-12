@@ -707,7 +707,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 			// Label for all but TOS.
 			if ( $field[2] != 'tos' ) {
 
-				$class = ( $field[3] == 'password' || $field[3] == 'email' ) ? 'text' : $field[3];
+				$class = ( $field[3] == 'password' || $field[3] == 'email' || $field[3] == 'url' ) ? 'text' : $field[3];
 				
 				$label = '<label for="' . $field[2] . '" class="' . $class . '">' . __( $field[1], 'wp-members' );
 				$label = ( $field[5] == 'y' ) ? $label . $args['req_mark'] : $label;
