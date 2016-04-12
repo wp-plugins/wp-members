@@ -182,7 +182,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 #wpmem_login input[type="password"],
 #wpmem_login input[type="text"],
-#wpmem_reg input[type="text"] {
+#wpmem_reg input[type="text"],
+#wpmem_reg input[type="password"],
+#wpmem_reg input[type="email"],
+#wpmem_reg input[type="url"] {
 	height: 26px;
 }
 #wpmem_reg input[type=checkbox]{
