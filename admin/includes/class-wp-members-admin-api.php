@@ -27,7 +27,6 @@ class WP_Members_Admin_API {
 	 */
 	public $emails = array();
 
-
 	/**
 	 * Plugin initialization function.
 	 *
@@ -46,9 +45,7 @@ class WP_Members_Admin_API {
 
 		// Load default emails.
 		$emails = $this->default_emails();
-
 	}
-
 
 	/**
 	 * Load dependencies.
@@ -69,6 +66,7 @@ class WP_Members_Admin_API {
 			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
+			require_once( WPMEM_PATH . 'admin/tab-about.php' );
 			require_once( WPMEM_PATH . 'admin/dialogs.php' );
 			//require_once( WPMEM_PATH . 'admin/tab-about.php' );
 		}
@@ -78,7 +76,6 @@ class WP_Members_Admin_API {
 		require_once( WPMEM_PATH . 'inc/users.php' );
 		require_once( WPMEM_PATH . 'admin/users.php' );
 	}
-
 
 	/**
 	 * Load admin.
@@ -106,8 +103,7 @@ class WP_Members_Admin_API {
 			add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
 		}
 	} // End of load_hooks()
-	
-	
+
 	/**
 	 * Display admin tabs.
 	 *
@@ -140,8 +136,7 @@ class WP_Members_Admin_API {
 		}
 		echo '</h2>';
 	}
-	
-	
+
 	/**
 	 * Adds custom email dialog to the Emails tab.
 	 *
@@ -161,8 +156,7 @@ class WP_Members_Admin_API {
         </tr>
         <tr><td colspan="2"><hr /></td></tr><?php
 	}
-	
-	
+
 	/**
 	 * Saves custom email settings.
 	 *
@@ -180,8 +174,7 @@ class WP_Members_Admin_API {
 		$this->emails[ $args['name'] ]['body_value']    = $settings['body'];
 		return;
 	}
-	
-	
+
 	/**
 	 * Handles custom email settings.
 	 *
@@ -214,7 +207,6 @@ class WP_Members_Admin_API {
 		return $args;
 	}
 
-
 	/**
 	 * Settings for default tabs.
 	 *
@@ -228,7 +220,6 @@ class WP_Members_Admin_API {
 			'emails'  => __( 'Emails', 'wp-members' ),
 		);
 	}
-
 
 	/** 
 	 * Settings for default emails.

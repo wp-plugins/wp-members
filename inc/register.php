@@ -92,7 +92,7 @@ function wpmem_registration( $toggle ) {
 	}
 	
 	/**
-	 * Filter the submitted form field date prior to validation.
+	 * Filter the submitted form fields prior to validation.
 	 *
 	 * @since 2.8.2
 	 *
