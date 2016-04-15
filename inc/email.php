@@ -36,8 +36,9 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @param  string $toggle               Toggle indicating the email being sent (newreg|newmod|appmod|repass).
  * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
  * @param  array  $fields               Array of the registration data (defaults to null).
+ * @param  array  $custom               Array of custom email information (defaults to null).
  */
-function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null, $field_data = null ) {
+function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null, $field_data = null, $custom = null ) {
 
 	global $wpmem;
 
@@ -77,6 +78,12 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 		$arr = get_option( 'wpmembers_email_getuser' );
 		$arr['toggle'] = 'getuser';
 		break;
+	
+	case 5:
+		// This is a custom email.
+		$arr['subj']   = $custom['subj'];
+		$arr['body']   = $custom['body'];
+		$arr['toggle'] = $custom['toggle'];
 
 	}
 
@@ -91,6 +98,8 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	$arr['exp_type']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
 	$arr['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 	$arr['wpmem_msurl']   = esc_url( $wpmem->user_pages['profile'] );
+	$arr['wpmem_reg']     = esc_url( $wpmem->user_pages['register'] );
+	$arr['wpmem_login']   = esc_url( $wpmem->user_pages['login'] );
 	$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 	$arr['do_shortcodes'] = true;
 	$arr['add_footer']    = true;
@@ -212,37 +221,46 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 		// If doing shortcode replacements.
 		if ( $arr['do_shortcodes'] ) {
-
-			// Setup default shortcodes.
-			$shortcd = array(
-				'[blogname]',
-				'[username]',
-				'[password]',
-				'[email]',
-				'[reglink]',
-				'[members-area]',
-				'[user-profile]',
-				'[exp-type]',
-				'[exp-data]',
+			
+			$shortcodes = array(
+				'blogname'     => $arr['blogname'],
+				'username'     => $arr['user_login'],
+				'password'     => $password
+				'email'        => $arr['user_email'],
+				'reglink'      => $arr['reg_link'],
+				'members-area' => $arr['wpmem_msurl'],
+				'user-profile' => $arr['wpmem_msurl'],
+				'exp-type'     => $arr['exp_type'],
+				'exp-data'     => $arr['exp_date'],
+				'exp-date'     => $arr['exp_date'],
+				'login'        => $arr['wpmem_login'],
+				'register'     => $arr['wpmem_reg'],
 			);
 
-			// Replacement values for default shortcodes.
-			$replace = array(
-				$arr['blogname'],
-				$arr['user_login'],
-				$password,
-				$arr['user_email'],
-				$arr['reg_link'],
-				$arr['wpmem_msurl'],
-				$arr['wpmem_msurl'],
-				$arr['exp_type'],
-				$arr['exp_date'],
-			);
-
-			// Set up custom field shortcodes.
+			// Add custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
-				$shortcd[] = '[' . $field[2] . ']'; 
-				$replace[] = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
+				$key = '[' . $field[2] . ']'; 
+				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
+				$shortcodes[ $key ] = $val;
+			}
+			
+			/**
+			 * Filter available email shortcodes.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param array  $shortcodes
+			 * @param string $toggle 
+			 */
+			$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, $arr['toggle'] );
+			
+			$shortcd = array();
+			$replace = array();
+			foreach ( $shortcodes as $key => $val ) {
+				// Shortcodes.
+				$shortcd[] = '[' . $key . ']';
+				// Replacement values.
+				$replace[] = $val;
 			}
 
 			// Do replacements for subject, body, and footer shortcodes.
@@ -393,32 +411,45 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
 		// If doing shortcode replacements.
 		if ( $arr['do_shortcodes'] ) {
-
-			// Setup default shortcodes.
-			$shortcd = array(
-				'[blogname]',
-				'[username]',
-				'[email]',
-				'[reglink]',
-				'[exp-type]',
-				'[exp-data]',
-				'[user-ip]',
-				'[activate-user]',
-				'[fields]',
-			);
-
-			// Replacement values for default shortcodes.
-			$replace = array(
-				$arr['blogname'],
-				$arr['user_login'],
-				$arr['user_email'],
-				$arr['reg_link'],
-				$arr['exp_type'],
-				$arr['exp_date'],
-				$arr['user_ip'],
-				$arr['act_link'],
-				$field_str,
-			);
+			
+			$shortcodes = array(
+				'blogname'      => $arr['blogname'],
+				'username'      => $arr['user_login'],
+				'email'         => $arr['user_email'],
+				'reglink'       => $arr['reg_link'],
+				'exp-type'      => $arr['exp_type'],
+				'exp-data'      => $arr['exp_date'],
+				'exp-date'      => $arr['exp_date'],
+				'user-ip'       => $arr['user_ip'],
+				'activate-user' => $arr['act_link'],
+				'fields'        => $field_str,
+			);			
+			
+			// Add custom field shortcodes.
+			foreach ( $wpmem_fields as $field ) {
+				$key = '[' . $field[2] . ']'; 
+				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
+				$shortcodes[ $key ] = $val;
+			}
+			
+			/**
+			 * Filter available email shortcodes.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param array  $shortcodes
+			 * @param string $toggle
+			 */
+			$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, 'notify' );
+			
+			$shortcd = array();
+			$replace = array();
+			foreach ( $shortcodes as $key => $val ) {
+				// Shortcodes.
+				$shortcd[] = '[' . $key . ']';
+				// Replacement values.
+				$replace[] = $val;
+			}
 
 			// Create the custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
