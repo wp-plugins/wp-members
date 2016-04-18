@@ -111,8 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.0.10 is intermediate release leading to 3.1.0, see release notes.
-WP-Members 3.0.0 is a major version release. Please review the changelog: http://rkt.bz/v30
+WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 == Screenshots ==
 
@@ -151,6 +150,7 @@ This package contains several fixes, some new filters, new field types and other
 * Added after_wrapper array value for wpmem_{$page}_links_args filters
 * Added a new admin api class, utilities object class, and forms object class.
 * Added user facing strings as an array in the main $wpmem object class.
+* Added wpmem_default_text_strings filter for user facing text strings.
 * Added new wpmem_sidebar_status_args filter hook.
 * Added new container in main object for email from and from name settings.
 * Added file upload functions.
