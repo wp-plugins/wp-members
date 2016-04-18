@@ -94,11 +94,14 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  *
  * @since 1.8
  *
+ * @global object $wpmem
  * @param  string $toggle Error message toggle to look for specific error messages.
  * @param  string $msg    A message that has no toggle that is passed directly to the function.
  * @return string $str    The final HTML for the message.
  */
 function wpmem_inc_regmessage( $toggle, $msg = '' ) {
+	
+	global $wpmem;
 
 	// defaults
 	$defaults = array(
@@ -131,8 +134,12 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
 	for ( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
-		if ( $toggle == $defaults['toggles'][$r] ) {
-			$msg = __( stripslashes( $dialogs[$r+1] ), 'wp-members' );
+		if ( $toggle == $defaults['toggles'][ $r ] ) {
+			if ( $dialogs[ $r+1 ] == $wpmem->get_text( $toggle ) ) {
+				$msg = $wpmem->get_text( $toggle );
+			} else {
+				$msg = __( stripslashes( $dialogs[ $r+1 ] ), 'wp-members' );
+			}
 			break;
 		}
 	}

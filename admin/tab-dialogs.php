@@ -62,8 +62,8 @@ function wpmem_a_build_dialogs() {
 							<table class="form-table">
 							<?php for( $row = 0; $row < count( $wpmem_dialog_title_arr ); $row++ ) { ?>
 								<tr valign="top"> 
-									<th scope="row"><?php echo $wpmem_dialog_title_arr[$row]; ?></th> 
-									<td><textarea name="<?php echo "dialogs_".$row; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $wpmem_dialogs[$row] ); ?></textarea></td> 
+									<th scope="row"><?php echo $wpmem_dialog_title_arr[ $row ]; ?></th> 
+									<td><textarea name="<?php echo "dialogs_".$row; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $wpmem_dialogs[ $row ] ); ?></textarea></td> 
 								</tr>
 							<?php } ?>
 
@@ -104,9 +104,9 @@ function wpmem_update_dialogs() {
 
 	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
 
-	for( $row = 0; $row < count( $wpmem_dialogs); $row++ ) {
+	for( $row = 0; $row < count( $wpmem_dialogs ); $row++ ) {
 		$dialog = "dialogs_" . $row;
-		$wpmem_newdialogs[$row] = $_POST[$dialog];
+		$wpmem_newdialogs[ $row ] = $_POST[ $dialog ];
 	}
 
 	update_option( 'wpmembers_dialogs', $wpmem_newdialogs );
