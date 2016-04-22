@@ -66,7 +66,6 @@ class WP_Members_Admin_API {
 			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
-			require_once( WPMEM_PATH . 'admin/tab-about.php' );
 			require_once( WPMEM_PATH . 'admin/dialogs.php' );
 			//require_once( WPMEM_PATH . 'admin/tab-about.php' );
 		}
