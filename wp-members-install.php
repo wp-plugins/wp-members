@@ -17,7 +17,7 @@
  * - wpmem_do_install
  * - wpmem_update_settings
  * - wpmem_append_email
- * - wpmem_update_dialogs
+ * - wpmem_default_dialogs
  * - wpmem_update_captcha
  */
 
@@ -149,7 +149,7 @@ function wpmem_do_install() {
 		
 		wpmem_update_settings();
 		wpmem_update_captcha();
-		wpmem_update_dialogs();
+		wpmem_default_dialogs();
 		wpmem_append_email();
 		
 	}
@@ -448,11 +448,11 @@ username: [username]
 /**
  * Checks the dialogs array for string changes.
  *
- * Was update_dialogs() since 2.9.3, changed to wpmem_update_dialogs() in 3.0.
- *
  * @since 2.9.3
+ * @since 3.0.0 Changed from update_dialogs() to wpmem_update_dialogs().
+ * @since 3.1.0 Changed from wpmem_update_dialogs() to wpmem_default_dialogs().
  */
-function wpmem_update_dialogs() {
+function wpmem_default_dialogs() {
 
 	$wpmem_dialogs_arr = get_option( 'wpmembers_dialogs' );
 	$do_update = false;
