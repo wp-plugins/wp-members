@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
 Tested up to: 4.5.0
-Stable tag: 3.1.0.2
+Stable tag: 3.1.0.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -111,7 +111,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.0.2 fixes a redeclared function (wpmem_update_dialogs()) from 3.1.0.
+WP-Members 3.1.0.3 fixes a redeclared function (wpmem_update_captcha()) from 3.1.0.
 WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 == Screenshots ==
@@ -134,6 +134,13 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 
 == Changelog ==
+
+= 3.1.0.3 =
+
+* Fixes redeclared wpmem_update_captcha function from 3.1.0.
+* Changed all _update_ functions in install package to _upgrade_.
+* Fixes an issue with PayPal extension where users may be set to pending if moderated registration is enabled after the user already has an expiration date.
+* Update wpmem_do_sidebar to use use add_query_arg() if on a search query.
 
 = 3.1.0.2 =
 
@@ -165,6 +172,7 @@ This package contains several fixes, some new filters, new field types and other
 * Added file upload functions.
 * Added new field types: multiple checkbox, multiple select, radio, file, image, email, url.
 * Added "values" key to the register form rows array to hold possible values (i.e. select, multiple select, multiple checkbox, and radio group) and the actual value to be in the "value" key.
+* Added the ability for dropdown/select fields to have a default value other than the first value.
 * Added filter wpmem_user_upload_dir for filtering the location of user uploaded files.
 * Added wpmem_register_form_rows_admin and wpmem_register_form_rows_profile filter hooks.
 * Deprecated use of wpmem_chk_qstr() function, use add_query_arg() instead.
