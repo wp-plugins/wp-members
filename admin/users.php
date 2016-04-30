@@ -389,8 +389,8 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
 	}
 
-	// If subscriptions can expire, set the user's expiration date.
-	if( $wpmem->use_exp == 1 ) {
+	// If subscriptions can expire, and the user has no expiration date, set one.
+	if( $wpmem->use_exp == 1 && ! get_user_meta( $user_id, 'expires', true ) ) {
 		wpmem_set_exp( $user_id );
 	}
 
