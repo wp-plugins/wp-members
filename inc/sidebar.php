@@ -79,7 +79,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		$cat_id  = get_query_var( 'cat' );
 		$post_to = get_category_link( $cat_id );
 	} elseif ( is_search() ) {
-		$post_to = $url . '/?s=' . get_search_query();
+		$post_to = add_query_arg( 's', get_search_query(), $url );
 	} else {
 		$post_to = $_SERVER['REQUEST_URI'];
 	}
