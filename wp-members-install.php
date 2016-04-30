@@ -147,9 +147,9 @@ function wpmem_do_install() {
 
 	} else {
 		
-		wpmem_update_settings();
-		wpmem_update_captcha();
-		wpmem_default_dialogs();
+		wpmem_upgrade_settings();
+		wpmem_upgrade_captcha();
+		wpmem_upgrade_dialogs();
 		wpmem_append_email();
 		
 	}
@@ -159,11 +159,12 @@ function wpmem_do_install() {
 /**
  * Updates the existing settings if doing an update.
  *
- * @since 3.0
+ * @since 3.0.0
+ * @since 3.1.0 Changed from wpmem_update_settings() to wpmem_upgrade_settings().
  *
  * @return array $wpmem_newsettings
  */
-function wpmem_update_settings() {
+function wpmem_upgrade_settings() {
 
 	$wpmem_settings = get_option( 'wpmembers_settings' );
 
@@ -450,9 +451,9 @@ username: [username]
  *
  * @since 2.9.3
  * @since 3.0.0 Changed from update_dialogs() to wpmem_update_dialogs().
- * @since 3.1.0 Changed from wpmem_update_dialogs() to wpmem_default_dialogs().
+ * @since 3.1.0 Changed from wpmem_update_dialogs() to wpmem_upgrade_dialogs().
  */
-function wpmem_default_dialogs() {
+function wpmem_upgrade_dialogs() {
 
 	$wpmem_dialogs_arr = get_option( 'wpmembers_dialogs' );
 	$do_update = false;
@@ -481,8 +482,10 @@ function wpmem_default_dialogs() {
  * Was update_captcha() since 2.9.5, changed to wpmem_update_captcha() in 3.0.
  *
  * @since 2.9.5
+ * @since 3.0.0 Changed from update_captcha() to wpmem_update_captcha().
+ * @since 3.1.0 Changed from wpmem_update_captcha() to wpmem_upgrade_captcha().
  */
-function wpmem_update_captcha() {
+function wpmem_upgrade_captcha() {
 
 	$captcha_settings = get_option( 'wpmembers_captcha' );
 
