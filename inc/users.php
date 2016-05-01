@@ -130,10 +130,13 @@ function wpmem_user_profile() {
 			 * Filter the field for user profile additional fields.
 			 *
 			 * @since 2.9.1
+			 * @since 3.1.1 Added $user_id and $row.
 			 *
-			 * @parma string $show_field The HTML string of the additional field.
+			 * @param string $show_field The HTML string of the additional field.
+			 * @param int    $user_id
+			 * @param array  $rows
 			 */
-			echo apply_filters( 'wpmem_user_profile_field', $show_field );
+			echo apply_filters( 'wpmem_user_profile_field', $show_field, $user_id, $row );
 			
 		} ?>
 	</table><?php

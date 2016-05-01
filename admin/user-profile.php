@@ -150,10 +150,13 @@ function wpmem_admin_fields() {
 			 * Filter the profile field.
 			 * 
 			 * @since 2.8.2
+			 * @since 3.1.1 Added $user_id and $row
 			 *
 			 * @param string $show_field The HTML string for the additional profile field.
+			 * @param string $user_id
+			 * @param array  $row
 			 */
-			echo apply_filters( 'wpmem_admin_profile_field', $show_field );
+			echo apply_filters( 'wpmem_admin_profile_field', $show_field, $user_id, $row );
 		}
 
 		// See if reg is moderated, and if the user has been activated.
