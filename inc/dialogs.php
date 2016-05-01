@@ -418,24 +418,33 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 		}
 
 	} else {
+		
+		// If the password shortcode page is set as User Profile page.
+		if ( 'getusername' == $wpmem->action ) {
+			
+			return wpmem_page_forgot_username( $wpmem_regchk, $content );
+		
+		} else {
 
-		switch( $wpmem_regchk ) {
-
-		case "pwdreseterr":
-			$content = $content 
-				. wpmem_inc_regmessage( $wpmem_regchk )
-				. wpmem_inc_resetpassword();
-			$wpmem_regchk = ''; // Clear regchk.
-			break;
-
-		case "pwdresetsuccess":
-			$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-			$wpmem_regchk = ''; // Clear regchk.
-			break;
-
-		default:
-			$content = $content . wpmem_inc_resetpassword();
-			break;
+			switch( $wpmem_regchk ) {
+	
+			case "pwdreseterr":
+				$content = $content 
+					. wpmem_inc_regmessage( $wpmem_regchk )
+					. wpmem_inc_resetpassword();
+				$wpmem_regchk = ''; // Clear regchk.
+				break;
+	
+			case "pwdresetsuccess":
+				$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+				$wpmem_regchk = ''; // Clear regchk.
+				break;
+	
+			default:
+				$content = $content . wpmem_inc_resetpassword();
+				break;
+			}
+		
 		}
 		
 	}
