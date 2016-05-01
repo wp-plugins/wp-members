@@ -16,6 +16,9 @@
  * Functions included:
  * - wpmem_admin_fields
  * - wpmem_admin_update
+ * - wpmem_profile_show_activate
+ * - wpmem_profile_show_expiration
+ * - wpmem_profile_show_ip
  */
 
  
@@ -64,6 +67,7 @@ function wpmem_admin_fields() {
 		 */
 		do_action( 'wpmem_admin_before_profile', $user_id, $wpmem_fields );
 
+		// Assemble form rows array.
 		$rows = array();
 		foreach ( $wpmem_fields as $meta ) {
 
@@ -139,6 +143,7 @@ function wpmem_admin_fields() {
 		 */
 		$rows = apply_filters( 'wpmem_register_form_rows_admin', $rows, 'adminprofile' );
 		
+		// Handle form rows display from array.
 		foreach ( $rows as $row ) {
 			$show_field = '
 				<tr>
@@ -159,50 +164,6 @@ function wpmem_admin_fields() {
 			echo apply_filters( 'wpmem_admin_profile_field', $show_field, $user_id, $row );
 		}
 
-		// See if reg is moderated, and if the user has been activated.
-		if ( $wpmem->mod_reg == 1 ) {
-			$user_active_flag = get_user_meta( $user_id, 'active', true );
-			switch( $user_active_flag ) {
-			
-				case '':
-					$label  = __( 'Activate this user?', 'wp-members' );
-					$action = 1;
-					break;
-
-				case 0:
-					$label  = __( 'Reactivate this user?', 'wp-members' );
-					$action = 1;
-					break;
-				
-				case 1:
-					$label  = __( 'Deactivate this user?', 'wp-members' );
-					$action = 0;
-					break;
-				
-			}?>
-
-			<tr>
-				<th><label><?php echo $label; ?></label></th>
-				<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
-			</tr>
-
-		<?php }
-
-		/*
-		 * If using subscription model, show expiration.
-		 * If registration is moderated, this doesn't show 
-		 * if user is not active yet.
-		 */
-		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-			if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmem->mod_reg != 1 ) ) {
-				wpmem_a_extenduser( $user_id );
-			}
-		} ?>
-		<tr>
-			<th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
-			<td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', true ); ?></td>
-		</tr>
-		<?php
 		/**
 		 * Fires after generating the WP-Members fields in the user profile.
 		 *
@@ -300,6 +261,85 @@ function wpmem_admin_update() {
 	do_action( 'wpmem_admin_after_user_update', $user_id );
 
 	return;
+}
+
+
+/**
+ * Adds user activation to the user profile.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @param  int    $user_id
+ */
+function wpmem_profile_show_activate( $user_id ) {
+	global $wpmem;
+	// See if reg is moderated, and if the user has been activated.
+	if ( $wpmem->mod_reg == 1 ) {
+		$user_active_flag = get_user_meta( $user_id, 'active', true );
+		switch( $user_active_flag ) {
+		
+			case '':
+				$label  = __( 'Activate this user?', 'wp-members' );
+				$action = 1;
+				break;
+
+			case 0:
+				$label  = __( 'Reactivate this user?', 'wp-members' );
+				$action = 1;
+				break;
+			
+			case 1:
+				$label  = __( 'Deactivate this user?', 'wp-members' );
+				$action = 0;
+				break;
+			
+		} ?>
+        <tr>
+            <th><label><?php echo $label; ?></label></th>
+            <td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
+        </tr>
+	<?php }
+}
+
+
+/**
+ * Adds user expiration to the user profile.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @param  int    $user_id
+ */
+function wpmem_profile_show_expiration( $user_id ) {
+	
+global $wpmem;
+	/*
+	 * If using subscription model, show expiration.
+	 * If registration is moderated, this doesn't show 
+	 * if user is not active yet.
+	 */
+	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+		if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmem->mod_reg != 1 ) ) {
+			wpmem_a_extenduser( $user_id );
+		}
+	} 
+} 
+
+
+/**
+ * Adds user registration IP to the user profile.
+ *
+ * @since 3.1.1
+ *
+ * @param  int    $user_id
+ */
+function wpmem_profile_show_ip( $user_id ) { ?>
+    <tr>
+        <th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
+        <td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', true ); ?></td>
+    </tr>
+    <?php
 }
 
 // End of file.
