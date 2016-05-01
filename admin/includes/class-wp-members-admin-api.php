@@ -100,6 +100,10 @@ class WP_Members_Admin_API {
 			add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
 			add_filter( 'manage_pages_columns',       'wpmem_post_columns' );
 			add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
+			
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_activate',   7 );
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_expiration', 8 );
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_ip',         9 );
 		}
 	} // End of load_hooks()
 
