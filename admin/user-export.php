@@ -33,7 +33,7 @@ function wpmem_export_users( $args, $users = null ) {
 	$defaults = array(
 		'export'         => 'all',
 		'filename'       => 'wp-members-user-export-' . $today . '.csv',
-		'export_fields'  => array(),
+		'export_fields'  => $wpmem->fields, //array(),
 		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 	);
 
@@ -60,13 +60,10 @@ function wpmem_export_users( $args, $users = null ) {
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
-	// Get the fields.
-	$wpmem_fields = get_option( 'wpmembers_fields' );
-
 	// Do the header row.
 	$hrow = "User ID,Username,";
 
-	foreach ( $wpmem_fields as $meta ) {
+	foreach ( $args['export_fields'] as $meta ) {
 		if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
 			$hrow.= $meta[1] . ",";
 		}
@@ -83,7 +80,7 @@ function wpmem_export_users( $args, $users = null ) {
 	 * We used the fields array once,
 	 * rewind so we can use it again.
 	 */
-	reset( $wpmem_fields );
+	reset( $args['export_fields'] );
 
 	/*
 	 * Loop through the array of users,
@@ -97,7 +94,7 @@ function wpmem_export_users( $args, $users = null ) {
 		$data .= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
 
 		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
-		foreach ( $wpmem_fields as $meta ) {
+		foreach ( $args['export_fields'] as $meta ) {
 			if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
 				// @todo Research using fputcsv to escape fields for export.
 				if ( in_array( $meta[2], $wp_user_fields ) ){
