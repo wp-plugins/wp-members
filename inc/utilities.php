@@ -417,4 +417,75 @@ function wpmem_wp_reserved_terms() {
 	return $reserved_terms;
 }
 
+
+/**
+ * Wrapper to get the login page location.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @return string The login page url.
+ */
+function wpmem_login_url() {
+	global $wpmem;
+	return $wpmem->user_pages['login'];
+}
+
+
+/**
+ * Wrapper to get the register page location.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @return string The register page url.
+ */
+function wpmem_register_url() {
+	global $wpmem;
+	return $wpmem->user_pages['register'];
+}
+
+
+/**
+ * Wrapper to get the profile page location.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @return string The profile page url.
+ */
+function wpmem_profile_url() {
+	global $wpmem;
+	return $wpmem->user_pages['profile'];
+}
+
+
+/**
+ * Wraper to get form fields.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem
+ * @return array  $fields The form fields.
+ */
+function wpmem_fields( $form = false ) {
+	global $wpmem;
+	return $wpmem->fields;
+}
+
+
+/**
+ * Wrapper to return a string from the get_text function.
+ *
+ * @since 3.1.1
+ *
+ * @global object $wpmem The WP_Members object class.
+ * @param  string $str   The string to retrieve.
+ * @return string $str   The localized string.
+ */
+function wpmem_gettext( $str ) {
+	global $wpmem;
+	return $wpmem->get_text( $str );
+}
+
 // End of file.
