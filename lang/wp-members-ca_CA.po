@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-Members 2.9.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2014-07-08 10:47-0600\n"
-"PO-Revision-Date: 2014-07-18 12:35-0600\n"
+"POT-Creation-Date: 2016-05-03 17:33-0500\n"
+"PO-Revision-Date: 2016-05-03 17:34-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ca_CA\n"
@@ -14,32 +14,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: /home/aure/raid/www/wordpress_31RC2_coitcv/wp-content/"
 "plugins/wp-members\n"
 
-#: admin/admin.php:60 admin/admin.php:129
+#: admin/admin.php:72 admin/admin.php:143
 msgid "Settings"
 msgstr "Preferències"
 
-#: admin/admin.php:187
-msgid "Options"
-msgstr "Opcions"
-
-#: admin/admin.php:188
-msgid "Fields"
-msgstr "Camps"
-
-#: admin/admin.php:189
-msgid "Dialogs"
-msgstr "Diàlegs"
-
-#: admin/admin.php:190
-msgid "Emails"
-msgstr "Emails"
-
-#: admin/dialogs.php:109
+#: admin/dialogs.php:104
 msgid ""
 "Your WP settings allow anyone to register - this is not the recommended "
 "setting."
@@ -47,7 +31,7 @@ msgstr ""
 "La seva configuració de WP permet que qualsevol persona pugui registrar-se, "
 "això no és el més recomenat. "
 
-#: admin/dialogs.php:110
+#: admin/dialogs.php:105
 #, php-format
 msgid ""
 "You can %s change this here %s making sure the box next to \"Anyone can "
@@ -56,7 +40,7 @@ msgstr ""
 "Pot %s canviar això aquí %s revistant la casella \"Qualsevol pot registrar-se"
 "\" està demercada."
 
-#: admin/dialogs.php:111
+#: admin/dialogs.php:106
 msgid ""
 "This setting allows a link on the /wp-login.php page to register using the "
 "WP native registration process thus circumventing any registration you are "
@@ -71,7 +55,7 @@ msgstr ""
 "d'estar desactivada. Si decideix deixar la configuració aixó, pot escollir "
 "ignorar els missatges d'alerta en la configuració de WP-Members."
 
-#: admin/dialogs.php:117
+#: admin/dialogs.php:110
 msgid ""
 "Your WP settings allow anyone to comment - this is not the recommended "
 "setting."
@@ -79,7 +63,7 @@ msgstr ""
 "La seva configuració de WP permet a qualsevol fer comentaris, això no és el "
 "més recomenat. "
 
-#: admin/dialogs.php:118
+#: admin/dialogs.php:111
 #, php-format
 msgid ""
 "You can %s change this here %s by checking the box next to \"Users must be "
@@ -88,7 +72,7 @@ msgstr ""
 "Pot %s canviar %s això marcant la casella al costat de \"Els usuaris han "
 "d'estar registrats i connectats per fer comentaris.\""
 
-#: admin/dialogs.php:119
+#: admin/dialogs.php:112
 msgid ""
 "This setting allows any users to comment, whether or not they are "
 "registered. Depending on how you are using WP-Members will determine whether "
@@ -100,7 +84,7 @@ msgstr ""
 "Si decideix deixar la configuració així, pot marcar \"ignorar els missatges "
 "d'alerta en el panell la configuració de WP-Members."
 
-#: admin/dialogs.php:125
+#: admin/dialogs.php:116
 msgid ""
 "Your WP settings allow full text rss feeds - this is not the recommended "
 "setting."
@@ -108,7 +92,7 @@ msgstr ""
 "La teva configuració de WP permet textos complets en el canal RSS, això no "
 "és el més recomenat."
 
-#: admin/dialogs.php:126
+#: admin/dialogs.php:117
 #, php-format
 msgid ""
 "You can %s change this here %s by changing \"For each article in a feed, show"
@@ -117,7 +101,7 @@ msgstr ""
 "Pots %s canviar això aquí %s per canviar-ho \"Per a cada article en una "
 "font , mostra\" el \"Resum.\""
 
-#: admin/dialogs.php:127
+#: admin/dialogs.php:118
 msgid ""
 "Leaving this set to full text allows anyone to read your protected content "
 "in an RSS reader. Changing this to Summary prevents this as your feeds will "
@@ -127,13 +111,13 @@ msgstr ""
 "contingut protegit amb un lector de RSS. Canviar això evita aquesta "
 "possibilitat."
 
-#: admin/dialogs.php:133
+#: admin/dialogs.php:122
 msgid "You have set WP-Members to hold registrations for approval"
 msgstr ""
 "Ha configurat WP-Members perquè els nous registres estiguin retinguts fins "
 "que siguin aprovats. "
 
-#: admin/dialogs.php:134
+#: admin/dialogs.php:123
 msgid ""
 "but you have not changed the default message for \"Registration Completed\" "
 "under \"WP-Members Dialogs and Error Messages.\"  You should change this "
@@ -143,11 +127,11 @@ msgstr ""
 "Members Diàlegs i Missatges d'Error.\" Heu de canviar aquest missatge perquè "
 "els usuaris sàpiguen que estan pendents d'aprovació."
 
-#: admin/dialogs.php:140
+#: admin/dialogs.php:127
 msgid "You have set WP-Members to turn off the registration process"
 msgstr "Ha configurat WP-Members per desactivar el procés de registre "
 
-#: admin/dialogs.php:141
+#: admin/dialogs.php:128
 msgid ""
 "but you also set to moderate and/or email admin new registrations.  You will "
 "need to set up a registration page for users to register."
@@ -156,11 +140,11 @@ msgstr ""
 "registres. Necessiteu establir una pàgina de registres pels usuaris que "
 "vulguin registrar-se"
 
-#: admin/dialogs.php:147
+#: admin/dialogs.php:132
 msgid "You have turned on reCAPTCHA"
 msgstr "Ha activat reCAPTCHA, el sistema per prevenir registres falsos."
 
-#: admin/dialogs.php:148
+#: admin/dialogs.php:133
 msgid ""
 "but you have not entered API keys.  You will need both a public and private "
 "key.  The CAPTCHA will not display unless a valid API key is included."
@@ -168,81 +152,141 @@ msgstr ""
 "però no ha introduit les claus API. Necessitaràs una clau pública i privada. "
 "El CAPTCHA no es mostrarà si no es mostra una clau API vàlida."
 
-#: admin/dialogs.php:171
+#: admin/dialogs.php:157
 msgid "Version:"
 msgstr "Versió:"
 
-#: admin/dialogs.php:172
+#: admin/dialogs.php:158
 msgid "Quick Start Guide"
 msgstr ""
 
-#: admin/dialogs.php:173
+#: admin/dialogs.php:159
 msgid "Online User Guide"
 msgstr ""
 
-#: admin/dialogs.php:174
+#: admin/dialogs.php:160
 msgid "FAQs"
 msgstr ""
 
-#: admin/dialogs.php:181
+#: admin/dialogs.php:167
 msgid "Thank you for using WP-Members"
 msgstr "Gràcies per utilitzar WP-Members"
 
-#: admin/dialogs.php:182
+#: admin/dialogs.php:168
 msgid "A plugin developed by"
 msgstr ""
 
-#: admin/dialogs.php:183
+#: admin/dialogs.php:169
 msgid "Follow"
 msgstr "Continuar:"
 
-#: admin/dialogs.php:200 admin/dialogs.php:204
+#: admin/dialogs.php:186 admin/dialogs.php:190
 msgid "Latest from RocketGeek"
 msgstr ""
 
-#: admin/dialogs.php:221 admin/dialogs.php:234
+#: admin/dialogs.php:207 admin/dialogs.php:220
 msgid "Latest from ButlerBlog"
 msgstr ""
 
-#: admin/post.php:36 admin/post.php:38
+#: admin/includes/class-wp-members-admin-api.php:220
+msgid "Options"
+msgstr "Opcions"
+
+#: admin/includes/class-wp-members-admin-api.php:221
+msgid "Fields"
+msgstr "Camps"
+
+#: admin/includes/class-wp-members-admin-api.php:222
+msgid "Dialogs"
+msgstr "Diàlegs"
+
+#: admin/includes/class-wp-members-admin-api.php:223
+msgid "Emails"
+msgstr "Emails"
+
+#: admin/includes/class-wp-members-admin-api.php:239
+msgid "New Registration"
+msgstr "Nou registre"
+
+#: admin/includes/class-wp-members-admin-api.php:248
+msgid "Registration is Moderated"
+msgstr "Registre complet"
+
+#: admin/includes/class-wp-members-admin-api.php:254
+msgid "Registration is Moderated, User is Approved"
+msgstr "El seu registre ha estat aprovat"
+
+#: admin/includes/class-wp-members-admin-api.php:262
+msgid "Password Reset"
+msgstr "Contrasenya reiniciada"
+
+#: admin/includes/class-wp-members-admin-api.php:269
+msgid "Retrieve Username"
+msgstr ""
+
+#: admin/includes/class-wp-members-admin-api.php:277
+msgid "Admin Notification"
+msgstr "Notificació de l'administrador"
+
+#: admin/post.php:51 admin/post.php:53 admin/tab-options.php:87
 msgid "Block"
 msgstr "Bloquejar"
 
-#: admin/post.php:37 admin/post.php:39
+#: admin/post.php:52 admin/post.php:54
 msgid "Unblock"
 msgstr ""
 
-#: admin/post.php:120
+#: admin/post.php:188
 #, php-format
-msgid "%s posts %sed."
+msgid "%s Restriction"
 msgstr ""
 
-#: admin/post.php:138
-msgid "Post Restriction"
-msgstr "Restricció de l'anunci"
+#: admin/post.php:215
+#, php-format
+msgid "%s are blocked by default."
+msgstr ""
 
-#: admin/post.php:145
-msgid "Page Restriction"
-msgstr "Pàgina Restricció"
+#: admin/post.php:216
+#, php-format
+msgid "Unblock this %s"
+msgstr ""
 
-#: admin/post.php:263 admin/post.php:295
+#: admin/post.php:219
+#, php-format
+msgid "%s are not blocked by default."
+msgstr ""
+
+#: admin/post.php:220
+#, php-format
+msgid "Block this %s"
+msgstr ""
+
+#: admin/post.php:226 admin/tab-fields.php:282 admin/tab-fields.php:473
+msgid "Edit"
+msgstr ""
+
+#: admin/post.php:313
 msgid "Unblocked?"
 msgstr "Desbloquejat?"
 
-#: admin/post.php:263 admin/post.php:295
+#: admin/post.php:313
 msgid "Blocked?"
 msgstr "Bloquejat?"
 
-#: admin/tab-captcha.php:35 admin/tab-dialogs.php:44 admin/tab-emails.php:113
-#: admin/tab-fields.php:45 admin/tab-options.php:37
+#: admin/post.php:345 admin/post.php:346 admin/user-export.php:108
+msgid "Yes"
+msgstr ""
+
+#: admin/tab-captcha.php:42 admin/tab-dialogs.php:47 admin/tab-emails.php:80
+#: admin/tab-fields.php:44 admin/tab-options.php:58
 msgid "Need help?"
 msgstr ""
 
-#: admin/tab-captcha.php:46
+#: admin/tab-captcha.php:53
 msgid "Manage reCAPTCHA Options"
 msgstr "Gestionar les opcions de reCAPTCHA"
 
-#: admin/tab-captcha.php:60
+#: admin/tab-captcha.php:67
 msgid ""
 "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
 "while blocking spam on your blog."
@@ -250,7 +294,7 @@ msgstr ""
 "reCAPTCHA és un servei gratuit i accessible que ajuda als registres digitals "
 "mentre bloqueja el spam del seu blog."
 
-#: admin/tab-captcha.php:61
+#: admin/tab-captcha.php:68
 #, php-format
 msgid ""
 "reCAPTCHA asks commenters to retype two words scanned from a book to prove "
@@ -265,11 +309,11 @@ msgstr ""
 "exactitud en els registres. Tothom hi guanya! Per a més informació, visiteu "
 "el %s lloc web de reCAPTCHA %s"
 
-#: admin/tab-captcha.php:66
+#: admin/tab-captcha.php:73 admin/tab-captcha.php:99
 msgid "reCAPTCHA Keys"
 msgstr "Claus de reCAPTCHA"
 
-#: admin/tab-captcha.php:68
+#: admin/tab-captcha.php:75
 #, php-format
 msgid ""
 "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
@@ -278,125 +322,148 @@ msgstr ""
 "reCAPTCHA requereix una clau d'encriptació pública y privada. Pot apuntar-se "
 "per %s per aconseguir claus gratuïtes%s."
 
-#: admin/tab-captcha.php:69
+#: admin/tab-captcha.php:76
 msgid "Public Key"
 msgstr "Clau pública"
 
-#: admin/tab-captcha.php:70
+#: admin/tab-captcha.php:77
 msgid "Private Key"
 msgstr "Clau privada"
 
-#: admin/tab-captcha.php:74
+#: admin/tab-captcha.php:81
 msgid "Choose Theme"
 msgstr "Escull el tema"
 
-#: admin/tab-captcha.php:77
+#: admin/tab-captcha.php:84
 msgid "Red"
 msgstr "Vermell"
 
-#: admin/tab-captcha.php:78
+#: admin/tab-captcha.php:85
 msgid "White"
 msgstr "Blanc"
 
-#: admin/tab-captcha.php:79
+#: admin/tab-captcha.php:86
 msgid "Black Glass"
 msgstr "Negre cristall"
 
-#: admin/tab-captcha.php:80
+#: admin/tab-captcha.php:87
 msgid "Clean"
 msgstr "Clar"
 
-#: admin/tab-captcha.php:112
+#: admin/tab-captcha.php:101
+#, php-format
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"site\" and a \"secret\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+
+#: admin/tab-captcha.php:102
+msgid "Site Key"
+msgstr ""
+
+#: admin/tab-captcha.php:103
+msgid "Secret Key"
+msgstr ""
+
+#: admin/tab-captcha.php:134
 msgid "Characters for image"
 msgstr ""
 
-#: admin/tab-captcha.php:116
+#: admin/tab-captcha.php:138
 msgid "Number of characters"
 msgstr ""
 
-#: admin/tab-captcha.php:120
+#: admin/tab-captcha.php:142
 msgid "Image dimensions"
 msgstr ""
 
-#: admin/tab-captcha.php:124
+#: admin/tab-captcha.php:143
+msgid "Width"
+msgstr ""
+
+#: admin/tab-captcha.php:143
+msgid "Height"
+msgstr ""
+
+#: admin/tab-captcha.php:146
 msgid "Font color of characters"
 msgstr ""
 
-#: admin/tab-captcha.php:128
+#: admin/tab-captcha.php:150
 msgid "Background color of image"
 msgstr ""
 
-#: admin/tab-captcha.php:132
+#: admin/tab-captcha.php:154
 msgid "Font size"
 msgstr ""
 
-#: admin/tab-captcha.php:136
+#: admin/tab-captcha.php:158
 msgid "Width between characters"
 msgstr ""
 
-#: admin/tab-captcha.php:140
+#: admin/tab-captcha.php:162
 msgid "Image type"
 msgstr "Tipus d'Imatge"
 
-#: admin/tab-captcha.php:154
+#: admin/tab-captcha.php:176
 msgid ""
 "To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin "
 "installed and activated."
 msgstr ""
 
-#: admin/tab-captcha.php:166
+#: admin/tab-captcha.php:200
 msgid "Update CAPTCHA Settings"
 msgstr "Actualizar configuració de CAPTCHA"
 
-#: admin/tab-captcha.php:230
+#: admin/tab-captcha.php:271
 msgid "CAPTCHA was updated for WP-Members"
 msgstr "CAPTCHA s'ha actualitzat per WP-Members"
 
-#: admin/tab-dialogs.php:29
+#: admin/tab-dialogs.php:32
 msgid "Restricted post (or page), displays above the login/registration form"
 msgstr ""
 "Les entrades (o pàgines) bloquejades mostren sempre el formulari "
 "d'identificació/registre"
 
-#: admin/tab-dialogs.php:30
+#: admin/tab-dialogs.php:33
 msgid "Username is taken"
 msgstr "El nom d'usuari ja està en ús"
 
-#: admin/tab-dialogs.php:31
+#: admin/tab-dialogs.php:34
 msgid "Email is registered"
 msgstr "L'email ja està registrat"
 
-#: admin/tab-dialogs.php:32
+#: admin/tab-dialogs.php:35
 msgid "Registration completed"
 msgstr "Registre complet"
 
-#: admin/tab-dialogs.php:33
+#: admin/tab-dialogs.php:36
 msgid "User update"
 msgstr "Actualitza l'usuari"
 
-#: admin/tab-dialogs.php:34
+#: admin/tab-dialogs.php:37
 msgid "Passwords did not match"
 msgstr "Les contrasenyes no coincideixen"
 
-#: admin/tab-dialogs.php:35
+#: admin/tab-dialogs.php:38
 msgid "Password changes"
 msgstr "Canvi de contrasenya"
 
-#: admin/tab-dialogs.php:36
+#: admin/tab-dialogs.php:39
 msgid "Username or email do not exist when trying to reset forgotten password"
 msgstr ""
 "L'usuari o email no existeixen quan intentem restablir la contrasenya "
 "oblidada "
 
-#: admin/tab-dialogs.php:37
+#: admin/tab-dialogs.php:40
 msgid "Password reset"
 msgstr "Contrasenya restablerta"
 
-#: admin/tab-dialogs.php:54
+#: admin/tab-dialogs.php:57
 msgid "Dialogs and Error Messages"
 msgstr "Diàlegs i missatges d'error"
 
-#: admin/tab-dialogs.php:56
+#: admin/tab-dialogs.php:59
 #, php-format
 msgid ""
 "You can customize the text for dialogs and error messages. Simple HTML is "
@@ -405,208 +472,236 @@ msgstr ""
 "Pot personalitzar els textes pels diàlegs i els missatges d'error. Es permet "
 "HTML simple %s etc."
 
-#: admin/tab-dialogs.php:69
+#: admin/tab-dialogs.php:72
 msgid "Terms of Service (TOS)"
 msgstr "Condicions d'ús"
 
-#: admin/tab-dialogs.php:76
+#: admin/tab-dialogs.php:79
 msgid "Update Dialogs"
 msgstr "Actualitza els diàlegs"
 
-#: admin/tab-dialogs.php:115
+#: admin/tab-dialogs.php:118
 msgid "WP-Members dialogs were updated"
 msgstr "Els diàlegs de WP-Members s'han actualitzat"
 
-#: admin/tab-emails.php:30
-msgid "New Registration"
-msgstr "Nou registre"
-
-#: admin/tab-emails.php:34
-msgid "Registration is Moderated"
-msgstr "Registre complet"
-
-#: admin/tab-emails.php:35
-msgid "Registration is Moderated, User is Approved"
-msgstr "El seu registre ha estat aprovat"
-
-#: admin/tab-emails.php:40
-msgid "Password Reset"
-msgstr "Contrasenya reiniciada"
-
-#: admin/tab-emails.php:45
-msgid "Admin Notification"
-msgstr "Notificació de l'administrador"
-
-#: admin/tab-emails.php:50
-msgid "Email Signature"
-msgstr "Signatura email"
-
-#: admin/tab-emails.php:57
+#: admin/tab-emails.php:37
 msgid "Email Messages"
 msgstr "Missatges d'email"
 
-#: admin/tab-emails.php:60
+#: admin/tab-emails.php:40
 msgid "You can customize the content of the emails sent by the plugin."
 msgstr "Pots personalitzar el contingut dels emails enviats per el plugin."
 
-#: admin/tab-emails.php:62
+#: admin/tab-emails.php:42
 msgid "A list of shortcodes is available here."
 msgstr "En aquesta pàgina podeu trobar una llista de codis."
 
-#: admin/tab-emails.php:69
+#: admin/tab-emails.php:49
 msgid "Set a custom email address"
 msgstr "Configureu una adreça de correu electrònic personalitzada"
 
-#: admin/tab-emails.php:70 admin/tab-emails.php:74 admin/tab-emails.php:97
+#: admin/tab-emails.php:50 admin/tab-emails.php:54 admin/tab-emails.php:64
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: admin/tab-emails.php:73
+#: admin/tab-emails.php:53
 msgid "Set a custom email name"
 msgstr "Establiu un nom de correu electrònic personalitzat"
 
-#: admin/tab-emails.php:84
-msgid "Subject"
-msgstr "Assumpte"
+#: admin/tab-emails.php:64
+msgid "Email Signature"
+msgstr "Signatura email"
 
-#: admin/tab-emails.php:88
-msgid "Body"
-msgstr "Cos"
-
-#: admin/tab-emails.php:105
+#: admin/tab-emails.php:72
 msgid "Update Emails"
 msgstr "Actualizar emails"
 
-#: admin/tab-emails.php:161
+#: admin/tab-emails.php:140
 msgid "WP-Members emails were updated"
 msgstr "Els emails de WP-Members s'han actualitzat"
 
-#: admin/tab-fields.php:166
+#: admin/tab-fields.php:169
 msgid "WP-Members fields were updated"
 msgstr "Els camps dels WP-Members s'han actualitzat"
 
-#: admin/tab-fields.php:176
+#: admin/tab-fields.php:181
 msgid "Field Label is required for adding a new field. Nothing was updated."
 msgstr ""
 "Es requereix etiqueta del camp per afegir un nou camp. Res s'ha actualitzat."
 
-#: admin/tab-fields.php:177
+#: admin/tab-fields.php:182
 msgid "Option Name is required for adding a new field. Nothing was updated."
 msgstr ""
 "L'opció del Nom és requereix per incloure un nou camp. Res s'ha actualitzat."
 
 #: admin/tab-fields.php:184
+msgid "Option Name must contain only letters, numbers, and underscores"
+msgstr ""
+
+#: admin/tab-fields.php:191
 msgid "A field with that option name already exists"
 msgstr ""
 
-#: admin/tab-fields.php:201
+#: admin/tab-fields.php:197
+#, php-format
+msgid ""
+"Sorry, \"%s\" is a <a href=\"https://codex.wordpress.org/Function_Reference/"
+"register_taxonomy#Reserved_Terms\" target=\"_blank\">reserved term</a>. "
+"Field was not added."
+msgstr ""
+
+#: admin/tab-fields.php:215
 msgid "Checked value is required for checkboxes. Nothing was updated."
 msgstr ""
 "Es requereix etiqueta del camp per afegir un nou camp. Res s'ha actualitzat."
 
-#: admin/tab-fields.php:223
+#: admin/tab-fields.php:245
 msgid "field was added"
 msgstr "es va afegir camp"
 
-#: admin/tab-fields.php:241
+#: admin/tab-fields.php:263
 msgid "field was updated"
 msgstr "camp s'actualitza"
 
-#: admin/tab-fields.php:289 admin/tab-fields.php:385
+#: admin/tab-fields.php:309 admin/tab-fields.php:437
 msgid "Edit Field"
 msgstr "Edita Camp"
 
-#: admin/tab-fields.php:289
+#: admin/tab-fields.php:309
 msgid "Add a Field"
 msgstr "Afegir un camp"
 
-#: admin/tab-fields.php:295 admin/tab-fields.php:416
+#: admin/tab-fields.php:315 admin/tab-fields.php:467
 msgid "Field Label"
 msgstr "Etiqueta del camp"
 
-#: admin/tab-fields.php:297
+#: admin/tab-fields.php:317
 msgid "The name of the field as it will be displayed to the user."
 msgstr ""
 
-#: admin/tab-fields.php:300 admin/tab-fields.php:417
+#: admin/tab-fields.php:320 admin/tab-fields.php:468
 msgid "Option Name"
 msgstr "Opcions"
 
-#: admin/tab-fields.php:306
+#: admin/tab-fields.php:326
 msgid ""
 "The database meta value for the field. It must be unique and contain no "
 "spaces (underscores are ok)."
 msgstr ""
 
-#: admin/tab-fields.php:310 admin/tab-fields.php:418
+#: admin/tab-fields.php:330 admin/tab-fields.php:469
 msgid "Field Type"
 msgstr "Tipus de camp"
 
-#: admin/tab-fields.php:316
+#: admin/tab-fields.php:336
 msgid "text"
 msgstr "text"
 
-#: admin/tab-fields.php:317
+#: admin/tab-fields.php:337
+msgid "email"
+msgstr ""
+
+#: admin/tab-fields.php:338
 msgid "textarea"
 msgstr "àrea de text"
 
-#: admin/tab-fields.php:318
+#: admin/tab-fields.php:339
 msgid "checkbox"
 msgstr "checkbox"
 
-#: admin/tab-fields.php:319
-msgid "dropdown"
-msgstr "desplegable"
+#: admin/tab-fields.php:340
+msgid "multiple checkbox"
+msgstr ""
 
-#: admin/tab-fields.php:320
+#: admin/tab-fields.php:341
+msgid "select (dropdown)"
+msgstr ""
+
+#: admin/tab-fields.php:342
+msgid "multiple select"
+msgstr ""
+
+#: admin/tab-fields.php:343
+msgid "radio group"
+msgstr ""
+
+#: admin/tab-fields.php:344
 msgid "password"
 msgstr "Contrasenya "
 
-#: admin/tab-fields.php:325 admin/tab-fields.php:419
+#: admin/tab-fields.php:345
+msgid "image"
+msgstr ""
+
+#: admin/tab-fields.php:346
+msgid "file"
+msgstr ""
+
+#: admin/tab-fields.php:347
+msgid "url"
+msgstr ""
+
+#: admin/tab-fields.php:348
+msgid "hidden"
+msgstr ""
+
+#: admin/tab-fields.php:353 admin/tab-fields.php:470
 msgid "Display?"
 msgstr "Mostrar?"
 
-#: admin/tab-fields.php:329 admin/tab-fields.php:420
+#: admin/tab-fields.php:357 admin/tab-fields.php:471
 msgid "Required?"
 msgstr "Obligatori?"
 
-#: admin/tab-fields.php:334
+#: admin/tab-fields.php:363
+msgid "Additional information for field upload fields"
+msgstr ""
+
+#: admin/tab-fields.php:366
+msgid "Accepted file types:"
+msgstr ""
+
+#: admin/tab-fields.php:371
+msgid "Accepted file types should be set like this: jpg|jpeg|png|gif"
+msgstr ""
+
+#: admin/tab-fields.php:378
 msgid "Additional information for checkbox fields"
 msgstr "Informació addicional per als camps de casella de verificació"
 
-#: admin/tab-fields.php:337
+#: admin/tab-fields.php:381
 msgid "Checked by default?"
 msgstr "Marcada per defecte?"
 
-#: admin/tab-fields.php:341
+#: admin/tab-fields.php:385
 msgid "Stored value if checked:"
 msgstr "Valor emmagatzemat si s'activa:"
 
-#: admin/tab-fields.php:347
+#: admin/tab-fields.php:397
 msgid "Additional information for dropdown fields"
 msgstr "Informació addicional per als camps desplegables"
 
-#: admin/tab-fields.php:350
+#: admin/tab-fields.php:400
 msgid "For dropdown, array of values:"
 msgstr "Pel desplegable, valors:"
 
-#: admin/tab-fields.php:375
+#: admin/tab-fields.php:425
 msgid "Options should be Option Name|option_value,"
 msgstr "Les opcions han de ser Option Name|option_value,"
 
-#: admin/tab-fields.php:379
+#: admin/tab-fields.php:429
 msgid "Visit plugin site for more information"
 msgstr "Per a més informació visita la pàgina del plugin "
 
-#: admin/tab-fields.php:385
+#: admin/tab-fields.php:437
 msgid "Add Field"
 msgstr "afegir camp"
 
-#: admin/tab-fields.php:407
+#: admin/tab-fields.php:458
 msgid "Manage Fields"
 msgstr "Gestionar camps"
 
-#: admin/tab-fields.php:409
+#: admin/tab-fields.php:460
 msgid ""
 "Determine which fields will display and which are required.  This includes "
 "all fields, both native WP fields and WP-Members custom fields."
@@ -614,564 +709,570 @@ msgstr ""
 "Determina quins camps es mostraran i quins són obligatoris. Això inclou tots "
 "els camps, els natius de WP com els creats a WP-Members."
 
-#: admin/tab-fields.php:410
+#: admin/tab-fields.php:461
 msgid "(Note: Email is always mandatory and cannot be changed.)"
 msgstr "(Nota: el camp email és obligatori, no pot canviar-se)"
 
-#: admin/tab-fields.php:415
+#: admin/tab-fields.php:466
 msgid "Add/Delete"
 msgstr "Inclou/Suprimeix"
 
-#: admin/tab-fields.php:421
+#: admin/tab-fields.php:472
 msgid "Checked?"
 msgstr "Comprovat?"
 
-#: admin/tab-fields.php:423
+#: admin/tab-fields.php:474
 msgid "Users Screen"
 msgstr ""
 
-#: admin/tab-fields.php:435
+#: admin/tab-fields.php:486
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: admin/tab-fields.php:447
+#: admin/tab-fields.php:498
 msgid "(Email cannot be removed)"
 msgstr "(Nota: el camp de l'email és obligatori, no es pot canviar)"
 
-#: admin/tab-fields.php:467
+#: admin/tab-fields.php:518
 msgid "Registration Date"
 msgstr "Data de Registre"
 
-#: admin/tab-fields.php:470
+#: admin/tab-fields.php:521
 msgid "native"
 msgstr ""
 
-#: admin/tab-fields.php:480
+#: admin/tab-fields.php:531
 msgid "Active"
 msgstr "Activar"
 
-#: admin/tab-fields.php:492
+#: admin/tab-fields.php:543
 msgid "Registration IP"
 msgstr "Adreça IP"
 
-#: admin/tab-fields.php:527
+#: admin/tab-fields.php:578
 msgid "Update Fields"
 msgstr "Actualitzar camps"
 
-#: admin/tab-options.php:48
+#: admin/tab-options.php:69
 msgid "Manage Options"
 msgstr "Configurar opcions"
 
-#: admin/tab-options.php:54
-msgid "Block Posts by default"
-msgstr "Bloquejar entrades per defecte"
-
-#: admin/tab-options.php:54
-msgid ""
-"Note: Posts can still be individually blocked or unblocked at the article "
-"level"
+#: admin/tab-options.php:86
+msgid "Do not block"
 msgstr ""
-"Nota: les entrades poden ser bloquejades o desbloquejades a nivell d'article"
 
-#: admin/tab-options.php:55
-msgid "Block Pages by default"
-msgstr "Bloquejar pàgines per defecte"
-
-#: admin/tab-options.php:55
-msgid ""
-"Note: Pages can still be individually blocked or unblocked at the article "
-"level"
+#: admin/tab-options.php:88
+msgid "Hide"
 msgstr ""
-"Nota: les pàgines encara poden ser bloquejades o no bloquejades a nivell "
-"d'article"
 
-#: admin/tab-options.php:56
-msgid "Show excerpts"
-msgstr "Mostra resums"
-
-#: admin/tab-options.php:56
-msgid ""
-"Shows excerpted content above the login/registration on both Posts and Pages"
+#: admin/tab-options.php:99
+msgid "Show Excerpts"
 msgstr ""
-"Mostra resums de contingut sobre el formulari d'accés, tant en entrades com "
-"en pàgines"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:100
+msgid "Show Login Form"
+msgstr ""
+
+#: admin/tab-options.php:101
+msgid "Show Registration Form"
+msgstr ""
+
+#: admin/tab-options.php:102
+msgid "Auto Excerpt:"
+msgstr "Acte Extracte:"
+
+#: admin/tab-options.php:122
+msgid "Number of words in excerpt:"
+msgstr ""
+
+#: admin/tab-options.php:136
+msgid "Time-based expiration"
+msgstr "Venciment en funció del temps"
+
+#: admin/tab-options.php:136
+msgid "Allows for access to expire"
+msgstr "Permet que l'accés expiri"
+
+#: admin/tab-options.php:137
+msgid "Trial period"
+msgstr "Període de prova"
+
+#: admin/tab-options.php:137
+msgid "Allows for a trial period"
+msgstr "Permet un període de prova"
+
+#: admin/tab-options.php:153
 msgid "Notify admin"
 msgstr "Notificar a l'administrador"
 
-#: admin/tab-options.php:57
+#: admin/tab-options.php:153
 #, php-format
 msgid "Notify %s for each new registration? %s"
 msgstr "Enviar un email a %s per a cada nou registre? %s"
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:154
 msgid "Moderate registration"
 msgstr "Confirmar registre"
 
-#: admin/tab-options.php:58
+#: admin/tab-options.php:154
 msgid "Holds new registrations for admin approval"
 msgstr "Els nous registres seran aprovats per l'administrador"
 
-#: admin/tab-options.php:91
-msgid "Enable CAPTCHA"
-msgstr "Permetre CAPTCHA"
-
-#: admin/tab-options.php:59
-msgid "Turns on CAPTCHA for registration"
-msgstr "Activa  CAPTCHA pel registre"
-
-#: admin/tab-options.php:60
-msgid "Hide registration"
-msgstr "Amaga registre"
-
-#: admin/tab-options.php:60
-msgid "Removes the registration form from blocked content"
-msgstr ""
-
-#: admin/tab-options.php:62
-msgid "Time-based expiration"
-msgstr "Venciment en funció del temps"
-
-#: admin/tab-options.php:62
-msgid "Allows for access to expire"
-msgstr "Permet que l'accés expiri"
-
-#: admin/tab-options.php:63
-msgid "Trial period"
-msgstr "Període de prova"
-
-#: admin/tab-options.php:63
-msgid "Allows for a trial period"
-msgstr "Permet un període de prova"
-
-#: admin/tab-options.php:64
+#: admin/tab-options.php:155
 msgid "Ignore warning messages"
 msgstr "Ignorar missatges d'advertència"
 
-#: admin/tab-options.php:64
+#: admin/tab-options.php:155
 msgid "Ignores WP-Members warning messages in the admin panel"
 msgstr "Ignorar missatges de perill de WP-Members en el panell d'administració"
 
-#: admin/tab-options.php:81
+#: admin/tab-options.php:167
 msgid "Attribution"
 msgstr ""
 
-#: admin/tab-options.php:83
+#: admin/tab-options.php:169
 msgid ""
 "Attribution is appreciated!  Display \"powered by\" link on register form?"
 msgstr ""
 
-#: admin/tab-options.php:87
-msgid "Auto Excerpt:"
-msgstr "Acte Extracte:"
+#: admin/tab-options.php:172
+msgid "Enable CAPTCHA"
+msgstr "Permetre CAPTCHA"
 
-#: admin/tab-options.php:88
-msgid "Number of words in excerpt:"
+#: admin/tab-options.php:174 admin/user-profile.php:97 inc/forms.php:806
+#: inc/users.php:70
+msgid "None"
 msgstr ""
 
-#: admin/tab-options.php:88 admin/tab-options.php:108
-#: admin/tab-options.php:118 admin/tab-options.php:132
-msgid "Optional"
-msgstr "Opcional"
-
-#: admin/tab-options.php:88
-msgid "Automatically creates an excerpt"
+#: admin/tab-options.php:180
+msgid "Pages"
 msgstr ""
 
-#: admin/tab-options.php:103
-msgid "User Profile Page:"
-msgstr "Fitxa d'usuari de la pàgina:"
-
-#: admin/tab-options.php:106
-msgid "For creating a forgot password link in the login form"
+#: admin/tab-options.php:184
+msgid "Login Page:"
 msgstr ""
 
-#: admin/tab-options.php:113
+#: admin/tab-options.php:187
+msgid "Specify a login page (optional)"
+msgstr ""
+
+#: admin/tab-options.php:196
 msgid "Register Page:"
 msgstr "Registrar la URL de la pàgina"
 
-#: admin/tab-options.php:116
+#: admin/tab-options.php:199
 msgid "For creating a register link in the login form"
 msgstr ""
 
-#: admin/tab-options.php:126
-msgid "Select a stylesheet or specify a custom stylesheet below"
+#: admin/tab-options.php:208
+msgid "User Profile Page:"
+msgstr "Fitxa d'usuari de la pàgina:"
+
+#: admin/tab-options.php:211
+msgid "For creating a forgot password link in the login form"
 msgstr ""
 
-#: admin/tab-options.php:131
+#: admin/tab-options.php:217 admin/tab-options.php:219
+msgid "Stylesheet"
+msgstr ""
+
+#: admin/tab-options.php:228
 msgid "Custom Stylesheet:"
 msgstr ""
 
-#: admin/tab-options.php:136
+#: admin/tab-options.php:234 admin/tab-options.php:260
 msgid "Update Settings"
 msgstr "Actualizar configuració"
 
-#: admin/tab-options.php:246
+#: admin/tab-options.php:241
+msgid "Custom Post Types"
+msgstr ""
+
+#: admin/tab-options.php:342
+msgid "Custom Post Type settings were updated"
+msgstr ""
+
+#: admin/tab-options.php:460
 msgid "WP-Members settings were updated"
 msgstr "La configuració de WP-Members s'ha actualitzat"
 
-#: admin/tab-options.php:296
-msgid "Select a page"
-msgstr ""
-
-#: admin/tab-options.php:304
+#: admin/tab-options.php:530 admin/tab-options.php:559
 msgid "USE CUSTOM URL BELOW"
 msgstr ""
 
-#: admin/user-export.php:57 admin/user-export.php:172
+#: admin/tab-options.php:548
+msgid "Select a page"
+msgstr ""
+
+#: admin/user-export.php:72
 msgid "Activated?"
 msgstr "Activa?"
 
-#: admin/user-export.php:61 admin/user-export.php:175
+#: admin/user-export.php:73
 msgid "Subscription"
 msgstr "Subscripció"
 
-#: admin/user-export.php:61 admin/user-export.php:175
+#: admin/user-export.php:73
 msgid "Expires"
 msgstr "Expira"
 
-#: admin/user-export.php:64 admin/user-export.php:178
+#: admin/user-export.php:75
 msgid "Registered"
 msgstr "Registrat"
 
-#: admin/user-export.php:65 admin/user-export.php:179
+#: admin/user-export.php:76
 msgid "IP"
 msgstr "IP"
 
-#: admin/user-profile.php:46
+#: admin/user-export.php:108 admin/users.php:336
+msgid "No"
+msgstr ""
+
+#: admin/user-profile.php:52
 msgid "WP-Members Additional Fields"
 msgstr "WP-Members camps adicionals"
 
-#: admin/user-profile.php:66 native-registration.php:36
-#: native-registration.php:159 users.php:62
+#: admin/user-profile.php:115 inc/users.php:90 inc/wp-registration.php:37
+#: inc/wp-registration.php:154
 msgid "(required)"
 msgstr "(requerit)"
 
-#: admin/user-profile.php:98
+#: admin/user-profile.php:283
 msgid "Activate this user?"
 msgstr "Activar usuari?"
 
-#: admin/user-profile.php:103
+#: admin/user-profile.php:288
 msgid "Reactivate this user?"
 msgstr "Voleu tornar a activar aquest usuari?"
 
-#: admin/user-profile.php:108
+#: admin/user-profile.php:293
 msgid "Deactivate this user?"
 msgstr "Desactivar usuari?"
 
-#: admin/user-profile.php:129
+#: admin/user-profile.php:339
 msgid "IP @ registration"
 msgstr "Adreça IP"
 
-#: admin/users.php:45 admin/users.php:49
+#: admin/users.php:59 admin/users.php:63
+msgid "Activate"
+msgstr ""
+
+#: admin/users.php:61 admin/users.php:65
 msgid "Export"
 msgstr "Exportar"
 
-#: admin/users.php:50 admin/users.php:91
+#: admin/users.php:66 admin/users.php:107
 msgid "Export All Users"
 msgstr "Exportar tots els usuaris"
 
-#: forms.php:95
+#: inc/class-wp-members-widget.php:18
+msgid "Displays the WP-Members sidebar login."
+msgstr ""
+
+#: inc/class-wp-members-widget.php:33 inc/class-wp-members-widget.php:76
+msgid "Login Status"
+msgstr "Estat de la identificació"
+
+#: inc/class-wp-members-widget.php:40
+msgid "Title:"
+msgstr "Titol:"
+
+#: inc/class-wp-members-widget.php:44
+msgid "Redirect to (optional):"
+msgstr ""
+
+#: inc/class-wp-members.php:388 inc/shortcodes.php:117 inc/shortcodes.php:386
+msgid "There was an error with the CAPTCHA form."
+msgstr "Hi hagut un error amb el formulari de CAPTCHA"
+
+#: inc/class-wp-members.php:546
+msgid "First Name"
+msgstr "Nom"
+
+#: inc/class-wp-members.php:547
+msgid "Last Name"
+msgstr "Cognoms"
+
+#: inc/class-wp-members.php:548
+msgid "Address 1"
+msgstr "Adreça (línia 1)"
+
+#: inc/class-wp-members.php:549
+msgid "Address 2"
+msgstr "Adreça (línia 2)"
+
+#: inc/class-wp-members.php:550
+msgid "City"
+msgstr "Ciutat"
+
+#: inc/class-wp-members.php:551
+msgid "State"
+msgstr "Província"
+
+#: inc/class-wp-members.php:552
+msgid "Zip"
+msgstr "CP"
+
+#: inc/class-wp-members.php:553
+msgid "Country"
+msgstr "País"
+
+#: inc/class-wp-members.php:554
+msgid "Day Phone"
+msgstr "Telèfon"
+
+#: inc/class-wp-members.php:555 inc/class-wp-members.php:588
+msgid "Email"
+msgstr ""
+
+#: inc/class-wp-members.php:556
+msgid "Confirm Email"
+msgstr ""
+
+#: inc/class-wp-members.php:557
+msgid "Website"
+msgstr "Lloc web"
+
+#: inc/class-wp-members.php:558
+msgid "Biographical Info"
+msgstr "Informació biogràfica"
+
+#: inc/class-wp-members.php:559 inc/class-wp-members.php:569
+#: inc/class-wp-members.php:645
+msgid "Password"
+msgstr ""
+
+#: inc/class-wp-members.php:560
+msgid "Confirm Password"
+msgstr ""
+
+#: inc/class-wp-members.php:561
+msgid "TOS"
+msgstr "Condicions d'ús"
+
+#: inc/class-wp-members.php:567
 msgid "Existing Users Log In"
 msgstr "Usuaris Existents Entrada"
 
-#: forms.php:161 wp-members-dialogs.php:192
-msgid "Change Password"
-msgstr "Canvia la contrasenya"
+#: inc/class-wp-members.php:568 inc/class-wp-members.php:587
+#: inc/class-wp-members.php:608 inc/class-wp-members.php:644
+msgid "Username"
+msgstr ""
 
-#: forms.php:163
-msgid "Update Password"
-msgstr "Actualitza la contrasenya"
+#: inc/class-wp-members.php:570
+msgid "Log In"
+msgstr ""
 
-#: forms.php:227
-msgid "Reset Forgotten Password"
-msgstr "Reinicia la contrasenya oblidada"
+#: inc/class-wp-members.php:571
+msgid "Remember Me"
+msgstr ""
 
-#: forms.php:403
+#: inc/class-wp-members.php:572
 msgid "Forgot password?"
 msgstr "Has oblidat la contrasenya?"
 
-#: forms.php:403
+#: inc/class-wp-members.php:573
 msgid "Click here to reset"
 msgstr "Prem aquí per reiniciar"
 
-#: forms.php:418
+#: inc/class-wp-members.php:574
 msgid "New User?"
 msgstr "Nou usuari?"
 
-#: forms.php:418
+#: inc/class-wp-members.php:575
 msgid "Click here to register"
 msgstr "Prem aquí per registrar-te"
 
-#: forms.php:515
-msgid "Required field"
-msgstr "Camp obligatori"
+#: inc/class-wp-members.php:576
+msgid "Forgot username?"
+msgstr ""
 
-#: forms.php:521
-msgid "Reset Form"
-msgstr "Restablir el Formulari"
+#: inc/class-wp-members.php:577
+msgid "Click here"
+msgstr ""
 
-#: forms.php:523
-msgid "Update Profile"
-msgstr "Actualitzar Perfil"
+#: inc/class-wp-members.php:580 inc/class-wp-members.php:630
+msgid "Change Password"
+msgstr "Canvia la contrasenya"
 
-#: forms.php:561
+#: inc/class-wp-members.php:581
+msgid "New password"
+msgstr ""
+
+#: inc/class-wp-members.php:582
+msgid "Confirm new password"
+msgstr ""
+
+#: inc/class-wp-members.php:583
+msgid "Update Password"
+msgstr "Actualitza la contrasenya"
+
+#: inc/class-wp-members.php:586
+msgid "Reset Forgotten Password"
+msgstr "Reinicia la contrasenya oblidada"
+
+#: inc/class-wp-members.php:589
+msgid "Reset Password"
+msgstr ""
+
+#: inc/class-wp-members.php:592 inc/class-wp-members.php:594
+msgid "Retrieve username"
+msgstr ""
+
+#: inc/class-wp-members.php:593
+msgid "Email Address"
+msgstr ""
+
+#: inc/class-wp-members.php:597
+msgid "New User Registration"
+msgstr "Registre d'un nou usuari"
+
+#: inc/class-wp-members.php:598
 msgid "Choose a Username"
 msgstr "Escull un nom d'usuari"
 
-#: forms.php:683 native-registration.php:65
+#: inc/class-wp-members.php:599
+msgid "Input the code:"
+msgstr ""
+
+#: inc/class-wp-members.php:600
 #, php-format
 msgid "Please indicate that you agree to the %s TOS %s"
 msgstr ""
 "Siusplau indiqueu que heu llegit i esteu d'acord amb les %s condicions d'ús  "
 "%s"
 
-#: forms.php:852
-msgid "New User Registration"
-msgstr "Registre d'un nou usuari"
+#: inc/class-wp-members.php:601
+msgid "Reset Form"
+msgstr "Restablir el Formulari"
 
-#: forms.php:1018
-msgid "Input the code:"
+#: inc/class-wp-members.php:602 inc/class-wp-members.php:648 inc/core.php:522
+msgid "Register"
 msgstr ""
 
-#: users.php:38
-msgid "Additional Information"
-msgstr "Informació Addicional"
+#: inc/class-wp-members.php:604
+msgid "Required field"
+msgstr "Camp obligatori"
 
-#: wp-members-core.php:118 wp-members-core.php:245
-msgid "There was an error with the CAPTCHA form."
-msgstr "Hi hagut un error amb el formulari de CAPTCHA"
-
-#: wp-members-core.php:287 wp-members-dialogs.php:338
+#: inc/class-wp-members.php:607 inc/shortcodes.php:432
 msgid "Edit Your Information"
 msgstr "Edita la teva informació"
 
-#: wp-members-core.php:544
-msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr "<strong>ERROR</strong>: L'usuari no ha estat activat."
+#: inc/class-wp-members.php:609
+msgid "Update Profile"
+msgstr "Actualitzar Perfil"
 
-#: wp-members-core.php:903 wp-members-register.php:93
+#: inc/class-wp-members.php:610
+msgid "Update this file"
+msgstr ""
+
+#: inc/class-wp-members.php:613
+msgid "Login Failed!"
+msgstr "¡Error d'identificació!"
+
+#: inc/class-wp-members.php:614
+msgid "You entered an invalid username or password."
+msgstr "Ha introduit un nom d'usuari o una contrasenya incorrecta"
+
+#: inc/class-wp-members.php:615
+msgid "Click here to continue."
+msgstr "Prem aquí per continuar."
+
+#: inc/class-wp-members.php:616
+msgid "Password fields cannot be empty"
+msgstr "La contrasenya no coincideix"
+
+#: inc/class-wp-members.php:617
+msgid "Sorry, that email address was not found."
+msgstr ""
+
+#: inc/class-wp-members.php:618
+#, php-format
+msgid "An email was sent to %s with your username."
+msgstr ""
+
+#: inc/class-wp-members.php:619
 #, php-format
 msgid "Sorry, %s is a required field."
 msgstr "Disculpa, %s és un camp obligatori."
 
-#: wp-members-dialogs.php:42
-msgid "Login Failed!"
-msgstr "¡Error d'identificació!"
+#: inc/class-wp-members.php:620
+msgid "You must enter a valid email address."
+msgstr "Heu d'introduir un adreça de correu electrònic vàlida"
 
-#: wp-members-dialogs.php:45
-msgid "You entered an invalid username or password."
-msgstr "Ha introduit un nom d'usuari o una contrasenya incorrecta"
+#: inc/class-wp-members.php:621
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "El nom d'usuari no pot contenir caràcters que no siguin alfanumèrics."
 
-#: wp-members-dialogs.php:47
-msgid "Click here to continue."
-msgstr "Prem aquí per continuar."
+#: inc/class-wp-members.php:622
+msgid "Sorry, username is a required field"
+msgstr "Disculpa, el nom d'usuari és obligatori"
 
-#: wp-members-dialogs.php:191
+#: inc/class-wp-members.php:623
+msgid "Passwords did not match."
+msgstr "Les contrasenyes no coincideixen"
+
+#: inc/class-wp-members.php:624
+msgid "Emails did not match."
+msgstr "Les correus electrònics no coincideixen"
+
+#: inc/class-wp-members.php:625
+msgid "You must complete the CAPTCHA form."
+msgstr "Heu de completar la paraula mostrada en la imatge"
+
+#: inc/class-wp-members.php:626
+msgid "CAPTCHA was not valid."
+msgstr ""
+
+#: inc/class-wp-members.php:629
 msgid "Edit My Information"
 msgstr "Editar la meva informació"
 
-#: wp-members-dialogs.php:206 wp-members-dialogs.php:224
-#: wp-members-dialogs.php:239 wp-members-sidebar.php:46
-#: wp-members-sidebar.php:246
+#: inc/class-wp-members.php:631 inc/class-wp-members.php:634
+#: inc/class-wp-members.php:636 inc/class-wp-members.php:640
 #, php-format
 msgid "You are logged in as %s"
 msgstr "S'ha identificat com %s"
 
-#: wp-members-dialogs.php:208
+#: inc/class-wp-members.php:632
 msgid "Click to log out."
 msgstr "Prem aquí per desconnectar-te"
 
-#: wp-members-dialogs.php:209
+#: inc/class-wp-members.php:633
 msgid "Begin using the site."
 msgstr "Comença a utilitzar el web"
 
-#: wp-members-dialogs.php:225
+#: inc/class-wp-members.php:635
 msgid "Click to log out"
 msgstr "Prem aquí per desconnectar-te"
 
-#: wp-members-dialogs.php:240 wp-members-sidebar.php:47
+#: inc/class-wp-members.php:637
 msgid "click to log out"
 msgstr "Prem aquí per desconnectar-te"
 
-#: wp-members-dialogs.php:271
-msgid "Password fields cannot be empty"
-msgstr "La contrasenya no coincideix"
+#: inc/class-wp-members.php:641
+msgid "click here to log out"
+msgstr "Prem aquí per desconnectar-te"
 
-#: wp-members-register.php:51
-msgid "There was an error processing the form."
-msgstr "Hi hagut un error amb el formulari"
-
-#: wp-members-register.php:110
-msgid "Sorry, username is a required field"
-msgstr "Disculpa, el nom d'usuari és obligatori"
-
-#: wp-members-register.php:111
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "El nom d'usuari no pot contenir caràcters que no siguin alfanumèrics."
-
-#: wp-members-register.php:112 wp-members-register.php:282
-msgid "You must enter a valid email address."
-msgstr "Heu d'introduir un adreça de correu electrònic vàlida"
-
-#: wp-members-register.php:119
-msgid "Passwords did not match."
-msgstr "Les contrasenyes no coincideixen"
-
-#: wp-members-register.php:120 wp-members-register.php:286
-msgid "Emails did not match."
-msgstr "Les correus electrònics no coincideixen"
-
-#: wp-members-register.php:127
-msgid "You must complete the CAPTCHA form."
-msgstr "Heu de completar la paraula mostrada en la imatge"
-
-#: wp-members-register.php:377
-msgid "We were unable to validate the public key."
-msgstr "No s'ha pogut validar la clau pública."
-
-#: wp-members-register.php:381
-msgid "We were unable to validate the private key."
-msgstr "No s'ha pogut validar la clau privada."
-
-#: wp-members-register.php:385
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "El paràmetre de verificació del script és incorrecte."
-
-#: wp-members-register.php:389
-msgid "The CAPTCHA solution was incorrect."
-msgstr "La resolució de CAPTCHA és incorrecte."
-
-#: wp-members-register.php:393
-msgid "The parameters to verify were incorrect"
-msgstr "Els paràmetres a verificar són incorrectes"
-
-#: wp-members-register.php:397
-msgid ""
-"reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr ""
-"Les claus de reCAPTCHA van associades a un domini específic per raons de "
-"seguretat. "
-
-#: wp-members-register.php:401
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "El servidor de reCAPTCHA no respond, siusplau intenta-ho de nou."
-
-#: wp-members-register.php:405
-msgid "You have entered an incorrect code value. Please try again."
-msgstr ""
-
-#: wp-members-sidebar.php:117
+#: inc/class-wp-members.php:642
 msgid "Login Failed!<br />You entered an invalid username or password."
 msgstr ""
 "Identificació fallada! <br />Has introduit un nom d'usuari o una contrasenya "
 "incorrectes."
 
-#: wp-members-sidebar.php:118
+#: inc/class-wp-members.php:643
 msgid "You are not logged in."
 msgstr "No ha entrat en"
 
-#: wp-members-sidebar.php:169
+#: inc/class-wp-members.php:646
 msgid "log in"
 msgstr "Identifica't"
 
-#: wp-members-sidebar.php:180
+#: inc/class-wp-members.php:647
 msgid "Forgot?"
 msgstr "Has oblidat la contrasenya?"
 
-#: wp-members-sidebar.php:247
-msgid "click here to log out"
-msgstr "Prem aquí per desconnectar-te"
-
-#: wp-members-sidebar.php:279
-msgid "Displays the WP-Members sidebar login."
-msgstr ""
-
-#: wp-members-sidebar.php:294 wp-members-sidebar.php:333
-msgid "Login Status"
-msgstr "Estat de la identificació"
-
-#: wp-members-sidebar.php:299
-msgid "Title:"
-msgstr "Titol:"
-
-#: wp-members-tos.php:24
-msgid "Terms of Service"
-msgstr "Condicions d'us"
-
-#: wp-members-tos.php:36
-#, php-format
-msgid "%sclose%s"
-msgstr "%stanca%s"
-
-#: wp-members-tos.php:38
-#, php-format
-msgid "%sprint%s"
-msgstr "%simprimeix%s"
-
-#: STRINGS THAT ARE NOT SPECIFICALLY CONTAINED IN THE PLUGIN Custom Field
-#: Strings wp-members-install.php:49
-msgid "First Name"
-msgstr "Nom"
-
-#: wp-members-install.php:50
-msgid "Last Name"
-msgstr "Cognoms"
-
-#: wp-members-install.php:51
-msgid "Address 1"
-msgstr "Adreça (línia 1)"
-
-#: wp-members-install.php:52
-msgid "Address 2"
-msgstr "Adreça (línia 2)"
-
-#: wp-members-install.php:53
-msgid "City"
-msgstr "Ciutat"
-
-#: wp-members-install.php:54
-msgid "State"
-msgstr "Província"
-
-#: wp-members-install.php:55
-msgid "Zip"
-msgstr "CP"
-
-#: wp-members-install.php:56
-msgid "Country"
-msgstr "País"
-
-#: wp-members-install.php:57
-msgid "Day Phone"
-msgstr "Telèfon"
-
-#: wp-members-install.php:59
-msgid "Website"
-msgstr "Lloc web"
-
-#: wp-members-install.php:60
-msgid "AIM"
-msgstr "AIM"
-
-#: wp-members-install.php:61
-msgid "Yahoo IM"
-msgstr "Yahoo IM"
-
-#: wp-members-install.php:62
-msgid "Jabber/Google Talk"
-msgstr "Jabber/Google Talk"
-
-#: wp-members-install.php:63
-msgid "Biographical Info"
-msgstr "Informació biogràfica"
-
-#: wp-members-install.php:64 wp-members-install.php:211
-msgid "TOS"
-msgstr "Condicions d'ús"
-
-#: Error message dialog strings wp-members-install.php:96
+#: inc/class-wp-members.php:651
 msgid ""
 "This content is restricted to site members.  If you are an existing user, "
 "please log in.  New users may register below."
@@ -1179,17 +1280,17 @@ msgstr ""
 "Aquest contingut és exclussiu pels usuaris registrats. Si ja ets un usuari "
 "registrat, siusplau identifica't. Si és un nou usuari, siusplau registra't. "
 
-#: wp-members-install.php:97
+#: inc/class-wp-members.php:652
 msgid "Sorry, that username is taken, please try another."
 msgstr ""
 "Ho sentim, aquest nom d'usuari ja està agafat, siusplau prova'n un altre. "
 
-#: wp-members-install.php:98
+#: inc/class-wp-members.php:653
 msgid ""
 "Sorry, that email address already has an account.<br />Please try another."
 msgstr "Ho sentim, aquest email ja està agafat, siusplau prova'n un altre. "
 
-#: wp-members-install.php:99
+#: inc/class-wp-members.php:654
 msgid ""
 "Congratulations! Your registration was successful.<br /><br />You may now "
 "log in using the password that was emailed to you."
@@ -1198,33 +1299,199 @@ msgstr ""
 "la sessió identifican-te amb la contrasenya que ha estat enviada a la teva "
 "adreça de correu. "
 
-#: wp-members-install.php:100
+#: inc/class-wp-members.php:655
 msgid "Your information was updated!"
 msgstr "La teva informació ha estat actualitzada!"
 
-#: wp-members-install.php:101
+#: inc/class-wp-members.php:656
 msgid "Passwords did not match.<br /><br />Please try again."
 msgstr ""
 "Les contrasenyes no coincideixen<br /><br />Siusplau intenta-ho de nou."
 
-#: wp-members-install.php:102
-msgid ""
-"Password successfully changed!<br /><br />You will need to re-login with "
-"your new password."
+#: inc/class-wp-members.php:657
+msgid "Password successfully changed!"
 msgstr ""
-"La contrasenya s'ha canviat correctament!. <br/><br/> Hauràs de tornar-te "
-"identificar utilitzant la nova contrasenya."
 
-#: wp-members-install.php:103
+#: inc/class-wp-members.php:658
 msgid "Either the username or email address do not exist in our records."
 msgstr "El nom d'usuari o email no existeixen en la nostra base de dades."
 
-#: wp-members-install.php:104
+#: inc/class-wp-members.php:659
 msgid ""
 "Password successfully reset!<br /><br />An email containing a new password "
-"has been sent to the email address on file for your account. You may change "
-"this random password then re-login with your new password."
+"has been sent to the email address on file for your account."
 msgstr ""
-"La contrasenya ha estat restablerta correctament<br /><br /> Li enviarem un "
-"email amb la nova contrasenya a l'adreça que ha registrat. Podrà canviar la "
-"contrasenya a l'atzar i després iniciar la sessió amb una nova contrasenya."
+
+#: inc/core.php:106
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "<strong>ERROR</strong>: L'usuari no ha estat activat."
+
+#: inc/register.php:45
+msgid "There was an error processing the form."
+msgstr "Hi hagut un error amb el formulari"
+
+#: inc/register.php:557
+msgid "We were unable to validate the public key."
+msgstr "No s'ha pogut validar la clau pública."
+
+#: inc/register.php:561
+msgid "We were unable to validate the private key."
+msgstr "No s'ha pogut validar la clau privada."
+
+#: inc/register.php:565
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "El paràmetre de verificació del script és incorrecte."
+
+#: inc/register.php:569
+msgid "The CAPTCHA solution was incorrect."
+msgstr "La resolució de CAPTCHA és incorrecte."
+
+#: inc/register.php:573
+msgid "The parameters to verify were incorrect"
+msgstr "Els paràmetres a verificar són incorrectes"
+
+#: inc/register.php:577
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr ""
+"Les claus de reCAPTCHA van associades a un domini específic per raons de "
+"seguretat. "
+
+#: inc/register.php:581
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "El servidor de reCAPTCHA no respond, siusplau intenta-ho de nou."
+
+#: inc/register.php:585
+msgid "You have entered an incorrect code value. Please try again."
+msgstr ""
+
+#: inc/shortcodes.php:346
+msgid "Click here to log out."
+msgstr ""
+
+#: inc/users.php:37
+msgid "Additional Information"
+msgstr "Informació Addicional"
+
+#: inc/utilities.php:202
+msgid "(more&hellip;)"
+msgstr ""
+
+#: wp-members-tos.php:23
+msgid "Terms of Service"
+msgstr "Condicions d'us"
+
+#: wp-members-tos.php:35
+#, php-format
+msgid "%sclose%s"
+msgstr "%stanca%s"
+
+#: wp-members-tos.php:37
+#, php-format
+msgid "%sprint%s"
+msgstr "%simprimeix%s"
+
+#. Plugin Name of the plugin/theme
+msgid "WP-Members"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://rocketgeek.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Chad Butler"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://butlerblog.com/"
+msgstr ""
+
+#~ msgid "Post Restriction"
+#~ msgstr "Restricció de l'anunci"
+
+#~ msgid "Page Restriction"
+#~ msgstr "Pàgina Restricció"
+
+#~ msgid "Subject"
+#~ msgstr "Assumpte"
+
+#~ msgid "Body"
+#~ msgstr "Cos"
+
+#~ msgid "dropdown"
+#~ msgstr "desplegable"
+
+#~ msgid "Block Posts by default"
+#~ msgstr "Bloquejar entrades per defecte"
+
+#~ msgid ""
+#~ "Note: Posts can still be individually blocked or unblocked at the article "
+#~ "level"
+#~ msgstr ""
+#~ "Nota: les entrades poden ser bloquejades o desbloquejades a nivell "
+#~ "d'article"
+
+#~ msgid "Block Pages by default"
+#~ msgstr "Bloquejar pàgines per defecte"
+
+#~ msgid ""
+#~ "Note: Pages can still be individually blocked or unblocked at the article "
+#~ "level"
+#~ msgstr ""
+#~ "Nota: les pàgines encara poden ser bloquejades o no bloquejades a nivell "
+#~ "d'article"
+
+#~ msgid "Show excerpts"
+#~ msgstr "Mostra resums"
+
+#~ msgid ""
+#~ "Shows excerpted content above the login/registration on both Posts and "
+#~ "Pages"
+#~ msgstr ""
+#~ "Mostra resums de contingut sobre el formulari d'accés, tant en entrades "
+#~ "com en pàgines"
+
+#~ msgid "Turns on CAPTCHA for registration"
+#~ msgstr "Activa  CAPTCHA pel registre"
+
+#~ msgid "Hide registration"
+#~ msgstr "Amaga registre"
+
+#~ msgid "Optional"
+#~ msgstr "Opcional"
+
+#~ msgid "AIM"
+#~ msgstr "AIM"
+
+#~ msgid "Yahoo IM"
+#~ msgstr "Yahoo IM"
+
+#~ msgid "Jabber/Google Talk"
+#~ msgstr "Jabber/Google Talk"
+
+#~ msgid ""
+#~ "Password successfully changed!<br /><br />You will need to re-login with "
+#~ "your new password."
+#~ msgstr ""
+#~ "La contrasenya s'ha canviat correctament!. <br/><br/> Hauràs de tornar-te "
+#~ "identificar utilitzant la nova contrasenya."
+
+#~ msgid ""
+#~ "Password successfully reset!<br /><br />An email containing a new "
+#~ "password has been sent to the email address on file for your account. You "
+#~ "may change this random password then re-login with your new password."
+#~ msgstr ""
+#~ "La contrasenya ha estat restablerta correctament<br /><br /> Li enviarem "
+#~ "un email amb la nova contrasenya a l'adreça que ha registrat. Podrà "
+#~ "canviar la contrasenya a l'atzar i després iniciar la sessió amb una nova "
+#~ "contrasenya."
