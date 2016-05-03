@@ -461,6 +461,22 @@ function wpmem_profile_url() {
 
 
 /**
+ * Returns the current full url.
+ *
+ * @since 3.1.1
+ * 
+ * @global object  $wp
+ * @param  boolean $slash Trailing slash the end of the url (default:true).
+ * @return string  $url   The current page full url path.
+ */
+function wpmem_current_url( $slash = true ) {
+	global $wp;
+	$url = home_url( add_query_arg( array(), $wp->request ) );
+	return ( $slash ) ? trailingslashit( $url ) : $url;
+}
+
+
+/**
  * Wraper to get form fields.
  *
  * @since 3.1.1
