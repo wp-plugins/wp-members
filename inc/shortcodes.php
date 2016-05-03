@@ -225,6 +225,11 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 					}
 				}
 			}
+			
+			// If the current page is the user profile and an action is being handled.
+			if ( ( wpmem_current_url() == $wpmem->user_pages['profile'] ) && isset( $_GET['a'] ) ) {
+				$do_return = false;
+			}
 		
 		}
 
