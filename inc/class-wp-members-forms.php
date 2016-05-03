@@ -40,7 +40,7 @@ class WP_Members_Forms {
 		
 		$name     = $args['name'];
 		$type     = $args['type'];
-		$value    = $args['value'];
+		$value    = maybe_unserialize( $args['value'] );
 		$valtochk = $args['valtochk'];
 		$class    = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
 		$required = ( isset( $args['required'] ) ) ? $args['required'] : false;
