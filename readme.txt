@@ -135,20 +135,13 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 == Changelog ==
 
-= 3.1.0.3 =
+= 3.1.1 =
 
-* Fixes redeclared wpmem_update_captcha function from 3.1.0.
-* Changed all _update_ functions in install package to _upgrade_.
-* Fixes an issue with PayPal extension where users may be set to pending if moderated registration is enabled after the user already has an expiration date.
-* Update wpmem_do_sidebar to use use add_query_arg() if on a search query.
-
-= 3.1.0.2 =
-
-* Fixes redeclared wpmem_update_dialogs() function from 3.1.0.
-
-= 3.1.0.1 =
-
-* Fixes missing about tab file from 3.1.0.
+* Added new dialogs functions to admin api, allows for custom dialogs to be added.
+* Added $user_id and $row to wpmem_admin_profile_field and wpmem_user_profile_field filters.
+* Added new wrapper functions wpmem_gettext(), wpmem_fields(), wpmem_profile_url(), wpmem_register_url(), wpmem_login_url(), wpmem_current_url().
+* Updated [wpmem_logged_in] shortcode so that content is not shown on on a user profile page action.
+* Updated email settings to only save new from/name if changed.
 
 = 3.1.0 =
 
@@ -184,6 +177,9 @@ This package contains several fixes, some new filters, new field types and other
 * Changed [wp-members page="user-profile"] shortcode to [wpmem_profile] (old shortcode will still work).
 * Removed redirect parameter from register shortcode in shortcode menu.
 * Removed kubrick stylesheet from selector (still packaged with download, shows as custom url if used).
+* Changed all _update_ functions in install package to _upgrade_.
+* Fixes an issue with PayPal extension where users may be set to pending if moderated registration is enabled after the user already has an expiration date.
+* Update wpmem_do_sidebar to use use add_query_arg() if on a search query.
 
 = 3.0.9 =
 
@@ -290,144 +286,3 @@ If you have any custom functions hooked to filters and actions that call any fil
 * New shortcodes [wpmem_form] added.
 * Shortcode dropdown selector added to tinymce toolbar in Post/Page editor.
 * Added redirect_to as a function argument if calling wpmem_logout() directly.
-
-= 2.9.9 =
-* Code standards in wp-members-email.php
-* Rebuilt admin notification email to follow new regular email structure with more filters in wp-members-email.com
-* Added $toggle to headers filter that is used in both emails so that headers could be filtered based on the email being sent (i.e. sending plain text for admin notification vs html for others. in wp-members-email.php
-* Added redirect_to parameter as a widget entry in wp-members-sidebar.php
-* Corrected flaws in error checking for adding new fields in /admin/tab-fields.php
-* Added functions for updating user_status in wp_users table in /admin/users.php
-* Fixed get_user_meta 'true' error in wp-members-core.php, users.php, /admin/users.php, /admin/user-profile.php
-* Added dummy comments template to protect comments without post password.
-* Added new action for deactivting a user (opposite of wpmem_user_activated).
-* Added check to remove password, confirm_password, and confirm_email from export (data for these was already skipped, but the field space was there).
-* Added wpmem_status_msg_args and wpmem_login_links_args filters.
-* Corrected Really Simple Captcha, added field wrapper and should not display on user profile edit.
-
-= 2.9.8 =
-* Fixed bug in settings update that caused the stored version number to be erased.
-* Fixed bug with new email function that causes the wpmem_email_newreg not to apply any filtered changes to the email body.
-* Major updates to wpmem_block logic, changing to universal _wpmem_block from two separate metas (block & unblock).
-* Fixed bug in the page bulk action that caused the result to end up on the posts page.
-* Added wpmem_use_ssl utility function.
-* Added use of wpmem_use_ssl function to reCAPTCHA to load correctly (previously handled ssl directly).
-* Added use of wpmem_use_ssl function for default input text for custom register page, user profile page, and custom stylesheet settings inputs.
-* Added new redirect_to parameter to login page shortcode.
-* Fixed checkbox for checked by default on the add new user screen.
-* Fixed "admin only" fields to display on the add new user screen.
-* Added underscores parameter to the fields shortcode to strip underscores. Defaults to off.
-* Updated excerpt logic to not show excerpts on multipage posts if not the first page.
-* Added new 2015 stylesheets (currently available, but subject to changes/updates)
-
-= 2.9.7 =
-* Fixed comparison for the checkbox CSS class in wpmem_create_formfield.
-* Corrected wp native registration function for use on localized sites.
-* Rebuilt export function, merges the two previous functions into one (export selected and export all) and will allow for calling custom exports.
-* Rebuilt user email function.
-* Added default "from" headers to email.
-* Added new filter wpmem_export_args.
-* Added new filter wpmem_email_filter.
-* Added a redirect_to parameter to the registration form similar to the login.
-* Fixed plugin admin page load for multisite, if user has theme options edit capabilities.
-
-= 2.9.6 =
-* Updated admin.js to show/hide custom url fields for User Profile page, Register page, and Stylesheet settings.
-* Updated options panel to show/hide custom url fields mentioned above.
-* Updated admin.js to show/hide checkbox and dropdown extra settings when adding a custom field in Fields.
-* Updated fields panel to show/hide extra fields mentioned above.
-* Updated reCAPTCHA to automatically change language if the language is (1) set as WPLANG and (2) used by reCAPTCHA.
-* Added error checking if Really Simple CAPTCHA is enabled but not installed.
-* Updated registration function for improved operation when used with popular cache plugins.
-
-= 2.9.5 =
-
-* Added support for Really Simple CAPTCHA (Really Simple CAPTCHA must also be installed).
-* Added support for custom field meta keys as shortcodes in emails.
-* Added support for default permalinks when using wpmem_logout shortcode.
-* Improved admin notification email to skip metas defined as excluded meta.
-* Fixed activation function for activations from user profile omitting passwords (see 2.9.4 bug fix for moderated password registration).
-
-= 2.9.4 =
-
-* Bug fix for moderated password registration (changes in 2.9.3 introduced a bug that caused moderated registration to send a blank password).
-* Bug fix for premium PayPal Subscription extension showing expired users, improved user query.
-* Fixed user profile update so that wp_update_user is called only once.
-* Added [wpmem_logged_out] shortcode to show content to logged out users. Same as [wp-members status="out"] shortcode but can be used on blocked content without changing security status.
-* Removed checkbox for adding password and confirmation fields to the User Screen since these are not stored data.
-
-= 2.9.3 =
-
-* Fixed a backend user profile update and create new user issue introduced with some 2.9.2 code improvements. The issue caused the additional fields not to save.
-* Added a confirm password and confirm email field to the default install, as well as automatic form validation when used.
-* Updated all functions that store/read user data to skip these fields as there is not need to store them, they are simply form validation fields.
-* Improved error checking in the admin Fields tab when attempting to add an option name that already exists.
-* Added separate registration validation for multisite (refers to WP-Members front end registration only). Multisite has different username requirements and the existing error message was valid, the wording did not fit well for multisite making it confusing. The multisite validation returns the WP error message rather than a custom error message. I may be updating other validation messages in the plugin to utilize this method (while allowing them to be filtered for customization).
-* Added a separate install for multisite.
-* Updated the template for all localization files (some strings still need translation).
-
-= 2.9.2 =
-
-* Added user ID parameter to wpmem_login_redirect filter.
-* Added new action hooks
-* Added logout shortcode
-* Added wpmem_msg_dialog_arr filter
-* Improvements to registration function
-* Admin panel updates for smaller screens
-* Added bulk block/unblock for posts and pages
-
-= 2.9.1 =
-
-This is primarily a cleanup and fix update with a few new features.
-
-* Added WP-Members registration fields to WordPress Users > Add New screen.
-* Fixed wpmem_test_shortcode error for TOS.
-* Plugin options tab - lists notify address for notify admin setting
-* Updated default password change success message - removed need to re-login string.
-* Make dropdown values in wpmem_create_formfield function translatable strings for localization
-* Changed "logout" to "log out"
-* Update to register function to check for unset values for WP native fields.
-* Moved the path constants to be defined earlier.
-* Added $action parameter to most of the login form filters, allows more direct filtering based on form state (login, password reset, password change).
-
-= 2.9.0 =
-
-This is a major update focusing on upgrades to the form building functions, but also includes a number of other changes and improvements.
-
-Major updates
-
-* New form building functions include new hooks and a more customizable form building process.
-* Form functions moved from wp-members-dialogs.php to new file forms.php
-* Sidebar login form also rebuilt in the same way the login and register forms were changed.
-* Legacy (old table based) forms completely removed in 2.9
-* Updates to error and dialog messages, removed unnecessary html tags
-
-Changes in wp-members-core.php
-
-* updated calling of wpmem_test_shortcode, now it works like has_shortcode, put off deprecating at this time.
-* updated shortcode to include tos page, allow for new tags (wpmem_field, wpmem_logged_in) (added new shortcode calls in wp-members.php), and accept id attribute for fields. Added $tag argument, can use shortcode_atts_{$shortcode} filter
-* moved wpmem_test_shortcode to utilities.php
-* added new action hooks: wpmem_pwd_change and wpmem_pwd_reset
-* added new filter hook: wpmem_regchk
-
-Changes in wp-members.php
-
-* a pretty major overhaul of this file. Moved all but four declarations that weren't already in functions into the init function. Only two constants are declared before the function. This initialization comes after the theme is setup, so pre-initilization needs, such as loading pluggable functions can be declared in the theme's functions.php file. Pluggable functions do not need to be loaded only from the wp-members-pluggable.php file.
-* The file name of the wp-members-pluggable.php file is loaded in a filter hook, wpmem_plugins_file, so you could call it something else or load it from another location.
-* New action hooks: wpmem_pre_init, wpmem_after_init, wpmem_pre_admin_init, wpmem_after_admin_init
-* New filter hook: wpmem_settings
-
-Miscellaneous Changes
-
-* Updates to the html for some of the admin to better fit the new WP admin layout. Old html was compatible, but the new works better.
-* Updates to the options tab to better group options
-* Updates to native (wp-login.php) registration to include require field indication
-* Review of output, localized a few missed strings
-* Implementation of changes in localization of field names. English values are now stored in the db (except for custom fields that would be whatever language the user creates the field as). Fields are then translated when displayed, rather than stored as translated strings.
-* Updated user profile to fix some issues with checkbox and required fields in users.php
-* Updated user export to include wp_users table fields user_url, user_nicename, and display_name fields
-* Code cleanup in wpmem_block function
-* Updated autoexcerpt function
-* New filter hooks for post editor meta box titles: wpmem_admin_post_meta_title, wpmem_admin_page_meta_title
-* Some updates to existing stylesheets
-* Added new stylesheets, including two with non-floated elements. Generic, non-floated stylesheet new default for fresh installs
