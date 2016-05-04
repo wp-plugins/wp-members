@@ -23,22 +23,11 @@
  * Builds the dialogs panel.
  *
  * @since 2.2.2
+ *
+ * @global object $wpmem
  */
-function wpmem_a_build_dialogs() {
-
-	$wpmem_dialogs  = get_option( 'wpmembers_dialogs' );
-
-	$wpmem_dialog_title_arr = array(
-		__( "Restricted post (or page), displays above the login/registration form", 'wp-members' ),
-		__( "Username is taken", 'wp-members' ),
-		__( "Email is registered", 'wp-members' ),
-		__( "Registration completed", 'wp-members' ),
-		__( "User update", 'wp-members' ),
-		__( "Passwords did not match", 'wp-members' ),
-		__( "Password changes", 'wp-members' ),
-		__( "Username or email do not exist when trying to reset forgotten password", 'wp-members' ),
-		__( "Password reset", 'wp-members' ),
-	); ?>
+function wpmem_a_build_dialogs() { 
+	global $wpmem; ?>
 	<div class="metabox-holder has-right-sidebar">
 
 		<div class="inner-sidebar">
@@ -60,13 +49,11 @@ function wpmem_a_build_dialogs() {
 						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
 						<?php wp_nonce_field( 'wpmem-update-dialogs' ); ?>
 							<table class="form-table">
-							<?php for( $row = 0; $row < count( $wpmem_dialog_title_arr ); $row++ ) { ?>
-								<tr valign="top"> 
-									<th scope="row"><?php echo $wpmem_dialog_title_arr[ $row ]; ?></th> 
-									<td><textarea name="<?php echo "dialogs_".$row; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $wpmem_dialogs[ $row ] ); ?></textarea></td> 
-								</tr>
-							<?php } ?>
-
+							<?php if ( ! empty ( $wpmem->admin->dialogs ) ) {	
+								foreach( $wpmem->admin->dialogs as $dialog ) {
+									$wpmem->admin->do_dialog_input( $dialog );
+								}
+							} ?>
 							<?php $wpmem_tos = stripslashes( get_option( 'wpmembers_tos' ) ); ?>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Terms of Service (TOS)', 'wp-members' ); ?></th> 
@@ -95,22 +82,19 @@ function wpmem_a_build_dialogs() {
  *
  * @since 2.8
  *
+ * @global object $wpmem
  * @return string The dialogs updated message.
  */
 function wpmem_update_dialogs() {
 
+	global $wpmem;
+	
 	// Check nonce.
 	check_admin_referer( 'wpmem-update-dialogs' );
 
-	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
-
-	for( $row = 0; $row < count( $wpmem_dialogs ); $row++ ) {
-		$dialog = "dialogs_" . $row;
-		$wpmem_newdialogs[ $row ] = $_POST[ $dialog ];
+	if ( ! empty ( $wpmem->admin->dialogs ) ) {
+		$wpmem->admin->dialog_update();
 	}
-
-	update_option( 'wpmembers_dialogs', $wpmem_newdialogs );
-	$wpmem_dialogs = $wpmem_newdialogs;
 
 	// Terms of Service.
 	update_option( 'wpmembers_tos', $_POST['dialogs_tos'] );

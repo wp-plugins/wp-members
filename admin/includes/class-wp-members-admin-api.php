@@ -26,6 +26,15 @@ class WP_Members_Admin_API {
 	 * @var array
 	 */
 	public $emails = array();
+	
+	/**
+	 * Container for dialogs.
+	 *
+	 * @since 3.1.1
+	 * @access public
+	 * @var array
+	 */
+	public $dialogs = array();
 
 	/**
 	 * Plugin initialization function.
@@ -45,6 +54,9 @@ class WP_Members_Admin_API {
 
 		// Load default emails.
 		$emails = $this->default_emails();
+		
+		// Load default dialogs.
+		$dialogs = $this->default_dialogs();
 	}
 
 	/**
@@ -211,6 +223,64 @@ class WP_Members_Admin_API {
 	}
 
 	/**
+	 * Adds dialogs to the Dialogs tab.
+	 *
+	 * @since 3.1.1
+	 *
+	 * @param array $args Settings array for the dialog.
+	 */
+	function do_dialog_input( $args ) { ?>
+        <tr valign="top"> 
+            <th scope="row"><?php echo $args['label']; ?></th> 
+            <td><textarea name="<?php echo $args['input']; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $args['value'] ); ?></textarea></td> 
+        </tr><?php
+	}
+
+	/**
+	 * Saves custom dialog settings.
+	 *
+	 * @since 3.1.1
+	 */
+	function dialog_update() {
+		$settings = array();
+		foreach ( $this->dialogs as $dialog ) {
+			if ( isset( $_POST[ $dialog['name'] . '_dialog' ] ) ) {
+				$settings[ $dialog['name'] ] = $_POST[ $dialog['name'] . '_dialog' ];
+			}
+		}
+		update_option( 'wpmembers_dialogs', $settings, true );
+		// Refresh settings
+		$this->default_dialogs();
+		return;
+	}	
+		
+	/**
+	 * Handles custom dialog settings.
+	 *
+	 * @since 3.1.1
+	 *
+	 * @param  array $args Settings array for the dialog.
+	 * @return array $args
+	 */
+	function add_dialog( $args ) {
+		global $wpmem;
+		$defaults = array(
+			'name'  => $args['name'],
+            'label' => $args['label'],
+			'input' => $args['name'] . '_dialog',
+			'value' => $args['value'],
+			//'value' => ( $args['value'] ) ? $args['value'] : $wpmem->get_text( $key ),
+        );
+		
+		// Merge args with settings.
+		$args = wp_parse_args( $args, $defaults );
+		
+		$this->dialogs[ $args['name'] ] = $args;
+		
+		//return $args;
+	}
+
+	/**
 	 * Settings for default tabs.
 	 *
 	 * @since 3.1.0
@@ -280,6 +350,52 @@ class WP_Members_Admin_API {
 			) );
 		}
 	
+	}
+	
+	/** 
+	 * Settings for default dialogs.
+	 *
+	 * @since 3.1.1
+	 */	
+	function default_dialogs() {
+		global $wpmem;
+		
+		// Get defaults.
+		$dialogs = get_option( 'wpmembers_dialogs' );
+		
+		$dialog_labels = array(
+			'restricted_msg'   => __( "Restricted post (or page), displays above the login/registration form", 'wp-members' ),
+			'user'             => __( "Username is taken", 'wp-members' ),
+			'email'            => __( "Email is registered", 'wp-members' ),
+			'success'          => __( "Registration completed", 'wp-members' ),
+			'editsuccess'      => __( "User update", 'wp-members' ),
+			'pwdchangerr'      => __( "Passwords did not match", 'wp-members' ),
+			'pwdchangesuccess' => __( "Password changes", 'wp-members' ),
+			'pwdreseterr'      => __( "Username or email do not exist when trying to reset forgotten password", 'wp-members' ),
+			'pwdresetsuccess'  => __( "Password reset", 'wp-members' ),
+		);
+		
+		$dialog_array = array();
+		foreach ( $dialog_labels as $key => $val ) {
+			$dialog_array[] = array(
+				'name'  => $key,
+				'label' => $val,
+				'value' => $dialogs[ $key ],
+			);
+		}
+		
+		/**
+		 * Filter the dialog array to add custom dialogs.
+		 *
+		 * @since 3.1.1
+		 *
+		 * @param array $dialog_array
+		 */
+		$dialog_array = apply_filters( 'wpmem_dialogs', $dialog_array );
+
+		foreach ( $dialog_array as $val ) {
+			$this->add_dialog( $val );
+		}
 	}
 	
 } // End of WP_Members_Admin_API class.
