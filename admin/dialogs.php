@@ -82,9 +82,9 @@ function wpmem_a_do_warnings( $did_update ) {
 	}
 
 	// Haven't entered recaptcha api keys.
-	if ( $warnings_on && $wpmem->captcha == 1 ) {
-		$wpmem_captcha = get_option( 'wpmembers_captcha' ); echo '<pre>'; print_r( $wpmem_captcha ); echo '</pre>';
-		if ( isset( $wpmem_captcha['recaptcha'] ) ) {
+	if ( $warnings_on && $wpmem->captcha > 0 ) {
+		$wpmem_captcha = get_option( 'wpmembers_captcha' );
+		if ( 1 == $wpmem->captcha || 3 == $wpmem->captcha ) {
 			if ( ! $wpmem_captcha['recaptcha']['public'] || ! $wpmem_captcha['recaptcha']['private'] ) {
 				wpmem_a_warning_msg( 'wpmembers_captcha' );
 				$warning_active = true;
