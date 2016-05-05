@@ -133,15 +133,9 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	// Get dialogs set in the db.
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
-	for ( $r = 0; $r < count( $defaults['toggles'] ); $r++ ) {
-		if ( $toggle == $defaults['toggles'][ $r ] ) {
-			if ( $dialogs[ $r+1 ] == $wpmem->get_text( $toggle ) ) {
-				$msg = $wpmem->get_text( $toggle );
-			} else {
-				$msg = __( stripslashes( $dialogs[ $r+1 ] ), 'wp-members' );
-			}
-			break;
-		}
+	if ( array_key_exists( $toggle, $dialogs ) ) {
+		$msg = $wpmem->get_text( $toggle );
+		$msg = ( $dialogs[ $toggle ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $toggle ] ), 'wp-members' );
 	}
 	$defaults['msg'] = $msg;
 	

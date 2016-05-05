@@ -52,10 +52,12 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 
 	     if ( $wpmem_regchk != "success" ) {
 
-			$arr = get_option( 'wpmembers_dialogs' );
+			$dialogs = get_option( 'wpmembers_dialogs' );
 			
 			// This shown above blocked content.
-			$str = '<p>' . __( stripslashes( $arr[0] ), 'wp-members' ) . '</p>';
+			$msg = $wpmem->get_text( 'restricted_msg' );
+			$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
+			$str = "<p>$msg</p>";
 			
 			/**
 			 * Filter the post restricted message.
