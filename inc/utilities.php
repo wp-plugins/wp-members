@@ -504,4 +504,20 @@ function wpmem_gettext( $str ) {
 	return $wpmem->get_text( $str );
 }
 
+
+/**
+ * Wrapper to use custom dialog.
+ *
+ * @since 3.1.1
+ *
+ * @param  array  $defaults Dialog message defaults from the wpmem_msg_dialog_arr filter.
+ * @param  string $tag      The dialog tag/name.
+ * @param  array  $dialogs  The dialog settings array (passed through filter).
+ * @return array  $dialogs  The dialog settings array (filtered).
+ */
+function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
+	$defaults['msg'] = __( $dialogs[ $tag ], 'wp-members' );
+	return $defaults;
+}
+
 // End of file.
