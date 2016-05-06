@@ -147,7 +147,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 * @param array  $defaults An array of the defaults.
 	 * @param string $toggle   The toggle that we are on, if any.
 	 */
-	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle );
+	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle, $dialogs );
 	
 	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );

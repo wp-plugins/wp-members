@@ -232,7 +232,7 @@ class WP_Members_Admin_API {
 	function do_dialog_input( $args ) { ?>
         <tr valign="top"> 
             <th scope="row"><?php echo $args['label']; ?></th> 
-            <td><textarea name="<?php echo $args['input']; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $args['value'] ); ?></textarea></td> 
+            <td><textarea name="<?php echo $args['name'] . "_dialog"; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $args['value'] ); ?></textarea></td> 
         </tr><?php
 	}
 
@@ -267,7 +267,7 @@ class WP_Members_Admin_API {
 		$defaults = array(
 			'name'  => $args['name'],
             'label' => $args['label'],
-			'input' => $args['name'] . '_dialog',
+			//'input' => $args['name'] . '_dialog',
 			'value' => $args['value'],
 			//'value' => ( $args['value'] ) ? $args['value'] : $wpmem->get_text( $key ),
         );
@@ -360,8 +360,14 @@ class WP_Members_Admin_API {
 	function default_dialogs() {
 		global $wpmem;
 		
-		// Get defaults.
-		$dialogs = get_option( 'wpmembers_dialogs' );
+		/**
+		 * Filter the dialog array to add custom dialogs.
+		 *
+		 * @since 3.1.1
+		 *
+		 * @param array $dialog_array
+		 */
+		$dialogs = apply_filters( 'wpmem_dialogs', get_option( 'wpmembers_dialogs' ) );
 		
 		$dialog_labels = array(
 			'restricted_msg'   => __( "Restricted post (or page), displays above the login/registration form", 'wp-members' ),
@@ -375,25 +381,17 @@ class WP_Members_Admin_API {
 			'pwdresetsuccess'  => __( "Password reset", 'wp-members' ),
 		);
 		
-		$dialog_array = array();
-		foreach ( $dialog_labels as $key => $val ) {
-			$dialog_array[] = array(
-				'name'  => $key,
-				'label' => $val,
-				'value' => $dialogs[ $key ],
-			);
+		foreach ( $dialogs as $key => $val ) {
+			if ( array_key_exists( $key, $dialog_labels ) ) {
+				$dialogs[ $key ] = array(
+					'name'  => $key,
+					'label' => $dialog_labels[ $key ],
+					'value' => $dialogs[ $key ],
+				);
+			}
 		}
-		
-		/**
-		 * Filter the dialog array to add custom dialogs.
-		 *
-		 * @since 3.1.1
-		 *
-		 * @param array $dialog_array
-		 */
-		$dialog_array = apply_filters( 'wpmem_dialogs', $dialog_array );
 
-		foreach ( $dialog_array as $val ) {
+		foreach ( $dialogs as $val ) {
 			$this->add_dialog( $val );
 		}
 	}
