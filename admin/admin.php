@@ -329,11 +329,13 @@ function wpmem_add_custom_email( $tag, $heading, $subject_input, $message_input 
  * @return array  $dialogs Dialog settings array with prepped custom dialog added.
  */
 function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
-	$dialogs[ $tag ] = array(
-		'name'  => $tag,
-		'label' => $label,
-		'value' => ( ! isset( $dialogs[ $tag ] ) ) ? $msg : $dialogs[ $tag ],
-	);
+	if ( is_admin() && isset( $_POST['tab'] ) && 'dialogs' == $_POST['tab'] ) {
+		$dialogs[ $tag ] = array(
+			'name'  => $tag,
+			'label' => $label,
+			'value' => ( ! isset( $dialogs[ $tag ] ) ) ? $msg : $dialogs[ $tag ],
+		);
+	}
 	return $dialogs;
 }
 
