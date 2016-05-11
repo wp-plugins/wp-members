@@ -67,7 +67,8 @@ function wpmem_registration( $toggle ) {
 						break;
 					case 'multiselect':
 					case 'multicheckbox':
-						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+						$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
+						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( $delimiter, $_POST[ $meta[2] ] ) : '';
 						break;
 					case 'textarea':
 						$fields[ $meta[2] ] = $_POST[ $meta[2] ];

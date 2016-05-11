@@ -819,14 +819,18 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				
 					// For all other input types.
 					//$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
-					$input = $wpmem->forms->create_form_field( array( 
+					$formfield_args = array( 
 						'name'     => $field[2],
 						'type'     => $field[3],
 						'value'    => $val,
 						'valtochk' => $valtochk,
 						//'class'    => ( $class ) ? $class : 'textbox',
 						'required' => ( 'y' == $field[5] ) ? true : false,
-					) );
+					);
+					if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
+						$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
+					}
+					$input = $wpmem->forms->create_form_field( $formfield_args );
 				
 				}
 				

@@ -104,10 +104,13 @@ function wpmem_admin_fields() {
 					//$show_field.= ' <span class="description">' . __( 'Update this file:' ) . '</span><br />';
 					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
 				} else {
-					if ( 'multicheckbox' == $meta[3] || 'select' == $meta[3] || 'multiselect' == $meta[3] || 'radio' == $meta[3] ) {
-						$input =  wpmem_create_formfield( $meta[2], $meta[3], $values, $valtochk );
-					} else {
-						$input =  wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+					if ( 'select' == $meta[3] || 'radio' == $meta[3] ) {
+						$input = wpmem_create_formfield( $meta[2], $meta[3], $values, $valtochk );
+					} elseif( 'multicheckbox' == $meta[3] || 'multiselect' == $meta[3] ) {
+						$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
+						$input = $wpmem->forms->create_form_field( array( 'name'=>$meta[2], 'type'=>$meta[3], 'value'=>$values, 'valtochk'=>$valtochk, 'delimiter'=>$delimiter ) );
+					}else {
+						$input = wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
 					}
 				}
 				
@@ -216,7 +219,8 @@ function wpmem_admin_update() {
 		} elseif ( $meta[3] == 'checkbox' ) {
 			$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? $_POST[ $meta[2] ] : '';
 		} elseif ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
-			$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+			$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
+			$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( $delimiter, $_POST[ $meta[2] ] ) : '';
 		}
 	}
 

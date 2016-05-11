@@ -38,12 +38,13 @@ class WP_Members_Forms {
 	 */
 	function create_form_field( $args ) {
 		
-		$name     = $args['name'];
-		$type     = $args['type'];
-		$value    = maybe_unserialize( $args['value'] );
-		$valtochk = $args['valtochk'];
-		$class    = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
-		$required = ( isset( $args['required'] ) ) ? $args['required'] : false;
+		$name      = $args['name'];
+		$type      = $args['type'];
+		$value     = maybe_unserialize( $args['value'] );
+		$valtochk  = $args['valtochk'];
+		$class     = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
+		$required  = ( isset( $args['required'] ) ) ? $args['required'] : false;
+		$delimiter = ( isset( $args['delimiter'] ) ) ? $args['delimiter'] : '|';
 	
 		switch ( $type ) { 
 			
@@ -97,7 +98,7 @@ class WP_Members_Forms {
 				$pieces = explode( '|', $option );
 				if ( 'multiselect' == $type ) {
 					$chk = '';
-					$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( '|', $valtochk ) );
+					$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( $delimiter, $valtochk ) );
 				} else {
 					$chk = $valtochk;
 					$values = array();
@@ -113,7 +114,7 @@ class WP_Members_Forms {
 			$str = '';
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( '|', $valtochk ) );
+				$values = ( empty( $valtochk ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( $delimiter, $valtochk ) );
 				$chk = ( isset( $pieces[2] ) && '' == $valtochk ) ? $pieces[1] : '';
 				$str = $str . $this->create_form_field( array(
 					'name' => $name . '[]',
