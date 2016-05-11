@@ -70,7 +70,7 @@ function wpmem_a_build_options() {
 					<div class="inside">
 						<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 						<?php wp_nonce_field( 'wpmem-update-settings' ); ?>
-							<h3>Content</h3>
+							<h3><?php _e( 'Content', 'wp-members' ); ?></h3>
 							<ul>
 							<?php
 
@@ -82,11 +82,14 @@ function wpmem_a_build_options() {
 								?>
 								<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
 									<label><?php echo ( $i == 0 ) ? 'Content Blocking' : '&nbsp;'; ?></label>
-									<select name="wpmem_block_<?php echo $key; ?>">
-										<option value="0"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 0 ) ? ' selected' : '';?>><?php _e( 'Do not block', 'wp-members' ); ?></option>
-										<option value="1"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 1 ) ? ' selected' : '';?>><?php _e( 'Block', 'wp-members' ); ?></option>
-										<!--<option value="2"<?php echo ( isset( $wpmem->block[ $key ] ) && $wpmem->block[ $key ] == 2 ) ? ' selected' : '';?>><?php _e( 'Hide', 'wp-members' ); ?></option>-->
-									</select>
+                                    <?php
+									$block  = ( isset( $wpmem->block[ $key ] ) ) ? $wpmem->block[ $key ] : '';
+									$values = array(
+										__( 'Do not block', 'wp-members' ) . '|0',
+										__( 'Block', 'wp-members' ) . '|1',
+										__( 'Hide', 'wp-members' ) . '|2'
+									);
+									echo wpmem_create_formfield( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
 									<span><?php echo $val; ?></span>
 								</li>
 								<?php $i++;
@@ -117,12 +120,12 @@ function wpmem_a_build_options() {
 										} else {
 											$setting = 0;
 											$ex_len  = ''; 
-										} ?>
-                                    	<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+										} 
+										echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
 										<span><?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_len" type="text" size="5" value="<?php echo $ex_len; ?>" />
 									<?php } else {
-										$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0; ?>
-                                    	<input name="wpmem_<?php echo $item_key; ?>_<?php echo $key; ?>" type="checkbox" id="" value="1"<?php echo wpmem_selected( 1, $setting ); ?> /> <span><?php echo $val; ?></span>
+										$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0; 
+										echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>
 									<?php } ?>
                                     </li>
 									<?php $i++;
@@ -136,18 +139,17 @@ function wpmem_a_build_options() {
 									array(__('Time-based expiration','wp-members'),'wpmem_settings_time_exp',__('Allows for access to expire','wp-members'),'use_exp'),
 									array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period','wp-members'),'use_trial'),
 								); ?>
-							<h3>Subscription Settings</h3>	
+							<h3><?php _e( 'Subscription Settings', 'wp-members' ); ?></h3>	
 							<ul><?php
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
-								<label><?php echo $arr[$row][0]; ?></label>
-								<?php if (WPMEM_DEBUG == true) { echo $wpmem->{$arr[$row][3]}; } ?>
-								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->{$arr[$row][3]} == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
-								<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[$row][2]; ?></span><?php } ?>
+								<label><?php echo $arr[ $row ][0]; ?></label>
+								<?php echo wpmem_create_formfield( $arr[ $row ][1], 'checkbox', '1', $wpmem->{$arr[ $row ][3]} ); ?>&nbsp;&nbsp;
+								<?php if ( $arr[ $row ][2] ) { ?><span class="description"><?php echo $arr[ $row ][2]; ?></span><?php } ?>
 							  </li>
 							<?php } 
 							}?></ul>
-							<h3>Other Settings</h3>
+							<h3><?php _e( 'Other Settings', 'wp-members' ); ?></h3>
 							<ul>
 							<?php $arr = array(
 								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
@@ -156,26 +158,25 @@ function wpmem_a_build_options() {
 							);
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
-								<label><?php echo $arr[$row][0]; ?></label>
-								<?php if (WPMEM_DEBUG == true) { echo $wpmem->{$arr[$row][3]}; } ?>
-								<input name="<?php echo $arr[$row][1]; ?>" type="checkbox" id="<?php echo $arr[$row][1]; ?>" value="1" <?php if ( $wpmem->{$arr[$row][3]} == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
-								<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[$row][2]; ?></span><?php } ?>
+								<label><?php echo $arr[ $row ][0]; ?></label>
+                                <?php echo wpmem_create_formfield( $arr[ $row ][1], 'checkbox', '1', $wpmem->{$arr[$row][3]} ); ?>&nbsp;&nbsp;
+								<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[ $row ][2]; ?></span><?php } ?>
 							  </li>
 							<?php } ?>
-							<?php $attribution = $wpmem->attrib; ?>
 							  <li>
 								<label><?php _e( 'Attribution', 'wp-members' ); ?></label>
-								<input name="attribution" type="checkbox" id="attribution" value="1" <?php if ( $attribution == 1 ) { echo "checked"; }?> />&nbsp;&nbsp;
+                                <?php echo wpmem_create_formfield( 'attribution', 'checkbox', '1', $wpmem->attrib ); ?>&nbsp;&nbsp;
 								<span class="description"><?php _e( 'Attribution is appreciated!  Display "powered by" link on register form?', 'wp-members' ); ?></span>
 							  </li>
 							  <li>
 								<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
-								<select name="wpmem_settings_captcha">
-									<option value="0"<?php echo ( $wpmem->captcha == 0 ) ? ' selected ' : ''; ?>><?php _e( 'None', 'wp-members' ); ?></option>
-									<option value="1"<?php echo ( $wpmem->captcha == 1 ) ? ' selected ' : ''; ?>>reCAPTCHA</option>
-									<option value="3"<?php echo ( $wpmem->captcha == 3 ) ? ' selected ' : ''; ?>>reCAPTCHA v2</option>
-									<option value="2"<?php echo ( $wpmem->captcha == 2 ) ? ' selected ' : ''; ?>>Really Simple CAPTCHA</option>
-								</select>
+                                <?php $captcha = array(
+									__( 'None', 'wp-members' ) . '|0',
+									'reCAPTCHA|1',
+									'reCAPTCHA v2|3',
+									'Really Simple CAPTCHA|2'
+								);
+								echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 							  </li>
 							<h3><?php _e( 'Pages' ); ?></h3>
 							  <?php $wpmem_logurl = $wpmem->user_pages['login'];
@@ -244,7 +245,7 @@ function wpmem_a_build_options() {
 						<?php wp_nonce_field( 'wpmem-update-cpts' ); ?>
                     		<table class="form-table">
                                 <tr>
-                                    <th scope="row">Add to WP-Members Settings</th>
+                                    <th scope="row"><?php _e( 'Add to WP-Members Settings', 'wp-members' ); ?></th>
                                     <td><fieldset><?php
 									foreach ( $post_arr as $key => $val ) {
 										if ( 'post' != $key && 'page' != $key ) {
