@@ -26,21 +26,24 @@
 }
 
 #addfieldform li,
+#editfieldform li,
 #updatesettings li {
 	padding: 5px 0; 
 }
 
 #addfieldform label,
+#editfieldform label,
 #updatesettings label {
 	float:left;
 	width: 166px;
 }
 
-#addfieldform .add-field-indent {
+#addfieldform .add-field-indent,
+#editfieldform .add-field-indent {
 	margin-left: 165px;
 }
 
 #fields_postbox,
-#add_field_postbox{
+#add_field_postbox {
 	min-width:950px;
 }

@@ -232,6 +232,10 @@ function wpmem_update_fields( $action ) {
 			} else {
 				$arr[7] = str_getcsv( $str, ',', '"' );
 			}
+			// If multiselect or multicheckbox, set delimiter.
+			if ( 'multiselect' == $_POST['add_type'] || 'multicheckbox' == $_POST['add_type'] ) {
+				$arr[8] = ( isset( $_POST['add_delimiter_value'] ) ) ? $_POST['add_delimiter_value'] : '|';
+			}
 		}
 		
 		if ( $_POST['add_type'] == 'file' || $_POST['add_type'] == 'image' ) {
@@ -390,14 +394,32 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 				
 				if ( isset( $field_arr[3] ) ) {
 					$additional_settings = ( $field_arr[3] == 'select' || $field_arr[3] == 'multiselect' || $field_arr[3] == 'multicheckbox' || $field_arr[3] == 'radio' ) ? true : false;
+					$delimiter_settings  = ( $field_arr[3] == 'multiselect' || $field_arr[3] == 'multicheckbox' ) ? true : false;
 				}
 				if ( $mode == 'add' || ( $mode == 'edit' && $additional_settings ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_dropdown_info">' : ''; ?>
 					<li>
 						<strong><?php _e( 'Additional information for dropdown fields', 'wp-members' ); ?></strong>
 					</li>
+                    <?php if ( $mode == 'add' || ( $mode == 'edit' && $delimiter_settings ) ) {
+                    echo ( $mode == 'add' ) ? '<div id="wpmem_delimiter_info">' : ''; 
+					if ( isset( $field_arr[8] ) && ( "|" == $field_arr[8] || "," == $field_arr[8] ) ) {
+						$delimiter = $field_arr[8];
+					} else {
+						$delimiter = "|";
+					}
+					?>
+                    <li>
+						<label><?php _e( 'Stored values delimiter:', 'wp-members' ); ?></label>
+						<select name = "add_delimiter_value">
+                        	<option value="|" <?php selected( '|', $delimiter ); ?>>pipe "|"</option>
+                            <option value="," <?php selected( ',', $delimiter ); ?>>comma ","</option>
+                        </select>
+                    </li>
+                    <?php echo ( $mode == 'add' ) ? '</div>' : '';
+                    } ?>
 					<li>
-						<label><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></label>
+						<label style="vertical-align:top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></label>
 						<textarea name="add_dropdown_value" rows="5" cols="40"><?php
 // Accomodate editing the current dropdown values or create dropdown value example.
 if ( $mode == 'edit' ) {

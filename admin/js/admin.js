@@ -427,6 +427,7 @@ jQuery.fn.extend(
 		$("#wpmem_checkbox_info").hide();
 		$("#wpmem_dropdown_info").hide();
 		$("#wpmem_file_info").hide();
+		$("#wpmem_delimiter_info").hide();
 	});
 	$(document).ready(function() {
 		$("#wpmem_field_type_select").change(function() {
@@ -442,6 +443,11 @@ jQuery.fn.extend(
 				$("#wpmem_dropdown_info").show();
 			else
 				$("#wpmem_dropdown_info").hide();
+			if ( $("#wpmem_field_type_select").val() == 'multiselect' || $("#wpmem_field_type_select").val() == 'multicheckbox'
+			)
+				$("#wpmem_delimiter_info").show();
+			else
+				$("#wpmem_delimiter_info").hide();
 			if ($("#wpmem_field_type_select").val() == 'file' || $("#wpmem_field_type_select").val() == 'image' )
 				$("#wpmem_file_info").show();
 			else
