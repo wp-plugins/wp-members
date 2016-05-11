@@ -334,10 +334,10 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		$user_info = get_userdata( $the_user_ID );
 
 		if ( $atts['underscores'] == 'off' && $user_info ) {
-			$user_info->$atts['field'] = str_replace( '_', ' ', $user_info->$atts['field'] );
+			$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
 		}
 
-		return ( $user_info ) ? htmlspecialchars( $user_info->$atts['field'] ) . do_shortcode( $content ) : do_shortcode( $content );
+		return ( $user_info ) ? htmlspecialchars( $user_info->{$atts['field']} ) . do_shortcode( $content ) : do_shortcode( $content );
 	}
 
 	// Logout link shortcode.

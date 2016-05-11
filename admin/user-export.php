@@ -98,7 +98,7 @@ function wpmem_export_users( $args, $users = null ) {
 			if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
 				// @todo Research using fputcsv to escape fields for export.
 				if ( in_array( $meta[2], $wp_user_fields ) ){
-					$data .= '"' . $user_info->$meta[2] . '",';	
+					$data .= '"' . $user_info->{$meta[2]} . '",';	
 				} else {
 					$data .= '"' . get_user_meta( $user, $meta[2], true ) . '",';
 				}

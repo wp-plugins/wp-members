@@ -347,7 +347,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 					if ( $meta[2] == 'user_url' ) {
 						$val = esc_url( $user->user_url );
 					} elseif ( in_array( $meta[2], $wp_user_fields ) ) {
-						$val = esc_html( $user->$meta[2] );
+						$val = esc_html( $user->{$meta[2]} );
 					} elseif ( 'file' == $meta[3] || 'image' == $meta[3] ) {
 						$val = wp_get_attachment_url( get_user_meta( $user_id, $meta[2], true ) );
 					} else {
