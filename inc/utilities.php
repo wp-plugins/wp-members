@@ -520,4 +520,33 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
 	return $defaults;
 }
 
+
+/**
+ * Checks if user has a particular role.
+ *
+ * Utility function to check if a given user has a specific role. Users can
+ * have multiple roles assigned, so it checks the role array rather than using
+ * the incorrect method of current_user_can( 'role_name' ). The function can
+ * check the role of the current user (default) or a specific user (if $user_id
+ * is passed).
+ *
+ * @since 3.1.1
+ *
+ * @global object  $current_user Current user object.
+ * @param  string  $role         Slug of the role being checked.
+ * @param  int     $user_id      ID of the user being checked (optional).
+ * @return boolean $has_role     True if user has the role, otherwise false.
+ */
+function wpmem_user_has_role( $role, $user_id = false ) {
+	global $current_user, $wpmem;
+	$has_role = false;
+	if ( $user_id ) {
+		$user = get_userdata( $user_id );
+	}
+	if ( is_user_logged_in() && ! $user_id ) {
+		$user = ( isset( $current_user ) ) ? $current_user : wp_get_current_user();
+	}
+	return ( in_array( $role, $user->roles ) ) ? true : $has_role;
+}
+
 // End of file.
