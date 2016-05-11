@@ -95,6 +95,7 @@ class WP_Members {
 		add_shortcode( 'wpmem_form',       'wpmem_sc_forms'        );
 		add_shortcode( 'wpmem_show_count', 'wpmem_sc_user_count'   );
 		add_shortcode( 'wpmem_profile',    'wpmem_sc_user_profile' );
+		add_shortcode( 'wpmem_loginout',   'wpmem_sc_loginout'     );
 		
 		/**
 		 * Fires after shortcodes load (for adding additional custom shortcodes).

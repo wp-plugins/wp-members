@@ -535,4 +535,37 @@ function wpmem_sc_user_profile() {
 	return $content;
 }
 
+
+/**
+ * Log in/out shortcode.
+ *
+ * @since 3.1.1
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_loginout( $atts, $content, $tag ) {
+	$defaults = array(
+		'login_redirect_to'  => ( isset( $atts['login_redirect_to']  ) ) ? $atts['login_redirect_to']  : wpmem_current_url(),
+		'logout_redirect_to' => ( isset( $atts['logout_redirect_to'] ) ) ? $atts['logout_redirect_to'] : wpmem_current_url(),
+		'login_link_text'    => ( isset( $atts['login_link_text']    ) ) ? $atts['login_link_text']    : __( 'log in',  'wp-members' ),
+		'logout_link_text'   => ( isset( $atts['logout_link_text']   ) ) ? $atts['logout_link_text']   : __( 'log out', 'wp-members' ),
+	);
+	$args = wp_parse_args( $atts, $defaults );
+	$redirect_to = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
+	$text = ( is_user_logged_in() ) ? $args['logout_link_text'] : $args['login_link_text'];
+	if ( is_user_logged_in() ) {
+		/** This filter is defined in /inc/dialogs.php */
+		$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+		$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+	} else {
+		$link = wpmem_login_url();
+		$link = $link . add_query_arg( 'redirect_to', $args['login_redirect_to'], $link );
+		$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+	}
+	return $link;
+}
+
 // End of file.
