@@ -82,7 +82,7 @@ class WP_Members_API {
 				'compare' => '=',
 			) ) );
 		} else {
-			$args = array( 'fields' => array( $key ) );
+			$args = array( 'search' => $val, 'fields' => 'ID' );
 		}
 		
 		$users = get_users( $args );
