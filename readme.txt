@@ -139,11 +139,13 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 * Added new dialogs functions to admin api, allows for custom dialogs to be added.
 * Added $user_id and $row to wpmem_admin_profile_field and wpmem_user_profile_field filters.
-* Added new wrapper functions wpmem_gettext(), wpmem_fields(), wpmem_profile_url(), wpmem_register_url(), wpmem_login_url(), wpmem_current_url().
+* Added new api class and api functions.
 * Added [wpmem_loginout] shortcode.
 * Updated [wpmem_logged_in] shortcode so that content is not shown on on a user profile page action.
 * Updated email settings to only save new from/name if changed.
 * Updated admin warning messges.
+* Updated multiselect and multicheckbox fields to allow user selected delimiter (defaults to pipe "|").
+* Fixes for PHP7.
 
 = 3.1.0 =
 

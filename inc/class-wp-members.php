@@ -69,9 +69,9 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		$this->forms = new WP_Members_Forms;
 		
-		// Load utilities.
-		require_once( WPMEM_PATH . 'inc/class-wp-members-utilities.php' );
-		$this->utitilies = new WP_Members_Utilities;
+		// Load api.
+		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
+		$this->api = new WP_Members_API;
 		
 	}
 

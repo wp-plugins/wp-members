@@ -19,6 +19,7 @@
 /**
  * Load utility functions.
  */
+require_once( WPMEM_PATH . 'inc/api.php' );
 require_once( WPMEM_PATH . 'inc/utilities.php' );
 
 
@@ -68,6 +69,7 @@ if ( ! function_exists( 'wpmem_block' ) ):
  *
  * @since 2.6.0
  * @since 3.0.0 Now a wrapper for $wpmem->is_blocked().
+ * @deprecated 3.1.1 Use wpmem_is_blocked() instead.
  *
  * @global object $wpmem The WP-Members object class.
  *
@@ -592,34 +594,6 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
 	global $wpmem;
 	$comments = ( ! is_user_logged_in() && $wpmem->is_blocked() ) ? array() : $comments;
 	return $comments;
-}
-
-
-/**
- * Redirects a user to defined login page with return redirect.
- *
- * @since 3.0.2
- *
- * @global object $wp    The WordPress object.
- * @global object $post  The WordPress post object.
- * @global object $wpmem The WP-Members object.
- */
-function wpmem_redirect_to_login() {
-	
-	global $wp, $post, $wpmem;
-
-	if ( ! is_user_logged_in() && $wpmem->is_blocked() ) {
-		
-		// Get current page location.
-		$current_page = home_url( add_query_arg( array(), $wp->request ) );
-		$redirect_to  = urlencode( $current_page );
-		
-		$url = add_query_arg( 'redirect_to', $redirect_to, $wpmem->user_pages['login'] );
-		
-		wp_redirect( $url );
-		exit();
-	}
-	return;
 }
 
 

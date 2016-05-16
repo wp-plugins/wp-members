@@ -457,8 +457,6 @@ username: [username]
 function wpmem_upgrade_dialogs() {
 
 	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
-	$do_update = false;
-	$dialogs = array( 0, 3 );
 	
 	if ( ! array_key_exists( 'restricted_msg', $wpmem_dialogs ) ) {
 		// Update is needed.
