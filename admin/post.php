@@ -223,7 +223,7 @@ function wpmem_block_meta() {
 	$admin_url = get_admin_url(); ?>
 	
 	<p>
-		<?php echo $notice_text . '&nbsp;&nbsp;<a href="' . $admin_url . '/options-general.php?page=wpmem-settings">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
+		<?php echo $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
 		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="<?php echo $block; ?>" <?php checked( get_post_meta( $post->ID, $meta, true ), $block ); ?> />
