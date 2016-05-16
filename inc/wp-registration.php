@@ -88,6 +88,23 @@ function wpmem_do_wp_register_form() {
 						$input.= ( isset( $_POST[ $field[2] ] ) ) ? esc_textarea( $_POST[ $field[2] ] ) : '';
 						$input.= '</textarea>';		
 						break;
+						
+					case( 'multiselect' ):
+					case( 'multicheckbox' ):
+					case( 'radio' ):
+						$valtochk = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+						$formfield_args = array( 
+							'name'     => $field[2],
+							'type'     => $field[3],
+							'value'    => $field[7],
+							'valtochk' => $valtochk,
+							'required' => ( 'y' == $field[5] ) ? true : false,
+						);
+						if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
+							$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
+						}
+						$input = $wpmem->forms->create_form_field( $formfield_args );
+						break;
 
 					default:
 						$input = '<input type="' . $field[3] . '" name="' . $field[2] . '" id="' . $field[2] . '" class="input" value="';
