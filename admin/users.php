@@ -85,7 +85,7 @@ function wpmem_insert_activate_link( $actions, $user_object ) {
 		$var = get_user_meta( $user_object->ID, 'active', true );
 
 		if ( $var != 1 ) {
-			$url = "users.php?action=activate-single&amp;user=$user_object->ID";
+			$url = add_query_arg( array( 'action' => 'activate-single', 'user' => $user_object->ID ), "users.php" );
 			$url = wp_nonce_url( $url, 'activate-user' );
 			$actions['activate'] = '<a href="' . $url . '">Activate</a>';
 		}
@@ -135,20 +135,27 @@ function wpmem_users_page_load() {
 		check_admin_referer( 'bulk-users' );
 
 		// Get the users.
-		$users = $_REQUEST['users'];
-
-		// Update the users.
-		$x = 0;
-		foreach ( $users as $user ) {
-			// Check to see if the user is already activated, if not, activate.
-			if ( ! get_user_meta( $user, 'active', true ) ) {
-				wpmem_a_activate_user( $user, $chk_pass );
-				$x++;
+		if ( isset( $_REQUEST['users'] ) ) {
+			
+			$users = $_REQUEST['users'];
+	
+			// Update the users.
+			$x = 0;
+			foreach ( $users as $user ) {
+				// Check to see if the user is already activated, if not, activate.
+				if ( ! get_user_meta( $user, 'active', true ) ) {
+					wpmem_a_activate_user( $user, $chk_pass );
+					$x++;
+				}
 			}
+			$msg = urlencode( sprintf( __( '%s users activated', 'wp-members' ), $x ) );
+		
+		} else {
+			$msg = urlencode( __( 'No users selected', 'wp-members' ) );
 		}
 
 		// Set the return message.
-		$sendback = add_query_arg( array('activated' => $x . ' users activated' ), $sendback );
+		$sendback = add_query_arg( array( 'activated' => $msg ), $sendback );
 		break;
 
 	case 'activate-single':
@@ -168,14 +175,15 @@ function wpmem_users_page_load() {
 			$user_info = get_userdata( $users );
 
 			// Set the return message.
-			$sendback = add_query_arg( array('activated' => "$user_info->user_login activated" ), $sendback );
+			$msg = urlencode( sprintf( __( "%s activated", 'wp-members' ), $user_info->user_login ) );
 
 		} else {
 
-			// Get the return message.
-			$sendback = add_query_arg( array('activated' => "That user is already active" ), $sendback );
+			// Set the return message.
+			$msg = urlencode( __( "That user is already active", 'wp-members' ) );
 
 		}
+		$sendback = add_query_arg( array( 'activated' => $msg ), $sendback );
 		break;
 
 	case 'show':
