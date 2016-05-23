@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.1
-Tested up to: 4.5.0
+Tested up to: 4.5.2
 Stable tag: 3.1.1
 License: GPLv2
 
