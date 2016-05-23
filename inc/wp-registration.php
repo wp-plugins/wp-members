@@ -25,6 +25,7 @@
  * Appends WP-Members registration fields to wp-login.php registration form.
  *
  * @since 2.8.7
+ * @since 3.1.1 Updated to support new (3.1.0) field types.
  */
 function wpmem_do_wp_register_form() {
 
@@ -36,7 +37,8 @@ function wpmem_do_wp_register_form() {
 
 			$req = ( $field[5] == 'y' ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
 
-			if ( $field[4] == 'y' && $field[2] != 'user_email' ) {
+			// File fields not yet supported for this form.
+			if ( $field[4] == 'y' && $field[2] != 'user_email' && $field[3] != 'file' && $field[3] != 'image' ) {
 			
 				if ( $field[3] == 'checkbox' ) {
 
@@ -91,7 +93,8 @@ function wpmem_do_wp_register_form() {
 						
 					case( 'multiselect' ):
 					case( 'multicheckbox' ):
-					case( 'radio' ):
+					case( 'radio' ):	
+						$row_before = '<p class="' . $field[3] . '">';
 						$valtochk = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
 						$formfield_args = array( 
 							'name'     => $field[2],
@@ -104,6 +107,11 @@ function wpmem_do_wp_register_form() {
 							$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
 						}
 						$input = $wpmem->forms->create_form_field( $formfield_args );
+						break;
+					
+					case( 'file' ):
+					case( 'image' ):
+						// Field type not supported for this yet.
 						break;
 
 					default:
@@ -155,6 +163,7 @@ function wpmem_do_wp_register_form() {
  * Appends WP-Members registration fields to Users > Add New User screen.
  *
  * @since 2.9.0
+ * @since 3.1.1 Updated to support new (3.1.0) field types and user activation.
  */
 function wpmem_do_wp_newuser_form() {
 
@@ -196,7 +205,28 @@ function wpmem_do_wp_newuser_form() {
 				$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
 				echo wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
 				break;
-
+			
+			case( 'multiselect' ):
+			case( 'multicheckbox' ):
+			case( 'radio' ):
+				$valtochk = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+				$formfield_args = array( 
+					'name'     => $field[2],
+					'type'     => $field[3],
+					'value'    => $field[7],
+					'valtochk' => $valtochk,
+					'required' => ( 'y' == $field[5] ) ? true : false,
+				);
+				if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
+					$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
+				}
+				echo $wpmem->forms->create_form_field( $formfield_args );
+				break;
+				
+			case( 'file' ):
+			case( 'image' ):
+				break;
+				
 			default:
 				echo '<input type="' . $field[3] . '" name="' . $field[2] . '" id="' . $field[2] . '" class="input" value="'; echo ( isset( $_POST[ $field[2] ] ) ) ? esc_attr( $_POST[ $field[2] ] ) : ''; echo '" size="25" />';
 				break;
@@ -207,6 +237,17 @@ function wpmem_do_wp_newuser_form() {
 
 		}
 	}
+	
+	// If moderated registration is enabled, add checkbox to set user as active.
+	if ( 1 == $wpmem->mod_reg ) {
+		echo '<tr>
+				<th scope="row">
+					<label for="activate_user">' . __( 'Activate this user?', 'wp-members' ) . '</label>
+				</th>
+				<td>' . $wpmem->forms->create_form_field( array( 'name' => 'activate_user', 'type' => 'checkbox', 'value' => 1, 'valtochk' => '' ) ) . '</td>
+			  </tr>';
+	}
+	
 	echo '</tbody></table>';
 
 }

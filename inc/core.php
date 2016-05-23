@@ -495,10 +495,10 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	foreach ( $wpmem->fields as $field ) {
 		$is_error = false;
 		if ( $field[5] == 'y' && $field[2] != 'user_email' && ! in_array( $field[2], $exclude ) ) {
-			if ( ( $field[3] == 'checkbox' ) && ( ! isset( $_POST[ $field[2] ] ) ) ) {
+			if ( ( $field[3] == 'checkbox' || $field[3] == 'multicheckbox' || $field[3] == 'multiselect' || $field[3] == 'radio' ) && ( ! isset( $_POST[ $field[2] ] ) ) ) {
 				$is_error = true;
 			} 
-			if ( ( $field[3] != 'checkbox' ) && ( ! $_POST[ $field[2] ] ) ) {
+			if ( ( $field[3] != 'checkbox' && $field[3] != 'multicheckbox' && $field[3] != 'multiselect' && $field[3] != 'radio' ) && ( ! $_POST[ $field[2] ] ) ) {
 				$is_error = true;
 			}
 			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field[1], 'wp-members' ) ) ); }
@@ -513,9 +513,11 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
  * Inserts registration data from the native WP registration.
  *
  * @since 2.8.3
+ * @since 3.1.1 Added new 3.1 field types and activate user support.
+ *
+ * @todo Compartmentalize file upload along with main register function.
  *
  * @global object $wpmem The WP-Members object class.
- *
  * @param int $user_id The WP user ID.
  */
 function wpmem_wp_reg_finalize( $user_id ) {
@@ -528,9 +530,21 @@ function wpmem_wp_reg_finalize( $user_id ) {
 		// @todo This needs to change to $wpmem->excluded_fields($tag).
 		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach ( $wpmem->fields as $meta ) {
-			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) ) {
-				update_user_meta( $user_id, $meta[2], sanitize_text_field( $_POST[ $meta[2] ] ) );
+			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) && 'file' != $meta[3] && 'image' != $meta[3] ) {
+				if ( 'multiselect' == $meta[3] || 'multicheckbox' == $meta[3] ) {
+					$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
+					$data = implode( $delimiter, $_POST[ $meta[2] ] );
+				} else {
+					$data = $_POST[ $meta[2] ];
+				}
+				update_user_meta( $user_id, $meta[2], sanitize_text_field( $data ) );
 			}
+		}
+		
+		// If moderated registration and activate is checked, set active flags.
+		if ( is_admin() && $add_new && 1 == $wpmem->mod_reg && isset( $_POST['activate_user'] ) ) {
+			update_user_meta( $user_id, 'active', 1 );
+			wpmem_set_user_status( $user_id, 0 );
 		}
 	}
 	return;
