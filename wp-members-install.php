@@ -462,7 +462,7 @@ function wpmem_upgrade_dialogs() {
 		// Update is needed.
 		$new_arr  = array();
 		$new_keys = array( 'restricted_msg', 'user', 'email', 'success', 'editsuccess', 'pwdchangerr', 'pwdchangesuccess', 'pwdreseterr', 'pwdresetsuccess' );
-		foreach ( $dialogs as $key => $val ) {
+		foreach ( $wpmem_dialogs as $key => $val ) {
 			$new_arr[ $new_keys[ $key ] ] = $val;
 		}
 		update_option( 'wpmembers_dialogs', $new_arr, '', 'yes' );
