@@ -69,7 +69,7 @@ function wpmem_admin_plugin_links( $links, $file ) {
 		$wpmem_plugin = plugin_basename( WPMEM_PATH . '/wp-members.php' );
 	}
 	if ( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="options-general.php?page=wpmem-settings">' . __( 'Settings', 'wp-members' ) . '</a>';
+		$settings_link = '<a href="' . add_query_arg( 'page', 'wpmem-settings', 'options-general.php' ) . '">' . __( 'Settings', 'wp-members' ) . '</a>';
 		$links = array_merge( array( $settings_link ), $links );
 	}
 	return $links;
