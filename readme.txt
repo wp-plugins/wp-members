@@ -141,10 +141,15 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 * Added $user_id and $row to wpmem_admin_profile_field and wpmem_user_profile_field filters.
 * Added new api class and api functions.
 * Added [wpmem_loginout] shortcode.
+* Added support for new field types to native registration and users > add new (except file/image fields).
+* Updated users > add new so that user can be activated when added.
 * Updated [wpmem_logged_in] shortcode so that content is not shown on on a user profile page action.
 * Updated email settings to only save new from/name if changed.
 * Updated admin warning messges.
 * Updated multiselect and multicheckbox fields to allow user selected delimiter (defaults to pipe "|").
+* Fixes issue with profile update when file/image field is required.
+* Fixes image field edit in fields tab to include file type.
+* Fixes attribution setting for 3.0 settings array.
 * Fixes for PHP7.
 
 = 3.1.0 =
