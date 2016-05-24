@@ -78,8 +78,8 @@ class WP_Members_Admin_API {
 			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
+			require_once( WPMEM_PATH . 'admin/tab-about.php' );
 			require_once( WPMEM_PATH . 'admin/dialogs.php' );
-			//require_once( WPMEM_PATH . 'admin/tab-about.php' );
 		}
 		if ( current_user_can( 'edit_posts' ) ) {
 			require_once( WPMEM_PATH . 'admin/post.php' );
@@ -394,6 +394,32 @@ class WP_Members_Admin_API {
 		foreach ( $dialogs as $val ) {
 			$this->add_dialog( $val );
 		}
+	}
+	
+	
+	/**
+	 * Get the current form.
+	 *
+	 * @since 3.1.2
+	 *
+	 * @todo Work on multi-form project for 3.1.2
+	 */
+	function get_form( $form = 'default' ) {
+		/*
+		$current_form = ( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
+		$wpmem_forms = get_option( 'wpmembers_forms' );
+		$fields = $wpmem_forms[ $current_form ];
+		$this->current_form = $current_form;
+		$this->current_form_fields = $fields;
+		*/
+		$current_form = ( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
+		$this->current_form = $current_form;
+		global $wpmem;
+		// Add numeric array form fields as associative
+		foreach( $wpmem->fields as $field ) {
+			$wpmem->fields[ $field[2] ] = $field;
+		}
+		$this->current_form_fields = $wpmem->fields;
 	}
 	
 } // End of WP_Members_Admin_API class.
