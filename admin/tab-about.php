@@ -54,12 +54,13 @@ function wpmem_a_build_about_tab() { ?>
                     	<p>WP-Members is a WordPress membership plugin that is simple to use but incorporates a powerful framework for customization.
                         A simple installation can be up and running in just a few minutes. Using the plugin's API, filters, and actions, the plugin can
                         also be fully customized without touching the main plugin files.</p>
-                        <p>I would encourage you to join the premium support site as a paid support subscriber.  Not only does this get you access to 
-                        tutorials on customizing the plugin, a members only forum, priority direct email support, and a host of exclusive plugin extensions,
-                        it also supports the ongoing development of the plugin.  The only way this plugin can continue to be actively developed and
-                        supported is through <b><i>your</i></b> support.  So if you like the plugin and find it integral to your site and/or business, please
-                        consider joining today!  (And if you're already a premium support subscriber - Thank You!  You make this plugin possible.)</p>
-                        <p>Introduced in 2006, WP-Members was the first WordPress Membership plugin and through a supportive community it continues to grow
+                        <p>I would encourage you to join the premium support site as a paid support subscriber.  Not only does this provide access to 
+                        subscriber-exclusive tutorials on customizing the plugin, a members only forum, priority direct email support, and a host of 
+                        exclusive plugin extensions, it also supports the ongoing development of the plugin.  The only way this plugin can continue to 
+                        be actively developed and supported is through <b><i>your</i></b> support.  So if you like the plugin and find it integral 
+                        to your site and/or business, please consider joining today!  (And if you're already a premium support subscriber - Thank You!  
+                        You make this plugin possible.)</p>
+                        <p>Introduced in 2006, WP-Members was the first WordPress Membership plugin and through support of the WP community it continues to grow
                         and be developed.  Why put your trust in an unknown?  WP-Members has a 10 year track record of active development and support.</p>
                         <p><strong><a href="http://rkt.bz/KB">Free User Guide</a></strong> |
                         <strong><a href="http://rkt.bz/about">Support Site Membership</a></strong> | 
