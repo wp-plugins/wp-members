@@ -1137,18 +1137,21 @@ endif;
  * Create an attribution link in the form.
  *
  * @since 2.6.0
+ * @since 3.1.1 Updated to use new object setting.
  *
+ * @global object $wpmem
  * @return string $str
  */
 function wpmem_inc_attribution() {
 
+	global $wpmem;
 	$http = ( is_ssl() ) ? 'https://' : 'http://';
 	$str = '
 	<div align="center">
 		<small>Powered by <a href="' . $http . 'rocketgeek.com" target="_blank">WP-Members</a></small>
 	</div>';
 		
-	return ( get_option( 'wpmembers_attrib' ) ) ? $str : '';
+	return ( 1 == $wpmem->attrib ) ? $str : '';
 }
 
 
