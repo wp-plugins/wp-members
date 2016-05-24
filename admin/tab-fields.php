@@ -361,7 +361,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 						<label><?php _e( 'Required?', 'wp-members' ); ?></label>
 						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> />
 					</li>
-				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'file' ) ) { ?>
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( $field_arr[3] == 'file' || $field_arr[3] == 'image' ) ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
 					<li>
 						<strong><?php _e( 'Additional information for field upload fields', 'wp-members' ); ?></strong>
