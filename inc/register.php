@@ -110,9 +110,12 @@ function wpmem_registration( $toggle ) {
 		// Validation if the field is required.
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
 			if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
-				// If the required field is a file type.
-				if ( empty( $_FILES[ $meta[2] ]['name'] ) ) {
-					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+				// If this is a new registration.
+				if ( 'register' == $toggle ) {
+					// If the required field is a file type.
+					if ( empty( $_FILES[ $meta[2] ]['name'] ) ) {
+						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+					}
 				}
 			} else {
 				// If the required field is any other field type.

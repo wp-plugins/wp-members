@@ -193,7 +193,27 @@ class WP_Members_Forms {
 		return false;
 	} // End upload_file()
 	
-	
+	/**
+	 * Sets the file upload directory.
+	 *
+	 * This is a filter function for upload_dir.
+	 *
+	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/upload_dir
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param  array $param {
+	 *     The directory information for upload.
+	 *
+	 *     @type string $path
+	 *     @type string $url
+	 *     @type string $subdir
+	 *     @type string $basedir
+	 *     @type string $baseurl
+	 *     @type string $error
+	 * }
+	 * @return array $param
+	 */
 	function file_upload_dir( $param ) {
 		$user_id  = ( isset( $this->file_user_id ) ) ? $this->file_user_id : null;
 		
@@ -211,7 +231,7 @@ class WP_Members_Forms {
 		 */
 		$args = apply_filters( 'wpmem_user_upload_dir', $args );
 
-		$param['subdir'] = $sub_dir;
+		$param['subdir'] = '/' . $args['wpmem_dir'] . $args['user_dir'];
 		$param['path']   = $param['basedir'] . '/' . $args['wpmem_dir'] . $args['user_dir'];
 		$param['url']    = $param['baseurl'] . '/' . $args['wpmem_dir'] . $args['user_dir'];
 	

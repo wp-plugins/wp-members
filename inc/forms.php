@@ -918,7 +918,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	// Put the rows from the array into $form.
 	$form = ''; $enctype = '';
 	foreach ( $rows as $row_item ) {
-		$enctype = ( $row_item['type'] == 'file' ) ? "multipart/form-data" : $enctype;
+		$enctype = ( $row_item['type'] == 'file' ||  $row_item['type'] == 'image' ) ? "multipart/form-data" : $enctype;
 		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
 		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
 		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
