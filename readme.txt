@@ -10,7 +10,11 @@ WP-Members&trade; is a free membership management framework for WordPress&reg; t
 
 == Description ==
 
-WP-Members&trade; is a membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, and more!  The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content (and thus your branded theme) instead of the native WP login page.  WP-Members&trade; works with no modifications to your theme, but it is scalable for users that want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+WP-Members&trade; is the original membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, clubs/associations, and more!  
+
+The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content rather than the native WP login page.  WP-Members&trade; requires __no__ modifications to your theme while remainging scalable for users who want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
+
+Simple to install and configure - yet customizable and scalable!
 
 [youtube http://www.youtube.com/watch?v=x4MEoRLSY_U]
 
@@ -18,30 +22,27 @@ WP-Members&trade; is a membership plugin for WordPress&reg;.  Perfect for newsle
 
 * Block posts, pages, both, or none by default
 * Block individual posts/pages
-* Login/Registration is inline with content rather than the WP login page
-* User registration and profile integrated into your theme
+* User login, registration, and profile integrated into your theme
 * Sidebar login widget
 * Create custom registration and profile fields
 * Set which fields display and which are required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
-* Automatically create post excerpts
-* Show excerpt on pages/posts for better SEO
-* Optional CAPTCHA for registration
-* More than 80 action and filter hooks for extensibility
+* Setting to automatically create post excerpts
+* More than 100 action and filter hooks for extensibility
 
-By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change the default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
+By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change these default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
 
 The plugin installs with additional registration fields including name, address, phone, and email. Using the WP-Members&trade; admin panel, you can also create your own custom registration fields and delete existing ones.  Changing the field order is simple with a drag-and-drop interface.  All of the registration process is inline with your theme and content rather than using the WordPress&reg; login page.  This offers you a premium content site with a professional and branded look and feel.  It also provides an opportunity for the user to register without leaving the page to do so - less clicks = more conversions.
 
 There are also some special pages that can be created with simple shortcodes:
 
-* A User Profile page where registered members can edit their information and change/reset their password.  
-* A Registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages.  
-* A Login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode.
-* And more!
+* A User Profile page where registered members can edit their information and change/reset their password: [wpmem_profile]
+* A Registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages: [wpmem_form register]
+* A Login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode: [wpmem_form login]
+* [And more shortcodes are available](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/)!
 
-The plugin runs on a framework with over 80 action and filter hooks so you can fully customize your implementation.
+The plugin runs on a framework with over 100 action and filter hooks so you can fully customize your implementation.
 
 In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
 
@@ -111,7 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.1 is primarily a feature update release (see changelog).
+WP-Members 3.1.1 is primarily a feature update release (see changelog). This update does make a db settings change.
 WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 == Screenshots ==
@@ -137,6 +138,7 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 = 3.1.1 =
 
+* Added downgrade function (currently runs on deactivation) to allow for version rollbacks.
 * Added new dialogs functions to admin api, allows for custom dialogs to be added.
 * Added $user_id and $row to wpmem_admin_profile_field and wpmem_user_profile_field filters.
 * Added new api class and api functions.
