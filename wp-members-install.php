@@ -473,6 +473,30 @@ function wpmem_upgrade_dialogs() {
 
 
 /**
+ * Downgrades dialogs array for pre-3.1.1 version rollback.
+ *
+ * @since 3.1.1
+ */
+function wpmem_downgrade_dialogs() {
+	
+	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
+	
+	if ( array_key_exists( 'restricted_msg', $wpmem_dialogs ) ) {
+		// Update is needed.
+		$new_arr  = array();
+		$i = 0;
+		foreach ( $wpmem_dialogs as $key => $val ) {
+			$new_arr[ $i ] = $val;
+			$i++;
+		}
+		update_option( 'wpmembers_dialogs', $new_arr, '', 'yes' );
+	}
+
+	return;
+}
+
+
+/**
  * Checks the captcha settings and updates accordingly.
  *
  * Was update_captcha() since 2.9.5, changed to wpmem_update_captcha() in 3.0.
