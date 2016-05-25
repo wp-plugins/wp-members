@@ -63,6 +63,7 @@ class WP_Members_Admin_API {
 	 * Load dependencies.
 	 *
 	 * @since 3.1.0
+	 * @since 3.1.1 Added tab-about.php.
 	 */
 	function load_dependencies() {
 		if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {

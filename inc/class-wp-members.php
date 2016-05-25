@@ -84,6 +84,11 @@ class WP_Members {
 
 		/**
 		 * Load the shortcode functions.
+		 *
+		 * @since 3.0.0
+		 * @since 3.0.7 Added wpmem_show_count.
+		 * @since 3.1.0 Added wpmem_profile.
+		 * @since 3.1.1 Added wpmem_loginout.
 		 */
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		

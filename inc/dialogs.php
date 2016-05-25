@@ -143,6 +143,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 * Filter the message array
 	 *
 	 * @since 2.9.2
+	 * @since 3.1.1 added $dialogs parameter.
 	 *
 	 * @param array  $defaults An array of the defaults.
 	 * @param string $toggle   The toggle that we are on, if any.

@@ -25,6 +25,7 @@ class WP_Members_Forms {
 	 * Creates various form fields and returns them as a string.
 	 *
 	 * @since 3.1.0
+	 * @since 3.1.1 Added $delimiter.
 	 *
 	 * @param array  $args {
 	 *     @type string $name
@@ -33,6 +34,7 @@ class WP_Members_Forms {
 	 *     @type string $valtochk
 	 *     @type string $class
 	 *     @type string $required
+	 *     @type string $delimiter
 	 * }
 	 * @return string $str The field returned as a string.
 	 */
