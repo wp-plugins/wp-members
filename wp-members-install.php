@@ -149,7 +149,6 @@ function wpmem_do_install() {
 		
 		wpmem_upgrade_settings();
 		wpmem_upgrade_captcha();
-		wpmem_upgrade_dialogs();
 		wpmem_append_email();
 		
 	}
@@ -165,6 +164,9 @@ function wpmem_do_install() {
  * @return array $wpmem_newsettings
  */
 function wpmem_upgrade_settings() {
+	
+	// Update dialogs for 3.1.1
+	wpmem_upgrade_dialogs();
 
 	$wpmem_settings = get_option( 'wpmembers_settings' );
 
