@@ -62,13 +62,20 @@ function wpmem_is_blocked() {
  * Wrapper to get the login page location.
  *
  * @since 3.1.1
+ * @since 3.1.2 Added redirect_to parameter.
  *
- * @global object $wpmem
- * @return string The login page url.
+ * @global object $wpmem       The WP_Members object.
+ * @param  string $redirect_to URL to return to (optional).
+ * @return string $url         The login page url.
  */
-function wpmem_login_url() {
+function wpmem_login_url( $redirect_to = false ) {
 	global $wpmem;
-	return $wpmem->user_pages['login'];
+	if ( $redirect_to ) {
+		$url = add_query_arg( 'redirect_to', urlencode( $redirect_to ), $wpmem->user_pages['login'] );
+	} else {
+		$url = $wpmem->user_pages['login'];
+	}
+	return $url;
 }
 
 
@@ -97,6 +104,23 @@ function wpmem_register_url() {
 function wpmem_profile_url() {
 	global $wpmem;
 	return $wpmem->user_pages['profile'];
+}
+
+
+/**
+ * Returns an array of user pages.
+ *
+ * @since 3.1.2
+ *
+ * @return array  $pages
+ */
+function wpmem_user_pages() {
+	$pages = array( 
+		trailingslashit( wpmem_login_url() ), 
+		trailingslashit( wpmem_register_url() ),
+		trailingslashit( wpmem_profile_url() ),
+	);
+	return $pages;
 }
 
 
