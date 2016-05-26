@@ -236,13 +236,70 @@ function wpmem_users_admin_notices() {
  * Function to add user views to the top list.
  *
  * @since 2.8.2
+ * @since 3.1.2 Added user view counts as transient.
  *
- * @param  array $views
- * @return array $views
+ * @global object $wpdb
+ * @global object $wpmem
+ * @param  array  $views
+ * @return array  $views
  */
 function wpmem_users_views( $views ) {
-
+	
 	global $wpmem;
+	
+	// Get the cached user counts.
+	$user_counts = get_transient( 'wpmem_user_counts' );
+	
+	// check to see if data was successfully retrieved from the cache
+	if ( false === $user_counts ) {
+		
+		// @todo For now, 30 seconds.  We'll see how things go.
+		$transient_expires = 30; // Value in seconds, 1 day: ( 60 * 60 * 24 );
+
+		global $wpdb;
+		
+		// We need a count of total users.
+		// @todo - need a more elegant way of this entire process.
+		$sql = "SELECT COUNT(*) FROM " . $wpdb->prefix . "users";
+		$users = $wpdb->get_var( $sql );
+
+		// What needs to be counted?		
+		$count_metas = array();
+		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+			$count_metas['pending'] = 'pending';
+		}
+		if ( $wpmem->use_trial == 1 ) {
+			$count_metas['trial'] = 'trial';
+		}
+		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+			$count_metas['subscription'] = 'subscription';
+			$count_metas['expired'] = 'expired';
+		}
+		if ( $wpmem->mod_reg == 1 ) {
+			$count_metas['notactive'] = 'active';
+		}
+		$count_metas['notexported'] = 'exported';
+		
+		// Handle various counts.
+		$user_counts = array();
+		foreach ( $count_metas as $key => $meta_key ) {
+			if ( 'notactive' == $key || 'notexported' == $key ) {
+				$users_with_meta = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key='$meta_key' AND meta_value=1" );
+				$count = $users - $users_with_meta;
+			}
+			if ( 'trial' == $key || 'subscription' == $key ) {
+				$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'exp_type' AND meta_value = \"$key\"" );
+			}
+			if ( 'pending' == $key ) {
+				$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'exp_type' AND meta_value = \"$key\"" );
+			}
+			if ( 'expired' == $key ) {
+				$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'expires' AND STR_TO_DATE( meta_value, '%m/%d/%Y' ) < CURDATE() AND meta_value != '01/01/1970'" );
+			}
+			$user_counts[ $key ] = $count;
+		}
+		set_transient( 'wpmem_user_counts', $user_counts, $transient_expires );
+	}
 
 	$arr = array();
 	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
@@ -274,6 +331,7 @@ function wpmem_users_views( $views ) {
 		
 		if ( $echolink ) {
 			$views[$lcas] = "<a href=\"$link\" $curr>$arr[$row] <span class=\"count\"></span></a>";
+			$views[$lcas].= ( isset( $user_counts[ $lcas ] ) ) ? ' (' . $user_counts[ $lcas ] . ')' : '';
 		}
 	}
 
