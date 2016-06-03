@@ -97,13 +97,15 @@ function wpmem_register_url() {
  * Wrapper to get the profile page location.
  *
  * @since 3.1.1
+ * @since 3.1.2 Added $a parameter.
  *
  * @global object $wpmem
- * @return string The profile page url.
+ * @param  string $a      Action (optional).
+ * @return string         The profile page url.
  */
-function wpmem_profile_url() {
+function wpmem_profile_url( $a = false ) {
 	global $wpmem;
-	return $wpmem->user_pages['profile'];
+	return ( $a ) ? add_query_arg( 'a', $a, $wpmem->user_pages['profile'] ) : $wpmem->user_pages['profile'];
 }
 
 
