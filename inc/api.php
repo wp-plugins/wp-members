@@ -143,6 +143,20 @@ function wpmem_current_url( $slash = true ) {
 
 
 /**
+ * Wrapper for $wpmem->create_form_field().
+ *
+ * @since 3.1.2
+ *
+ * @param  array  $args
+ * @return string 
+ */
+function wpmem_form_field( $args ) {
+	global $wpmem;
+	return $wpmem->forms->create_form_field( $args );
+}
+
+
+/**
  * Wrapper to get form fields.
  *
  * @since 3.1.1
