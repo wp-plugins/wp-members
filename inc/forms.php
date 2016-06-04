@@ -763,7 +763,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 
 				// Determine if TOS is a WP page or not.
 				$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-				if ( ( wpmem_test_shortcode( $tos_content, 'wp-members' ) ) ) {	
+				if ( has_shortcode( $tos_content, 'wp-members' ) || has_shortcode( $tos_content, 'wpmem_tos' ) ) {	
 					$link = do_shortcode( $tos_content );
 					$tos_pop = '<a href="' . $link . '" target="_blank">';
 				} else { 

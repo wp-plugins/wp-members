@@ -391,7 +391,7 @@ class WP_Members {
 
 		$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
-		if ( ( ! wpmem_test_shortcode( $content, 'wp-members' ) ) ) {
+		if ( ( ! has_shortcode( $content, 'wp-members' ) ) ) {
 
 			if ( $this->regchk == "captcha" ) {
 				global $wpmem_captcha_err;

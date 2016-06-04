@@ -80,9 +80,10 @@ function wpmem_admin_plugin_links( $links, $file ) {
  * Loads the admin javascript and css files.
  *
  * @since 2.5.1
- * @deprecated 3.0.6
+ * @deprecated 3.0.6 Replaced by wpmem_admin_enqueue_scripts().
  */
 function wpmem_load_admin_js() {
+	wpmem_write_log( "wpmem_load_admin_js() is deprecated as of WP-Members 3.0.6" );
 	// Queue up admin ajax and styles.
 	wp_enqueue_script( 'wpmem-admin-js',  WPMEM_DIR . 'admin/js/admin.js',   '', WPMEM_VERSION );
 	wp_enqueue_style ( 'wpmem-admin-css', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );

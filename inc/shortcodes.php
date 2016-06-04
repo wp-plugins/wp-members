@@ -264,6 +264,7 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
  * and fields when the wpmem_field tags are used.
  *
  * @since 2.4.0
+ * @deprecated 3.1.2 
  *
  * @global object $wpmem The WP_Members object.
  *
@@ -273,6 +274,8 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
  * @return string Returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content.
  */
 function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
+	
+	wpmem_write_log( "wpmem_shortcode() is deprecated as of WP-Members 3.1.2. This means a [wp-members] shortcode is being used and should be replaced." );
 
 	global $wpmem;
 

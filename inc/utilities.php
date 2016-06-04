@@ -74,6 +74,7 @@ if ( ! function_exists( 'wpmem_selected' ) ):
  * @return string $issame
  */
 function wpmem_selected( $value, $valtochk, $type = null ) {
+	wpmem_write_log( "wpmem_selected() is deprecated as of WP-Members 3.1.0. Use selected() or checked() instead" );
 	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
 	return ( $value == $valtochk ) ? $issame : '';
 }
@@ -85,12 +86,13 @@ if ( ! function_exists( 'wpmem_chk_qstr' ) ):
  * Checks querystrings.
  *
  * @since 2.0.0
+ * @deprecated 3.1.0 Use add_query_arg() instead.
  *
  * @param  string $url
  * @return string $return_url
  */
 function wpmem_chk_qstr( $url = null ) {
-
+	wpmem_write_log( "wpmem_chk_qstr() is deprecated as of WP-Members 3.1.0. Use add_query_arg() instead" );
 	$permalink = get_option( 'permalink_structure' );
 	if ( ! $permalink ) {
 		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url;
@@ -109,11 +111,12 @@ if ( ! function_exists( 'wpmem_generatePassword' ) ):
  * Generates a random password.
  *
  * @since 2.0.0
- * @deprecated Unknown
+ * @deprecated Unknown Use wp_generate_password() instead.
  *
  * @return string The random password.
  */
 function wpmem_generatePassword() {
+	wpmem_write_log( "WP-Members function wpmem_generatePassword() is deprecated. Use wp_generate_password() instead" );
 	return substr( md5( uniqid( microtime() ) ), 0, 7 );
 }
 endif;
@@ -342,6 +345,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  * Tests $content for the presence of the [wp-members] shortcode.
  *
  * @since 2.6.0
+ * @deprecated 3.1.2 Use has_shortcode() instead.
  *
  * @global string $shortcode_tags
  * @return bool
@@ -350,6 +354,7 @@ if ( ! function_exists( 'wpmem_test_shortcode' ) ):
  */
 function wpmem_test_shortcode( $content, $tag ) {
 
+	wpmem_write_log( "wpmem_test_shortcode() is deprecated as of WP-Members 3.1.2. Use has_shortcode() instead." );
 	global $shortcode_tags;
 	if ( array_key_exists( $tag, $shortcode_tags ) ) {
 		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
@@ -416,5 +421,22 @@ function wpmem_wp_reserved_terms() {
 	
 	return $reserved_terms;
 }
+
+
+/**
+ * Log debugging errors.
+ *
+ * @since 3.1.2
+ * 
+ * @param mixed (string|array|object) $log Information to write in the WP debug file.
+ */
+function wpmem_write_log ( $log ) {
+	if ( is_array( $log ) || is_object( $log ) ) {
+		error_log( print_r( $log, true ) );
+	} else {
+		error_log( $log );
+	}
+}
+
 
 // End of file.

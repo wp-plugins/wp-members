@@ -76,6 +76,7 @@ if ( ! function_exists( 'wpmem_block' ) ):
  * @return bool $block true if content is blocked, false otherwise.
  */
 function wpmem_block() {
+	wpmem_write_log( "wpmem_block() is deprecated as of WP-Members 3.1.1, use wpmem_is_blocked() instead" );
 	global $wpmem;
 	return $wpmem->is_blocked();
 }
@@ -256,10 +257,10 @@ if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
  * This function is a wrapper for wpmem_do_sidebar().
  *
  * @since 2.0.0
- *
- * @todo This function may be deprecated.
+ * @deprecated Unknown
  */
 function wpmem_inc_sidebar() {
+	wpmem_write_log( "WP-Members function wpmem_inc_sidebar() is deprecated. No alternative function exists" );
 	/**
 	 * Load the sidebar functions.
 	 */
@@ -575,7 +576,7 @@ function wpmem_wplogin_stylesheet() {
  */
 function wpmem_securify_comments( $open ) {
 
-	$open = ( ! is_user_logged_in() && wpmem_block() ) ? false : $open;
+	$open = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? false : $open;
 
 	/**
 	 * Filters whether comments are open or not.
