@@ -55,6 +55,9 @@ function wpmem_registration( $toggle ) {
 	// Add the user email to the $fields array for _data hooks.
 	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
 
+	/** This filter defined in inc/class-wp-members-forms.php */
+	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $toggle );
+	
 	// Build the $fields array from $_POST data.
 	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
 	foreach ( $wpmem_fields as $meta ) {
