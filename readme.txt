@@ -1,9 +1,9 @@
 ﻿=== WP-Members: Membership Framework ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
-Requires at least: 3.1
+Requires at least: 3.6
 Tested up to: 4.5.2
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -112,8 +112,8 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.1 is primarily a feature update release (see changelog). This update does make a db settings change.
-WP-Members 3.1.0 is a major verion release, please review the changelog.
+WP-Members 3.1.2 is primarily a feature update release (see changelog).
+WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change, please review the changelog.
 
 == Screenshots ==
 
@@ -135,6 +135,16 @@ WP-Members 3.1.0 is a major verion release, please review the changelog.
 
 
 == Changelog ==
+
+= 3.1.2 =
+
+* Added user counts to user screen links (set as transient) @todo currently expires in 30 seconds, consider longer expiration.
+* Added redirect_to parameter to wpmem_login_url()
+* Added action parameter to wpmem_profile_url()
+* Added api function wpmem_user_pages() to return an array of the login, register, and profile page urls.
+* Added shortcode [wpmem_tos] for Terms of Service page url (replaces [wp-members page=tos url=http://mysite.com/path/to/tos/]).
+* Added wpmem_write_log() function for writing notices to the WP error log.
+* Deprecated [wp-members] shortcode, all other shortcodes no longer rely on wpmem_shortcode().
 
 = 3.1.1 =
 

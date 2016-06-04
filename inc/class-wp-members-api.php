@@ -22,6 +22,8 @@ class WP_Members_API {
 	 * Get field keys by meta.
 	 *
 	 * @since 3.1.1
+	 *
+	 * @return array $field_keys
 	 */
 	function get_field_keys_by_meta() {
 		global $wpmem;

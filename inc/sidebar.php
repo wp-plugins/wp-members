@@ -232,7 +232,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		global $user_login; 
 
 		/** This filter is documented in wp-members/inc/dialogs.php */
-		$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
+		$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout', $url ) );
 		
 		// Defaults.
 		$defaults = array(
@@ -241,7 +241,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 			'link_text'      => $wpmem->get_text( 'sb_logout' ),
 			'wrapper_after'  => '</p>',
 		);
-		
+	
 		/**
 		 * Filter sidebar login status arguments.
 		 *

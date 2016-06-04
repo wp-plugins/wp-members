@@ -35,7 +35,7 @@
  */
 function wpmem_redirect_to_login() {
 	if ( ! is_user_logged_in() && wpmem_is_blocked() ) {
-		$redirect_to  = urlencode( wpmem_current_url() );
+		$redirect_to = urlencode( wpmem_current_url() );
 		$url = add_query_arg( 'redirect_to', $redirect_to, wpmem_login_url() );
 		wp_redirect( $url );
 		exit();
