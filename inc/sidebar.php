@@ -236,6 +236,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		
 		// Defaults.
 		$defaults = array(
+			'user_login'     => $user_login,
 			'wrapper_before' => '<p>',
 			'status_text'    => sprintf( $wpmem->get_text( 'sb_status' ), $user_login ) . '<br />',
 			'link_text'      => $wpmem->get_text( 'sb_logout' ),
@@ -246,11 +247,12 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		 * Filter sidebar login status arguments.
 		 *
 		 * @since 3.1.0
+		 * @since 3.1.2 Pass default args.
 		 *
-		 * @param  null
+		 * @param  array $defaults
 		 * @return array
 		 */
-		$args = apply_filters( 'wpmem_sidebar_status_args', '' );
+		$args = apply_filters( 'wpmem_sidebar_status_args', $defaults );
 		
 		// Merge $args with $defaults.
 		$args = wp_parse_args( $args, $defaults );
