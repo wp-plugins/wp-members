@@ -21,6 +21,10 @@
  * - wpmem_shortcode
  * - wpmem_do_sc_pages
  * - wpmem_sc_user_count
+ * - wpmem_sc_user_profile
+ * - wpmem_sc_loginout
+ * - wpmem_sc_fields
+ * - wpmem_sc_logout
  */
 
 
@@ -303,7 +307,7 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 		} elseif ( $atts['page'] == 'tos' ) {
 			return $atts['url'];
 		} else {
-			$content = do_shortcode( wpmem_do_sc_pages( $atts['page'], $atts['redirect_to'] ) );
+			$content = do_shortcode( wpmem_do_sc_pages( $atts, $content, $tag ) );
 		}
 
 		// Resolve any texturize issues.
@@ -318,36 +322,12 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 
 	// Handles the 'status' attribute.
 	if ( ( $atts['status'] ) || $tag == 'wpmem_logged_in' ) {
-		return do_shortcode( wpmem_sc_logged_in( $atts, $content, $tag ) );
+		return wpmem_sc_logged_in( $atts, $content, $tag );
 	}
 
 	// Handles the 'field' attribute.
 	if ( $atts['field'] || $tag == 'wpmem_field' ) {
-		if ( $atts['id'] ) {
-			// We are getting some other user.
-			if ( $atts['id'] == 'get' ) {
-				$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
-			} else {
-				$the_user_ID = $atts['id'];
-			}
-		} else {
-			// Get the current user.
-			$the_user_ID = get_current_user_id();
-		}
-		$user_info = get_userdata( $the_user_ID );
-
-		if ( $atts['underscores'] == 'off' && $user_info ) {
-			$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
-		}
-
-		return ( $user_info ) ? htmlspecialchars( $user_info->{$atts['field']} ) . do_shortcode( $content ) : do_shortcode( $content );
-	}
-
-	// Logout link shortcode.
-	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
-		$link = ( $atts['url'] ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
-		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
-		return do_shortcode( "<a href=\"$link\">$text</a>" );
+		return wpmem_sc_fields( $atts, $content, $tag );
 	}
 
 }
@@ -370,9 +350,14 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  *
  * @param  string $page
  * @param  string $redirect_to
+ * @param  string $tag
  * @return string $content
  */
-function wpmem_do_sc_pages( $page, $redirect_to = null ) {
+function wpmem_do_sc_pages( $atts, $content, $tag ) {
+	
+	$page = ( isset( $atts['page'] ) ) ? $atts['page'] : $tag; 
+	$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
+	$hide_register = ( isset( $atts['register'] ) && 'hide' == $atts['register'] ) ? true : false;
 
 	global $wpmem, $wpmem_themsg, $post;
 	include_once( WPMEM_PATH . 'inc/dialogs.php' );
@@ -394,7 +379,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 		}
 
 		if ( ! is_user_logged_in() ) {
-			if ( $wpmem->action == 'register' ) {
+			if ( $wpmem->action == 'register' && ! $hide_register ) {
 
 				switch( $wpmem->regchk ) {
 
@@ -420,7 +405,7 @@ function wpmem_do_sc_pages( $page, $redirect_to = null ) {
 			} else {
 
 				$content = ( $page == 'members-area' ) ? $content . wpmem_inc_login( 'members' ) : $content;
-				$content = ( $page == 'register' || $wpmem->show_reg[ $post->post_type ] != 0 ) ? $content . wpmem_inc_registration() : $content;
+				$content = ( ( $page == 'register' || $wpmem->show_reg[ $post->post_type ] != 0 ) && ! $hide_register ) ? $content . wpmem_inc_registration() : $content;
 			}
 
 		} elseif ( is_user_logged_in() && $page == 'members-area' ) {
@@ -530,11 +515,16 @@ function wpmem_sc_user_count( $atts, $content = null ) {
  * Creates the user profile dashboard area (to replace page=user-profile shortcode).
  *
  * @since 3.1.0
+ * @since 3.1.2 Added function arguments.
  *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
  * @return string $content
  */
-function wpmem_sc_user_profile() {
-	$content = wpmem_do_sc_pages( 'user-profile' );
+function wpmem_sc_user_profile( $atts, $content, $tag ) {
+	$atts['page'] = 'user-profile';
+	$content = wpmem_do_sc_pages( $atts, $content, $tag );
 	return $content;
 }
 
@@ -569,6 +559,58 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
 		$link = sprintf( '<a href="%s">%s</a>', $link, $text );
 	}
 	return $link;
+}
+
+
+/**
+ * Function to handle field shortcodes [wpmem_field].
+ *
+ * @since 3.1.2
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_fields( $atts, $content, $tag ) {
+	if ( $atts['id'] ) {
+		// We are getting some other user.
+		if ( $atts['id'] == 'get' ) {
+			$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
+		} else {
+			$the_user_ID = $atts['id'];
+		}
+	} else {
+		// Get the current user.
+		$the_user_ID = get_current_user_id();
+	}
+	$user_info = get_userdata( $the_user_ID );
+
+	if ( $atts['underscores'] == 'off' && $user_info ) {
+		$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
+	}
+
+	return ( $user_info ) ? htmlspecialchars( $user_info->{$atts['field']} ) . do_shortcode( $content ) : do_shortcode( $content );
+}
+
+
+/**
+ * Logout link shortcode [wpmem_logout].
+ *
+ * @since 3.1.2
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_logout( $atts, $content, $tag ) {
+		// Logout link shortcode.
+	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
+		$link = ( $atts['url'] ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
+		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
+		return do_shortcode( "<a href=\"$link\">$text</a>" );
+	}
 }
 
 // End of file.
