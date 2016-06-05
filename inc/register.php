@@ -28,13 +28,13 @@ if ( ! function_exists( 'wpmem_registration' ) ):
  *
  * @since 2.2.1
  *
- * @param  string $toggle toggles the function between 'register' and 'update'.
+ * @param  string $tag           Identifies 'register' or 'update'.
  * @global int    $user_ID
  * @global string $wpmem_themsg
  * @global array  $userdata
  * @return string $wpmem_themsg|success|editsuccess
  */
-function wpmem_registration( $toggle ) {
+function wpmem_registration( $tag ) {
 
 	// Get the globals.
 	global $user_ID, $wpmem, $wpmem_themsg, $userdata; 
@@ -48,7 +48,7 @@ function wpmem_registration( $toggle ) {
 	}
 
 	// Is this a registration or a user profile update?
-	if ( $toggle == 'register' ) { 
+	if ( $tag == 'register' ) { 
 		$fields['username'] = ( isset( $_POST['user_login'] ) ) ? sanitize_user( $_POST['user_login'] ) : '';
 	}
 	
@@ -56,7 +56,7 @@ function wpmem_registration( $toggle ) {
 	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
 
 	/** This filter defined in inc/class-wp-members-forms.php */
-	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $toggle );
+	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $tag );
 	
 	// Build the $fields array from $_POST data.
 	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
@@ -109,12 +109,12 @@ function wpmem_registration( $toggle ) {
 
 	foreach ( $wpmem_fields_rev as $meta ) {
 		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
-		$pass_chk = ( $toggle == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
+		$pass_chk = ( $tag == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
 		// Validation if the field is required.
 		if ( $meta[5] == 'y' && $pass_chk == false ) {
 			if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
 				// If this is a new registration.
-				if ( 'register' == $toggle ) {
+				if ( 'register' == $tag ) {
 					// If the required field is a file type.
 					if ( empty( $_FILES[ $meta[2] ]['name'] ) ) {
 						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
@@ -129,7 +129,7 @@ function wpmem_registration( $toggle ) {
 		}
 	}
 
-	switch ( $toggle ) {
+	switch ( $tag ) {
 
 	case "register":
 		
@@ -283,7 +283,7 @@ function wpmem_registration( $toggle ) {
 		 * @since 2.8.2
 		 *
 		 * @param array  $fields An array of the registration field data.
-		 * @param string $toggle A switch to indicate the action (new|edit).
+		 * @param string $tag    A switch to indicate the action (new|edit).
 		 */
 		$fields = apply_filters( 'wpmem_register_data', $fields, 'new' ); 
 

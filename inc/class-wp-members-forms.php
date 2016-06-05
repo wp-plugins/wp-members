@@ -32,7 +32,7 @@ class WP_Members_Forms {
 	 *     @type string $name
 	 *     @type string $type
 	 *     @type string $value
-	 *     @type string $valtochk
+	 *     @type string $compare
 	 *     @type string $class
 	 *     @type string $required
 	 *     @type string $delimiter

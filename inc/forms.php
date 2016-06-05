@@ -1069,7 +1069,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 	 * @param string $str    The HTML to add before the form. Default null.
 	 * @param string $toggle Toggle new registration or profile update. new|edit.
  	 */
-	$form = apply_filters( 'wpmem_register_form_before', '', $toggle ) . $form;
+	$form = apply_filters( 'wpmem_register_form_before', '', $tag ) . $form;
 
 	// Return the generated form.
 	return $form;
