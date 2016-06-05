@@ -44,7 +44,7 @@ class WP_Members_Forms {
 		$name      = $args['name'];
 		$type      = $args['type'];
 		$value     = maybe_unserialize( $args['value'] );
-		$compare   = $args['valtochk'];
+		$compare   = $args['compare'];
 		$class     = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
 		$required  = ( isset( $args['required'] ) ) ? $args['required'] : false;
 		$delimiter = ( isset( $args['delimiter'] ) ) ? $args['delimiter'] : '|';
@@ -120,10 +120,10 @@ class WP_Members_Forms {
 				$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
 				$chk = ( isset( $pieces[2] ) && '' == $compare ) ? $pieces[1] : '';
 				$str = $str . $this->create_form_field( array(
-					'name' => $name . '[]',
-					'type' => 'checkbox',
-					'value' => $pieces[1],
-					'valtochk' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
+					'name'    => $name . '[]',
+					'type'    => 'checkbox',
+					'value'   => $pieces[1],
+					'compare' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
 				) ) . "&nbsp;" . $pieces[0] . "<br />\n";
 			}
 			break;

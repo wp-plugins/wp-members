@@ -696,7 +696,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 				'name'     => $field[2],
 				'type'     => $field[3],
 				'value'    => $val,
-				'valtochk' => $valtochk,
+				'compare'  => $valtochk,
 				//'class'    => ( $class ) ? $class : 'textbox',
 				'required' => ( 'y' == $field[5] ) ? true : false,
 			) );
@@ -822,7 +822,7 @@ function wpmem_inc_registration( $toggle = 'new', $heading = '', $redirect_to = 
 						'name'     => $field[2],
 						'type'     => $field[3],
 						'value'    => $val,
-						'valtochk' => $valtochk,
+						'compare'  => $valtochk,
 						//'class'    => ( $class ) ? $class : 'textbox',
 						'required' => ( 'y' == $field[5] ) ? true : false,
 					);
