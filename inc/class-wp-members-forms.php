@@ -101,9 +101,9 @@ class WP_Members_Forms {
 				$pieces = explode( '|', $option );
 				if ( 'multiselect' == $type ) {
 					$chk = '';
-					$values = ( empty( $valtochk ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
+					$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
 				} else {
-					$chk = $valtochk;
+					$chk = $compare;
 					$values = array();
 				}
 				$chk = ( ( isset( $pieces[2] ) && '' == $compare ) || in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk;
@@ -117,7 +117,7 @@ class WP_Members_Forms {
 			$str = '';
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$values = ( empty( $compare ) ) ? array() : ( is_array( $valtochk ) ? $valtochk : explode( $delimiter, $compare ) );
+				$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
 				$chk = ( isset( $pieces[2] ) && '' == $compare ) ? $pieces[1] : '';
 				$str = $str . $this->create_form_field( array(
 					'name' => $name . '[]',

@@ -100,7 +100,7 @@ function wpmem_do_wp_register_form() {
 							'name'     => $field[2],
 							'type'     => $field[3],
 							'value'    => $field[7],
-							'valtochk' => $valtochk,
+							'compare'  => $valtochk,
 							'required' => ( 'y' == $field[5] ) ? true : false,
 						);
 						if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
@@ -214,7 +214,7 @@ function wpmem_do_wp_newuser_form() {
 					'name'     => $field[2],
 					'type'     => $field[3],
 					'value'    => $field[7],
-					'valtochk' => $valtochk,
+					'compare'  => $valtochk,
 					'required' => ( 'y' == $field[5] ) ? true : false,
 				);
 				if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
@@ -244,7 +244,7 @@ function wpmem_do_wp_newuser_form() {
 				<th scope="row">
 					<label for="activate_user">' . __( 'Activate this user?', 'wp-members' ) . '</label>
 				</th>
-				<td>' . $wpmem->forms->create_form_field( array( 'name' => 'activate_user', 'type' => 'checkbox', 'value' => 1, 'valtochk' => '' ) ) . '</td>
+				<td>' . $wpmem->forms->create_form_field( array( 'name' => 'activate_user', 'type' => 'checkbox', 'value' => 1, 'compare' => '' ) ) . '</td>
 			  </tr>';
 	}
 	

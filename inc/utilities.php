@@ -53,7 +53,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		'name'     => $name,
 		'type'     => $type,
 		'value'    => $value,
-		'valtochk' => $valtochk,
+		'compare'  => $valtochk,
 		'class'    => $class,
 	);
 	return $wpmem->forms->create_form_field( $args );
