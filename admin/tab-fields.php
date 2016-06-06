@@ -355,11 +355,11 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 					</li>
 					<li>
 						<label><?php _e( 'Display?', 'wp-members' ); ?></label>
-						<input type="checkbox" name="add_display" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[4] ) : false; ?> />
+						<input type="checkbox" name="add_display" value="y" <?php echo ( $mode == 'edit' ) ? checked( 'y', $field_arr[4] ) : false; ?> />
 					</li>
 					<li>
 						<label><?php _e( 'Required?', 'wp-members' ); ?></label>
-						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? wpmem_selected( 'y', $field_arr[5] ) : false; ?> />
+						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? checked( 'y', $field_arr[5] ) : false; ?> />
 					</li>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( $field_arr[3] == 'file' || $field_arr[3] == 'image' ) ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
@@ -383,7 +383,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 					</li>
 					<li>
 						<label><?php _e( 'Checked by default?', 'wp-members' ); ?></label>
-						<input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? wpmem_selected( 'y', $field_arr[8] ) : false; ?> />
+						<input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? checked( 'y', $field_arr[8] ) : false; ?> />
 					</li>
 					<li>
 						<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?></label>
