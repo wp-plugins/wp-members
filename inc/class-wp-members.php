@@ -468,6 +468,7 @@ class WP_Members {
 		 * Filter the value of $content after wpmem_securify has run.
 		 *
 		 * @since 2.7.7
+		 * @since 3.0.0 Moved to new method in WP_Members Class.
 		 *
 		 * @param string $content The content after securify has run.
 		 */
@@ -509,7 +510,7 @@ class WP_Members {
 	/**
 	 * Get excluded meta fields.
 	 *
-	 * @since Unknown
+	 * @since 3.0.0
 	 *
 	 * @param  string $tag A tag so we know where the function is being used.
 	 * @return array       The excluded fields.
@@ -523,7 +524,7 @@ class WP_Members {
 		 * Filter the fields to be excluded when user is created/updated.
 		 *
 		 * @since 2.9.3
-		 * @since Unknown Moved to new method in WP_Members Class.
+		 * @since 3.0.0 Moved to new method in WP_Members Class.
 		 *
 		 * @param array       An array of the field meta names to exclude.
 		 * @param string $tag A tag so we know where the function is being used.

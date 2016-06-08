@@ -223,33 +223,6 @@ function wpmem_logout( $redirect_to = null ) {
 endif;
 
 
-if ( ! function_exists( 'wpmem_login_status' ) ):
-/**
- * Returns or displays the user's login status.
- *
- * @since 2.0.0
- *
- * @param  boolean $echo   Determines whether function should print result or not (default: true).
- * @return string  $status The user status string produced by wpmem_inc_memberlinks().
- */
-function wpmem_login_status( $echo = true ) {
-
-	/**
-	 * Load the dialogs functions.
-	 */
-	require_once( WPMEM_PATH . 'inc/dialogs.php' );
-
-	if ( is_user_logged_in() ) { 
-		$status = wpmem_inc_memberlinks( 'status' );
-		if ( $echo ) {
-			echo $status; 
-		}
-		return $status;
-	}
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
 /**
  * Displays the sidebar.

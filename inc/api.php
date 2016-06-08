@@ -174,14 +174,20 @@ function wpmem_fields( $form = false ) {
  * Wrapper to return a string from the get_text function.
  *
  * @since 3.1.1
+ * @since 3.1.2 Added $echo argument.
  *
  * @global object $wpmem The WP_Members object class.
  * @param  string $str   The string to retrieve.
+ * @param  bool   $echo  Print the string (default: false).
  * @return string $str   The localized string.
  */
-function wpmem_gettext( $str ) {
+function wpmem_gettext( $str, $echo = false ) {
 	global $wpmem;
-	return $wpmem->get_text( $str );
+	if ( $echo ) {
+		echo $wpmem->get_text( $str );
+	} else {
+		return $wpmem->get_text( $str );
+	}
 }
 
 
@@ -241,4 +247,30 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 function wpmem_create_membership_number( $args ) {
 	global $wpmem;
 	return $wpmem->api->generate_membership_number( $args );
+}
+
+
+/**
+ * Returns or displays the user's login status.
+ *
+ * @since 2.0.0
+ * @since 3.1.2 Moved to api.php, no longer pluggable.
+ *
+ * @param  boolean $echo   Determines whether function should print result or not (default: true).
+ * @return string  $status The user status string produced by wpmem_inc_memberlinks().
+ */
+function wpmem_login_status( $echo = true ) {
+
+	/**
+	 * Load the dialogs functions.
+	 */
+	require_once( WPMEM_PATH . 'inc/dialogs.php' );
+
+	if ( is_user_logged_in() ) { 
+		$status = wpmem_inc_memberlinks( 'status' );
+		if ( $echo ) {
+			echo $status; 
+		}
+		return $status;
+	}
 }
