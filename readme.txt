@@ -145,6 +145,7 @@ WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change,
 * Added shortcode [wpmem_tos] for Terms of Service page url (replaces [wp-members page=tos url=http://mysite.com/path/to/tos/]).
 * Added wpmem_write_log() function for writing notices to the WP error log.
 * Deprecated [wp-members] shortcode, all other shortcodes no longer rely on wpmem_shortcode().
+* Fixed issue with pre-selected dropdown values to not select empty (separator) rows.
 
 = 3.1.1 =
 

@@ -106,7 +106,11 @@ class WP_Members_Forms {
 					$chk = $compare;
 					$values = array();
 				}
-				$chk = ( ( isset( $pieces[2] ) && '' == $compare ) || in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk;
+				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
+					$chk = ( ( isset( $pieces[2] ) && '' == $compare ) || in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk;
+				} else {
+					$chk = 'not selected';
+				}
 				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $chk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
 			}
 			$str = $str . "</select>";
