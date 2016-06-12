@@ -18,6 +18,7 @@
  * - wpmem_upgrade_settings
  * - wpmem_upgrade_email
  * - wpmem_upgrade_dialogs
+ * - wpmem_downgrade_dialogs
  * - wpmem_upgrade_captcha
  */
 

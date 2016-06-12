@@ -112,7 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.2 is primarily a feature update release (see changelog).
+WP-Members 3.1.2 is primarily a feature update release (see changelog). Minimum WP version is increased to 3.6.
 WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change, please review the changelog.
 
 == Screenshots ==
@@ -138,6 +138,7 @@ WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change,
 
 = 3.1.2 =
 
+* Minimum WordPress version increased to 3.6.
 * Added user counts to user screen links (set as transient) @todo currently expires in 30 seconds, consider longer expiration.
 * Added redirect_to parameter to wpmem_login_url()
 * Added action parameter to wpmem_profile_url()
