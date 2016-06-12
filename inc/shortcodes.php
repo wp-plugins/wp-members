@@ -573,7 +573,7 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
  * @retrun string $content
  */
 function wpmem_sc_fields( $atts, $content, $tag ) {
-	if ( $atts['id'] ) {
+	if ( isset( $atts['id'] ) ) {
 		// We are getting some other user.
 		if ( $atts['id'] == 'get' ) {
 			$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
@@ -586,7 +586,7 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 	}
 	$user_info = get_userdata( $the_user_ID );
 
-	if ( $atts['underscores'] == 'off' && $user_info ) {
+	if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
 		$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
 	}
 
@@ -607,10 +607,25 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 function wpmem_sc_logout( $atts, $content, $tag ) {
 		// Logout link shortcode.
 	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
-		$link = ( $atts['url'] ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
+		$link = ( isset( $atts['url'] ) ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
 		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
 		return do_shortcode( "<a href=\"$link\">$text</a>" );
 	}
+}
+
+
+/**
+ * TOS shortcode [wpmem_tos].
+ *
+ * @since 3.1.2
+ *
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_tos( $atts, $content, $tag ) {
+	return do_shortcode( $atts['url'] ); 
 }
 
 // End of file.
