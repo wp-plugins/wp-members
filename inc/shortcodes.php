@@ -484,7 +484,7 @@ endif;
 
 
 /**
- * User count shortcode.
+ * User count shortcode [wpmem_show_count].
  *
  * @since 3.0.0
  *
@@ -499,20 +499,20 @@ function wpmem_sc_user_count( $atts, $content = null ) {
 	$do_query = ( $atts['key'] && $atts['value'] ) ? true : false;
 	if ( $do_query ) {
 		$user_meta_query = $wpdb->get_var( $wpdb->prepare(
-			"SELECT COUNT(*)
-			 FROM $wpdb->usermeta
-			 WHERE meta_key = %s
-			 AND meta_value = %s",
+			"SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = %s",
 			$atts['key'],
 			$atts['value']
 		) );
 	}
-	return ( $do_query ) ? $atts['label'] . $user_meta_query : '';
+	if ( $do_query ) {
+		$content = ( isset( $atts['label'] ) ) ? $atts['label'] . ' ' . $user_meta_query : $content . $user_meta_query;
+	}
+	return do_shortcode( $content );
 }
 
 
 /**
- * Creates the user profile dashboard area (to replace page=user-profile shortcode).
+ * Creates the user profile dashboard area [wpmem_profile].
  *
  * @since 3.1.0
  * @since 3.1.2 Added function arguments.
@@ -530,7 +530,7 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
 
 
 /**
- * Log in/out shortcode.
+ * Log in/out shortcode [wpmem_loginout].
  *
  * @since 3.1.1
  *
