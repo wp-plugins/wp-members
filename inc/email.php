@@ -239,9 +239,8 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 			// Add custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
-				$key = '[' . $field[2] . ']'; 
 				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
-				$shortcodes[ $key ] = $val;
+				$shortcodes[ $field[2] ] = $val;
 			}
 			
 			/**
@@ -426,8 +425,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 			);			
 			
 			// Add custom field shortcodes.
-			foreach ( $wpmem_fields as $field ) {
-				$key = '[' . $field[2] . ']'; 
+			foreach ( $wpmem_fields as $field ) { 
 				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
 				$shortcodes[ $key ] = $val;
 			}
