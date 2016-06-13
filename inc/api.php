@@ -24,6 +24,7 @@
  * - wpmem_use_custom_dialog
  * - wpmem_user_has_role
  * - wpmem_create_membership_number
+ * - wpmem_login_status
  */
 
 
