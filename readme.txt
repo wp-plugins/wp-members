@@ -112,7 +112,8 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.2 is primarily a feature update release (see changelog). Minimum WP version is increased to 3.6.
+WP-Members 3.1.2 is primarily a feature update release with some fixes
+ (see changelog). Minimum WP version is increased to 3.6.
 WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change, please review the changelog.
 
 == Screenshots ==
@@ -139,15 +140,19 @@ WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change,
 = 3.1.2 =
 
 * Minimum WordPress version increased to 3.6.
-* Added user counts to user screen links (set as transient) @todo currently expires in 30 seconds, consider longer expiration.
-* Added redirect_to parameter to wpmem_login_url()
-* Added action parameter to wpmem_profile_url()
+* Added user counts to user screen links (set as transient).
+* Added redirect_to parameter to wpmem_login_url().
+* Added action parameter to wpmem_profile_url().
+* Added echo argument to wpmem_gettext().
 * Added api function wpmem_user_pages() to return an array of the login, register, and profile page urls.
 * Added shortcode [wpmem_tos] for Terms of Service page url (replaces [wp-members page=tos url=http://mysite.com/path/to/tos/]).
 * Added wpmem_write_log() function for writing notices to the WP error log.
+* Added hide registration form parameter to wpmem_profile shortcode: [wpmem_profile register=hide].
+* Added $defaults to wpmem_sidebar_status_args. Now can pass $user_login to be used in filters.
+* Moved wpmem_login_status() to api.php.
 * Deprecated [wp-members] shortcode, all other shortcodes no longer rely on wpmem_shortcode().
 * Fixed issue with pre-selected dropdown values to not select empty (separator) rows.
-* Fixed email shortcodes for field and custom shortcodes not being parsed.
+* Fixed field and custom shortcodes in email not being parsed.
 
 = 3.1.1 =
 
