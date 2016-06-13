@@ -259,7 +259,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 				// Shortcodes.
 				$shortcd[] = '[' . $key . ']';
 				// Replacement values.
-				$replace[] = $val;
+				$replace[] = ( 'password' == $key ) ? $password : $val;
 			}
 
 			// Do replacements for subject, body, and footer shortcodes.
