@@ -49,6 +49,13 @@ function wpmem_a_build_about_tab() { ?>
 		<div id="post-body">
 			<div id="post-body-content">
 				<div class="postbox">
+                    <div style="width:20%;max-width:300px;min-width:200px;padding:10px;margin:10px;border:#c4c4c4 1px solid;float:right;">
+                        <h4><a href="https://wordpress.org/plugins/wordpass/">WordPass</a></h4>
+                        <p>Default random passwords can be difficult to for users to use.  WordPass simplifies this process by using words to create passwords. Passwords will be generated in the style of 2*Kayak29, 2Bigcranium2#, or %36POTATOE6.
+                        </p>
+                        <p>This plugin works with WordPress as well as with any plugin that uses the WordPress password generation function.</p>
+                        <p><strong><a href="https://wordpress.org/plugins/wordpass/">Try WordPass Free!</a></strong></p>
+                     </div>
 					<h3><?php _e( 'About WP-Members', 'wp-members' ); ?></h3>
 					<div class="inside">
                     	<p>WP-Members is a WordPress membership plugin that is simple to use but incorporates a powerful framework for customization.
@@ -62,8 +69,8 @@ function wpmem_a_build_about_tab() { ?>
                         You make this plugin possible.)</p>
                         <p>Introduced in 2006, WP-Members was the first WordPress Membership plugin and through support of the WP community it continues to grow
                         and be developed.  Why put your trust in an unknown?  WP-Members has a 10 year track record of active development and support.</p>
-                        <p><strong><a href="http://rkt.bz/KB">Free User Guide</a></strong> |
-                        <strong><a href="http://rkt.bz/about">Support Site Membership</a></strong> | 
+                        <p><strong><a href="http://rkt.bz/KB">Plugin Documentation</a></strong> |
+                        <strong><a href="http://rkt.bz/about">Premium Support</a></strong> | 
                         <strong><a href="http://rkt.bz/join">Join Today!</a></strong></p>
                     </div>
                     <h3>Premium Extensions</h3>
