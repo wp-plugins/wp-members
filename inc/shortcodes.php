@@ -573,7 +573,7 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
  * @retrun string $content
  */
 function wpmem_sc_fields( $atts, $content, $tag ) {
-	if ( isset( $atts['id'] ) ) {
+	if ( isset( $atts['id'] ) && false != $atts['id'] ) {
 		// We are getting some other user.
 		if ( $atts['id'] == 'get' ) {
 			$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
