@@ -456,8 +456,10 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 	}
 
 	// If subscriptions can expire, and the user has no expiration date, set one.
-	if( $wpmem->use_exp == 1 && ! get_user_meta( $user_id, 'expires', true ) ) {
-		wpmem_set_exp( $user_id );
+	if ( $wpmem->use_exp == 1 && ! get_user_meta( $user_id, 'expires', true ) ) {
+		if ( function_exists( 'wpmem_set_exp' ) ) {
+			wpmem_set_exp( $user_id );
+		}
 	}
 
 	// Generate and send user approved email to user.
