@@ -352,7 +352,9 @@ function wpmem_registration( $tag ) {
 
 		// Set user expiration, if used.
 		if ( $wpmem->use_exp == 1 && $wpmem->mod_reg != 1 ) {
-			wpmem_set_exp( $fields['ID'] );
+			if ( function_exists( 'wpmem_set_exp' ) ) {
+				wpmem_set_exp( $fields['ID'] );
+			}
 		}
 		
 		// Handle file uploads, if any.
