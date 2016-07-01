@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
 Tested up to: 4.5.2
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -136,6 +136,14 @@ WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change,
 
 
 == Changelog ==
+
+= 3.1.3 =
+
+* Fixed issue with display of [wp-members] field tag. Note: although this tag should remain operable, the tag is officially obsolete since 2.9.8 and should be used as [wpmem_field].
+* Fixed issue with calling PayPal extension functions if settings are enabled but the extension is disabled.
+* Updated some admin-side strings for translation.
+* Added new utility function wpmem_get() for checking posted variables and query strings with isset() and setting a default value.
+* Added a nonce to register redirect by shortcode parameter. This will lead to being able to display a success message on the redirected page.
 
 = 3.1.2 =
 
