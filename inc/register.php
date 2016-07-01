@@ -396,7 +396,9 @@ function wpmem_registration( $tag ) {
 		}
 		
 		if ( isset( $_POST['redirect_to'] ) ) {
-			wp_redirect( $_POST['redirect_to'] );
+			$nonce_url = wp_nonce_url( $_POST['redirect_to'], 'register_redirect', 'nonce' );
+			$url = add_query_arg( 'reg', 'success', $nonce_url );
+			wp_redirect( $url );
 			exit();
 		}
 
