@@ -390,12 +390,12 @@ function wpmem_update_options() {
 
 	$wpmem_newsettings = array(
 		'version' => WPMEM_VERSION,
-		'notify'    => ( isset( $_POST['wpmem_settings_notify']          ) ) ? $_POST['wpmem_settings_notify']          : 0,
-		'mod_reg'   => ( isset( $_POST['wpmem_settings_moderate']        ) ) ? $_POST['wpmem_settings_moderate']        : 0,
-		'captcha'   => ( isset( $_POST['wpmem_settings_captcha']         ) ) ? $_POST['wpmem_settings_captcha']         : 0,
-		'use_exp'   => ( isset( $_POST['wpmem_settings_time_exp']        ) ) ? $_POST['wpmem_settings_time_exp']        : 0,
-		'use_trial' => ( isset( $_POST['wpmem_settings_trial']           ) ) ? $_POST['wpmem_settings_trial']           : 0,
-		'warnings'  => ( isset( $_POST['wpmem_settings_ignore_warnings'] ) ) ? $_POST['wpmem_settings_ignore_warnings'] : 0,
+		'notify'    => wpmem_get( 'wpmem_settings_notify', 0 ),//( isset( $_POST['wpmem_settings_notify']          ) ) ? $_POST['wpmem_settings_notify']          : 0,
+		'mod_reg'   => wpmem_get( 'wpmem_settings_moderate', 0 ),//( isset( $_POST['wpmem_settings_moderate']        ) ) ? $_POST['wpmem_settings_moderate']        : 0,
+		'captcha'   => wpmem_get( 'wpmem_settings_captcha', 0 ),//( isset( $_POST['wpmem_settings_captcha']         ) ) ? $_POST['wpmem_settings_captcha']         : 0,
+		'use_exp'   => wpmem_get( 'wpmem_settings_time_exp', 0 ),//( isset( $_POST['wpmem_settings_time_exp']        ) ) ? $_POST['wpmem_settings_time_exp']        : 0,
+		'use_trial' => wpmem_get( 'wpmem_settings_trial', 0 ),//( isset( $_POST['wpmem_settings_trial']           ) ) ? $_POST['wpmem_settings_trial']           : 0,
+		'warnings'  => wpmem_get( 'wpmem_settings_ignore_warnings', 0 ),//( isset( $_POST['wpmem_settings_ignore_warnings'] ) ) ? $_POST['wpmem_settings_ignore_warnings'] : 0,
 		'user_pages' => array(
 			'profile'  => ( $msurl  ) ? $msurl  : '',
 			'register' => ( $regurl ) ? $regurl : '',
@@ -403,7 +403,7 @@ function wpmem_update_options() {
 		),
 		'cssurl'    => ( $cssurl ) ? $cssurl : '',
 		'style'     => $wpmem_settings_style,
-		'attrib'    => ( isset( $_POST['attribution'] ) ) ? $_POST['attribution'] : 0,
+		'attrib'    =>  wpmem_get( 'attribution', 0 ),//( isset( $_POST['attribution'] ) ) ? $_POST['attribution'] : 0,
 	);
 
 	// Build an array of post types
