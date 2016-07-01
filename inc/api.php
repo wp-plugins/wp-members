@@ -31,14 +31,19 @@
 /**
  * Redirects a user to defined login page with return redirect.
  *
+ * While a specific URL can be passed as an argument, the default will
+ * redirect the user back to the original page using wpmem_current_url().
+ *
  * @since 3.0.2
  * @since 3.1.1 Moved to API.
+ * @since 3.1.3 Added $redirect_to argument.
+ *
+ * @param string $redirect_to URL to redirect to (default: false).
  */
-function wpmem_redirect_to_login() {
+function wpmem_redirect_to_login( $redirect_to = false ) {
 	if ( ! is_user_logged_in() && wpmem_is_blocked() ) {
-		$redirect_to = urlencode( wpmem_current_url() );
-		$url = add_query_arg( 'redirect_to', $redirect_to, wpmem_login_url() );
-		wp_redirect( $url );
+		$redirect_to = ( $redirect_to ) ? $redirect_to : wpmem_current_url();
+		wp_redirect( wpmem_login_url( $redirect_to ) );
 		exit();
 	}
 	return;
@@ -114,14 +119,15 @@ function wpmem_profile_url( $a = false ) {
  * Returns an array of user pages.
  *
  * @since 3.1.2
+ * @since 3.1.3 Added array keys.
  *
- * @return array  $pages
+ * @return array $pages
  */
 function wpmem_user_pages() {
 	$pages = array( 
-		trailingslashit( wpmem_login_url() ), 
-		trailingslashit( wpmem_register_url() ),
-		trailingslashit( wpmem_profile_url() ),
+		'login'    => trailingslashit( wpmem_login_url() ), 
+		'register' => trailingslashit( wpmem_register_url() ),
+		'profile'  => trailingslashit( wpmem_profile_url() ),
 	);
 	return $pages;
 }
