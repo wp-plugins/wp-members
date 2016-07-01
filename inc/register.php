@@ -27,6 +27,10 @@ if ( ! function_exists( 'wpmem_registration' ) ):
  * Handles registering new users and updating existing users.
  *
  * @since 2.2.1
+ * @since 2.7.2 Added pre/post process actions.
+ * @since 2.8.2 Added validation and data filters.
+ * @since 2.9.3 Added validation for multisite.
+ * @since 3.0.0 Moved from wp-members-register.php to /inc/register.php.
  *
  * @param  string $tag           Identifies 'register' or 'update'.
  * @global int    $user_ID

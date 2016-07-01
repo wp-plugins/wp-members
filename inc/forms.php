@@ -893,6 +893,8 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 * parts of a row without needing to parse through a string of HTML.
 	 *
 	 * @since 2.9.0
+	 * @since 3.0.9 Added $rows['label_text'].
+	 * @since 3.1.0 Added $rows['key'].
 	 *
 	 * @param array  $rows    {
 	 *     An array containing the form rows. 

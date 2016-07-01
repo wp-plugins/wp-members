@@ -283,7 +283,7 @@ function wpmem_update_fields( $action ) {
  * @param string $field_id The option name of the field to be edited
  */
 function wpmem_fields_edit_link( $field_id ) {
-	return '<a href="' . get_admin_url() . 'options-general.php?page=wpmem-settings&amp;tab=fields&amp;edit=' . $field_id . '">' . __( 'Edit' ) . '</a>';
+	return '<a href="' . add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields', 'edit' => $field_id ), get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit' ) . '</a>';
 }
 
 

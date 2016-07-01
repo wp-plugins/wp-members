@@ -26,7 +26,11 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
 /**
  * Builds emails for the user.
  *
- * @since 1.8
+ * @since 1.8.0
+ * @since 2.7.4 Added wpmem_email_headers and individual body/subject filters.
+ * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
+ * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
+ * @since 3.1.1 Added $custom argument for custom emails.
  *
  * @global object $wpmem                The WP_Members object.
  * @global string $wpmem_mail_from      The email from address.
@@ -74,7 +78,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 		break;
 		
 	case 4:
-		// This is a password reset.
+		// This is a retrieve username.
 		$arr = get_option( 'wpmembers_email_getuser' );
 		$arr['toggle'] = 'getuser';
 		break;
