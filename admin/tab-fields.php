@@ -372,7 +372,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 					</li>
 					<li>
 						<label>&nbsp;</label>
-						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?>
+						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?></span>
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
@@ -444,11 +444,11 @@ Last Row|last_row<?php } } ?></textarea>
 					</li>
 					<li>
 						<label>&nbsp;</label>
-						<span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?>
+						<span class="description"><?php _e( 'Options should be Option Name|option_value,', 'wp-members' ); ?></span>
 					</li>
 					<li>
 						<label>&nbsp;</label>
-						<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
+						<span class="description"><a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
