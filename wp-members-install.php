@@ -307,11 +307,11 @@ You may wish to retain a copy for your records.
 username: [username]
 password: [password]
 
-You may login here:
+You may log in here:
 [reglink]
 
 You may change your password here:
-[members-area]
+[user-profile]
 ';
 
 	$arr = array(
@@ -353,8 +353,8 @@ You may wish to retain a copy for your records.
 username: [username]
 password: [password]
 
-You may login and change your password here:
-[members-area]
+You may log in and change your password here:
+[user-profile]
 
 You originally registered at:
 [reglink]
