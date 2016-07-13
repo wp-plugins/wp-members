@@ -112,9 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.2 is primarily a feature update release with some fixes
- (see changelog). Minimum WP version is increased to 3.6.
-WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change, please review the changelog.
+WP-Members 3.1.3 is primarily a fix update (see changelog). Minimum WP version is 3.6.
 
 == Screenshots ==
 
@@ -142,8 +140,14 @@ WP-Members 3.1.0 is a major verion release, 3.1.1 contains a db settings change,
 * Fixed issue with display of [wp-members] field tag. Note: although this tag should remain operable, the tag is officially obsolete since 2.9.8 and should be used as [wpmem_field].
 * Fixed issue with calling PayPal extension functions if settings are enabled but the extension is disabled.
 * Updated some admin-side strings for translation.
+* Updated wpmem_redirect_to_login() to __not__ check for wpmem_is_blocked(). Handling that outside the function will expand its usability.
+* Updated row_after logic in login form function so that it can be used for adding tags at the end of a row w/o adding a tag at the beginning.
+* Updated widget to check for wpmem_do_sidebar() instead of obsolete wpmem() function.
+* Updated email shortcodes used in new install.
 * Added new utility function wpmem_get() for checking posted variables and query strings with isset() and setting a default value.
 * Added a nonce to register redirect by shortcode parameter. This will lead to being able to display a success message on the redirected page.
+* Added redirect_to argument in wpmem_redirect_to_login().
+* Added generic registration error message.
 
 = 3.1.2 =
 
