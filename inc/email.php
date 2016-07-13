@@ -243,8 +243,9 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 			// Add custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
-				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
-				$shortcodes[ $field[2] ] = $val;
+				$meta_key = $field[2];
+				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $meta_key ] : get_user_meta( $user_id, $meta_key, true );
+				$shortcodes[ $meta_key ] = $val;
 			}
 			
 			/**
@@ -343,20 +344,21 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
 	// Builds an array of the user data fields.
 	$field_arr = array();
-	foreach ( $wpmem_fields as $meta ) {
-		if ( $meta[4] == 'y' ) {
-			if ( ! in_array( $meta[2], wpmem_get_excluded_meta( 'email' ) ) ) {
-				if ( ( $meta[2] != 'user_email' ) && ( $meta[2] != 'password' ) ) {
-					if ( $meta[2] == 'user_url' ) {
+	foreach ( $wpmem_fields as $field ) {
+		if ( $field[4] == 'y' ) {
+			$meta_key = $field[2];
+			if ( ! in_array( $meta_key, wpmem_get_excluded_meta( 'email' ) ) ) {
+				if ( ( $meta_key != 'user_email' ) && ( $meta_key != 'password' ) ) {
+					if ( $meta_key == 'user_url' ) {
 						$val = esc_url( $user->user_url );
-					} elseif ( in_array( $meta[2], $wp_user_fields ) ) {
-						$val = esc_html( $user->{$meta[2]} );
-					} elseif ( 'file' == $meta[3] || 'image' == $meta[3] ) {
-						$val = wp_get_attachment_url( get_user_meta( $user_id, $meta[2], true ) );
+					} elseif ( in_array( $meta_key, $wp_user_fields ) ) {
+						$val = esc_html( $user->{$meta_key} );
+					} elseif ( 'file' == $field[3] || 'image' == $field[3] ) {
+						$val = wp_get_attachment_url( get_user_meta( $user_id, $meta_key, true ) );
 					} else {
-						$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta[2] ] ) : esc_html( get_user_meta( $user_id, $meta[2], true ) );
+						$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta_key ] ) : esc_html( get_user_meta( $user_id, $meta_key, true ) );
 					}
-					$field_arr[ $meta[1] ] = $val;
+					$field_arr[ $field[1] ] = $val;
 				}
 			}
 		}
@@ -429,8 +431,9 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 			);			
 			
 			// Add custom field shortcodes.
-			foreach ( $wpmem_fields as $field ) { 
-				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
+			foreach ( $wpmem_fields as $field ) {
+				$meta_key = $field[2];
+				$val = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $meta_key ] : get_user_meta( $user_id, $meta_key, true );
 				$shortcodes[ $key ] = $val;
 			}
 			
@@ -455,8 +458,9 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
 			// Create the custom field shortcodes.
 			foreach ( $wpmem_fields as $field ) {
-				$shortcd[] = '[' . $field[2] . ']';
-				$replace[] = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $field[2] ] : get_user_meta( $user_id, $field[2], true );
+				$meta_key  = $field[2];
+				$shortcd[] = '[' . $meta_key . ']';
+				$replace[] = ( is_array( $field_data ) && 'y' == $field[4] ) ? $field_data[ $meta_key ] : get_user_meta( $user_id, $meta_key, true );
 			}
 
 			// Get the subject, body, and footer shortcodes.

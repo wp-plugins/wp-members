@@ -468,11 +468,12 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 
 	foreach ( $wpmem->fields as $field ) {
 		$is_error = false;
-		if ( $field[5] == 'y' && $field[2] != 'user_email' && ! in_array( $field[2], $exclude ) ) {
-			if ( ( $field[3] == 'checkbox' || $field[3] == 'multicheckbox' || $field[3] == 'multiselect' || $field[3] == 'radio' ) && ( ! isset( $_POST[ $field[2] ] ) ) ) {
+		$meta_key = $field[2];
+		if ( $field[5] == 'y' && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
+			if ( ( $field[3] == 'checkbox' || $field[3] == 'multicheckbox' || $field[3] == 'multiselect' || $field[3] == 'radio' ) && ( ! isset( $_POST[ $meta_key ] ) ) ) {
 				$is_error = true;
 			} 
-			if ( ( $field[3] != 'checkbox' && $field[3] != 'multicheckbox' && $field[3] != 'multiselect' && $field[3] != 'radio' ) && ( ! $_POST[ $field[2] ] ) ) {
+			if ( ( $field[3] != 'checkbox' && $field[3] != 'multicheckbox' && $field[3] != 'multiselect' && $field[3] != 'radio' ) && ( ! $_POST[ $meta_key ] ) ) {
 				$is_error = true;
 			}
 			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field[1], 'wp-members' ) ) ); }

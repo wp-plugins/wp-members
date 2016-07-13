@@ -675,25 +675,27 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	
 	// Loop through the remaining fields.
 	foreach ( $wpmem_fields as $field ) {
+		
+		$meta_key = $field[2];
 
 		// Start with a clean row.
 		$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 		
 		// Skips user selected passwords for profile update.
 		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
-		$do_row = ( $tag == 'edit' && in_array( $field[2], $pass_arr ) ) ? false : true;
+		$do_row = ( $tag == 'edit' && in_array( $meta_key, $pass_arr ) ) ? false : true;
 		
 		// Skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos.
-		if ( $field[2] == 'tos' && $tag == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
+		if ( $meta_key == 'tos' && $tag == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
 			$do_row = false; 
-			$hidden_tos = wpmem_create_formfield( $field[2], 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
+			$hidden_tos = wpmem_create_formfield( $meta_key, 'hidden', get_user_meta( $userdata->ID, 'tos', true ) );
 		}
 		
 		// Handle hidden fields
 		if ( 'hidden' == $field[3] ) {
 			$do_row = false;
 			$hidden.= $wpmem->forms->create_form_field( array( 
-				'name'     => $field[2],
+				'name'     => $meta_key,
 				'type'     => $field[3],
 				'value'    => $val,
 				'compare'  => $valtochk,
@@ -706,11 +708,11 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 		if ( $field[4] == 'y' && $do_row == true ) {
 
 			// Label for all but TOS.
-			if ( $field[2] != 'tos' ) {
+			if ( $meta_key != 'tos' ) {
 
 				$class = ( $field[3] == 'password' || $field[3] == 'email' || $field[3] == 'url' ) ? 'text' : $field[3];
 				
-				$label = '<label for="' . $field[2] . '" class="' . $class . '">' . __( $field[1], 'wp-members' );
+				$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $field[1], 'wp-members' );
 				$label = ( $field[5] == 'y' ) ? $label . $args['req_mark'] : $label;
 				$label = $label . '</label>';
 
@@ -719,7 +721,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 			// Gets the field value for both edit profile and submitted reg w/ error.
 			if ( ( $tag == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
 
-				switch ( $field[2] ) {
+				switch ( $meta_key ) {
 					case( 'description' ):
 						$val = htmlspecialchars( get_user_meta( $userdata->ID, 'description', 'true' ) );
 						break;
@@ -738,26 +740,26 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 						break; 
 
 					default:
-						$val = sanitize_text_field( get_user_meta( $userdata->ID, $field[2], 'true' ) );
+						$val = sanitize_text_field( get_user_meta( $userdata->ID, $meta_key, 'true' ) );
 						break;
 				}
 
 			} else {
 				if ( 'file' == $field[3] ) {
-					$val = ( isset( $_FILES[ $field[2] ]['name'] ) ) ? $_FILES[ $field[2] ]['name'] : '' ;
+					$val = ( isset( $_FILES[ $meta_key ]['name'] ) ) ? $_FILES[ $meta_key ]['name'] : '' ;
 				} else {
-					$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : '';
+					$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
 				}
 			}
 			
 			// Does the tos field.
-			if ( $field[2] == 'tos' ) {
+			if ( $meta_key == 'tos' ) {
 
-				$val = ( isset( $_POST[ $field[2] ] ) ) ? $_POST[ $field[2] ] : ''; 
+				$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; 
 
 				// Should be checked by default? and only if form hasn't been submitted.
 				$val   = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
-				$input = wpmem_create_formfield( $field[2], $field[3], $field[7], $val );
+				$input = wpmem_create_formfield( $meta_key, $field[3], $field[7], $val );
 				$input = ( $field[5] == 'y' ) ? $input . $args['req_mark'] : $input;
 
 				// Determine if TOS is a WP page or not.
@@ -812,14 +814,14 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 					}
 					// @todo - come up with a way to handle file updates - user profile form does not support multitype
 					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
-					$input.= wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
+					$input.= wpmem_create_formfield( $meta_key, $field[3], $val, $valtochk );
 					
 				} else {
 				
 					// For all other input types.
 					//$input = wpmem_create_formfield( $field[2], $field[3], $val, $valtochk );
 					$formfield_args = array( 
-						'name'     => $field[2],
+						'name'     => $meta_key,
 						'type'     => $field[3],
 						'value'    => $val,
 						'compare'  => $valtochk,
@@ -849,9 +851,9 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 				$val = $valtochk;
 			}
 			
-			$rows[$field[2]] = array(
+			$rows[ $meta_key ] = array(
 				'order'        => $field[0],
-				'meta'         => $field[2],
+				'meta'         => $meta_key,
 				'type'         => $field[3],
 				'value'        => $val,
 				'values'       => $values,
