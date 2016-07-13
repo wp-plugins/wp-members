@@ -379,7 +379,7 @@ function wpmem_login_form( $page, $arr ) {
 	foreach ( $rows as $row_item ) {
 		$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
 		$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
-		$row .= ( $row_item['row_before']   != '' ) ? $row_item['row_after'] . $args['n'] : '';
+		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
 		$form.= $row;
 	}
 
