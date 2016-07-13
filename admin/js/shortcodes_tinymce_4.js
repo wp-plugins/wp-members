@@ -107,6 +107,12 @@
 									editor.insertContent('[wpmem_logged_in][wpmem_form user_edit][/wpmem_logged_in]');
 								}
 							},
+							{
+								text: "Forgot Username"
+								onclick: function(){
+									editor.insertContent('[wpmem_logged_out][wpmem_form forgot_username][/wpmem_logged_out]');
+								}
+							},
 						]
 					},
 					{

@@ -19,6 +19,8 @@
  * - wpmem_inc_memberlinks
  * - wpmem_page_pwd_reset
  * - wpmem_page_user_edit
+ * - wpmem_page_forgot_username
+ * - wpmem_inc_forgotusername
  */
 
 

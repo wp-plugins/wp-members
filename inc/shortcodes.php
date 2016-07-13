@@ -25,6 +25,7 @@
  * - wpmem_sc_loginout
  * - wpmem_sc_fields
  * - wpmem_sc_logout
+ * - wpmem_sc_tos
  */
 
 
@@ -50,6 +51,7 @@
  * Function for forms called by shortcode.
  *
  * @since 3.0.0
+ * @since 3.1.3 Added forgot_username shortcode.
  *
  * @global object $wpmem        The WP_Members object.
  * @global string $wpmem_themsg The WP-Members message container.
@@ -131,6 +133,10 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 	
 			case in_array( 'user_edit', $atts ):
 				$content = wpmem_page_user_edit( $wpmem->regchk, $content );
+				break;
+				
+			case in_array( 'forgot_username', $atts ):
+				$content = wpmem_page_forgot_username( $wpmem->regchk, $content );
 				break;
 	
 		}

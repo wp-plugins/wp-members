@@ -148,6 +148,7 @@ WP-Members 3.1.3 is primarily a fix update (see changelog). Minimum WP version i
 * Added a nonce to register redirect by shortcode parameter. This will lead to being able to display a success message on the redirected page.
 * Added redirect_to argument in wpmem_redirect_to_login().
 * Added generic registration error message.
+* Added [wpmem_form forgot_username] shortcode for displaying the forgot username form.
 
 = 3.1.2 =
 
