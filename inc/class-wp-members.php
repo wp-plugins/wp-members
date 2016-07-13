@@ -649,6 +649,7 @@ class WP_Members {
 			'reg_email_match'      => __( 'Emails did not match.', 'wp-members' ),
 			'reg_empty_captcha'    => __( 'You must complete the CAPTCHA form.', 'wp-members' ),
 			'reg_invalid_captcha'  => __( 'CAPTCHA was not valid.', 'wp-members' ),
+			'reg_generic'          => __( 'There was an error processing the form.', 'wp-members' ),
 			
 			// Links.
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
