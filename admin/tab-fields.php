@@ -71,13 +71,13 @@ function wpmem_a_field_reorder() {
 	$wpmem_old_fields = get_option( 'wpmembers_fields' );
 	for ( $row = 0; $row < count( $new_order ); $row++ )  {
 		if ( $row > 0 ) {
-			$key = $new_order[$row];
+			$key = $new_order[ $row ];
 			$key = substr( $key, 15 );
 
 			for ( $x = 0; $x < count( $wpmem_old_fields ); $x++ ) {
 
-				if ( $wpmem_old_fields[$x][0] == $key ) {
-					$wpmem_new_fields[$row - 1] = $wpmem_old_fields[$x];
+				if ( $wpmem_old_fields[ $x ][0] == $key ) {
+					$wpmem_new_fields[ $row - 1 ] = $wpmem_old_fields[ $x ];
 				}
 			}
 		}
@@ -131,7 +131,7 @@ function wpmem_update_fields( $action ) {
 					$wpmem_newfields[$nrow][$i] = $wpmem_fields[$row][$i];
 				}
 
-				$wpmem_newfields[$nrow][0] = $nrow + 1;
+				$wpmem_newfields[ $nrow ][0] = $nrow + 1;
 
 				$display_field = $wpmem_fields[$row][2] . "_display"; 
 				$require_field = $wpmem_fields[$row][2] . "_required";
@@ -141,8 +141,8 @@ function wpmem_update_fields( $action ) {
 					$wpmem_newfields[$nrow][4] = ( isset( $_POST[$display_field] ) ) ? $_POST[$display_field] : '';
 					$wpmem_newfields[$nrow][5] = ( isset( $_POST[$require_field] ) ) ? $_POST[$require_field] : '';
 				} else {
-					$wpmem_newfields[$nrow][4] = 'y';
-					$wpmem_newfields[$nrow][5] = 'y';
+					$wpmem_newfields[ $nrow ][4] = 'y';
+					$wpmem_newfields[ $nrow ][5] = 'y';
 				}
 
 				// @todo Does $chkreq get used anywhere? 
@@ -156,7 +156,7 @@ function wpmem_update_fields( $action ) {
 					if ( isset( $_POST[$checked_field] ) && $_POST[$checked_field] == 'y' ) {
 						$wpmem_newfields[$nrow][8] = 'y';
 					} else {
-						$wpmem_newfields[$nrow][8] = 'n';
+						$wpmem_newfields[ $nrow ][8] = 'n';
 					}
 				}
 
@@ -253,11 +253,11 @@ function wpmem_update_fields( $action ) {
 		} else {
 
 			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
-				if ( $wpmem_fields[$row][2] == $_GET['edit'] ) {
-					$arr[0] = $wpmem_fields[$row][0];
+				if ( $wpmem_fields[ $row ][2] == $_GET['edit'] ) {
+					$arr[0] = $wpmem_fields[ $row ][0];
 					//$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' || $arr[3] == 'file' ) ? 7 : 6 );
 					for ( $r = 0; $r < count( $arr ); $r++ ) {
-						$wpmem_fields[$row][$r] = $arr[$r];
+						$wpmem_fields[ $row ][ $r ] = $arr[ $r ];
 					}
 				}
 			}
@@ -372,7 +372,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 					</li>
 					<li>
 						<label>&nbsp;</label>
-						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?></span>
+						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?>
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
