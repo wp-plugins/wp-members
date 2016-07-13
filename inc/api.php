@@ -41,7 +41,7 @@
  * @param string $redirect_to URL to redirect to (default: false).
  */
 function wpmem_redirect_to_login( $redirect_to = false ) {
-	if ( ! is_user_logged_in() && wpmem_is_blocked() ) {
+	if ( ! is_user_logged_in() ) {
 		$redirect_to = ( $redirect_to ) ? $redirect_to : wpmem_current_url();
 		wp_redirect( wpmem_login_url( $redirect_to ) );
 		exit();
