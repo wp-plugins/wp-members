@@ -87,6 +87,7 @@ class WP_Members_Admin_API {
 		}
 		require_once( WPMEM_PATH . 'inc/users.php' );
 		require_once( WPMEM_PATH . 'admin/users.php' );
+		require_once( WPMEM_PATH . 'admin/includes/api.php' );
 	}
 
 	/**
@@ -182,8 +183,8 @@ class WP_Members_Admin_API {
 	 */
 	function email_update( $args ) {
 		$settings = array(
-			'subj' => ( isset( $_POST[ $args['subject_input'] ] ) ) ? $_POST[ $args['subject_input'] ] : '',
-			'body' => ( isset( $_POST[ $args['body_input'] ]    ) ) ? $_POST[ $args['body_input'] ]    : '',
+			'subj' => wpmem_get( $args['subject_input'] ),
+			'body' => wpmem_get( $args['body_input'] ),
 		);
 		update_option( $args['name'], $settings, true );
 		$this->emails[ $args['name'] ]['subject_value'] = $settings['subj'];
@@ -413,7 +414,7 @@ class WP_Members_Admin_API {
 		$this->current_form = $current_form;
 		$this->current_form_fields = $fields;
 		*/
-		$current_form = ( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
+		$current_form = wpmem_get( 'form', $form, 'get' ); //( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
 		$this->current_form = $current_form;
 		global $wpmem;
 		// Add numeric array form fields as associative
