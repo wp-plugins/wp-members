@@ -146,8 +146,8 @@ function wpmem_posts_admin_notices() {
 
 	global $pagenow, $post_type;
 	if ( $pagenow == 'edit.php' && isset( $_REQUEST['a'] ) ) {
-		$action = ( $_REQUEST['a'] == 'block' ) ? 'blocked' : 'unblocked';
-		echo '<div class="updated"><p>' . $_REQUEST['n'] . ' ' . $post_type . ' ' . $action . '</p></div>';
+		$msg = ( $_REQUEST['a'] == 'block' ) ? sprintf( __( '%s blocked', 'wp-members' ), $post_type ) : sprintf( __( '%s unblocked', 'wp-members' ), $post_type );
+		echo '<div class="updated"><p>' . $_REQUEST['n'] . ' ' . $msg . '</p></div>';
 	}
 }
 
