@@ -14,6 +14,7 @@
  * Functions included:
  * - wpmem_add_custom_email
  * - wpmem_add_custom_dialog
+ * - wpmem_check_tab
  */
 
 /**
@@ -58,4 +59,16 @@ function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
 		);
 	}
 	return $dialogs;
+}
+
+/**
+ * Checks the current tab being displayed in the admin panel.
+ *
+ * @since 3.1.4
+ *
+ * @param  string $tab The tab slug.
+ * @return bool
+ */
+function wpmem_check_tab( $tab ) {
+	return ( isset( $_GET['tab'] ) && $_GET['tab'] == $tab ) ? true : false;
 }
