@@ -33,12 +33,12 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * Loads the login form for user login.
  *
  * @since 1.8
+ * @since 3.1.4 Global $wpmem_regchk no longer needed.
  *
  * @todo Is $wpmem_regchk needed anymore? This is part of the $wpmem object.
  *
- * @global object $wpmem        The WP_Members object.
- * @global string $wpmem_regchk The WP-Members message container.
  * @global object $post         The WordPress Post object.
+ * @global object $wpmem        The WP_Members object.
  * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
  * @param  string $redirect_to  Redirect URL. Default: null.
  * @param  string $show         If the form is being displayed in place of blocked content. Default: show.
@@ -46,13 +46,13 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  */
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
  	
-	global $wpmem, $wpmem_regchk, $post;
+	global $post, $wpmem;
 
 	$str = '';
 
 	if ( $page == "page" ) {
 
-	     if ( $wpmem_regchk != "success" ) {
+	     if ( $wpmem->regchk != "success" ) {
 
 			$dialogs = get_option( 'wpmembers_dialogs' );
 			

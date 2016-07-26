@@ -225,14 +225,18 @@ class WP_Members {
 	/**
 	 * Gets the regchk value.
 	 *
+	 * regchk is a legacy variable that contains information about the current
+	 * action being performed. Login, logout, password, registration, profile
+	 * update functions all return a specific value that is stored in regchk.
+	 * This value and information about the current action can then be used to
+	 * determine what content is to be displayed by the securify function.
+	 *
 	 * @since 3.0.0
 	 *
 	 * @global string $wpmem_a The WP-Members action variable.
 	 *
-	 * @param  string $action The action being done.
+	 * @param  string $action The current action.
 	 * @return string         The regchk value.
-	 *
-	 * @todo Describe regchk.
 	 */
 	function get_regchk( $action ) {
 
@@ -282,7 +286,7 @@ class WP_Members {
 		 */
 		$regchk = apply_filters( 'wpmem_regchk', $regchk, $action );
 		
-		// @todo Remove legacy global variable.
+		// Legacy global variable for use with older extensions.
 		global $wpmem_regchk;
 		$wpmem_regchk = $regchk;
 		

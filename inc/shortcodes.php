@@ -28,25 +28,6 @@
  * - wpmem_sc_tos
  */
 
-
-/**
- @todo:
-	
-	New shortcodes will include [wpmem_form] to display various forms.
-	
-	Forms to be called with single attribute, such as [wpmem_form login] or [wpmem_form register]
-	
-	Forms should nest for logged in state as well, so we can do:
-		[wpmem_form login]This would be logged in content.[/wpmem_form]
-	
-	Need to have a single stage password reset?
-	
-	Need to have a form for forgotten username.  This would be a totally new process.
-		[wpmem_form forgot_username]?
- 
- */
-
-
 /**
  * Function for forms called by shortcode.
  *

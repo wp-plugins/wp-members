@@ -145,9 +145,6 @@ function wpmem_update_fields( $action ) {
 					$wpmem_newfields[ $nrow ][5] = 'y';
 				}
 
-				// @todo Does $chkreq get used anywhere? 
-				// if ( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) { $chkreq = "err"; }
-				// @todo Changed above to this:
 				$chkreq = ( $wpmem_newfields[$nrow][4] != 'y' && $wpmem_newfields[$nrow][5] == 'y' ) ? 'err' : false;
 				
 				$wpmem_newfields[$nrow][6] = $wpmem_fields[$row][6];

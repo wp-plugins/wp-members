@@ -463,7 +463,6 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	global $wpmem;
 
 	// Get any meta fields that should be excluded.
-	// @todo This needs to change to $wpmem->excluded_fields($tag).
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach ( $wpmem->fields as $field ) {
@@ -502,7 +501,6 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	$add_new  = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
 	if ( $native_reg || $add_new ) {
 		// Get any excluded meta fields.
-		// @todo This needs to change to $wpmem->excluded_fields($tag).
 		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach ( $wpmem->fields as $meta ) {
 			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) && 'file' != $meta[3] && 'image' != $meta[3] ) {

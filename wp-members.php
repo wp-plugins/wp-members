@@ -307,7 +307,7 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
  */
 function wpmem_load_textdomain() {
 	
-	// @todo See: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
+	// @see: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
 	
 	// Plugin textdomain.
 	$domain = 'wp-members';
