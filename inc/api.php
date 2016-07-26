@@ -25,6 +25,7 @@
  * - wpmem_user_has_role
  * - wpmem_create_membership_number
  * - wpmem_login_status
+ * - wpmem_check_reg_page
  */
 
 
@@ -281,3 +282,26 @@ function wpmem_login_status( $echo = true ) {
 		return $status;
 	}
 }
+
+
+/**
+ * Gets the registration page wpmem_reg_page value. 
+ *
+ * @since 3.1.4
+ *
+ * @param  string|int $check_page
+ * @return bool
+ */
+function wpmem_check_reg_page( $check ) {
+	if ( ! is_int( $check ) ) {
+		global $wpdb;
+		$sql   = "SELECT ID FROM $wpdb->posts WHERE post_name = '$check' AND post_status = 'publish' LIMIT 1";	
+		$arr   = $wpdb->get_results( $sql, ARRAY_A  ); 
+		$check = $arr[0]['ID'];
+	}
+	$reg_page = wpmem_get( 'wpmem_reg_page' );
+	$check_page = get_permalink( $check );
+	return ( $check_page == $reg_page ) ? true : false;
+}
+
+// End of file.
