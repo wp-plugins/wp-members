@@ -134,15 +134,7 @@ function wpmem_init() {
 	}
 
 	// Preload the expiration module, if available.
-	$exp_plugin = 'wp-members-expiration/module.php';
-	$exp_active = ( in_array( $exp_plugin, get_option( 'active_plugins' ) ) ) ? true : false;
-	// Check multisite network active
-	if ( is_multisite() ) {
-		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		}
-		$exp_active = ( is_plugin_active_for_network( $exp_plugin ) ) ? true : $exp_active;
-	}
+	$exp_active = ( function_exists( 'wpmem_exp_init' ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_active ); 
 
 	/**
