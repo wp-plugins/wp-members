@@ -34,13 +34,15 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  *
  * @since 1.8
  *
+ * @todo Is $wpmem_regchk needed anymore? This is part of the $wpmem object.
+ *
  * @global object $wpmem        The WP_Members object.
  * @global string $wpmem_regchk The WP-Members message container.
  * @global object $post         The WordPress Post object.
- *
- * @param  string $page
- * @param  string $redirect_to
- * @return string $str         The generated html for the login form.
+ * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
+ * @param  string $redirect_to  Redirect URL. Default: null.
+ * @param  string $show         If the form is being displayed in place of blocked content. Default: show.
+ * @return string $str          The generated html for the login form.
  */
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
  	
@@ -98,7 +100,7 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
  	 */
 	$default_inputs = apply_filters( 'wpmem_inc_login_inputs', $default_inputs );
 	
-    $defaults = array( 
+	$defaults = array( 
 		'heading'      => $wpmem->get_text( 'login_heading' ), 
 		'action'       => 'login', 
 		'button_text'  => $wpmem->get_text( 'login_button' ),
