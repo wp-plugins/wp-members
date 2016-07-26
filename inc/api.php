@@ -304,4 +304,15 @@ function wpmem_check_reg_page( $check ) {
 	return ( $check_page == $reg_page ) ? true : false;
 }
 
+
+/**
+ * Wrapper for load_dropins()
+ *
+ * @since 3.1.4
+ */
+function wpmem_load_dropins() {
+	global $wpmem;
+	$wpmem->load_dropins();
+}
+
 // End of file.
