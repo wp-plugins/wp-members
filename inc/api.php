@@ -26,6 +26,7 @@
  * - wpmem_create_membership_number
  * - wpmem_login_status
  * - wpmem_check_reg_page
+ * - wpmem_load_dropins
  */
 
 

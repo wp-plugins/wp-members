@@ -157,11 +157,11 @@ class WP_Members {
 	function load_dropins() {
 
 		/**
-		 * Filters the dropin file folder.
+		 * Filters the drop-in file folder.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $folder The dropin file folder.
+		 * @param string $folder The drop-in file folder.
 		 */
 		$folder = apply_filters( 'wpmem_dropin_folder', WP_PLUGIN_DIR . '/wp-members-dropins/' );
 		
@@ -171,7 +171,7 @@ class WP_Members {
 		}
 
 		/**
-		 * Fires after dropins load (for adding additional dropings).
+		 * Fires after dropins load (for adding additional drop-ins).
 		 *
 		 * @since 3.0.0
 		 */
