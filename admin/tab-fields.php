@@ -369,15 +369,12 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 					</li>
 					<li>
 						<label>&nbsp;</label>
-						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?>
+						<span class="description"><?php _e( 'Accepted file types should be set like this: jpg|jpeg|png|gif', 'wp-members' ); ?></span>
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_checkbox_info">' : ''; ?>
-					<li>
-						<strong><?php _e( 'Additional information for checkbox fields', 'wp-members' ); ?></strong>
-					</li>
 					<li>
 						<label><?php _e( 'Checked by default?', 'wp-members' ); ?></label>
 						<input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field_arr[3] == 'checkbox' ) ? checked( 'y', $field_arr[8] ) : false; ?> />
@@ -395,9 +392,6 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
 				}
 				if ( $mode == 'add' || ( $mode == 'edit' && $additional_settings ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_dropdown_info">' : ''; ?>
-					<li>
-						<strong><?php _e( 'Additional information for dropdown fields', 'wp-members' ); ?></strong>
-					</li>
                     <?php if ( $mode == 'add' || ( $mode == 'edit' && $delimiter_settings ) ) {
                     echo ( $mode == 'add' ) ? '<div id="wpmem_delimiter_info">' : ''; 
 					if ( isset( $field_arr[8] ) && ( "|" == $field_arr[8] || "," == $field_arr[8] ) ) {
@@ -416,7 +410,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $field = null ) {
                     <?php echo ( $mode == 'add' ) ? '</div>' : '';
                     } ?>
 					<li>
-						<label style="vertical-align:top"><?php _e( 'For dropdown, array of values:', 'wp-members' ); ?></label>
+						<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?></label>
 						<textarea name="add_dropdown_value" rows="5" cols="40"><?php
 // Accomodate editing the current dropdown values or create dropdown value example.
 if ( $mode == 'edit' ) {
