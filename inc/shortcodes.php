@@ -572,6 +572,20 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 		$the_user_ID = get_current_user_id();
 	}
 	$user_info = get_userdata( $the_user_ID );
+	
+	// @todo - Need a long term scalable solution that fits with new fields array.
+		global $wpmem;
+		if ( ! isset( $wpmem->field_keys ) ) {
+			$wpmem->field_keys = $wpmem->api->get_field_keys_by_meta();
+		}
+		$field_type = $wpmem->fields[ $wpmem->field_keys[ $atts['field'] ] ][3];
+		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
+		if ( in_array( $field_type, $array_fields ) ) {
+			$display_values = $wpmem->api->get_select_display_values( $atts['field'] );
+			$user_info->{$atts['field']} = $display_values[ $user_info->{$atts['field']} ];
+		}
+	// @todo - End todo.
+	
 
 	if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
 		$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
