@@ -25,7 +25,7 @@
  * - wpmem_user_has_role
  * - wpmem_create_membership_number
  * - wpmem_login_status
- * - wpmem_check_reg_page
+ * - wpmem_is_reg_page
  * - wpmem_load_dropins
  */
 
@@ -286,14 +286,14 @@ function wpmem_login_status( $echo = true ) {
 
 
 /**
- * Gets the registration page wpmem_reg_page value. 
+ * Compares wpmem_reg_page value with the register page URL. 
  *
  * @since 3.1.4
  *
  * @param  string|int $check_page
  * @return bool
  */
-function wpmem_check_reg_page( $check ) {
+function wpmem_is_reg_page( $check ) {
 	if ( ! is_int( $check ) ) {
 		global $wpdb;
 		$sql   = "SELECT ID FROM $wpdb->posts WHERE post_name = '$check' AND post_status = 'publish' LIMIT 1";	
