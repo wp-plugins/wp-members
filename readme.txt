@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
-Tested up to: 4.5.2
+Tested up to: 4.6.0
 Stable tag: 3.1.4
 License: GPLv2
 
@@ -139,11 +139,12 @@ WP-Members 3.1.4 is primarily a feature update (see changelog). Minimum WP versi
 
 * Change to the way the PayPal extension is integrated with the main plugin. This allows for some necessary filename changes in the extension.
 * Added checks for PayPal extension function calls within the main plugin to avoid possible errors if it is deactivated.
-* New wpmem_check_reg_page() API function.
-* New wpmem_check_tab() API function.
-* New wpmem_load_dropins() API function.
+* New wpmem_is_tab() API function checks the current tab in the plugin's admin panel.
+* New wpmem_is_reg_page() API function checks if the page the user registered on is the registration page.
+* New wpmem_load_dropins() API function runs dropin load function.
 * Documentation updates, cleaned up and addressed several @todo tags.
 * Updated [wpmem_field] shortcode to display display values instead of stored values for select (dropdown), multiple select, multiple checkbox, and radio group field types.
+* Fixed bug in admin js file introduced when forgot username shortcode was added.
 
 = 3.1.3 =
 
