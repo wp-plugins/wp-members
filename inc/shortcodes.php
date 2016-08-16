@@ -578,7 +578,12 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 		if ( ! isset( $wpmem->field_keys ) ) {
 			$wpmem->field_keys = $wpmem->api->get_field_keys_by_meta();
 		}
-		$field_type = $wpmem->fields[ $wpmem->field_keys[ $atts['field'] ] ][3];
+		if ( isset( $wpmem->field_keys[ $atts['field'] ] ) ) {
+			$field_type = $wpmem->fields[ $wpmem->field_keys[ $atts['field'] ] ][3];
+		} else {
+			// If field is not set, return so we don't throw undefined index errors.
+			return;
+		}
 		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
 		if ( in_array( $field_type, $array_fields ) ) {
 			$display_values = $wpmem->api->get_select_display_values( $atts['field'] );
