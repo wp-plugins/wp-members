@@ -35,8 +35,6 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @since 1.8
  * @since 3.1.4 Global $wpmem_regchk no longer needed.
  *
- * @todo Is $wpmem_regchk needed anymore? This is part of the $wpmem object.
- *
  * @global object $post         The WordPress Post object.
  * @global object $wpmem        The WP_Members object.
  * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
