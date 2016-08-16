@@ -14,7 +14,7 @@
  * Functions included:
  * - wpmem_add_custom_email
  * - wpmem_add_custom_dialog
- * - wpmem_check_tab
+ * - wpmem_is_tab
  */
 
 /**
@@ -69,6 +69,6 @@ function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
  * @param  string $tab The tab slug.
  * @return bool
  */
-function wpmem_check_tab( $tab ) {
-	return ( isset( $_GET['tab'] ) && $_GET['tab'] == $tab ) ? true : false;
+function wpmem_is_tab( $tab ) {
+	return ( $tab == wpmem_get( 'tab', false, 'get' ) ) ? true : false;
 }
