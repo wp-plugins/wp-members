@@ -50,11 +50,11 @@ function wpmem_a_build_about_tab() { ?>
 			<div id="post-body-content">
 				<div class="postbox">
                     <div style="width:20%;max-width:300px;min-width:200px;padding:10px;margin:10px;border:#c4c4c4 1px solid;float:right;">
-                        <h4><a href="https://wordpress.org/plugins/wordpass/">WordPass</a></h4>
+                        <h4><a href="http://rkt.bz/3O">WordPass</a></h4>
                         <p>Default random passwords can be difficult to for users to use.  WordPass simplifies this process by using words to create passwords. Passwords will be generated in the style of 2*Kayak29, 2Bigcranium2#, or %36POTATOE6.
                         </p>
                         <p>This plugin works with WordPress as well as with any plugin that uses the WordPress password generation function.</p>
-                        <p><strong><a href="https://wordpress.org/plugins/wordpass/">Try WordPass Free!</a></strong></p>
+                        <p><strong><a href="http://rkt.bz/3O">Try WordPass Free!</a></strong></p>
                      </div>
 					<h3><?php _e( 'About WP-Members', 'wp-members' ); ?></h3>
 					<div class="inside">
