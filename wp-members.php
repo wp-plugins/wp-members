@@ -134,7 +134,7 @@ function wpmem_init() {
 	}
 
 	// Preload the expiration module, if available.
-	$exp_active = ( function_exists( 'wpmem_exp_init' ) || function_exists( 'wpmem_exp_init' ) ) ? true : false;
+	$exp_active = ( function_exists( 'wpmem_exp_init' ) || function_exists( 'wpmem_set_exp' ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_active ); 
 
 	/**
