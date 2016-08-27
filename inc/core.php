@@ -154,9 +154,9 @@ function wpmem_login() {
 
 			// Determine where to put the user after login.
 			if ( isset( $_POST['redirect_to'] ) )  {
-				$redirect_to = trim( $_POST['redirect_to'] );
+				$redirect_to = esc_url( trim( $_POST['redirect_to'] ) );
 			} else {
-				$redirect_to = $_SERVER['REQUEST_URI'] . ( ( isset( $_SERVER['QUERY_STRING'] ) ) ? $_SERVER['QUERY_STRING'] : '' );
+				$redirect_to = esc_url( $_SERVER['REQUEST_URI'] . ( ( isset( $_SERVER['QUERY_STRING'] ) ) ? $_SERVER['QUERY_STRING'] : '' ) );
 			}
 
 			/**
