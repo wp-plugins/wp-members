@@ -239,8 +239,8 @@ function wpmem_update_captcha() {
 			$new_settings['really_simple'] = $settings['really_simple'];
 		}
 		$new_settings['recaptcha'] = array(
-			'public'  => $_POST['wpmem_captcha_publickey'],
-			'private' => $_POST['wpmem_captcha_privatekey'],
+			'public'  => trim( $_POST['wpmem_captcha_publickey'] ),
+			'private' => trim( $_POST['wpmem_captcha_privatekey'] ),
 		);
 		if ( $update_type == 'recaptcha' && isset( $_POST['wpmem_captcha_theme'] ) ) {
 			$new_settings['recaptcha']['theme'] = $_POST['wpmem_captcha_theme'];

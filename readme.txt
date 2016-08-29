@@ -139,6 +139,7 @@ WP-Members 3.1.4 is primarily a feature update (see changelog). Minimum WP versi
 = 3.1.4.2 =
 
 * Addressed an issue with the change to the way the PayPal extension is now loaded in 3.1.4. This update allows for backward compatibility with versions of the PayPal extension (expirations module) prior to version 0.7.0.
+* Updates to reCAPTCHA2. Trims keys on save to avoid possible copy/paste whitespace issues, displays API error code(s) if WP_DEBUG is turned on, change use of file_get_contents() to wp_remote_fopen() for broader acceptable use.
 
 = 3.1.4.1 =
 

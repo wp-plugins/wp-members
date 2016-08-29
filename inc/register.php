@@ -251,7 +251,7 @@ function wpmem_registration( $tag ) {
 			$privatekey = $wpmem_captcha['recaptcha']['private'];
 			
 			// Validate the captcha.
-			$response = file_get_contents( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
+			$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
 			
 			// Decode the json response.
 			$response = json_decode( $response, true );
@@ -259,6 +259,12 @@ function wpmem_registration( $tag ) {
 			// If captcha validation was unsuccessful.
 			if ( $response['success'] == false ) {
 				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+				if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
+					$wpmem_themsg.= '<br /><br />';
+					foreach( $response['error-codes'] as $code ) {
+						$wpmem_themsg.= "Error code: " . $code . "<br />";
+					}
+				}
 				return "empty"; exit();
 			}
 		}
