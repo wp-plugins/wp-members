@@ -268,11 +268,11 @@ class WP_Members_Admin_API {
 		global $wpmem;
 		$defaults = array(
 			'name'  => $args['name'],
-            'label' => $args['label'],
+			'label' => $args['label'],
 			//'input' => $args['name'] . '_dialog',
 			'value' => $args['value'],
 			//'value' => ( $args['value'] ) ? $args['value'] : $wpmem->get_text( $key ),
-        );
+		);
 		
 		// Merge args with settings.
 		$args = wp_parse_args( $args, $defaults );

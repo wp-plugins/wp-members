@@ -37,7 +37,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @global string $wpmem_mail_from_name The email from name.
  * @param  int    $user_ID              The User's ID.
  * @param  string $password             Password from the registration process.
- * @param  string $toggle               Toggle indicating the email being sent (newreg|newmod|appmod|repass).
+ * @param  string $toggle               Toggle indicating the email being sent (newreg|newmod|appmod|repass|getuser).
  * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
  * @param  array  $fields               Array of the registration data (defaults to null).
  * @param  array  $custom               Array of custom email information (defaults to null).
