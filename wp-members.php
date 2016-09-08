@@ -77,7 +77,7 @@ add_action( 'after_setup_theme', 'wpmem_init', 10 );
 register_activation_hook( __FILE__, 'wpmem_install' );
 
 // Downgrade settings on deactivation.
-register_deactivation_hook( __FILE__, 'wpmem_downgrade' );
+//register_deactivation_hook( __FILE__, 'wpmem_downgrade' );
 
 
 /**
