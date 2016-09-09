@@ -215,11 +215,6 @@ function wpmem_do_excerpt( $content ) {
 			
 			$defaults = array(
 				'length'           => $autoex['length'],
-				'strip_tags'       => false,
-				'close_tags'       => array( 'i', 'b', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5' ),
-				'parse_shortcodes' => false,
-				'strip_shortcodes' => false,
-				'add_ellipsis'     => false,
 				'more_link'        => $more_link,
 				'blocked_only'     => false,
 			);
@@ -227,19 +222,14 @@ function wpmem_do_excerpt( $content ) {
 			 * Filter auto excerpt defaults.
 			 *
 			 * @since 3.0.9
+			 * @since 3.1.5 Deprecated add_ellipsis, strip_tags, close_tags, parse_shortcodes, strip_shortcodes.
 			 *
 			 * @param array {
 			 *     An array of settings to override the function defaults.
 			 *
 			 *     @type int         $length           The default length of the excerpt.
-			 *     @type bool|string $strip_tags       Can be a boolean to strip HTML tags from the excerpt
-			 *                                         or a string of allowed tags. default: false.
-			 *     @type array       $close_tags       An array of tags to close (without < >: 
-			 *                                         for example i, b, h1, etc).
-			 *     @type bool        $parse_shortcodes Parse shortcodes in the excerpt. default: false.
-			 *     @type bool        $strip_shortcodes Remove shortcodes in the excerpt. default: false.
-			 *     @type bool        $add_ellipsis     Add ellipsis (...) to the end of the excerpt.
 			 *     @type string      $more_link        The more link HTML.
+			 *     @type boolean     $blocked_only     Run autoexcerpt only on blocked content. default: false.
 			 * }
 			 * @param string $post->ID        The post ID.
 			 * @param string $post->post_type The content's post type.					 
@@ -264,61 +254,7 @@ function wpmem_do_excerpt( $content ) {
 			}
 		
 			if ( $do_excerpt ) {
-			
-				// If strip_tags is enabled, remove HTML tags.
-				if ( $args['strip_tags'] ) {
-					$allowable_tags = ( ! is_bool( $args['strip_tags'] ) ) ? $args['strip_tags'] : '';
-					$content = strip_tags( $content, $allowable_tags );
-				}
-				
-				// If parse shortcodes is enabled, parse shortcodes in the excerpt.
-				$content = ( $args['parse_shortcodes'] ) ? do_shortcode( $content ) : $content;
-				
-				// If strip shortcodes is enabled, strip shortcodes from the excerpt.
-				$content = ( $args['strip_shortcodes'] ) ? strip_shortcodes( $content ) : $content;
-	
-				// Create the excerpt.
-				$words = preg_split( "/[\n\r\t ]+/", $content, $args['length'] + 1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_OFFSET_CAPTURE );
-				if ( count( $words ) > $args['length'] ) { 
-					end( $words );
-					$last_word = prev( $words );
-					$content   = substr( $content, 0, $last_word[1] + strlen( $last_word[0] ) );
-				}
-				 
-				/* @todo - Possible better excerpt creation.
-				$excerpt = ''; $x = 1; $end_chk = false;
-				$words = explode( ' ', $content, ( $args['length'] + 100 ) );
-				foreach ( $words as $word ) {
-					if ( $x < $args['length'] + 1 ) {
-						$excerpt.= trim( $word ) . ' ';		
-						$offset = ( $x == 1 ) ? 1 : 0;
-						if ( strpos( $word, '<', $offset ) || $end_chk ) {
-							$end_chk = true;
-							if ( strpos( $word, '>' ) && ! strpos( $word, '><' ) ) {
-								$end_chk = false;
-								$x++;
-							}
-						} else {
-							$x++; 
-						}
-					} else {
-						break;
-					}
-				}
-				$content = $excerpt;
-				*/
-
-				// Check for common html tags and make sure they're closed.
-				foreach ( $args['close_tags'] as $tag ) {
-					if ( stristr( $content, '<' . $tag . '>' ) || stristr( $content, '<' . $tag . ' ' ) ) {
-						$after = stristr( $content, '</' . $tag . '>' );
-						$content = ( ! stristr( $after, '</' . $tag . '>' ) ) ? $content . '</' . $tag . '>' : $content;
-					}
-				}
-				$content = ( $args['add_ellipsis'] ) ? $content . '...' : $content; 
-				
-				// Add the more link to the excerpt.
-				$content = $content . ' ' . $args['more_link'];
+				$content = wp_trim_words( $content, $args['length'], $args['more_link'] );
 			}
 
 		}
