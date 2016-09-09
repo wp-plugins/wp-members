@@ -54,6 +54,7 @@ class WP_Members_Forms {
 		case "url":
 		case "email":
 			$class = ( $class == 'textbox' ) ? "textbox" : $class;
+			$value = ( 'url' == $type ) ? esc_url( $value ) : esc_attr( wp_unslash( $value ) );
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
@@ -65,7 +66,7 @@ class WP_Members_Forms {
 	
 		case "checkbox":
 			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "text":
@@ -84,11 +85,11 @@ class WP_Members_Forms {
 			break;
 	
 		case "hidden":
-			$str = "<input name=\"$name\" type=\"$type\" value=\"$value\" />";
+			$str = "<input name=\"$name\" type=\"$type\" value=\"" . esc_attr( $value ) . "\" />";
 			break;
 	
 		case "option":
-			$str = "<option value=\"$value\" " . selected( $value, $compare, false ) . " >$name</option>";
+			$str = "<option value=\"" . esc_attr( $value ) . "\" " . selected( $value, $compare, false ) . " >$name</option>";
 			break;
 	
 		case "select":

@@ -57,7 +57,7 @@ function wpmem_registration( $tag ) {
 	}
 	
 	// Add the user email to the $fields array for _data hooks.
-	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
+	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
 
 	/** This filter defined in inc/class-wp-members-forms.php */
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $tag );
@@ -70,12 +70,13 @@ function wpmem_registration( $tag ) {
 				if ( isset( $_POST[ $meta[2] ] ) ) {
 					switch ( $meta[3] ) {
 					case 'checkbox':
-						$fields[ $meta[2] ] = $_POST[ $meta[2] ];
+						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
 						break;
 					case 'multiselect':
 					case 'multicheckbox':
 						$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
 						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( $delimiter, $_POST[ $meta[2] ] ) : '';
+						$fields[ $meta[2] ] = sanitize_text_field( $fields[ $meta[2] ] );
 						break;
 					case 'textarea':
 						$fields[ $meta[2] ] = $_POST[ $meta[2] ];

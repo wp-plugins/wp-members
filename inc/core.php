@@ -357,7 +357,7 @@ function wpmem_reset_password() {
 
 				$user = get_user_by( 'login', $arr['user'] );
 
-				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID,'active', true ) != 1 ) ) ) {
+				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID, 'active', true ) != 1 ) ) ) {
 					// The username was there, but the email did not match OR the user hasn't been activated.
 					return "pwdreseterr";
 
@@ -594,8 +594,9 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
 function wpmem_retrieve_username() {
 	
 	if ( isset( $_POST['formsubmit'] ) ) {
-	
-		$user = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $_POST['user_email'] ) : false;
+		
+		$email = sanitize_email( $_POST['user_email'] );
+		$user  = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $email ) : false;
 	
 		if ( $user ) {
 
