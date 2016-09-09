@@ -473,27 +473,36 @@ endif;
 /**
  * User count shortcode [wpmem_show_count].
  *
+ * User count displays a total user count or a count of users by specific
+ * role (role="some_role").  It also accepts attributes for counting users
+ * by a meta field (key="meta_key" value="meta_value").  A label can be 
+ * displayed using the attribute label (label="Some label:").
+ *
  * @since 3.0.0
+ * @since 3.1.5 Added total user count features.
  *
- * @global object $wpdb The WordPress database object.
- *
- * @param  array  $atts Shortcode attributes.
+ * @global object $wpdb    The WordPress database object.
+ * @param  array  $atts    Shortcode attributes.
  * @param  string $content The shortcode content.
  * @return string $content
  */
 function wpmem_sc_user_count( $atts, $content = null ) {
-	global $wpdb;
-	$do_query = ( $atts['key'] && $atts['value'] ) ? true : false;
-	if ( $do_query ) {
-		$user_meta_query = $wpdb->get_var( $wpdb->prepare(
+	if ( isset( $atts['key'] ) && isset( $atts['value'] ) ) {
+		// If by meta key.
+		global $wpdb;
+		$user_count = $wpdb->get_var( $wpdb->prepare(
 			"SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = %s",
 			$atts['key'],
 			$atts['value']
 		) );
+	} else {
+		// If no meta, it's a total count.
+		$users = count_users();
+		$user_count = ( isset( $atts['role'] ) ) ? $users['avail_roles'][ $atts['role'] ] : $users['total_users'];
 	}
-	if ( $do_query ) {
-		$content = ( isset( $atts['label'] ) ) ? $atts['label'] . ' ' . $user_meta_query : $content . $user_meta_query;
-	}
+	
+	// Assemble the output and return.
+	$content = ( isset( $atts['label'] ) ) ? $atts['label'] . ' ' . $user_count : $content . ' ' . $user_count;
 	return do_shortcode( $content );
 }
 

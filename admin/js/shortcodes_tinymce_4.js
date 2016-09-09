@@ -158,7 +158,7 @@
 					{
 						text: 'User Count',
 						onclick: function(){
-							editor.insertContent('[wpmem_show_count label="Active Users: " meta=active value=1]');
+							editor.insertContent('[wpmem_show_count label="Active Users: " key=active value=1]');
 						}
 					},
 				]
