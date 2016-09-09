@@ -496,7 +496,19 @@ class WP_Members {
 	 * @since 3.0.0
 	 */
 	function load_fields() {
-		$this->fields = get_option( 'wpmembers_fields' );
+		$fields = get_option( 'wpmembers_fields' );
+		
+		// Validate fields settings.
+		if ( ! isset( $fields ) || empty( $fields ) ) {
+			/**
+			 * Load installation routine.
+			 */
+			require_once( WPMEM_PATH . 'wp-members-install.php' );
+			// Update settings.
+			$fields = wpmem_install_fields();
+		}
+		
+		$this->fields = $fields;
 		
 		// Add new field array keys
 		// @todo multi-form project for 3.1.2
