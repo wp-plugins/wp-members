@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
-Tested up to: 4.6.0
-Stable tag: 3.1.4.2
+Tested up to: 4.6.1
+Stable tag: 3.1.5
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -112,8 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.4.2 addresses an issue with loading the PayPal extension from the 3.1.4 update.
-WP-Members 3.1.4 is primarily a feature update (see changelog). Minimum WP version is 3.6.
+WP-Members 3.1.5 is a security and feature update. Minimum WP version is 3.6.
 
 == Screenshots ==
 
@@ -136,14 +135,14 @@ WP-Members 3.1.4 is primarily a feature update (see changelog). Minimum WP versi
 
 == Changelog ==
 
-= 3.1.4.2 =
+= 3.1.5 =
 
-* Addressed an issue with the change to the way the PayPal extension is now loaded in 3.1.4. This update allows for backward compatibility with versions of the PayPal extension (expirations module) prior to version 0.7.0.
-* Updates to reCAPTCHA2. Trims keys on save to avoid possible copy/paste whitespace issues, displays API error code(s) if WP_DEBUG is turned on, change use of file_get_contents() to wp_remote_fopen() for broader acceptable use.
-
-= 3.1.4.1 =
-
-* Corrected an issue with the [wpmem_field] shortcode where fields that are not actually saved in the plugin's fields array (fields found in the plugin's fields tab) would not display.
+* Addressed some security issues to prevent XSS vulnerabilities.
+* Removed dialog setting downgrade on deactivation. Need to re-evaluate necessity of downgrading.
+* Compartmentalized installation of initial settings.
+* Field loader now validates settings, if none exist due to install error it will run the default fields install.
+* Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.
+* Updated auto excerpt for improved functionality, uses wp_trim_words(), deprecated add_ellipsis, strip_tags, close_tags, parse_shortcodes, strip_shortcodes for filter.
 
 = 3.1.4 =
 
@@ -155,6 +154,7 @@ WP-Members 3.1.4 is primarily a feature update (see changelog). Minimum WP versi
 * Documentation updates, cleaned up and addressed several @todo tags.
 * Updated [wpmem_field] shortcode to display display values instead of stored values for select (dropdown), multiple select, multiple checkbox, and radio group field types.
 * Fixed bug in admin js file introduced when forgot username shortcode was added.
+* Updates to reCAPTCHA2. Trims keys on save to avoid possible copy/paste whitespace issues, displays API error code(s) if WP_DEBUG is turned on, change use of file_get_contents() to wp_remote_fopen() for broader acceptable use.
 
 = 3.1.3 =
 
