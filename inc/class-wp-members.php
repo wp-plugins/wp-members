@@ -614,8 +614,6 @@ class WP_Members {
 			'forgot_link'          => __( 'Click here to reset', 'wp-members' ),
 			'register_link_before' => __( 'New User?', 'wp-members' ) . '&nbsp;',
 			'register_link'        => __( 'Click here to register', 'wp-members' ),
-			'username_link_before' => __( 'Forgot username?', 'wp-members' ) . '&nbsp;',
-			'username_link'        => __( 'Click here', 'wp-members' ),
 			
 			// Password change form.
 			'pwdchg_heading'       => __( 'Change Password', 'wp-members' ),
@@ -628,6 +626,8 @@ class WP_Members {
 			'pwdreset_username'    => __( 'Username' ),
 			'pwdreset_email'       => __( 'Email' ),
 			'pwdreset_button'      => __( 'Reset Password' ),
+			'username_link_before' => __( 'Forgot username?', 'wp-members' ) . '&nbsp;',
+			'username_link'        => __( 'Click here', 'wp-members' ),
 			
 			// Retrieve username form.
 			'username_heading'     => __( 'Retrieve username', 'wp-members' ),
