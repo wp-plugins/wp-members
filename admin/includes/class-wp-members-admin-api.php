@@ -165,11 +165,11 @@ class WP_Members_Admin_API {
         <tr valign="top"><td colspan="2"><strong><?php echo $args['heading']; ?></strong></td></tr>
         <tr valign="top">
             <th scope="row"><?php echo $args['subject_label']; ?></th>
-            <td><input type="text" name="<?php echo $args['subject_input']; ?>" size="80" value="<?php echo $args['subject_value']; ?>"></td> 
+            <td><input type="text" name="<?php echo $args['subject_input']; ?>" size="80" value="<?php echo wp_unslash( $args['subject_value'] ); ?>"></td> 
         </tr>
         <tr valign="top">
             <th scope="row"><?php echo $args['body_label']; ?></th>
-            <td><textarea name="<?php echo $args['body_input']; ?>" rows="12" cols="50" id="" class="large-text code"><?php echo $args['body_value']; ?></textarea></td>
+            <td><textarea name="<?php echo $args['body_input']; ?>" rows="12" cols="50" id="" class="large-text code"><?php echo wp_unslash( $args['body_value'] ); ?></textarea></td>
         </tr>
         <tr><td colspan="2"><hr /></td></tr><?php
 	}
@@ -234,7 +234,7 @@ class WP_Members_Admin_API {
 	function do_dialog_input( $args ) { ?>
         <tr valign="top"> 
             <th scope="row"><?php echo $args['label']; ?></th> 
-            <td><textarea name="<?php echo $args['name'] . "_dialog"; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo stripslashes( $args['value'] ); ?></textarea></td> 
+            <td><textarea name="<?php echo $args['name'] . "_dialog"; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo wp_unslash( $args['value'] ); ?></textarea></td> 
         </tr><?php
 	}
 
