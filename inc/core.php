@@ -283,35 +283,46 @@ function wpmem_change_password() {
 	global $user_ID;
 	if ( isset( $_POST['formsubmit'] ) ) {
 
-		$pass1 = trim( $_POST['pass1'] );
-		$pass2 = trim( $_POST['pass2'] );
+		$is_error = false;
+		
+		$pass1 = wpmem_get( 'pass1', false ); //trim( $_POST['pass1'] );
+		$pass2 = wpmem_get( 'pass2', false ); //trim( $_POST['pass2'] );
 
-		if ( ! $pass1 && ! $pass2 ) { // Check for both fields being empty.
-
-			return "pwdchangempty";
-
-		} elseif ( $pass1 != $pass2 ) { // Make sure the fields match.
-
-			return "pwdchangerr";
-
-		} else { // Update password in db (wp_update_user hashes the password).
-
-			wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
-
-			/**
-			 * Fires after password change.
-			 *
-			 * @since 2.9.0
-			 * @since 3.0.5 Added $pass1 to arguments passed.
-			 *
-			 * @param int    $user_ID The user's numeric ID.
-			 * @param string $pass1   The user's new plain text password.
-			 */
-			do_action( 'wpmem_pwd_change', $user_ID, $pass1 );
-
-			return "pwdchangesuccess";
-
+		// Check for both fields being empty.
+		$is_error = ( ! $pass1 && ! $pass2 ) ? "pwdchangempty" : $is_error;
+		// Make sure the fields match.
+		$is_error = ( $pass1 != $pass2 ) ? "pwdchangerr" : $is_error;
+		
+		/**
+		 * Filters the password change error.
+		 *
+		 * @since 3.1.5
+		 *
+		 * @param string $is_error
+		 * @param int    $user_ID  The user's numeric ID.
+		 * @param string $pass1    The user's new plain text password.
+		 */
+		$is_error = apply_filters( 'wpmem_pwd_change_error', $is_error, $user_ID, $pass1 );
+		
+		if ( $is_error ) {
+			return $is_error;
 		}
+
+		// Update user password.
+		wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
+
+		/**
+		 * Fires after password change.
+		 *
+		 * @since 2.9.0
+		 * @since 3.0.5 Added $pass1 to arguments passed.
+		 *
+		 * @param int    $user_ID The user's numeric ID.
+		 * @param string $pass1   The user's new plain text password.
+		 */
+		do_action( 'wpmem_pwd_change', $user_ID, $pass1 );
+
+		return "pwdchangesuccess";
 	}
 	return;
 }
