@@ -508,20 +508,47 @@ class WP_Members {
 			$fields = wpmem_install_fields();
 		}
 		
-		$this->fields = $fields;
-		
 		// Add new field array keys
-		// @todo multi-form project for 3.1.2
-		/*for( $row = 0; $row < count( $this->fields ); $row++ ) {
-			$this->fields[ $row ]['id']            = $this->fields[ $row ][0];
-			$this->fields[ $row ]['label']         = $this->fields[ $row ][1];
-			$this->fields[ $row ]['meta_key']      = $this->fields[ $row ][2];
-			$this->fields[ $row ]['type']          = $this->fields[ $row ][3];
-			$this->fields[ $row ]['display']       = ( 'y' == $this->fields[ $row ][4] ) ? true : false;
-			$this->fields[ $row ]['required']      = ( 'y' == $this->fields[ $row ][5] ) ? true : false;
-			$this->fields[ $row ]['profile_only']  = '';
-			$this->fields[ $row ]['native']        = ( 'y' == $this->fields[ $row ][6] ) ? true : false;
-		}*/
+		foreach ( $fields as $key => $val ) {
+			
+			// Key fields with meta key.
+			$meta_key = $val[2];
+			
+			// Old format, new key.
+			foreach ( $val as $subkey => $subval ) {
+				$this->fields[ $meta_key ][ $subkey ] = $subval;
+			}
+			
+			// Setup field properties.
+			$this->fields[ $meta_key ]['label']    = $val[1];
+			$this->fields[ $meta_key ]['type']     = $val[3];
+			$this->fields[ $meta_key ]['register'] = ( 'y' == $val[4] ) ? true : false;
+			$this->fields[ $meta_key ]['required'] = ( 'y' == $val[5] ) ? true : false;
+			$this->fields[ $meta_key ]['profile']  = '';
+			$this->fields[ $meta_key ]['native']   = ( 'y' == $val[6] ) ? true : false;
+			
+			// Certain field types have additional properties.
+			switch ( $val[3] ) {
+				
+				case 'checkbox':
+					$this->fields[ $meta_key ]['checked_value']   = $val[7];
+					$this->fields[ $meta_key ]['checked_default'] = ( 'y' == $val[8] ) ? true : false;
+					break;
+					
+				case 'select':
+				case 'multiselect':
+				case 'multicheckbox':
+				case 'radio':
+					$this->fields[ $meta_key ]['values']    = $val[7];
+					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
+					break;
+					
+				case 'file':
+					$this->fields[ $meta_key ]['file_types'] = $val[7];
+					break;
+					
+			}
+		}
 	}
 	
 	/**
