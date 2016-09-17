@@ -538,23 +538,21 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
 function wpmem_sc_loginout( $atts, $content, $tag ) {
 	$defaults = array(
 		'login_redirect_to'  => ( isset( $atts['login_redirect_to']  ) ) ? $atts['login_redirect_to']  : wpmem_current_url(),
-		'logout_redirect_to' => ( isset( $atts['logout_redirect_to'] ) ) ? $atts['logout_redirect_to'] : wpmem_current_url(),
-		'login_link_text'    => ( isset( $atts['login_link_text']    ) ) ? $atts['login_link_text']    : __( 'log in',  'wp-members' ),
-		'logout_link_text'   => ( isset( $atts['logout_link_text']   ) ) ? $atts['logout_link_text']   : __( 'log out', 'wp-members' ),
+		'logout_redirect_to' => ( isset( $atts['logout_redirect_to'] ) ) ? $atts['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
+		'login_link_text'    => ( isset( $atts['login_text']         ) ) ? $atts['login_text']         : __( 'log in',  'wp-members' ),
+		'logout_link_text'   => ( isset( $atts['logout_text']        ) ) ? $atts['logout_text']        : __( 'log out', 'wp-members' ),
 	);
 	$args = wp_parse_args( $atts, $defaults );
 	$redirect_to = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
-	$text = ( is_user_logged_in() ) ? $args['logout_link_text'] : $args['login_link_text'];
+	$text = ( is_user_logged_in() ) ? $args['logout_text'] : $args['login_text'];
 	if ( is_user_logged_in() ) {
 		/** This filter is defined in /inc/dialogs.php */
 		$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
-		$link = sprintf( '<a href="%s">%s</a>', $link, $text );
 	} else {
-		$link = wpmem_login_url();
-		$link = $link . add_query_arg( 'redirect_to', $args['login_redirect_to'], $link );
-		$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+		$link = wpmem_login_url( $args['login_redirect_to'] );
 	}
-	return $link;
+	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+	return do_shortcode( $link );
 }
 
 
@@ -595,9 +593,19 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 			$display_values = $wpmem->api->get_select_display_values( $atts['field'] );
 			$user_info->{$atts['field']} = $display_values[ $user_info->{$atts['field']} ];
 		}
+		
+		if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
+			$attachment_url = wp_get_attachment_url( $user_info->{$atts['field']} );
+			if ( 'file' == $field_type ) {
+				$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' . get_the_title( $user_info->{$atts['field']} ) . '</a>' : $empty_file;
+			} else {
+				$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '">' : $empty_file;
+			}
+			
+			return do_shortcode( $input );
+		}
 	// @todo - End todo.
 	
-
 	if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
 		$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
 	}

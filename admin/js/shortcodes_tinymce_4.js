@@ -133,7 +133,7 @@
 						]
 					},
 					{
-						text: 'Logout Link',
+						text: 'Login / Logout Links',
 						menu: [
 							{
 								text: "basic logout link",
@@ -145,6 +145,12 @@
 								text: "logout link + custom link text",
 								onclick: function(){
 									editor.insertContent('[wpmem_logout]This the link text[/wpmem_logout]');
+								}
+							},
+							{
+								text: "log in / log out link",
+								onclick: function(){
+									editor.insertContent('[wpmem_loginout]');
 								}
 							},
 						]
