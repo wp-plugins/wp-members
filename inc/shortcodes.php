@@ -559,7 +559,21 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
 /**
  * Function to handle field shortcodes [wpmem_field].
  *
+ * Shortcode to display the data for a given user field. Requires
+ * that a field meta key be passed as an attribute.  Can either of
+ * the following:
+ * - [wpmem_field field="meta_key"]
+ * - [wpmem_field meta_key] 
+ *
+ * Other attributes:
+ *
+ * - id (numeric user ID or "get" to retrieve uid from query string.
+ * - underscores="true" strips underscores from the displayed value.
+ * - display="raw" displays the stored value for dropdowns and radios.
+ *
  * @since 3.1.2
+ * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.
+ * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
  *
  * @param  array  $atts
  * @param  string $content
@@ -567,50 +581,54 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
  * @retrun string $content
  */
 function wpmem_sc_fields( $atts, $content, $tag ) {
-	if ( isset( $atts['id'] ) && false != $atts['id'] ) {
-		// We are getting some other user.
-		if ( $atts['id'] == 'get' ) {
-			$the_user_ID = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : '';
-		} else {
-			$the_user_ID = $atts['id'];
-		}
-	} else {
-		// Get the current user.
-		$the_user_ID = get_current_user_id();
-	}
-	$user_info = get_userdata( $the_user_ID );
 	
-	// @todo - Need a long term scalable solution that fits with new fields array.
-		global $wpmem;
-		if ( ! isset( $wpmem->field_keys ) ) {
-			$wpmem->field_keys = $wpmem->api->get_field_keys_by_meta();
-		}
-		if ( isset( $wpmem->field_keys[ $atts['field'] ] ) ) {
-			$field_type = $wpmem->fields[ $wpmem->field_keys[ $atts['field'] ] ][3];
-		}
-		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
-		if ( isset( $field_type ) && in_array( $field_type, $array_fields ) ) {
-			$display_values = $wpmem->api->get_select_display_values( $atts['field'] );
-			$user_info->{$atts['field']} = $display_values[ $user_info->{$atts['field']} ];
-		}
-		
-		if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
-			$attachment_url = wp_get_attachment_url( $user_info->{$atts['field']} );
-			if ( 'file' == $field_type ) {
-				$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' . get_the_title( $user_info->{$atts['field']} ) . '</a>' : $empty_file;
-			} else {
-				$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '">' : $empty_file;
+	// What field?
+	$field = ( isset( $atts[0] ) ) ? $atts[0] : $atts['field'];
+	
+	// What user?
+	if ( isset( $atts['id'] ) ) {
+		$the_ID = ( $atts['id'] == 'get' ) ? wpmem_get( 'uid', '', 'get' ) : $atts['id'];
+	} else {
+		$the_ID = get_current_user_id();
+	}
+	$user_info = get_userdata( $the_ID );
+	
+	if ( $user_info ) {
+	
+		// @todo - Need a long term scalable solution that fits with new fields array.
+			global $wpmem;
+			if ( ! isset( $wpmem->field_keys ) ) {
+				$wpmem->field_keys = $wpmem->api->get_field_keys_by_meta();
+			}
+			$field_type = ( isset( $wpmem->field_keys[ $field ] ) ) ? $wpmem->fields[ $wpmem->field_keys[ $field ] ][3] : '';
+			if ( ! isset( $atts['display'] ) ) {
+				$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
+				if ( isset( $field_type ) && in_array( $field_type, $array_fields ) ) {
+					$display_values = $wpmem->api->get_select_display_values( $field );
+					$user_info->{$field} = $display_values[ $user_info->{$field} ];
+				}
 			}
 			
-			return do_shortcode( $input );
+			// Handle file/image fields.
+			if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
+				$attachment_url = wp_get_attachment_url( $user_info->{$field} );
+				if ( 'file' == $field_type ) {
+					$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' . get_the_title( $user_info->{$field} ) . '</a>' : $empty_file;
+				} else {
+					$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '">' : $empty_file;
+				}
+				return do_shortcode( $input );
+			}
+		// @todo - End todo.
+		
+		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
+			$user_info->{$field} = str_replace( '_', ' ', $user_info->{$field} );
 		}
-	// @todo - End todo.
 	
-	if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
-		$user_info->{$atts['field']} = str_replace( '_', ' ', $user_info->{$atts['field']} );
+		return do_shortcode( htmlspecialchars( $user_info->{$field} ) );
+	
 	}
-
-	return ( $user_info ) ? htmlspecialchars( $user_info->{$atts['field']} ) . do_shortcode( $content ) : do_shortcode( $content );
+	return;
 }
 
 
