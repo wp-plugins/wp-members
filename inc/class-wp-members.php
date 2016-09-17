@@ -544,6 +544,7 @@ class WP_Members {
 					break;
 					
 				case 'file':
+				case 'image':
 					$this->fields[ $meta_key ]['file_types'] = $val[7];
 					break;
 					
