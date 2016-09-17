@@ -142,7 +142,9 @@ WP-Members 3.1.5 is a security and feature update. Minimum WP version is 3.6.
 * Compartmentalized installation of initial settings.
 * Field loader now validates settings, if none exist due to install error it will run the default fields install.
 * Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.
+* Updated [wpmem_field] shortcode to accept [wpmem_field meta_key] instead of [wpmem_field field="meta_key"] (although the latter will still work).
 * Updated auto excerpt for improved functionality, uses wp_trim_words(), deprecated add_ellipsis, strip_tags, close_tags, parse_shortcodes, strip_shortcodes for filter.
+* Fixed issue with slash handling in Emails tab.
 
 = 3.1.4 =
 
