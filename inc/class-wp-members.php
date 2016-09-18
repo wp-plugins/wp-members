@@ -541,6 +541,13 @@ class WP_Members {
 				case 'radio':
 					$this->fields[ $meta_key ]['values']    = $val[7];
 					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
+					$this->fields[ $meta_key ]['options'] = array();
+					foreach ( $val[7] as $value ) {
+						$pieces = explode( $this->fields[ $meta_key ]['delimiter'], trim( $value ) );
+						if ( $pieces[1] != '' ) {
+							$this->fields[ $meta_key ]['options'][ $pieces[1] ] = $pieces[0];
+						}
+					}
 					break;
 					
 				case 'file':

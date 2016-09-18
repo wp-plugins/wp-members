@@ -569,18 +569,20 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
  *
  * - id (numeric user ID or "get" to retrieve uid from query string.
  * - underscores="true" strips underscores from the displayed value.
- * - display="raw" displays the stored value for dropdowns and radios.
+ * - display="raw" displays the stored value for dropdowns, radios, files.
+ * - size(thumbnail|medium|large|full|w,h): image field only.
  *
  * @since 3.1.2
  * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.
  * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
  *
- * @param  array  $atts
- * @param  string $content
- * @param  string $tag
- * @retrun string $content
+ * @global object $wpmem   The WP_Members object.
+ * @param  array  $atts    Shortcode attributes.
+ * @param  string $content Any content passed with the shortcode (default:null).
+ * @param  string $tag     The shortcode tag (wpmem_form).
+ * @return string $content Content to return.
  */
-function wpmem_sc_fields( $atts, $content, $tag ) {
+function wpmem_sc_fields( $atts, $content = null, $tag ) {
 	
 	// What field?
 	$field = ( isset( $atts[0] ) ) ? $atts[0] : $atts['field'];
@@ -593,40 +595,49 @@ function wpmem_sc_fields( $atts, $content, $tag ) {
 	}
 	$user_info = get_userdata( $the_ID );
 	
+	// If there is userdata.
 	if ( $user_info ) {
-	
-		// @todo - Need a long term scalable solution that fits with new fields array.
-			global $wpmem;
-			if ( ! isset( $wpmem->field_keys ) ) {
-				$wpmem->field_keys = $wpmem->api->get_field_keys_by_meta();
-			}
-			$field_type = ( isset( $wpmem->field_keys[ $field ] ) ) ? $wpmem->fields[ $wpmem->field_keys[ $field ] ][3] : '';
-			if ( ! isset( $atts['display'] ) ) {
-				$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
-				if ( isset( $field_type ) && in_array( $field_type, $array_fields ) ) {
-					$display_values = $wpmem->api->get_select_display_values( $field );
-					$user_info->{$field} = $display_values[ $user_info->{$field} ];
-				}
-			}
-			
-			// Handle file/image fields.
-			if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
-				$attachment_url = wp_get_attachment_url( $user_info->{$field} );
-				if ( 'file' == $field_type ) {
-					$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' . get_the_title( $user_info->{$field} ) . '</a>' : $empty_file;
-				} else {
-					$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '">' : $empty_file;
-				}
-				return do_shortcode( $input );
-			}
-		// @todo - End todo.
 		
-		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
-			$user_info->{$field} = str_replace( '_', ' ', $user_info->{$field} );
+		global $wpmem;
+		$field_type = $wpmem->fields[ $field ]['type'];
+		
+		$result = $user_info->{$field};
+		
+		// Handle select, multiple select, multiple checkbox, and radio groups.
+		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
+		if ( ( ! isset( $atts['options'] ) ) && in_array( $field_type, $array_fields ) ) {
+			$result = $wpmem->fields[ $field ]['options'][ $user_info->{$field} ];
 		}
+		
+		// Handle file/image fields.
+		if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
+			if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
+				$result = $user_info->{$field};
+			} else {
+				if ( 'file' == $field_type ) {
+					$attachment_url = wp_get_attachment_url( $user_info->{$field} );
+					$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info->{$field} ) . '</a>' : '';
+				} else {
+					$size = 'thumbnail';
+					if ( isset( $atts['size'] ) ) {
+						$sizes = array( 'thumbnail', 'medium', 'large', 'full' );
+						$size  = ( ! in_array( $atts['size'], $sizes ) ) ? explode( ",", $atts['size'] ) : $atts['size'];
+					}
+					$image = wp_get_attachment_image_src( $user_info->{$field}, $size );
+					$result = ( $image ) ? '<img src="' . esc_url( $image[0] ) . '" width="' . esc_attr( $image[1] ) . '" height="' . esc_attr( $image[2] ) . '" />' : '';
+				}
+			}
+			return do_shortcode( $result );
+		}
+		
+		// Remove underscores from value if requested (default: on).
+		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
+			$result = str_replace( '_', ' ', $result );
+		}
+		
+		$content = ( $content ) ? $result . $content : $result;
 	
-		return do_shortcode( htmlspecialchars( $user_info->{$field} ) );
-	
+		return do_shortcode( htmlspecialchars( $content ) );
 	}
 	return;
 }
