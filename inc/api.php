@@ -169,12 +169,17 @@ function wpmem_form_field( $args ) {
  * Wrapper to get form fields.
  *
  * @since 3.1.1
+ * @since 3.1.5 Checks if fields array is set or empty before returning.
  *
  * @global object $wpmem
+ * @param  string $form The form being generated.
  * @return array  $fields The form fields.
  */
-function wpmem_fields( $form = false ) {
+function wpmem_fields( $form = 'default' ) {
 	global $wpmem;
+	if ( ! isset( $wpmem->fields ) || empty( $wpmem->fields ) ) {
+		$wpmem->load_fields( $form );
+	}
 	return $wpmem->fields;
 }
 

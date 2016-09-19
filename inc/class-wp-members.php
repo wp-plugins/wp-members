@@ -494,8 +494,11 @@ class WP_Members {
 	 * Sets the registration fields.
 	 *
 	 * @since 3.0.0
+	 * @since 3.1.5 Added $form argument.
+	 *
+	 * @param string $form The form being generated.
 	 */
-	function load_fields() {
+	function load_fields( $form = 'default' ) {
 		$fields = get_option( 'wpmembers_fields' );
 		
 		// Validate fields settings.
@@ -534,7 +537,7 @@ class WP_Members {
 					$this->fields[ $meta_key ]['checked_value']   = $val[7];
 					$this->fields[ $meta_key ]['checked_default'] = ( 'y' == $val[8] ) ? true : false;
 					break;
-					
+
 				case 'select':
 				case 'multiselect':
 				case 'multicheckbox':
@@ -549,12 +552,12 @@ class WP_Members {
 						}
 					}
 					break;
-					
+
 				case 'file':
 				case 'image':
 					$this->fields[ $meta_key ]['file_types'] = $val[7];
 					break;
-				
+
 				case 'hidden':
 					$this->fields[ $meta_key ]['value'] = $val[7];
 					break;
