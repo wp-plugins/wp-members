@@ -451,7 +451,7 @@ Last Row|last_row<?php } } ?></textarea>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'hidden' ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_hidden_info">' : ''; ?>
 					<li>
-						<label><?php _e( 'Value:', 'wp-members' ); ?></label>
+						<label><?php _e( 'Value', 'wp-members' ); ?></label>
 						<input type="text" name="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field_arr[3] == 'hidden' ) ? $field_arr[7] : ''; ?>" />
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
