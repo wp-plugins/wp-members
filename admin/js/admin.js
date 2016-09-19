@@ -428,6 +428,7 @@ jQuery.fn.extend(
 		$("#wpmem_dropdown_info").hide();
 		$("#wpmem_file_info").hide();
 		$("#wpmem_delimiter_info").hide();
+		$("#wpmem_hidden_info").hide();
 	});
 	$(document).ready(function() {
 		$("#wpmem_field_type_select").change(function() {
@@ -452,6 +453,10 @@ jQuery.fn.extend(
 				$("#wpmem_file_info").show();
 			else
 				$("#wpmem_file_info").hide();
+			if ($("#wpmem_field_type_select").val() == 'hidden')
+				$("#wpmem_hidden_info").show();
+			else
+				$("#wpmem_hidden_info").hide();
 		});
 	});
 })(jQuery);

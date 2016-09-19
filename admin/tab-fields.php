@@ -238,6 +238,11 @@ function wpmem_update_fields( $action ) {
 		if ( $_POST['add_type'] == 'file' || $_POST['add_type'] == 'image' ) {
 			$arr[7] = stripslashes( $_POST['add_file_value'] );
 		}
+		
+		if ( $_POST['add_type'] == 'hidden' ) { 
+			$add_field_err_msg = ( ! $_POST['add_hidden_value'] ) ? __( 'A value is required for hidden fields. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
+			$arr[7] = ( isset( $_POST['add_hidden_value'] ) )   ? stripslashes( $_POST['add_hidden_value'] ) : '';
+		}
 
 		if ( $action == 'add_field' ) {
 			if ( ! $add_field_err_msg ) {
@@ -443,7 +448,14 @@ Last Row|last_row<?php } } ?></textarea>
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 				<?php } ?>
-
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field_arr[3] == 'hidden' ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_hidden_info">' : ''; ?>
+					<li>
+						<label><?php _e( 'Value:', 'wp-members' ); ?></label>
+						<input type="text" name="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field_arr[3] == 'hidden' ) ? $field_arr[7] : ''; ?>" />
+					</li>
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php } ?>
 				</ul><br />
 				<?php if ( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $field_arr[2]; ?>" /><?php } ?>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />

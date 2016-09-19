@@ -697,7 +697,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 			$hidden.= $wpmem->forms->create_form_field( array( 
 				'name'     => $meta_key,
 				'type'     => $field[3],
-				'value'    => $val,
+				'value'    => $field[7],
 				'compare'  => $valtochk,
 				//'class'    => ( $class ) ? $class : 'textbox',
 				'required' => ( 'y' == $field[5] ) ? true : false,

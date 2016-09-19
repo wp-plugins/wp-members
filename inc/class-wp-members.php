@@ -554,6 +554,10 @@ class WP_Members {
 				case 'image':
 					$this->fields[ $meta_key ]['file_types'] = $val[7];
 					break;
+				
+				case 'hidden':
+					$this->fields[ $meta_key ]['value'] = $val[7];
+					break;
 					
 			}
 		}

@@ -109,7 +109,8 @@ function wpmem_admin_fields() {
 					} elseif( 'multicheckbox' == $meta[3] || 'multiselect' == $meta[3] ) {
 						$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
 						$input = $wpmem->forms->create_form_field( array( 'name'=>$meta[2], 'type'=>$meta[3], 'value'=>$values, 'compare'=>$valtochk, 'delimiter'=>$delimiter ) );
-					}else {
+					} else {
+						$meta[3] = ( 'hidden' == $meta[3] ) ? 'text' : $meta[3];
 						$input = wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
 					}
 				}
