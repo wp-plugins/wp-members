@@ -606,7 +606,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 		// Handle select, multiple select, multiple checkbox, and radio groups.
 		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
 		if ( ( ! isset( $atts['options'] ) ) && in_array( $field_type, $array_fields ) ) {
-			$result = $wpmem->fields[ $field ]['options'][ $user_info->{$field} ];
+			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : $wpmem->fields[ $field ]['options'][ $user_info->{$field} ];
 		}
 		
 		// Handle file/image fields.
@@ -636,7 +636,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 		}
 		
 		$content = ( $content ) ? $result . $content : $result;
-	
+
 		return do_shortcode( htmlspecialchars( $content ) );
 	}
 	return;
