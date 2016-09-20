@@ -60,10 +60,10 @@ function wpmem_registration( $tag ) {
 	$fields['user_email'] = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
 
 	/** This filter defined in inc/class-wp-members-forms.php */
-	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $tag );
+	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
 	
 	// Build the $fields array from $_POST data.
-	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
+	//$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
 	foreach ( $wpmem_fields as $meta ) {
 		if ( $meta[4] == 'y' ) {
 			if ( $meta[2] != 'password' || $meta[2] != 'confirm_password' ) {

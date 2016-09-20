@@ -418,10 +418,10 @@ class WP_Members_Admin_API {
 		$this->current_form = $current_form;
 		global $wpmem;
 		// Add numeric array form fields as associative
-		foreach( $wpmem->fields as $field ) {
-			$wpmem->fields[ $field[2] ] = $field;
-		}
-		$this->current_form_fields = $wpmem->fields;
+		//foreach( $wpmem->fields as $field ) {
+		//	$wpmem->fields[ $field[2] ] = $field;
+		//}
+		$this->current_form_fields = wpmem_fields();
 	}
 	
 } // End of WP_Members_Admin_API class.

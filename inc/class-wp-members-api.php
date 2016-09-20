@@ -28,7 +28,7 @@ class WP_Members_API {
 	function get_field_keys_by_meta() {
 		global $wpmem;
 		$field_keys = array();
-		foreach ( $wpmem->fields as $key => $field ) {
+		foreach ( wpmem_fields() as $key => $field ) {
 			$field_keys[ $field[2] ] = $key;
 		}
 		return $field_keys;
@@ -50,8 +50,9 @@ class WP_Members_API {
 	function get_select_display_values( $meta_key ) {
 		global $wpmem;
 		$keys = $this->get_field_keys_by_meta();
-		$raw  = $wpmem->fields[ $keys[ $meta_key ] ][7];
-		$delimiter = ( isset( $wpmem->fields[ $keys[ $meta_key ][8] ] ) ) ? $wpmem->fields[ $keys[ $meta_key ][8] ] : '|';
+		$fields = wpmem_fields();
+		$raw  = $fields[ $keys[ $meta_key ] ][7];
+		$delimiter = ( isset( $fields[ $keys[ $meta_key ][8] ] ) ) ? $fields[ $keys[ $meta_key ][8] ] : '|';
 		$display_values = array();
 		foreach ( $raw as $value ) {
 			$pieces = explode( $delimiter, trim( $value ) );

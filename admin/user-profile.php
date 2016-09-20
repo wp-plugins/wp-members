@@ -53,7 +53,7 @@ function wpmem_admin_fields() {
  	<table class="form-table">
 		<?php
 		// Get fields.
-		$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
+		$wpmem_fields = wpmem_fields(); // get_option( 'wpmembers_fields' );
 		// Get excluded meta.
 		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 
@@ -192,7 +192,7 @@ function wpmem_admin_update() {
 	global $wpmem;
 
 	$user_id = $_REQUEST['user_id'];
-	$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields(); // get_option( 'wpmembers_fields' );
 
 	/**
 	 * Fires before the user profile is updated.

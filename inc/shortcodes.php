@@ -603,14 +603,15 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 	if ( $user_info ) {
 		
 		global $wpmem;
-		$field_type = ( isset( $wpmem->fields[ $field ]['type'] ) ) ? $wpmem->fields[ $field ]['type'] : 'native';
+		$fields = wpmem_fields();
+		$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native';
 		
 		$result = $user_info->{$field};
 		
 		// Handle select, multiple select, multiple checkbox, and radio groups.
 		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
 		if ( ( ! isset( $atts['options'] ) ) && in_array( $field_type, $array_fields ) ) {
-			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : $wpmem->fields[ $field ]['options'][ $user_info->{$field} ];
+			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : $fields[ $field ]['options'][ $user_info->{$field} ];
 		}
 		
 		// Handle file/image fields.

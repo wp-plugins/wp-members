@@ -33,7 +33,7 @@ function wpmem_export_users( $args, $users = null ) {
 	$defaults = array(
 		'export'         => 'all',
 		'filename'       => 'wp-members-user-export-' . $today . '.csv',
-		'export_fields'  => $wpmem->fields, //array(),
+		'export_fields'  => wpmem_fields(), //array(),
 		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 	);
 

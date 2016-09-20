@@ -669,7 +669,8 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 * @param array        The array of form fields.
 	 * @param string $tag  Toggle new registration or profile update. new|edit.
  	 */
-	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem->fields, $tag );
+	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
+	//$wpmem_fields = wpmem_verify_fields( $wpmem_fields );
 	
 	$hidden = '';
 	

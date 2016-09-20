@@ -30,7 +30,7 @@
 function wpmem_do_wp_register_form() {
 
 	global $wpmem;
-	$wpmem_fields = $wpmem->fields; //$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields(); //$wpmem_fields = get_option( 'wpmembers_fields' );
 	if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
 		foreach ( $wpmem_fields as $field ) {
 			
@@ -171,7 +171,7 @@ function wpmem_do_wp_newuser_form() {
 	global $wpmem;
 	echo '<table class="form-table"><tbody>';
 
-	$wpmem_fields = $wpmem->fields; //get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields(); //get_option( 'wpmembers_fields' );
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach ( $wpmem_fields as $field ) {

@@ -125,7 +125,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 	// Handle backward compatibility for customizations that may call the email function directly.
 	if ( ! $wpmem_fields ) {
-		$wpmem_fields = $wpmem->fields;
+		$wpmem_fields = wpmem_fields();
 	}
 
 	/**
@@ -373,7 +373,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
 
 	// Handle backward compatibility for customizations that may call the email function directly.
 	if ( ! $wpmem_fields ) {
-		$wpmem_fields = $wpmem->fields;
+		$wpmem_fields = wpmem_fields();
 	}
 
 	/**

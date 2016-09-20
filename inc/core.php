@@ -476,7 +476,7 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	// Get any meta fields that should be excluded.
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
-	foreach ( $wpmem->fields as $field ) {
+	foreach ( wpmem_fields() as $field ) {
 		$is_error = false;
 		$meta_key = $field[2];
 		if ( $field[5] == 'y' && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
@@ -513,7 +513,7 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	if ( $native_reg || $add_new ) {
 		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
-		foreach ( $wpmem->fields as $meta ) {
+		foreach ( wpmem_fields() as $meta ) {
 			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) && 'file' != $meta[3] && 'image' != $meta[3] ) {
 				if ( 'multiselect' == $meta[3] || 'multicheckbox' == $meta[3] ) {
 					$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
