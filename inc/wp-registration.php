@@ -26,22 +26,21 @@
  *
  * @since 2.8.7
  * @since 3.1.1 Updated to support new (3.1.0) field types.
+ * @since 3.1.6 Updated to support new fields array.
  */
 function wpmem_do_wp_register_form() {
 
 	global $wpmem;
-	$wpmem_fields = wpmem_fields(); //$wpmem_fields = get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields();
 	if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
-		foreach ( $wpmem_fields as $field ) {
-			
-			$meta_key = $field[2];
+		foreach ( $wpmem_fields as $meta_key => $field ) {
 
-			$req = ( $field[5] == 'y' ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
+			$req = ( $field['required'] ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
 
 			// File fields not yet supported for this form.
-			if ( $field[4] == 'y' && $meta_key != 'user_email' && $field[3] != 'file' && $field[3] != 'image' ) {
+			if ( $field['register'] && $meta_key != 'user_email' && $field['type'] != 'file' && $field['type'] != 'image' ) {
 			
-				if ( $field[3] == 'checkbox' ) {
+				if ( 'checkbox' == $field['type'] ) {
 
 					if ( $meta_key == 'tos' ) {
 						$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
@@ -62,28 +61,43 @@ function wpmem_do_wp_register_form() {
 					
 					}
 
-					$label = ( $meta_key == 'tos' ) ? $tos : __( $field[1], 'wp-members' );
+					$label = ( $meta_key == 'tos' ) ? $tos : __( $field['label'], 'wp-members' );
 
 					$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
-					$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
+					$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
 
 					$row_before = '<p class="wpmem-checkbox">';
 					$label = '<label for="' . $meta_key . '">' . $label . $req;
-					$input = wpmem_create_formfield( $meta_key, $field[3], $field[7], $val );
+					$input = wpmem_create_formfield( $meta_key, $field['type'], $field['checked_value'], $val );
 					$row_after = '</label></p>';
 
+				} elseif ( 'hidden' == $field['type'] ) {
+					
+					// Handle hidden fields
+					$row_before = '';
+					$label = '';
+					$input = wpmem_form_field( array( 
+							'name'     => $meta_key,
+							'type'     => $field['type'],
+							'value'    => $field['value'],
+							'compare'  => $valtochk,
+							//'class'    => ( $class ) ? $class : 'textbox',
+							'required' => $field['required'],
+						) );
+					$row_after = '';
+					
 				} else {
 
 					$row_before = '<p>';
-					$label = '<label for="' . $meta_key . '">' . __( $field[1], 'wp-members' ) . $req . '<br />';
+					$label = '<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '<br />';
 
 					// determine the field type and generate accordingly...
 
-					switch ( $field[3] ) {
+					switch ( $field['type'] ) {
 
 					case( 'select' ):
 						$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
-						$input = wpmem_create_formfield( $meta_key, $field[3], $field[7], $val );
+						$input = wpmem_create_formfield( $meta_key, $field['type'], $field['values'], $val );
 						break;
 
 					case( 'textarea' ):
@@ -95,17 +109,17 @@ function wpmem_do_wp_register_form() {
 					case( 'multiselect' ):
 					case( 'multicheckbox' ):
 					case( 'radio' ):	
-						$row_before = '<p class="' . $field[3] . '">';
+						$row_before = '<p class="' . $field['type'] . '">';
 						$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
 						$formfield_args = array( 
 							'name'     => $meta_key,
-							'type'     => $field[3],
-							'value'    => $field[7],
+							'type'     => $field['type'],
+							'value'    => $field['values'],
 							'compare'  => $valtochk,
-							'required' => ( 'y' == $field[5] ) ? true : false,
+							'required' => ( $field['required'] ) ? true : false,
 						);
-						if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
-							$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
+						if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
+							$formfield_args['delimiter'] = $field['delimiter'];
 						}
 						$input = $wpmem->forms->create_form_field( $formfield_args );
 						break;
@@ -116,7 +130,7 @@ function wpmem_do_wp_register_form() {
 						break;
 
 					default:
-						$input = '<input type="' . $field[3] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="';
+						$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="';
 						$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
 						$input.= '" size="25" />';
 						break;
@@ -128,7 +142,7 @@ function wpmem_do_wp_register_form() {
 
 				// if the row is set to display, add the row to the form array
 				$rows[ $meta_key ] = array(
-					'type'         => $field[3],
+					'type'         => $field['type'],
 					'row_before'   => $row_before,
 					'label'        => $label,
 					'field'        => $input,
@@ -165,36 +179,35 @@ function wpmem_do_wp_register_form() {
  *
  * @since 2.9.0
  * @since 3.1.1 Updated to support new (3.1.0) field types and user activation.
+ * @since 3.1.6 Updated to support new fields array.
  */
 function wpmem_do_wp_newuser_form() {
 
 	global $wpmem;
 	echo '<table class="form-table"><tbody>';
 
-	$wpmem_fields = wpmem_fields(); //get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields();
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
-	foreach ( $wpmem_fields as $field ) {
-		
-		$meta_key = $field[2];
+	foreach ( $wpmem_fields as $meta_key => $field ) {
 
-		if ( $field[6] == 'n' && ! in_array( $meta_key, $exclude ) ) {
+		if ( ! $field['native'] && ! in_array( $meta_key, $exclude ) ) {
 
-			$req = ( $field[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+			$req = ( $field['required'] ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 		
 			echo '<tr>
 				<th scope="row">
-					<label for="' . $meta_key . '">' . __( $field[1], 'wp-members' ) . $req . '</label>
+					<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '</label>
 				</th>
 				<td>';
 
 			// determine the field type and generate accordingly.
 
-			switch ( $field[3] ) {
+			switch ( $field['type'] ) {
 
 			case( 'select' ):
 				$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
-				echo wpmem_create_formfield( $meta_key, $field[3], $field[7], $val );
+				echo wpmem_create_formfield( $meta_key, $field['type'], $field['values'], $val );
 				break;
 
 			case( 'textarea' ):
@@ -205,8 +218,8 @@ function wpmem_do_wp_newuser_form() {
 
 			case( 'checkbox' ):
 				$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
-				$val = ( ! $_POST && $field[8] == 'y' ) ? $field[7] : $val;
-				echo wpmem_create_formfield( $meta_key, $field[3], $field[7], $val );
+				$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
+				echo wpmem_create_formfield( $meta_key, $field['type'], $field['checked_value'], $val );
 				break;
 			
 			case( 'multiselect' ):
@@ -215,13 +228,13 @@ function wpmem_do_wp_newuser_form() {
 				$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
 				$formfield_args = array( 
 					'name'     => $meta_key,
-					'type'     => $field[3],
-					'value'    => $field[7],
+					'type'     => $field['type'],
+					'value'    => $field['values'],
 					'compare'  => $valtochk,
-					'required' => ( 'y' == $field[5] ) ? true : false,
+					'required' => $field['required'],
 				);
-				if ( 'multicheckbox' == $field[3] || 'multiselect' == $field[3] ) {
-					$formfield_args['delimiter'] = ( isset( $field[8] ) ) ? $field[8] : '|';
+				if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
+					$formfield_args['delimiter'] = $field['delimiter'];
 				}
 				echo $wpmem->forms->create_form_field( $formfield_args );
 				break;
@@ -231,7 +244,7 @@ function wpmem_do_wp_newuser_form() {
 				break;
 				
 			default:
-				echo '<input type="' . $field[3] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="'; echo ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; echo '" size="25" />';
+				echo '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="'; echo ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; echo '" size="25" />';
 				break;
 			}
 
