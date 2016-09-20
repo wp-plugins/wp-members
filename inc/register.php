@@ -63,30 +63,28 @@ function wpmem_registration( $tag ) {
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
 	
 	// Build the $fields array from $_POST data.
-	//$wpmem_fields = $wpmem->fields; // get_option( 'wpmembers_fields' );
-	foreach ( $wpmem_fields as $meta ) {
-		if ( $meta[4] == 'y' ) {
-			if ( $meta[2] != 'password' || $meta[2] != 'confirm_password' ) {
-				if ( isset( $_POST[ $meta[2] ] ) ) {
-					switch ( $meta[3] ) {
+	foreach ( $wpmem_fields as $meta_key => $field ) {
+		if ( $field['register'] ) {
+			if ( 'password' != $meta_key || 'confirm_password' != $meta_key ) {
+				if ( isset( $_POST[ $meta_key ] ) ) {
+					switch ( $field['type'] ) {
 					case 'checkbox':
-						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
+						$fields[ $meta_key ] = sanitize_text_field( $_POST[ $meta_key ] );
 						break;
 					case 'multiselect':
 					case 'multicheckbox':
-						$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
-						$fields[ $meta[2] ] = ( isset( $_POST[ $meta[2] ] ) ) ? implode( $delimiter, $_POST[ $meta[2] ] ) : '';
-						$fields[ $meta[2] ] = sanitize_text_field( $fields[ $meta[2] ] );
+						$delimiter = ( isset( $field['delimiter'] ) ) ? $field['delimiter'] : '|';
+						$fields[ $meta_key ] = ( isset( $_POST[ $meta_key ] ) ) ? implode( $delimiter, $_POST[ $meta_key ] ) : '';
 						break;
 					case 'textarea':
-						$fields[ $meta[2] ] = $_POST[ $meta[2] ];
+						$fields[ $meta_key ] = $_POST[ $meta_key ];
 						break;
 					default:
-						$fields[ $meta[2] ] = sanitize_text_field( $_POST[ $meta[2] ] );
+						$fields[ $meta_key ] = sanitize_text_field( $_POST[ $meta_key ] );
 						break;
 					}
 				} else {
-					$fields[ $meta[2] ] = '';
+					$fields[ $meta_key ] = '';
 				}
 			} else {
 				// We do have password as part of the registration form.
@@ -112,23 +110,23 @@ function wpmem_registration( $tag ) {
 	// Check for required fields, reverse the array for logical error message order.
 	$wpmem_fields_rev = array_reverse( $wpmem_fields );
 
-	foreach ( $wpmem_fields_rev as $meta ) {
+	foreach ( $wpmem_fields_rev as $meta_key => $field ) {
 		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
-		$pass_chk = ( $tag == 'update' && in_array( $meta[2], $pass_arr ) ) ? true : false;
+		$pass_chk = ( $tag == 'update' && in_array( $meta_key, $pass_arr ) ) ? true : false;
 		// Validation if the field is required.
-		if ( $meta[5] == 'y' && $pass_chk == false ) {
-			if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+		if ( $field['required'] && $pass_chk == false ) { // @todo - verify $field['required']
+			if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
 				// If this is a new registration.
 				if ( 'register' == $tag ) {
 					// If the required field is a file type.
-					if ( empty( $_FILES[ $meta[2] ]['name'] ) ) {
-						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+					if ( empty( $_FILES[ $meta_key ]['name'] ) ) {
+						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 					}
 				}
 			} else {
 				// If the required field is any other field type.
-				if ( ! $fields[ $meta[2] ] ) { 
-					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $meta[1], 'wp-members' ) );
+				if ( ! $fields[ $meta_key ] ) { 
+					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 				}
 			}
 		}
@@ -334,10 +332,10 @@ function wpmem_registration( $tag ) {
 
 		// Fields for wp_insert_user: user_url, first_name, last_name, description, jabber, aim, yim.
 		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
-		foreach ( $wpmem_fields as $meta ) {
-			if ( in_array( $meta[2], $new_user_fields_meta ) ) {
-				if ( $meta[4] == 'y' && ! in_array( $meta[2], $excluded_meta ) ) {
-					$new_user_fields[ $meta[2] ] = $fields[ $meta[2] ];
+		foreach ( $wpmem_fields as $meta_key => $field ) {
+			if ( in_array( $meta_key, $new_user_fields_meta ) ) {
+				if ( $field['register'] && ! in_array( $meta_key, $excluded_meta ) ) {
+					$new_user_fields[ $meta_key ] = $fields[ $meta_key ];
 				}
 			}
 		}
@@ -346,11 +344,11 @@ function wpmem_registration( $tag ) {
 		$fields['ID'] = wp_insert_user( $new_user_fields );
 
 		// Set remaining fields to wp_usermeta table.
-		foreach ( $wpmem_fields as $meta ) {
+		foreach ( $wpmem_fields as $meta_key => $field ) {
 			// If the field is not excluded, update accordingly.
-			if ( ! in_array( $meta[2], $excluded_meta ) && ! in_array( $meta[2], $new_user_fields_meta ) ) {
-				if ( $meta[4] == 'y' && $meta[2] != 'user_email' ) {
-					update_user_meta( $fields['ID'], $meta[2], $fields[ $meta[2] ] );
+			if ( ! in_array( $meta_key, $excluded_meta ) && ! in_array( $meta_key, $new_user_fields_meta ) ) {
+				if ( $field['register'] && 'user_email' != $meta_key ) {
+					update_user_meta( $fields['ID'], $meta_key, $fields[ $meta_key ] );
 				}
 			}
 		}
@@ -371,15 +369,15 @@ function wpmem_registration( $tag ) {
 		// Handle file uploads, if any.
 		if ( ! empty( $_FILES ) ) {
 	
-			foreach ( $wpmem->fields as $file_field ) {
+			foreach ( $wpmem_fields as $meta_key => $field ) {
 	
-				if ( ( 'file' == $file_field[3] || 'image' == $file_field[3] ) && is_array( $_FILES[ $file_field[2] ] ) ) {
+				if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
 	
 					// Upload the file and save it as an attachment.
-					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $file_field[2] ], $fields['ID'] );
+					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $fields['ID'] );
 	
 					// Save the attachment ID as user meta.
-					update_user_meta( $fields['ID'], $file_field[2], $file_post_id );
+					update_user_meta( $fields['ID'], $meta_key, $file_post_id );
 				}
 			}
 		}
@@ -498,16 +496,16 @@ function wpmem_registration( $tag ) {
 		);
 		$native_update = array( 'ID' => $user_ID );
 
-		foreach ( $wpmem_fields as $meta ) {
+		foreach ( $wpmem_fields as $meta_key => $field ) {
 			// If the field is not excluded, update accordingly.
-			if ( ! in_array( $meta[2], wpmem_get_excluded_meta( 'update' ) ) ) {
-				if ( 'file' != $meta[3] && 'image' != $meta[3] ) {
-					switch ( $meta[2] ) {
+			if ( ! in_array( $meta_key, wpmem_get_excluded_meta( 'update' ) ) ) {
+				if ( 'file' != $field['type'] && 'image' != $field['type'] ) {
+					switch ( $meta_key ) {
 	
 					// If the field can be updated by wp_update_user.
-					case( in_array( $meta[2], $native_fields ) ):
-						$fields[ $meta[2] ] = ( isset( $fields[ $meta[2] ] ) ) ? $fields[ $meta[2] ] : '';
-						$native_update[ $meta[2] ] = $fields[ $meta[2] ];
+					case( in_array( $meta_key, $native_fields ) ):
+						$fields[ $meta_key ] = ( isset( $fields[ $meta_key ] ) ) ? $fields[ $meta_key ] : '';
+						$native_update[ $meta_key ] = $fields[ $meta_key ];
 						break;
 	
 					// If the field is password.
@@ -517,8 +515,8 @@ function wpmem_registration( $tag ) {
 	
 					// Everything else goes into wp_usermeta.
 					default:
-						if ( $meta[4] == 'y' ) {
-							update_user_meta( $user_ID, $meta[2], $fields[ $meta[2] ] );
+						if ( $field['register'] ) {
+							update_user_meta( $user_ID, $meta_key, $fields[ $meta_key ] );
 						}
 						break;
 					}
@@ -529,15 +527,15 @@ function wpmem_registration( $tag ) {
 		// Handle file uploads, if any.
 		if ( ! empty( $_FILES ) ) {
 	
-			foreach ( $wpmem->fields as $file_field ) {
+			foreach ( $wpmem_fields as $meta_key => $field ) {
 	
-				if ( ( 'file' == $file_field[3] || 'image' == $file_field[3] ) && is_array( $_FILES[ $file_field[2] ] ) ) {
-					if ( ! empty( $_FILES[ $file_field[2] ]['name'] ) ) {
+				if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
+					if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
 						// Upload the file and save it as an attachment.
-						$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $file_field[2] ], $fields['ID'] );
+						$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $fields['ID'] );
 	
 						// Save the attachment ID as user meta.
-						update_user_meta( $fields['ID'], $file_field[2], $file_post_id );
+						update_user_meta( $fields['ID'], $meta_key, $file_post_id );
 					}
 				}
 			}
