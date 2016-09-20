@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
 Tested up to: 4.6.1
-Stable tag: 3.1.5.1
+Stable tag: 3.1.5.2
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -113,7 +113,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.1.5 is a security and feature update. Minimum WP version is 3.6.
-WP-Members 3.1.5.1 includes raw data shortcode support.
+WP-Members 3.1.5.1 and 3.1.5.2 are minor fixes to shortcodes.
 
 == Screenshots ==
 
@@ -136,9 +136,15 @@ WP-Members 3.1.5.1 includes raw data shortcode support.
 
 == Changelog ==
 
+= 3.1.5.2 =
+
+* Fixes undefined index for [wpmem_field] if the field is not a field in the plugin's fields array (such as user_login, user_registered, etc).
+* Fixes undefined index for [wpmem_loginout] for text attributes.
+* Updated [wp-members] deprecated shortcode notice to include post/page information on where the shortcode is being used.
+
 = 3.1.5.1 =
 
-* Adds [wpmem_field] support for raw data display for select (dropdown), multiple select, multiple checkbox, and radio groups.
+* Fixes [wpmem_field] support for raw data display (when display=raw attribute is used) for select (dropdown), multiple select, multiple checkbox, and radio groups.
 
 = 3.1.5 =
 

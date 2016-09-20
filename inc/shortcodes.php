@@ -266,7 +266,11 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
  */
 function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 	
-	wpmem_write_log( "wpmem_shortcode() is deprecated as of WP-Members 3.1.2. This means a [wp-members] shortcode is being used and should be replaced." );
+	$error = "wpmem_shortcode() is deprecated as of WP-Members 3.1.2. The [wp-members] shortcode tag should be replaced. ";
+	$error.= 'See replacement shortcodes: http://rkt.bz/logsc ';
+	$error.= "post ID: " . get_the_ID() . " ";
+	$error.= "page url: " . wpmem_current_url();
+	wpmem_write_log( $error );
 
 	global $wpmem;
 
@@ -539,8 +543,8 @@ function wpmem_sc_loginout( $atts, $content, $tag ) {
 	$defaults = array(
 		'login_redirect_to'  => ( isset( $atts['login_redirect_to']  ) ) ? $atts['login_redirect_to']  : wpmem_current_url(),
 		'logout_redirect_to' => ( isset( $atts['logout_redirect_to'] ) ) ? $atts['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
-		'login_link_text'    => ( isset( $atts['login_text']         ) ) ? $atts['login_text']         : __( 'log in',  'wp-members' ),
-		'logout_link_text'   => ( isset( $atts['logout_text']        ) ) ? $atts['logout_text']        : __( 'log out', 'wp-members' ),
+		'login_text'         => ( isset( $atts['login_text']         ) ) ? $atts['login_text']         : __( 'log in',  'wp-members' ),
+		'logout_text'        => ( isset( $atts['logout_text']        ) ) ? $atts['logout_text']        : __( 'log out', 'wp-members' ),
 	);
 	$args = wp_parse_args( $atts, $defaults );
 	$redirect_to = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
@@ -599,7 +603,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 	if ( $user_info ) {
 		
 		global $wpmem;
-		$field_type = $wpmem->fields[ $field ]['type'];
+		$field_type = ( isset( $wpmem->fields[ $field ]['type'] ) ) ? $wpmem->fields[ $field ]['type'] : 'native';
 		
 		$result = $user_info->{$field};
 		
