@@ -310,7 +310,8 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 	global $wpmem;
 
 	if ( $mode == 'edit' ) {
-		$field = $wpmem->fields[ $meta_key ];	
+		$fields = wpmem_fields();
+		$field  = $fields[ $meta_key ];	
 	}
 
 	$form_action = ( $mode == 'edit' ) ? 'editfieldform' : 'addfieldform';

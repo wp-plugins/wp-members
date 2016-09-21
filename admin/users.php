@@ -118,7 +118,7 @@ function wpmem_users_page_load() {
 	if ( $action == 'activate' || 'activate-single' ) {
 		// Find out if we need to set passwords.
 		$chk_pass = false;
-		$wpmem_fields = get_option( 'wpmembers_fields' );
+		$wpmem_fields = wpmem_fields();
 		foreach ( $wpmem_fields as $field ) {
 			if ( $field[2] == 'password' && $field[4] == 'y' ) {
 				$chk_pass = true;

@@ -38,7 +38,7 @@ function wpmem_user_profile() {
 	<table class="form-table">
 		<?php
 		// Get fields.
-		$wpmem_fields = wpmem_fields(); //get_option( 'wpmembers_fields' );
+		$wpmem_fields = wpmem_fields();
 		// Get excluded meta.
 		$exclude = wpmem_get_excluded_meta( 'user-profile' );
 
@@ -155,7 +155,7 @@ function wpmem_profile_update() {
 
 	global $wpmem, $user_id;
 	// Get the fields.
-	$wpmem_fields = wpmem_fields(); //get_option( 'wpmembers_fields' );
+	$wpmem_fields = wpmem_fields();
 	// Get any excluded meta fields.
 	$exclude = wpmem_get_excluded_meta( 'user-profile' );
 	foreach ( $wpmem_fields as $meta ) {
