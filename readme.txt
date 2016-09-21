@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
 Tested up to: 4.6.1
-Stable tag: 3.1.5.2
+Stable tag: 3.1.6.a.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -112,8 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.5 is a security and feature update. Minimum WP version is 3.6.
-WP-Members 3.1.5.1 and 3.1.5.2 are minor fixes to shortcodes.
+WP-Members 3.1.6 is primarily a settings update. See changelog for important details. Minimum WP version is 3.6.
 
 == Screenshots ==
 
@@ -136,15 +135,12 @@ WP-Members 3.1.5.1 and 3.1.5.2 are minor fixes to shortcodes.
 
 == Changelog ==
 
-= 3.1.5.2 =
+= 3.1.6 =
 
-* Fixes undefined index for [wpmem_field] if the field is not a field in the plugin's fields array (such as user_login, user_registered, etc).
-* Fixes undefined index for [wpmem_loginout] for text attributes.
-* Updated [wp-members] deprecated shortcode notice to include post/page information on where the shortcode is being used.
+3.1.6.a.1 Alpha Build information: currently functional (as tested) except for drag-and-drop field re-order in the Fields tab.  Using the drag-and-drop in this build will blow out the field settings.
 
-= 3.1.5.1 =
-
-* Fixes [wpmem_field] support for raw data display (when display=raw attribute is used) for select (dropdown), multiple select, multiple checkbox, and radio groups.
+* Updates to always load fields from wpmem_fields() API function.
+* Updates to begin to utilize new fields settings array.  Fields setting is still store in the same array format as before.  However, it is loaded into the new settings format.  Current object class keeps numeric keys in place for legacy purposes.
 
 = 3.1.5 =
 
@@ -158,6 +154,7 @@ WP-Members 3.1.5.1 and 3.1.5.2 are minor fixes to shortcodes.
 * Field loader now validates settings, if none exist due to install error it will run the default fields install.
 * Removed dialog setting downgrade on deactivation. Need to re-evaluate necessity of downgrading.
 * Fixed issue with slash handling in Emails tab.
+* Updated [wp-members] deprecated shortcode notice to include post/page information on where the shortcode is being used.
 
 = 3.1.4 =
 
