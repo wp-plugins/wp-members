@@ -37,8 +37,7 @@ function wpmem_a_build_fields() {
 				wpmem_a_field_edit( 'edit', $wpmem_fields, $add_toggle );
 			 } else {
 				if ( ! $add_field_err_msg ) { 
-					//wpmem_a_field_table( $wpmem_fields );
-					wpmem_a_field_table(); 
+					wpmem_a_field_table( $wpmem_fields );
 				}
 				wpmem_a_field_edit( 'add' );
 			} ?>
@@ -479,17 +478,13 @@ Last Row|last_row<?php } } ?></textarea>
  * Function to display the table of fields in the field manager tab.
  * 
  * @since 2.8.0
- * @since 3.1.6 $wpmem_fields argument deprecated. Use wpmem_fields() instead.
  *
  * @global object $wpmem
- * @param  array $wpmem_fields The array of fields
+ * @param  array  $wpmem_fields The array of fields.
  */
-//function wpmem_a_field_table( $wpmem_fields ) {
-function wpmem_a_field_table() {
+function wpmem_a_field_table( $wpmem_fields ) {
 
-	global $wpmem; 
-	
-	$wpmem_fields = wpmem_fields(); ?>
+	global $wpmem; ?>
 	<div class="postbox">
 		<h3 class="title"><?php _e( 'Manage Fields', 'wp-members' ); ?></h3>
 		<div class="inside">
