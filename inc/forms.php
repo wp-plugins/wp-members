@@ -338,7 +338,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param array                 An array of arguments to merge with defaults. Default null.
 	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$args = apply_filters( 'wpmem_login_form_args', '', $arr['action'] );
 	
 	// Merge $args with defaults.
@@ -371,7 +371,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param array  $rows          An array containing the form rows.
 	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'] );
 	
 	// Put the rows from the array into $form.
@@ -395,7 +395,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param string $hidden        The generated HTML of hidden fields.
 	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $arr['action'] );
 
 	// Build the buttons, filter, and add to the form.
@@ -415,7 +415,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param string $buttons        The generated HTML of the form buttons.
 	 * @param string $arr['action']  The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $arr['action'] );
 
 	if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'login' ) { 
@@ -426,7 +426,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @since 2.8.0
 		 *
 		 * @param string The forgot password link.
-	 	 */
+		 */
 		$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
 		$str  = $wpmem->get_text( 'forgot_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'forgot_link' ) . '</a>';
 		/**
@@ -450,7 +450,7 @@ function wpmem_login_form( $page, $arr ) {
 		 * @since 2.8.0
 		 *
 		 * @param string The registration page link.
-	 	 */
+		 */
 		$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
 		$str  = $wpmem->get_text( 'register_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'register_link' ) . '</a>';
 		/**
@@ -517,7 +517,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param string $form          The HTML of the final generated form.
 	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$form = apply_filters( 'wpmem_login_form', $form, $arr['action'] );
 	
 	/**
@@ -530,7 +530,7 @@ function wpmem_login_form( $page, $arr ) {
 	 *
 	 * @param string $str           The HTML to add before the form. Default null.
 	 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
- 	 */
+	 */
 	$form = apply_filters( 'wpmem_login_form_before', '', $arr['action'] ) . $form;
 	
 	return $form;
@@ -611,7 +611,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param array        An array of arguments to merge with defaults. Default null.
 	 * @param string $tag  Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$args = apply_filters( 'wpmem_register_form_args', '', $tag );
 	
 	// Merge $args with defaults.
@@ -667,7 +667,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param array        The array of form fields.
 	 * @param string $tag  Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
 	//$wpmem_fields = wpmem_verify_fields( $wpmem_fields );
 	
@@ -926,7 +926,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *     @type string row_after    Closing wrapper tag around the row.
 	 * }
 	 * @param string $tag  Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$rows = apply_filters( 'wpmem_register_form_rows', $rows, $tag );
 	
 	// Put the rows from the array into $form.
@@ -958,7 +958,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 		 *
 		 * @param string       The HTML for the entire row (includes HTML tags plus reCAPTCHA).
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
-	 	 */
+		 */
 		$form.= apply_filters( 'wpmem_register_captcha_row', $args['row_before'] . $row . $args['row_after'], $tag );
 	}
 
@@ -979,7 +979,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param string $hidden The generated HTML of hidden fields.
 	 * @param string $tag    Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$hidden = apply_filters( 'wpmem_register_hidden_fields', $hidden, $tag );
 	
 	// Add the hidden fields to the form.
@@ -999,7 +999,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param string $buttons The generated HTML of the form buttons.
 	 * @param string $tag     Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$buttons = apply_filters( 'wpmem_register_form_buttons', $buttons, $tag );
 	
 	// Add the buttons to the form.
@@ -1016,7 +1016,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param string $str
 	 * @param string $tag Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag ) : $heading;
 	$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 	
@@ -1051,8 +1051,8 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @since 2.7.4
 	 *
-	 * @param string $form   The HTML of the final generated form.
-	 * @param string $tag    Toggle new registration or profile update. new|edit.
+	 * @param string $form The HTML of the final generated form.
+	 * @param string $tag  Toggle new registration or profile update. new|edit.
 	 * @param array  $rows   {
 	 *     An array containing the form rows. 
 	 *
@@ -1070,7 +1070,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *     @type string row_after    Closing wrapper tag around the row.
 	 * }
 	 * @param string $hidden The HTML string of hidden fields
- 	 */
+	 */
 	$form = apply_filters( 'wpmem_register_form', $form, $tag, $rows, $hidden );
 	
 	/**
@@ -1083,7 +1083,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 	 *
 	 * @param string $str The HTML to add before the form. Default null.
 	 * @param string $tag Toggle new registration or profile update. new|edit.
- 	 */
+	 */
 	$form = apply_filters( 'wpmem_register_form_before', '', $tag ) . $form;
 
 	// Return the generated form.
