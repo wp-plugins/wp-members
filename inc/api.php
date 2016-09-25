@@ -328,4 +328,40 @@ function wpmem_load_dropins() {
 	$wpmem->load_dropins();
 }
 
+/**
+ * Creates a login/logout link.
+ *
+ * @since 3.1.6
+ *
+ * @param  array   $args {
+ *     Array of arguments to customize output.
+ *
+ *     @type string  $login_redirect_to  The url to redirect to after login (optional).
+ *     @type string  $logout_redirect_to The url to redirect to after logout (optional).
+ *     @type string  $login_text         Text for the login link (optional).
+ *     @type string  $logout_text        Text for the logout link (optional).
+ * }
+ * @param  boolean $echo (default: false)
+ * @return string  $link
+ */
+function wpmem_loginout( $args = array(), $echo = false ) {
+	$defaults = array(
+		'login_redirect_to'  => ( isset( $args['login_redirect_to']  ) ) ? $args['login_redirect_to']  : wpmem_current_url(),
+		'logout_redirect_to' => ( isset( $args['logout_redirect_to'] ) ) ? $args['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
+		'login_text'         => ( isset( $args['login_text']         ) ) ? $args['login_text']         : __( 'log in',  'wp-members' ),
+		'logout_text'        => ( isset( $args['logout_text']        ) ) ? $args['logout_text']        : __( 'log out', 'wp-members' ),
+	);
+	$args     = wp_parse_args( $args, $defaults );
+	$redirect = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
+	$text     = ( is_user_logged_in() ) ? $args['logout_text']        : $args['login_text'];
+	if ( is_user_logged_in() ) {
+		/** This filter is defined in /inc/dialogs.php */
+		$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+	} else {
+		$link = wpmem_login_url( $redirect );
+	}
+	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+	return $link;
+}
+
 // End of file.

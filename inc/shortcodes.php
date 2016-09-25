@@ -559,6 +559,7 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
  * Log in/out shortcode [wpmem_loginout].
  *
  * @since 3.1.1
+ * @since 3.1.6 Uses wpmem_loginout().
  *
  * @param  array  $atts {
  *     The shortcode attributes.
@@ -573,22 +574,7 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
  * @return string $content
  */
 function wpmem_sc_loginout( $atts, $content, $tag ) {
-	$defaults = array(
-		'login_redirect_to'  => ( isset( $atts['login_redirect_to']  ) ) ? $atts['login_redirect_to']  : wpmem_current_url(),
-		'logout_redirect_to' => ( isset( $atts['logout_redirect_to'] ) ) ? $atts['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
-		'login_text'         => ( isset( $atts['login_text']         ) ) ? $atts['login_text']         : __( 'log in',  'wp-members' ),
-		'logout_text'        => ( isset( $atts['logout_text']        ) ) ? $atts['logout_text']        : __( 'log out', 'wp-members' ),
-	);
-	$args = wp_parse_args( $atts, $defaults );
-	$redirect_to = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
-	$text = ( is_user_logged_in() ) ? $args['logout_text'] : $args['login_text'];
-	if ( is_user_logged_in() ) {
-		/** This filter is defined in /inc/dialogs.php */
-		$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
-	} else {
-		$link = wpmem_login_url( $args['login_redirect_to'] );
-	}
-	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
+	$link = wpmem_loginout( $atts );
 	return do_shortcode( $link );
 }
 
