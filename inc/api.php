@@ -27,8 +27,8 @@
  * - wpmem_login_status
  * - wpmem_is_reg_page
  * - wpmem_load_dropins
+ * - wpmem_loginout
  */
-
 
 /**
  * Redirects a user to defined login page with return redirect.
@@ -51,7 +51,6 @@ function wpmem_redirect_to_login( $redirect_to = false ) {
 	return;
 }
 
-
 /**
  * Checks if content is blocked (replaces wpmem_block()).
  *
@@ -64,7 +63,6 @@ function wpmem_is_blocked() {
 	global $wpmem;
 	return $wpmem->is_blocked();
 }
-
 
 /**
  * Wrapper to get the login page location.
@@ -86,20 +84,18 @@ function wpmem_login_url( $redirect_to = false ) {
 	return $url;
 }
 
-
 /**
  * Wrapper to get the register page location.
  *
  * @since 3.1.1
  *
- * @global object $wpmem
- * @return string The register page url.
+ * @global object $wpmem The WP_Members object.
+ * @return string        The register page url.
  */
 function wpmem_register_url() {
 	global $wpmem;
 	return $wpmem->user_pages['register'];
 }
-
 
 /**
  * Wrapper to get the profile page location.
@@ -107,15 +103,14 @@ function wpmem_register_url() {
  * @since 3.1.1
  * @since 3.1.2 Added $a parameter.
  *
- * @global object $wpmem
- * @param  string $a      Action (optional).
- * @return string         The profile page url.
+ * @global object $wpmem The WP_Members object.
+ * @param  string $a     Action (optional).
+ * @return string        The profile page url.
  */
 function wpmem_profile_url( $a = false ) {
 	global $wpmem;
 	return ( $a ) ? add_query_arg( 'a', $a, $wpmem->user_pages['profile'] ) : $wpmem->user_pages['profile'];
 }
-
 
 /**
  * Returns an array of user pages.
@@ -123,7 +118,13 @@ function wpmem_profile_url( $a = false ) {
  * @since 3.1.2
  * @since 3.1.3 Added array keys.
  *
- * @return array $pages
+ * @return array $pages {
+ *     The URLs of login, register, and user profile pages.
+ *
+ *     @type string $login
+ *     @type string $register
+ *     @type string $profile
+ * }
  */
 function wpmem_user_pages() {
 	$pages = array( 
@@ -133,7 +134,6 @@ function wpmem_user_pages() {
 	);
 	return $pages;
 }
-
 
 /**
  * Returns the current full url.
@@ -150,20 +150,26 @@ function wpmem_current_url( $slash = true ) {
 	return ( $slash ) ? trailingslashit( $url ) : $url;
 }
 
-
 /**
  * Wrapper for $wpmem->create_form_field().
  *
  * @since 3.1.2
  *
- * @param  array  $args
- * @return string 
+ * @param array  $args {
+ *     @type string  $name      (required) The field meta key.
+ *     @type string  $type      (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
+ *     @type string  $value     (required) The field's value (can be a null value).
+ *     @type string  $compare   (required) Compare value.
+ *     @type string  $class     (optional) Class identifier for the field.
+ *     @type boolean $required  (optional) If a value is required default: true).
+ *     @type string  $delimiter (optional) The field delimiter (pipe or comma, default: | ).
+ * }
+ * @return string The HTML of the form field.
  */
 function wpmem_form_field( $args ) {
 	global $wpmem;
 	return $wpmem->forms->create_form_field( $args );
 }
-
 
 /**
  * Wrapper to get form fields.
@@ -171,8 +177,8 @@ function wpmem_form_field( $args ) {
  * @since 3.1.1
  * @since 3.1.5 Checks if fields array is set or empty before returning.
  *
- * @global object $wpmem
- * @param  string $form The form being generated.
+ * @global object $wpmem  The WP_Members object.
+ * @param  string $form   The form being generated.
  * @return array  $fields The form fields.
  */
 function wpmem_fields( $form = 'default' ) {
@@ -183,14 +189,13 @@ function wpmem_fields( $form = 'default' ) {
 	return $wpmem->fields;
 }
 
-
 /**
  * Wrapper to return a string from the get_text function.
  *
  * @since 3.1.1
  * @since 3.1.2 Added $echo argument.
  *
- * @global object $wpmem The WP_Members object class.
+ * @global object $wpmem The WP_Members object.
  * @param  string $str   The string to retrieve.
  * @param  bool   $echo  Print the string (default: false).
  * @return string $str   The localized string.
@@ -203,7 +208,6 @@ function wpmem_gettext( $str, $echo = false ) {
 		return $wpmem->get_text( $str );
 	}
 }
-
 
 /**
  * Wrapper to use custom dialog.
@@ -219,7 +223,6 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
 	$defaults['msg'] = __( $dialogs[ $tag ], 'wp-members' );
 	return $defaults;
 }
-
 
 /**
  * Checks if user has a particular role.
@@ -249,20 +252,24 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 	return ( in_array( $role, $user->roles ) ) ? true : $has_role;
 }
 
-
 /**
  * Creates a membership number.
  *
  * @since 3.1.1
  *
- * @param  array  $args
+ * @param  array  $args {
+ *     @type string $option
+ *     @type string $meta_key
+ *     @type int    $start     (optional, default 0)
+ *     @type int    $increment (optional, default 1)
+ *     @type int    $lead
+ * }
  * @return string $membersip_number
  */
 function wpmem_create_membership_number( $args ) {
 	global $wpmem;
 	return $wpmem->api->generate_membership_number( $args );
 }
-
 
 /**
  * Returns or displays the user's login status.
@@ -289,7 +296,6 @@ function wpmem_login_status( $echo = true ) {
 	}
 }
 
-
 /**
  * Compares wpmem_reg_page value with the register page URL. 
  *
@@ -310,11 +316,12 @@ function wpmem_is_reg_page( $check ) {
 	return ( $check_page == $reg_page ) ? true : false;
 }
 
-
 /**
  * Wrapper for load_dropins()
  *
  * @since 3.1.4
+ *
+ * @global object $wpmem The WP_Members object.
  */
 function wpmem_load_dropins() {
 	global $wpmem;
