@@ -26,28 +26,31 @@ class WP_Members_Forms {
 	 *
 	 * @since 3.1.0
 	 * @since 3.1.1 Added $delimiter.
-	 * @since 3.1.2 Changed $valtochk to $compare
+	 * @since 3.1.2 Changed $valtochk to $compare.
+	 * @since 3.1.6 Added $placeholder.
 	 *
 	 * @param array  $args {
-	 *     @type string $name
-	 *     @type string $type
-	 *     @type string $value
-	 *     @type string $compare
-	 *     @type string $class
-	 *     @type string $required
-	 *     @type string $delimiter
+	 *     @type string  $name
+	 *     @type string  $type
+	 *     @type string  $value
+	 *     @type string  $compare
+	 *     @type string  $class
+	 *     @type boolean $required
+	 *     @type string  $delimiter
+	 *     @type string  $placeholder
 	 * }
 	 * @return string $str The field returned as a string.
 	 */
 	function create_form_field( $args ) {
 		
-		$name      = $args['name'];
-		$type      = $args['type'];
-		$value     = maybe_unserialize( $args['value'] );
-		$compare   = $args['compare'];
-		$class     = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
-		$required  = ( isset( $args['required'] ) ) ? $args['required'] : false;
-		$delimiter = ( isset( $args['delimiter'] ) ) ? $args['delimiter'] : '|';
+		$name        = $args['name'];
+		$type        = $args['type'];
+		$value       = maybe_unserialize( $args['value'] );
+		$compare     = ( isset( $args['compare'] ) ) ? $args['compare'] : '';
+		$class       = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
+		$required    = ( isset( $args['required'] ) ) ? $args['required'] : false;
+		$delimiter   = ( isset( $args['delimiter'] ) ) ? $args['delimiter'] : '|';
+		$placeholder = ( isset( $args['placeholder'] ) ) ? $args['placeholder'] : false;
 	
 		switch ( $type ) { 
 			
@@ -55,7 +58,8 @@ class WP_Members_Forms {
 		case "email":
 			$class = ( $class == 'textbox' ) ? "textbox" : $class;
 			$value = ( 'url' == $type ) ? esc_url( $value ) : esc_attr( wp_unslash( $value ) );
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
+			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . "$placeholder />";
 			break;
 		
 		case "image":
@@ -71,7 +75,8 @@ class WP_Members_Forms {
 	
 		case "text":
 			$value = stripslashes( esc_attr( $value ) );
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
+			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . "$placeholder />";
 			break;
 	
 		case "textarea":

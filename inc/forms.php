@@ -839,6 +839,7 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 						'compare'  => $valtochk,
 						//'class'    => ( $class ) ? $class : 'textbox',
 						'required' => $field['required'],
+						'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
 					);
 					if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
 						$formfield_args['delimiter'] = $field['delimiter'];
