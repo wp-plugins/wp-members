@@ -141,6 +141,12 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 
 * Updates to always load fields from wpmem_fields() API function.
 * Updates to begin to utilize new fields settings array.  Fields setting is still store in the same array format as before.  However, it is loaded into the new settings format.  Current object class keeps numeric keys in place for legacy purposes.
+* Added wpmem_loginout() API function, changed [wpmem_loginout] shortcode to use API function.
+* Added wp_destroy_current_session() to logout function.
+* Added WooCommerce support in native WP registration functions.
+* Preliminary updates to include placeholder support in fields.
+* Localization fix of untranslated strings.
+* Wrap "Remember Me" checkbox label with label tag in login form.
 
 = 3.1.5 =
 
