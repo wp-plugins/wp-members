@@ -167,104 +167,11 @@ function wpmem_registration( $tag ) {
 			$wpmem_themsg = $wpmem->get_text( 'reg_email_match' ); 
 		}
 		
-		// Get the captcha settings (api keys).
-		$wpmem_captcha = get_option( 'wpmembers_captcha' );
-		
-		// If captcha is on, check the captcha.
-		if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
-			
-			// If there is no api key, the captcha never displayed to the end user.
-			if ( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   
-				if ( ! $_POST["recaptcha_response_field"] ) { // validate for empty captcha field
-					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
-					return "empty"; exit();
-				}
-			}
-
-			// Check to see if the recaptcha library has already been loaded by another plugin.
-			if ( ! function_exists( '_recaptcha_qsencode' ) ) { 
-				require_once( WPMEM_PATH . 'lib/recaptchalib.php' ); 
-			}
-
-			$publickey  = $wpmem_captcha['recaptcha']['public'];
-			$privatekey = $wpmem_captcha['recaptcha']['private'];
-
-			// The response from reCAPTCHA.
-			$resp = null;
-			// The error code from reCAPTCHA, if any.
-			$error = null;
-
-			if ( $_POST["recaptcha_response_field"] ) {
-
-				$resp = recaptcha_check_answer (
-					$privatekey,
-					$_SERVER["REMOTE_ADDR"],
-					$_POST["recaptcha_challenge_field"],
-					$_POST["recaptcha_response_field"]
-				);
-
-				if ( ! $resp->is_valid ) {
-
-					// Set the error code so that we can display it.
-					global $wpmem_captcha_err;
-					$wpmem_captcha_err = $resp->error;
-					$wpmem_captcha_err = wpmem_get_captcha_err( $wpmem_captcha_err );
-
-					return "captcha";
-					exit();
-
-				}
-			} // End check recaptcha.
-		} elseif ( $wpmem->captcha == 2 ) {
-			if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
-				// Validate Really Simple Captcha.
-				$wpmem_captcha = new ReallySimpleCaptcha();
-				// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer.
-				$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
-				// This variable holds the CAPTCHA response, entered by the user.
-				$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
-				// Check CAPTCHA validity.
-				$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
-				// Clean up the tmp directory.
-				$wpmem_captcha->remove( $wpmem_captcha_prefix );
-				$wpmem_captcha->cleanup();
-				// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error.
-				if ( ! $wpmem_captcha_correct ) {
-					$wpmem_themsg = wpmem_get_captcha_err( 'really-simple' );
-					return "empty"; exit();
-				}
-			}
-		} elseif ( $wpmem->captcha == 3 && $wpmem_captcha['recaptcha'] ) {
-			// Get the captcha response.
-			if ( isset( $_POST['g-recaptcha-response'] ) ) {
-				$captcha = $_POST['g-recaptcha-response'];
-			}
-			
-			// If there is no captcha value, return error.
-			if ( ! $captcha ) {
-				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
-				return "empty"; exit();
-			}
-			
-			// We need the private key for validation.
-			$privatekey = $wpmem_captcha['recaptcha']['private'];
-			
-			// Validate the captcha.
-			$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
-			
-			// Decode the json response.
-			$response = json_decode( $response, true );
-			
-			// If captcha validation was unsuccessful.
-			if ( $response['success'] == false ) {
-				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
-				if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
-					$wpmem_themsg.= '<br /><br />';
-					foreach( $response['error-codes'] as $code ) {
-						$wpmem_themsg.= "Error code: " . $code . "<br />";
-					}
-				}
-				return "empty"; exit();
+		// Process CAPTCHA.
+		if ( 0 != $wpmem->captcha ) {
+			$check_captcha = wpmem_register_handle_captcha();
+			if ( 'passed_captcha' != $check_captcha ) {
+				return $check_captcha;
 			}
 		}
 
@@ -607,5 +514,121 @@ function wpmem_get_captcha_err( $wpmem_captcha_err ) {
 	return $wpmem_captcha_err;
 }
 endif;
+
+/**
+ * Process registration captcha.
+ *
+ * @since 3.1.6
+ *
+ * @global $wpmem
+ * @global $wpmem_themsg
+ * @return $string
+ */
+function wpmem_register_handle_captcha() {
+	
+	global $wpmem, $wpmem_themsg;
+	
+	// Get the captcha settings (api keys).
+	$wpmem_captcha = get_option( 'wpmembers_captcha' );
+	
+	// If captcha is on, check the captcha.
+	if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
+		
+		// If there is no api key, the captcha never displayed to the end user.
+		if ( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   
+			if ( ! $_POST["recaptcha_response_field"] ) { // validate for empty captcha field
+				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+				return "empty";
+			}
+		}
+
+		// Check to see if the recaptcha library has already been loaded by another plugin.
+		if ( ! function_exists( '_recaptcha_qsencode' ) ) { 
+			require_once( WPMEM_PATH . 'lib/recaptchalib.php' ); 
+		}
+
+		$publickey  = $wpmem_captcha['recaptcha']['public'];
+		$privatekey = $wpmem_captcha['recaptcha']['private'];
+
+		// The response from reCAPTCHA.
+		$resp = null;
+		// The error code from reCAPTCHA, if any.
+		$error = null;
+
+		if ( $_POST["recaptcha_response_field"] ) {
+
+			$resp = recaptcha_check_answer (
+				$privatekey,
+				$_SERVER["REMOTE_ADDR"],
+				$_POST["recaptcha_challenge_field"],
+				$_POST["recaptcha_response_field"]
+			);
+
+			if ( ! $resp->is_valid ) {
+
+				// Set the error code so that we can display it.
+				global $wpmem_captcha_err;
+				$wpmem_captcha_err = $resp->error;
+				$wpmem_captcha_err = wpmem_get_captcha_err( $wpmem_captcha_err );
+
+				return "captcha";
+
+			}
+		} // End check recaptcha.
+	} elseif ( $wpmem->captcha == 2 ) {
+		if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
+			// Validate Really Simple Captcha.
+			$wpmem_captcha = new ReallySimpleCaptcha();
+			// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer.
+			$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
+			// This variable holds the CAPTCHA response, entered by the user.
+			$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
+			// Check CAPTCHA validity.
+			$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
+			// Clean up the tmp directory.
+			$wpmem_captcha->remove( $wpmem_captcha_prefix );
+			$wpmem_captcha->cleanup();
+			// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error.
+			if ( ! $wpmem_captcha_correct ) {
+				$wpmem_themsg = wpmem_get_captcha_err( 'really-simple' );
+				return "empty";
+			}
+		}
+	} elseif ( $wpmem->captcha == 3 && $wpmem_captcha['recaptcha'] ) {
+		// Get the captcha response.
+		if ( isset( $_POST['g-recaptcha-response'] ) ) {
+			$captcha = $_POST['g-recaptcha-response'];
+		}
+		
+		// If there is no captcha value, return error.
+		if ( ! $captcha ) {
+			$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+			return "empty";
+		}
+		
+		// We need the private key for validation.
+		$privatekey = $wpmem_captcha['recaptcha']['private'];
+		
+		// Validate the captcha.
+		$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
+		
+		// Decode the json response.
+		$response = json_decode( $response, true );
+		
+		// If captcha validation was unsuccessful.
+		if ( $response['success'] == false ) {
+			$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+			if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
+				$wpmem_themsg.= '<br /><br />';
+				foreach( $response['error-codes'] as $code ) {
+					$wpmem_themsg.= "Error code: " . $code . "<br />";
+				}
+			}
+			return "empty";
+		}
+	}	
+	
+	return "passed_captcha";
+}
 
 // End of file.
