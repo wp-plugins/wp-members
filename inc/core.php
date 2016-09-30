@@ -186,6 +186,7 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  * Logs the user out then redirects.
  *
  * @since 2.0.0
+ * @since 3.1.6 Added wp_destroy_current_session(), removed nocache_headers().
  *
  * @param string $redirect_to The URL to redirect to at logout.
  */
@@ -203,12 +204,11 @@ function wpmem_logout( $redirect_to = null ) {
 	 */
 	$redirect_to = apply_filters( 'wpmem_logout_redirect', $redirect_to );
 
+	wp_destroy_current_session();
 	wp_clear_auth_cookie();
 
 	/** This action is defined in /wp-includes/pluggable.php. */
 	do_action( 'wp_logout' );
-
-	nocache_headers();
 
 	wp_redirect( $redirect_to );
 	exit();
