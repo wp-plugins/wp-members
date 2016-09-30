@@ -17,13 +17,6 @@
 
 
 /**
- * Load utility functions.
- */
-require_once( WPMEM_PATH . 'inc/api.php' );
-require_once( WPMEM_PATH . 'inc/utilities.php' );
-
-
-/**
  * The Main Action Function.
  *
  * Does actions required at initialization prior to headers being sent.
@@ -249,19 +242,9 @@ if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
  * Initializes the WP-Members widget.
  *
  * @since 2.0.0
+ * @since 3.1.6 Dependencies now loaded by object.
  */
 function widget_wpmemwidget_init() {
-
-	/**
-	 * Load the WP-Members widget class.
-	 */
-	require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
-
-	/**
-	 * Load the sidebar functions.
-	 */
-	require_once( WPMEM_PATH . 'inc/sidebar.php' );
-
 	// Register the WP-Members widget.
 	register_widget( 'widget_wpmemwidget' );
 }
@@ -599,6 +582,7 @@ function wpmem_securify_comments_array( $comments , $post_id ) {
  * Handles retrieving a forgotten username.
  *
  * @since 3.0.8
+ * @since 3.1.6 Dependencies now loaded by object.
  *
  * @return string $regchk The regchk value.
  */
@@ -610,11 +594,6 @@ function wpmem_retrieve_username() {
 		$user  = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $email ) : false;
 	
 		if ( $user ) {
-
-			/**
-			 * Load the email functions.
-			 */
-			require_once( WPMEM_PATH . 'inc/email.php' );
 			
 			// Send it in an email.
 			wpmem_inc_regemail( $user->ID, '', 4 );

@@ -432,6 +432,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  * user profile update.
  *
  * @since 2.4
+ * @since 3.1.6 Dependencies now loaded by object.
  *
  * @param int   $user_id
  * @param bool  $chk_pass
@@ -463,7 +464,6 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 	}
 
 	// Generate and send user approved email to user.
-	require_once( WPMEM_PATH . '/inc/email.php' );
 	wpmem_inc_regemail( $user_id, $new_pass, 2 );
 
 	// Set the active flag in usermeta.

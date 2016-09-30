@@ -32,8 +32,11 @@ class WP_Members {
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
+	 * @since 3.1.6 Dependencies now loaded by object.
 	 */
 	function __construct() {
+		
+		$this->load_dependencies();
 	
 		/**
 		 * Filter the options before they are loaded into constants.
@@ -66,11 +69,9 @@ class WP_Members {
 		$this->cssurl = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
 		
 		// Load forms.
-		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		$this->forms = new WP_Members_Forms;
 		
 		// Load api.
-		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
 		$this->api = new WP_Members_API;
 		
 	}
@@ -82,15 +83,9 @@ class WP_Members {
 	 * @since 3.0.7 Added wpmem_show_count.
 	 * @since 3.1.0 Added wpmem_profile.
 	 * @since 3.1.1 Added wpmem_loginout.
+	 * @since 3.1.6 Dependencies now loaded by object.
 	 */
 	function load_shortcodes() {
-
-		/**
-		 * Load the shortcode functions.
-		 *
-		 * @since 3.0.0
-		 */
-		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		
 		add_shortcode( 'wp-members',       'wpmem_shortcode'       );
 		add_shortcode( 'wpmem_field',      'wpmem_sc_fields'       );
@@ -200,6 +195,24 @@ class WP_Members {
 		( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $this->user_pages['login']    ) : '';
 		
 		define( 'WPMEM_CSSURL', $this->cssurl );
+	}
+
+	/**
+	 * Load dependent files.
+	 *
+	 * @since 3.1.6
+	 */
+	function load_dependencies() {
+		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
+		require_once( WPMEM_PATH . 'inc/core.php' );
+		require_once( WPMEM_PATH . 'inc/api.php' );
+		require_once( WPMEM_PATH . 'inc/utilities.php' );
+		require_once( WPMEM_PATH . 'inc/dialogs.php' );
+		require_once( WPMEM_PATH . 'inc/sidebar.php' );
+		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
+		require_once( WPMEM_PATH . 'inc/email.php' );
 	}
 	
 	/**

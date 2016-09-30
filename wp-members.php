@@ -89,6 +89,7 @@ register_activation_hook( __FILE__, 'wpmem_install' );
  * its features and options.
  *
  * @since 2.9.0
+ * @since 3.1.6 Dependencies now loaded by object.
  *
  * @global object $wpmem The WP-Members object class.
  */
@@ -136,11 +137,6 @@ function wpmem_init() {
 	// Preload the expiration module, if available.
 	$exp_active = ( function_exists( 'wpmem_exp_init' ) || function_exists( 'wpmem_set_exp' ) ) ? true : false;
 	define( 'WPMEM_EXP_MODULE', $exp_active ); 
-
-	/**
-	 * Load the WP-Members core functions file.
-	 */
-	require_once( WPMEM_PATH . 'inc/core.php' );
 
 	// Load actions and filters.
 	$wpmem->load_hooks();

@@ -276,16 +276,12 @@ function wpmem_create_membership_number( $args ) {
  *
  * @since 2.0.0
  * @since 3.1.2 Moved to api.php, no longer pluggable.
+ * @since 3.1.6 Dependencies now loaded by object.
  *
  * @param  boolean $echo   Determines whether function should print result or not (default: true).
  * @return string  $status The user status string produced by wpmem_inc_memberlinks().
  */
 function wpmem_login_status( $echo = true ) {
-
-	/**
-	 * Load the dialogs functions.
-	 */
-	require_once( WPMEM_PATH . 'inc/dialogs.php' );
 
 	if ( is_user_logged_in() ) { 
 		$status = wpmem_inc_memberlinks( 'status' );

@@ -391,8 +391,6 @@ function wpmem_registration( $tag ) {
 		 */
 		do_action( 'wpmem_post_register_data', $fields );
 
-		require_once( WPMEM_PATH . 'inc/email.php' );
-
 		/*
 		 * If this was successful, and you have email properly
 		 * configured, send a notification email to the user.
