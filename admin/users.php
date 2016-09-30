@@ -87,7 +87,7 @@ function wpmem_insert_activate_link( $actions, $user_object ) {
 		if ( $var != 1 ) {
 			$url = add_query_arg( array( 'action' => 'activate-single', 'user' => $user_object->ID ), "users.php" );
 			$url = wp_nonce_url( $url, 'activate-user' );
-			$actions['activate'] = '<a href="' . $url . '">Activate</a>';
+			$actions['activate'] = '<a href="' . $url . '">' . __( 'Activate', 'wp-members' ) . '</a>';
 		}
 	}
 	return $actions;
