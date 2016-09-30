@@ -120,7 +120,7 @@ function wpmem_users_page_load() {
 		$chk_pass = false;
 		$wpmem_fields = wpmem_fields();
 		foreach ( $wpmem_fields as $field ) {
-			if ( $field[2] == 'password' && $field[4] == 'y' ) {
+			if ( $field['type'] == 'password' && $field['register'] ) {
 				$chk_pass = true;
 				break;
 			}

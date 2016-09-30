@@ -63,9 +63,9 @@ function wpmem_export_users( $args, $users = null ) {
 	// Do the header row.
 	$hrow = "User ID,Username,";
 
-	foreach ( $args['export_fields'] as $meta ) {
-		if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
-			$hrow.= $meta[1] . ",";
+	foreach ( $args['export_fields'] as $meta => $field ) {
+		if ( ! in_array( $meta, $args['exclude_fields'] ) ) {
+			$hrow.= $field['label'] . ",";
 		}
 	}
 
@@ -94,13 +94,13 @@ function wpmem_export_users( $args, $users = null ) {
 		$data .= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
 
 		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
-		foreach ( $args['export_fields'] as $meta ) {
-			if ( ! in_array( $meta[2], $args['exclude_fields'] ) ) {
+		foreach ( $args['export_fields'] as $meta => $field ) {
+			if ( ! in_array( $meta, $args['exclude_fields'] ) ) {
 				// @todo Research using fputcsv to escape fields for export.
-				if ( in_array( $meta[2], $wp_user_fields ) ){
-					$data .= '"' . $user_info->{$meta[2]} . '",';	
+				if ( in_array( $meta, $wp_user_fields ) ){
+					$data .= '"' . $user_info->{$meta} . '",';	
 				} else {
-					$data .= '"' . get_user_meta( $user, $meta[2], true ) . '",';
+					$data .= '"' . get_user_meta( $user, $meta, true ) . '",';
 				}
 			}
 		}

@@ -459,17 +459,16 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	// Get any meta fields that should be excluded.
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
-	foreach ( wpmem_fields() as $field ) {
+	foreach ( wpmem_fields() as $meta_key => $field ) {
 		$is_error = false;
-		$meta_key = $field[2];
-		if ( $field[5] == 'y' && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
-			if ( ( $field[3] == 'checkbox' || $field[3] == 'multicheckbox' || $field[3] == 'multiselect' || $field[3] == 'radio' ) && ( ! isset( $_POST[ $meta_key ] ) ) ) {
+		if ( $field['required'] && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
+			if ( ( $field['type'] == 'checkbox' || $field['type'] == 'multicheckbox' || $field['type'] == 'multiselect' || $field['type'] == 'radio' ) && ( ! isset( $_POST[ $meta_key ] ) ) ) {
 				$is_error = true;
 			} 
-			if ( ( $field[3] != 'checkbox' && $field[3] != 'multicheckbox' && $field[3] != 'multiselect' && $field[3] != 'radio' ) && ( ! $_POST[ $meta_key ] ) ) {
+			if ( ( $field['type'] != 'checkbox' && $field['type'] != 'multicheckbox' && $field['type'] != 'multiselect' && $field['type'] != 'radio' ) && ( ! $_POST[ $meta_key ] ) ) {
 				$is_error = true;
 			}
-			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field[1], 'wp-members' ) ) ); }
+			if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) ) ); }
 		}
 	}
 
@@ -496,15 +495,14 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	if ( $native_reg || $add_new ) {
 		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
-		foreach ( wpmem_fields() as $meta ) {
-			if ( isset( $_POST[ $meta[2] ] ) && ! in_array( $meta[2], $exclude ) && 'file' != $meta[3] && 'image' != $meta[3] ) {
-				if ( 'multiselect' == $meta[3] || 'multicheckbox' == $meta[3] ) {
-					$delimiter = ( isset( $meta[8] ) ) ? $meta[8] : '|';
-					$data = implode( $delimiter, $_POST[ $meta[2] ] );
+		foreach ( wpmem_fields() as $meta_key => $field ) {
+			if ( isset( $_POST[ $meta_key ] ) && ! in_array( $meta_key, $exclude ) && 'file' != $field['type'] && 'image' != $field['type'] ) {
+				if ( 'multiselect' == $field['type'] || 'multicheckbox' == $field['type'] ) {
+					$data = implode( $field['delimiter'], $_POST[ $meta_key ] );
 				} else {
-					$data = $_POST[ $meta[2] ];
+					$data = $_POST[ $meta_key ];
 				}
-				update_user_meta( $user_id, $meta[2], sanitize_text_field( $data ) );
+				update_user_meta( $user_id, $meta_key, sanitize_text_field( $data ) );
 			}
 		}
 		

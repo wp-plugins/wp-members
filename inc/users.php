@@ -43,61 +43,59 @@ function wpmem_user_profile() {
 		$exclude = wpmem_get_excluded_meta( 'user-profile' );
 
 		$rows = array();
-		foreach ( $wpmem_fields as $meta ) {
+		foreach ( $wpmem_fields as $meta => $field ) {
 
 			$valtochk = ''; $values = '';
 			
 			// Do we exclude the row?
-			$chk_pass = ( in_array( $meta[2], $exclude ) ) ? false : true;
+			$chk_pass = ( in_array( $meta, $exclude ) ) ? false : true;
 
-			if ( $meta[4] == "y" && $meta[6] == "n" && $chk_pass ) {
+			if ( $field['register'] && $field['native'] && $chk_pass ) {
 				
-				$val = get_user_meta( $user_id, $meta[2], true );
+				$val = get_user_meta( $user_id, $meta, true );
 
-				if ( $meta[3] == 'checkbox' ) {
+				if ( $field['type'] == 'checkbox' ) {
 					$valtochk = $val; 
-					$val = $meta[7];
+					$val = $field['checked_value'];
 				}
 				
-				if ( 'multicheckbox' == $meta[3] || 'select' == $meta[3] || 'multiselect' == $meta[3] || 'radio' == $meta[3] ) {
-					$values = $meta[7];
+				if ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
+					$values = $field['values'];
 					$valtochk = $val;
 				}
 
 				// Is this an image or a file?
-				if ( 'file' == $meta[3] || 'image' == $meta[3] ) {
+				if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
 					$attachment_url = wp_get_attachment_url( $val );
 					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
-					if ( 'file' == $meta[3] ) {
+					if ( 'file' == $field['type'] ) {
 						$input = ( 0 < $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
 					} else {
 						$input = ( 0 < $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 					}
 					// @todo - come up with a way to handle file updates - user profile form does not support multitype
 					//$show_field.= '<br /><span class="description">' . __( 'Update this file:' ) . '</span><br />';
-					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
+					//$show_field.= wpmem_create_formfield( $meta . '_update_file', $field['type'], $val, $valtochk );
 				} else {
-					if ( $meta[2] == 'tos' && $val == 'agree' ) {
-						$input = wpmem_create_formfield( $meta[2], 'hidden', $val );
-					} elseif ( 'multicheckbox' == $meta[3] || 'select' == $meta[3] || 'multiselect' == $meta[3] || 'radio' == $meta[3] ) {
-						$input = wpmem_create_formfield( $meta[2], $meta[3], $values, $valtochk );
+					if ( $meta == 'tos' && $val == 'agree' ) {
+						$input = wpmem_create_formfield( $meta, 'hidden', $val );
+					} elseif ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
+						$input = wpmem_create_formfield( $meta, $field['type'], $values, $valtochk );
 					} else {
-						$input = wpmem_create_formfield( $meta[2], $meta[3], $val, $valtochk );
+						$input = wpmem_create_formfield( $meta, $field['type'], $val, $valtochk );
 					}
 				}
 
 				// If there are any required fields.
-				$req = ( $meta[5] == 'y' ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
-				$label = '<label>' . __( $meta[1], 'wp-members' ) . $req . '</label>';
+				$req = ( $field['required'] ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
+				$label = '<label>' . __( $field['label'], 'wp-members' ) . $req . '</label>';
 				
 				// Build the form rows for filtering.
-				$rows[ $meta[2] ] = array(
-					'order'        => $meta[0],
-					'meta'         => $meta[2],
-					'type'         => $meta[3],
+				$rows[ $meta ] = array(
+					'type'         => $field['type'],
 					'value'        => $val,
 					'values'       => $values,
-					'label_text'   => __( $meta[1], 'wp-members' ),
+					'label_text'   => __( $field['label'], 'wp-members' ),
 					'row_before'   => '',
 					'label'        => $label,
 					'field_before' => '',
@@ -112,8 +110,22 @@ function wpmem_user_profile() {
 		 * Filter for rows
 		 *
 		 * @since 3.1.0
+		 * @since 3.1.6 Deprecated $order and $meta.
 		 *
-		 * @param array  $rows
+		 * @param array  $rows {
+		 *     An array of the profile rows.
+		 *
+		 *     @type string $type         The field type.
+		 *     @type string $value        Value if set.
+		 *     @type string $values       Possible values (select, multiselect, multicheckbox, radio).
+		 *     @type string $label_text   Raw label text (no HTML).
+		 *     @type string $row_before   HTML before the row.
+		 *     @type string $label        HTML label.
+		 *     @type string $field_before HTML before the field input tag.
+		 *     @type string $field        HTML for field input.
+		 *     @type string $field_after  HTML after the field.
+		 *     @type string $row_after    HTML after the row.
+		 * }
 		 * @param string $toggle
 		 */
 		$rows = apply_filters( 'wpmem_register_form_rows_profile', $rows, 'userprofile' );
@@ -160,32 +172,32 @@ function wpmem_profile_update() {
 	$exclude = wpmem_get_excluded_meta( 'user-profile' );
 	foreach ( $wpmem_fields as $meta ) {
 		// If this is not an excluded meta field.
-		if ( ! in_array( $meta[2], $exclude ) ) {
+		if ( ! in_array( $meta, $exclude ) ) {
 			// If the field is user editable.
-			if ( $meta[4] == "y" 
-			  && $meta[6] == "n" 
-			  && $meta[3] != 'password' 
-			  && $meta[3] != 'file' 
-			  && $meta[3] != 'image' ) {
+			if ( $field['register'] 
+			  && $field['native'] 
+			  && $field['type'] != 'password' 
+			  && $field['type'] != 'file' 
+			  && $field['type'] != 'image' ) {
 
 				// Check for required fields.
 				$chk = '';
-				if ( $meta[5] == "n" || ( ! $meta[5] ) ) {
+				if ( $field['required'] ) {
 					$chk = 'ok';
 				}
-				if ( $meta[5] == "y" && $_POST[$meta[2]] != '' ) {
+				if ( $field['required'] && $_POST[ $meta ] != '' ) {
 					$chk = 'ok';
 				}
 
 				// Check for field value.
-				if ( $meta[3] == 'multiselect' || $meta[3] == 'multicheckbox' ) {
-					$field_val = ( isset( $_POST[ $meta[2] ] ) ) ? implode( '|', $_POST[ $meta[2] ] ) : '';
+				if ( $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) {
+					$field_val = ( isset( $_POST[ $meta ] ) ) ? implode( '|', $_POST[ $meta ] ) : '';
 				} else {
-					$field_val = ( isset( $_POST[$meta[2]] ) ) ? $_POST[$meta[2]] : '';
+					$field_val = ( isset( $_POST[ $meta ] ) ) ? $_POST[ $meta ] : '';
 				}
 
 				if ( $chk == 'ok' ) {
-					update_user_meta( $user_id, $meta[2], $field_val );
+					update_user_meta( $user_id, $meta, $field_val );
 				}
 			}
 		}
