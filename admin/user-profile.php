@@ -74,7 +74,7 @@ function wpmem_admin_fields() {
 			$valtochk = ''; $values = '';
 
 			// Determine which fields to show in the additional fields area.
-			$show = ( $field['native'] == 'n' && ! in_array( $meta, $exclude ) ) ? true : false;
+			$show = ( ! $field['native'] && ! in_array( $meta, $exclude ) ) ? true : false;
 			$show = ( $field['label'] == 'TOS' && $field['register'] ) ? null : $show;
 
 			if ( $show ) {
@@ -120,6 +120,7 @@ function wpmem_admin_fields() {
 				
 				// Build the form rows for filtering.
 				$rows[ $meta ] = array(
+					'meta'         => $meta,
 					'type'         => $field['type'],
 					'value'        => $val,
 					'values'       => $values,
@@ -138,11 +139,12 @@ function wpmem_admin_fields() {
 		 * Filter for rows
 		 *
 		 * @since 3.1.0
-		 * @since 3.1.6 Deprecated $order and $meta.
+		 * @since 3.1.6 Deprecated $order.
 		 *
 		 * @param array  $rows {
 		 *     An array of the profile rows.
 		 *
+		 *     @type string $meta         The meta key.
 		 *     @type string $type         The field type.
 		 *     @type string $value        Value if set.
 		 *     @type string $values       Possible values (select, multiselect, multicheckbox, radio).
@@ -218,7 +220,7 @@ function wpmem_admin_update() {
 	$fields = array();
 	$chk_pass = false;
 	foreach ( $wpmem_fields as $meta => $field ) {
-		if ( $field['native'] == "n" 
+		if ( ! $field['native']
 		  && $field['type'] != 'password' 
 		  && $field['type'] != 'checkbox' 
 		  && $field['type'] != 'multiselect' 
