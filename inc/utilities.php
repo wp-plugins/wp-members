@@ -28,7 +28,6 @@
  * - wpmem_use_ssl
  * - wpmem_wp_reserved_terms
  * - wpmem_write_log
- * - wpmem_get
  */
 
 
@@ -376,30 +375,4 @@ function wpmem_write_log ( $log ) {
 	}
 }
 
-
-/**
- * Utility function to validate post.
- *
- * @since 3.1.3
- *
- * @todo Should this include trim? as an option? Perhaps that's better done on the returned result so that other escapes, etc could be done.
- *
- * @param  string $tag     The form field or query string.
- * @param  string $default The default value (optional).
- * @param  string $type    post|get|request (optional).
- * @return string 
- */
-function wpmem_get( $tag, $default = '', $type = 'post' ) {
-	switch ( $type ) {
-		case 'post':
-			return ( isset( $_POST[ $tag ] ) ) ? $_POST[ $tag ] : $default;
-			break;
-		case 'get':
-			return ( isset( $_GET[ $tag ] ) ) ? $_GET[ $tag ] : $default;
-			break;
-		case 'request':
-			return ( isset( $_REQUEST[ $tag ] ) ) ? $_REQUEST[ $tag ] : $default;
-			break;
-	}
-}
 // End of file.

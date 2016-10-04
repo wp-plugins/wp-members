@@ -25,9 +25,11 @@
  * - wpmem_user_has_role
  * - wpmem_create_membership_number
  * - wpmem_login_status
+ * - wpmem_get
  * - wpmem_is_reg_page
  * - wpmem_load_dropins
  * - wpmem_loginout
+ * - wpmem_array_insert
  */
 
 /**
@@ -293,6 +295,30 @@ function wpmem_login_status( $echo = true ) {
 }
 
 /**
+ * Utility function to validate $_POST, $_GET, and $_REQUEST.
+ *
+ * @since 3.1.3
+ *
+ * @param  string $tag     The form field or query string.
+ * @param  string $default The default value (optional).
+ * @param  string $type    post|get|request (optional).
+ * @return string 
+ */
+function wpmem_get( $tag, $default = '', $type = 'post' ) {
+	switch ( $type ) {
+		case 'post':
+			return ( isset( $_POST[ $tag ] ) ) ? $_POST[ $tag ] : $default;
+			break;
+		case 'get':
+			return ( isset( $_GET[ $tag ] ) ) ? $_GET[ $tag ] : $default;
+			break;
+		case 'request':
+			return ( isset( $_REQUEST[ $tag ] ) ) ? $_REQUEST[ $tag ] : $default;
+			break;
+	}
+}
+
+/**
  * Compares wpmem_reg_page value with the register page URL. 
  *
  * @since 3.1.4
@@ -358,6 +384,28 @@ function wpmem_loginout( $args = array(), $echo = false ) {
 	}
 	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
 	return $link;
+}
+
+/**
+ * Inserts array items at a specific point in an array.
+ *
+ * @since 3.1.6
+ *
+ * @param  array  $array Original array.
+ * @param  array  $new   Array of new items to insert into $array.
+ * @param  string $key   Array key to insert new items before or after.
+ * @param  string $loc   Location to insert relative to $key (before|after) default:after.
+ * @return array         Original array with new items inserted.
+ */
+function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
+	$keys = array_keys( $array );
+	if ( 'before' == $loc ) {
+		$pos = (int) array_search( $key, $keys );
+	} else {
+		$index = array_search( $key, $keys );
+		$pos = false === $index ? count( $array ) : $index + 1;
+	}
+	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
 }
 
 // End of file.
