@@ -114,43 +114,6 @@ function wpmem_init() {
 	$wpmem = new WP_Members();
 
 	/**
-	 * Fires after main settings are loaded.
-	 *
-	 * @since 3.0
-	 */
-	do_action( 'wpmem_settings_loaded' );
-
-	/**
-	 * Filter the location and name of the pluggable file.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param string The path to WP-Members plugin functions file.
-	 */
-	$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
-
-	// Preload any custom functions, if available.
-	if ( file_exists( $wpmem_pluggable ) ) {
-		include( $wpmem_pluggable );
-	}
-
-	// Preload the expiration module, if available.
-	$exp_active = ( function_exists( 'wpmem_exp_init' ) || function_exists( 'wpmem_set_exp' ) ) ? true : false;
-	define( 'WPMEM_EXP_MODULE', $exp_active ); 
-
-	// Load actions and filters.
-	$wpmem->load_hooks();
-
-	// Load shortcodes.
-	$wpmem->load_shortcodes();
-
-	// Load fields.
-	//$wpmem->load_fields();
-	
-	// Load contants.
-	$wpmem->load_constants();
-
-	/**
 	 * Fires after initialization of plugin options.
 	 *
 	 * @since 2.9.0

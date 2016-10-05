@@ -74,6 +74,42 @@ class WP_Members {
 		// Load api.
 		$this->api = new WP_Members_API;
 		
+		/**
+		 * Fires after main settings are loaded.
+		 *
+		 * @since 3.0
+		 */
+		do_action( 'wpmem_settings_loaded' );
+	
+		/**
+		 * Filter the location and name of the pluggable file.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string The path to WP-Members plugin functions file.
+		 */
+		$wpmem_pluggable = apply_filters( 'wpmem_plugins_file', WP_PLUGIN_DIR . '/wp-members-pluggable.php' );
+	
+		// Preload any custom functions, if available.
+		if ( file_exists( $wpmem_pluggable ) ) {
+			include( $wpmem_pluggable );
+		}
+	
+		// Preload the expiration module, if available.
+		$exp_active = ( function_exists( 'wpmem_exp_init' ) || function_exists( 'wpmem_set_exp' ) ) ? true : false;
+		define( 'WPMEM_EXP_MODULE', $exp_active ); 
+	
+		// Load actions and filters.
+		$this->load_hooks();
+	
+		// Load shortcodes.
+		$this->load_shortcodes();
+	
+		// Load fields.
+		//$this->load_fields();
+		
+		// Load contants.
+		$this->load_constants();
 	}
 
 	/**
@@ -86,6 +122,14 @@ class WP_Members {
 	 * @since 3.1.6 Dependencies now loaded by object.
 	 */
 	function load_shortcodes() {
+
+		/**
+		 * Fires before shortcodes load.
+		 *
+		 * @since 3.0.0
+		 * @since 3.1.6 Fires before shortcodes load.
+		 */
+		do_action( 'wpmem_load_shortcodes' );
 		
 		add_shortcode( 'wp-members',       'wpmem_shortcode'       );
 		add_shortcode( 'wpmem_field',      'wpmem_sc_fields'       );
@@ -99,11 +143,12 @@ class WP_Members {
 		add_shortcode( 'wpmem_tos',        'wpmem_sc_tos'          );
 		
 		/**
-		 * Fires after shortcodes load (for adding additional custom shortcodes).
-		 *
+		 * Fires after shortcodes load.
+		 * 
 		 * @since 3.0.0
+		 * @since 3.1.6 Was wpmem_load_shortcodes, now wpmem_shortcodes_loaded.
 		 */
-		do_action( 'wpmem_load_shortcodes' );
+		do_action( 'wpmem_shortcodes_loaded' );
 	}
 	
 	/**
@@ -112,6 +157,14 @@ class WP_Members {
 	 * @since 3.0.0
 	 */
 	function load_hooks() {
+		
+		/**
+		 * Fires before action and filter hooks load.
+		 *
+		 * @since 3.0.0
+		 * @since 3.1.6 Fires before hooks load.
+		 */
+		do_action( 'wpmem_load_hooks' );
 
 		// Add actions.
 		add_action( 'template_redirect',     array( $this, 'get_action' ) );
@@ -135,11 +188,12 @@ class WP_Members {
 		}
 
 		/**
-		 * Fires after action and filter hooks load (for adding/removing hooks).
+		 * Fires after action and filter hooks load.
 		 *
 		 * @since 3.0.0
+		 * @since 3.1.6 Was wpmem_load_hooks, now wpmem_hooks_loaded.
 		 */
-		do_action( 'wpmem_load_hooks' );
+		do_action( 'wpmem_hooks_loaded' );
 	}
 	
 	/**
@@ -151,6 +205,14 @@ class WP_Members {
 	 */
 	function load_dropins() {
 
+		/**
+		 * Fires before dropins load (for adding additional drop-ins).
+		 *
+		 * @since 3.0.0
+		 * @since 3.1.6 Fires before dropins.
+		 */
+		do_action( 'wpmem_load_dropins' );
+		
 		/**
 		 * Filters the drop-in file folder.
 		 *
@@ -166,11 +228,12 @@ class WP_Members {
 		}
 
 		/**
-		 * Fires after dropins load (for adding additional drop-ins).
+		 * Fires before dropins load (for adding additional drop-ins).
 		 *
 		 * @since 3.0.0
+		 * @since 3.1.6 Was wpmem_load_dropins, now wpmem_dropins_loaded.
 		 */
-		do_action( 'wpmem_load_dropins' );
+		do_action( 'wpmem_dropins_loaded' );
 	}
 	
 	/**
