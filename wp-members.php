@@ -217,10 +217,11 @@ function wpmem_admin_options() {
  *
  * @since 2.5.2
  * @since 3.1.1 Added rollback.
+ * @since 3.1.6 Removed rollback.
  *
  * @param 
  */
-function wpmem_install( $rollback = false ) {
+function wpmem_install() {
 
 	/**
 	 * Load the install file.
@@ -243,14 +244,14 @@ function wpmem_install( $rollback = false ) {
 		$original_blog_id = get_current_blog_id();   
 		foreach ( $blogs as $blog_id ) {
 			switch_to_blog( $blog_id->blog_id );
-			( 'downgrade' == $rollback ) ? wpmem_downgrade_dialogs() : wpmem_do_install();
+			wpmem_do_install();
 		}
 		switch_to_blog( $original_blog_id );
 
 	} else {
 
 		// Single site install.
-		( 'downgrade' == $rollback ) ? wpmem_downgrade_dialogs() : wpmem_do_install();
+		wpmem_do_install();
 	}
 }
 
@@ -261,7 +262,7 @@ function wpmem_install( $rollback = false ) {
  * @since 3.1.1
  */
 function wpmem_downgrade() {
-	wpmem_install( 'downgrade' );
+	//wpmem_install( 'downgrade' );
 }
 
 

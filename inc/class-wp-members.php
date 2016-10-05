@@ -55,7 +55,7 @@ class WP_Members {
 			 */
 			require_once( WPMEM_PATH . 'wp-members-install.php' );
 			// Update settings.
-			$settings = apply_filters( 'wpmem_settings', wpmem_upgrade_settings() );
+			$settings = apply_filters( 'wpmem_settings', wpmem_do_install() );
 		}
 		
 		// Assemble settings.

@@ -27,6 +27,9 @@
  * Installs or upgrades the plugin.
  *
  * @since 2.2.2
+ * @since 3.1.6 Returns $wpmem_settings.
+ *
+ * @return array $wpmem_settings
  */
 function wpmem_do_install() {
 
@@ -43,7 +46,7 @@ function wpmem_do_install() {
 
 	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
-		wpmem_install_settings();
+		$wpmem_settings = wpmem_install_settings();
 		wpmem_install_fields();
 		wpmem_install_dialogs();
 		wpmem_append_email();
@@ -51,11 +54,13 @@ function wpmem_do_install() {
 
 	} else {
 		
-		wpmem_upgrade_settings();
+		$wpmem_settings = wpmem_upgrade_settings();
 		wpmem_upgrade_captcha();
 		wpmem_append_email();
 		
 	}
+	
+	return $wpmem_settings;
 }
 
 
@@ -436,7 +441,14 @@ function wpmem_upgrade_captcha() {
 	return;
 }
 
-
+/**
+ * Does install of default settings.
+ *
+ * @since 3.1.5
+ * @since 3.1.6 Returns $wpmem_settings
+ *
+ * @return array $wpmem_settings
+ */
 function wpmem_install_settings() {
 		
 	$wpmem_settings = array(
@@ -482,8 +494,15 @@ function wpmem_install_settings() {
 	
 	// Using update_option to allow for forced update.
 	update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' );
+	
+	return $wpmem_settings;
 }
 
+/**
+ * Installs default fields.
+ *
+ * @since 3.1.5
+ */
 function wpmem_install_fields() {
 	/*
 	 * Field array elements:
@@ -522,6 +541,11 @@ function wpmem_install_fields() {
 	update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
 }
 
+/**
+ * Installs default dialogs.
+ *
+ * @since 3.1.5
+ */
 function wpmem_install_dialogs() {
 	$wpmem_dialogs_arr = array(
 		'restricted_msg'   => "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.",
