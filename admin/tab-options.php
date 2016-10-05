@@ -538,18 +538,19 @@ function wpmem_admin_style_list( $style ) {
  * Create a dropdown selection of pages.
  *
  * @since 2.8.1
+ * @todo  Consider wp_dropdown_pages. Can be retrieved as HTML (echo=false) and str_replaced to add custom values.
  *
  * @param string $val
  */
 function wpmem_admin_page_list( $val, $show_custom_url = true ) {
 
-	$selected = ( $val == 'http://' ) ? 'select a page' : false;
+	$selected = ( $val == 'http://' || $val == 'https://' ) ? 'select a page' : false;
 	$pages    = get_pages();
 
 	echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
 
 	foreach ( $pages as $page ) {
-		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected; echo "VAL: " . $val . ' PAGE LINK: ' . get_page_link( $page->ID );
+		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected; //echo "VAL: " . $val . ' PAGE LINK: ' . get_page_link( $page->ID );
 		$option   = '<option value="' . $page->ID . '"' . selected( get_page_link( $page->ID ), $val, 'select' ) . '>';
 		$option  .= $page->post_title;
 		$option  .= '</option>';
