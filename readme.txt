@@ -137,16 +137,22 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 
 = 3.1.6 =
 
-3.1.6.a.1 Alpha Build information: currently functional (as tested) except for drag-and-drop field re-order in the Fields tab.  Using the drag-and-drop in this build will blow out the field settings.
+3.1.6.a.1 Alpha Build information: currently functional (as tested).
 
 * Updates to always load fields from wpmem_fields() API function.
 * Updates to begin to utilize new fields settings array.  Fields setting is still store in the same array format as before.  However, it is loaded into the new settings format.  Current object class keeps numeric keys in place for legacy purposes.
+* Updates to dropdown handling on main options tab to display proper preselected value when site is using ssl (https://) and no value is selected.
 * Added wpmem_loginout() API function, changed [wpmem_loginout] shortcode to use API function.
+* Added wpmem_array_insert() API function, allows for inserting array elements at any point in an array.
 * Added wp_destroy_current_session() to logout function.
 * Added WooCommerce support in native WP registration functions.
+* Added to wpmem_user_has_role() function to check for a single role or if the user has a role that is in an array of roles.
 * Preliminary updates to include placeholder support in fields.
 * Localization fix of untranslated strings.
 * Wrap "Remember Me" checkbox label with label tag in login form.
+* Moved remaining initialization functions to class constructor.
+* Moved wpmem_load_shortcodes, wpmem_load_hooks, and wpmem_load_dropins to fire before.
+* Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
 
 = 3.1.5 =
 

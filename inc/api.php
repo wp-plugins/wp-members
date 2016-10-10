@@ -236,11 +236,12 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
  * is passed).
  *
  * @since 3.1.1
+ * @since 3.1.6 Include accepting an array of roles to check.
  *
- * @global object  $current_user Current user object.
- * @param  string  $role         Slug of the role being checked.
- * @param  int     $user_id      ID of the user being checked (optional).
- * @return boolean $has_role     True if user has the role, otherwise false.
+ * @global object        $current_user Current user object.
+ * @param  string|array  $role         Slug or array of slugs of the role being checked.
+ * @param  int           $user_id      ID of the user being checked (optional).
+ * @return boolean       $has_role     True if user has the role, otherwise false.
  */
 function wpmem_user_has_role( $role, $user_id = false ) {
 	global $current_user, $wpmem;
@@ -411,7 +412,7 @@ function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
 		$pos = (int) array_search( $key, $keys );
 	} else {
 		$index = array_search( $key, $keys );
-		$pos = false === $index ? count( $array ) : $index + 1;
+		$pos = ( false === $index ) ? count( $array ) : $index + 1;
 	}
 	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
 }
