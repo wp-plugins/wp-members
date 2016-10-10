@@ -32,7 +32,7 @@
 	$(document).ready(function() {
 	
 		$("#wpmem-fields").tableDnD({
-			onDragClass: "wpmem_tbl_drag",		
+			onDragClass: "wpmem_tbl_drag",
 			
 			onDrop: function(table, row) {
 				var data = { 
@@ -41,9 +41,9 @@
 				}
 				
 				$.post( ajaxurl, data, function(response) { 
-					// alert(response);       
-				})        
-			} 			
+					// alert(response);
+				})
+			}
 		});
 	});
 })(jQuery);

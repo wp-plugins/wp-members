@@ -68,18 +68,18 @@ function wpmem_a_field_reorder() {
 
 	$new_order = $_REQUEST['orderstring'];
 	$new_order = explode( "&", $new_order );
-
+	
 	// Loop through $new_order to create new field array.
 	$wpmem_old_fields = get_option( 'wpmembers_fields' );
 	for ( $row = 0; $row < count( $new_order ); $row++ )  {
 		if ( $row > 0 ) {
 			$key = $new_order[ $row ];
 			$key = substr( $key, 15 );
-
-			for ( $x = 0; $x < count( $wpmem_old_fields ); $x++ ) {
-
-				if ( $wpmem_old_fields[ $x ][0] == $key ) {
-					$wpmem_new_fields[ $row - 1 ] = $wpmem_old_fields[ $x ];
+			if ( $key ) {
+				for ( $x = 0; $x < count( $wpmem_old_fields ); $x++ ) {
+					if ( $wpmem_old_fields[ $x ][2] == $key ) {
+						$wpmem_new_fields[ $row - 1 ] = $wpmem_old_fields[ $x ];
+					}
 				}
 			}
 		}
@@ -510,10 +510,10 @@ function wpmem_a_field_table( $wpmem_fields ) {
 				// Order, label, optionname, input type, display, required, native.
 				$class = '';
 				// for ( $row = 0; $row < count($wpmem_fields); $row++ ) {
+				$row = 0;
 				foreach ( $wpmem_fields as $meta_key => $field ) {
-					$row = ( isset( $row ) && $row >= 1 ) ? $row++ : 1;
 					$class = ( $class == 'alternate' ) ? '' : 'alternate'; ?>
-					<tr class="<?php echo $class; ?>" valign="top" id="<?php echo $row;?>">
+					<tr class="<?php echo $class; ?>" valign="top" id="<?php echo $meta_key;?>">
 						<td width="10%"><?php 
 						$can_delete = ( $meta_key == 'user_nicename' || $meta_key == 'display_name' || $meta_key == 'nickname' ) ? true : false;
 							if ( ( $can_delete ) || ! $field['native'] ) {  ?><input type="checkbox" name="<?php echo "del_" . $meta_key; ?>" value="delete" /> <?php _e( 'Delete', 'wp-members' ); } ?></td>
