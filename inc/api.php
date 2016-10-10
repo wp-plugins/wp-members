@@ -251,7 +251,15 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 	if ( is_user_logged_in() && ! $user_id ) {
 		$user = ( isset( $current_user ) ) ? $current_user : wp_get_current_user();
 	}
-	return ( in_array( $role, $user->roles ) ) ? true : $has_role;
+	if ( is_array( $role ) ) {
+		foreach ( $role as $r ) {
+			if ( in_array( $r, $user->roles ) ) {
+				return true;
+			}
+		}
+	} else {
+		return ( in_array( $role, $user->roles ) ) ? true : $has_role;
+	}
 }
 
 /**
