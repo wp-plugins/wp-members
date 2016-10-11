@@ -203,7 +203,7 @@ function wpmem_do_excerpt( $content ) {
 				$more_link      = '';
 			} else {
 				// The default $more_link_text.
-				$more_link_text = __( '(more&hellip;)' );
+				$more_link_text = ( isset( $wpmem->autoex[ $post->post_type ]['text'] ) ) ? __( $wpmem->autoex[ $post->post_type ]['text'], 'wp-members' ) : __( '(more&hellip;)' );
 				// The default $more_link.
 				$more_link = ' <a href="'. get_permalink( $post->ID ) . '" class="more-link">' . $more_link_text . '</a>';
 			}

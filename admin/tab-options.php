@@ -117,17 +117,20 @@ function wpmem_a_build_options() {
 										if ( isset( $wpmem->{$item_key}[ $key ] ) && $wpmem->{$item_key}[ $key ]['enabled'] == 1 ) {
 											$setting = 1; 
 											$ex_len  = $wpmem->{$item_key}[ $key ]['length'];
+											$ex_text = ( isset( $wpmem->{$item_key}[ $key ]['text'] ) ) ? $wpmem->{$item_key}[ $key ]['text'] : '';
 										} else {
 											$setting = 0;
-											$ex_len  = ''; 
-										} 
+											$ex_len  = '';
+											$ex_text = ''; 
+										}
 										echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
-										<span><?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_len" type="text" size="5" value="<?php echo $ex_len; ?>" />
+										<span><?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_len" type="text" size="5" value="<?php echo $ex_len; ?>" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span><?php _e( 'Custom read more link (optional):', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_text" type="text" size="5" value="<?php echo $ex_text; ?>" />
 									<?php } else {
 										$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0; 
 										echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>
 									<?php } ?>
-                                    </li>
+									</li>
 									<?php $i++;
 									}
 								}
@@ -433,8 +436,9 @@ function wpmem_update_options() {
 			$post_var = 'wpmem_' . $option_group_item . '_' . $post_type;
 			if ( $option_group_item == 'autoex' ) {
 				// Auto excerpt is an array.
-				$arr[ $post_type ]['enabled'] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;
-				$arr[ $post_type ]['length']  = ( isset( $_POST[ $post_var ] ) ) ? ( ( $_POST[ $post_var . '_len' ] == '' ) ? 0 : $_POST[ $post_var . '_len' ] ) : '';
+				$arr[ $post_type ]['enabled'] = ( isset( $_POST[ $post_var ]           ) ) ? $_POST[ $post_var ] : 0;
+				$arr[ $post_type ]['length']  = ( isset( $_POST[ $post_var . '_len'  ] ) ) ? ( ( $_POST[ $post_var . '_len' ] == '' ) ? 0 : $_POST[ $post_var . '_len' ] ) : '';
+				$arr[ $post_type ]['text']    = ( isset( $_POST[ $post_var . '_text' ] ) ) ? $_POST[ $post_var . '_text' ] : '';
 			} else {
 				// All other settings are 0|1.
 				$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? $_POST[ $post_var ] : 0;

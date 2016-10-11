@@ -153,6 +153,7 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Moved remaining initialization functions to class constructor.
 * Moved wpmem_load_shortcodes, wpmem_load_hooks, and wpmem_load_dropins to fire before.
 * Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
+* Added text input to set a default 'read more' link for auto excerpt.
 
 = 3.1.5 =
 
