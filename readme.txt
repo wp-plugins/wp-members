@@ -137,8 +137,6 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 
 = 3.1.6 =
 
-3.1.6.a.1 Alpha Build information: currently functional (as tested).
-
 * Updates to always load fields from wpmem_fields() API function.
 * Updates to begin to utilize new fields settings array.  Fields setting is still store in the same array format as before.  However, it is loaded into the new settings format.  Current object class keeps numeric keys in place for legacy purposes.
 * Updates to dropdown handling on main options tab to display proper preselected value when site is using ssl (https://) and no value is selected.
@@ -147,13 +145,14 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Added wp_destroy_current_session() to logout function.
 * Added WooCommerce support in native WP registration functions.
 * Added to wpmem_user_has_role() function to check for a single role or if the user has a role that is in an array of roles.
-* Preliminary updates to include placeholder support in fields.
+* Preliminary updates to include placeholder support in fields (this will be an option in a future release).
 * Localization fix of untranslated strings.
 * Wrap "Remember Me" checkbox label with label tag in login form.
 * Moved remaining initialization functions to class constructor.
 * Moved wpmem_load_shortcodes, wpmem_load_hooks, and wpmem_load_dropins to fire before.
 * Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
 * Added text input to set a default 'read more' link for auto excerpt.
+* reCAPTCHA version 1 is no longer supported by Google. It is now deprecated in the plugin. If you have reCAPTCHA v1 selected, it will remain so. But once this is changed to a different CAPTCHA setting or if this is a new install, reCAPTCHA version 1 will no longer be available as a selection.
 
 = 3.1.5 =
 

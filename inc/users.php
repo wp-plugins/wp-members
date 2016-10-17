@@ -50,7 +50,7 @@ function wpmem_user_profile() {
 			// Do we exclude the row?
 			$chk_pass = ( in_array( $meta, $exclude ) ) ? false : true;
 
-			if ( $field['register'] && $field['native'] && $chk_pass ) {
+			if ( $field['register'] && ! $field['native'] && $chk_pass ) {
 				
 				$val = get_user_meta( $user_id, $meta, true );
 
@@ -170,19 +170,19 @@ function wpmem_profile_update() {
 	$wpmem_fields = wpmem_fields();
 	// Get any excluded meta fields.
 	$exclude = wpmem_get_excluded_meta( 'user-profile' );
-	foreach ( $wpmem_fields as $meta ) {
+	foreach ( $wpmem_fields as $meta => $field ) {
 		// If this is not an excluded meta field.
 		if ( ! in_array( $meta, $exclude ) ) {
 			// If the field is user editable.
 			if ( $field['register'] 
-			  && $field['native'] 
 			  && $field['type'] != 'password' 
 			  && $field['type'] != 'file' 
-			  && $field['type'] != 'image' ) {
+			  && $field['type'] != 'image' 
+			  && ! $field['native'] ) {
 
 				// Check for required fields.
 				$chk = '';
-				if ( $field['required'] ) {
+				if ( ! $field['required'] ) {
 					$chk = 'ok';
 				}
 				if ( $field['required'] && $_POST[ $meta ] != '' ) {
