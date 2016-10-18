@@ -148,6 +148,7 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Added to wpmem_user_has_role() function to check for a single role or if the user has a role that is in an array of roles.
 * Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
 * Added text input to set a default 'read more' link for auto excerpt.
+* Fixed issue with auto excerpt where an excerpt shorter than the excerpt setting would not display the more link.
 * Preliminary updates to include placeholder support in fields (this will be an option in a future release).
 * Localization fix of untranslated strings.
 * Wrap "Remember Me" checkbox label with label tag in login form.

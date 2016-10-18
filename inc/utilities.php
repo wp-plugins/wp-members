@@ -258,6 +258,10 @@ function wpmem_do_excerpt( $content ) {
 		
 			if ( $do_excerpt ) {
 				$content = wp_trim_words( $content, $args['length'], $args['more_link'] );
+				// Check if the more link was added:
+				if ( ! strpos( $content, $args['more_link'] ) ) {
+					$content = $content . $args['more_link'];
+				}
 			}
 
 		}
