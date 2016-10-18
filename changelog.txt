@@ -1,4 +1,18 @@
-﻿= 3.1.4 =
+﻿= 3.1.5 =
+
+* Addressed some security issues to prevent XSS vulnerabilities.
+* Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.  See: http://rkt.bz/xC
+* Updated [wpmem_field] shortcode to accept [wpmem_field meta_key] instead of [wpmem_field field="meta_key"] (although the latter will still work).  See http://rkt.bz/ae
+* Updated [wpmem_loginout] shortcode with some improvements to function code and link text attributes.  See: http://rkt.bz/29
+* Updated auto excerpt for improved functionality, uses wp_trim_words(), deprecated add_ellipsis, strip_tags, close_tags, parse_shortcodes, strip_shortcodes for filter (these were never documented so it is unlikely that anyone uses them).
+* Updated hidden field type, now allows adding hidden fields to the registration form.
+* Compartmentalized installation of initial settings.
+* Field loader now validates settings, if none exist due to install error it will run the default fields install.
+* Removed dialog setting downgrade on deactivation. Need to re-evaluate necessity of downgrading.
+* Fixed issue with slash handling in Emails tab.
+* Updated [wp-members] deprecated shortcode notice to include post/page information on where the shortcode is being used.
+
+= 3.1.4 =
 
 * Change to the way the PayPal extension is integrated with the main plugin. This allows for some necessary filename changes in the extension.
 * Added checks for PayPal extension function calls within the main plugin to avoid possible errors if it is deactivated.
