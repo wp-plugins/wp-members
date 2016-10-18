@@ -46,6 +46,9 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 
 	global $wpmem;
 
+	// Handle backward compatibility for customizations that may call the email function directly.
+	$wpmem_fields = wpmem_fields();
+
 	/*
 	 * Determine which email is being sent.
 	 *
@@ -122,11 +125,6 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	 * @param string $arr['toggle']  Toggle to determine what email is being generated (newreg|newmod|appmod|repass|admin).
 	 */
 	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $arr['toggle'] );
-
-	// Handle backward compatibility for customizations that may call the email function directly.
-	if ( ! $wpmem_fields ) {
-		$wpmem_fields = wpmem_fields();
-	}
 
 	/**
 	 * Filter the email.
@@ -299,13 +297,16 @@ if ( ! function_exists( 'wpmem_notify_admin' ) ):
  * @global object $wpmem                The WP_Members object.
  * @global string $wpmem_mail_from      The email from address.
  * @global string $wpmem_mail_from_name The email from name.
- * @param  int    $user_ID              The User's ID.
+ * @param  int    $user_id              The User's ID.
  * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
- * @param  array  $fields               Array of the registration data (defaults to null).
+ * @param  array  $field_data           Array of the registration data (defaults to null).
  */
-function wpmem_notify_admin( $user_id, $wpmem_fields, $field_data = null ) {
+function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
 
 	global $wpmem;
+	
+	// Handle backward compatibility for customizations that may call the email function directly.
+	$wpmem_fields = wpmem_fields();
 
 	// WP default user fields.
 	$wp_user_fields = array(
