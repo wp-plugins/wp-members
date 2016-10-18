@@ -628,19 +628,32 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 	
 	// If there is userdata.
 	if ( $user_info ) {
-		
+
 		global $wpmem;
 		$fields = wpmem_fields();
 		$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native';
-		
+
 		$result = $user_info->{$field};
 		
-		// Handle select, multiple select, multiple checkbox, and radio groups.
-		$array_fields = array( 'select', 'multiselect', 'multicheckbox', 'radio' );
-		if ( ( ! isset( $atts['options'] ) ) && in_array( $field_type, $array_fields ) ) {
+		// Handle select and radio groups (have single selections).
+		if ( 'select' == $field_type || 'radio' == $field_type ) {
 			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : $fields[ $field ]['options'][ $user_info->{$field} ];
 		}
-		
+
+		// Handle multiple select and multiple checkbox (have multiple selections).
+		if ( 'multiselect' == $field_type || 'multicheckbox' == $field_type ) {
+			if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
+				$result = $user_info->{$field};
+			} else {
+				$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info->{$field} );
+				$result = ''; $x = 1;
+				foreach ( $saved_vals as $value ) {
+					$result.= ( $x > 1 ) ? ', ' : ''; $x++;
+					$result.= $fields[ $field ]['options'][ $value ];
+				}
+			}
+		}
+
 		// Handle file/image fields.
 		if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
 			if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
@@ -661,12 +674,12 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 			}
 			return do_shortcode( $result );
 		}
-		
+
 		// Remove underscores from value if requested (default: on).
 		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
 			$result = str_replace( '_', ' ', $result );
 		}
-		
+
 		$content = ( $content ) ? $result . $content : $result;
 
 		return do_shortcode( htmlspecialchars( $content ) );
