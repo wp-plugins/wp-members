@@ -78,6 +78,10 @@ class WP_Members {
 		 * Fires after main settings are loaded.
 		 *
 		 * @since 3.0
+		 * @todo Consider deprecating this action. It is undocumented (and unlikely used by users),
+		 *       With the move of the remaining initial loading to the constructor, the object is
+		 *       no longer available to this action, and moving it doesn't make much sense since
+		 *       wpmem_after_init would come right after it.
 		 */
 		do_action( 'wpmem_settings_loaded' );
 	
