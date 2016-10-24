@@ -323,12 +323,12 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 				<?php wp_nonce_field( 'wpmem-add-fields' ); ?>
 				<ul>
 					<li>
-						<label><?php _e( 'Field Label', 'wp-members' ); ?> <span class="req">(<?php _e( 'required' ); ?>)</span></label>
+						<label><?php _e( 'Field Label', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 						<input type="text" name="add_name" value="<?php echo ( $mode == 'edit' ) ? $field['label'] : false; ?>" />
 						<?php _e( 'The name of the field as it will be displayed to the user.', 'wp-members' ); ?>
 					</li>
 					<li>
-						<label><?php _e( 'Meta Key', 'wp-members' ); ?> <span class="req">(<?php _e( 'required' ); ?>)</span></label>
+						<label><?php _e( 'Meta Key', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 						<?php if ( $mode == 'edit' ) { 
 							echo $meta_key; ?>
 							<input type="hidden" name="add_option" value="<?php echo $meta_key; ?>" /> 
@@ -390,7 +390,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 						<input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? checked( true, $field['checked_default'] ) : false; ?> />
 					</li>
 					<li>
-						<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?> <span class="req">(<?php _e( 'required' ); ?>)</span></label>
+						<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 						<input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? $field['checked_value'] : false; ?>" class="small-text" />
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
@@ -420,7 +420,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
                     <?php echo ( $mode == 'add' ) ? '</div>' : '';
                     } ?>
 					<li>
-						<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?></label>
+						<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 						<textarea name="add_dropdown_value" rows="5" cols="40"><?php
 // Accomodate editing the current dropdown values or create dropdown value example.
 if ( $mode == 'edit' ) {
@@ -456,7 +456,7 @@ Last Row|last_row<?php } } ?></textarea>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field['type'] == 'hidden' ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_hidden_info">' : ''; ?>
 					<li>
-						<label><?php _e( 'Value', 'wp-members' ); ?> <span class="req">(<?php _e( 'required' ); ?>)</span></label>
+						<label><?php _e( 'Value', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 						<input type="text" name="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'hidden' ) ? $field['value'] : ''; ?>" />
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
