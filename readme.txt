@@ -144,7 +144,7 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Added wpmem_loginout() API function, changed [wpmem_loginout] shortcode to use API function.
 * Added wpmem_array_insert() API function, allows for inserting array elements at any point in an array.
 * Added wp_destroy_current_session() to logout function.
-* Added WooCommerce support in native WP registration functions.
+* Added WooCommerce support in native WP registration functions. Began adding WooCommerce classes to registration form elements.
 * Added to wpmem_user_has_role() function to check for a single role or if the user has a role that is in an array of roles.
 * Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
 * Added text input to set a default 'read more' link for auto excerpt.

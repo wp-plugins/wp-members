@@ -26,12 +26,19 @@
  *
  * @since 2.8.7
  * @since 3.1.1 Updated to support new (3.1.0) field types.
- * @since 3.1.6 Updated to support new fields array.
+ * @since 3.1.6 Updated to support new fields array. Added WC classes.
  */
 function wpmem_do_wp_register_form() {
 
 	global $wpmem;
 	$wpmem_fields = wpmem_fields();
+	
+	// Check if this is WooCommerce account page.
+	$is_woo = false;
+	if ( function_exists( 'is_account_page' ) ) {
+		$is_woo = ( is_account_page() ) ? true : $is_woo;
+	}
+	
 	if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
 		foreach ( $wpmem_fields as $meta_key => $field ) {
 
@@ -88,7 +95,7 @@ function wpmem_do_wp_register_form() {
 					
 				} else {
 
-					$row_before = '<p>';
+					$row_before = ( $is_woo ) ? '<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">' : '<p>';
 					$label = '<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '<br />';
 
 					// determine the field type and generate accordingly...
@@ -130,7 +137,8 @@ function wpmem_do_wp_register_form() {
 						break;
 
 					default:
-						$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="';
+						$class = ( $is_woo ) ? 'woocommerce-Input woocommerce-Input--text input-text' : 'input';
+						$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="' . $class . '" value="';
 						$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
 						$input.= '" size="25" />';
 						break;
