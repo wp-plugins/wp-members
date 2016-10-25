@@ -375,7 +375,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 					</li>
 					<li>
 						<label><?php _e( 'Accepted file types:', 'wp-members' ); ?></label>
-						<input type="text" name="add_file_value" value="<?php echo ( $mode == 'edit' && ( $field['type'] == 'file' || $field['type'] == 'image' ) ) ? $field_arr[7] : false; ?>" />
+						<input type="text" name="add_file_value" value="<?php echo ( $mode == 'edit' && ( $field['type'] == 'file' || $field['type'] == 'image' ) ) ? $field['file_types'] : false; ?>" />
 					</li>
 					<li>
 						<label>&nbsp;</label>
