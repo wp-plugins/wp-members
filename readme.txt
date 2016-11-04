@@ -157,6 +157,7 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * reCAPTCHA version 1 is no longer supported by Google. It is now deprecated in the plugin. If you have reCAPTCHA v1 selected, it will remain so. But once this is changed to a different CAPTCHA setting or if this is a new install, reCAPTCHA version 1 will no longer be available as a selection.
 * Custom field term "Option Name" changed to "Meta Key" for clarity.
 * Marked required custom field properties as required in Add/Edit Field dialogs.
+* Changed redirect_to process to escape the url with esc_url_raw rather than esc_url, otherwise query string variables do not get handled correctly.
 
 = 3.1.5 =
 
