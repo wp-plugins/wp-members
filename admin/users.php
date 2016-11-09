@@ -330,8 +330,13 @@ function wpmem_users_views( $views ) {
 		}
 		
 		if ( $echolink ) {
-			$views[$lcas] = "<a href=\"$link\" $curr>$arr[$row] <span class=\"count\"></span></a>";
-			$views[$lcas].= ( isset( $user_counts[ $lcas ] ) ) ? ' (' . $user_counts[ $lcas ] . ')' : '';
+			$views[$lcas] = sprintf(
+					'<a href="%s" %s>%s <span class="count">(%d)</span></a>',
+					$link,
+					$curr,
+					$arr[$row],
+					isset( $user_counts[ $lcas ] ) ? $user_counts[ $lcas ] : ''
+			   );
 		}
 	}
 
