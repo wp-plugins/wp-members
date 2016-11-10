@@ -197,7 +197,9 @@ function wpmem_do_excerpt( $content ) {
 		// Build an excerpt if one does not exist.
 		if ( ! $has_more_link ) {
 			
-			if ( is_singular( $post->post_type ) ) {
+			$is_singular = ( is_singular( $post->post_type ) ) ? true : false;
+			
+			if ( $is_singular ) {
 				// If it's a single post, we don't need the 'more' link.
 				$more_link_text = '';
 				$more_link      = '';
@@ -258,8 +260,8 @@ function wpmem_do_excerpt( $content ) {
 		
 			if ( $do_excerpt ) {
 				$content = wp_trim_words( $content, $args['length'], $args['more_link'] );
-				// Check if the more link was added:
-				if ( ! strpos( $content, $args['more_link'] ) ) {
+				// Check if the more link was added (note: singular has no more_link):
+				if ( ! $is_singular && ! strpos( $content, $args['more_link'] ) ) {
 					$content = $content . $args['more_link'];
 				}
 			}
