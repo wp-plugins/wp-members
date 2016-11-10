@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
 Tested up to: 4.6.1
-Stable tag: 3.1.6
+Stable tag: 3.1.6.1
 License: GPLv2
 
 WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
@@ -134,6 +134,11 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 
 
 == Changelog ==
+
+= 3.1.6.1 =
+
+* Fixes issue with displaying checkbox state on the admin user profile screen.
+* Fixes issue with auto excerpt when excerpts are displayed on single posts/pages.
 
 = 3.1.6 =
 
