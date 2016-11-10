@@ -83,7 +83,7 @@ function wpmem_admin_fields() {
 				$val = ( $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) ? $val : htmlspecialchars( $val );
 				if ( $field['type'] == 'checkbox' ) {
 					$valtochk = $val;
-					$values = $field['checked_value'];
+					$val = $field['checked_value'];
 				}
 				
 				if ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
