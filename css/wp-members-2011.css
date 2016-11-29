@@ -154,6 +154,14 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	height: 200px;
 	margin-bottom: 5px;
 }
+#wpmem_login label[for="rememberme"] {
+	float: none;
+	display: initial;
+	background-color: initial;
+	padding: initial;
+	font-size: initial;
+	border: initial;
+}
 
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
@@ -214,7 +222,8 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
 	color: #888;
 	padding: 10px;
-	font: 15px; "Helvetica Neue", Arial, sans serif;
+	font-size: 15px; 
+	font-family: "Helvetica Neue", Arial, sans serif;
 	font-weight: 300;
 	line-height: 1.625;
 }

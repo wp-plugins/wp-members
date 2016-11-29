@@ -104,6 +104,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	height: 176px;
 	padding: 9px 0;
 }
+#wpmem_login label[for="rememberme"] {
+	display: initial;
+	float: none;
+}
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
 	padding:0;

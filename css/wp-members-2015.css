@@ -127,6 +127,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg label.textarea {
 	height: 185px;
 }
+#wpmem_login label[for="rememberme"] {
+	float: none;
+	display: initial;
+}
 #wpmem_reg .form, #wpmem_login .form {
 	margin:0;
 	padding:0;

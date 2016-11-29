@@ -127,6 +127,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
     margin-bottom: 0.5384615385em;
     text-transform: uppercase;
 }
+#wpmem_login label[for="rememberme"] {
+	display: initial;
+}
+
 #wpmem_reg .form, 
 #wpmem_login .form {
 	margin:0;

@@ -96,6 +96,10 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	text-transform: uppercase;
 	margin-bottom: 6px;
 }
+#wpmem_login label[for="rememberme"] {
+	float: none;
+	display: initial;
+}
 
 #wpmem_reg select,
 #wpmem_reg input[type="file"] {
