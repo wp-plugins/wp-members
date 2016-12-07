@@ -27,6 +27,8 @@
  * Builds the settings panel.
  *
  * @since 2.2.2
+ *
+ * @global object $wpmem The WP_Members Object.
  */
 function wpmem_a_build_options() {
 
@@ -81,7 +83,7 @@ function wpmem_a_build_options() {
 								if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
 								?>
 								<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
-									<label><?php echo ( $i == 0 ) ? 'Content Blocking' : '&nbsp;'; ?></label>
+									<label><?php echo ( $i == 0 ) ? __( 'Content Blocking', 'wp-members' ) : '&nbsp;'; ?></label>
 									 <?php
 									$block  = ( isset( $wpmem->block[ $key ] ) ) ? $wpmem->block[ $key ] : '';
 									$values = array(
@@ -90,7 +92,7 @@ function wpmem_a_build_options() {
 										// @todo Future development. __( 'Hide', 'wp-members' ) . '|2',
 									);
 									echo wpmem_create_formfield( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
-									<span><?php echo $val; ?></span>
+									<span><?php echo $val; ?></span><?php // @todo - this needs to be translatable. ?>
 								</li>
 								<?php $i++;
 								}
@@ -240,34 +242,34 @@ function wpmem_a_build_options() {
 						</form>
 					</div><!-- .inside -->
 				</div>
-                <?php if ( $post_types ) { ?>
-                <div class="postbox">
-                    <h3><span><?php _e( 'Custom Post Types', 'wp-members' ); ?></span></h3>
-                    <div class="inside">
-                    	<form name="updatecpts" id="updatecpts" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+				<?php if ( $post_types ) { ?>
+				<div class="postbox">
+					<h3><span><?php _e( 'Custom Post Types', 'wp-members' ); ?></span></h3>
+					<div class="inside">
+						<form name="updatecpts" id="updatecpts" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
 						<?php wp_nonce_field( 'wpmem-update-cpts' ); ?>
-                    		<table class="form-table">
-                                <tr>
-                                    <th scope="row"><?php _e( 'Add to WP-Members Settings', 'wp-members' ); ?></th>
-                                    <td><fieldset><?php
+							<table class="form-table">
+								<tr>
+									<th scope="row"><?php _e( 'Add to WP-Members Settings', 'wp-members' ); ?></th>
+									<td><fieldset><?php
 									foreach ( $post_arr as $key => $val ) {
 										if ( 'post' != $key && 'page' != $key ) {
 											$checked = ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ? ' checked' : '';
-                                       		echo '<label for="' . $key . '"><input type="checkbox" name="wpmembers_handle_cpts[]" value="' . $key . '"' . $checked . ' />' . $val . '</label><br />';
+											echo '<label for="' . $key . '"><input type="checkbox" name="wpmembers_handle_cpts[]" value="' . $key . '"' . $checked . ' />' . $val . '</label><br />';
 										}
 									}
 									?></fieldset>
-                                    </td>
-                                </tr>
-                                <tr>
-                                	<input type="hidden" name="wpmem_admin_a" value="update_cpts" />
-                                	<td colspan="2"><?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?></td>
-                                </tr>
-                        	</table>
-                        </form>
-                    </div>
-                </div>
-                <?php } ?>
+									</td>
+								</tr>
+								<tr>
+									<input type="hidden" name="wpmem_admin_a" value="update_cpts" />
+									<td colspan="2"><?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+				<?php } ?>
 			</div><!-- #post-body-content -->
 		</div><!-- #post-body -->
 	</div><!-- .metabox-holder -->
@@ -283,16 +285,16 @@ function wpmem_a_build_options() {
  * @return string The updated message.
  */
 function wpmem_update_cpts() {
-	
+
 	// Check nonce.
 	check_admin_referer( 'wpmem-update-cpts' );
-	
+
 	// Get the main settings array as it stands.
 	$wpmem_newsettings = get_option( 'wpmembers_settings' );
-	
+
 	// Assemble CPT settings.
 	$cpts = array();
-	
+
 	$post_arr = array();
 	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	if ( $post_types ) {
@@ -301,7 +303,7 @@ function wpmem_update_cpts() {
 			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
 		}
 	}
-	
+
 	$post_vals = ( isset( $_POST['wpmembers_handle_cpts'] ) ) ? $_POST['wpmembers_handle_cpts'] : false;
 	if ( $post_vals ) {
 		foreach ( $post_vals as $val ) {
@@ -311,7 +313,7 @@ function wpmem_update_cpts() {
 		$cpts = array();
 	}
 	$wpmem_newsettings['post_types'] = $cpts;
-	
+
 	// Update settings, remove or add CPTs.
 	$chk_settings = array( 'block', 'show_excerpt', 'show_login', 'show_reg', 'autoex' );
 	foreach ( $chk_settings as $chk ) {
@@ -340,9 +342,9 @@ function wpmem_update_cpts() {
 			}
 		}
 	}
-	
+
 	wpmem_admin_new_settings( $wpmem_newsettings );
-	
+
 	return __( 'Custom Post Type settings were updated', 'wp-members' );
 }
 
@@ -356,9 +358,8 @@ function wpmem_update_cpts() {
  * @return string        The options updated message.
  */
 function wpmem_update_options() {
-
 	global $wpmem;
-	
+
 	// Check nonce.
 	check_admin_referer( 'wpmem-update-settings' );
 
@@ -417,17 +418,17 @@ function wpmem_update_options() {
 			$post_arr[] = $key;
 		}
 	}
-	
+
 	// Leave form tag settings alone.
 	if ( isset( $wpmem->form_tags ) ) {
 		$wpmem_newsettings['form_tags'] = $wpmem->form_tags;
 	}
-	
+
 	// Leave email settings alone.
 	if ( isset( $wpmem->email ) ) {
 		$wpmem_newsettings['email'] = $wpmem->email;
 	}
-	
+
 	// Get settings for blocking, excerpts, show login, and show registration for posts, pages, and custom post types.
 	$option_group_array = array( 'block', 'show_excerpt', 'show_login', 'show_reg', 'autoex' );
 	foreach ( $option_group_array as $option_group_item ) {
@@ -476,10 +477,10 @@ function wpmem_update_options() {
  * @return $settings
  */
 function wpmem_admin_new_settings( $new ) {
-	
+
 	// Update saved settings.
 	update_option( 'wpmembers_settings', $new );
-	
+
 	// Update the current WP_Members object with the new settings.
 	global $wpmem;
 	foreach ( $new as $key => $val ) {
@@ -551,7 +552,7 @@ function wpmem_admin_page_list( $val, $show_custom_url = true ) {
 	$selected = ( $val == 'http://' || $val == 'https://' ) ? 'select a page' : false;
 	$pages    = get_pages();
 
-	echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page' ) ); echo '</option>';
+	echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page', 'wp-members' ) ); echo '</option>';
 
 	foreach ( $pages as $page ) {
 		$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected; //echo "VAL: " . $val . ' PAGE LINK: ' . get_page_link( $page->ID );

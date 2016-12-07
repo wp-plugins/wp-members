@@ -207,14 +207,14 @@ class WP_Members_Admin_API {
 		
 		$defaults = array(
 			'name'          => $args['name'],
-            'heading'       => 'Custom email',
-            'subject_label' => 'Subject',
+			'heading'       => __( 'Custom email', 'wp-members' ),
+			'subject_label' => __( 'Subject', 'wp-members' ),
 			'subject_input' => $args['name'] . '_subject',
-			'subject_value' => ( $settings ) ? $settings['subj'] : 'Subject',
-            'body_label'    => 'Body',
+			'subject_value' => ( $settings ) ? $settings['subj'] : __( 'Subject', 'wp-members' ),
+			'body_label'    => __( 'Body', 'wp-members' ),
 			'body_input'    => $args['name'] . '_body',
-			'body_value'    => ( $settings ) ? $settings['body'] : 'Your custom email message content.',
-        );
+			'body_value'    => ( $settings ) ? $settings['body'] : __( 'Your custom email message content.', 'wp-members' ),
+		);
 		
 		// Merge args with settings.
 		$args = wp_parse_args( $args, $defaults );
