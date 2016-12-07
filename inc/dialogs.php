@@ -318,7 +318,17 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 		 *
 		 * @since 2.9.9
 		 *
-		 * @param array $args.
+		 * @param array $args {
+		 *      The components of the links.
+		 *
+		 *      @type string $wrapper_before The wrapper opening tag (default: <p>).
+		 *      @type string $wrapper_after  The wrapper closing tag (default: </p>).
+		 *      @type string $user_login
+		 *      @type string $welcome
+		 *      @type string $logout_text
+		 *      @type string $logout_link
+		 *      @type string $separator
+		 * }
 		 */
 		$args = apply_filters( "wpmem_{$page}_links_args", $args );
 
@@ -354,7 +364,17 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 		 *
 		 * @since 2.9.9
 		 *
-		 * @param array $args.
+		 * @param array $args {
+		 *      The components of the links.
+		 *
+		 *      @type string $wrapper_before The wrapper opening tag (default: <p>).
+		 *      @type string $wrapper_after  The wrapper closing tag (default: </p>).
+		 *      @type string $user_login
+		 *      @type string $welcome
+		 *      @type string $logout_text
+		 *      @type string $logout_link
+		 *      @type string $separator
+		 * }
 		 */
 		$args = apply_filters( 'wpmem_status_msg_args', $args );
 
