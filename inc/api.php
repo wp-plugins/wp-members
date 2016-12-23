@@ -30,6 +30,7 @@
  * - wpmem_load_dropins
  * - wpmem_loginout
  * - wpmem_array_insert
+ * - wpmem_is_user_activated
  */
 
 /**
@@ -141,6 +142,7 @@ function wpmem_user_pages() {
  * Returns the current full url.
  *
  * @since 3.1.1
+ * @since 3.1.7 Added check for query string.
  * 
  * @global object  $wp
  * @param  boolean $slash Trailing slash the end of the url (default:true).
@@ -149,7 +151,9 @@ function wpmem_user_pages() {
 function wpmem_current_url( $slash = true ) {
 	global $wp;
 	$url = home_url( add_query_arg( array(), $wp->request ) );
-	return ( $slash ) ? trailingslashit( $url ) : $url;
+	$url = ( $slash ) ? trailingslashit( $url ) : $url;
+	$url = ( count( $_GET ) > 0 ) ? $url . '?' . $_SERVER['QUERY_STRING'] : $url;
+	return $url;
 }
 
 /**
@@ -331,16 +335,21 @@ function wpmem_get( $tag, $default = '', $type = 'post' ) {
  * Compares wpmem_reg_page value with the register page URL. 
  *
  * @since 3.1.4
+ * @since 3.1.7 Added default of current page ID.
  *
  * @param  string|int $check_page
  * @return bool
  */
-function wpmem_is_reg_page( $check ) {
-	if ( ! is_int( $check ) ) {
-		global $wpdb;
-		$sql   = "SELECT ID FROM $wpdb->posts WHERE post_name = '$check' AND post_status = 'publish' LIMIT 1";	
-		$arr   = $wpdb->get_results( $sql, ARRAY_A  ); 
-		$check = $arr[0]['ID'];
+function wpmem_is_reg_page( $check = false ) {
+	if ( ! $check ) {
+		$check = get_the_ID();
+	} else {
+		if ( ! is_int( $check ) ) {
+			global $wpdb;
+			$sql   = "SELECT ID FROM $wpdb->posts WHERE post_name = '$check' AND post_status = 'publish' LIMIT 1";	
+			$arr   = $wpdb->get_results( $sql, ARRAY_A  ); 
+			$check = $arr[0]['ID'];
+		}
 	}
 	$reg_page = wpmem_get( 'wpmem_reg_page' );
 	$check_page = get_permalink( $check );
@@ -415,6 +424,20 @@ function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
 		$pos = ( false === $index ) ? count( $array ) : $index + 1;
 	}
 	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+}
+
+/**
+ * Checks if a user is activated.
+ *
+ * @since 3.1.7
+ *
+ * @param  int  $user_id
+ * @return bool
+ */
+function wpmem_is_user_activated( $user_id = false ) {
+	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+	$active  = get_user_meta( $user_id, 'active', true );
+	return ( $active != 1 ) ? false : true;
 }
 
 // End of file.
