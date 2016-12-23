@@ -27,28 +27,12 @@
  * - wpmem_admin_enqueue_scripts
  */
 
-
-/** 
- * Actions and Filters
- */
-add_action( 'admin_enqueue_scripts',         'wpmem_admin_enqueue_scripts' );
-add_action( 'wpmem_admin_do_tab',            'wpmem_admin_do_tab' );
-add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
-add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
-add_filter( 'plugin_action_links',           'wpmem_admin_plugin_links', 10, 2 );
-
-
 /**
  * Calls the function to reorder fields.
  *
  * @since 2.8.0
  */
 function wpmem_a_do_field_reorder() {
-	/**
-	 * Load the fields tab functions.
-	 */
-	include_once( WPMEM_PATH . 'admin/tab-fields.php' );
-
 	// Reorder registration fields.
 	wpmem_a_field_reorder();
 }
@@ -266,10 +250,6 @@ function wpmem_admin_action( $action ) {
  * @since 2.9.1
  */
 function wpmem_admin_add_new_user() {
-	/**
-	 * Load WP native registration functions.
-	 */
-	include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	// Output the custom registration fields.
 	echo wpmem_do_wp_newuser_form();
 	return;

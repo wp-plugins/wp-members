@@ -25,17 +25,6 @@
  * - wpmem_load_tinymce
  */
 
-
-/**
- * Actions
- */
-add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action'   );
-add_action( 'load-edit.php',         'wpmem_posts_page_load'     );
-add_action( 'admin_notices',         'wpmem_posts_admin_notices' );
-add_action( 'load-post.php',         'wpmem_load_tinymce'        );
-add_action( 'load-post-new.php',     'wpmem_load_tinymce'        );
-
-
 /**
  * Function to add block/unblock to the bulk dropdown list.
  *

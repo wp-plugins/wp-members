@@ -30,22 +30,6 @@
  * - wpmem_set_user_status
  */
 
-
-/**
- * Actions and filters
- */
-add_action( 'admin_footer-users.php', 'wpmem_bulk_user_action' );
-add_action( 'load-users.php', 'wpmem_users_page_load' );
-add_action( 'admin_notices', 'wpmem_users_admin_notices' );
-add_filter( 'views_users', 'wpmem_users_views' );
-add_filter( 'manage_users_columns', 'wpmem_add_user_column' );
-add_action( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3 );
-add_action( 'wpmem_post_register_data', 'wpmem_set_new_user_non_active' );
-add_action( 'wpmem_user_activated', 'wpmem_set_activated_user' );
-add_action( 'wpmem_user_deactivated', 'wpmem_set_deactivated_user' );
-add_filter( 'user_row_actions', 'wpmem_insert_activate_link', 10, 2 );
-
-
 /**
  * Function to add activate/export to the bulk dropdown list.
  *

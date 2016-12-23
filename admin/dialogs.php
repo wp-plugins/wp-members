@@ -22,13 +22,6 @@
  * - butlerblog_feed_output
  */
 
- 
-// Actions.
-if ( ! is_multisite() ) {
-	add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
-}
-
-
 /**
  * Outputs the various admin warning messages.
  *

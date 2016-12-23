@@ -21,13 +21,6 @@
  * - wpmem_profile_show_ip
  */
 
- 
-/** Actions */
-add_action( 'show_user_profile', 'wpmem_admin_fields' );
-add_action( 'edit_user_profile', 'wpmem_admin_fields' );
-add_action( 'profile_update',    'wpmem_admin_update' );
-
-
 /**
  * Add WP-Members fields to the WP user profile screen.
  *
