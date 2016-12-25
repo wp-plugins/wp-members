@@ -891,9 +891,9 @@ function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = nul
 			'label_text'   => $row['label_text'],
 			'row_before'   => $args['row_before'],
 			'label'        => $row['label'],
-			'field_before' => $field_before,
+			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
 			'field'        => $row['field'],
-			'field_after'  => $field_after,
+			'field_after'  => ( $args['wrap_inputs'] ) ? '</div>' : '',
 			'row_after'    => $args['row_after'],
 		);
 	}
