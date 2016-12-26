@@ -15,11 +15,23 @@ class WP_Members_User {
 	
 	public $post_data = array();
 	
+	/**
+	 * Initilize the User object.
+	 *
+	 * @since 3.1.7
+	 */
 	function __construct() {
 		add_action( 'user_register', array( $this, 'register' ), 9 );
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 	}
 	
+	/**
+	 * Handle user login.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @return string Returns "loginfailed" if failed login.
+	 */
 	function login() {
 		
 		$creds = array( 'user_login' => 'log', 'user_password' => 'pwd', 'remember' => 'rememberme', 'redirect_to' => 'redirect_to' );
@@ -37,7 +49,9 @@ class WP_Members_User {
 
 		$user = wp_signon( $creds, is_ssl() );
 
-		if ( ! is_wp_error( $user ) ) {
+		if ( is_wp_error( $user ) ) {
+			return "loginfailed";
+		} else {
 			$redirect_to = wpmem_get( 'redirect_to', false );
 			$redirect_to = ( $redirect_to ) ? esc_url_raw( trim( $redirect_to ) ) : esc_url_raw( wpmem_current_url() );
 			/**
@@ -51,11 +65,16 @@ class WP_Members_User {
 			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to, $user->ID );
 			wp_redirect( $redirect_to );
 			exit();
-		} else {
-			return "loginfailed";
 		}
 	}
 	
+	/**
+	 * Handle user logout.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @param string $redirect_to URL to redirect the user to (default: false).
+	 */
 	function logout( $redirect_to = false ) {
 		// Default redirect URL.
 		$redirect_to = ( $redirect_to ) ? $redirect_to : home_url();
@@ -80,6 +99,14 @@ class WP_Members_User {
 		exit();
 	}
 	
+	/**
+	 * User registration functions.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @global object $wpmem
+	 * @param  int    $user_id
+	 */
 	function register( $user_id ) {
 		
 		global $wpmem;
@@ -155,6 +182,11 @@ class WP_Members_User {
 
 	}
 	
+	/**
+	 * Redirects user on registration.
+	 *
+	 * @since 3.1.7
+	 */
 	function register_redirect() {
 		$redirect_to = wpmem_get( 'redirect_to', false );
 		if ( $redirect_to ) {
