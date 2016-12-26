@@ -616,4 +616,24 @@ function wpmem_reg_securify( $content ) {
 	return $content;
 }
 
+
+/**
+ * Enqueues the admin javascript and css files.
+ *
+ * Replaces wpmem_admin_enqueue_scripts().
+ * Only loads the js and css on admin screens that use them.
+ *
+ * @since 3.1.7
+ *
+ * @param str $hook The admin screen hook being loaded.
+ */
+function wpmem_dashboard_enqueue_scripts( $hook ) {
+	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+	}
+	if ( $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
+	}
+}
+
 // End of file.
