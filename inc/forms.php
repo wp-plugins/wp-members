@@ -382,6 +382,15 @@ function wpmem_login_form( $page, $arr ) {
 		$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
 		$form.= $row;
 	}
+	
+	// Handle outside elements added to the login form (currently ONLY for login).
+	if ( 'login' == $arr['action'] ) {
+		ob_start();
+		do_action( 'login_form' );
+		$add_to_form = ob_get_contents();
+		ob_end_clean();
+		$form.= $add_to_form;
+	}
 
 	// Build hidden fields, filter, and add to the form.
 	$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $args['redirect_to'] ) . $args['n'];
