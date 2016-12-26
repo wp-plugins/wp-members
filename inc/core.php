@@ -97,8 +97,7 @@ function wpmem_check_activated( $user, $username, $password ) {
 	}
 
 	// Activation flag must be validated.
-	$active = get_user_meta( $user->ID, 'active', true );
-	if ( $active != 1 ) {
+	if ( ! wpmem_is_user_activated() ) {
 		return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
 	}
 
