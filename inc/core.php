@@ -119,63 +119,14 @@ if ( ! function_exists( 'wpmem_login' ) ):
  * @since 2.5.2 Now uses wp_signon().
  * @since 2.7.7 Sets cookie using wp_set_auth_cookie().
  * @since 3.0.0 Removed wp_set_auth_cookie(), this already happens in wp_signon().
+ * @since 3.1.7 Now a wrapper for login() in WP_Members_Users Class.
  *
+ * @global object $wpmem
  * @return string Returns "loginfailed" if the login fails.
  */
 function wpmem_login() {
-
-	if ( $_POST['log'] && $_POST['pwd'] ) {
-
-		// Get username and sanitize.
-		$user_login = sanitize_user( $_POST['log'] );
-
-		// Are we setting a forever cookie?
-		$rememberme = ( isset( $_POST['rememberme'] ) == 'forever' ) ? true : false;
-
-		// Assemble login credentials.
-		$creds = array();
-		$creds['user_login']    = $user_login;
-		$creds['user_password'] = $_POST['pwd'];
-		$creds['remember']      = $rememberme;
-
-		// Log in the user and get the user object.
-		$user = wp_signon( $creds, is_ssl() );
-
-		// If no error, user is a valid signon. continue.
-		if ( ! is_wp_error( $user ) ) {
-
-			// Determine where to put the user after login.
-			if ( isset( $_POST['redirect_to'] ) )  {
-				$redirect_to = esc_url_raw( trim( $_POST['redirect_to'] ) );
-			} else {
-				$redirect_to = esc_url_raw( $_SERVER['REQUEST_URI'] . ( ( isset( $_SERVER['QUERY_STRING'] ) ) ? $_SERVER['QUERY_STRING'] : '' ) );
-			}
-
-			/**
-			 * Filter the redirect url.
-			 *
-			 * @since 2.7.7
-			 *
-			 * @param string $redirect_to The url to direct to.
-			 * @param int    $user->ID    The user's primary key ID.
-			 */
-			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to, $user->ID );
-
-			// And do the redirect.
-			wp_redirect( $redirect_to );
-
-			// wp_redirect requires us to exit()
-			exit();
-	
-		} else {
-
-			return "loginfailed";
-		}
-
-	} else {
-		// Login failed.
-		return "loginfailed";
-	}
+	global $wpmem;
+	return $wpmem->user->login();
 } // End of login function.
 endif;
 
