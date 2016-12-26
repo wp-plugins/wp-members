@@ -186,31 +186,14 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  *
  * @since 2.0.0
  * @since 3.1.6 Added wp_destroy_current_session(), removed nocache_headers().
+ * @since 3.1.7 Now a wrapper for logout() in WP_Members_Users Class.
  *
- * @param string $redirect_to The URL to redirect to at logout.
+ * @global object $wpmem
+ * @param  string $redirect_to The URL to redirect to at logout.
  */
-function wpmem_logout( $redirect_to = null ) {
-
-	// Default redirect URL.
-	$redirect_to = ( $redirect_to ) ? $redirect_to : get_bloginfo( 'url' );
-
-	/**
-	 * Filter where the user goes when logged out.
-	 *
-	 * @since 2.7.1
-	 *
-	 * @param string The blog home page.
-	 */
-	$redirect_to = apply_filters( 'wpmem_logout_redirect', $redirect_to );
-
-	wp_destroy_current_session();
-	wp_clear_auth_cookie();
-
-	/** This action is defined in /wp-includes/pluggable.php. */
-	do_action( 'wp_logout' );
-
-	wp_redirect( $redirect_to );
-	exit();
+function wpmem_logout( $redirect_to = false ) {
+	global $wpmem;
+	$wpmem->user->logout( $redirect_to );
 }
 endif;
 
