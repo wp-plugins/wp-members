@@ -74,6 +74,9 @@ class WP_Members {
 		// Load api.
 		$this->api = new WP_Members_API;
 		
+		// Load user functions.
+		$this->user = new WP_Members_User;
+		
 		/**
 		 * Fires after main settings are loaded.
 		 *
@@ -272,6 +275,7 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
+		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
@@ -487,8 +491,6 @@ class WP_Members {
 
 			// Block/unblock Posts.
 			if ( ! is_user_logged_in() && $this->is_blocked() == true ) {
-
-				include_once( WPMEM_PATH . 'inc/dialogs.php' );
 				
 				//Show the login and registration forms.
 				if ( $this->regchk ) {
