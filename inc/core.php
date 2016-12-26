@@ -615,4 +615,23 @@ function wpmem_retrieve_username() {
 	return;
 }
 
+
+/**
+ * Adds the successful registration message on the login page if reg_nonce validates.
+ *
+ * @since 3.1.7
+ *
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_reg_securify( $content ) {
+	global $wpmem, $wpmem_themsg;
+	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
+	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
+		$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
+		$content = $content . wpmem_inc_login();
+	}
+	return $content;
+}
+
 // End of file.

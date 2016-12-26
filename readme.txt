@@ -145,6 +145,7 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Corrected issue in forms function were RS Captcha had empty div wrapper variable.
 * Removed deprecated function wpmem_load_admin_js().
 * Removed deprecated function wpmem_test_shortcode().
+* Added successful registration message on page if nonce validates (for reg redirects).
 
 = 3.1.6 =
 

@@ -174,6 +174,7 @@ class WP_Members {
 		add_filter( 'register_form',         'wpmem_wp_register_form' );         // adds fields to the default wp registration
 		add_filter( 'registration_errors',   'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 		add_filter( 'comments_open',         'wpmem_securify_comments', 99 );    // securifies the comments
+		add_filter( 'wpmem_securify',        'wpmem_reg_securify' );             // adds success message on login form if redirected
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
