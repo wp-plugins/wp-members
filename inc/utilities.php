@@ -23,7 +23,6 @@
  * - wpmem_texturize
  * - wpmem_enqueue_style
  * - wpmem_do_excerpt
- * - wpmem_test_shortcode @deprecated 3.1.2 Use has_shortcode() instead.
  * - wpmem_get_excluded_meta
  * - wpmem_use_ssl
  * - wpmem_wp_reserved_terms
@@ -283,39 +282,6 @@ function wpmem_do_excerpt( $content ) {
 
 	// Return the excerpt.
 	return $content;
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_test_shortcode' ) ):
-/**
- * Tests $content for the presence of the [wp-members] shortcode.
- *
- * @since 2.6.0
- * @deprecated 3.1.2 Use has_shortcode() instead.
- *
- * @global string $shortcode_tags
- * @return bool
- *
- * @example http://codex.wordpress.org/Function_Reference/get_shortcode_regex
- */
-function wpmem_test_shortcode( $content, $tag ) {
-
-	wpmem_write_log( "wpmem_test_shortcode() is deprecated as of WP-Members 3.1.2. Use has_shortcode() instead." );
-	global $shortcode_tags;
-	if ( array_key_exists( $tag, $shortcode_tags ) ) {
-		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
-		if ( empty( $matches ) ) {
-			return false;
-		}
-
-		foreach ( $matches as $shortcode ) {
-			if ( $tag === $shortcode[2] ) {
-				return true;
-			}
-		}
-	}
-	return false;
 }
 endif;
 
