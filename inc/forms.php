@@ -325,6 +325,7 @@ function wpmem_login_form( $page, $arr ) {
 		'n'               => "\n",
 		't'               => "\t",
 		'redirect_to'     => ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( isset( $arr['redirect_to'] ) ) ? $arr['redirect_to'] : get_permalink() ),
+		'login_form_action' => true,
 		
 	);
 	
@@ -384,7 +385,7 @@ function wpmem_login_form( $page, $arr ) {
 	}
 	
 	// Handle outside elements added to the login form (currently ONLY for login).
-	if ( 'login' == $arr['action'] ) {
+	if ( 'login' == $arr['action'] && $args['login_form_action'] ) {
 		ob_start();
 		do_action( 'login_form' );
 		$add_to_form = ob_get_contents();
