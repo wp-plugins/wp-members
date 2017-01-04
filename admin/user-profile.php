@@ -192,12 +192,19 @@ function wpmem_admin_fields() {
  * Updates WP-Members fields from the WP user profile screen.
  *
  * @since 2.1
+ *
+ * @global object $wpmem
  */
 function wpmem_admin_update() {
 
+	$user_id = wpmem_get( 'user_id', false, 'request' ); //$_REQUEST['user_id'];
+	
+	if ( ! $user_id ) {
+		// With no user id, no user can be updated.
+		return;
+	}
+	
 	global $wpmem;
-
-	$user_id = $_REQUEST['user_id'];
 	$wpmem_fields = wpmem_fields();
 
 	/**

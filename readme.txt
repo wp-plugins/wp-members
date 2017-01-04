@@ -112,8 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.6.3 fixes some invalid characters in certain files in the wordpress.org repo version.
-WP-Members 3.1.6 is primarily a settings update. See changelog for important details. Minimum WP version is 3.6.
+See changelog for important details. Minimum WP version is 3.6.
 
 == Screenshots ==
 
@@ -146,6 +145,10 @@ WP-Members 3.1.6 is primarily a settings update. See changelog for important det
 * Removed deprecated function wpmem_load_admin_js().
 * Removed deprecated function wpmem_test_shortcode().
 * Added successful registration message on page if nonce validates (for reg redirects).
+* Added User object class, handling login, logout.
+* Added buffering to login form to allow do_login action results to be displayed (such as 3rd party login captcha).
+* Added filter option in user export to decode html entities in user fields.
+* Updated wpmem_admin_update() to exit if there is no user ID.
 
 = 3.1.6 =
 
