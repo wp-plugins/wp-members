@@ -357,7 +357,8 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 					} else {
 						$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta_key ] ) : esc_html( get_user_meta( $user_id, $meta_key, true ) );
 					}
-					$field_arr[ $field['label'] ] = $val;
+					// $field_arr[ $field['label'] ] = $val; // @todo Consider (1) if this should be implemented, and (2) if it should be done here or location "B".
+					$field_arr[ __( $field['label'], 'wp-members' ) ] = $val;
 				}
 			}
 		}
@@ -407,7 +408,9 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 		// Split field_arr into field_str.
 		$field_str = '';
 		foreach ( $arr['field_arr'] as $key => $val ) {
-			$field_str.= $key . ': ' . $val . "\r\n";
+			$field_str.= $key . ': ' . $val . "\r\n"; 
+			// @todo Location "B" to to label translation. Could be as follows:
+			// $field_str.= __( $key, 'wp-members' ) . ": " . $val . "\r\n";
 		}
 
 		// Get the email footer if needed.
