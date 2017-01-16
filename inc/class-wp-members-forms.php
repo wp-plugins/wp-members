@@ -420,75 +420,47 @@ class WP_Members_Forms {
 		 */
 		$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $arr['action'] );
 
-		if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'login' ) { 
-
-			/**
-			 * Filters the forgot password link.
-			 *
-			 * @since 2.8.0
-			 *
-			 * @param string The forgot password link.
-			 */
-			$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
-			$str  = $wpmem->get_text( 'forgot_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'forgot_link' ) . '</a>';
-			/**
-			 * Filters the forgot password HTML.
-			 *
-			 * @since 2.9.0
-			 * @since 3.0.9 Added $link parameter.
-			 *
-			 * @param string $str  The forgot password link HTML.
-			 * @param string $link The forgot password link.
-			 */
-			$form = $form . $args['link_before'] . apply_filters( 'wpmem_forgot_link_str', $str, $link ) . $args['link_after'] . $args['n'];
-
-		}
-
-		if ( ( $wpmem->user_pages['register'] != null ) && $arr['action'] == 'login' ) { 
-
-			/**
-			 * Filters the link to the registration page.
-			 *
-			 * @since 2.8.0
-			 *
-			 * @param string The registration page link.
-			 */
-			$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-			$str  = $wpmem->get_text( 'register_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'register_link' ) . '</a>';
-			/**
-			 * Filters the register link HTML.
-			 *
-			 * @since 2.9.0
-			 * @since 3.0.9 Added $link parameter.
-			 *
-			 * @param string $str  The register link HTML.
-			 * @param string $link The register link.
-			 */
-			$form = $form . $args['link_before'] . apply_filters( 'wpmem_reg_link_str', $str, $link ) . $args['link_after'] . $args['n'];
-
-		}
-
-		if ( ( $wpmem->user_pages['profile'] != null || $page == 'members' ) && $arr['action'] == 'pwdreset' ) {
-
-			/**
-			 * Filters the forgot username link.
-			 *
-			 * @since 3.0.9
-			 *
-			 * @param string The forgot username link.
-			 */
-			$link = apply_filters( 'wpmem_username_link',  add_query_arg( 'a', 'getusername', $wpmem->user_pages['profile'] ) );
-			$str  = $wpmem->get_text( 'username_link_before' ) . '<a href="' . $link . '">' . $wpmem->get_text( 'username_link' ) . '</a>';
-			/**
-			 * Filters the forgot username link HTML.
-			 *
-			 * @since 3.0.9
-			 *
-			 * @param string $str  The forgot username link HTML.
-			 * @param string $link The forgot username link.
-			 */
-			$form = $form . $args['link_before'] . apply_filters( 'wpmem_username_link_str', $str, $link ) . $args['link_after'] . $args['n'];
-
+		$links_array = array(
+			'forgot' => array(
+				'link' => add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ),
+				'page' => 'profile',
+				'action' => 'login',
+			),
+			'register' => array( 
+				'link' => $wpmem->user_pages['register'],
+				'page' => 'register',
+				'action' => 'login',
+			),
+			'username' => array(
+				'link' => add_query_arg( 'a', 'getusername', $wpmem->user_pages['profile'] ),
+				'page' => 'profile',
+				'action' => 'pwdreset',
+			),
+		);
+		foreach ( $links_array as $key => $value ) {
+			if ( ( $wpmem->user_pages[ $value['page'] ] || 'members' == $page ) && $value['action'] == $arr['action'] ) {
+				/**
+				 * Filters register, forgot password, and forgot username links.
+				 *
+				 * @since 2.8.0
+				 * @since 3.1.7 Combined all to a single process.
+				 *
+				 * @param string The raw link.
+				 */
+				$link = apply_filters( "wpmem_{$key}_link", $value['link'] );
+				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . $link . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';
+				/**
+				 * Filters the register, forgot password, and forgot username links HTML.
+				 *
+				 * @since 2.9.0
+				 * @since 3.0.9 Added $link parameter.
+				 * @since 3.1.7 Combined all to a single process.
+				 *
+				 * @param string $str  The link HTML.
+				 * @param string $link The link.
+				 */
+				$form = $form . $args['link_before'] . apply_filters( "wpmem_{$key}_link_str", $str, $link ) . $args['link_after'] . $args['n'];
+			}
 		}
 
 		// Apply the heading.
@@ -637,8 +609,6 @@ class WP_Members_Forms {
 			) );
 
 		}
-		$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
-		$field_after  = ( $args['wrap_inputs'] ) ? '</div>': '';
 
 		// Add the username row to the array.
 		$rows['username'] = array( 
@@ -648,9 +618,9 @@ class WP_Members_Forms {
 			'label_text'   => $wpmem->get_text( 'register_username' ),
 			'row_before'   => $args['row_before'],
 			'label'        => $label,
-			'field_before' => $field_before,
+			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
 			'field'        => $input,
-			'field_after'  => $field_after,
+			'field_after'  => ( $args['wrap_inputs'] ) ? '</div>': '',
 			'row_after'    => $args['row_after'],
 		);
 
@@ -968,7 +938,7 @@ class WP_Members_Forms {
 		$hidden     .= '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
 		$hidden     .= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
 		if ( $redirect_to != get_permalink() ) {
-			$hidden     .= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
+			$hidden.= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
 		}
 		$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $args['n'] : $hidden;
 
