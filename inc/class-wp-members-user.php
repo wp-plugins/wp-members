@@ -21,7 +21,7 @@ class WP_Members_User {
 	 * @since 3.1.7
 	 */
 	function __construct() {
-		add_action( 'user_register', array( $this, 'register' ), 9 );
+		//add_action( 'user_register', array( $this, 'register' ), 9 ); // @todo This need rigorous testing, especially front end processing such as WC.
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 	}
 	
