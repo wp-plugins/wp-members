@@ -423,8 +423,11 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 function wpmem_wp_reg_finalize( $user_id ) {
 
 	global $wpmem;
+	// Is this WP's native registration? Checks the native submit button.
 	$is_native  = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr( __( 'Register' ) ) ) ? true : false;
+	// Is this a Users > Add New process? Checks the post action.
 	$is_add_new = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
+	// Is this a WooCommerce checkout registration? Checks for WC fields.
 	$is_woo     = ( isset( $_POST['woocommerce_checkout_place_order'] ) || isset( $_POST['woocommerce-register-nonce'] ) ) ? true : false;
 	if ( $is_native || $is_add_new || $is_woo ) {
 		// Get any excluded meta fields.
@@ -439,13 +442,17 @@ function wpmem_wp_reg_finalize( $user_id ) {
 				update_user_meta( $user_id, $meta_key, sanitize_text_field( $data ) );
 			}
 		}
-		
+	}
+	
+	// If this is Users > Add New.
+	if ( is_admin() && $is_add_new ) {
 		// If moderated registration and activate is checked, set active flags.
-		if ( is_admin() && $is_add_new && 1 == $wpmem->mod_reg && isset( $_POST['activate_user'] ) ) {
+		if ( 1 == $wpmem->mod_reg && isset( $_POST['activate_user'] ) ) {
 			update_user_meta( $user_id, 'active', 1 );
 			wpmem_set_user_status( $user_id, 0 );
 		}
 	}
+	
 	return;
 }
 
