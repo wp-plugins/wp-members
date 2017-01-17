@@ -145,10 +145,14 @@ See changelog for important details. Minimum WP version is 3.6.
 * Removed deprecated function wpmem_load_admin_js().
 * Removed deprecated function wpmem_test_shortcode().
 * Added successful registration message on page if nonce validates (for reg redirects).
-* Added User object class, handling login, logout.
-* Added buffering to login form to allow do_login action results to be displayed (such as 3rd party login captcha).
+* Added User object class, handling login, logout, register.
+* Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
 * Added filter option in user export to decode html entities in user fields.
 * Updated wpmem_admin_update() to exit if there is no user ID.
+* Updated admin notification email to translate field labels.
+* Updated login form links and filters to a single process (was one for each).
+* Updated WP Registration finalize process.
+* Moved form building functions to forms object class.
 
 = 3.1.6 =
 
