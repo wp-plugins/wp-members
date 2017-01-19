@@ -57,7 +57,7 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 			// This shown above blocked content.
 			$msg = $wpmem->get_text( 'restricted_msg' );
 			$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
-			$str = "<p>$msg</p>";
+			$str = '<div id="wpmem_restricted_msg"><p>' . $msg . '</p></div>';
 			
 			/**
 			 * Filter the post restricted message.

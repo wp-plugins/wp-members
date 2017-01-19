@@ -148,6 +148,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Added User object class, handling login, logout, register.
 * Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
 * Added filter option in user export to decode html entities in user fields.
+* Added a div wrapper for post restricted message.
 * Updated wpmem_admin_update() to exit if there is no user ID.
 * Updated admin notification email to translate field labels.
 * Updated login form links and filters to a single process (was one for each).
