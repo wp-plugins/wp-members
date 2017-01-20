@@ -584,6 +584,8 @@ class WP_Members {
 	 * @param string $form The form being generated.
 	 */
 	function load_fields( $form = 'default' ) {
+		
+		// Get stored fields settings.
 		$fields = get_option( 'wpmembers_fields' );
 		
 		// Validate fields settings.

@@ -182,17 +182,28 @@ function wpmem_form_field( $args ) {
  *
  * @since 3.1.1
  * @since 3.1.5 Checks if fields array is set or empty before returning.
+ * @since 3.1.7 Added wpmem_form_fields filter.
  *
  * @global object $wpmem  The WP_Members object.
+ * @param  string $tag    The action being used (default: null).
  * @param  string $form   The form being generated.
  * @return array  $fields The form fields.
  */
-function wpmem_fields( $form = 'default' ) {
+function wpmem_fields( $tag = '', $form = 'default' ) {
 	global $wpmem;
+	// Load fields if none are loaded.
 	if ( ! isset( $wpmem->fields ) || empty( $wpmem->fields ) ) {
 		$wpmem->load_fields( $form );
 	}
-	return $wpmem->fields;
+	/**
+	 * Filters the fields array.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @param  array  $wpmem->fields
+	 * @param  string $tag (optional)
+	 */
+	return apply_filters( 'wpmem_form_fields', $wpmem->fields, $tag );
 }
 
 /**

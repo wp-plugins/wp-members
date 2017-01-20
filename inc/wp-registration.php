@@ -31,7 +31,7 @@
 function wpmem_do_wp_register_form() {
 
 	global $wpmem;
-	$wpmem_fields = wpmem_fields();
+	$wpmem_fields = wpmem_fields( 'wp' );
 	
 	// Check if this is WooCommerce account page.
 	$is_woo = false;
@@ -194,7 +194,7 @@ function wpmem_do_wp_newuser_form() {
 	global $wpmem;
 	echo '<table class="form-table"><tbody>';
 
-	$wpmem_fields = wpmem_fields();
+	$wpmem_fields = wpmem_fields( 'add_new' );
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
 	foreach ( $wpmem_fields as $meta_key => $field ) {

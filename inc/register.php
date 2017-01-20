@@ -60,7 +60,7 @@ function wpmem_registration( $tag ) {
 	$wpmem->user->post_data['user_email'] = sanitize_email( wpmem_get( 'user_email' ) );
 
 	/** This filter defined in inc/class-wp-members-forms.php */
-	$wpmem->fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
+	$wpmem->fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
 	
 	// Build the $wpmem->user->post_data array from $_POST data.
 	foreach ( $wpmem->fields as $meta_key => $field ) {

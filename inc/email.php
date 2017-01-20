@@ -47,7 +47,7 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 	global $wpmem;
 
 	// Handle backward compatibility for customizations that may call the email function directly.
-	$wpmem_fields = wpmem_fields();
+	$wpmem_fields = wpmem_fields( $toggle );
 
 	/*
 	 * Determine which email is being sent.
@@ -306,7 +306,7 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 	global $wpmem;
 	
 	// Handle backward compatibility for customizations that may call the email function directly.
-	$wpmem_fields = wpmem_fields();
+	$wpmem_fields = wpmem_fields( 'admin_notify' );
 
 	// WP default user fields.
 	$wp_user_fields = array(
@@ -370,11 +370,6 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 
 	/** This filter is documented in email.php */
 	$arr['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
-
-	// Handle backward compatibility for customizations that may call the email function directly.
-	if ( ! $wpmem_fields ) {
-		$wpmem_fields = wpmem_fields();
-	}
 
 	/**
 	 * Filters the address the admin notification is sent to.

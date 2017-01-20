@@ -46,7 +46,7 @@ function wpmem_admin_fields() {
  	<table class="form-table">
 		<?php
 		// Get fields.
-		$wpmem_fields = wpmem_fields();
+		$wpmem_fields = wpmem_fields( 'admin_profile' );
 		// Get excluded meta.
 		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
 
@@ -205,7 +205,7 @@ function wpmem_admin_update() {
 	}
 	
 	global $wpmem;
-	$wpmem_fields = wpmem_fields();
+	$wpmem_fields = wpmem_fields( 'admin_profile_update' );
 
 	/**
 	 * Fires before the user profile is updated.

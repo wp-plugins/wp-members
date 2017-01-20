@@ -633,12 +633,12 @@ class WP_Members_Forms {
 		 * on the fly.
 		 *
 		 * @since 2.9.0
+		 * @deprecated 3.1.7 Use wpmem_form_fields instead.
 		 *
 		 * @param array        The array of form fields.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
 		 */
-		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields(), $tag );
-		//$wpmem_fields = wpmem_verify_fields( $wpmem_fields );
+		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
 
 		$hidden = '';
 

@@ -392,7 +392,7 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	// Get any meta fields that should be excluded.
 	$exclude = wpmem_get_excluded_meta( 'register' );
 
-	foreach ( wpmem_fields() as $meta_key => $field ) {
+	foreach ( wpmem_fields( 'wp_validate' ) as $meta_key => $field ) {
 		$is_error = false;
 		if ( $field['required'] && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
 			if ( ( $field['type'] == 'checkbox' || $field['type'] == 'multicheckbox' || $field['type'] == 'multiselect' || $field['type'] == 'radio' ) && ( ! isset( $_POST[ $meta_key ] ) ) ) {
@@ -432,7 +432,7 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	if ( $is_native || $is_add_new || $is_woo ) {
 		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
-		foreach ( wpmem_fields() as $meta_key => $field ) {
+		foreach ( wpmem_fields( 'wp_finalize' ) as $meta_key => $field ) {
 			if ( isset( $_POST[ $meta_key ] ) && ! in_array( $meta_key, $exclude ) && 'file' != $field['type'] && 'image' != $field['type'] ) {
 				if ( 'multiselect' == $field['type'] || 'multicheckbox' == $field['type'] ) {
 					$data = implode( $field['delimiter'], $_POST[ $meta_key ] );
