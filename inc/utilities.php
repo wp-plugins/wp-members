@@ -106,22 +106,6 @@ function wpmem_chk_qstr( $url = null ) {
 endif;
 
 
-if ( ! function_exists( 'wpmem_generatePassword' ) ):
-/**
- * Generates a random password.
- *
- * @since 2.0.0
- * @deprecated Unknown Use wp_generate_password() instead.
- *
- * @return string The random password.
- */
-function wpmem_generatePassword() {
-	wpmem_write_log( "WP-Members function wpmem_generatePassword() is deprecated. Use wp_generate_password() instead" );
-	return substr( md5( uniqid( microtime() ) ), 0, 7 );
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_texturize' ) ):
 /**
  * Overrides the wptexturize filter.

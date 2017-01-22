@@ -257,6 +257,7 @@ class WP_Members_Forms {
 	 * Builds the form used for login, change password, and reset password.
 	 *
 	 * @since 2.5.1
+	 * @since 3.1.7 Added WP action login_form.
 	 *
 	 * @param  string $page 
 	 * @param  array  $arr {

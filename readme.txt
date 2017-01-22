@@ -140,16 +140,17 @@ See changelog for important details. Minimum WP version is 3.6.
 * API updates: added wpmem_is_user_activated().
 * API updates: wpmem_is_reg_page() added default of current page ID.
 * API updates: wpmem_current_url() added check for query string.
+* API updates: Added wpmem_form_fields filter to wpmem_fields().
 * All admin dependencies and actions/filters loaded in admin api object.
 * Corrected issue in forms function were RS Captcha had empty div wrapper variable.
 * Removed deprecated function wpmem_load_admin_js().
 * Removed deprecated function wpmem_test_shortcode().
+* Removed deprecated function wpmem_generatePassword().
 * Added successful registration message on page if nonce validates (for reg redirects).
 * Added User object class, handling login, logout, register.
 * Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
 * Added filter option in user export to decode html entities in user fields.
 * Added a div wrapper for post restricted message.
-* Added wpmem_form_fields filter.
 * Updated wpmem_admin_update() to exit if there is no user ID.
 * Updated admin notification email to translate field labels.
 * Updated login form links and filters to a single process (was one for each).
