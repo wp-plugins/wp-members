@@ -18,7 +18,6 @@
  * - wpmem_sc_forms
  * - wpmem_sc_logged_in
  * - wpmem_sc_logged_out
- * - wpmem_shortcode
  * - wpmem_do_sc_pages
  * - wpmem_sc_user_count
  * - wpmem_sc_user_profile
@@ -248,94 +247,6 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 function wpmem_sc_logged_out( $atts, $content = null, $tag ) {
 	return ( ! is_user_logged_in() ) ? do_shortcode( $content ) : '';
 }
-
-if ( ! function_exists( 'wpmem_shortcode' ) ):
-/**
- * Executes various shortcodes.
- *
- * This function executes shortcodes for pages (settings, register, login, user-list,
- * and tos pages), as well as login status and field attributes when the wp-members tag
- * is used.  Also executes shortcodes for login status with the wpmem_logged_in tags
- * and fields when the wpmem_field tags are used.
- *
- * @since 2.4.0
- * @deprecated 3.1.2 
- *
- * @global object $wpmem The WP_Members object.
- *
- * @param  array  $attr {
- *     The shortcode attributes.
- *
- *     @type string $page
- *     @type string $url
- *     @type string $status
- *     @type string $msg
- *     @type string $field
- *     @type int    $id
- * }
- * @param  string $content
- * @param  string $tag
- * @return string Returns the result of wpmem_do_sc_pages|wpmem_list_users|wpmem_sc_expmessage|$content.
- */
-function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
-	
-	$error = "wpmem_shortcode() is deprecated as of WP-Members 3.1.2. The [wp-members] shortcode tag should be replaced. ";
-	$error.= 'See replacement shortcodes: http://rkt.bz/logsc ';
-	$error.= "post ID: " . get_the_ID() . " ";
-	$error.= "page url: " . wpmem_current_url();
-	wpmem_write_log( $error );
-
-	global $wpmem;
-
-	// Set all default attributes to false.
-	$defaults = array(
-		'page'        => false,
-		'redirect_to' => null,
-		'url'         => false,
-		'status'      => false,
-		'msg'         => false,
-		'field'       => false,
-		'id'          => false,
-		'underscores' => 'off',
-	);
-
-	// Merge defaults with $attr.
-	$atts = shortcode_atts( $defaults, $attr, $tag );
-
-	// Handles the 'page' attribute.
-	if ( $atts['page'] ) {
-		if ( $atts['page'] == 'user-list' ) {
-			if ( function_exists( 'wpmem_list_users' ) ) {
-				$content = do_shortcode( wpmem_list_users( $attr, $content ) );
-			}
-		} elseif ( $atts['page'] == 'tos' ) {
-			return $atts['url'];
-		} else {
-			$content = do_shortcode( wpmem_do_sc_pages( $atts, $content, $tag ) );
-		}
-
-		// Resolve any texturize issues.
-		if ( strstr( $content, '[wpmem_txt]' ) ) {
-			// Fixes the wptexturize.
-			remove_filter( 'the_content', 'wpautop' );
-			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', 'wpmem_texturize', 999 );
-		}
-		return $content;
-	}
-
-	// Handles the 'status' attribute.
-	if ( ( $atts['status'] ) || $tag == 'wpmem_logged_in' ) {
-		return wpmem_sc_logged_in( $atts, $content, $tag );
-	}
-
-	// Handles the 'field' attribute.
-	if ( $atts['field'] || $tag == 'wpmem_field' ) {
-		return wpmem_sc_fields( $atts, $content, $tag );
-	}
-
-}
-endif;
 
 if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
 /**

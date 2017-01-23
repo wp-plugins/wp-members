@@ -146,6 +146,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Removed deprecated function wpmem_load_admin_js().
 * Removed deprecated function wpmem_test_shortcode().
 * Removed deprecated function wpmem_generatePassword().
+* Moved remaining deprecated functions to new inc/deprecated.php.
 * Added successful registration message on page if nonce validates (for reg redirects).
 * Added User object class, handling login, logout, register.
 * Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).

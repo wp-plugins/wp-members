@@ -56,26 +56,6 @@ function wpmem_securify( $content = null ) {
 endif;
 
 
-if ( ! function_exists( 'wpmem_block' ) ):
-/**
- * Determines if content is blocked.
- *
- * @since 2.6.0
- * @since 3.0.0 Now a wrapper for $wpmem->is_blocked().
- * @deprecated 3.1.1 Use wpmem_is_blocked() instead.
- *
- * @global object $wpmem The WP-Members object class.
- *
- * @return bool $block true if content is blocked, false otherwise.
- */
-function wpmem_block() {
-	wpmem_write_log( "wpmem_block() is deprecated as of WP-Members 3.1.1, use wpmem_is_blocked() instead" );
-	global $wpmem;
-	return $wpmem->is_blocked();
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_check_activated' ) ):
 /**
  * Checks if a user is activated.
@@ -145,27 +125,6 @@ if ( ! function_exists( 'wpmem_logout' ) ):
 function wpmem_logout( $redirect_to = false ) {
 	global $wpmem;
 	$wpmem->user->logout( $redirect_to );
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
-/**
- * Displays the sidebar.
- *
- * This function is a wrapper for wpmem_do_sidebar().
- *
- * @since 2.0.0
- * @deprecated Unknown
- */
-function wpmem_inc_sidebar() {
-	wpmem_write_log( "WP-Members function wpmem_inc_sidebar() is deprecated. No alternative function exists" );
-	/**
-	 * Load the sidebar functions.
-	 */
-	include_once( WPMEM_PATH . 'inc/sidebar.php' );
-	// Render the sidebar.
-	wpmem_do_sidebar();
 }
 endif;
 

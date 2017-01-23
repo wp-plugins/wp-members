@@ -17,9 +17,6 @@
  *
  * Functions included:
  * - wpmem_create_formfield
- * - wpmem_selected @deprecated 3.1.0 Use selected() or checked() instead.
- * - wpmem_chk_qstr @deprecated 3.1.0 Use add_query_arg() instead.
- * - wpmem_generatePassword @deprecated Unknown Use wp_generate_password() instead.
  * - wpmem_texturize
  * - wpmem_enqueue_style
  * - wpmem_do_excerpt
@@ -57,51 +54,6 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		'class'    => $class,
 	);
 	return $wpmem->forms->create_form_field( $args );
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_selected' ) ):
-/**
- * Determines if a form field is selected (i.e. lists & checkboxes).
- *
- * @since 0.1.0
- * @deprecated 3.1.0 Use selected() or checked() instead.
- *
- * @param  string $value
- * @param  string $valtochk
- * @param  string $type
- * @return string $issame
- */
-function wpmem_selected( $value, $valtochk, $type = null ) {
-	wpmem_write_log( "wpmem_selected() is deprecated as of WP-Members 3.1.0. Use selected() or checked() instead" );
-	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
-	return ( $value == $valtochk ) ? $issame : '';
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_chk_qstr' ) ):
-/**
- * Checks querystrings.
- *
- * @since 2.0.0
- * @deprecated 3.1.0 Use add_query_arg() instead.
- *
- * @param  string $url
- * @return string $return_url
- */
-function wpmem_chk_qstr( $url = null ) {
-	wpmem_write_log( "wpmem_chk_qstr() is deprecated as of WP-Members 3.1.0. Use add_query_arg() instead" );
-	$permalink = get_option( 'permalink_structure' );
-	if ( ! $permalink ) {
-		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url;
-		$return_url = $url . "&";
-	} else {
-		$url = ( ! $url ) ? get_permalink() : $url;
-		$return_url = $url . "?";
-	}
-	return $return_url;
 }
 endif;
 
