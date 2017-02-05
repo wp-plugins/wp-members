@@ -152,6 +152,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
 * Added filter option in user export to decode html entities in user fields.
 * Added a div wrapper for post restricted message.
+* Added initial form support for HTML5 number input, & min, max, title, and pattern attributes (placeholder support was added in 3.1.6).
 * Updated wpmem_admin_update() to exit if there is no user ID.
 * Updated admin notification email to translate field labels.
 * Updated login form links and filters to a single process (was one for each).

@@ -28,6 +28,7 @@ class WP_Members_Forms {
 	 * @since 3.1.1 Added $delimiter.
 	 * @since 3.1.2 Changed $valtochk to $compare.
 	 * @since 3.1.6 Added $placeholder.
+	 * @since 3.1.7 Added number type & $min, $max, $title and $pattern attributes.
 	 *
 	 * @param array  $args {
 	 *     @type string  $name
@@ -38,6 +39,10 @@ class WP_Members_Forms {
 	 *     @type boolean $required
 	 *     @type string  $delimiter
 	 *     @type string  $placeholder
+	 *     @type string  $pattern
+	 *     @type string  $title
+	 *     @type string  $min
+	 *     @type string  $max
 	 * }
 	 * @return string $str The field returned as a string.
 	 */
@@ -46,42 +51,59 @@ class WP_Members_Forms {
 		$name        = $args['name'];
 		$type        = $args['type'];
 		$value       = maybe_unserialize( $args['value'] );
-		$compare     = ( isset( $args['compare'] ) ) ? $args['compare'] : '';
-		$class       = ( isset( $args['class'] ) ) ? $args['class'] : 'textbox';
-		$required    = ( isset( $args['required'] ) ) ? $args['required'] : false;
-		$delimiter   = ( isset( $args['delimiter'] ) ) ? $args['delimiter'] : '|';
+		$compare     = ( isset( $args['compare']     ) ) ? $args['compare']     : '';
+		$class       = ( isset( $args['class']       ) ) ? $args['class']       : 'textbox';
+		$required    = ( isset( $args['required']    ) ) ? $args['required']    : false;
+		$delimiter   = ( isset( $args['delimiter']   ) ) ? $args['delimiter']   : '|';
 		$placeholder = ( isset( $args['placeholder'] ) ) ? $args['placeholder'] : false;
+		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
+		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
+		$min         = ( isset( $args['min']         ) ) ? $args['min']         : false;
+		$max         = ( isset( $args['max']         ) ) ? $args['max']         : false;
 	
 		switch ( $type ) { 
-			
+
+		case "text":
 		case "url":
 		case "email":
-			$class = ( $class == 'textbox' ) ? "textbox" : $class;
-			$value = ( 'url' == $type ) ? esc_url( $value ) : esc_attr( wp_unslash( $value ) );
+		case "number":
+			$class = ( 'textbox' == $class ) ? "textbox" : $class;
+			switch ( $type ) {
+				case 'url':
+					$value = esc_url( $value );
+					break;
+				case 'email':
+					$value = esc_attr( wp_unslash( $value ) );
+					break;
+				case 'number':
+					$value = $value;
+				default:
+					$value = stripslashes( esc_attr( $value ) );
+					break;
+			}
+			$required    = ( $required    ) ? ' required' : '';
 			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . "$placeholder />";
+			$pattern     = ( $pattern     ) ? ' pattern="' . $pattern . '"' : '';
+			$title       = ( $title       ) ? ' title="' . $title . '"' : '';
+			$min         = ( $min         ) ? ' min="' . $min . '"' : '';
+			$max         = ( $max         ) ? ' max="' . $max . '"' : '';
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max$required />";
 			break;
 		
 		case "image":
 		case "file":
-			$class = ( $class == 'textbox' ) ? "file" : $class;
+			$class = ( 'textbox' == $class ) ? "file" : $class;
 			$str = "<input name=\"$name\" type=\"file\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "checkbox":
-			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
+			$class = ( 'textbox' == $class ) ? "checkbox" : $class;
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
-			break;
-	
-		case "text":
-			$value = stripslashes( esc_attr( $value ) );
-			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . "$placeholder />";
 			break;
 	
 		case "textarea":
 			$value = stripslashes( esc_textarea( $value ) );
-			$class = ( $class == 'textbox' ) ? "textarea" : $class;
+			$class = ( 'textbox' == $class ) ? "textarea" : $class;
 			$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
 			break;
 	
@@ -123,7 +145,7 @@ class WP_Members_Forms {
 			break;
 			
 		case "multicheckbox":
-			$class = ( $class == 'textbox' ) ? "checkbox" : $class;
+			$class = ( 'textbox' == $class ) ? "checkbox" : $class;
 			$str = '';
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
@@ -139,7 +161,7 @@ class WP_Members_Forms {
 			break;
 			
 		case "radio":
-			$class = ( $class == 'textbox' ) ? "radio" : $class;
+			$class = ( 'textbox' == $class ) ? "radio" : $class;
 			$str = '';
 			$num = 1;
 			foreach ( $value as $option ) {
@@ -810,6 +832,10 @@ class WP_Members_Forms {
 							//'class'    => ( $class ) ? $class : 'textbox',
 							'required' => $field['required'],
 							'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
+							'pattern'     => ( isset( $field['pattern']     ) ) ? $field['pattern']     : false,
+							'title'       => ( isset( $field['title']       ) ) ? $field['title']       : false,
+							'min'         => ( isset( $field['min']         ) ) ? $field['min']         : false,
+							'max'         => ( isset( $field['max']         ) ) ? $field['max']         : false,
 						);
 						if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
 							$formfield_args['delimiter'] = $field['delimiter'];
