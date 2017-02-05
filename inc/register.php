@@ -108,6 +108,7 @@ function wpmem_registration( $tag ) {
 	 * @param array  $wpmem->user->post_data An array of the posted form field data.
 	 * @param string $tag
 	 */
+	$wpmem->user->post_data = apply_filters( 'wpmem_pre_validate_form', $wpmem->user->post_data, $tag );
 
 	// Check for required fields, reverse the array for logical error message order.
 	$wpmem_fields_rev = array_reverse( $wpmem->fields );
