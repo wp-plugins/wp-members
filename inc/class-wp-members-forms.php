@@ -691,7 +691,7 @@ class WP_Members_Forms {
 				} 
 
 				// Gets the field value for both edit profile and submitted reg w/ error.
-				if ( ( $tag == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { 
+				if ( ( $tag == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { // @todo Should this use $wpmem->regchk? This is the last remaining use of $wpmem_regchk in this function.
 
 					switch ( $meta_key ) {
 						case( 'description' ):

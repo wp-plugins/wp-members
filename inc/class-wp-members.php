@@ -13,19 +13,148 @@
 
 class WP_Members {
 	
+	/**
+	 * Plugin version.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
 	public $version;
+	
+	/**
+	 * Content block settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $block;
+	
+	/**
+	 * Excerpt settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $show_excerpt;
+	
+	/**
+	 * Show login form settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $show_login;
+	
+	/**
+	 * Show registration form settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $show_reg;
+	
+	/**
+	 * Auto-excerpt settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $autoex;
+	
+	/**
+	 * Notify admin settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
 	public $notify;
+	
+	/**
+	 * Moderated registration settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
 	public $mod_reg;
+	
+	/**
+	 * Captcha settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $captcha;
+	
+	/**
+	 * Enable expiration extension settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
 	public $use_exp;
+	
+	/**
+	 * Expiration extension enable trial period.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
 	public $use_trial;
+	
+	/**
+	 * 
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $warnings;
+	
+	/**
+	 * Current plugin action container.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
+	public $action;
+	
+	/**
+	 * Regchk container.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
+	public $regchk;
+	
+	/**
+	 * User page settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $user_pages;
+	
+	/**
+	 * Custom Post Type settings.
+	 *
+	 * @since  Unknown
+	 * @access public
+	 * @var    array
+	 */
 	public $post_types;
 
 	/**
@@ -367,6 +496,7 @@ class WP_Members {
 		 * This value determines what happens in the wpmem_securify() function.
 		 *
 		 * @since 2.9.0
+		 * @since 3.0.0 Moved to get_regchk() in WP_Members object.
 		 *
 		 * @param  string $this->regchk The value of wpmem_regchk.
 		 * @param  string $this->action The $wpmem_a action.
@@ -419,6 +549,7 @@ class WP_Members {
 			 * Filter the block arguments.
 			 *
 			 * @since 2.9.8
+			 * @since 3.0.0 Moved to is_blocked() in WP_Members object.
 			 *
 			 * @param array $args     Null.
 			 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.

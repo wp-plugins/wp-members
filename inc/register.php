@@ -60,6 +60,7 @@ function wpmem_registration( $tag ) {
 	$wpmem->user->post_data['user_email'] = sanitize_email( wpmem_get( 'user_email' ) );
 
 	/** This filter defined in inc/class-wp-members-forms.php */
+	/** @deprecated 3.1.7 Use wpmem_form_fields instead. */
 	$wpmem->fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
 	
 	// Build the $wpmem->user->post_data array from $_POST data.
@@ -102,10 +103,11 @@ function wpmem_registration( $tag ) {
 	 * Filter the submitted form fields prior to validation.
 	 *
 	 * @since 2.8.2
+	 * @since 3.1.7 Added $tag
 	 *
-	 * @param array $wpmem->user->post_data An array of the posted form field data.
+	 * @param array  $wpmem->user->post_data An array of the posted form field data.
+	 * @param string $tag
 	 */
-	$wpmem->user->post_data = apply_filters( 'wpmem_pre_validate_form', $wpmem->user->post_data );
 
 	// Check for required fields, reverse the array for logical error message order.
 	$wpmem_fields_rev = array_reverse( $wpmem->fields );

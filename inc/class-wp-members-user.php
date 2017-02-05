@@ -13,6 +13,13 @@
 
 class WP_Members_User {
 	
+	/**
+	 * Container for reg form data.
+	 *
+	 * @since  3.1.7
+	 * @access public
+	 * @var    array
+	 */
 	public $post_data = array();
 	
 	/**
@@ -27,6 +34,10 @@ class WP_Members_User {
 	
 	/**
 	 * Handle user login.
+	 *
+	 * Built from, but replaces, the original wpmem_login() function
+	 * from core.php. wpmem_login() is currently maintained as a 
+	 * wrapper and is the direct function called for login.
 	 *
 	 * @since 3.1.7
 	 *
@@ -70,6 +81,10 @@ class WP_Members_User {
 	
 	/**
 	 * Handle user logout.
+	 *
+	 * Built from, but replaces, the original wpmem_logout() function
+	 * from core.php. wpmem_logout() is currently maintained as a 
+	 * wrapper and is the direct function called for logout.
 	 *
 	 * @since 3.1.7
 	 *
