@@ -87,7 +87,12 @@ class WP_Members_Forms {
 			$title       = ( $title       ) ? ' title="' . $title . '"' : '';
 			$min         = ( $min         ) ? ' min="' . $min . '"' : '';
 			$max         = ( $max         ) ? ' max="' . $max . '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max$required />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
+			break;
+		
+		case "password":
+			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "image":
@@ -105,10 +110,6 @@ class WP_Members_Forms {
 			$value = stripslashes( esc_textarea( $value ) );
 			$class = ( 'textbox' == $class ) ? "textarea" : $class;
 			$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
-			break;
-	
-		case "password":
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "hidden":
