@@ -196,6 +196,16 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 	if ( ! isset( $wpmem->fields ) || empty( $wpmem->fields ) ) {
 		$wpmem->load_fields( $form );
 	}
+	
+	// @todo Convert $tag. Temporary for testing new filter. Consider better implementation.
+	$tag = ( 'new'  == $tag ) ? 'register' : $tag;
+	$tag = ( 'edit' == $tag ) ? 'update'   : $tag;
+	
+	// @todo Also temporary for the same reason as above.
+	$tag = ( 'wp_validate' == $tag || 'wp_finalize' == $tag ) ? 'wp' : $tag;
+	$tag = ( 'dashboard_profile_update' == $tag ) ? 'dashboard_profile' : $tag;
+	$tag = ( 'admin_profile_update' == $tag ) ? 'admin_profile' : $tag;
+	
 	/**
 	 * Filters the fields array.
 	 *
