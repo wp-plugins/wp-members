@@ -146,13 +146,14 @@ function wpmem_user_pages() {
  * 
  * @global object  $wp
  * @param  boolean $slash Trailing slash the end of the url (default:true).
+ * @param  boolean $getq  Toggles getting the query string (default:true).
  * @return string  $url   The current page full url path.
  */
-function wpmem_current_url( $slash = true ) {
+function wpmem_current_url( $slash = true, $getq = true ) {
 	global $wp;
 	$url = home_url( add_query_arg( array(), $wp->request ) );
 	$url = ( $slash ) ? trailingslashit( $url ) : $url;
-	$url = ( count( $_GET ) > 0 ) ? $url . '?' . $_SERVER['QUERY_STRING'] : $url;
+	$url = ( $getq && count( $_GET ) > 0 ) ? $url . '?' . $_SERVER['QUERY_STRING'] : $url;
 	return $url;
 }
 
