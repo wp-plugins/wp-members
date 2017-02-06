@@ -165,6 +165,7 @@ class WP_Members {
 	 */
 	function __construct() {
 		
+		// Load dependent files.
 		$this->load_dependencies();
 	
 		/**
@@ -416,6 +417,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/sidebar.php' );
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/email.php' );
+		require_once( WPMEM_PATH . 'inc/deprecated.php' );
 	}
 	
 	/**
