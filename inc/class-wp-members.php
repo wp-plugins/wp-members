@@ -16,7 +16,7 @@ class WP_Members {
 	/**
 	 * Plugin version.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -25,7 +25,7 @@ class WP_Members {
 	/**
 	 * Content block settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -34,7 +34,7 @@ class WP_Members {
 	/**
 	 * Excerpt settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -43,7 +43,7 @@ class WP_Members {
 	/**
 	 * Show login form settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -52,7 +52,7 @@ class WP_Members {
 	/**
 	 * Show registration form settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -61,7 +61,7 @@ class WP_Members {
 	/**
 	 * Auto-excerpt settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -70,7 +70,7 @@ class WP_Members {
 	/**
 	 * Notify admin settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -79,7 +79,7 @@ class WP_Members {
 	/**
 	 * Moderated registration settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -88,7 +88,7 @@ class WP_Members {
 	/**
 	 * Captcha settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -97,7 +97,7 @@ class WP_Members {
 	/**
 	 * Enable expiration extension settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -106,7 +106,7 @@ class WP_Members {
 	/**
 	 * Expiration extension enable trial period.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -115,7 +115,7 @@ class WP_Members {
 	/**
 	 * 
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -124,7 +124,7 @@ class WP_Members {
 	/**
 	 * Current plugin action container.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -133,7 +133,7 @@ class WP_Members {
 	/**
 	 * Regchk container.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    string
 	 */
@@ -142,7 +142,7 @@ class WP_Members {
 	/**
 	 * User page settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */
@@ -151,7 +151,7 @@ class WP_Members {
 	/**
 	 * Custom Post Type settings.
 	 *
-	 * @since  Unknown
+	 * @since  3.0.0
 	 * @access public
 	 * @var    array
 	 */

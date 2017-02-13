@@ -66,6 +66,8 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  *
  * @since 2.6.4
  *
+ * @todo Possibly deprecate or severely alter this process as its need may be obsolete.
+ *
  * @param  string $content
  * @return string $new_content
  */

@@ -190,8 +190,8 @@ class WP_Members_User {
 		 * Fires after registration is complete.
 		 *
 		 * @since 2.7.1
-		 * @since 3.1.0 Added $wpmem->user->post_data
-		 * @since 3.1.7 Changed $wpmem->user->post_data to $wpmem->user->post_data
+		 * @since 3.1.0 Added $fields
+		 * @since 3.1.7 Changed $fields to $wpmem->user->post_data
 		 */
 		do_action( 'wpmem_register_redirect', $this->post_data );
 

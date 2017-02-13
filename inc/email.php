@@ -273,12 +273,14 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 		// Append footer if needed.
 		$arr['body'] = ( $arr['add_footer'] ) ? $arr['body'] . "\r\n" . $foot : $arr['body'];
 		
-		// Apply from and from name email filters.
+		// @todo The remainder is slated to be moved to an "email send" function.
+		// Apply WP's "from" and "from name" email filters.
 		add_filter( 'wp_mail_from',      'wpmem_mail_from' );
 		add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
 		// Send the message.
 		wp_mail( $arr['user_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
+		// @todo End of slated for move.
 
 	}
 
@@ -470,18 +472,26 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 		/**
 		 * Filters the admin notification email.
 		 *
+		 * This is the last chance to filter the message body. At this point
+		 * it is just the text that will be in the message.
+		 * @todo Consider deprecating this filter as it could be accomplished
+		 *       by the wp_mail filter, or a universal filter could be added
+		 *       to the new email send function.
+		 *
 		 * @since 2.8.2
 		 *
 		 * @param string $arr['body'] The admin notification email body.
 		 */
 		$arr['body'] = apply_filters( 'wpmem_email_notify', $arr['body'] );
 		
+		// @todo The remainder is slated to be moved to an "email send" function.
 		// Apply from and from name email filters.
 		add_filter( 'wp_mail_from',      'wpmem_mail_from' );
 		add_filter( 'wp_mail_from_name', 'wpmem_mail_from_name' );
 
 		// Send the message.
 		wp_mail( $arr['admin_email'], stripslashes( $arr['subj'] ), stripslashes( $arr['body'] ), $arr['headers'] );
+		// @todo End of slated to be moved.
 	}
 }
 endif;

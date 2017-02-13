@@ -19,6 +19,7 @@
  * - wpmem_register_url
  * - wpmem_profile_url
  * - wpmem_current_url
+ * - wpmem_form_field
  * - wpmem_fields
  * - wpmem_gettext
  * - wpmem_use_custom_dialog
@@ -163,13 +164,18 @@ function wpmem_current_url( $slash = true, $getq = true ) {
  * @since 3.1.2
  *
  * @param array  $args {
- *     @type string  $name      (required) The field meta key.
- *     @type string  $type      (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
- *     @type string  $value     (required) The field's value (can be a null value).
- *     @type string  $compare   (required) Compare value.
- *     @type string  $class     (optional) Class identifier for the field.
- *     @type boolean $required  (optional) If a value is required default: true).
- *     @type string  $delimiter (optional) The field delimiter (pipe or comma, default: | ).
+ *     @type string  $name        (required) The field meta key.
+ *     @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
+ *     @type string  $value       (required) The field's value (can be a null value).
+ *     @type string  $compare     (required) Compare value.
+ *     @type string  $class       (optional) Class identifier for the field.
+ *     @type boolean $required    (optional) If a value is required default: true).
+ *     @type string  $delimiter   (optional) The field delimiter (pipe or comma, default: | ).
+ *     @type string  $placeholder (optional) Defines the placeholder attribute.
+ *     @type string  $pattern     (optional) Adds a regex pattern to the field (HTML5).
+ *     @type string  $title       (optional) Defines the title attribute.
+ *     @type string  $min         (optional) Adds a min attribute (HTML5).
+ *     @type string  $max         (optional) Adds a max attribute (HTML5).
  * }
  * @return string The HTML of the form field.
  */
