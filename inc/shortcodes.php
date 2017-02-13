@@ -639,4 +639,33 @@ function wpmem_sc_tos( $atts, $content, $tag ) {
 	return do_shortcode( $atts['url'] ); 
 }
 
+/**
+ * Display user avatar.
+ *
+ * @since 3.1.7
+ *
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $id   The user email or id.
+ *     @type int    $size Avatar size (square) in pixels.
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_avatar( $atts, $content, $tag ) {
+	$content = '';
+	$size = ( isset( $atts['size'] ) ) ? $atts['size'] : '';
+	if ( isset( $atts['id'] ) ) {
+		$content = get_avatar( $atts['id'], $size );
+	} elseif ( is_user_logged_in() ) {
+		// If the user is logged in and this isn't specifying a user ID, return the current user avatar.
+		global $current_user;
+		wp_get_current_user();
+		$content = get_avatar( $current_user->ID, $size );
+	}
+	return do_shortcode( $content );
+}
+
 // End of file.

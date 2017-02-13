@@ -264,6 +264,7 @@ class WP_Members {
 		add_shortcode( 'wpmem_profile',    'wpmem_sc_user_profile' );
 		add_shortcode( 'wpmem_loginout',   'wpmem_sc_loginout'     );
 		add_shortcode( 'wpmem_tos',        'wpmem_sc_tos'          );
+		add_shortcode( 'wpmem_avatar',     'wpmem_sc_avatar'       );
 		
 		/**
 		 * Fires after shortcodes load.
