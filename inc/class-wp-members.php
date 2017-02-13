@@ -156,6 +156,15 @@ class WP_Members {
 	 * @var    array
 	 */
 	public $post_types;
+	
+	/**
+	 * Setting for applying texturization.
+	 *
+	 * @since  3.1.7
+	 * @access public
+	 * @var    boolean
+	 */
+	public $texturize;
 
 	/**
 	 * Plugin initialization function.
@@ -735,7 +744,7 @@ class WP_Members {
 		 */
 		$content = apply_filters( 'wpmem_securify', $content );
 
-		if ( strstr( $content, '[wpmem_txt]' ) ) {
+		if ( 1 == $this->texturize && strstr( $content, '[wpmem_txt]' ) ) {
 			// Fix the wptexturize.
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );

@@ -126,16 +126,17 @@ function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 		 * [wpmem_txt] shortcode is even included.  @todo - Is this a temporary solution or is there something
 		 * cleaner that can be worked out?
 		 */
-		if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
-			$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
-		}
-		if ( strstr( $content, '[wpmem_txt]' ) ) {
-			// Fixes the wptexturize.
-			remove_filter( 'the_content', 'wpautop' );
-			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', 'wpmem_texturize', 999 );
-		}
-		// End texturize functions */
+		if ( 1 == $wpmem->texturize ) {
+			if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
+				$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
+			}
+			if ( strstr( $content, '[wpmem_txt]' ) ) {
+				// Fixes the wptexturize.
+				remove_filter( 'the_content', 'wpautop' );
+				remove_filter( 'the_content', 'wptexturize' );
+				add_filter( 'the_content', 'wpmem_texturize', 999 );
+			}
+		} // End texturize functions
 	}
 	return do_shortcode( $content );
 }
