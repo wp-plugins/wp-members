@@ -123,47 +123,6 @@ function wpmem_init() {
 
 
 /**
- * Scripts for admin panels.
- *
- * Determines which scripts to load and actions to use based on the 
- * current users capabilities.
- *
- * @since 2.5.2
- * @since 3.1.0 Added admin api object.
- *
- * @global object $wpmem WP_Members object class.
- */
-function wpmem_chk_admin() {
-
-	global $wpmem;
-
-	/**
-	 * Fires before initialization of admin options.
-	 *
-	 * @since 2.9.0
-	 */
-	do_action( 'wpmem_pre_admin_init' );
-
-	/**
-	 * Load the admin api class.
-	 *
-	 * @since 3.1
-	 */	
-	include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
-	
-	// Initilize the admin api.
-	$wpmem->load_admin_api();
-
-	/**
-	 * Fires after initialization of admin options.
-	 *
-	 * @since 2.9.0
-	 */
-	do_action( 'wpmem_after_admin_init' );
-}
-
-
-/**
  * Adds the plugin options page and JavaScript.
  *
  * @since 2.5.2

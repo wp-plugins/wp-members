@@ -293,7 +293,7 @@ class WP_Members {
 		// Add actions.
 		add_action( 'template_redirect',     array( $this, 'get_action' ) );
 		add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
-		add_action( 'admin_init',            'wpmem_chk_admin' );          // check user role to load correct dashboard
+		add_action( 'admin_init',            array( $this, 'load_admin' ) ); // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
@@ -419,6 +419,43 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/email.php' );
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
+	}
+
+	/**
+	 * Load admin API and dependencies.
+	 *
+	 * Determines which scripts to load and actions to use based on the 
+	 * current users capabilities.
+	 *
+	 * @since 2.5.2
+	 * @since 3.1.0 Added admin api object.
+	 * @since 3.1.7 Moved from main plugin file as wpmem_chk_admin() to main object.
+	 */
+	function load_admin() {
+
+		/**
+		 * Fires before initialization of admin options.
+		 *
+		 * @since 2.9.0
+		 */
+		do_action( 'wpmem_pre_admin_init' );
+
+		/**
+		 * Load the admin api class.
+		 *
+		 * @since 3.1.0
+		 */	
+		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
+
+		// Initilize the admin api.
+		$this->load_admin_api();
+
+		/**
+		 * Fires after initialization of admin options.
+		 *
+		 * @since 2.9.0
+		 */
+		do_action( 'wpmem_after_admin_init' );
 	}
 	
 	/**

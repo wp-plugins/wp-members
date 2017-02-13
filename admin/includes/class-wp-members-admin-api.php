@@ -77,7 +77,6 @@ class WP_Members_Admin_API {
 		if ( current_user_can( 'manage_options' ) ) {
 			require_once( WPMEM_PATH . 'admin/tab-options.php' );
 			require_once( WPMEM_PATH . 'admin/tab-fields.php' );
-			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 			require_once( WPMEM_PATH . 'admin/tab-about.php' );
@@ -86,6 +85,7 @@ class WP_Members_Admin_API {
 		if ( current_user_can( 'edit_posts' ) ) {
 			require_once( WPMEM_PATH . 'admin/post.php' );
 		}
+		require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 		require_once( WPMEM_PATH . 'inc/users.php' );
 		require_once( WPMEM_PATH . 'admin/users.php' );
 		require_once( WPMEM_PATH . 'admin/includes/api.php' );
