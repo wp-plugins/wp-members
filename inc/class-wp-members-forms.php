@@ -403,6 +403,7 @@ class WP_Members_Forms {
 		// Handle outside elements added to the login form (currently ONLY for login).
 		if ( 'login' == $arr['action'] && $args['login_form_action'] ) {
 			ob_start();
+			/** This action is documented in wp-login.php */
 			do_action( 'login_form' );
 			$add_to_form = ob_get_contents();
 			ob_end_clean();
