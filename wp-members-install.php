@@ -502,6 +502,8 @@ function wpmem_install_settings() {
  * Installs default fields.
  *
  * @since 3.1.5
+ *
+ * @return array $fields
  */
 function wpmem_install_fields() {
 	/*
@@ -539,6 +541,8 @@ function wpmem_install_fields() {
 	);
 
 	update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
+	
+	return $fields;
 }
 
 /**
