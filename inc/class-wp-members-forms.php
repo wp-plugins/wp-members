@@ -184,11 +184,24 @@ class WP_Members_Forms {
 	 *
 	 * @since 3.1.7
 	 *
-	 * @param
-	 * @return string
+	 * @param array  $args {
+	 *     @type string $meta_key
+	 *     @type string $label_text
+	 *     @type string $type
+	 *     @type string $class (optional)
+	 *     @type string $req (optional)
+	 *     @type string $req_mark (optional)
+	 * @return string $label
 	 */
-	function create_form_label( $meta_key, $label_text, $type, $class = false, $req = false, $req_mark = false ) {
+	function create_form_label( $args ) {
 		global $wpmem;
+		
+		$meta_key   = $args['meta_key'];
+		$label      = $args['label'];
+		$type       = $args['type'];
+		$class      = ( isset( $args['class']    ) ) ? $args['class']    : false;
+		$req        = ( isset( $args['req']      ) ) ? $args['req']      : false;
+		$req_mark   = ( isset( $args['req_mark'] ) ) ? $args['req_mark'] : false;
 		
 		$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
 		
@@ -196,7 +209,7 @@ class WP_Members_Forms {
 			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
 		}
 
-		$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $label_text, 'wp-members' );
+		$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $label, 'wp-members' );
 		$label = ( $req ) ? $label . $req_mark : $label;
 		$label = $label . '</label>';
 		
@@ -736,7 +749,14 @@ class WP_Members_Forms {
 				//	$label = ( $field['required'] ) ? $label . $args['req_mark'] : $label;
 				//	$label = $label . '</label>';
 					
-					$label = $this->create_form_label( $meta_key, __( $field['label'], 'wp-members' ), $field['type'], $field['type'], $field['required'], $args['req_mark'] );
+					$label = wpmem_form_label( array(
+						'meta_key' => $meta_key, 
+						'label'    => __( $field['label'], 'wp-members' ), 
+						'type'     => $field['type'], 
+						'class'    => $field['type'], 
+						'req'      => $field['required'], 
+						'req_mark' => $args['req_mark'] 
+					) );
 
 				} 
 

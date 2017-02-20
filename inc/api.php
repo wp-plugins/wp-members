@@ -185,6 +185,27 @@ function wpmem_form_field( $args ) {
 }
 
 /**
+ * Wrapper for $wpmem->create_form_label().
+ *
+ * @since 3.1.7
+ *
+ * @global object $wpmem
+ * @param array  $args {
+ *     @type string $meta_key
+ *     @type string $label_text
+ *     @type string $type
+ *     @type string $class      (optional)
+ *     @type string $req        (optional)
+ *     @type string $req_mark   (optional)
+ * }
+ * @return string The HTML of the form label.
+ */
+function wpmem_form_label( $args ) {
+	global $wpmem;
+	return $wpmem->forms->create_form_label( $args );
+}
+
+/**
  * Wrapper to get form fields.
  *
  * @since 3.1.1
