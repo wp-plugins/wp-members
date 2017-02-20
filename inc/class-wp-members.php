@@ -477,11 +477,18 @@ class WP_Members {
 	function get_action() {
 
 		// Get the action being done (if any).
-		$this->action = ( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
+		$this->action = wpmem_get( 'a', '', 'request' ); //( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
 
 		// For backward compatibility with processes that check $wpmem_a.
 		global $wpmem_a;
 		$wpmem_a = $this->action;
+		
+		/**
+		 * Fires when the wpmem action is retrieved.
+		 *
+		 * @since 3.1.7
+		 */
+		do_action( 'wpmem_get_action' );
 
 		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
@@ -811,7 +818,7 @@ class WP_Members {
 				case 'radio':
 					$this->fields[ $meta_key ]['values']    = $val[7];
 					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
-					$this->fields[ $meta_key ]['options'] = array();
+					$this->fields[ $meta_key ]['options']   = array();
 					foreach ( $val[7] as $value ) {
 						$pieces = explode( $this->fields[ $meta_key ]['delimiter'], trim( $value ) );
 						if ( $pieces[1] != '' ) {
