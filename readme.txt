@@ -141,7 +141,10 @@ See changelog for important details. Minimum WP version is 3.6.
 * API updates: wpmem_is_reg_page() added default of current page ID.
 * API updates: wpmem_current_url() added check for query string.
 * API updates: Added wpmem_form_fields filter to wpmem_fields().
-* API updates: Added new [wpmem_avatar] shortcode.
+* API updates: Added wpmem_current_post_id() and wpmem_form_label() functions.
+* API updates: Added new [wpmem_avatar], [wpmem_login_link], and [wpmem_register_link] shortcodes.
+* API updates: Added filter option in user export to decode html entities in user fields.
+* API updates: Added wpmem_get_action action hook when wpmem_a is loaded.
 * All admin dependencies and actions/filters loaded in admin api object.
 * Corrected issue in forms function were RS Captcha had empty div wrapper variable.
 * Removed deprecated functions wpmem_load_admin_js(), wpmem_test_shortcode(), and wpmem_generatePassword().
@@ -150,7 +153,6 @@ See changelog for important details. Minimum WP version is 3.6.
 * Added User object class, handling login, logout, register.
 * Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
 * Added support for WP's login_redirect filter (loads before wpmem_login_redirect).
-* Added filter option in user export to decode html entities in user fields.
 * Added a div wrapper for post restricted message.
 * Added initial form support for HTML5 number input, & min, max, title, and pattern attributes (placeholder support was added in 3.1.6).
 * Updated wpmem_admin_update() to exit if there is no user ID.
@@ -160,6 +162,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Moved form building functions to forms object class.
 * Deprecated wpmem_register_fields_arr filter (Use wpmem_form_fields instead).
 * Removing the wpautop() function is now optional rather than default.
+* Fixed load fields error checking, install function now correctly returns defaults.
 
 = 3.1.6 =
 
