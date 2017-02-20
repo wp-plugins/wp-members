@@ -20,6 +20,7 @@
  * - wpmem_profile_url
  * - wpmem_current_url
  * - wpmem_form_field
+ * - wpmem_form_label
  * - wpmem_fields
  * - wpmem_gettext
  * - wpmem_use_custom_dialog
@@ -32,6 +33,7 @@
  * - wpmem_loginout
  * - wpmem_array_insert
  * - wpmem_is_user_activated
+ * - wpmem_current_post_id
  */
 
 /**
@@ -195,7 +197,7 @@ function wpmem_form_field( $args ) {
  *     @type string $label_text
  *     @type string $type
  *     @type string $class      (optional)
- *     @type string $req        (optional)
+ *     @type string $required   (optional)
  *     @type string $req_mark   (optional)
  * }
  * @return string The HTML of the form label.
@@ -225,13 +227,13 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 	}
 	
 	// @todo Convert $tag. Temporary for testing new filter. Consider better implementation.
-	$tag = ( 'new'  == $tag ) ? 'register' : $tag;
-	$tag = ( 'edit' == $tag ) ? 'update'   : $tag;
+	$tag = ( 'new'  == $tag )             ? 'register'  : $tag;
+	$tag = ( 'edit' == $tag || 'update' ) ? 'profile'   : $tag;
 	
 	// @todo Also temporary for the same reason as above.
-	$tag = ( 'wp_validate' == $tag || 'wp_finalize' == $tag ) ? 'wp' : $tag;
-	$tag = ( 'dashboard_profile_update' == $tag ) ? 'dashboard_profile' : $tag;
-	$tag = ( 'admin_profile_update' == $tag ) ? 'admin_profile' : $tag;
+	$tag = ( 'wp' == $tag || 'wp_validate' == $tag || 'wp_finalize' == $tag )    ? 'register_wp'       : $tag;
+	$tag = ( 'dashboard_profile' == $tag || 'dashboard_profile_update' == $tag ) ? 'profile_dashboard' : $tag;
+	$tag = ( 'admin_profile' == $tag || 'admin_profile_update' == $tag )         ? 'profile_admin'     : $tag;
 	
 	/**
 	 * Filters the fields array.

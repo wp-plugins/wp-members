@@ -188,9 +188,10 @@ class WP_Members_Forms {
 	 *     @type string $meta_key
 	 *     @type string $label_text
 	 *     @type string $type
-	 *     @type string $class (optional)
-	 *     @type string $req (optional)
+	 *     @type string $class    (optional)
+	 *     @type string $required (optional)
 	 *     @type string $req_mark (optional)
+	 * }
 	 * @return string $label
 	 */
 	function create_form_label( $args ) {
@@ -200,7 +201,7 @@ class WP_Members_Forms {
 		$label      = $args['label'];
 		$type       = $args['type'];
 		$class      = ( isset( $args['class']    ) ) ? $args['class']    : false;
-		$req        = ( isset( $args['req']      ) ) ? $args['req']      : false;
+		$required   = ( isset( $args['required'] ) ) ? $args['required'] : false;
 		$req_mark   = ( isset( $args['req_mark'] ) ) ? $args['req_mark'] : false;
 		
 		$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
@@ -210,7 +211,7 @@ class WP_Members_Forms {
 		}
 
 		$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $label, 'wp-members' );
-		$label = ( $req ) ? $label . $req_mark : $label;
+		$label = ( $required ) ? $label . $req_mark : $label;
 		$label = $label . '</label>';
 		
 		return $label;
@@ -754,7 +755,7 @@ class WP_Members_Forms {
 						'label'    => __( $field['label'], 'wp-members' ), 
 						'type'     => $field['type'], 
 						'class'    => $field['type'], 
-						'req'      => $field['required'], 
+						'required' => $field['required'], 
 						'req_mark' => $args['req_mark'] 
 					) );
 
