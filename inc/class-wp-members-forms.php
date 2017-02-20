@@ -179,6 +179,29 @@ class WP_Members_Forms {
 		return $str;
 	} // End create_form_field()
 	
+	/**
+	 * Create form label.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @param
+	 * @return string
+	 */
+	function create_form_label( $meta_key, $label_text, $type, $class = false, $req = false, $req_mark = false ) {
+		global $wpmem;
+		
+		$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
+		
+		if ( ! $class ) {
+			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
+		}
+
+		$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $label_text, 'wp-members' );
+		$label = ( $req ) ? $label . $req_mark : $label;
+		$label = $label . '</label>';
+		
+		return $label;
+	}
 	
 	/**
 	 * Uploads file from the user.
@@ -709,9 +732,11 @@ class WP_Members_Forms {
 
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
 
-					$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $field['label'], 'wp-members' );
-					$label = ( $field['required'] ) ? $label . $args['req_mark'] : $label;
-					$label = $label . '</label>';
+				//	$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $field['label'], 'wp-members' );
+				//	$label = ( $field['required'] ) ? $label . $args['req_mark'] : $label;
+				//	$label = $label . '</label>';
+					
+					$label = $this->create_form_label( $meta_key, __( $field['label'], 'wp-members' ), $field['type'], $field['type'], $field['required'], $args['req_mark'] );
 
 				} 
 
