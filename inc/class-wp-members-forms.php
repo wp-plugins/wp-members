@@ -18,7 +18,6 @@ class WP_Members_Forms {
 		
 	}
 	
-	
 	/**
 	 * Creates form fields
 	 *
@@ -43,6 +42,8 @@ class WP_Members_Forms {
 	 *     @type string  $title
 	 *     @type string  $min
 	 *     @type string  $max
+	 *     @type string  $rows Number of rows for a textarea (default:5).
+	 *     @type string  $cols Number of columns for a textarea (default:20).
 	 * }
 	 * @return string $str The field returned as a string.
 	 */
@@ -58,8 +59,6 @@ class WP_Members_Forms {
 		$placeholder = ( isset( $args['placeholder'] ) ) ? $args['placeholder'] : false;
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
-		$min         = ( isset( $args['min']         ) ) ? $args['min']         : false;
-		$max         = ( isset( $args['max']         ) ) ? $args['max']         : false;
 	
 		switch ( $type ) { 
 
@@ -85,8 +84,8 @@ class WP_Members_Forms {
 			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
 			$pattern     = ( $pattern     ) ? ' pattern="' . $pattern . '"' : '';
 			$title       = ( $title       ) ? ' title="' . $title . '"' : '';
-			$min         = ( $min         ) ? ' min="' . $min . '"' : '';
-			$max         = ( $max         ) ? ' max="' . $max . '"' : '';
+			$min         = ( isset( $args['min'] ) ) ? ' min="' . $args['min'] . '"' : '';
+			$max         = ( isset( $args['max'] ) ) ? ' max="' . $args['max'] . '"' : '';
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
@@ -109,7 +108,9 @@ class WP_Members_Forms {
 		case "textarea":
 			$value = stripslashes( esc_textarea( $value ) );
 			$class = ( 'textbox' == $class ) ? "textarea" : $class;
-			$str = "<textarea cols=\"20\" rows=\"5\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
+			$rows  = ( isset( $args['rows'] ) ) ? $args['rows'] : '5';
+			$cols  = ( isset( $args['cols'] ) ) ? $args['cols'] : '20';
+			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
 			break;
 	
 		case "hidden":
