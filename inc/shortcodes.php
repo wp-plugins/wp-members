@@ -669,4 +669,28 @@ function wpmem_sc_avatar( $atts, $content, $tag ) {
 	return do_shortcode( $content );
 }
 
+/**
+ * Generates a login link with a return url.
+ *
+ * @since 3.1.7
+ *
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_link( $atts, $content, $tag ) {
+	if ( 'wpmem_reg_link' == $tag ) {
+		$text = ( $content ) ? $content : __( 'Register' );
+		$link = add_query_arg( 'redirect_to', wpmem_current_url(), wpmem_register_url() );
+	} else {
+		$text = ( $content ) ? $content : __( 'Log In' );
+		$link = wpmem_login_url( wpmem_current_url() );
+	}
+	$content = '<a href="' . $link . '">' . $text . '</a>';
+	return do_shortcode( $content );
+}
+
 // End of file.
