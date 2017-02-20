@@ -468,4 +468,15 @@ function wpmem_is_user_activated( $user_id = false ) {
 	return ( $active != 1 ) ? false : true;
 }
 
+/**
+ * Gets post ID of current URL.
+ *
+ * @since 3.1.7
+ *
+ * @return int Post ID.
+ */
+function wpmem_current_post_id() {
+	return url_to_postid( wpmem_current_url() );
+}
+
 // End of file.
