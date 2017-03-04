@@ -71,3 +71,15 @@ function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
 function wpmem_is_tab( $tab ) {
 	return ( $tab == wpmem_get( 'tab', false, 'get' ) ) ? true : false;
 }
+
+/**
+ * Utility function generates link to user profile.
+ *
+ * @since 3.1.7
+ *
+ * @param  int    $user_id
+ * @return string user profile URL.
+ */
+function wpmem_admin_user_profile( $user_id ) {
+	return add_query_arg( 'user_id', $user_id, admin_url( 'user-edit.php' ) );
+}
