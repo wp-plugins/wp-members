@@ -151,7 +151,7 @@ class WP_Members_Admin_API {
 			add_action( 'load-post-new.php',     'wpmem_load_tinymce'        );
 		}
 		
-		if ( ! is_multisite() ) {
+		if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
 			add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
 		}
 
