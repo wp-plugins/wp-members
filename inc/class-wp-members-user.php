@@ -2,12 +2,11 @@
 /**
  * The WP_Members_User Class.
  *
- * This is the main WP_Members object class. This class contains functions
- * for loading settings, shortcodes, hooks to WP, plugin dropins, constants,
- * and registration fields. It also manages whether content should be blocked.
+ * This is the WP_Members User object class. This class contains functions
+ * for login, logout, registration and other user related methods.
  *
  * @package WP-Members
- * @subpackage WP_Members Object Class
+ * @subpackage WP_Members_User Object Class
  * @since 3.0.0
  */
 
@@ -65,7 +64,7 @@ class WP_Members_User {
 		} else {
 			$redirect_to = wpmem_get( 'redirect_to', false );
 			$redirect_to = ( $redirect_to ) ? esc_url_raw( trim( $redirect_to ) ) : esc_url_raw( wpmem_current_url() );
-			/** This filter defined in inc/class-wp-members-forms.php */
+			/** This filter defined in wp-login.php */
 			$redirect_to = apply_filters( 'login_redirect', $redirect_to, wpmem_current_url(), $user );
 			/**
 			 * Filter the redirect url.

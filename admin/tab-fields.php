@@ -6,12 +6,12 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2016  Chad Butler
+ * Copyright (c) 2006-2017  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2016
+ * @copyright 2006-2017
  */
 
 

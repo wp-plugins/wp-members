@@ -6,12 +6,12 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2016  Chad Butler
+ * Copyright (c) 2006-2017  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2016
+ * @copyright 2006-2017
  *
  * Functions included:
  * - wpmem_do_install
@@ -503,25 +503,22 @@ function wpmem_install_settings() {
  *
  * @since 3.1.5
  *
- * @return array $fields
+ * @return array $fields {
+ *    @type array {
+ *        order, 
+ *        label, 
+ *        meta key, 
+ *        type, 
+ *        display, 
+ *        required, 
+ *        native, 
+ *        checked value, 
+ *        checked by default,
+ *     }
+ * }
  */
 function wpmem_install_fields() {
-	/*
-	 * Field array elements:
-	 * 
-	 * 	array(
-	 * 		order, 
-	 * 		label, 
-	 *		optionname, 
-	 * 		type, 
-	 * 		display, 
-	 * 		required, 
-	 * 		native, 
-	 * 		checked value, 
-	 * 		checked by default,
-	 * 	);
-	 */
-	$wpmem_fields_options_arr = array(
+	$fields = array(
 		array( 1,  'First Name',         'first_name',       'text',     'y', 'y', 'y' ),
 		array( 2,  'Last Name',          'last_name',        'text',     'y', 'y', 'y' ),
 		array( 3,  'Address 1',          'addr1',            'text',     'y', 'y', 'n' ),
@@ -539,9 +536,7 @@ function wpmem_install_fields() {
 		array( 15, 'Confirm Password',   'confirm_password', 'password', 'n', 'n', 'n' ),
 		array( 16, 'TOS',                'tos',              'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
 	);
-
-	update_option( 'wpmembers_fields', $wpmem_fields_options_arr, '', 'yes' ); // using update_option to allow for forced update
-	
+	update_option( 'wpmembers_fields', $fields, '', 'yes' ); // using update_option to allow for forced update
 	return $fields;
 }
 
@@ -562,10 +557,8 @@ function wpmem_install_dialogs() {
 		'pwdreseterr'      => "Either the username or email address do not exist in our records.",
 		'pwdresetsuccess'  => "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.",
 	);
-	
 	// Insert TOS dialog placeholder.
 	$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";
-	
 	update_option( 'wpmembers_tos', $dummy_tos );
 	update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 }

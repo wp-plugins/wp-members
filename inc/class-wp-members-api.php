@@ -159,4 +159,17 @@ class WP_Members_API {
 		return $mem_number;
 	}
 	
+	/**
+	 * Checks if a given setting is set and enabled.
+	 *
+	 * @since 3.1.7
+	 *
+	 * @global object  $wpmem
+	 * @param  string  $setting
+	 * @return boolean
+	 */
+	function is_enabled( $setting ) {
+		return ( isset( $wpmem->{$setting} ) && $wpmem->{$setting} ) : true : false;
+	}
+	
 } // End of WP_Members_Utilties class.
