@@ -169,7 +169,7 @@ class WP_Members_API {
 	 * @return boolean
 	 */
 	function is_enabled( $setting ) {
-		return ( isset( $wpmem->{$setting} ) && $wpmem->{$setting} ) : true : false;
+		return ( isset( $wpmem->{$setting} ) && $wpmem->{$setting} ) ? true : false;
 	}
 	
 } // End of WP_Members_Utilties class.
