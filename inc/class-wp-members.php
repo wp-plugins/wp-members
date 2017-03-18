@@ -451,13 +451,6 @@ class WP_Members {
 		 */
 		do_action( 'wpmem_pre_admin_init' );
 
-		/**
-		 * Load the admin api class.
-		 *
-		 * @since 3.1.0
-		 */	
-		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
-
 		// Initilize the admin api.
 		$this->load_admin_api();
 
@@ -1043,6 +1036,12 @@ class WP_Members {
 	 */
 	function load_admin_api() {
 		if ( is_admin() ) {
+			/**
+			 * Load the admin api class.
+			 *
+			 * @since 3.1.0
+			 */	
+			include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
 			$this->admin = new WP_Members_Admin_API;
 		}
 	}
