@@ -88,6 +88,11 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	line-height: 1.5;
 }
 
+#wpmem_reg label,
+#wpmem_login label {
+	display: initial;
+}
+
 #wpmem_reg input[type="text"],
 #wpmem_reg input[type="password"],
 #wpmem_reg input[type="email"],
