@@ -226,14 +226,8 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 		$wpmem->load_fields( $form );
 	}
 	
-	// @todo Convert $tag. Temporary for testing new filter. Consider better implementation.
-	$tag = ( 'new'  == $tag )             ? 'register'  : $tag;
-	$tag = ( 'edit' == $tag || 'update' ) ? 'profile'   : $tag;
-	
-	// @todo Also temporary for the same reason as above.
-	$tag = ( 'wp' == $tag || 'wp_validate' == $tag || 'wp_finalize' == $tag )    ? 'register_wp'       : $tag;
-	$tag = ( 'dashboard_profile' == $tag || 'dashboard_profile_update' == $tag ) ? 'profile_dashboard' : $tag;
-	$tag = ( 'admin_profile' == $tag || 'admin_profile_update' == $tag )         ? 'profile_admin'     : $tag;
+	// @todo Convert tag.
+	$tag = wpmem_convert_tag( $tag );
 	
 	/**
 	 * Filters the fields array.
