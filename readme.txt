@@ -140,7 +140,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * API updates: added wpmem_is_user_activated().
 * API updates: wpmem_is_reg_page() added default of current page ID.
 * API updates: wpmem_current_url() added check for query string.
-* API updates: Added wpmem_form_fields filter to wpmem_fields().
+* API updates: Added wpmem_fields filter to wpmem_fields().
 * API updates: Added wpmem_current_post_id() and wpmem_form_label() functions.
 * API updates: Added new [wpmem_avatar], [wpmem_login_link], and [wpmem_register_link] shortcodes.
 * API updates: Added filter option in user export to decode html entities in user fields.
