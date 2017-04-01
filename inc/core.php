@@ -148,58 +148,15 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
  * Handles user password change (not reset).
  *
  * @since 2.1.0
+ * @since 3.1.7 Now a wrapper for do_password() in WP_Members_Users Class.
  *
  * @global int $user_ID The WordPress user ID.
  *
  * @return string The value for $wpmem->regchk
  */
 function wpmem_change_password() {
-
-	global $user_ID;
-	if ( isset( $_POST['formsubmit'] ) ) {
-
-		$is_error = false;
-		
-		$pass1 = wpmem_get( 'pass1', false ); //trim( $_POST['pass1'] );
-		$pass2 = wpmem_get( 'pass2', false ); //trim( $_POST['pass2'] );
-
-		// Check for both fields being empty.
-		$is_error = ( ! $pass1 && ! $pass2 ) ? "pwdchangempty" : $is_error;
-		// Make sure the fields match.
-		$is_error = ( $pass1 != $pass2 ) ? "pwdchangerr" : $is_error;
-		
-		/**
-		 * Filters the password change error.
-		 *
-		 * @since 3.1.5
-		 *
-		 * @param string $is_error
-		 * @param int    $user_ID  The user's numeric ID.
-		 * @param string $pass1    The user's new plain text password.
-		 */
-		$is_error = apply_filters( 'wpmem_pwd_change_error', $is_error, $user_ID, $pass1 );
-		
-		if ( $is_error ) {
-			return $is_error;
-		}
-
-		// Update user password.
-		wp_update_user( array ( 'ID' => $user_ID, 'user_pass' => $pass1 ) );
-
-		/**
-		 * Fires after password change.
-		 *
-		 * @since 2.9.0
-		 * @since 3.0.5 Added $pass1 to arguments passed.
-		 *
-		 * @param int    $user_ID The user's numeric ID.
-		 * @param string $pass1   The user's new plain text password.
-		 */
-		do_action( 'wpmem_pwd_change', $user_ID, $pass1 );
-
-		return "pwdchangesuccess";
-	}
-	return;
+	global $wpmem;
+	return $wpmem->user->password_update( 'change' );
 }
 endif;
 
@@ -209,81 +166,15 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  * Resets a forgotten password.
  *
  * @since 2.1.0
+ * @since 3.1.7 Now a wrapper for do_password() in WP_Members_Users Class.
  *
  * @global object $wpmem The WP-Members object class.
  *
  * @return string The value for $wpmem->regchk
  */
 function wpmem_reset_password() {
-
 	global $wpmem;
-
-	if ( isset( $_POST['formsubmit'] ) ) {
-
-		/**
-		 * Filter the password reset arguments.
-		 *
-		 * @since 2.7.1
-		 *
-		 * @param array The username and email.
-		 */
-		$arr = apply_filters( 'wpmem_pwdreset_args', array( 
-			'user'  => ( isset( $_POST['user']  ) ) ? trim( $_POST['user'] )  : '', 
-			'email' => ( isset( $_POST['email'] ) ) ? trim( $_POST['email'] ) : '',
-		) );
-
-		if ( ! $arr['user'] || ! $arr['email'] ) { 
-
-			// There was an empty field.
-			return "pwdreseterr";
-
-		} else {
-
-			if ( username_exists( $arr['user'] ) ) {
-
-				$user = get_user_by( 'login', $arr['user'] );
-
-				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID, 'active', true ) != 1 ) ) ) {
-					// The username was there, but the email did not match OR the user hasn't been activated.
-					return "pwdreseterr";
-
-				} else {
-
-					// Generate a new password.
-					$new_pass = wp_generate_password();
-
-					// Update the users password.
-					wp_update_user( array ( 'ID' => $user->ID, 'user_pass' => $new_pass ) );
-
-					/**
-					 * Load the email functions.
-					 */
-					require_once( WPMEM_PATH . 'inc/email.php' );
-					
-					// Send it in an email.
-					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
-
-					/**
-					 * Fires after password reset.
-					 *
-					 * @since 2.9.0
-					 * @since 3.0.5 Added $pass1 to arguments passed.
-					 *
-					 * @param int    $user_ID  The user's numeric ID.
-					 * @param string $new_pass The new plain text password.
-					 */
-					do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
-
-					return "pwdresetsuccess";
-				}
-			} else {
-
-				// Username did not exist.
-				return "pwdreseterr";
-			}
-		}
-	}
-	return;
+	return $wpmem->user->password_update( 'reset' );
 }
 endif;
 

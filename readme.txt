@@ -163,6 +163,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Deprecated wpmem_register_fields_arr filter (Use wpmem_form_fields instead).
 * Removing the wpautop() function is now optional rather than default.
 * Fixed load fields error checking, install function now correctly returns defaults.
+* Changed password reset and password change to use wp_set_password() for improved performance with caching.
 
 = 3.1.6 =
 
