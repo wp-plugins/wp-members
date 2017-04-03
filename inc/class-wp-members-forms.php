@@ -204,7 +204,7 @@ class WP_Members_Forms {
 		$required   = ( isset( $args['required'] ) ) ? $args['required'] : false;
 		$req_mark   = ( isset( $args['req_mark'] ) ) ? $args['req_mark'] : false;
 		
-		$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
+		//$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
 		
 		if ( ! $class ) {
 			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
