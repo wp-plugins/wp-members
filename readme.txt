@@ -112,7 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-See changelog for important details. Minimum WP version is 3.6.
+WP-Members 3.1.7 is a major update. There are no database changes (rollback is possible). See changelog for important details. Minimum WP version is 3.6.
 
 == Screenshots ==
 
@@ -160,7 +160,7 @@ See changelog for important details. Minimum WP version is 3.6.
 * Updated login form links and filters to a single process (was one for each).
 * Updated WP Registration finalize process.
 * Moved form building functions to forms object class.
-* Deprecated wpmem_register_fields_arr filter (Use wpmem_form_fields instead).
+* Deprecated wpmem_register_fields_arr filter (Use wpmem_fields instead).
 * Removing the wpautop() function is now optional rather than default.
 * Fixed load fields error checking, install function now correctly returns defaults.
 * Changed password reset and password change to use wp_set_password() for improved performance with caching.

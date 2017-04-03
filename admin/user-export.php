@@ -11,7 +11,7 @@
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-20175
+ * @copyright 2006-2017
  */
 
 

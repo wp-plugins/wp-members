@@ -148,7 +148,7 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
  * Handles user password change (not reset).
  *
  * @since 2.1.0
- * @since 3.1.7 Now a wrapper for do_password() in WP_Members_Users Class.
+ * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
  *
  * @global int $user_ID The WordPress user ID.
  *
@@ -166,7 +166,7 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  * Resets a forgotten password.
  *
  * @since 2.1.0
- * @since 3.1.7 Now a wrapper for do_password() in WP_Members_Users Class.
+ * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
  *
  * @global object $wpmem The WP-Members object class.
  *

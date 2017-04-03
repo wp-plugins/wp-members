@@ -696,7 +696,7 @@ class WP_Members_Forms {
 		 * on the fly.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.1.7 Use wpmem_form_fields instead.
+		 * @deprecated 3.1.7 Use wpmem_fields instead.
 		 *
 		 * @param array        The array of form fields.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
