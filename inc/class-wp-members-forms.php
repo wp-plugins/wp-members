@@ -754,7 +754,7 @@ class WP_Members_Forms {
 						'meta_key' => $meta_key, 
 						'label'    => __( $field['label'], 'wp-members' ), 
 						'type'     => $field['type'], 
-						'class'    => $field['type'], 
+						'class'    => $class, 
 						'required' => $field['required'], 
 						'req_mark' => $args['req_mark'] 
 					) );
