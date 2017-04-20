@@ -44,16 +44,6 @@
 function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 	
 	global $wpmem, $wpmem_themsg;
-	
-	/**
-	 * Load core functions if they are not already loaded.
-	 */
-	include_once( WPMEM_PATH . 'inc/core.php' );
-	
-	/**
-	 * Load dialog functions if they are not already loaded.
-	 */
-	include_once( WPMEM_PATH . 'inc/dialogs.php' );
 
 	// Defaults.
 	$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
@@ -223,8 +213,8 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 				}
 			}
 			
-			// If the current page is the user profile and an action is being handled.
-			if ( ( wpmem_current_url() == $wpmem->user_pages['profile'] ) && isset( $_GET['a'] ) ) {
+			// Prevents display if the current page is the user profile and an action is being handled.
+			if ( ( wpmem_current_url( true, false ) == wpmem_profile_url() ) && isset( $_GET['a'] ) ) {
 				$do_return = false;
 			}
 		
