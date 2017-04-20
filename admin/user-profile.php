@@ -93,9 +93,13 @@ function wpmem_admin_fields() {
 					} else {
 						$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 					}
-					// @todo - come up with a way to handle file updates - user profile form does not support multitype
-					//$show_field.= ' <span class="description">' . __( 'Update this file:' ) . '</span><br />';
-					//$show_field.= wpmem_create_formfield( $meta[2] . '_update_file', $meta[3], $val, $valtochk );
+					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
+					$input.= wpmem_form_field( array(
+						'name'    => $meta, 
+						'type'    => $field['type'], 
+						'value'   => $val, 
+						'compare' => $valtochk,
+					) );
 				} else {
 					if ( 'select' == $field['type'] || 'radio' == $field['type'] ) {
 						$input = wpmem_create_formfield( $meta, $field['type'], $values, $valtochk );
@@ -236,7 +240,7 @@ function wpmem_admin_update() {
 			$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? implode( $field['delimiter'], $_POST[ $meta ] ) : '';
 		}
 	}
-
+	
 	/**
 	 * Filter the submitted field values for backend profile update.
 	 *
@@ -254,6 +258,10 @@ function wpmem_admin_update() {
 			update_user_meta( $user_id, $key, $val );
 		}
 	}
+	
+	if ( ! empty( $_FILES ) ) {
+		$wpmem->user->upload_user_files( $user_id, $wpmem->fields );
+	}	
 
 	if ( $wpmem->mod_reg == 1 ) {
 

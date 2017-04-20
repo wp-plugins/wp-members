@@ -111,10 +111,12 @@ class WP_Members_Admin_API {
 		// If user has a role that cannot edit users, set profile actions for non-admins.
 		if ( ! current_user_can( 'edit_users' ) ) { 	
 			// User actions and filters.
+			add_action( 'user_edit_form_tag',         'wpmem_user_profile_multipart' );
 			add_action( 'show_user_profile',          'wpmem_user_profile'   );
 			add_action( 'edit_user_profile',          'wpmem_user_profile'   );
 			add_action( 'profile_update',             'wpmem_profile_update' );
 		} else {
+			add_action( 'user_edit_form_tag',         'wpmem_user_profile_multipart' );
 			add_action( 'show_user_profile',          'wpmem_admin_fields' );
 			add_action( 'edit_user_profile',          'wpmem_admin_fields' );
 			add_action( 'profile_update',             'wpmem_admin_update' );

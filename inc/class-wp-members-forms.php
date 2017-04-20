@@ -313,11 +313,12 @@ class WP_Members_Forms {
 	}
 
 	/**
-	 * Login Form Dialog.
+	 * Login Form Builder.
 	 *
 	 * Builds the form used for login, change password, and reset password.
 	 *
 	 * @since 2.5.1
+	 * @since 3.1.7 Moved to forms object class as login_form().
 	 * @since 3.1.7 Added WP action login_form.
 	 *
 	 * @param  string $page 
@@ -571,14 +572,15 @@ class WP_Members_Forms {
 		$form = apply_filters( 'wpmem_login_form_before', '', $arr['action'] ) . $form;
 
 		return $form;
-	} // End wpmem_login_form.
+	} // End login_form.
 
 	/**
-	 * Registration Form Dialog.
+	 * Registration Form Builder.
 	 *
 	 * Outputs the form for new user registration and existing user edits.
 	 *
 	 * @since 2.5.1
+	 * @since 3.1.7 Moved to forms object class as register_form().
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
@@ -860,7 +862,6 @@ class WP_Members_Forms {
 						} else {
 							$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 						}
-						// @todo - come up with a way to handle file updates - user profile form does not support multitype
 						$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 						$input.= wpmem_form_field( array(
 							'name'    => $meta_key, 
@@ -1134,6 +1135,6 @@ class WP_Members_Forms {
 
 		// Return the generated form.
 		return $form;
-	} // End wpmem_inc_registration.
+	} // End register_form().
 
 } // End of WP_Members_Forms class.

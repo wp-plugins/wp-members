@@ -73,9 +73,13 @@ function wpmem_user_profile() {
 					} else {
 						$input = ( 0 < $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 					}
-					// @todo - come up with a way to handle file updates - user profile form does not support multitype
-					//$show_field.= '<br /><span class="description">' . __( 'Update this file:' ) . '</span><br />';
-					//$show_field.= wpmem_create_formfield( $meta . '_update_file', $field['type'], $val, $valtochk );
+					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
+					$input.= wpmem_form_field( array(
+						'name'    => $meta, 
+						'type'    => $field['type'], 
+						'value'   => $val, 
+						'compare' => $valtochk,
+					) );
 				} else {
 					if ( $meta == 'tos' && $val == 'agree' ) {
 						$input = wpmem_create_formfield( $meta, 'hidden', $val );
@@ -202,6 +206,30 @@ function wpmem_profile_update() {
 			}
 		}
 	}
+	
+	if ( ! empty( $_FILES ) ) {
+		$wpmem->user->upload_user_files( $user_id, $wpmem_fields );
+	}	
+}
+
+/**
+ * Sets user profile update to multipart form data.
+ *
+ * If the fields array has a file or image field, this will echo the 
+ * necessary "multipart/form-data" enctype for the form tag.
+ *
+ * @since 3.1.8
+ */
+function wpmem_user_profile_multipart() {
+	global $wpmem;
+	$has_file = false;
+	foreach ( wpmem_fields() as $field ) {
+		if ( $field['type'] == 'file' || $field['type'] == 'image' ) {
+			$has_file = true;
+			break;
+		}
+	}
+	echo ( $has_file ) ? " enctype=\"multipart/form-data\"" : '';
 }
 
 // End of file.

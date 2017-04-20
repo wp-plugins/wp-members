@@ -156,18 +156,7 @@ class WP_Members_User {
 
 		// Handle file uploads, if any.
 		if ( ! empty( $_FILES ) ) {
-
-			foreach ( $wpmem->fields as $meta_key => $field ) {
-
-				if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
-
-					// Upload the file and save it as an attachment.
-					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $user_id );
-
-					// Save the attachment ID as user meta.
-					update_user_meta( $user_id, $meta_key, $file_post_id );
-				}
-			}
+			$this->upload_user_files( $user_id, $wpmem->fields );
 		}
 
 		/**
@@ -330,6 +319,28 @@ class WP_Members_User {
 			}
 		}
 		return;
+	}
+	
+	/**
+	 * Handle user file uploads for registration and profile update.
+	 *
+	 * @since 3.1.8
+	 *
+	 * @param string $user_id
+	 * @param array  $fields
+	 */
+	function upload_user_files( $user_id, $fields ) {
+		global $wpmem;
+		foreach ( $fields as $meta_key => $field ) {
+			if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
+				if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
+					// Upload the file and save it as an attachment.
+					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $user_id );
+					// Save the attachment ID as user meta.
+					update_user_meta( $user_id, $meta_key, $file_post_id );
+				}
+			}
+		}
 	}
 	
 }

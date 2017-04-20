@@ -362,19 +362,7 @@ function wpmem_registration( $tag ) {
 		
 		// Handle file uploads, if any.
 		if ( ! empty( $_FILES ) ) {
-	
-			foreach ( $wpmem->fields as $meta_key => $field ) {
-	
-				if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
-					if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
-						// Upload the file and save it as an attachment.
-						$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $wpmem->user->post_data['ID'] );
-	
-						// Save the attachment ID as user meta.
-						update_user_meta( $wpmem->user->post_data['ID'], $meta_key, $file_post_id );
-					}
-				}
-			}
+			$wpmem->user->upload_user_files( $wpmem->user->post_data['ID'], $wpmem->fields );
 		}
 
 		// Update wp_update_user fields.
