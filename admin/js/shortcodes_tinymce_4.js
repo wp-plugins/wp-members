@@ -54,28 +54,28 @@
 									editor.insertContent('[wpmem_form register]');
 								}
 							},
-							/*{
+							{
 								text: "registration + redirect",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register redirect_to="http://mysite.com/my-page/"]');
 								}
-							},*/
+							},
 							{
 								text: "registration + logged in content",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register]<br />This displays when logged in<br />[/wpmem_form]');
 								}
 							},
-							/*{
+							{
 								text: "registration + redirect + content",
 								onclick: function(){
 									editor.insertContent('[wpmem_form register redirect_to="http://mysite.com/my-page/"]<br />This displays when logged in<br />[/wpmem_form]');
 								}
-							},*/
+							},
 						]
 					},
 					{
-						text: 'Other Forms',
+						text: 'User Profile',
 						menu: [
 							{
 								text: "User Profile Page",
@@ -133,7 +133,7 @@
 						]
 					},
 					{
-						text: 'Login / Logout Links',
+						text: 'Links',
 						menu: [
 							{
 								text: "basic logout link",
@@ -153,6 +153,30 @@
 									editor.insertContent('[wpmem_loginout]');
 								}
 							},
+							{
+								text: "log in link",
+								onclick: function(){
+									editor.insertContent('[wpmem_login_link]');
+								}
+							},
+							{
+								text: "log in link + custom link text",
+								onclick: function(){
+									editor.insertContent('[wpmem_login_link]Link Text[/wpmem_login_link]');
+								}
+							},
+							{
+								text: "register link",
+								onclick: function(){
+									editor.insertContent('[wpmem_reg_link]');
+								}
+							},
+							{
+								text: "register link + custom link text",
+								onclick: function(){
+									editor.insertContent('[wpmem_reg_link]Link Text[/wpmem_reg_link]');
+								}
+							}
 						]
 					},
 					{
@@ -165,6 +189,12 @@
 						text: 'User Count',
 						onclick: function(){
 							editor.insertContent('[wpmem_show_count label="Active Users: " key=active value=1]');
+						}
+					},
+					{
+						text: 'User Avatar',
+						onclick: function(){
+							editor.insertContent('[wpmem_avatar]');
 						}
 					},
 				]
