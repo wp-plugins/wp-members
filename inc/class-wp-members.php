@@ -311,12 +311,13 @@ class WP_Members {
 		add_action( 'wp_print_styles',       'wpmem_enqueue_style' );      // load the stylesheet if using the new forms
 
 		// Add filters.
-		add_filter( 'the_content',           array( $this, 'do_securify' ), 99 );
-		add_filter( 'allow_password_reset',  'wpmem_no_reset' );                 // no password reset for non-activated users
-		add_filter( 'register_form',         'wpmem_wp_register_form' );         // adds fields to the default wp registration
-		add_filter( 'registration_errors',   'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
-		add_filter( 'comments_open',         'wpmem_securify_comments', 99 );    // securifies the comments
-		add_filter( 'wpmem_securify',        'wpmem_reg_securify' );             // adds success message on login form if redirected
+		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
+		add_filter( 'allow_password_reset',      'wpmem_no_reset' );                 // no password reset for non-activated users
+		add_filter( 'register_form',             'wpmem_wp_register_form' );         // adds fields to the default wp registration
+		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
+		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
+		add_filter( 'comments_open',             'wpmem_securify_comments', 99 );    // securifies the comments
+		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 

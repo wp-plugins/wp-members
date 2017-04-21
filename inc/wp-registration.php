@@ -27,22 +27,27 @@
  * @since 2.8.7
  * @since 3.1.1 Updated to support new (3.1.0) field types.
  * @since 3.1.6 Updated to support new fields array. Added WC classes.
+ * @since 3.1.8 Added $process parameter.
  */
-function wpmem_do_wp_register_form() {
+function wpmem_do_wp_register_form( $process = 'wp' ) {
 
 	global $wpmem;
-	$wpmem_fields = wpmem_fields( 'wp' );
+	$wpmem_fields = wpmem_fields( $process );
 	
 	// Check if this is WooCommerce account page.
 	$is_woo = false;
-	if ( function_exists( 'is_account_page' ) ) {
-		$is_woo = ( is_account_page() ) ? true : $is_woo;
+	if ( 'woo' == $process ) {
+		$is_woo = true;
+	} else {
+		if ( function_exists( 'is_account_page' ) ) {
+			$is_woo = ( is_account_page() ) ? true : $is_woo;
+		}
 	}
 	
 	if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
 		foreach ( $wpmem_fields as $meta_key => $field ) {
 
-			$req = ( $field['required'] ) ? ' <span class="req">' . __( '(required)' ) . '</span>' : '';
+			$req = ( $field['required'] ) ? ( ( $is_woo ) ? ' <span class="required">*</span>' : ' <span class="req">' . __( '(required)' ) . '</span>' ) : '';
 
 			// File fields not yet supported for this form.
 			if ( $field['register'] && $meta_key != 'user_email' && $field['type'] != 'file' && $field['type'] != 'image' ) {

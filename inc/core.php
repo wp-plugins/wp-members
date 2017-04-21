@@ -213,13 +213,14 @@ endif;
  * Add registration fields to the native WP registration.
  *
  * @since 2.8.3
+ * @since 3.1.8 Added $process argument.
  */
-function wpmem_wp_register_form() {
+function wpmem_wp_register_form( $process = 'wp' ) {
 	/**
 	 * Load native WP registration functions.
 	 */
 	require_once( WPMEM_PATH . 'inc/wp-registration.php' );
-	wpmem_do_wp_register_form();
+	wpmem_do_wp_register_form( $process );
 }
 
 

@@ -476,4 +476,27 @@ function wpmem_build_rs_captcha() {
 	}
 }
 
+/**
+ * Add registration fields to WooCommerce registration.
+ *
+ * As of WooCommerce 3.0, the WC registration process no longer includes the
+ * WP register_form action hook.  It only includes woocommerce_register_form.
+ * In previous versions, WP-Members hooked to register_form for both WP and
+ * WC registration. To provide backward compatibility with users who may
+ * continue to use updated WP-Members with pre-3.0 WooCommerce, this function
+ * checks for WC version and if it is older than 3.0 it will ignore adding
+ * the WP-Members form fields as they would have already been added when the
+ * register_form action hook fired.
+ *
+ * @since 3.1.8
+ */
+function wpmem_woo_register_form() {
+	if ( class_exists( 'WooCommerce' ) ) {
+		global $woocommerce;
+		if ( version_compare( $woocommerce->version, '3.0', ">=" ) ) {
+			wpmem_wp_register_form( 'woo' );
+		}
+	}
+}
+
 // End of file.
