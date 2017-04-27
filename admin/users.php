@@ -206,7 +206,7 @@ function wpmem_users_admin_notices() {
 
 	global $pagenow, $user_action_msg;
 	 if( $pagenow == 'users.php' && isset( $_REQUEST['activated'] ) ) {
-		$message = $_REQUEST['activated'];
+		$message = esc_html( $_REQUEST['activated'] );
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
 
