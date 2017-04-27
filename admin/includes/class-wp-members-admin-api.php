@@ -67,27 +67,45 @@ class WP_Members_Admin_API {
 	 * @since 3.1.7 Loads all admin dependent files.
 	 */
 	function load_dependencies() {
-		if ( is_multisite() && current_user_can( 'edit_theme_options' ) ) {
+		
+		// Default permissions for loading admin dependencies.
+		$defaults = array( 
+			'main'    => 'edit_theme_options',
+			'users'   => 'list_users',
+			'options' => 'manage_options',
+			'posts'   => 'edit_posts',
+		);
+		/**
+		 * Filter permission defaults.
+		 *
+		 * @since 3.1.8
+		 *
+		 * @param  array $defaults
+		 *
+		 * @todo Still needs final evaluation.
+		 */
+		$permissions = apply_filters( 'wpmem_load_admin_permissions', $defaults );
+		
+		if ( current_user_can( $permissions['main'] ) ) {
 			require_once(  WPMEM_PATH . 'admin/admin.php' );
 		}
-		if ( current_user_can( 'edit_users' ) ) { 
-			require_once( WPMEM_PATH . 'admin/admin.php' );
+		if ( current_user_can( $permissions['users'] ) ) { 
+			require_once( WPMEM_PATH . 'admin/users.php' );
 			require_once( WPMEM_PATH . 'admin/user-profile.php' );
+			require_once( WPMEM_PATH . 'inc/users.php' );
 		}
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( $permissions['options'] ) ) {
 			require_once( WPMEM_PATH . 'admin/tab-options.php' );
 			require_once( WPMEM_PATH . 'admin/tab-fields.php' );
 			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 			require_once( WPMEM_PATH . 'admin/tab-about.php' );
+			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			require_once( WPMEM_PATH . 'admin/dialogs.php' );
 		}
-		if ( current_user_can( 'edit_posts' ) ) {
+		if ( current_user_can( $permissions['posts'] ) ) {
 			require_once( WPMEM_PATH . 'admin/post.php' );
 		}
-		require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
-		require_once( WPMEM_PATH . 'inc/users.php' );
-		require_once( WPMEM_PATH . 'admin/users.php' );
 		require_once( WPMEM_PATH . 'admin/includes/api.php' );
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	}
