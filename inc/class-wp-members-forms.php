@@ -754,10 +754,6 @@ class WP_Members_Forms {
 				if ( $meta_key != 'tos' ) {
 
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
-
-				//	$label = '<label for="' . $meta_key . '" class="' . $class . '">' . __( $field['label'], 'wp-members' );
-				//	$label = ( $field['required'] ) ? $label . $args['req_mark'] : $label;
-				//	$label = $label . '</label>';
 					
 					$label = wpmem_form_label( array(
 						'meta_key' => $meta_key, 
@@ -1098,7 +1094,7 @@ class WP_Members_Forms {
 		$form = $args['txt_before'] . $form . $args['txt_after'];
 
 		// Remove line breaks if enabled for easier filtering later.
-		$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
+		$form = ( $args['strip_breaks'] ) ? $this->strip_breaks( $form, $rows ) : $form; //str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 
 		/**
 		 * Filter the generated HTML of the entire form.
@@ -1143,5 +1139,31 @@ class WP_Members_Forms {
 		// Return the generated form.
 		return $form;
 	} // End register_form().
+	
+	/**
+	 * Strip line breaks from form.
+	 *
+	 * Function removes line breaks and tabs. Checks for textarea fields
+	 * before stripping line breaks.
+	 *
+	 * @since 3.1.8
+	 *
+	 * @param  string $form
+	 * @param  array  $rows
+	 * @return string $form
+	 */
+	function strip_breaks( $form, $rows ) {
+		foreach( $rows as $key => $row ) {
+			if ( 'textarea' == $row['type'] ) {
+				$textareas[ $key ] = $row['field'];
+			}
+		}
+		$form = str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form );
+		foreach ( $textareas as $textarea ) {
+			$stripped = str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $textarea );
+			$form = str_replace( $stripped, $textarea, $form );
+		}
+		return $form;
+	}
 
 } // End of WP_Members_Forms class.

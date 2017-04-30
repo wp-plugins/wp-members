@@ -576,6 +576,13 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 			}
 			return do_shortcode( $result );
 		}
+		
+		// Handle textarea fields (this needs to return right away to skip htmlspecialchars()).
+		// @todo Run htmlspecialchars() earlier so we don't have to do it on return.
+		if ( isset( $field_type ) && 'textarea' == $field_type ) {
+			$result = htmlentities( $user_info->{$field} );
+			return ( $content ) ? do_shortcode( nl2br( $result ) . $content ) : do_shortcode( nl2br( $result ) );
+		}
 
 		// Remove underscores from value if requested (default: on).
 		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
