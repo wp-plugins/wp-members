@@ -194,10 +194,8 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 			// If there is a "role" attribute and the user has a matching role.
 			if ( isset( $atts['role'] ) ) {
 				$roles = explode( ',', $atts['role'] );
-				foreach ( $roles as $role ) {
-					if ( in_array( trim( $role ), $current_user->roles ) ) {
-						$do_return = true;
-					}
+				if ( wpmem_user_has_role( $roles ) ) {
+					$do_return = true;
 				}
 			}
 			
