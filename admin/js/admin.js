@@ -424,6 +424,8 @@ jQuery.fn.extend(
  */
 (function($) {
 	$(document).ready(function() {
+		$("#wpmem_allowhtml").hide();
+		$("#wpmem_min_max").hide();
 		$("#wpmem_checkbox_info").hide();
 		$("#wpmem_dropdown_info").hide();
 		$("#wpmem_file_info").hide();
@@ -432,6 +434,36 @@ jQuery.fn.extend(
 	});
 	$(document).ready(function() {
 		$("#wpmem_field_type_select").change(function() {
+			if ($("#wpmem_field_type_select").val() == 'text'
+				|| $("#wpmem_field_type_select").val() == 'password' 
+				|| $("#wpmem_field_type_select").val() == 'email' 
+				|| $("#wpmem_field_type_select").val() == 'url'
+				|| $("#wpmem_field_type_select").val() == 'number' 
+				|| $("#wpmem_field_type_select").val() == 'date'
+			    || $("#wpmem_field_type_select").val() == 'textarea' )
+				$("#wpmem_placeholder").show();
+			else
+				$("#wpmem_placeholder").hide();
+			if ($("#wpmem_field_type_select").val() == 'text'
+				|| $("#wpmem_field_type_select").val() == 'password' 
+				|| $("#wpmem_field_type_select").val() == 'email' 
+				|| $("#wpmem_field_type_select").val() == 'url'
+				|| $("#wpmem_field_type_select").val() == 'number' 
+				|| $("#wpmem_field_type_select").val() == 'date' ) {
+				$("#wpmem_pattern").show();
+				$("#wpmem_title").show();
+			} else {
+				$("#wpmem_pattern").hide();
+				$("#wpmem_title").hide();
+			}
+			if ($("#wpmem_field_type_select").val() == 'textarea' )
+				$("#wpmem_allowhtml").show();
+			else
+				$("#wpmem_allowhtml").hide();
+			if ($("#wpmem_field_type_select").val() == 'number' || $("#wpmem_field_type_select").val() == 'date' )
+				$("#wpmem_min_max").show();
+			else
+				$("#wpmem_min_max").hide();
 			if ($("#wpmem_field_type_select").val() == 'checkbox')
 				$("#wpmem_checkbox_info").show();
 			else

@@ -210,6 +210,35 @@ function wpmem_update_fields( $action ) {
 		$arr[4] = ( isset( $_POST['add_display'] ) )  ? $_POST['add_display']  : 'n';
 		$arr[5] = ( isset( $_POST['add_required'] ) ) ? $_POST['add_required'] : 'n';
 		$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
+		
+		if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
+			$placeholder = wpmem_get( 'add_placeholder' );
+			if ( $placeholder ) {
+				$arr['placeholder'] = $placeholder;
+			}
+		}
+		
+		if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
+			$pattern = wpmem_get( 'add_pattern' );
+			if ( $pattern ) {
+				$arr['pattern'] = $pattern;
+			}
+			$title = wpmem_get( 'add_title' );
+			if ( $title ) {
+				$arr['title'] = $title;
+			}
+		}
+		
+		if ( 'number' == $type || 'date' == $type ) {
+			$min = wpmem_get( 'add_min' );
+			if ( $min ) {
+				$arr['min'] = $min;
+			}
+			$max = wpmem_get( 'add_max' );
+			if ( $max ) {
+				$arr['max'] = $max;
+			}
+		}
 
 		if ( $type == 'checkbox' ) { 
 			$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
@@ -256,21 +285,17 @@ function wpmem_update_fields( $action ) {
 				$did_update = $add_field_err_msg;
 			}
 		} else {
-
 			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 				if ( $wpmem_fields[ $row ][2] == $_GET['edit'] ) {
 					$arr[0] = $wpmem_fields[ $row ][0];
 					//$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' || $arr[3] == 'file' ) ? 7 : 6 );
-					for ( $r = 0; $r < count( $arr ); $r++ ) {
-						$wpmem_fields[ $row ][ $r ] = $arr[ $r ];
+					foreach ( $arr as $key => $value ) {
+						$wpmem_fields[ $row ][ $key ] = $arr[ $key ];
 					}
 				}
 			}
-
 			update_option( 'wpmembers_fields', $wpmem_fields );
-			
 			$did_update = $_POST['add_name'] . ' ' . __( 'field was updated', 'wp-members' );
-			
 		}
 	}
 
@@ -314,6 +339,9 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 	}
 
 	$form_action = ( $mode == 'edit' ) ? 'editfieldform' : 'addfieldform';
+	
+	$span_optional = '<span class="description">' . __( '(optional)', 'wp-members' ) . '</span>';
+	$span_required = '<span class="req">' . __( '(required)', 'wp-members' ) . '</span>';
 
 ?>
 	<div class="postbox">
@@ -323,12 +351,12 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 				<?php wp_nonce_field( 'wpmem-add-fields' ); ?>
 				<ul>
 					<li>
-						<label><?php _e( 'Field Label', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
+						<label><?php _e( 'Field Label', 'wp-members' ); ?> <?php echo $span_required; ?></label>
 						<input type="text" name="add_name" value="<?php echo ( $mode == 'edit' ) ? $field['label'] : false; ?>" />
 						<?php _e( 'The name of the field as it will be displayed to the user.', 'wp-members' ); ?>
 					</li>
 					<li>
-						<label><?php _e( 'Meta Key', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
+						<label><?php _e( 'Meta Key', 'wp-members' ); ?> <?php echo $span_required; ?></label>
 						<?php if ( $mode == 'edit' ) { 
 							echo $meta_key; ?>
 							<input type="hidden" name="add_option" value="<?php echo $meta_key; ?>" /> 
@@ -356,6 +384,8 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
                                 <option value="image"><?php    _e( 'image',       'wp-members' ); ?></option>
                                 <option value="file"><?php     _e( 'file',        'wp-members' ); ?></option>
                                 <option value="url"><?php      _e( 'url',         'wp-members' ); ?></option>
+                                <option value="number"><?php   _e( 'number',      'wp-members' ); ?></option>
+                                <option value="date"><?php     _e( 'date',        'wp-members' ); ?></option>
                                 <option value="hidden"><?php   _e( 'hidden',      'wp-members' ); ?></option>
 							</select>
 						<?php } ?>
@@ -368,6 +398,40 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 						<label><?php _e( 'Required?', 'wp-members' ); ?></label>
 						<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['required'] ) : false; ?> />
 					</li>
+					<!--<div id="wpmem_allowhtml">
+					<li>
+						<label><?php _e( 'Allow HTML?', 'wp-members' ); ?></label>
+						<input type="checkbox" name="add_html" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['html'] ) : false; ?> />
+					</li>
+					</div>-->
+					<div id="wpmem_placeholder">
+					<li>
+						<label><?php _e( 'Placeholder', 'wp-members' ); ?></label>
+						<input type="text" name="add_placeholder" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['placeholder'] ) ? $field['placeholder'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+					</li>
+					</div>
+					<div id="wpmem_pattern">
+					<li>
+						<label><?php _e( 'Pattern', 'wp-members' ); ?></label>
+						<input type="text" name="add_pattern" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['pattern'] ) ? $field['pattern'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+					</li>
+					</div>
+					<div id="wpmem_title">
+					<li>
+						<label><?php _e( 'Title', 'wp-members' ); ?></label>
+						<input type="text" name="add_title" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['title'] ) ? $field['title'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+					</li>
+					</div>
+					<div id="wpmem_min_max">
+					<li>
+						<label><?php _e( 'Minimum Value', 'wp-members' ); ?></label>
+						<input type="text" name="add_min" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['min'] ) ? $field['min'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+					</li>
+					<li>
+						<label><?php _e( 'Maximum Value', 'wp-members' ); ?></label>
+						<input type="text" name="add_max" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['max'] ) ? $field['max'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+					</li>
+					</div>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( $field['type'] == 'file' || $field['type'] == 'image' ) ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
 					<li>
@@ -420,7 +484,7 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
                     <?php echo ( $mode == 'add' ) ? '</div>' : '';
                     } ?>
 					<li>
-						<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
+						<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?> <?php echo $span_required; ?></label>
 						<textarea name="add_dropdown_value" rows="5" cols="40"><?php
 // Accomodate editing the current dropdown values or create dropdown value example.
 if ( $mode == 'edit' ) {
@@ -456,7 +520,7 @@ Last Row|last_row<?php } } ?></textarea>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && $field['type'] == 'hidden' ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_hidden_info">' : ''; ?>
 					<li>
-						<label><?php _e( 'Value', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
+						<label><?php _e( 'Value', 'wp-members' ); ?> <?php echo $span_required; ?></label>
 						<input type="text" name="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'hidden' ) ? $field['value'] : ''; ?>" />
 					</li>
 				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
