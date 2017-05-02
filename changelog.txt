@@ -1,4 +1,32 @@
-﻿= 3.1.5 =
+﻿= 3.1.6 =
+
+* Fixed [wpmem_field] display handling for multiple select and multiple checkbox field types.
+* Updates to always load fields from wpmem_fields() API function.
+* Updates to begin to utilize new fields settings array.  Fields setting is still store in the same array format as before.  However, it is loaded into the new settings format.  Current object class keeps numeric keys in place for legacy purposes.
+* Updates to dropdown handling on main options tab to display proper preselected value when site is using ssl (https://) and no value is selected.
+* Added wpmem_loginout() API function, changed [wpmem_loginout] shortcode to use API function.
+* Added wpmem_array_insert() API function, allows for inserting array elements at any point in an array.
+* Added wp_destroy_current_session() to logout function.
+* Added WooCommerce support in native WP registration functions. Began adding WooCommerce classes to registration form elements.
+* Added to wpmem_user_has_role() function to check for a single role or if the user has a role that is in an array of roles.
+* Added wpmem_shortcodes_loaded, wpmem_hooks_loaded, and wpmem_dropins_loaded to fire after.
+* Added text input to set a default 'read more' link for auto excerpt.
+* Fixed issue with auto excerpt where an excerpt shorter than the excerpt setting would not display the more link.
+* Preliminary updates to include placeholder support in fields (this will be an option in a future release).
+* Localization fix of untranslated strings.
+* Wrap "Remember Me" checkbox label with label tag in login form.
+* Moved remaining initialization functions to class constructor.
+* Moved wpmem_load_shortcodes, wpmem_load_hooks, and wpmem_load_dropins to fire before.
+* reCAPTCHA version 1 is no longer supported by Google. It is now deprecated in the plugin. If you have reCAPTCHA v1 selected, it will remain so. But once this is changed to a different CAPTCHA setting or if this is a new install, reCAPTCHA version 1 will no longer be available as a selection.
+* Custom field term "Option Name" changed to "Meta Key" for clarity.
+* Marked required custom field properties as required in Add/Edit Field dialogs.
+* Changed redirect_to process to escape the url with esc_url_raw rather than esc_url, otherwise query string variables do not get handled correctly.
+* Fixes issue with displaying checkbox state on the admin user profile screen.
+* Fixes issue with auto excerpt when excerpts are displayed on single posts/pages.
+* Applies style properties for the remember me checkbox label to the default stylesheets. The label tag was added to this text in 3.1.6 (see below).
+* Applies some admin strings for translation.
+
+= 3.1.5 =
 
 * Addressed some security issues to prevent XSS vulnerabilities.
 * Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.  See: http://rkt.bz/xC
