@@ -74,8 +74,8 @@ class WP_Members_Forms {
 				case 'email':
 					$value = esc_attr( wp_unslash( $value ) );
 					break;
-				case 'number':
-					$value = $value;
+				//case 'number':
+					//$value = esc_attr( $value );
 				default:
 					$value = stripslashes( esc_attr( $value ) );
 					break;
@@ -84,8 +84,8 @@ class WP_Members_Forms {
 			$placeholder = ( $placeholder ) ? ' placeholder="' . $placeholder . '"' : '';
 			$pattern     = ( $pattern     ) ? ' pattern="' . $pattern . '"' : '';
 			$title       = ( $title       ) ? ' title="' . $title . '"' : '';
-			$min         = ( isset( $args['min'] ) ) ? ' min="' . $args['min'] . '"' : '';
-			$max         = ( isset( $args['max'] ) ) ? ' max="' . $args['max'] . '"' : '';
+			$min         = ( isset( $args['min'] ) && $args['min'] != '' ) ? ' min="' . $args['min'] . '"' : '';
+			$max         = ( isset( $args['max'] ) && $args['max'] != '' ) ? ' max="' . $args['max'] . '"' : '';
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
@@ -771,7 +771,8 @@ class WP_Members_Forms {
 
 					switch ( $meta_key ) {
 						case( 'description' ):
-							$val = htmlspecialchars( get_user_meta( $userdata->ID, 'description', 'true' ) );
+						case( 'textarea' == $field['type'] ):
+							$val = get_user_meta( $userdata->ID, 'description', 'true' ); // esc_textarea() is run when field is created.
 							break;
 
 						case 'user_email':
@@ -780,7 +781,7 @@ class WP_Members_Forms {
 							break;
 
 						case 'user_url':
-							$val = esc_url( $userdata->user_url );
+							$val = $userdata->user_url; // esc_url() is run when the field is created.
 							break;
 
 						case 'display_name':
@@ -1159,9 +1160,11 @@ class WP_Members_Forms {
 			}
 		}
 		$form = str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form );
-		foreach ( $textareas as $textarea ) {
-			$stripped = str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $textarea );
-			$form = str_replace( $stripped, $textarea, $form );
+		if ( ! empty ( $textareas ) ) {
+			foreach ( $textareas as $textarea ) {
+				$stripped = str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $textarea );
+				$form = str_replace( $stripped, $textarea, $form );
+			}
 		}
 		return $form;
 	}
