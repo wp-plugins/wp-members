@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
-Tested up to: 4.7.3
+Tested up to: 4.7
 Stable tag: 3.1.8
 License: GPLv2
 
@@ -138,17 +138,18 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 
 = 3.1.8 =
 
-* ??API update: query string check in wpmem_current_url() defaults to false.
+* Added admin panel support for HTML5 field types: number, date.
+* Added admin panel support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
 * Added new native registration handling to accommodate WooCommerce 3.0.
 * Added support for user file upload on admin/dashboard profile.
 * Updated post editor shortcode button javascript to include new(er) shortcodes.
 * Fixed WP-Members user profile shortcode to only display logged in content (by shortcode) if the wpmem_a 'action' is not set (i.e. logged in content only displays if page is in "member links" state).
-* Prevents register link in login form from displaying if login form is displayed with the registration form (standard configuration).
-* Code improvements on Fields Tab.
-* Deprecated wpmem_inc_registration(). Use wpmem_register_form() instead.
-* Multisite improvements, including revisions to load all admin dependencies for administrator role, not just super admin. Dependency load role requirement is filterable.
+* Fixed register link in login form to prevent link from displaying if login form is displayed along with the registration form (standard configuration).
+* Improved multisite support, including revisions to load all admin dependencies for administrator role, not just super admin. Dependency load role requirement is filterable.
 * Improved line break stripping process in form builder to allow for line breaks in textarea fields.
 * Improved field shortcode for textarea fields to display line breaks.
+* Deprecated old wpmem_do_sc_pages() function, updated wpmem_sc_user_profile().
+* Code improvements for Fields Tab.
 
 = 3.1.7 =
 
