@@ -404,25 +404,31 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 						<input type="checkbox" name="add_html" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['html'] ) : false; ?> />
 					</li>
 					</div>-->
-					<div id="wpmem_placeholder">
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date', 'textarea' ) ) ) ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_placeholder">' : ''; ?>
 					<li>
 						<label><?php _e( 'Placeholder', 'wp-members' ); ?></label>
 						<input type="text" name="add_placeholder" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['placeholder'] ) ? $field['placeholder'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 					</li>
-					</div>
-					<div id="wpmem_pattern">
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php } ?>
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date' ) ) ) ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_pattern">' : ''; ?>
 					<li>
 						<label><?php _e( 'Pattern', 'wp-members' ); ?></label>
 						<input type="text" name="add_pattern" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['pattern'] ) ? $field['pattern'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 					</li>
-					</div>
-					<div id="wpmem_title">
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_title">' : ''; ?>
 					<li>
 						<label><?php _e( 'Title', 'wp-members' ); ?></label>
 						<input type="text" name="add_title" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['title'] ) ? $field['title'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 					</li>
-					</div>
-					<div id="wpmem_min_max">
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php } ?>
+					
+				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'number', 'date' ) ) ) ) ) { ?>
+				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_min_max">' : ''; ?>
 					<li>
 						<label><?php _e( 'Minimum Value', 'wp-members' ); ?></label>
 						<input type="text" name="add_min" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['min'] ) ? $field['min'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
@@ -431,7 +437,8 @@ function wpmem_a_field_edit( $mode, $wpmem_fields = null, $meta_key = null ) {
 						<label><?php _e( 'Maximum Value', 'wp-members' ); ?></label>
 						<input type="text" name="add_max" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['max'] ) ? $field['max'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 					</li>
-					</div>
+				<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+				<?php } ?>
 				<?php if ( $mode == 'add' || ( $mode == 'edit' && ( $field['type'] == 'file' || $field['type'] == 'image' ) ) ) { ?>
 				<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
 					<li>
