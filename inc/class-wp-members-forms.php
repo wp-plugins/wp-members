@@ -66,6 +66,7 @@ class WP_Members_Forms {
 		case "url":
 		case "email":
 		case "number":
+		case "date":
 			$class = ( 'textbox' == $class ) ? "textbox" : $class;
 			switch ( $type ) {
 				case 'url':
