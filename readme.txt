@@ -138,8 +138,6 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 
 = 3.1.8 =
 
-* Added admin panel support for HTML5 field types: number, date.
-* Added admin panel support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
 * Added new native registration handling to accommodate WooCommerce 3.0.
 * Added support for user file upload on admin/dashboard profile.
 * Updated post editor shortcode button javascript to include new(er) shortcodes.
@@ -149,7 +147,10 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 * Improved line break stripping process in form builder to allow for line breaks in textarea fields.
 * Improved field shortcode for textarea fields to display line breaks.
 * Deprecated old wpmem_do_sc_pages() function, updated wpmem_sc_user_profile().
-* Code improvements for Fields Tab.
+* Fields Tab: improved field edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
+* Fields Tab: added support for HTML5 field types: number, date.
+* Fields Tab: added support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
+* Fields Tab: code overview and improvement.
 
 = 3.1.7 =
 

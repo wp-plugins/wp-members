@@ -20,37 +20,35 @@
  *
  * @since 2.2.2
  *
- * @param  string $wpmem_fields deprecated in 2.8.0
+ * @global object $wpmem
  * @global string $add_field_err_msg The fields error message
+ * @param  string $wpmem_fields deprecated in 2.8.0
  */
 function wpmem_a_build_fields() {
 
 	global $wpmem, $add_field_err_msg;
-	$add_toggle = ( isset( $_GET['edit'] ) ) ? $_GET['edit'] : false;
+	$edit_meta = wpmem_get( 'edit', false, 'get' );
 	$wpmem_fields = wpmem_fields();
 	?>
 	<div class="metabox-holder">
-
 		<div id="post-body">
 			<div id="post-body-content">
-			<?php if ( $add_toggle && ( isset( $_POST['wpmem_admin_a'] ) != 'edit_field' ) ) {
-				wpmem_a_field_edit( 'edit', $wpmem_fields, $add_toggle );
+			<?php if ( $edit_meta ) {
+				wpmem_a_field_edit( 'edit', $wpmem_fields, $edit_meta );
 			 } else {
 				if ( ! $add_field_err_msg ) { 
 					wpmem_a_field_table( $wpmem_fields );
 				}
 				wpmem_a_field_edit( 'add' );
 			} ?>
-
 				<div class="postbox">
 					<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 					<div class="inside">
-						<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/fields/" target="_blank">Users Guide on the field manager</a>.</i></strong>
+						<strong><i><a href="http://rocketgeek.com/plugins/wp-members/docs/plugin-settings/fields/" target="_blank"><?php _e( 'Field Manager Documentation', 'wp-members' ); ?></a></i></strong>
 					</div>
 				</div>
 			</div><!-- #post-body-content -->
 		</div><!-- #post-body -->
-
 	</div><!-- .metabox-holder -->
 	<?php
 }
@@ -97,9 +95,10 @@ function wpmem_a_field_reorder() {
  *
  * @since 2.8
  *
- * @param  string $action The field update action (update_fields|add|edit)
- * @global string $add_field_err_msg The add field error message
- * @return string $did_update The fields update message
+ * @global object $wpmem
+ * @global string $add_field_err_msg  The add field error message
+ * @param  string $action             The field update action (update_fields|add|edit)
+ * @return string $did_update         The fields update message
  *
  * @todo   apply some additional form validation to the add/update process
  */
@@ -117,19 +116,15 @@ function wpmem_update_fields( $action ) {
 		// @todo - need some additional form validation here
 		
 		// Update user table fields.
-		$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : '';
-		update_option( 'wpmembers_utfields', $arr );
+		update_option( 'wpmembers_utfields', wpmem_get( 'ut_fields' ) );
 
-		// Rebuild the array, don't touch user_email - it's always mandatory.
-		$nrow = 0;
+		// Rebuild the field settings array.
+		$wpmem_newfields = array(); $nrow = 0;
 		foreach ( $wpmem_fields as $field ) {
-			
 			$meta_key = $field[2];
-
+			
 			// Check to see if the field is checked for deletion, and if not, add it to the new array.
-			$delete_field = "del_" . $meta_key;
-			$delete_field = ( isset( $_POST[ $delete_field ] ) ) ? $_POST[ $delete_field ] : false; 
-			if ( $delete_field != "delete" ) {
+			if ( "delete" != wpmem_get( "del_" . $meta_key ) ) {
 
 				for ( $i = 0; $i < 4; $i++ ) {
 					$wpmem_newfields[ $nrow ][ $i ] = $field[ $i ];
@@ -137,34 +132,24 @@ function wpmem_update_fields( $action ) {
 
 				$wpmem_newfields[ $nrow ][0] = $nrow + 1;
 
-				$display_field = $meta_key . "_display"; 
-				$require_field = $meta_key . "_required";
-				$checked_field = $meta_key . "_checked";
-
-				if ( $field[2] != 'user_email' ){
-					$wpmem_newfields[ $nrow ][4] = ( isset( $_POST[ $display_field ] ) ) ? 'y' : '';
-					$wpmem_newfields[ $nrow ][5] = ( isset( $_POST[ $require_field ] ) ) ? 'y' : '';
-				} else {
+				if ( 'user_email' == $meta_key ) {
 					$wpmem_newfields[ $nrow ][4] = 'y';
 					$wpmem_newfields[ $nrow ][5] = 'y';
+				} else {
+					$wpmem_newfields[ $nrow ][4] = ( wpmem_get( $meta_key . "_display"  ) ) ? 'y' : '';
+					$wpmem_newfields[ $nrow ][5] = ( wpmem_get( $meta_key . "_required" ) ) ? 'y' : '';
 				}
 				
 				$wpmem_newfields[ $nrow ][6] = $field[6];
 				$wpmem_newfields[ $nrow ][7] = ( isset( $field[7] ) ) ? $field[7] : '';
-				if ( $field[3] == 'checkbox' ) { 
-					if ( isset( $_POST[ $checked_field ] ) && $_POST[ $checked_field ] == 'y' ) {
-						$wpmem_newfields[ $nrow ][8] = 'y';
-					} else {
-						$wpmem_newfields[ $nrow ][8] = 'n';
-					}
+				if ( 'checkbox' == $field[3] ) { 
+					$wpmem_newfields[ $nrow ][8] = ( wpmem_get( $meta_key . "_checked" ) ) ? 'y' : 'n';
 				}
 
 				$nrow = $nrow + 1;
 			}
 
 		}
-		
-		update_option( 'wpmembers_fields', $wpmem_newfields );
 		$did_update = __( 'WP-Members fields were updated', 'wp-members' );
 
 	} elseif ( $action == 'add_field' || 'edit_field' ) {
@@ -212,32 +197,17 @@ function wpmem_update_fields( $action ) {
 		$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 		
 		if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-			$placeholder = wpmem_get( 'add_placeholder' );
-			if ( $placeholder ) {
-				$arr['placeholder'] = $placeholder;
-			}
+			$arr['placeholder'] = wpmem_get( 'add_placeholder' );
 		}
 		
 		if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-			$pattern = wpmem_get( 'add_pattern' );
-			if ( $pattern ) {
-				$arr['pattern'] = $pattern;
-			}
-			$title = wpmem_get( 'add_title' );
-			if ( $title ) {
-				$arr['title'] = $title;
-			}
+			$arr['pattern'] = wpmem_get( 'add_pattern' );
+			$arr['title']   = wpmem_get( 'add_title' );
 		}
 		
 		if ( 'number' == $type || 'date' == $type ) {
-			$min = wpmem_get( 'add_min' );
-			if ( $min ) {
-				$arr['min'] = $min;
-			}
-			$max = wpmem_get( 'add_max' );
-			if ( $max ) {
-				$arr['max'] = $max;
-			}
+			$arr['min'] = wpmem_get( 'add_min' );
+			$arr['max'] = wpmem_get( 'add_max' );
 		}
 
 		if ( $type == 'checkbox' ) { 
@@ -279,7 +249,7 @@ function wpmem_update_fields( $action ) {
 		if ( $action == 'add_field' ) {
 			if ( ! $add_field_err_msg ) {
 				array_push( $wpmem_fields, $arr );
-				update_option( 'wpmembers_fields', $wpmem_fields );
+				
 				$did_update = $_POST['add_name'] . ' ' . __( 'field was added', 'wp-members' );
 			} else {
 				$did_update = $add_field_err_msg;
@@ -288,18 +258,19 @@ function wpmem_update_fields( $action ) {
 			for ( $row = 0; $row < count( $wpmem_fields ); $row++ ) {
 				if ( $wpmem_fields[ $row ][2] == $_GET['edit'] ) {
 					$arr[0] = $wpmem_fields[ $row ][0];
-					//$x = ( $arr[3] == 'checkbox' ) ? 8 : ( ( $arr[3] == 'select' || $arr[3] == 'file' ) ? 7 : 6 );
 					foreach ( $arr as $key => $value ) {
 						$wpmem_fields[ $row ][ $key ] = $arr[ $key ];
 					}
 				}
 			}
-			update_option( 'wpmembers_fields', $wpmem_fields );
 			$did_update = $_POST['add_name'] . ' ' . __( 'field was updated', 'wp-members' );
+			$did_update.= '<p><a href="' . add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields' ), get_admin_url() . 'options-general.php' ) . '">&laquo; ' . __( 'Return to Fields Table', 'wp-members' ) . '</a></p>';
 		}
+		
+		$wpmem_newfields = $wpmem_fields;
 	}
 
-	if ( WPMEM_DEBUG == true && isset( $arr ) ) { echo "<pre>"; print_r($arr); echo "</pre>"; }
+	update_option( 'wpmembers_fields', $wpmem_newfields );
 
 	global $wpmem;
 	$wpmem->load_fields();
@@ -537,6 +508,7 @@ Last Row|last_row<?php } } ?></textarea>
 				<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />
 				<?php $text = ( $mode == 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?>
 				<?php submit_button( $text ); ?>
+				<p><a href="<?php echo add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields' ), get_admin_url() . 'options-general.php' ); ?>">&laquo; <?php _e( 'Return to Fields Table', 'wp-members' ); ?></a></p>
 			</form>
 		</div>
 	</div>
@@ -584,10 +556,7 @@ function wpmem_a_field_table( $wpmem_fields ) {
 				<?php
 				// Get the user table fields array.
 				$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
-				// Order, label, optionname, input type, display, required, native.
 				$class = '';
-				// for ( $row = 0; $row < count($wpmem_fields); $row++ ) {
-				$row = 0;
 				foreach ( $wpmem_fields as $meta_key => $field ) {
 					$class = ( $class == 'alternate' ) ? '' : 'alternate'; ?>
 					<tr class="<?php echo $class; ?>" valign="top" id="<?php echo $meta_key;?>">
@@ -606,14 +575,12 @@ function wpmem_a_field_table( $wpmem_fields ) {
 					  <?php } else { ?>
 						<td colspan="2" width="20%"><small><i><?php _e( '(Email cannot be removed)', 'wp-members' ); ?></i></small></td>
 					  <?php } ?>
-						<td align="center" width="10%"><?php if ( $field['type'] == 'checkbox' ) { 
-							echo wpmem_create_formfield( $meta_key . "_checked", 'checkbox', true, $field['checked_default'] ); } ?>
-						</td>
+						<td align="center" width="10%"><?php echo ( $field['type'] == 'checkbox' ) ? wpmem_create_formfield( $meta_key . "_checked", 'checkbox', true, $field['checked_default'] ) : '' ?></td>
 						<td width="10%"><?php echo ( $field['native'] ) ? 'native' : wpmem_fields_edit_link( $meta_key ); ?></td>
 
 						<td align="center" width="10%">
 						<?php
-						$wpmem_ut_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );
+						$wpmem_ut_fields_skip = array( 'user_login', 'user_email', 'confirm_email', 'password', 'confirm_password' );
 						if ( ! in_array( $meta_key, $wpmem_ut_fields_skip ) ) { ?>
 							<input type="checkbox" name="ut_fields[<?php echo $meta_key; ?>]" 
 							value="<?php echo $field['label']; ?>" 
