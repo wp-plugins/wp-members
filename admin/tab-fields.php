@@ -155,9 +155,9 @@ function wpmem_a_render_fields_tab() {
  */
 function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key ) {
 	global $wpmem;
+	$fields = wpmem_fields();
 	if ( $mode == 'edit' ) {
-		$fields = wpmem_fields();
-		$field  = $fields[ $meta_key ];	
+		$field = $fields[ $meta_key ];	
 	}
 	$form_action = ( $mode == 'edit' ) ? 'editfieldform' : 'addfieldform'; 
 	$span_optional = '<span class="description">' . __( '(optional)', 'wp-members' ) . '</span>';
@@ -347,6 +347,17 @@ Last Row|last_row<?php } } ?></textarea>
 		<?php } ?>
 		</ul><br />
 		<?php if ( $mode == 'edit' ) { ?><input type="hidden" name="field_arr" value="<?php echo $meta_key; ?>" /><?php } ?>
+		<?php if ( 'add' == $mode ) {
+				$ids = array();
+				foreach ( $fields as $f ) {
+					$ids[] = $f[0];
+				}
+				sort( $ids );
+				$field_order_id = end( $ids ) + 1;
+			} else {
+				$field_order_id = $field[0];
+			} ?>
+		<input type="hidden" name="add_order_id" value="<?php echo $field_order_id; ?>" />
 		<input type="hidden" name="wpmem_admin_a" value="<?php echo ( $mode == 'edit' ) ? 'edit_field' : 'add_field'; ?>" />
 		<?php $text = ( $mode == 'edit' ) ? __( 'Edit Field', 'wp-members' ) : __( 'Add Field', 'wp-members' ); ?>
 		<?php submit_button( $text ); ?>
@@ -376,7 +387,7 @@ function wpmem_a_render_fields_tab_field_table() {
 			
 			$meta = $field[2];
 			
-			$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $field[1], $wpmem_ut_fields ) ) ) ? true : '';
+			$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $field[1], $wpmem_ut_fields ) ) ) ? $field[1] : '';
 			$field_items[] = array(
 				'order'    => $field[0],
 				'label'    => $field[1],
@@ -386,34 +397,29 @@ function wpmem_a_render_fields_tab_field_table() {
 				'req'      => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
 				//'profile'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', true, $field[6] ) : '',
 				'edit'     => wpmem_fields_edit_link( $meta ),
-				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', true, $ut_checked ) : '',			 
+				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',			 
 				'sort'     => '<span class="ui-icon ui-icon-grip-dotted-horizontal" title="' . __( 'Drag and drop to reorder fields', 'wp-members' ) . '"></span>',
 			);
 		}
 	}
 	
-	$user_screen_items = array(
-		'user_registered' => array( 'label' => __( 'Registration Date', 'wp-members' ), 'meta'  => 'user_registered',
-			'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', true, $ut_checked ) : '',
-		), 
+	$extra_user_screen_items = array( 
+		'user_registered' => 'Registration Date',
+		'active' => 'Active',
+		'wpmem_reg_ip' => 'Registration IP',
+		'exp_type' => 'Subscription Type',
+		'expires' => 'Expires',
 	);
 	
-	if ( $wpmem->mod_reg == 1 ) {
-		$user_screen_items[] = array( 'label' => __( 'Active', 'wp-members' ), 'meta' => 'active',
-			'userscrn' => ( ( $wpmem_ut_fields ) && ( in_array( 'Active', $wpmem_ut_fields ) ) ) ? 'checked' : false,
-		);
+	foreach ( $extra_user_screen_items as $key => $item ) {
+		$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $item, $wpmem_ut_fields ) ) ) ? $item : '';
+		if ( 'user_registered' == $key || ( 'active' == $key && 1 == $wpmem->mod_reg ) || 'wpmem_reg_ip' == $key || defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && ( 'exp_type' == $key || 'expires' == $key ) ) {
+			$user_screen_items[ $key ] = array( 'label' => __( $item, 'wp-members' ), 'meta' => $key,
+				'userscrn' => wpmem_create_formfield( "ut_fields[{$key}]", 'checkbox', $item, $ut_checked ),
+			);
+		}
 	}
-	$user_screen_items[] = array( 'label' => __( 'Registration IP', 'wp-members' ), 'meta' => 'wpmem_reg_ip',
-		'userscrn' => ( ( $wpmem_ut_fields ) && ( in_array( 'Registration IP', $wpmem_ut_fields ) ) ) ? 'checked' : false,
-	);
-	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-		$user_screen_items[] = array( 'label' => 'Subscription Type', 'meta' => 'exp_type',
-			'userscrn' => ( ( $wpmem_ut_fields ) && ( in_array( 'Subscription Type', $wpmem_ut_fields ) ) ) ? 'checked' : false,
-		);
-		$user_screen_items[] = array( 'label' => 'Expires', 'meta' => 'expires',
-			'userscrn' => ( ( $wpmem_ut_fields ) && ( in_array( 'Expires', $wpmem_ut_fields ) ) ) ? 'checked' : false,
-		);
-	}
+	
 	foreach ( $user_screen_items as $screen_item ) {
 		$field_items[] = array(
 			'label' => $screen_item['label'],
@@ -636,7 +642,6 @@ function wpmem_admin_fields_update() {
 	if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) {
 		// Get the current fields.
 		$wpmem_fields    = get_option( 'wpmembers_fields' );
-		$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
 
 		$action = wpmem_get( 'action', false );
 		$action = ( -1 == $action ) ? wpmem_get( 'action2' ) : $action;
@@ -649,7 +654,8 @@ function wpmem_admin_fields_update() {
 			//check_admin_referer( 'wpmem-update-fields' );
 			
 			// Update user table fields.
-			update_option( 'wpmembers_utfields', wpmem_get( 'ut_fields' ) );
+			$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : '';
+			update_option( 'wpmembers_utfields', $arr );
 
 			// Update display/required settings
 			foreach ( $wpmem_fields as $key => $field ) {
@@ -711,12 +717,12 @@ function wpmem_admin_fields_update() {
 
 			$type =  wpmem_get( 'add_type' );
 
-			$arr[0] = ( wpmem_get( 'wpmem_admin_a' ) == 'add_field' ) ? ( count( $wpmem_fields ) ) + 2 : false;
+			$arr[0] = wpmem_get( 'add_order_id' );
 			$arr[1] = stripslashes( wpmem_get( 'add_name' ) );
 			$arr[2] = $us_option;
 			$arr[3] = $type;
-			$arr[4] = wpmem_get( 'add_display', 'n' );// ( isset( $_POST['add_display'] ) )  ? $_POST['add_display']  : 'n';
-			$arr[5] = wpmem_get( 'add_required', 'n' ); //( isset( $_POST['add_required'] ) ) ? $_POST['add_required'] : 'n';
+			$arr[4] = wpmem_get( 'add_display', 'n' );
+			$arr[5] = wpmem_get( 'add_required', 'n' );
 			$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 
 			if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
