@@ -288,6 +288,7 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
  * @since 3.1.6 Include accepting an array of roles to check.
  *
  * @global object        $current_user Current user object.
+ * @global object        $wpmem        WP_Members object.
  * @param  string|array  $role         Slug or array of slugs of the role being checked.
  * @param  int           $user_id      ID of the user being checked (optional).
  * @return boolean       $has_role     True if user has the role, otherwise false.
@@ -310,6 +311,30 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 	} else {
 		return ( in_array( $role, $user->roles ) ) ? true : $has_role;
 	}
+}
+
+/**
+ * Checks if a user has a given meta value.
+ *
+ * @since 3.1.8
+ *
+ * @global object  $wpmem     WP_Members object.
+ * @param  string  $meta      Meta key being checked.
+ * @param  string  $value     Value the meta key should have (optional).
+ * @param  int     $user_id   ID of the user being checked (optional).
+ * @return boolean $has_meta  True if user has the meta value, otherwise false.
+ */
+function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
+	global $wpmem;
+	$user_id = ( $user_id ) ? $user_id : get_current_user_id();
+	$has_meta = false;
+	$user_value = get_user_meta( $user_id, $meta, true );
+	if ( $value ) {
+		$has_meta = ( $user_value == $value ) ? true : $has_meta;
+	} else {
+		$has_meta = ( $value ) ? true : $has_meta;
+	}
+	return $has_meta;
 }
 
 /**

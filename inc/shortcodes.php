@@ -199,7 +199,7 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 			}
 			
 			// If there is a status attribute of "sub" and the user is logged in.
-			if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' && is_user_logged_in() ) {
+			if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' ) {
 				if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {	
 					if ( ! wpmem_chk_exp() ) {
 						$do_return = true;
@@ -207,6 +207,14 @@ function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) 
 						$do_return = true;
 						$content = wpmem_sc_expmessage();
 					}
+				}
+			}
+			
+			// If there is a meta key attribute.
+			if ( isset( $atts['meta_key'] ) ) {
+				$value = ( isset( $atts['meta_value'] ) ) ? $atta['meta_value'] : false;
+				if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
+					$do_return = true;
 				}
 			}
 			
