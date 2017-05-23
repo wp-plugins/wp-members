@@ -140,6 +140,8 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 
 * Added new native registration handling to accommodate WooCommerce 3.0.
 * Added support for user file upload on admin/dashboard profile.
+* Added meta_key/meta_value attribute to [wpmem_logged_in] shortcode.
+* Added wpmem_user_has_meta() API function.
 * Updated post editor shortcode button javascript to include new(er) shortcodes.
 * Fixed WP-Members user profile shortcode to only display logged in content (by shortcode) if the wpmem_a 'action' is not set (i.e. logged in content only displays if page is in "member links" state).
 * Fixed register link in login form to prevent link from displaying if login form is displayed along with the registration form (standard configuration).
@@ -147,10 +149,10 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 * Improved line break stripping process in form builder to allow for line breaks in textarea fields.
 * Improved field shortcode for textarea fields to display line breaks.
 * Deprecated old wpmem_do_sc_pages() function, updated wpmem_sc_user_profile().
-* Fields Tab: improved field edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
+* Fields Tab: ground-up rebuild to utilize WP_List_Table and jquery sorting UI.
+* Fields Tab: improved field add/edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
 * Fields Tab: added support for HTML5 field types: number, date.
 * Fields Tab: added support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
-* Fields Tab: code overview and improvement.
 
 = 3.1.7 =
 
