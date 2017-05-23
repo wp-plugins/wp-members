@@ -90,11 +90,10 @@ function wpmem_fields_edit_link( $field_id ) {
  */
 function wpmem_a_render_fields_tab() {
 
-	global $wpmem, $did_update;
+	global $wpmem, $did_update, $delete_action;
 	$wpmem_fields  = wpmem_fields();
 	$edit_meta     = wpmem_get( 'field', false, 'get' );
 	$add_meta      = wpmem_get( 'add_field', false );
-	$delete_action = wpmem_get( 'action' );
 	
 	if ( 'delete' == $delete_action ) {
 		$delete_fields = wpmem_get( 'delete' ); ?>
@@ -632,14 +631,17 @@ function wpmem_bulk_fields_action() {
  */
 function wpmem_admin_fields_update() {
 	
-	global $wpmem, $did_update;
+	global $wpmem, $did_update, $delete_action;
 
 	if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) {
 		// Get the current fields.
 		$wpmem_fields    = get_option( 'wpmembers_fields' );
 		$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
 
-		$action = wpmem_get( 'action' );
+		$action = wpmem_get( 'action', false );
+		$action = ( -1 == $action ) ? wpmem_get( 'action2' ) : $action;
+		
+		$delete_action = false;
 
 		if ( 'save' == $action ) {
 
@@ -667,7 +669,7 @@ function wpmem_admin_fields_update() {
 			
 		} elseif ( 'delete' == $action ) {
 			
-			//echo '<pre>'; print_r( $_POST['delete'] ); exit();
+			$delete_action = 'delete';
 
 		} elseif ( 'add_field' == wpmem_get( 'wpmem_admin_a' ) || 'edit_field' == wpmem_get( 'wpmem_admin_a' ) ) {
 
