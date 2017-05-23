@@ -24,10 +24,6 @@
  */
 
 
-// Include the form building functions.
-include_once( WPMEM_PATH . 'inc/forms.php' );
-
-
 if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
 /**
  * Login Failed Dialog.

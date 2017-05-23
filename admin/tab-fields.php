@@ -633,8 +633,7 @@ function wpmem_bulk_fields_action() {
 function wpmem_admin_fields_update() {
 	
 	global $wpmem, $did_update;
-	
-	//if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) {
+
 	if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) {
 		// Get the current fields.
 		$wpmem_fields    = get_option( 'wpmembers_fields' );
