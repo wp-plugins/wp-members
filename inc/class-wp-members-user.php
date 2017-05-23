@@ -322,6 +322,38 @@ class WP_Members_User {
 	}
 	
 	/**
+	 * Handles retrieving a forgotten username.
+	 *
+	 * @since 3.0.8
+	 * @since 3.1.6 Dependencies now loaded by object.
+	 * @since 3.1.8 Moved to user object.
+	 *
+	 * @return string $regchk The regchk value.
+	 */
+	function retrieve_username() {
+		if ( isset( $_POST['formsubmit'] ) ) {
+			$email = sanitize_email( $_POST['user_email'] );
+			$user  = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $email ) : false;
+			if ( $user ) {
+				// Send it in an email.
+				wpmem_inc_regemail( $user->ID, '', 4 );
+				/**
+				 * Fires after retrieving username.
+				 *
+				 * @since 3.0.8
+				 *
+				 * @param int $user_ID The user's numeric ID.
+				 */
+				do_action( 'wpmem_get_username', $user->ID );
+				return 'usernamesuccess';
+			} else {
+				return 'usernamefailed';
+			}
+		}
+		return;
+	}
+	
+	/**
 	 * Handle user file uploads for registration and profile update.
 	 *
 	 * @since 3.1.8
