@@ -511,23 +511,23 @@ class WP_Members {
 		switch ( $action ) {
 
 			case 'login':
-				$regchk = wpmem_login();
+				$regchk = $this->user->login();
 				break;
 
 			case 'logout':
-				$regchk = wpmem_logout();
+				$regchk = $this->user->logout();
 				break;
 			
 			case 'pwdchange':
-				$regchk = wpmem_change_password();
+				$regchk = $this->user->password_update( 'change' );
  				break;
 			
 			case 'pwdreset':
-				$regchk = wpmem_reset_password();
+				$regchk = $this->user->password_update( 'reset' );
 				break;
 			
 			case 'getusername':
-				$regchk = wpmem_retrieve_username();
+				$regchk = $this->user->retrieve_username();
 				break;
 			
 			case 'register':
