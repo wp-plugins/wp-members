@@ -672,6 +672,9 @@ function wpmem_admin_fields_update() {
 			$delete_action = 'delete';
 
 		} elseif ( 'add_field' == wpmem_get( 'wpmem_admin_a' ) || 'edit_field' == wpmem_get( 'wpmem_admin_a' ) ) {
+			
+			// Set action.
+			$action = wpmem_get( 'wpmem_admin_a' );
 
 			// Check nonce.
 			//check_admin_referer( 'wpmem-add-fields' );
@@ -730,10 +733,10 @@ function wpmem_admin_fields_update() {
 				$arr['max'] = wpmem_get( 'add_max' );
 			}
 
-			if ( $type == 'checkbox' ) { 
+			if ( $type == 'checkbox' ) {
 				$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
-				$arr[7] = ( isset( $_POST['add_checked_value'] ) )   ? $_POST['add_checked_value']   : false;
-				$arr[8] = ( isset( $_POST['add_checked_default'] ) ) ? $_POST['add_checked_default'] : 'n';
+				$arr[7] = wpmem_get( 'add_checked_value', false );
+				$arr[8] = wpmem_get( 'add_checked_default', 'n' );
 			}
 
 			if (   $type == 'select' 
