@@ -26,16 +26,6 @@
  * - wpmem_admin_enqueue_scripts
  */
 
-/**
- * Calls the function to reorder fields.
- *
- * @since 2.8.0
- */
-function wpmem_a_do_field_reorder() {
-	// Reorder registration fields.
-	wpmem_a_field_reorder();
-}
-
 
 /**
  * Filter to add link to settings from plugin panel.
@@ -157,9 +147,6 @@ function wpmem_admin_do_tab( $tab ) {
 	case 'options' :
 		wpmem_a_build_options();
 		break;
-	case 'fields' :
-		wpmem_a_build_fields();
-		break;
 	case 'dialogs' :
 		wpmem_a_build_dialogs();
 		break;
@@ -204,12 +191,6 @@ function wpmem_admin_action( $action ) {
 	case 'update_settings':
 	case 'update_cpts':
 		$did_update = ( 'update_cpts' == $action ) ? wpmem_update_cpts() : wpmem_update_options();
-		break;
-
-	case 'update_fields':
-	case 'add_field': 
-	case 'edit_field':
-		$did_update = wpmem_update_fields( $action );
 		break;
 
 	case 'update_dialogs':
