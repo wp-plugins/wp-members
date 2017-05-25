@@ -271,12 +271,12 @@ function wpmem_registration( $tag ) {
 		 * see if it's different, then check if it is a valid address and it exists.
 		 */
 		global $current_user; wp_get_current_user();
-		if ( $wpmem->user->post_data['user_email'] !=  $current_user->user_email ) {
+		if ( $wpmem->user->post_data['user_email'] != $current_user->user_email ) {
 			if ( email_exists( $wpmem->user->post_data['user_email'] ) ) { 
 				return "email";
 				exit();
 			} 
-			if ( !is_email( $wpmem->user->post_data['user_email']) ) { 
+			if ( in_array( 'user_email', $wpmem->fields ) && ! is_email( $wpmem->user->post_data['user_email']) ) { 
 				$wpmem_themsg = $wpmem->get_text( 'reg_valid_email' );
 				return "updaterr";
 				exit();
