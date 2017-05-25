@@ -52,6 +52,9 @@
 	color: #f00;
 }
 
+#the-list {
+	cursor: move;
+}
 #sort {
 	width: 24px;
 }

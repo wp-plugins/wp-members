@@ -476,7 +476,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 		if ( in_array( $item['meta'], $this->no_delete ) || in_array( $item['meta'], $this->excludes ) ) {
 			return;
 		} else {
-			return sprintf( '<input type="checkbox" name="delete[]" value="%s" />', $item['meta'] );
+			return sprintf( '<input type="checkbox" name="delete[]" value="%s" title="%s" />', $item['meta'], __( 'delete', 'wp-members' ) );
 		}
 	}
 
