@@ -487,22 +487,26 @@ class WP_Members_Forms {
 
 		$links_array = array(
 			'forgot' => array(
+				'tag'  => 'forgot',
 				'link' => add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ),
 				'page' => 'profile',
 				'action' => 'login',
 			),
-			'register' => array( 
+			'register' => array(
+				'tag'  => 'reg',
 				'link' => $wpmem->user_pages['register'],
 				'page' => 'register',
 				'action' => 'login',
 			),
 			'username' => array(
+				'tag'  => 'username',
 				'link' => add_query_arg( 'a', 'getusername', $wpmem->user_pages['profile'] ),
 				'page' => 'profile',
 				'action' => 'pwdreset',
 			),
 		);
 		foreach ( $links_array as $key => $value ) {
+			$tag = $value['tag'];
 			if ( ( $wpmem->user_pages[ $value['page'] ] || 'members' == $page ) && $value['action'] == $arr['action'] ) {
 				/**
 				 * Filters register, forgot password, and forgot username links.
@@ -512,7 +516,7 @@ class WP_Members_Forms {
 				 *
 				 * @param string The raw link.
 				 */
-				$link = apply_filters( "wpmem_{$key}_link", $value['link'] );
+				$link = apply_filters( "wpmem_{$tag}_link", $value['link'] );
 				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . $link . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';
 				/**
 				 * Filters the register, forgot password, and forgot username links HTML.
@@ -524,7 +528,7 @@ class WP_Members_Forms {
 				 * @param string $str  The link HTML.
 				 * @param string $link The link.
 				 */
-				$link = $args['link_before'] . apply_filters( "wpmem_{$key}_link_str", $str, $link ) . $args['link_after'] . $args['n'];
+				$link = $args['link_before'] . apply_filters( "wpmem_{$tag}_link_str", $str, $link ) . $args['link_after'] . $args['n'];
 				/*
 				 * If this is the register link, and the current post type is set to
 				 * display the register form, and the current page is not the login
