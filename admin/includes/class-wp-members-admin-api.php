@@ -482,6 +482,33 @@ class WP_Members_Admin_API {
 		$this->current_form_fields = wpmem_fields();
 	}
 	
+	/**
+	 * Build admin panel form action url.
+	 *
+	 * @since 3.1.8
+	 *
+	 * @global string $pagenow
+ 	 * @global string $plugin_page
+ 	 * @global object $wpmem         The WP_Members Object.
+	 * @param  mixed  $args          Array of additional arguments|boolean. Default: false.
+	 * @return string $url
+	 */
+	function form_post_url( $args = false ) {
+		global $pagenow, $plugin_page, $wpmem;
+		$tab = wpmem_get( 'tab', false, 'get' );
+		$params = array( 'page' => $plugin_page );
+		if ( $tab ) {
+			$params['tab'] = $tab;
+		}
+		if ( $args ) {
+			foreach( $args as $key => $val ) {
+				$params[ $key ] = $val;
+			}
+		}
+		$url = add_query_arg( $params, admin_url( $pagenow ) );
+		return $url;
+	}
+	
 } // End of WP_Members_Admin_API class.
 
 // End of file.

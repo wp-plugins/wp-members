@@ -46,7 +46,7 @@ function wpmem_a_build_dialogs() {
 					<h3><span>WP-Members <?php _e( 'Dialogs and Error Messages', 'wp-members' ); ?></span></h3>
 					<div class="inside">
 						<p><?php printf( __( 'You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc.', 'wp-members' ), '- &lt;p&gt;, &lt;b&gt;, &lt;i&gt;,' ); ?></p>
-						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>"> 
+						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>"> 
 						<?php wp_nonce_field( 'wpmem-update-dialogs' ); ?>
 							<table class="form-table">
 							<?php if ( ! empty ( $wpmem->admin->dialogs ) ) {	

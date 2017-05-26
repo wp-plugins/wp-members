@@ -52,7 +52,7 @@ function wpmem_a_build_captcha_options() {
 
 					<h3><?php _e( 'Manage reCAPTCHA Options', 'wp-members' ); ?></h3>
 					<div class="inside">
-						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+						<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 						<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
 							<table class="form-table">
 							<?php // if reCAPTCHA is enabled...

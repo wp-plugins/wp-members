@@ -149,6 +149,7 @@ WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_curren
 * Improved line break stripping process in form builder to allow for line breaks in textarea fields.
 * Improved field shortcode for textarea fields to display line breaks.
 * Deprecated old wpmem_do_sc_pages() function, updated wpmem_sc_user_profile().
+* Removed $_SERVER['REQUEST_URI'] from all admin tab form action attributes. Replaced with new wpmem_admin_form_post_url() API function.
 * Fields Tab: ground-up rebuild to utilize WP_List_Table and jquery sorting UI.
 * Fields Tab: improved field add/edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
 * Fields Tab: added support for HTML5 field types: number, date.

@@ -87,6 +87,10 @@ function wpmem_fields_edit_link( $field_id ) {
  * Renders the content of the fields tab.
  *
  * @since 3.1.8
+ *
+ * @global object $wpmem         The WP_Members Object.
+ * @global string $did_update
+ * @global string $delete_action
  */
 function wpmem_a_render_fields_tab() {
 
@@ -103,7 +107,7 @@ function wpmem_a_render_fields_tab() {
 		<?php foreach ( $delete_fields as $meta ) {
 			echo $wpmem->fields[ $meta ]['label'] . ' (meta key: ' . $meta . ')<br />';
 		} ?>
-		<form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+		<form name="<?php echo $delete_action; ?>" id="<?php echo $delete_action; ?>" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 			<?php // wp_nonce_field( 'wpmem-delete-fields' ); ?>
 			<input type="hidden" name="delete_fields" value="<?php echo implode( ",", $delete_fields ); ?>" />
 			<input type="hidden" name="dodelete" value="delete_confirmed" />
@@ -149,9 +153,10 @@ function wpmem_a_render_fields_tab() {
  * @since 2.8
  * @since 3.1.8 Changed name from wpmem_a_field_edit().
  *
- * @param string      $mode The mode for the function (edit|add)
- * @param array|null  $wpmem_fields the array of fields
- * @param string|null $field the field being edited
+ * @global object      $wpmem        The WP_Members Object.
+ * @param  string      $mode         The mode for the function (edit|add)
+ * @param  array|null  $wpmem_fields The array of fields
+ * @param  string|null $field        The field being edited
  */
 function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key ) {
 	global $wpmem;
@@ -161,9 +166,13 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 	}
 	$form_action = ( $mode == 'edit' ) ? 'editfieldform' : 'addfieldform'; 
 	$span_optional = '<span class="description">' . __( '(optional)', 'wp-members' ) . '</span>';
-	$span_required = '<span class="req">' . __( '(required)', 'wp-members' ) . '</span>'; ?>
+	$span_required = '<span class="req">' . __( '(required)', 'wp-members' ) . '</span>'; 
+	$form_submit = array( 'mode' => $mode ); 
+	if ( isset( $_GET['field'] ) ) {
+		$form_submit['field'] = $meta_key; 
+	} ?>
     <h3 class="title"><?php ( $mode == 'edit' ) ? _e( 'Edit Field', 'wp-members' ) : _e( 'Add a Field', 'wp-members' ); ?></h3>
-    <form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+    <form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo wpmem_admin_form_post_url( $form_submit ); ?>">
 		<?php wp_nonce_field( 'wpmem-add-fields' ); ?>
 		<ul>
 			<li>
@@ -439,12 +448,11 @@ function wpmem_a_render_fields_tab_field_table() {
 	$heading     = __( 'Manage Fields', 'wp-members' );
 	//$description = __( 'Displaying fields for:', 'wp-members' );
 	//$which_form  = $wpmem->form_tags[ $wpmem->admin->current_form ];
-	$post_to     = $_SERVER['REQUEST_URI'];
 
 	echo '<div class="wrap">';
 	printf( '<h3 class="title">%s</h3>', $heading );
 	//printf( '<p>%s <strong>%s</strong></p>', $description, $which_form );
-	printf( '<form name="updatefieldform" id="updatefieldform" method="post" action="%s">', $post_to );
+	printf( '<form name="updatefieldform" id="updatefieldform" method="post" action="%s">', wpmem_admin_form_post_url() );
 
 	$table->items = $field_items;
 	$table->prepare_items(); 

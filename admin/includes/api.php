@@ -83,3 +83,18 @@ function wpmem_is_tab( $tab ) {
 function wpmem_admin_user_profile( $user_id ) {
 	return add_query_arg( 'user_id', $user_id, admin_url( 'user-edit.php' ) );
 }
+
+/**
+ * Wrapper for form_post_url().
+ *
+ * @since 3.1.8
+ *
+ * @global object $wpmem The WP_Members Object.
+ * @param  string $tab   The plugin tab being displayed.
+ * @param  mixed  $args  Array of additional arguments|boolean. Default: false.
+ * @return string $url
+ */
+function wpmem_admin_form_post_url( $args = false ) {
+	global $wpmem;
+	return $wpmem->admin->form_post_url( $args );
+}

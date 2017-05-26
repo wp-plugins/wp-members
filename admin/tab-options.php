@@ -70,7 +70,7 @@ function wpmem_a_build_options() {
 				<div class="postbox">
 					<h3><span><?php _e( 'Manage Options', 'wp-members' ); ?></span></h3>
 					<div class="inside">
-						<form name="updatesettings" id="updatesettings" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+						<form name="updatesettings" id="updatesettings" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 						<?php wp_nonce_field( 'wpmem-update-settings' ); ?>
 							<h3><?php _e( 'Content', 'wp-members' ); ?></h3>
 							<ul>
@@ -246,7 +246,7 @@ function wpmem_a_build_options() {
 				<div class="postbox">
 					<h3><span><?php _e( 'Custom Post Types', 'wp-members' ); ?></span></h3>
 					<div class="inside">
-						<form name="updatecpts" id="updatecpts" method="post" action="<?php echo $_SERVER['REQUEST_URI']?>">
+						<form name="updatecpts" id="updatecpts" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 						<?php wp_nonce_field( 'wpmem-update-cpts' ); ?>
 							<table class="form-table">
 								<tr>

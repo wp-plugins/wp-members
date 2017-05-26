@@ -42,7 +42,7 @@ function wpmem_a_build_emails() {
 						<?php _e( 'A list of shortcodes is available here.', 'wp-members' ); ?></a>
 						</p>
 						<hr />
-						<form name="updateemailform" id="updateemailform" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+						<form name="updateemailform" id="updateemailform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>"> 
 						<?php wp_nonce_field( 'wpmem-update-emails' ); ?>
 							<table class="form-table"> 
 								<tr valign="top"> 
