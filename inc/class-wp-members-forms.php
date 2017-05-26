@@ -107,7 +107,7 @@ class WP_Members_Forms {
 			break;
 	
 		case "textarea":
-			$value = stripslashes( esc_textarea( $value ) );
+			$value = stripslashes( $value ); // stripslashes( esc_textarea( $value ) );
 			$class = ( 'textbox' == $class ) ? "textarea" : $class;
 			$rows  = ( isset( $args['rows'] ) ) ? $args['rows'] : '5';
 			$cols  = ( isset( $args['cols'] ) ) ? $args['cols'] : '20';

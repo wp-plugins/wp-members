@@ -478,7 +478,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 
 		global $wpmem;
 		$fields = wpmem_fields();
-		$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native';
+		$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
 		$result = $user_info->{$field};
 		
@@ -522,11 +522,9 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 			return do_shortcode( $result );
 		}
 		
-		// Handle textarea fields (this needs to return right away to skip htmlspecialchars()).
-		// @todo Run htmlspecialchars() earlier so we don't have to do it on return.
+		// Handle line breaks for textarea fields
 		if ( isset( $field_type ) && 'textarea' == $field_type ) {
-			$result = htmlentities( $user_info->{$field} );
-			return ( $content ) ? do_shortcode( nl2br( $result ) . $content ) : do_shortcode( nl2br( $result ) );
+			$result = nl2br( $user_info->{$field} );
 		}
 
 		// Remove underscores from value if requested (default: on).
@@ -536,7 +534,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 
 		$content = ( $content ) ? $result . $content : $result;
 
-		return do_shortcode( htmlspecialchars( $content ) );
+		return do_shortcode( $content );
 	}
 	return;
 }
