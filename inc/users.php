@@ -26,7 +26,7 @@ if ( ! function_exists( 'wpmem_user_profile' ) ):
  */
 function wpmem_user_profile() {
 
-	global $wpmem, $user_id;
+	global $wpmem, $user_id, $current_screen;
 	/**
 	 * Filter the heading for the user profile additional fields.
 	 *
@@ -69,9 +69,9 @@ function wpmem_user_profile() {
 					$attachment_url = wp_get_attachment_url( $val );
 					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
 					if ( 'file' == $field['type'] ) {
-						$input = ( 0 < $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
+						$input = ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
 					} else {
-						$input = ( 0 < $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+						$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
 					}
 					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 					$input.= wpmem_form_field( array(

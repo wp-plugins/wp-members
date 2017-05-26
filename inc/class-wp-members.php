@@ -431,6 +431,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/sidebar.php' );
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/email.php' );
+		require_once( WPMEM_PATH . 'inc/users.php' );
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
 	}
 

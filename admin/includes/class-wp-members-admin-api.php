@@ -92,7 +92,6 @@ class WP_Members_Admin_API {
 		if ( current_user_can( $permissions['users'] ) ) { 
 			require_once( WPMEM_PATH . 'admin/users.php' );
 			require_once( WPMEM_PATH . 'admin/user-profile.php' );
-			require_once( WPMEM_PATH . 'inc/users.php' );
 		}
 		if ( current_user_can( $permissions['options'] ) ) {
 			require_once( WPMEM_PATH . 'admin/tab-options.php' );
@@ -127,7 +126,7 @@ class WP_Members_Admin_API {
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.
-		if ( ! current_user_can( 'edit_users' ) ) { 	
+		if ( ! current_user_can( 'edit_users' ) ) {
 			// User actions and filters.
 			add_action( 'user_edit_form_tag',         'wpmem_user_profile_multipart' );
 			add_action( 'show_user_profile',          'wpmem_user_profile'   );
