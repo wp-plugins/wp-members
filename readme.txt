@@ -112,8 +112,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.7 is a major update. There are no database changes (rollback is possible). See changelog for important details. Minimum WP version is 3.6.
-WP-Members 3.1.7.1 is a minor update, changing only the default for wpmem_current_url().
+WP-Members 3.1.8 is a major update. There are no database changes (rollback is possible). See changelog for important details. Minimum WP version is 3.6.
 
 == Screenshots ==
 
