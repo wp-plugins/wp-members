@@ -150,6 +150,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	line-height: 1;
 	font-weight: 700;
 	margin-bottom: 10px;
+	width: 100%;
 }
 #wpmem_reg .form, 
 #wpmem_login .form {
