@@ -524,7 +524,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 		
 		// Handle line breaks for textarea fields
 		if ( isset( $field_type ) && 'textarea' == $field_type ) {
-			$result = nl2br( $user_info->{$field} );
+			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : nl2br( $user_info->{$field} );
 		}
 
 		// Remove underscores from value if requested (default: on).

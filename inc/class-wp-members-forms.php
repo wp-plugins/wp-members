@@ -777,7 +777,7 @@ class WP_Members_Forms {
 					switch ( $meta_key ) {
 						case( 'description' ):
 						case( 'textarea' == $field['type'] ):
-							$val = get_user_meta( $userdata->ID, 'description', 'true' ); // esc_textarea() is run when field is created.
+							$val = get_user_meta( $userdata->ID, $meta_key, 'true' ); // esc_textarea() is run when field is created.
 							break;
 
 						case 'user_email':
