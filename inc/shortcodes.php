@@ -333,7 +333,7 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
 		 *
 		 * @param string The default edit mode heading.
 		 */
-		$heading = apply_filters( 'wpmem_user_edit_heading', __( 'Edit Your Information', 'wp-members' ) );
+		$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
 
 		switch( $wpmem->action ) {
 
