@@ -62,6 +62,37 @@ class WP_Members_API {
 		}
 		return $display_values;
 	}
+	
+	/**
+	 * Gets the display/label value of a field.
+	 *
+	 * @since 3.1.8
+	 *
+	 * @param  string $meta    The field meta key.
+	 * @param  string $user_id The user's ID.
+	 * @param  string $value   The field's value, if given.
+	 * @return string $value   The display value.
+	 */
+	function get_field_display_value( $meta, $user_id, $value = null ) {
+		global $wpmem;
+		$fields = ( isset( $wpmem->fields ) ) ? $wpmem->fields : wpmem_fields();
+		$field  = $fields[ $meta ];
+		$value  = ( $value ) ? $value : get_user_meta( $user_id, $meta, true );
+		switch ( $field['type'] ) {
+			case 'multiselect':
+			case 'multicheckbox':
+				break;
+			case 'select':
+			case 'radio':
+				$value = $fields[ $meta ]['options'][ $value ];
+				break;
+			case 'image':
+			case 'file':
+				$value = wp_get_attachment_url( $value );
+				break;
+		}
+		return $value;
+	}
 		
 	/**
 	 * Checks that a given user field value is unique.
