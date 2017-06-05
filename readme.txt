@@ -140,6 +140,8 @@ WP-Members 3.1.8.1 corrects a minor issue for text area fields. See changelog.
 
 * Corrects an issue with user profile display/update of textarea fields that are not the WP default bio field.
 * Added display=raw attribute handling to textarea fields to allow display without converting line breaks to HTML br tags.
+* Fixes issue with User Profile form heading not using the get_text() value.
+* Improves logic for displaying register link in login form if login page is not set.
 
 = 3.1.8 =
 

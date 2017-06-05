@@ -534,8 +534,20 @@ class WP_Members_Forms {
 				 * display the register form, and the current page is not the login
 				 * page, then do not add the register link, otherwise add the link.
 				 */
-				$form = ( 'register' == $key && 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url() != wpmem_login_url() ) ? $form : $form . $link;
-				//$form = ( 'register' == $key && isset( $wpmem->user_pages['profile'] ) && ( wpmem_current_url() == $wpmem->user_pages['profile'] ) && 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] ) ? $form : $form . $link;
+				if ( 'register' == $key ) {
+					if ( isset( $wpmem->user_pages['login'] ) && $wpmem->user_pages['login'] != '' ) {
+						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url() != wpmem_login_url() ) ? $form : $form . $link;
+					} else {
+						global $post;
+						if ( has_shortcode( $post->post_content, 'wpmem_profile' ) ) {
+							$form = $form;
+						} else {
+							$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && ! has_shortcode( $post->post_content, 'wpmem_form' ) ) ? $form : $form . $link;
+						}
+					}
+				} else {
+					$form = $form . $link;
+				}
 			}
 		}
 
