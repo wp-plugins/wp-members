@@ -57,6 +57,8 @@ class WP_Members_Admin_API {
 		
 		// Load default dialogs.
 		$dialogs = $this->default_dialogs();
+		
+		$this->user_search = new WP_Members_Admin_User_Search();
 	}
 
 	/**
@@ -92,6 +94,7 @@ class WP_Members_Admin_API {
 		if ( current_user_can( $permissions['users'] ) ) { 
 			require_once( WPMEM_PATH . 'admin/users.php' );
 			require_once( WPMEM_PATH . 'admin/user-profile.php' );
+			require_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
 		}
 		if ( current_user_can( $permissions['options'] ) ) {
 			require_once( WPMEM_PATH . 'admin/tab-options.php' );
