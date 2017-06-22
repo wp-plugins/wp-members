@@ -177,7 +177,7 @@ function wpmem_a_build_options() {
 								<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
 								<?php $captcha = array( __( 'None', 'wp-members' ) . '|0' );
 								if ( 1 == $wpmem->captcha ) {
-									$captcha[] = 'reCAPTCHA v1 (deprecated)|1';
+									$wpmem->captcha = 3; // @todo reCAPTCHA v1 is fully obsolete. Change it to v2.
 								}
 								$captcha[] = __( 'reCAPTCHA', 'wp-members' ) . '|3';
 								$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';

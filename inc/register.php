@@ -449,52 +449,18 @@ function wpmem_register_handle_captcha() {
 	
 	// Get the captcha settings (api keys).
 	$wpmem_captcha = get_option( 'wpmembers_captcha' );
-	
+
+	/*
+	 * @todo reCAPTCHA v1 is deprecated by Google. It is also no longer allowed
+	 * to be set for new installs of WP-Members.  It is NOT compatible with
+	 * PHP 7.1 and is therefore fully obsolete.
+	 */
 	// If captcha is on, check the captcha.
 	if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
-		
-		// If there is no api key, the captcha never displayed to the end user.
-		if ( $wpmem_captcha['recaptcha']['public'] && $wpmem_captcha['recaptcha']['private'] ) {   
-			if ( ! $_POST["recaptcha_response_field"] ) { // validate for empty captcha field
-				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
-				return "empty";
-			}
-		}
-
-		// Check to see if the recaptcha library has already been loaded by another plugin.
-		if ( ! function_exists( '_recaptcha_qsencode' ) ) { 
-			require_once( WPMEM_PATH . 'lib/recaptchalib.php' ); 
-		}
-
-		$publickey  = $wpmem_captcha['recaptcha']['public'];
-		$privatekey = $wpmem_captcha['recaptcha']['private'];
-
-		// The response from reCAPTCHA.
-		$resp = null;
-		// The error code from reCAPTCHA, if any.
-		$error = null;
-
-		if ( $_POST["recaptcha_response_field"] ) {
-
-			$resp = recaptcha_check_answer (
-				$privatekey,
-				$_SERVER["REMOTE_ADDR"],
-				$_POST["recaptcha_challenge_field"],
-				$_POST["recaptcha_response_field"]
-			);
-
-			if ( ! $resp->is_valid ) {
-
-				// Set the error code so that we can display it.
-				global $wpmem_captcha_err;
-				$wpmem_captcha_err = $resp->error;
-				$wpmem_captcha_err = wpmem_get_captcha_err( $wpmem_captcha_err );
-
-				return "captcha";
-
-			}
-		} // End check recaptcha.
-	} elseif ( $wpmem->captcha == 2 ) {
+		$wpmem->captcha = 3;
+	} 
+	
+	if ( $wpmem->captcha == 2 ) {
 		if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
 			// Validate Really Simple Captcha.
 			$wpmem_captcha = new ReallySimpleCaptcha();
