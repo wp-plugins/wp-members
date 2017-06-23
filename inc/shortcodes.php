@@ -527,6 +527,17 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 			$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : nl2br( $user_info->{$field} );
 		}
 
+		// Handle date fields.
+		if ( isset( $field_type ) && 'date' == $field_type ) {
+			if ( isset( $atts['format'] ) ) {
+				// Formats date: http://php.net/manual/en/function.date.php
+				$result =  date( $atts['format'], strtotime( $user_info->{$field} ) );
+			} else {
+				// Formats date to whatever the WP setting is.
+				$result = date_i18n( get_option( 'date_format' ), strtotime( $user_info->{$field} ) );
+			}
+		}
+		
 		// Remove underscores from value if requested (default: on).
 		if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
 			$result = str_replace( '_', ' ', $result );
