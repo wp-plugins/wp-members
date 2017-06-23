@@ -387,6 +387,8 @@ function wpmem_a_render_fields_tab_field_table() {
 
 	$wpmem_ut_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );	
 	$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
+	$wpmem_us_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );	
+	$wpmem_us_fields = get_option( 'wpmembers_usfields' );
 
 	$wpmem_fields = get_option( 'wpmembers_fields', array() );
 	foreach ( $wpmem_fields as $key => $field ) {
@@ -395,8 +397,8 @@ function wpmem_a_render_fields_tab_field_table() {
 		if ( is_numeric( $key ) ) {
 			
 			$meta = $field[2];
-			
 			$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $field[1], $wpmem_ut_fields ) ) ) ? $field[1] : '';
+			$us_checked = ( ( $wpmem_us_fields ) && ( in_array( $field[1], $wpmem_us_fields ) ) ) ? $field[1] : '';
 			$field_items[] = array(
 				'order'    => $field[0],
 				'label'    => $field[1],
@@ -406,7 +408,8 @@ function wpmem_a_render_fields_tab_field_table() {
 				'req'      => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
 				//'profile'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', true, $field[6] ) : '',
 				'edit'     => wpmem_fields_edit_link( $meta ),
-				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',			 
+				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
+				'usearch'  => ( ! in_array( $meta, $wpmem_us_fields_skip ) ) ? wpmem_create_formfield( 'us_fields[' . $meta . ']', 'checkbox', $field[1], $us_checked ) : '',
 				'sort'     => '<span class="ui-icon ui-icon-grip-dotted-horizontal" title="' . __( 'Drag and drop to reorder fields', 'wp-members' ) . '"></span>',
 			);
 		}
@@ -428,18 +431,19 @@ function wpmem_a_render_fields_tab_field_table() {
 			);
 		}
 	}
-	
+
 	foreach ( $user_screen_items as $screen_item ) {
 		$field_items[] = array(
-			'label' => $screen_item['label'],
-			'meta'  => $screen_item['meta'],
-			'type'  => '',
-			'display' => '',
-			'req' => '',
-			'profile' => '',
-			'edit' => '',
+			'label'    => $screen_item['label'],
+			'meta'     => $screen_item['meta'],
+			'type'     => '',
+			'display'  => '',
+			'req'      => '',
+			'profile'  => '',
+			'edit'     => '',
 			'userscrn' => $screen_item['userscrn'],
-			'sort' => '',
+			'usearch'  => '',
+			'sort'     => '',
 		);
 	}
 
@@ -506,6 +510,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			//'profile'  => __( 'Profile Only',  'wp-members' ),
 			'edit'     => __( 'Edit',          'wp-members' ),
 			'userscrn' => __( 'Users Screen',  'wp-members' ),
+			'usearch'  => __( 'Users Search',  'wp-members' ),
 			'sort'     => '',
 		);
 	}
@@ -664,6 +669,10 @@ function wpmem_admin_fields_update() {
 			// Update user table fields.
 			$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : '';
 			update_option( 'wpmembers_utfields', $arr );
+			
+			// Update user search fields.
+			$arr = ( isset( $_POST['us_fields'] ) ) ? $_POST['us_fields'] : '';
+			update_option( 'wpmembers_usfields', $arr );
 
 			// Update display/required settings
 			foreach ( $wpmem_fields as $key => $field ) {

@@ -54,7 +54,7 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_tos'      );
 	delete_option( 'wpmembers_export'   );
 	delete_option( 'wpmembers_utfields' );
-	delete_option( 'wpmembers_utkeys'   );
+	delete_option( 'wpmembers_usfields' );
 
 	delete_option( 'wpmembers_email_newreg'  );
 	delete_option( 'wpmembers_email_newmod'  );

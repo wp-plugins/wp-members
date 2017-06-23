@@ -188,12 +188,13 @@ class WP_Members_Admin_User_Search {
    */
   public function get_meta_keys() {
     // Get the meta keys from the settings
-    $meta_keys = get_option( 'wpmembers_utkeys', $this->get_default_meta_keys() );
-
-    // Make it an array if it isn't one already
-    if ( ! is_array( $meta_keys ) ) {
-      $meta_keys = ! empty( $meta_keys ) ? array( $meta_keys ) : array();
-    }
+    $saved_keys = get_option( 'wpmembers_usfields', $this->get_default_meta_keys() );
+	
+	// Setting is an array of meta_key => meta_value, need the key.
+	$meta_keys = array();
+	foreach ( $saved_keys as $key => $val ) {
+		$meta_keys[] = $key;
+	}
 
     // Return the meta keys
     return $meta_keys;
@@ -208,8 +209,8 @@ class WP_Members_Admin_User_Search {
    */
   public function get_default_meta_keys() {
     return array(
-     'first_name',
-     'last_name',
+     'first_name' => __( 'First Name', 'wp-members' ),
+     'last_name'  => __( 'Last Name', 'wp-members' ),
     );
   }
 }
