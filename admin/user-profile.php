@@ -86,12 +86,14 @@ function wpmem_admin_fields() {
 				
 				// Is this an image or a file?
 				if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
-					$attachment_url = wp_get_attachment_url( $val );
 					$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
 					if ( 'file' == $field['type'] ) {
+						$attachment_url = wp_get_attachment_url( $val );
 						$input = ( $attachment_url ) ? '<a href="' . $attachment_url . '">' . $attachment_url . '</a>' : $empty_file;
 					} else {
-						$input = ( $attachment_url ) ? '<img src="' . $attachment_url . '">' : $empty_file;
+						$attachment_url = wp_get_attachment_image( $val, 'medium' );
+						$edit_url = admin_url( 'upload.php?item=' . $val );
+						$input = ( $attachment_url ) ? '<a href="' . $edit_url . '">' . $attachment_url . '</a>' : $empty_file;
 					}
 					$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 					$input.= wpmem_form_field( array(
