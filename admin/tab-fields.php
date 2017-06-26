@@ -216,8 +216,8 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 				<?php } ?>
 			</li>
 			<li>
-				<label><?php _e( 'Admin Only', 'wp-members' ); ?></label>
-				<input type="checkbox" name="add_display" value="n" <?php echo ( $mode == 'edit' ) ? checked( true, ( ( $field['register'] ) ? false : true ) ) : false; ?> /><?php // @todo Temporary flip. ?>
+				<label><?php _e( 'Display?', 'wp-members' ); ?></label>
+				<input type="checkbox" name="add_display" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['register'] ) : false; ?> />
 			</li>
 			<li>
 				<label><?php _e( 'Required?', 'wp-members' ); ?></label>
@@ -404,7 +404,7 @@ function wpmem_a_render_fields_tab_field_table() {
 				'label'    => $field[1],
 				'meta'     => $meta,
 				'type'     => $field[3],
-				'display'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', ( ( 'y' == $field[4] ) ? 'n' : 'y' ) ) : '', //@todo Temporary data flip for "admin only"/"display?" checkbox change.
+				'display'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
 				'req'      => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
 				//'profile'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', true, $field[6] ) : '',
 				'edit'     => wpmem_fields_edit_link( $meta ),
@@ -505,7 +505,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			'label'    => __( 'Display Label', 'wp-members' ),
 			'meta'     => __( 'Meta Key',      'wp-members' ),
 			'type'     => __( 'Field Type',    'wp-members' ),
-			'display'  => __( 'Admin Only',    'wp-members' ),
+			'display'  => __( 'Display?',      'wp-members' ),
 			'req'      => __( 'Required?',     'wp-members' ),
 			//'profile'  => __( 'Profile Only',  'wp-members' ),
 			'edit'     => __( 'Edit',          'wp-members' ),
@@ -681,7 +681,7 @@ function wpmem_admin_fields_update() {
 					$wpmem_fields[ $key ][4] = 'y';
 					$wpmem_fields[ $key ][5] = 'y';
 				} else {
-					$wpmem_fields[ $key ][4] = ( wpmem_get( $meta_key . "_display"  ) ) ? ''  : 'y'; // @todo Temporary flip
+					$wpmem_fields[ $key ][4] = ( wpmem_get( $meta_key . "_display"  ) ) ? 'y' : '';
 					$wpmem_fields[ $key ][5] = ( wpmem_get( $meta_key . "_required" ) ) ? 'y' : '';
 				}
 			}
@@ -738,7 +738,7 @@ function wpmem_admin_fields_update() {
 			$arr[1] = stripslashes( wpmem_get( 'add_name' ) );
 			$arr[2] = $us_option;
 			$arr[3] = $type;
-			$arr[4] = wpmem_get( 'add_display', 'y' ); // @todo Temporary flip
+			$arr[4] = wpmem_get( 'add_display', 'n' );
 			$arr[5] = wpmem_get( 'add_required', 'n' );
 			$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 
