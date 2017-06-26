@@ -743,12 +743,12 @@ function wpmem_admin_fields_update() {
 			$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 
 			if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-				$arr['placeholder'] = wpmem_get( 'add_placeholder' );
+				$arr['placeholder'] = stripslashes( wpmem_get( 'add_placeholder' ) );
 			}
 
 			if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-				$arr['pattern'] = wpmem_get( 'add_pattern' );
-				$arr['title']   = wpmem_get( 'add_title' );
+				$arr['pattern'] = stripslashes( wpmem_get( 'add_pattern' ) );
+				$arr['title']   = stripslashes( wpmem_get( 'add_title' ) );
 			}
 
 			if ( 'number' == $type || 'date' == $type ) {
@@ -808,7 +808,7 @@ function wpmem_admin_fields_update() {
 						}
 					}
 				}
-				$did_update =  sprintf( __( '%s was updated', 'wp-members' ), $add_name );
+				$did_update =  sprintf( __( '%s was updated', 'wp-members' ), stripslashes( $add_name ) );
 				$did_update.= '<p><a href="' . add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields' ), get_admin_url() . 'options-general.php' ) . '">&laquo; ' . __( 'Return to Fields Table', 'wp-members' ) . '</a></p>';
 			}
 
