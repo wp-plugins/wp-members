@@ -622,8 +622,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
  */ 
 add_action( 'admin_footer', 'wpmem_bulk_fields_action'   );
 function wpmem_bulk_fields_action() { 
-	// if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) { 
-	if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) { 
+	if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) && 'fields' == wpmem_get( 'tab', false, 'get' ) ) {
 	?><script type="text/javascript">
 		(function($) {
 			$(document).ready(function() {
@@ -652,7 +651,7 @@ function wpmem_admin_fields_update() {
 	
 	global $wpmem, $did_update, $delete_action;
 
-	if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fields' ) {
+	if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) && 'fields' == wpmem_get( 'tab', false, 'get' ) ) {
 		// Get the current fields.
 		$wpmem_fields    = get_option( 'wpmembers_fields' );
 
