@@ -65,7 +65,7 @@ class WP_Members_User {
 			$redirect_to = wpmem_get( 'redirect_to', false );
 			$redirect_to = ( $redirect_to ) ? esc_url_raw( trim( $redirect_to ) ) : esc_url_raw( wpmem_current_url() );
 			/** This filter defined in wp-login.php */
-			$redirect_to = apply_filters( 'login_redirect', $redirect_to, wpmem_current_url(), $user );
+			$redirect_to = apply_filters( 'login_redirect', $redirect_to, '', $user );
 			/**
 			 * Filter the redirect url.
 			 *
