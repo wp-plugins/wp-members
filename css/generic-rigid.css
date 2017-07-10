@@ -295,7 +295,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	width:100%;
 	float:right;
 	text-align:right;
-	height:55px;
+	/*height:55px;*/
 	padding: 6px 0;
 }
 

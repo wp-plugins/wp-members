@@ -242,7 +242,7 @@ see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 
 #wpmem_reg .button_div, #wpmem_login .button_div {
 	width:74%;
-	height:55px;
+	/* height:55px; */
 	padding: 6px 0;
 	text-align: right;
 }
