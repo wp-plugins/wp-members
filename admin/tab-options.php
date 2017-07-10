@@ -156,10 +156,14 @@ function wpmem_a_build_options() {
 							}?></ul>
 							<h3><?php _e( 'Other Settings', 'wp-members' ); ?></h3>
 							<ul>
-							<?php $arr = array(
+							<?php 
+							/** This filter is defined in class-wp-members.php */
+							$dropin_folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
+							$arr = array(
 								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
 								array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
+								array(__('Enable drop-ins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables drop-ins in %s', 'wp-members'), $dropin_folder),'dropins'),
 							);
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
@@ -400,6 +404,7 @@ function wpmem_update_options() {
 		'use_exp'   => wpmem_get( 'wpmem_settings_time_exp', 0 ),
 		'use_trial' => wpmem_get( 'wpmem_settings_trial', 0 ),
 		'warnings'  => wpmem_get( 'wpmem_settings_ignore_warnings', 0 ),
+		'dropins'   => wpmem_get( 'wpmem_settings_enable_dropins', 0 ),
 		'user_pages' => array(
 			'profile'  => ( $msurl  ) ? $msurl  : '',
 			'register' => ( $regurl ) ? $regurl : '',

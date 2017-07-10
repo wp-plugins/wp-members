@@ -122,6 +122,15 @@ class WP_Members {
 	public $warnings;
 	
 	/**
+	 * Enable drop-ins setting.
+	 *
+	 * @since  3.1.9
+	 * @access public
+	 * @var    string
+	 */
+	public $dropins = 0;
+	
+	/**
 	 * Current plugin action container.
 	 *
 	 * @since  3.0.0
@@ -242,6 +251,11 @@ class WP_Members {
 		
 		// Load contants.
 		$this->load_constants();
+		
+		// Load dropins.
+		if ( $this->dropins ) {
+			$this->load_dropins();
+		}
 	}
 
 	/**
@@ -357,7 +371,7 @@ class WP_Members {
 		 *
 		 * @param string $folder The drop-in file folder.
 		 */
-		$folder = apply_filters( 'wpmem_dropin_folder', WP_PLUGIN_DIR . '/wp-members-dropins/' );
+		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
 		
 		// Load any drop-ins.
 		foreach ( glob( $folder . '*.php' ) as $filename ) {
@@ -393,6 +407,8 @@ class WP_Members {
 		( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  $this->user_pages['profile']  ) : '';
 		( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', $this->user_pages['register'] ) : '';
 		( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $this->user_pages['login']    ) : '';
+		
+		( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';
 		
 		define( 'WPMEM_CSSURL', $this->cssurl );
 	}
