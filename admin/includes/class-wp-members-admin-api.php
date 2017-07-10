@@ -112,6 +112,8 @@ class WP_Members_Admin_API {
 		}
 		require_once( WPMEM_PATH . 'admin/includes/api.php' );
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
+		//require_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-profile.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
 	}
 
 	/**
@@ -131,17 +133,13 @@ class WP_Members_Admin_API {
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.
-		if ( ! current_user_can( 'edit_users' ) ) {
-			// User actions and filters.
-			add_action( 'user_edit_form_tag',         'wpmem_user_profile_multipart' );
-			add_action( 'show_user_profile',          'wpmem_user_profile'   );
-			add_action( 'edit_user_profile',          'wpmem_user_profile'   );
-			add_action( 'profile_update',             'wpmem_profile_update' );
-		} else {
-			add_action( 'user_edit_form_tag',         'wpmem_user_profile_multipart' );
-			add_action( 'show_user_profile',          'wpmem_admin_fields' );
-			add_action( 'edit_user_profile',          'wpmem_admin_fields' );
-			add_action( 'profile_update',             'wpmem_admin_update' );
+		
+		// User actions and filters.
+		add_action( 'user_edit_form_tag',         array( 'WP_Members_User_Profile', 'add_multipart' ) );
+		add_action( 'show_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
+		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
+		add_action( 'profile_update',             array( 'WP_Members_User_Profile', 'update' ) );
+		if ( current_user_can( 'edit_users' ) ) {
 			add_action( 'admin_footer-users.php',     'wpmem_bulk_user_action' );
 			add_action( 'load-users.php',             'wpmem_users_page_load' );
 			add_action( 'admin_notices',              'wpmem_users_admin_notices' );

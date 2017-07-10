@@ -143,6 +143,7 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Set image field to display "medium" image in dashboard/admin user profile. Admin profile image display links to media editor.
 * Added default format to date field shortcode to date format set in WP settings.
 * Added format attribute to date field shortcode for custom date formatting.
+* Deprecated wpmem_user_profile(), wpmem_profile_update(), wpmem_user_profile_multipart(), wpmem_admin_fields(), wpmem_admin_update().
 
 = 3.1.8 =
 
