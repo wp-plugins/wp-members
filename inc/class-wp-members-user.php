@@ -251,6 +251,10 @@ class WP_Members_User {
 		}
 		// Update user password.
 		wp_set_password( $args['pass1'], $user_ID );
+		// Maintain login state.
+		$user = get_user_by( 'id', $user_ID );
+		wp_set_current_user( $user_ID, $user->user_login );
+    	wp_set_auth_cookie( $user_ID );
 		/**
 		 * Fires after password change.
 		 *
