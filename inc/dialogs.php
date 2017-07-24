@@ -493,7 +493,9 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 	 */	
 	$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
 	
-	if ( $wpmem_a == "update") { $content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg ); }
+	if ( $wpmem_a == "update") {
+		$content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg );
+	}
 	$content = $content . wpmem_inc_registration( 'edit', $heading );
 	
 	return $content;

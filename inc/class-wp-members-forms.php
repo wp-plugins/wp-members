@@ -678,7 +678,7 @@ class WP_Members_Forms {
 		$args = wp_parse_args( $args, $defaults );
 
 		// Username is editable if new reg, otherwise user profile is not.
-		if ( $tag == 'edit' ) {
+		if ( 'edit' == $tag ) {
 			// This is the User Profile edit - username is not editable.
 			$val   = $userdata->user_login;
 			$label = '<label for="user_login" class="text">' . $wpmem->get_text( 'profile_username' ) . '</label>';
@@ -739,10 +739,10 @@ class WP_Members_Forms {
 
 			// Skips user selected passwords for profile update.
 			$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
-			$do_row = ( $tag == 'edit' && in_array( $meta_key, $pass_arr ) ) ? false : true;
+			$do_row = ( 'edit' == $tag && in_array( $meta_key, $pass_arr ) ) ? false : true;
 
 			// Skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos.
-			if ( $meta_key == 'tos' && $tag == 'edit' && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
+			if ( 'tos' == $meta_key && 'edit' == $tag && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
 				$do_row = false; 
 				$hidden_tos = wpmem_form_field( array(
 					'name'  => $meta_key, 
@@ -784,7 +784,7 @@ class WP_Members_Forms {
 				} 
 
 				// Gets the field value for both edit profile and submitted reg w/ error.
-				if ( ( $tag == 'edit' ) && ( $wpmem_regchk != 'updaterr' ) ) { // @todo Should this use $wpmem->regchk? This is the last remaining use of $wpmem_regchk in this function.
+				if ( ( 'edit' == $tag ) && ( '' == $wpmem->regchk ) ) {
 
 					switch ( $meta_key ) {
 						case( 'description' ):
@@ -819,7 +819,7 @@ class WP_Members_Forms {
 				}
 
 				// Does the tos field.
-				if ( $meta_key == 'tos' ) {
+				if ( 'tos' == $meta_key ) {
 
 					$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; 
 
@@ -859,7 +859,7 @@ class WP_Members_Forms {
 				} else {
 
 					// For checkboxes.
-					if ( $field['type'] == 'checkbox' ) { 
+					if ( 'checkbox' == $field['type'] ) { 
 						$valtochk = $val;
 						$val = $field['checked_value']; 
 						// if it should it be checked by default (& only if form not submitted), then override above...
