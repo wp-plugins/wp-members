@@ -416,11 +416,11 @@ function wpmem_a_render_fields_tab_field_table() {
 	}
 	
 	$extra_user_screen_items = array( 
-		'user_registered' => 'Registration Date',
-		'active' => 'Active',
-		'wpmem_reg_ip' => 'Registration IP',
-		'exp_type' => 'Subscription Type',
-		'expires' => 'Expires',
+		'user_registered' => ( 'Registration Date', 'wp-members' ),
+		'active'          => ( 'Active',            'wp-members' ),
+		'wpmem_reg_ip'    => ( 'Registration IP',   'wp-members' ),
+		'exp_type'        => ( 'Subscription Type', 'wp-members' ),
+		'expires'         => ( 'Expires',           'wp-members' ),
 	);
 	
 	foreach ( $extra_user_screen_items as $key => $item ) {
