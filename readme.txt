@@ -149,6 +149,8 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Added option to enable dropins from main options tab.
 * Removed $requested_redirect_to argument from login_redirect filter hook.
 * Removed height property of button_div for generic stylesheets.
+* Fixed user edit shortcode to display updated user data without page refresh.
+* Fixed password change so that login state is maintained after password update.
 
 = 3.1.8 =
 
