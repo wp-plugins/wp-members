@@ -170,7 +170,6 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Fields Tab: improved field add/edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
 * Fields Tab: added support for HTML5 field types: number, date.
 * Fields Tab: added support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
-
 * Corrects an issue with user profile display/update of textarea fields that are not the WP default bio field.
 * Added display=raw attribute handling to textarea fields to allow display without converting line breaks to HTML br tags.
 * Fixes issue with User Profile form heading not using the get_text() value.

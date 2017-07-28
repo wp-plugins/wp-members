@@ -830,6 +830,11 @@ class WP_Members {
 				case 'multiselect':
 				case 'multicheckbox':
 				case 'radio':
+					// Correct a malformed value (if last value is empty due to a trailing comma).
+					if ( '' == end( $val[7] ) ) {
+						array_pop( $val[7] );
+						$this->fields[ $meta_key ][7] = $val[7];
+					}
 					$this->fields[ $meta_key ]['values']    = $val[7];
 					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
 					$this->fields[ $meta_key ]['options']   = array();

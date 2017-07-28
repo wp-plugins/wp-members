@@ -71,14 +71,7 @@ class WP_Members_Admin_API {
 	 * @since 3.1.7 Loads all admin dependent files.
 	 */
 	function load_dependencies() {
-		
-		// Default permissions for loading admin dependencies.
-		$defaults = array( 
-			'main'    => 'edit_theme_options',
-			'users'   => 'list_users',
-			'options' => 'manage_options',
-			'posts'   => 'edit_posts',
-		);
+
 		/**
 		 * Filter permission defaults.
 		 *
@@ -88,7 +81,12 @@ class WP_Members_Admin_API {
 		 *
 		 * @todo Still needs final evaluation.
 		 */
-		$permissions = apply_filters( 'wpmem_load_admin_permissions', $defaults );
+		$permissions = apply_filters( 'wpmem_load_admin_permissions',  array( 
+			'main'    => 'edit_theme_options',
+			'users'   => 'list_users',
+			'options' => 'manage_options',
+			'posts'   => 'edit_posts',
+		) );
 		
 		if ( current_user_can( $permissions['main'] ) ) {
 			require_once(  WPMEM_PATH . 'admin/admin.php' );
