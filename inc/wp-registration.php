@@ -20,6 +20,10 @@
  * - wpmem_do_wp_newuser_form
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Appends WP-Members registration fields to wp-login.php registration form.

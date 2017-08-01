@@ -23,6 +23,10 @@
  * - wpmem_inc_forgotusername
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
 /**

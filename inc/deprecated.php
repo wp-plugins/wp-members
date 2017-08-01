@@ -16,6 +16,10 @@
  * @copyright 2006-2017
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_block' ) ):
 /**

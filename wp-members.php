@@ -60,6 +60,10 @@ License:     GPLv2
 	visit http://rocketgeek.com
 */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 // Initialize constants.
 define( 'WPMEM_VERSION', '3.1.9 Beta RC 2' );

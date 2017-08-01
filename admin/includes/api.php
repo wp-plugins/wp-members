@@ -17,6 +17,11 @@
  * - wpmem_is_tab
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Wrapper function for adding custom emails.
  *

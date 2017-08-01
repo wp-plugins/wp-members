@@ -14,6 +14,11 @@
  * @since 3.1.9
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 class WP_Members_Admin_User_Search {
 	
 	/**

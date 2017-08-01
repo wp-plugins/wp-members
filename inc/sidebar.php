@@ -19,6 +19,10 @@
  * - widget_wpmemwidget
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**

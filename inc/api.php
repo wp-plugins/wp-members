@@ -36,6 +36,11 @@
  * - wpmem_current_post_id
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Redirects a user to defined login page with return redirect.
  *

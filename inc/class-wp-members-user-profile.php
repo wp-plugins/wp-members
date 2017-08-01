@@ -7,6 +7,11 @@
  * @since 3.1.8
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 class WP_Members_User_Profile {
 	
 	/**

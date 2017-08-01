@@ -5,6 +5,11 @@
  * @since 3.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 if( ! class_exists( 'WP_Members_Sortable_User_Columns' ) ):
 /**
  * Class to sort WP-Members custom user meta columns

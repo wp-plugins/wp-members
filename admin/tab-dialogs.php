@@ -18,6 +18,10 @@
  * - wpmem_update_dialogs
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Builds the dialogs panel.

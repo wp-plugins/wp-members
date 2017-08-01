@@ -19,6 +19,10 @@
  * - wpmem_get_captcha_err
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_registration' ) ):
 /**

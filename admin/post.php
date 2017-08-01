@@ -25,6 +25,11 @@
  * - wpmem_load_tinymce
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Function to add block/unblock to the bulk dropdown list.
  *

@@ -26,6 +26,11 @@
  * - wpmem_sc_tos
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Function for forms called by shortcode.
  *

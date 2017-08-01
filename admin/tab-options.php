@@ -22,6 +22,10 @@
  * - wpmem_admin_page_list
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Builds the settings panel.

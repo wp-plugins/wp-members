@@ -26,6 +26,10 @@
  * - wpmem_admin_enqueue_scripts
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Filter to add link to settings from plugin panel.

@@ -18,6 +18,10 @@
  * - wpmem_update_emails
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Builds the emails panel.

@@ -21,6 +21,10 @@
  * - wpmem_mail_from_name
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_inc_regemail' ) ):
 /**

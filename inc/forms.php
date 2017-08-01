@@ -25,6 +25,10 @@
  * - wpmem_build_rs_captcha
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_inc_login' ) ):
 /**

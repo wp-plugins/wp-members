@@ -26,6 +26,10 @@
  * - wpmem_write_log
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 if ( ! function_exists( 'wpmem_create_formfield' ) ):
 /**

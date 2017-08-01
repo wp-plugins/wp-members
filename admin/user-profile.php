@@ -19,6 +19,11 @@
  * - wpmem_profile_show_ip
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Adds user activation to the user profile.
  *

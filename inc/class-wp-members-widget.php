@@ -4,6 +4,12 @@
  *
  * @since 2.7
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 class widget_wpmemwidget extends WP_Widget {
 
 	/**

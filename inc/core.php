@@ -15,6 +15,10 @@
  * @copyright 2006-2017
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * The Main Action Function.

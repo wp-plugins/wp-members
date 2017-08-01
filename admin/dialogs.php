@@ -22,6 +22,11 @@
  * - butlerblog_feed_output
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Outputs the various admin warning messages.
  *

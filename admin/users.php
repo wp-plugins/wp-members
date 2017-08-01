@@ -30,6 +30,11 @@
  * - wpmem_set_user_status
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Function to add activate/export to the bulk dropdown list.
  *

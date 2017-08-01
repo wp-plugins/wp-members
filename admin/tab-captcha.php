@@ -19,6 +19,10 @@
  * - wpmem_update_captcha
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Builds the captcha options.

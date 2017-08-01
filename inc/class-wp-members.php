@@ -11,6 +11,11 @@
  * @since 3.0.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 class WP_Members {
 	
 	/**
