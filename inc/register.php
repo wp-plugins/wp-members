@@ -275,15 +275,17 @@ function wpmem_registration( $tag ) {
 		 * see if it's different, then check if it is a valid address and it exists.
 		 */
 		global $current_user; wp_get_current_user();
-		if ( $wpmem->user->post_data['user_email'] != $current_user->user_email ) {
-			if ( email_exists( $wpmem->user->post_data['user_email'] ) ) { 
-				return "email";
-				exit();
-			} 
-			if ( in_array( 'user_email', $wpmem->fields ) && ! is_email( $wpmem->user->post_data['user_email']) ) { 
-				$wpmem_themsg = $wpmem->get_text( 'reg_valid_email' );
-				return "updaterr";
-				exit();
+		if ( isset( $wpmem->user->post_data['user_email'] ) ) {
+			if ( $wpmem->user->post_data['user_email'] != $current_user->user_email ) {
+				if ( email_exists( $wpmem->user->post_data['user_email'] ) ) { 
+					return "email";
+					exit();
+				} 
+				if ( in_array( 'user_email', $wpmem->fields ) && ! is_email( $wpmem->user->post_data['user_email']) ) { 
+					$wpmem_themsg = $wpmem->get_text( 'reg_valid_email' );
+					return "updaterr";
+					exit();
+				}
 			}
 		}
 
@@ -334,7 +336,7 @@ function wpmem_registration( $tag ) {
 			'aim',
 			'yim' 
 		);
-		$native_update = array( 'ID' => $user_ID );
+		$native_update = array( 'ID' => $wpmem->user->post_data['ID'] );
 
 		foreach ( $wpmem->fields as $meta_key => $field ) {
 			// If the field is not excluded, update accordingly.
@@ -356,7 +358,7 @@ function wpmem_registration( $tag ) {
 					// Everything else goes into wp_usermeta.
 					default:
 						if ( $field['register'] ) {
-							update_user_meta( $user_ID, $meta_key, $wpmem->user->post_data[ $meta_key ] );
+							update_user_meta( $wpmem->user->post_data['ID'], $meta_key, $wpmem->user->post_data[ $meta_key ] );
 						}
 						break;
 					}
