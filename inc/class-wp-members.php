@@ -136,6 +136,15 @@ class WP_Members {
 	public $dropins = 0;
 	
 	/**
+	 * Container for enabled dropins.
+	 *
+	 * @since  3.1.9
+	 * @access public
+	 * @var    array
+	 */
+	public $dropins_enabled = array();
+
+	/**
 	 * Current plugin action container.
 	 *
 	 * @since  3.0.0
@@ -379,8 +388,13 @@ class WP_Members {
 		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
 		
 		// Load any drop-ins.
-		foreach ( glob( $folder . '*.php' ) as $filename ) {
-			include_once( $filename );
+		$this->dropins_enabled = get_option( 'wpmembers_dropins' );
+		// foreach ( glob( $folder . '*.php' ) as $filename ) {
+		foreach ( $this->dropins_enabled as $filename ) {
+			$dropin = $folder . $filename;
+			if ( file_exists( $dropin ) ) {
+				include_once( $dropin );
+			}
 		}
 
 		/**

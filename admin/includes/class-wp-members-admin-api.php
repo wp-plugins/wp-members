@@ -108,6 +108,7 @@ class WP_Members_Admin_API {
 			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
 			require_once( WPMEM_PATH . 'admin/tab-about.php' );
 			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
+			require_once( WPMEM_PATH . 'admin/tab-dropins.php' );
 			require_once( WPMEM_PATH . 'admin/dialogs.php' );
 		}
 		if ( current_user_can( $permissions['posts'] ) ) {

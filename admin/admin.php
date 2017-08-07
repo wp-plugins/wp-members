@@ -98,8 +98,12 @@ function wpmem_admin() {
 	global $wpmem;
 
 	if ( $wpmem->captcha ) {
-		add_filter( 'wpmem_admin_tabs', 'wpmem_add_captcha_tab' );
+		add_filter( 'wpmem_admin_tabs',   'wpmem_add_captcha_tab' );
 		add_action( 'wpmem_admin_do_tab', 'wpmem_a_captcha_tab', 1, 1 );
+	}
+	if ( $wpmem->dropins ) {
+		add_filter( 'wpmem_admin_tabs',   'wpmem_add_dropins_tab'          );
+		add_action( 'wpmem_admin_do_tab', 'wpmem_render_dropins_tab', 1, 1 );
 	} ?>
 
 	<div class="wrap">
