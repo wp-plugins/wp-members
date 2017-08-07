@@ -22,7 +22,11 @@
  * - wpmem_upgrade_captcha
  */
 
- 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 /**
  * Installs or upgrades the plugin.
  *
