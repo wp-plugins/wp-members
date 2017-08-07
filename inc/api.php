@@ -291,6 +291,7 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
  *
  * @since 3.1.1
  * @since 3.1.6 Include accepting an array of roles to check.
+ * @since 3.1.9 Return false if user is not logged in.
  *
  * @global object        $current_user Current user object.
  * @global object        $wpmem        WP_Members object.
@@ -299,6 +300,9 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
  * @return boolean       $has_role     True if user has the role, otherwise false.
  */
 function wpmem_user_has_role( $role, $user_id = false ) {
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
 	global $current_user, $wpmem;
 	$has_role = false;
 	if ( $user_id ) {
