@@ -122,22 +122,24 @@ function wpmem_dropins_check_dir() {
 
 	/** This filter is documented in inc/class-wp-members.php */
 	$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
-	$file   = $folder . '.htaccess';
 	$check  = false;
-	if ( ! file_exists ( $file ) ) {
-		$check = wpmem_dropins_create_htaccess( $file );
-	} else {
-		$handle = fopen( $file, "r" );
-		if ( $handle ) {
-		// Read file line-by-line
-		while ( ( $buffer = fgets( $handle ) ) !== false ) {
-			if ( strpos( $buffer, "Options -Indexes" ) !== false )
-				$check = true;
-				break;
+	if ( file_exists( $folder ) ) {
+		$file   = $folder . '.htaccess';
+		if ( ! file_exists ( $file ) ) {
+			$check = wpmem_dropins_create_htaccess( $file );
+		} else {
+			$handle = fopen( $file, "r" );
+			if ( $handle ) {
+			// Read file line-by-line
+			while ( ( $buffer = fgets( $handle ) ) !== false ) {
+				if ( strpos( $buffer, "Options -Indexes" ) !== false )
+					$check = true;
+					break;
+				}
 			}
+			fclose( $handle );
+			$check = ( false === $check ) ? wpmem_dropins_create_htaccess( $file ) : $check;
 		}
-		fclose( $handle );
-		$check = ( false === $check ) ? wpmem_dropins_create_htaccess( $file ) : $check;
 	}
 	return $check;
 }
@@ -364,10 +366,14 @@ class WP_Members_Dropins_Table extends WP_List_Table {
 			case 'save':
 				$settings = array();
 				//echo "SAVING SETTINGS";print_r( $_REQUEST['dropin'] );
-				foreach( $_REQUEST['dropin'] as $dropin ) {
-					$settings[] = $dropin;
+				if ( wpmem_get( 'dropin' ) ) {
+					foreach( wpmem_get( 'dropin' ) as $dropin ) {
+						$settings[] = $dropin;
+					}
+					update_option( 'wpmembers_dropins', $settings, true );
+				} else {
+					delete_option( 'wpmembers_dropins' );
 				}
-				update_option( 'wpmembers_dropins', $settings, true );
 				$wpmem->dropins_enabled = $settings;
 				echo '<div id="message" class="message"><p><strong>' . __( 'WP-Members Dropin settings were updated', 'wp-members' ) . '</strong></p></div>';
 				break;

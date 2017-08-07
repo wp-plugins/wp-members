@@ -388,12 +388,14 @@ class WP_Members {
 		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
 		
 		// Load any drop-ins.
-		$this->dropins_enabled = get_option( 'wpmembers_dropins' );
-		// foreach ( glob( $folder . '*.php' ) as $filename ) {
-		foreach ( $this->dropins_enabled as $filename ) {
-			$dropin = $folder . $filename;
-			if ( file_exists( $dropin ) ) {
-				include_once( $dropin );
+		$settings = get_option( 'wpmembers_dropins' );
+		$this->dropins_enabled = ( $settings ) ? $settings : array();
+		if ( ! empty( $this->dropins_enabled ) ) {
+			foreach ( $this->dropins_enabled as $filename ) {
+				$dropin = $folder . $filename;
+				if ( file_exists( $dropin ) ) {
+					include_once( $dropin );
+				}
 			}
 		}
 
