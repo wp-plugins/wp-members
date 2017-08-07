@@ -146,7 +146,6 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Deprecated wpmem_user_profile(), wpmem_profile_update(), wpmem_user_profile_multipart(), wpmem_admin_fields(), wpmem_admin_update().
 * Rebuild of dashboard profile functions incorporated into new user profile object class.
 * Fields tab bulk action now checks for both page and tab (rather than just tab) to prevent namespace collisions.
-* Added option to enable dropins from main options tab.
 * Removed $requested_redirect_to argument from login_redirect filter hook.
 * Removed height property of button_div for generic stylesheets.
 * Fixed user edit shortcode to display updated user data without page refresh.

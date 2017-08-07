@@ -167,7 +167,7 @@ function wpmem_a_build_options() {
 								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
 								array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
-								array(__('Enable drop-ins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables drop-ins in %s', 'wp-members'), $dropin_folder),'dropins'),
+								//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_folder),'dropins'),
 							);
 							for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 							  <li>
