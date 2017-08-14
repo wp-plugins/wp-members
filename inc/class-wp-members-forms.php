@@ -658,6 +658,7 @@ class WP_Members_Forms {
 			'submit_update'    => $wpmem->get_text( 'profile_submit' ),
 
 			// Other.
+			'post_to'          => get_permalink(),
 			'strip_breaks'     => true,
 			'use_nonce'        => false,
 			'wrap_inputs'      => true,
@@ -1122,8 +1123,7 @@ class WP_Members_Forms {
 
 		// Apply form wrapper.
 		$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
-		$post_to = get_permalink();
-		$form = '<form name="form" method="post"' . $enctype . ' action="' . $post_to . '" id="' . $args['form_id'] . '" class="' . $args['form_class'] . '">' . $args['n'] . $form . $args['n'] . '</form>';
+		$form = '<form name="form" method="post"' . $enctype . ' action="' . $args['post_to'] . '" id="' . $args['form_id'] . '" class="' . $args['form_class'] . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 		// Apply anchor.
 		$form = '<a name="register"></a>' . $args['n'] . $form;
