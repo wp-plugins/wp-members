@@ -3,7 +3,7 @@
  * WP-Members Export Functions
  *
  * Mananges exporting users to a CSV file.
- * 
+ *
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at http://rocketgeek.com
  * Copyright (c) 2006-2017  Chad Butler
@@ -23,6 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * New export function to export all or selected users
  *
  * @since 2.9.7
+ * @since 3.2.0 Updated to use fputcsv.
  *
  * @param array $args
  * @param array $users
@@ -31,7 +32,7 @@ function wpmem_export_users( $args, $users = null ) {
 
 	global $wpmem;
 
-	$today = date( "m-d-y" ); 
+	$today = date( "m-d-y" );
 
 	// Setup defaults.
 	$defaults = array(
@@ -42,14 +43,13 @@ function wpmem_export_users( $args, $users = null ) {
 		'entity_decode'  => false,
 	);
 
-	// Merge $args with defaults.
 	/**
 	 * Filter the default export arguments.
 	 *
 	 * @since 2.9.7
 	 *
 	 * @param array $args An array of arguments to merge with defaults. Default null.
- 	 */
+	 */
 	$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
 
 	// Output needs to be buffered, start the buffer.
@@ -63,74 +63,81 @@ function wpmem_export_users( $args, $users = null ) {
 	header( "Content-type: application/octet-stream" );
 	header( "Content-Disposition: attachment; filename=" . $args['filename'] );
 	header( "Content-Type: text/csv; charset=" . get_option( 'blog_charset' ), true );
-	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
-	// Do the header row.
-	$hrow = "User ID,Username,";
+	$handle = fopen( 'php://output', 'w' );
+	fputs( $handle, "\xEF\xBB\xBF" ); // UTF-8 BOM
 
+	$header = [ 'User ID', 'Username' ];
+	// Remove excluded fields from $export_fields while setting up $header array.
 	foreach ( $args['export_fields'] as $meta => $field ) {
-		if ( ! in_array( $meta, $args['exclude_fields'] ) ) {
-			$hrow.= $field['label'] . ",";
+		if ( in_array( $meta, $args['exclude_fields'] ) ) {
+			unset( $args['export_fields'][ $meta ] );
+		} else {
+			$header[] = $field['label'];
 		}
 	}
 
-	$hrow .= ( $wpmem->mod_reg == 1 ) ? __( 'Activated?', 'wp-members' ) . "," : '';
-	$hrow .= ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? __( 'Subscription', 'wp-members' ) . "," . __( 'Expires', 'wp-members' ) . "," : '';
+	if ( $wpmem->mod_reg == 1 ) {
+		$header[] = __( 'Activated?', 'wp-members');
+	}
 
-	$hrow .= __( 'Registered', 'wp-members' ) . ",";
-	$hrow .= __( 'IP', 'wp-members' );
-	$data  = $hrow . "\r\n";
+	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+		$header[] = __( 'Subscription', 'wp-members' );
+		$header[] = __( 'Expires', 'wp-members' );
+	}
 
-	/*
-	 * We used the fields array once,
-	 * rewind so we can use it again.
-	 */
-	reset( $args['export_fields'] );
+	$header[] = __( 'Registered', 'wp-members' );
+	$header[] = __( 'IP', 'wp-members' );
 
-	/*
-	 * Loop through the array of users,
-	 * build the data, delimit by commas, wrap fields with double quotes, 
-	 * use \n switch for new line.
-	 */
+	fputcsv( $handle, $header );
+
+	// Loop through the array of users, assemble csv.
+	// $args['export_fields'] only includes fields to be exported at this point.
 	foreach ( $users as $user ) {
 
 		$user_info = get_userdata( $user );
 
-		$data .= '"' . $user_info->ID . '","' . $user_info->user_login . '",';
-
-		$wp_user_fields = array( 'user_email', 'user_nicename', 'user_url', 'display_name' );
+		$wp_user_fields = [ 'user_email', 'user_nicename', 'user_url', 'display_name' ];
+		$row = array();
 		foreach ( $args['export_fields'] as $meta => $field ) {
-			if ( ! in_array( $meta, $args['exclude_fields'] ) ) {
-				// @todo Research using fputcsv to escape fields for export.
-				if ( in_array( $meta, $wp_user_fields ) ) {
-					$data .= '"' . $user_info->{$meta} . '",';	
-				} else {
-					$raw_data  = get_user_meta( $user, $meta, true );
-					$formatted = ( $args['entity_decode'] ) ? html_entity_decode( $raw_data ) : $raw_data;
-					$data .= '"' . $formatted . '",';
-				}
+			if ( in_array( $meta, $wp_user_fields ) ) {
+				$row[] = $user_info->{$meta};
+			} else {
+				$raw_data = get_user_meta( $user, $meta, true );
+				$row[]    = ( $args['entity_decode'] ) ? html_entity_decode( $raw_data ) : $raw_data;
 			}
 		}
-		
-		$data .= ( $wpmem->mod_reg == 1 ) ? '"' . ( get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' ) ) . '",' : '';
-		$data .= ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "exp_type", true ) . '",' : '';
-		$data .= ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? '"' . get_user_meta( $user, "expires", true  ) . '",' : '';
-		
-		$data .= '"' . $user_info->user_registered . '",';
-		$data .= '"' . get_user_meta( $user, "wpmem_reg_ip", true ). '"';
-		$data .= "\r\n";
-		
+
+		$row = array_merge(
+			[
+				$user_info->ID,
+				$user_info->user_login,
+			],
+			$row
+		);
+
+		if ( $wpmem->mod_reg == 1 ) {
+			$row[] = get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' );
+		}
+
+		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+			$row[] = get_user_meta( $user, 'exp_type', true );
+			$row[] = get_user_meta( $user, 'expires', true );
+		}
+
+		$row[] = $user_info->user_registered;
+		$row[] = get_user_meta( $user, 'wpmem_reg_ip', true );
+
+		fputcsv( $handle, $row );
+
 		// Update the user record as being exported.
 		if ( 'all' != $args['export'] ){
 			update_user_meta( $user, 'exported', 1 );
 		}
 	}
 
-	// We are done, output the CSV.
-	echo $data; 
-
-	// Clear the buffer.
-	ob_flush();
+	fclose( $handle );
+	print( ob_get_clean() );
 
 	exit();
 }
