@@ -734,7 +734,7 @@ class WP_Members_Forms {
 		 */
 		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
 
-		$hidden = '';
+		$hidden_rows = array();
 
 		// Loop through the remaining fields.
 		foreach ( $wpmem_fields as $meta_key => $field ) {
@@ -759,7 +759,7 @@ class WP_Members_Forms {
 			// Handle hidden fields
 			if ( 'hidden' == $field['type'] ) {
 				$do_row = false;
-				$hidden.= wpmem_form_field( array( 
+				$hidden_rows[ $meta_key ] = wpmem_form_field( array( 
 					'name'     => $meta_key,
 					'type'     => $field['type'],
 					'value'    => $field['value'],
@@ -1038,12 +1038,30 @@ class WP_Members_Forms {
 		// Create hidden fields.
 		$var         = ( $tag == 'edit' ) ? 'update' : 'register';
 		$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
-		$hidden     .= '<input name="a" type="hidden" value="' . $var . '" />' . $args['n'];
-		$hidden     .= '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />' . $args['n'];
+		$hidden_rows['_wpmem_a']        = '<input name="a" type="hidden" value="' . $var . '" />';
+		$hidden_rows['_wpmem_reg_page'] = '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />';
 		if ( $redirect_to != get_permalink() ) {
-			$hidden.= '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />' . $args['n'];
+			$hidden_rows['_wpmem_redirect_to'] = '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />';
 		}
-		$hidden      = ( isset( $hidden_tos ) ) ? $hidden . $hidden_tos . $args['n'] : $hidden;
+		if ( isset( $hidden_tos ) ) {
+			$hidden_rows['_wpmem_tos'] = $hidden_tos;
+		}
+		
+		/**
+		 * Filter the hidden form rows.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array  $hidden_rows
+		 * @param string $tag
+		 */
+		$hidden_rows = apply_filters( 'wpmem_register_hidden_rows', $hidden_rows, $tag );
+		
+		// Assemble hidden fields HTML.
+		$hidden = '';
+		foreach ( $hidden_rows as $hidden_row ) {
+			$hidden .= $hidden_row . $args['n'];
+		}
 
 		/**
 		 * Filter the hidden field HTML.
