@@ -420,17 +420,22 @@ function wpmem_a_render_fields_tab_field_table() {
 		}
 	}
 	
-	$extra_user_screen_items = array( 
+	$extra_user_screen_items = array(
 		'user_registered' => __( 'Registration Date', 'wp-members' ),
 		'active'          => __( 'Active',            'wp-members' ),
 		'wpmem_reg_ip'    => __( 'Registration IP',   'wp-members' ),
 		'exp_type'        => __( 'Subscription Type', 'wp-members' ),
 		'expires'         => __( 'Expires',           'wp-members' ),
+		'user_id'         => __( 'User ID',           'wp-members' ),
 	);
 	
 	foreach ( $extra_user_screen_items as $key => $item ) {
 		$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $item, $wpmem_ut_fields ) ) ) ? $item : '';
-		if ( 'user_registered' == $key || ( 'active' == $key && 1 == $wpmem->mod_reg ) || 'wpmem_reg_ip' == $key || defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && ( 'exp_type' == $key || 'expires' == $key ) ) {
+		if ( 'user_id' == $key
+			|| 'user_registered' == $key 
+			|| 'wpmem_reg_ip' == $key 
+			|| ( 'active' == $key && 1 == $wpmem->mod_reg ) 
+			|| defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && ( 'exp_type' == $key || 'expires' == $key ) ) {
 			$user_screen_items[ $key ] = array( 'label' => __( $item, 'wp-members' ), 'meta' => $key,
 				'userscrn' => wpmem_create_formfield( "ut_fields[{$key}]", 'checkbox', $item, $ut_checked ),
 			);
@@ -477,7 +482,7 @@ function wpmem_a_render_fields_tab_field_table() {
  */
 class WP_Members_Fields_Table extends WP_List_Table {
 	
-	private $excludes = array( 'user_registered', 'active', 'wpmem_reg_ip', 'exp_type', 'expires' );
+	private $excludes = array( 'user_registered', 'active', 'wpmem_reg_ip', 'exp_type', 'expires', 'user_id' );
 	
 	private $no_delete = array( 'user_email', 'first_name', 'last_name', 'user_url' );
 	
