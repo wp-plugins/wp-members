@@ -812,12 +812,8 @@ class WP_Members {
 		
 		// Validate fields settings.
 		if ( ! isset( $fields ) || empty( $fields ) ) {
-			/**
-			 * Load installation routine.
-			 */
-			require_once( WPMEM_PATH . 'wp-members-install.php' );
 			// Update settings.
-			$fields = wpmem_install_fields();
+			$fields = array( array( 10, 'Email', 'user_email', 'email', 'y', 'y', 'y' ) );
 		}
 		
 		// Add new field array keys
