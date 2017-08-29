@@ -62,10 +62,6 @@ class WP_Members_Admin_API {
 		
 		// Load default dialogs.
 		$dialogs = $this->default_dialogs();
-		
-		if ( current_user_can( 'edit_users' ) ) {
-			$this->user_search = new WP_Members_Admin_User_Search();
-		}
 	}
 
 	/**
