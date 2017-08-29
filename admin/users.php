@@ -412,6 +412,9 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 			$user_info = get_userdata( $user_id );
 			return $user_info->$column_name;
 			break;
+				
+		case 'user_id':
+			return $user_id;
 
 		default:
 			return get_user_meta( $user_id, $column_name, true );
