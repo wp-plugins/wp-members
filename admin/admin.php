@@ -229,25 +229,4 @@ function wpmem_admin_add_new_user() {
 	return;
 }
 
-
-/**
- * Enqueues the admin javascript and css files.
- *
- * Only loads the js and css on admin screens that use them.
- *
- * @since 3.0.6
- * @deprecated 3.1.7 Use wpmem_dashboard_enqueue_scripts() instead.
- *
- * @param str $hook The admin screen hook being loaded.
- */
-function wpmem_admin_enqueue_scripts( $hook ) {
-	wpmem_write_log( "wpmem_admin_enqueue_scripts() is deprecated as of WP-Members 3.1.7. Use wpmem_dashboard_enqueue_scripts() instead" );
-	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
-	}
-	if ( $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
-	}
-}
-
 // End of File.
