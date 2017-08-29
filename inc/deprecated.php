@@ -21,88 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'wpmem_block' ) ):
-/**
- * Determines if content is blocked.
- *
- * @since 2.6.0
- * @since 3.0.0 Now a wrapper for $wpmem->is_blocked().
- * @deprecated 3.1.1 Use wpmem_is_blocked() instead.
- *
- * @global object $wpmem The WP-Members object class.
- *
- * @return bool $block true if content is blocked, false otherwise.
- */
-function wpmem_block() {
-	wpmem_write_log( "wpmem_block() is deprecated as of WP-Members 3.1.1, use wpmem_is_blocked() instead" );
-	global $wpmem;
-	return $wpmem->is_blocked();
-}
-endif;
-
-if ( ! function_exists( 'wpmem_inc_sidebar' ) ):
-/**
- * Displays the sidebar.
- *
- * This function is a wrapper for wpmem_do_sidebar().
- *
- * @since 2.0.0
- * @deprecated Unknown
- */
-function wpmem_inc_sidebar() {
-	wpmem_write_log( "WP-Members function wpmem_inc_sidebar() is deprecated. No alternative function exists" );
-	/**
-	 * Load the sidebar functions.
-	 */
-	include_once( WPMEM_PATH . 'inc/sidebar.php' );
-	// Render the sidebar.
-	wpmem_do_sidebar();
-}
-endif;
-
-if ( ! function_exists( 'wpmem_selected' ) ):
-/**
- * Determines if a form field is selected (i.e. lists & checkboxes).
- *
- * @since 0.1.0
- * @deprecated 3.1.0 Use selected() or checked() instead.
- *
- * @param  string $value
- * @param  string $valtochk
- * @param  string $type
- * @return string $issame
- */
-function wpmem_selected( $value, $valtochk, $type = null ) {
-	wpmem_write_log( "wpmem_selected() is deprecated as of WP-Members 3.1.0. Use selected() or checked() instead" );
-	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
-	return ( $value == $valtochk ) ? $issame : '';
-}
-endif;
-
-if ( ! function_exists( 'wpmem_chk_qstr' ) ):
-/**
- * Checks querystrings.
- *
- * @since 2.0.0
- * @deprecated 3.1.0 Use add_query_arg() instead.
- *
- * @param  string $url
- * @return string $return_url
- */
-function wpmem_chk_qstr( $url = null ) {
-	wpmem_write_log( "wpmem_chk_qstr() is deprecated as of WP-Members 3.1.0. Use add_query_arg() instead" );
-	$permalink = get_option( 'permalink_structure' );
-	if ( ! $permalink ) {
-		$url = ( ! $url ) ? get_option( 'home' ) . "/?" . $_SERVER['QUERY_STRING'] : $url;
-		$return_url = $url . "&";
-	} else {
-		$url = ( ! $url ) ? get_permalink() : $url;
-		$return_url = $url . "?";
-	}
-	return $return_url;
-}
-endif;
-
 if ( ! function_exists( 'wpmem_shortcode' ) ):
 /**
  * Executes various shortcodes.
@@ -191,7 +109,6 @@ function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 }
 endif;
 
-
 if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
 /**
  * Builds the shortcode pages (login, register, user-profile, user-edit, password).
@@ -219,6 +136,11 @@ if ( ! function_exists( 'wpmem_do_sc_pages' ) ):
  * @return string $content
  */
 function wpmem_do_sc_pages( $atts, $content, $tag ) {
+	
+	$error = "wpmem_do_sc_pages() is deprecated as of WP-Members 3.1.8. ";
+	$error.= "post ID: " . get_the_ID() . " ";
+	$error.= "page url: " . wpmem_current_url();
+	wpmem_write_log( $error );
 	
 	$page = ( isset( $atts['page'] ) ) ? $atts['page'] : $tag; 
 	$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
@@ -351,12 +273,15 @@ endif;
  * Add WP-Members fields to the WP user profile screen.
  *
  * @since 2.1
+ * @deprecated 3.1.9
  *
  * @global array $current_screen The WordPress screen object
  * @global int   $user_ID The user ID
  */
 function wpmem_admin_fields() {
 
+	wpmem_write_log( "wpmem_admin_fields() is deprecated. No alternative function exists." );
+	
 	global $current_screen, $user_ID, $wpmem;
 	$user_id = ( $current_screen->id == 'profile' ) ? $user_ID : $_REQUEST['user_id']; ?>
 
@@ -522,10 +447,13 @@ function wpmem_admin_fields() {
  * Updates WP-Members fields from the WP user profile screen.
  *
  * @since 2.1
+ * @deprecated 3.1.9
  *
  * @global object $wpmem
  */
 function wpmem_admin_update() {
+	
+	wpmem_write_log( "wpmem_admin_update() is deprecated. No alternative function exists." );
 
 	$user_id = wpmem_get( 'user_id', false, 'request' ); //$_REQUEST['user_id'];
 	
@@ -623,10 +551,13 @@ if ( ! function_exists( 'wpmem_user_profile' ) ):
  * add WP-Members fields to the WP user profile screen.
  *
  * @since 2.6.5
+ * @deprecated 3.1.9
  *
  * @global int $user_id
  */
 function wpmem_user_profile() {
+	
+	wpmem_write_log( "wpmem_user_profile() is deprecated. No alternative function exists." );
 
 	global $wpmem, $user_id, $current_screen;
 	/**
@@ -766,10 +697,13 @@ endif;
  * updates WP-Members fields from the WP user profile screen.
  *
  * @since 2.6.5
+ * @deprecated 3.1.9
  *
  * @global int $user_id
  */
 function wpmem_profile_update() {
+	
+	wpmem_write_log( "wpmem_profile_update() is deprecated. No alternative function exists." );
 
 	global $wpmem, $user_id;
 	// Get the fields.
@@ -821,8 +755,12 @@ function wpmem_profile_update() {
  * necessary "multipart/form-data" enctype for the form tag.
  *
  * @since 3.1.8
+ * @deprecated 3.1.9
  */
 function wpmem_user_profile_multipart() {
+	
+	wpmem_write_log( "wpmem_user_profile_multipart() is deprecated. No alternative function exists." );
+	
 	global $wpmem;
 	$has_file = false;
 	foreach ( wpmem_fields() as $field ) {
@@ -833,3 +771,53 @@ function wpmem_user_profile_multipart() {
 	}
 	echo ( $has_file ) ? " enctype=\"multipart/form-data\"" : '';
 }
+
+if ( ! function_exists( 'wpmem_inc_status' ) ):
+/**
+ * Generate users login status if logged in and gives logout link.
+ *
+ * @since 1.8
+ * @since 3.2.0
+ *
+ * @global        $user_login
+ * @global object $wpmem
+ * @return string $status
+ */
+function wpmem_inc_status() {
+	
+	wpmem_write_log( "wpmem_inc_status() is deprecated in WP-Members 3.2.0. Use wpmem_login_status() instead." );
+	
+	global $user_login, $wpmem;
+	
+	/** This filter is documented in wp-members/inc/dialogs.php */
+	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
+
+	$status = '<p>' . sprintf( $wpmem->get_text( 'sb_login_status' ), $user_login )
+		. ' | <a href="' . $logout . '">' . $wpmem->get_text( 'sb_logout_link' ) . '</a></p>';
+
+	return $status;
+}
+endif;
+
+if ( ! function_exists( 'wpmem_do_sidebar' ) ):
+/**
+ * Creates the sidebar login form and status.
+ *
+ * This function determines if the user is logged in and displays either
+ * a login form, or the user's login status. Typically used for a sidebar.		
+ * You can call this directly, or with the widget.
+ *
+ * @since 2.4.0
+ * @since 3.0.0 Added $post_to argument.
+ * @since 3.1.0 Changed $post_to to $redirect_to.
+ * @deprecated 3.2.0 Use widget_wpmemwidget::do_sidebar() instead.
+ *
+ * @param  string $redirect_to  A URL to redirect to upon login, default null.
+ * @global string $wpmem_regchk
+ * @global string $user_login
+ */
+function wpmem_do_sidebar( $redirect_to = null ) {
+	wpmem_write_log( "wpmem_do_sidebar() is deprecated in WP-Members 3.2.0. Use wpmem_login_status() instead." );
+	widget_wpmemwidget::do_sidebar( $redirect_to );
+}
+endif;
