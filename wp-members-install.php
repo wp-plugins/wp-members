@@ -528,22 +528,22 @@ function wpmem_install_settings() {
  */
 function wpmem_install_fields() {
 	$fields = array(
-		array( 1,  'First Name',         'first_name',       'text',     'y', 'y', 'y' ),
-		array( 2,  'Last Name',          'last_name',        'text',     'y', 'y', 'y' ),
-		array( 3,  'Address 1',          'addr1',            'text',     'y', 'y', 'n' ),
-		array( 4,  'Address 2',          'addr2',            'text',     'y', 'n', 'n' ),
-		array( 5,  'City',               'city',             'text',     'y', 'y', 'n' ),
-		array( 6,  'State',              'thestate',         'text',     'y', 'y', 'n' ),
-		array( 7,  'Zip',                'zip',              'text',     'y', 'y', 'n' ),
-		array( 8,  'Country',            'country',          'text',     'y', 'y', 'n' ),
-		array( 9,  'Day Phone',          'phone1',           'text',     'y', 'y', 'n' ),
-		array( 10, 'Email',              'user_email',       'email',    'y', 'y', 'y' ),
-		array( 11, 'Confirm Email',      'confirm_email',    'email',    'n', 'n', 'n' ),
-		array( 12, 'Website',            'user_url',         'url',      'n', 'n', 'y' ),
-		array( 13, 'Biographical Info',  'description',      'textarea', 'n', 'n', 'y' ),
-		array( 14, 'Password',           'password',         'password', 'n', 'n', 'n' ),
-		array( 15, 'Confirm Password',   'confirm_password', 'password', 'n', 'n', 'n' ),
-		array( 16, 'TOS',                'tos',              'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
+		array( 1,  'First Name',        'first_name',        'text',     'y', 'y', 'y' ),
+		array( 2,  'Last Name',         'last_name',         'text',     'y', 'y', 'y' ),
+		array( 3,  'Address 1',         'billing_address_1', 'text',     'y', 'y', 'n' ),
+		array( 4,  'Address 2',         'billing_address_2', 'text',     'y', 'n', 'n' ),
+		array( 5,  'City',              'billing_city',      'text',     'y', 'y', 'n' ),
+		array( 6,  'State',             'billing_state',     'text',     'y', 'y', 'n' ),
+		array( 7,  'Zip',               'billing_postcode',  'text',     'y', 'y', 'n' ),
+		array( 8,  'Country',           'billing_country',   'text',     'y', 'y', 'n' ),
+		array( 9,  'Phone',             'billing_phone',     'text',     'y', 'y', 'n' ),
+		array( 10, 'Email',             'user_email',        'email',    'y', 'y', 'y' ),
+		array( 11, 'Confirm Email',     'confirm_email',     'email',    'n', 'n', 'n' ),
+		array( 12, 'Website',           'user_url',          'url',      'n', 'n', 'y' ),
+		array( 13, 'Biographical Info', 'description',       'textarea', 'n', 'n', 'y' ),
+		array( 14, 'Password',          'password',          'password', 'n', 'n', 'n' ),
+		array( 15, 'Confirm Password',  'confirm_password',  'password', 'n', 'n', 'n' ),
+		array( 16, 'TOS',               'tos',               'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
 	);
 	update_option( 'wpmembers_fields', $fields, '', 'yes' ); // using update_option to allow for forced update
 	return $fields;
