@@ -72,48 +72,26 @@ class WP_Members_Admin_API {
 	 * @since 3.1.7 Loads all admin dependent files.
 	 */
 	function load_dependencies() {
-
-		/**
-		 * Filter permission defaults.
-		 *
-		 * @since 3.1.8
-		 *
-		 * @param  array $defaults
-		 *
-		 * @todo Still needs final evaluation.
-		 */
-		$permissions = apply_filters( 'wpmem_load_admin_permissions',  array( 
-			'main'    => 'edit_theme_options',
-			'users'   => 'list_users',
-			'options' => 'manage_options',
-			'posts'   => 'edit_posts',
-		) );
 		
-		if ( current_user_can( $permissions['main'] ) ) {
-			require_once(  WPMEM_PATH . 'admin/admin.php' );
-		}
-		if ( current_user_can( $permissions['users'] ) ) { 
-			require_once( WPMEM_PATH . 'admin/users.php' );
-			require_once( WPMEM_PATH . 'admin/user-profile.php' );
-			require_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
-		}
-		if ( current_user_can( $permissions['options'] ) ) {
-			require_once( WPMEM_PATH . 'admin/tab-options.php' );
-			require_once( WPMEM_PATH . 'admin/tab-fields.php' );
-			require_once( WPMEM_PATH . 'admin/tab-emails.php' );
-			require_once( WPMEM_PATH . 'admin/tab-captcha.php' );
-			require_once( WPMEM_PATH . 'admin/tab-about.php' );
-			require_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
-			require_once( WPMEM_PATH . 'admin/tab-dropins.php' );
-			require_once( WPMEM_PATH . 'admin/dialogs.php' );
-		}
-		if ( current_user_can( $permissions['posts'] ) ) {
-			require_once( WPMEM_PATH . 'admin/post.php' );
-		}
-		require_once( WPMEM_PATH . 'admin/includes/api.php' );
+		include_once( WPMEM_PATH . 'admin/admin.php' );
+		include_once( WPMEM_PATH . 'admin/users.php' );
+		include_once( WPMEM_PATH . 'admin/user-profile.php' );
+		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
+		include_once( WPMEM_PATH . 'admin/dialogs.php' );
+		include_once( WPMEM_PATH . 'admin/post.php' );
+		include_once( WPMEM_PATH . 'admin/includes/api.php' );
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
-		//require_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-profile.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
+		include_once( WPMEM_PATH . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
+		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
+			include_once( WPMEM_PATH . 'admin/tab-options.php' );
+			include_once( WPMEM_PATH . 'admin/tab-emails.php' );
+			include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
+			include_once( WPMEM_PATH . 'admin/tab-about.php' );
+			include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
+			include_once( WPMEM_PATH . 'admin/tab-dropins.php' );
+			include_once( WPMEM_PATH . 'admin/tab-memberships.php' );
+		}
 	}
 
 	/**
