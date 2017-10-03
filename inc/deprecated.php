@@ -21,6 +21,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+if ( ! function_exists( 'wpmem_selected' ) ):
+/**
+ * Determines if a form field is selected (i.e. lists & checkboxes).
+ *
+ * @since 0.1.0
+ * @deprecated 3.1.0 Use selected() or checked() instead.
+ *
+ * @param  string $value 
+ * @param  string $valtochk
+ * @param  string $type
+ * @return string $issame
+ */
+function wpmem_selected( $value, $valtochk, $type = null ) {
+	wpmem_write_log( "wpmem_selected() is deprecated as of WP-Members 3.1.0. Use selected() or checked() instead" );
+	$issame = ( $type == 'select' ) ? ' selected' : ' checked';
+	return ( $value == $valtochk ) ? $issame : '';
+}
+endif;
+
 if ( ! function_exists( 'wpmem_shortcode' ) ):
 /**
  * Executes various shortcodes.
