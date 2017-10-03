@@ -373,7 +373,7 @@ class WP_Members_User {
 	function upload_user_files( $user_id, $fields ) {
 		global $wpmem;
 		foreach ( $fields as $meta_key => $field ) {
-			if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && is_array( $_FILES[ $meta_key ] ) ) {
+			if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) && isset( $_FILES[ $meta_key ] ) && is_array( $_FILES[ $meta_key ] ) ) {
 				if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
 					// Upload the file and save it as an attachment.
 					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $user_id );
