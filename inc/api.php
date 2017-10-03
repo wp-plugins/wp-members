@@ -34,6 +34,8 @@
  * - wpmem_array_insert
  * - wpmem_is_user_activated
  * - wpmem_current_post_id
+ * - wpmem_user_data
+ * - wpmem_update_user_role
  */
 
 // Exit if accessed directly.
@@ -528,6 +530,44 @@ function wpmem_is_user_activated( $user_id = false ) {
  */
 function wpmem_current_post_id() {
 	return url_to_postid( wpmem_current_url() );
+}
+
+/**
+ * Gets an array of the user's registration data.
+ *
+ * Returns an array keyed by meta keys of the user's registration data for
+ * all fields in the WP-Members Fields.  Returns the current user unless
+ * a user ID is specified.
+ *
+ * @since 3.2.0
+ *
+ * @global object  $wpmem
+ * @param  integer $user_id
+ * @return array   $user_fields
+ */
+function wpmem_user_data( $user_id = false ) {
+	global $wpmem;
+	return $wpmem->user_fields( $user_id );
+}
+
+/**
+ * Updates a user's role.
+ *
+ * This is a wrapper for $wpmem->update_user_role(). It can add a role to a
+ * user, change or remove the user's role. If no action is specified it will
+ * change the role.
+ *
+ * @since 3.2.0
+ *
+ * @global object  $wpmem
+ * @param  integer $user_id (required)
+ * @param  string  $role    (required)
+ * @param  string  $action  (optional add|remove|change default:change)
+ */
+function wpmem_update_user_role( $user_id, $role, $action = 'change' ) {
+	global $wpmem;
+	$action = ( 'add' == $action ) ? 'add' : $action;
+	$wpmem->update_user_role( $user_id, $role, $action );
 }
 
 // End of file.

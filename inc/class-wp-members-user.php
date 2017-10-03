@@ -384,4 +384,53 @@ class WP_Members_User {
 		}
 	}
 	
+	/**
+	 * Get user data for all fields in WP-Members.
+	 *
+	 * Retrieves user data for all WP-Members fields (and WP default fiels)
+	 * in an array keyed by WP-Members field meta keys.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param  mixed $user_id
+	 * @return array $user_fields 
+	 */
+	function user_data( $user_id = false ) {
+		$fields = wpmem_fields();
+		$user_id = ( $user_id ) ? $user_id : get_current_user_id();
+		$user_data = get_userdata( $user_id );
+		$excludes = array( 'first_name', 'last_name', 'description', 'nickname' );
+		foreach ( $fields as $meta => $field ) {
+			if ( $field['native'] == 1 && ! in_array( $meta, $excludes ) ) {
+				$user_fields[ $meta ] = $user_data->data->$meta;
+			} else {
+				$user_fields[ $meta ] = get_user_meta( $user_id, $meta, true );
+			}
+		}
+		return $user_fields;
+	}
+	
+	/**
+	 * Sets the role for the specified user.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param integer $user_id
+	 * @param string  $role
+	 * @param string  $action (change|add|remove)
+	 */
+	public function update_user_role( $user_id, $role, $action = 'change' ) {
+		$user = new WP_User( $user_id );
+		switch ( $action ) {
+			case 'add':
+				$user->set_role( $role );
+				break;
+			case 'remove':
+				$user->remove_role( $role );
+				break;
+			default:
+			$user->add_role( $role );
+			break;
+		}
+	}
 }
