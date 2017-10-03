@@ -1,0 +1,1399 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: WP-Members\n"
+"POT-Creation-Date: 2016-05-03 17:34-0500\n"
+"PO-Revision-Date: 2017-09-04 01:53+0300\n"
+"Language-Team: Ahrale | Atar4U.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wp-members.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: Ahrale <contact@atar4u.com>\n"
+"Language: he_IL\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/admin.php:72 admin/admin.php:143
+msgid "Settings"
+msgstr "הגדרות"
+
+#: admin/dialogs.php:104
+msgid ""
+"Your WP settings allow anyone to register - this is not the recommended "
+"setting."
+msgstr "הגדרות האתר שלך מאפשרות לכל אחד להירשם - זו אינה ההגדרה המומלצת."
+
+#: admin/dialogs.php:105
+#, php-format
+msgid ""
+"You can %s change this here %s making sure the box next to \"Anyone can "
+"register\" is unchecked."
+msgstr ""
+"באפשרותך %s לשנות את זה כאן %s ולוודא שתיבת הסימון ליד \"כל אחד יכול להירשם"
+"\" אינה מסומנת."
+
+#: admin/dialogs.php:106
+msgid ""
+"This setting allows a link on the /wp-login.php page to register using the "
+"WP native registration process thus circumventing any registration you are "
+"using with WP-Members. In some cases, this may suit the users wants/needs, "
+"but most users should uncheck this option. If you do not change this "
+"setting, you can choose to ignore these warning messages under WP-Members "
+"Settings."
+msgstr ""
+"הגדרה זו מאפשרת קישור בעמוד הכניסה /wp-login.php להרשמה תוך שימוש בתהליך "
+"הרישום המקורי ולעקוף את הרישום שלך בוורדפרס-חברים. לפעמים זה עונה על הצורך, "
+"אבל רוב המשתמשים צריכים לא לסמן את האפשרות הזו. אם אינך משנה הגדרה זו, אפשר "
+"לבחור להתעלם מהודעות אזהרה אלו בהגדרות וורדפרס-חברים."
+
+#: admin/dialogs.php:110
+msgid ""
+"Your WP settings allow anyone to comment - this is not the recommended "
+"setting."
+msgstr "הגדרות האתר שלך מאפשרות לכל אחד להגיב - הגדרה זו אינה מומלצת."
+
+#: admin/dialogs.php:111
+#, php-format
+msgid ""
+"You can %s change this here %s by checking the box next to \"Users must be "
+"registered and logged in to comment.\""
+msgstr ""
+"אפשר %sלשנות זאת כאן%s על-ידי סימון התיבה שליד \"משתמשים חייבים להיות רשומים "
+"ומחוברים כדי להגיב\""
+
+#: admin/dialogs.php:112
+msgid ""
+"This setting allows any users to comment, whether or not they are "
+"registered. Depending on how you are using WP-Members will determine whether "
+"you should change this setting or not. If you do not change this setting, "
+"you can choose to ignore these warning messages under WP-Members Settings."
+msgstr ""
+"הגדרה זו מאפשרת לכל המשתמשים להגיב, בין אם הם רשומים ובין אם לאו. תלוי איך "
+"אתה משתמש בוורדפרס-חברים, ייקבע אם עליך לשנות הגדרה זו או לא. אם לא תשנה "
+"הגדרה זו, באפשרותך לבחור להתעלם מהודעות אזהרה אלו תחת הגדרות וורדפרס-חברים."
+
+#: admin/dialogs.php:116
+msgid ""
+"Your WP settings allow full text rss feeds - this is not the recommended "
+"setting."
+msgstr "הגדרות האתר שלך מאפשרות הזנות RSS בטקסט מלא - הגדרה זו אינה מומלצת."
+
+#: admin/dialogs.php:117
+#, php-format
+msgid ""
+"You can %s change this here %s by changing \"For each article in a feed, show"
+"\" to \"Summary.\""
+msgstr ""
+"אפשר %sלשנות זאת כאן%s על-ידי שינוי \"עבור כל מאמר בהזנה,\" ל\"תקציר\"."
+
+#: admin/dialogs.php:118
+msgid ""
+"Leaving this set to full text allows anyone to read your protected content "
+"in an RSS reader. Changing this to Summary prevents this as your feeds will "
+"only show summary text."
+msgstr ""
+"השארת הגדרה זו לטקסט מלא מאפשרת לכל אחד לקרוא את התוכן המוגן בקורא הזנות "
+"RSS. שינוי לתקציר מונע את זה כי ההזנות יציגו רק תקציר."
+
+#: admin/dialogs.php:122
+msgid "You have set WP-Members to hold registrations for approval"
+msgstr "הגדרת את וורדפרס-חברים לעכב הרשמה עד לקבלת אישור"
+
+#: admin/dialogs.php:123
+msgid ""
+"but you have not changed the default message for \"Registration Completed\" "
+"under \"WP-Members Dialogs and Error Messages.\"  You should change this "
+"message to let users know they are pending approval."
+msgstr ""
+"אבל לא שינית את הודעת ברירת המחדל עבור \"ההרשמה הושלמה\" ב\"הודעות תיבות הדו-"
+"שיח ושגיאות של של וורדפרס חברים\".צריך לשנות את ההודעה הזו כדי ליידע את "
+"המשתמשים שהם בהמתנה לאישור."
+
+#: admin/dialogs.php:127
+msgid "You have set WP-Members to turn off the registration process"
+msgstr "הגדרת את וורדפרס-חברים לכבות את תהליך ההרשמה"
+
+#: admin/dialogs.php:128
+msgid ""
+"but you also set to moderate and/or email admin new registrations.  You will "
+"need to set up a registration page for users to register."
+msgstr ""
+"אבל הגדרת גם סינון ושליחת הודעה באימייל למנהל על הרשמה. צריך להגדיר עמוד "
+"הרשמה למשתמשים כדי להירשם."
+
+#: admin/dialogs.php:132
+msgid "You have turned on reCAPTCHA"
+msgstr "הפעלת את reCAPTCHA"
+
+#: admin/dialogs.php:133
+msgid ""
+"but you have not entered API keys.  You will need both a public and private "
+"key.  The CAPTCHA will not display unless a valid API key is included."
+msgstr ""
+"אבל לא הזנת מפתחות API. צריך מפתח ציבורי ומפתח פרטי. קוד האימות לא יוצג ללא "
+"מפתחות API."
+
+#: admin/dialogs.php:157
+msgid "Version:"
+msgstr "גרסה"
+
+#: admin/dialogs.php:158
+msgid "Quick Start Guide"
+msgstr "מדריך התחלה מהירה"
+
+#: admin/dialogs.php:159
+msgid "Online User Guide"
+msgstr "מדריך מקוון למשתמש"
+
+#: admin/dialogs.php:160
+msgid "FAQs"
+msgstr "שאלות נפוצות"
+
+#: admin/dialogs.php:167
+msgid "Thank you for using WP-Members"
+msgstr "תודה לך על השימוש בוורדפרס-חברים"
+
+#: admin/dialogs.php:168
+msgid "A plugin developed by"
+msgstr "התוסף פותח על-ידי"
+
+#: admin/dialogs.php:169
+msgid "Follow"
+msgstr "עקוב אחרינו"
+
+#: admin/dialogs.php:186 admin/dialogs.php:190
+msgid "Latest from RocketGeek"
+msgstr "פרסומים אחרונים של RocketGeek"
+
+#: admin/dialogs.php:207 admin/dialogs.php:220
+msgid "Latest from ButlerBlog"
+msgstr "פרסומים אחרונים ב ButlerBlog"
+
+#: admin/includes/class-wp-members-admin-api.php:220
+msgid "Options"
+msgstr "אפשרויות"
+
+#: admin/includes/class-wp-members-admin-api.php:221
+msgid "Fields"
+msgstr "שדות"
+
+#: admin/includes/class-wp-members-admin-api.php:222
+msgid "Dialogs"
+msgstr "תיבות דו-שיח"
+
+#: admin/includes/class-wp-members-admin-api.php:223
+msgid "Emails"
+msgstr "אימיילים"
+
+#: admin/includes/class-wp-members-admin-api.php:239
+msgid "New Registration"
+msgstr "רישום חדש"
+
+#: admin/includes/class-wp-members-admin-api.php:248
+msgid "Registration is Moderated"
+msgstr "ההרשמה מסוננת"
+
+#: admin/includes/class-wp-members-admin-api.php:254
+msgid "Registration is Moderated, User is Approved"
+msgstr "ההרשמה מסוננת, המשתמש מאושר"
+
+#: admin/includes/class-wp-members-admin-api.php:262
+msgid "Password Reset"
+msgstr "איפוס סיסמה"
+
+#: admin/includes/class-wp-members-admin-api.php:269
+msgid "Retrieve Username"
+msgstr "שחזור שם משתמש"
+
+#: admin/includes/class-wp-members-admin-api.php:277
+msgid "Admin Notification"
+msgstr "הודעה להנהלה"
+
+#: admin/post.php:51 admin/post.php:53 admin/tab-options.php:87
+msgid "Block"
+msgstr "לחסום"
+
+#: admin/post.php:52 admin/post.php:54
+msgid "Unblock"
+msgstr "ביטול חסימה"
+
+#: admin/post.php:188
+#, php-format
+msgid "%s Restriction"
+msgstr "הגבלת %s"
+
+#: admin/post.php:215
+#, php-format
+msgid "%s are blocked by default."
+msgstr "ה%s מוגבלים כברירת מחדל"
+
+#: admin/post.php:216
+#, php-format
+msgid "Unblock this %s"
+msgstr "ביטול חסימת %s זה"
+
+#: admin/post.php:219
+#, php-format
+msgid "%s are not blocked by default."
+msgstr "%s אינם חסומים כברירת מחדל."
+
+#: admin/post.php:220
+#, php-format
+msgid "Block this %s"
+msgstr "חסימת %s זה"
+
+#: admin/post.php:226 admin/tab-fields.php:282 admin/tab-fields.php:473
+msgid "Edit"
+msgstr "עריכה"
+
+#: admin/post.php:313
+msgid "Unblocked?"
+msgstr "לבטל את החסימה?"
+
+#: admin/post.php:313
+msgid "Blocked?"
+msgstr "חסום?"
+
+#: admin/post.php:345 admin/post.php:346 admin/user-export.php:108
+msgid "Yes"
+msgstr "כן"
+
+#: admin/tab-captcha.php:42 admin/tab-dialogs.php:47 admin/tab-emails.php:80
+#: admin/tab-fields.php:44 admin/tab-options.php:58
+msgid "Need help?"
+msgstr "צריך עזרה?"
+
+#: admin/tab-captcha.php:53
+msgid "Manage reCAPTCHA Options"
+msgstr "ניהול אפשרויות קוד אימות של  reCAPTCHA"
+
+#: admin/tab-captcha.php:67
+msgid ""
+"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
+"while blocking spam on your blog."
+msgstr "reCAPTCHA הוא קוד אימות חינמי, לחסימת ספאם באתר שלכם."
+
+#: admin/tab-captcha.php:68
+#, php-format
+msgid ""
+"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
+"that they are a human. This verifies that they are not a spambot while also "
+"correcting the automatic scans of old books. So you get less spam, and the "
+"world gets accurately digitized books. Everybody wins! For details, visit "
+"the %s reCAPTCHA website%s"
+msgstr ""
+"reCAPTCHA מבקש להקליד שתי מילים סרוקות מספר כדי להוכיח אנושיות. זה מאמת "
+"שהשולח אינו רובוט ספאם בקרו ב %sreCaptcha%s"
+
+#: admin/tab-captcha.php:73 admin/tab-captcha.php:99
+msgid "reCAPTCHA Keys"
+msgstr "מפתחות reCAPTCHA"
+
+#: admin/tab-captcha.php:75
+#, php-format
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+"קוד אימות של reCAPTCHA צריך מפתח API המורכב מ\"מפתח ציבורי\" ו\"מפתח פרטי\". "
+"אפשר להירשם לקבלת %sמפתח reCAPTCHA ללא תשלום %s"
+
+#: admin/tab-captcha.php:76
+msgid "Public Key"
+msgstr "מפתח ציבורי"
+
+#: admin/tab-captcha.php:77
+msgid "Private Key"
+msgstr "מפתח פרטי"
+
+#: admin/tab-captcha.php:81
+msgid "Choose Theme"
+msgstr "בחירת תבנית"
+
+#: admin/tab-captcha.php:84
+msgid "Red"
+msgstr "אדום"
+
+#: admin/tab-captcha.php:85
+msgid "White"
+msgstr "לבן"
+
+#: admin/tab-captcha.php:86
+msgid "Black Glass"
+msgstr "זכוכית שחורה"
+
+#: admin/tab-captcha.php:87
+msgid "Clean"
+msgstr "נקי"
+
+#: admin/tab-captcha.php:101
+#, php-format
+msgid ""
+"reCAPTCHA requires an API key, consisting of a \"site\" and a \"secret\" "
+"key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+"קוד אימות של reCAPTCHA דורש מפתח API, המורכב מ \"מפתח אתר\" ו \"מפתח סודי\". "
+"באפשרותך להירשם לקבלת %sמפתחות reCAPTCHA ללא תשלום%s"
+
+#: admin/tab-captcha.php:102
+msgid "Site Key"
+msgstr "מפתח אתר"
+
+#: admin/tab-captcha.php:103
+msgid "Secret Key"
+msgstr "מפתח סודי"
+
+#: admin/tab-captcha.php:134
+msgid "Characters for image"
+msgstr "תווים עבור התמונה"
+
+#: admin/tab-captcha.php:138
+msgid "Number of characters"
+msgstr "מספר התווים"
+
+#: admin/tab-captcha.php:142
+msgid "Image dimensions"
+msgstr "גודל התמונה"
+
+#: admin/tab-captcha.php:143
+msgid "Width"
+msgstr "רוחב"
+
+#: admin/tab-captcha.php:143
+msgid "Height"
+msgstr "גובה"
+
+#: admin/tab-captcha.php:146
+msgid "Font color of characters"
+msgstr "צבע הגופן של התווים"
+
+#: admin/tab-captcha.php:150
+msgid "Background color of image"
+msgstr "צבע הרקע של התמונה"
+
+#: admin/tab-captcha.php:154
+msgid "Font size"
+msgstr "גודל הגופן"
+
+#: admin/tab-captcha.php:158
+msgid "Width between characters"
+msgstr "המרווח בין התווים"
+
+#: admin/tab-captcha.php:162
+msgid "Image type"
+msgstr "סוג התמונה"
+
+#: admin/tab-captcha.php:176
+msgid ""
+"To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin "
+"installed and activated."
+msgstr ""
+"כדי להשתמש בקוד אימות פשוט באמת, חובה להתקין ולהפעיל את התוסף Really Simple "
+"CAPTCHA."
+
+#: admin/tab-captcha.php:200
+msgid "Update CAPTCHA Settings"
+msgstr "עדכון הגדרות קוד האימות"
+
+#: admin/tab-captcha.php:271
+msgid "CAPTCHA was updated for WP-Members"
+msgstr "קוד האימות עבור וורדפרס-חברים עודכן"
+
+#: admin/tab-dialogs.php:32
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr "פוסט מוגבלת (או עמוד), מוצג מעל טופס כניסה/הרשמה"
+
+#: admin/tab-dialogs.php:33
+msgid "Username is taken"
+msgstr "שם המשתמש כבר תפוס"
+
+#: admin/tab-dialogs.php:34
+msgid "Email is registered"
+msgstr "האימייל כבר רשום"
+
+#: admin/tab-dialogs.php:35
+msgid "Registration completed"
+msgstr "ההרשמה הושלמה"
+
+#: admin/tab-dialogs.php:36
+msgid "User update"
+msgstr "עדכון המשתמש"
+
+#: admin/tab-dialogs.php:37
+msgid "Passwords did not match"
+msgstr "הסיסמאות אינן תואמות"
+
+#: admin/tab-dialogs.php:38
+msgid "Password changes"
+msgstr "החלפת סיסמה"
+
+#: admin/tab-dialogs.php:39
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr "שם המשתמש או האימייל אינם קיימים, כאשר מנסים לאפס את הסיסמה"
+
+#: admin/tab-dialogs.php:40
+msgid "Password reset"
+msgstr "איפוס סיסמה"
+
+#: admin/tab-dialogs.php:57
+msgid "Dialogs and Error Messages"
+msgstr "הודעות דו-שיח ושגיאה"
+
+#: admin/tab-dialogs.php:59
+#, php-format
+msgid ""
+"You can customize the text for dialogs and error messages. Simple HTML is "
+"allowed %s etc."
+msgstr ""
+"באפשרותך להתאים אישית את הטקסט עבור תיבות דו-שיח והודעות שגיאה. אפשר להשתמש "
+"ב HTML פשוט %s ועוד."
+
+#: admin/tab-dialogs.php:72
+msgid "Terms of Service (TOS)"
+msgstr "תנאי השימוש"
+
+#: admin/tab-dialogs.php:79
+msgid "Update Dialogs"
+msgstr "עדכון דו-שיח"
+
+#: admin/tab-dialogs.php:118
+msgid "WP-Members dialogs were updated"
+msgstr "הדו-שיח של וורדפרס-חברים עודכן"
+
+#: admin/tab-emails.php:37
+msgid "Email Messages"
+msgstr "הודעות אימייל"
+
+#: admin/tab-emails.php:40
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr "אפשר לשנות את תוכן האימיילים הנשלחים על-ידי התוסף."
+
+#: admin/tab-emails.php:42
+msgid "A list of shortcodes is available here."
+msgstr "להלן רשימת קיצורי הקוד הזמינים"
+
+#: admin/tab-emails.php:49
+msgid "Set a custom email address"
+msgstr "הגדרת כתובת אימייל"
+
+#: admin/tab-emails.php:50 admin/tab-emails.php:54 admin/tab-emails.php:64
+msgid "(optional)"
+msgstr "(רשות)"
+
+#: admin/tab-emails.php:53
+msgid "Set a custom email name"
+msgstr "קביעת שם אימייל"
+
+#: admin/tab-emails.php:64
+msgid "Email Signature"
+msgstr "חתימת האימייל"
+
+#: admin/tab-emails.php:72
+msgid "Update Emails"
+msgstr "עדכון האימיילים"
+
+#: admin/tab-emails.php:140
+msgid "WP-Members emails were updated"
+msgstr "האימיילים של וורדפרס-חברים עודכנו"
+
+#: admin/tab-fields.php:169
+msgid "WP-Members fields were updated"
+msgstr "השדות של וורדפרס-חברים עודכנו"
+
+#: admin/tab-fields.php:181
+msgid "Field Label is required for adding a new field. Nothing was updated."
+msgstr "תווית השדה הכרחית כדי להוסיף שדה חדש. שום דבר לא עודכן."
+
+#: admin/tab-fields.php:182
+msgid "Option Name is required for adding a new field. Nothing was updated."
+msgstr "שם האפשרות הוא חובה כדי להוסיף שדה חדש. שום דבר לא עודכן."
+
+#: admin/tab-fields.php:184
+msgid "Option Name must contain only letters, numbers, and underscores"
+msgstr "שם האפשרות חייב להכיל רק אותיות, ספרות ומקף תחתון."
+
+#: admin/tab-fields.php:191
+msgid "A field with that option name already exists"
+msgstr "שדה עם שם אפשרות זה כבר קיים"
+
+#: admin/tab-fields.php:197
+#, php-format
+msgid ""
+"Sorry, \"%s\" is a <a href=\"https://codex.wordpress.org/Function_Reference/"
+"register_taxonomy#Reserved_Terms\" target=\"_blank\">reserved term</a>. "
+"Field was not added."
+msgstr ""
+"מצטערים, %s הוא <a href=\"https://codex.wordpress.org/Function_Reference/"
+"register_taxonomy#Reserved_Terms\" target=\"_blank\">מונח שמור</a>. השדה לא "
+"התווסף."
+
+#: admin/tab-fields.php:215
+msgid "Checked value is required for checkboxes. Nothing was updated."
+msgstr "ערך מסומן הוא חובה עבור תיבות סימון. שום דבר לא עודכן."
+
+#: admin/tab-fields.php:245
+msgid "field was added"
+msgstr "השדה נוסף"
+
+#: admin/tab-fields.php:263
+msgid "field was updated"
+msgstr "השדה עודכן"
+
+#: admin/tab-fields.php:309 admin/tab-fields.php:437
+msgid "Edit Field"
+msgstr "עריכת השדה"
+
+#: admin/tab-fields.php:309
+msgid "Add a Field"
+msgstr "הוספת שדה"
+
+#: admin/tab-fields.php:315 admin/tab-fields.php:467
+msgid "Field Label"
+msgstr "תווית השדה"
+
+#: admin/tab-fields.php:317
+msgid "The name of the field as it will be displayed to the user."
+msgstr "השם של השדה כפי שהוא יוצג בפני המשתמש."
+
+#: admin/tab-fields.php:320 admin/tab-fields.php:468
+msgid "Option Name"
+msgstr "שם האפשרות"
+
+#: admin/tab-fields.php:326
+msgid ""
+"The database meta value for the field. It must be unique and contain no "
+"spaces (underscores are ok)."
+msgstr ""
+"ערך תיאור meta עבור השדה. הוא חייב להיות ייחודי, ללא רווחים (אפשר להשתמש "
+"במקפים תחתונים)."
+
+#: admin/tab-fields.php:330 admin/tab-fields.php:469
+msgid "Field Type"
+msgstr "סוג השדה"
+
+#: admin/tab-fields.php:336
+msgid "text"
+msgstr "טקסט"
+
+#: admin/tab-fields.php:337
+msgid "email"
+msgstr "אימייל"
+
+#: admin/tab-fields.php:338
+msgid "textarea"
+msgstr "אזור טקסט"
+
+#: admin/tab-fields.php:339
+msgid "checkbox"
+msgstr "תיבת סימון"
+
+#: admin/tab-fields.php:340
+msgid "multiple checkbox"
+msgstr "תיבות סימון מרובות"
+
+#: admin/tab-fields.php:341
+msgid "select (dropdown)"
+msgstr "בחירה מרשימה נפתחת"
+
+#: admin/tab-fields.php:342
+msgid "multiple select"
+msgstr "בחירה מרובה ברשימה נפתחת"
+
+#: admin/tab-fields.php:343
+msgid "radio group"
+msgstr "קבוצת לחצני רדיו"
+
+#: admin/tab-fields.php:344
+msgid "password"
+msgstr "סיסמה"
+
+#: admin/tab-fields.php:345
+msgid "image"
+msgstr "תמונה"
+
+#: admin/tab-fields.php:346
+msgid "file"
+msgstr "קובץ"
+
+#: admin/tab-fields.php:347
+msgid "url"
+msgstr "כתובת URL"
+
+#: admin/tab-fields.php:348
+msgid "hidden"
+msgstr "נסתר"
+
+#: admin/tab-fields.php:353 admin/tab-fields.php:470
+msgid "Display?"
+msgstr "להציג?"
+
+#: admin/tab-fields.php:357 admin/tab-fields.php:471
+msgid "Required?"
+msgstr "חובה?"
+
+#: admin/tab-fields.php:363
+msgid "Additional information for field upload fields"
+msgstr "פרטים נוספים עבור שדות העלאת שדה"
+
+#: admin/tab-fields.php:366
+msgid "Accepted file types:"
+msgstr "סוגי הקבצים המקובלים:"
+
+#: admin/tab-fields.php:371
+msgid "Accepted file types should be set like this: jpg|jpeg|png|gif"
+msgstr "את סוגי הקבצים המקובלים יש להגדיר כך:jpg|jpeg|png|gif"
+
+#: admin/tab-fields.php:378
+msgid "Additional information for checkbox fields"
+msgstr "מידע נוסף עבור שדות תיבת סימון"
+
+#: admin/tab-fields.php:381
+msgid "Checked by default?"
+msgstr "לסמן כברירת מחדל?"
+
+#: admin/tab-fields.php:385
+msgid "Stored value if checked:"
+msgstr "הערך המאוחסן אם מסומi:"
+
+#: admin/tab-fields.php:397
+msgid "Additional information for dropdown fields"
+msgstr "פרטים נוספים עבור שדות של הרשימה הנפתחת"
+
+#: admin/tab-fields.php:400
+msgid "For dropdown, array of values:"
+msgstr "עבור רשימה נפתחת, מערך של ערכים:"
+
+#: admin/tab-fields.php:425
+msgid "Options should be Option Name|option_value,"
+msgstr "האפשרויות צריכות להיות שם אפשרות | option_value,"
+
+#: admin/tab-fields.php:429
+msgid "Visit plugin site for more information"
+msgstr "נא לבקר באתר התוסף למידע נוסף"
+
+#: admin/tab-fields.php:437
+msgid "Add Field"
+msgstr "הוספת שדה"
+
+#: admin/tab-fields.php:458
+msgid "Manage Fields"
+msgstr "ניהול שדות"
+
+#: admin/tab-fields.php:460
+msgid ""
+"Determine which fields will display and which are required.  This includes "
+"all fields, both native WP fields and WP-Members custom fields."
+msgstr ""
+"קביעת אילו שדות יוצגו ואילו חובה.זה כולל את כל השדות, גם שדות של וורדפרס וגם "
+"שדות מותאמים אישית של וורדפרס-חברים."
+
+#: admin/tab-fields.php:461
+msgid "(Note: Email is always mandatory and cannot be changed.)"
+msgstr "(הערה: האימייל הוא תמיד חובה ולא ניתן לשנותו.)"
+
+#: admin/tab-fields.php:466
+msgid "Add/Delete"
+msgstr "הוספה/מחיקה"
+
+#: admin/tab-fields.php:472
+msgid "Checked?"
+msgstr "מסומן?"
+
+#: admin/tab-fields.php:474
+msgid "Users Screen"
+msgstr "מסך המשתמשים"
+
+#: admin/tab-fields.php:486
+msgid "Delete"
+msgstr "מחיקה"
+
+#: admin/tab-fields.php:498
+msgid "(Email cannot be removed)"
+msgstr "(לא ניתן להסיר את האימייל)"
+
+#: admin/tab-fields.php:518
+msgid "Registration Date"
+msgstr "תאריך ההרשמה"
+
+#: admin/tab-fields.php:521
+msgid "native"
+msgstr "מקומי"
+
+#: admin/tab-fields.php:531
+msgid "Active"
+msgstr "פעיל"
+
+#: admin/tab-fields.php:543
+msgid "Registration IP"
+msgstr "כתובת ה IP בהרשמה"
+
+#: admin/tab-fields.php:578
+msgid "Update Fields"
+msgstr "עדכון השדות"
+
+#: admin/tab-options.php:69
+msgid "Manage Options"
+msgstr "ניהול האפשרויות"
+
+#: admin/tab-options.php:86
+msgid "Do not block"
+msgstr "לא לחסום"
+
+#: admin/tab-options.php:88
+msgid "Hide"
+msgstr "להסתיר"
+
+#: admin/tab-options.php:99
+msgid "Show Excerpts"
+msgstr "להציג תקצירים"
+
+#: admin/tab-options.php:100
+msgid "Show Login Form"
+msgstr "להציג טופס כניסה"
+
+#: admin/tab-options.php:101
+msgid "Show Registration Form"
+msgstr "להציג טופס הרשמה"
+
+#: admin/tab-options.php:102
+msgid "Auto Excerpt:"
+msgstr "תקציר אוטומטי:"
+
+#: admin/tab-options.php:122
+msgid "Number of words in excerpt:"
+msgstr "מספר המילים בתקציר:"
+
+#: admin/tab-options.php:136
+msgid "Time-based expiration"
+msgstr "תפוגה מבוססת זמן"
+
+#: admin/tab-options.php:136
+msgid "Allows for access to expire"
+msgstr "מאפשר לגישה לפוג"
+
+#: admin/tab-options.php:137
+msgid "Trial period"
+msgstr "תקופת ניסיון"
+
+#: admin/tab-options.php:137
+msgid "Allows for a trial period"
+msgstr "מאפשר תקופת ניסיון"
+
+#: admin/tab-options.php:153
+msgid "Notify admin"
+msgstr "להודיע למנהל"
+
+#: admin/tab-options.php:153
+#, php-format
+msgid "Notify %s for each new registration? %s"
+msgstr "להודיע ל %s  מנהל על כל הרשמה חדשה? %s"
+
+#: admin/tab-options.php:154
+msgid "Moderate registration"
+msgstr "בקרת הרשמה"
+
+#: admin/tab-options.php:154
+msgid "Holds new registrations for admin approval"
+msgstr "עוצר הרשמת משתמשים חדשים עד לאישור מנהל"
+
+#: admin/tab-options.php:155
+msgid "Ignore warning messages"
+msgstr "להתעלם מהודעות אזהרה"
+
+#: admin/tab-options.php:155
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "להתעלם מהודעות אזהרה של וורדפרס-חברים בלוח הבקרה"
+
+#: admin/tab-options.php:167
+msgid "Attribution"
+msgstr "ייחוס"
+
+#: admin/tab-options.php:169
+msgid ""
+"Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr "ייחוס תתקבל בברכה!  להציג \"מופעל על ידי\" על הקישור בטופס ההרשמה?"
+
+#: admin/tab-options.php:172
+msgid "Enable CAPTCHA"
+msgstr "הפעלת קוד אימות"
+
+#: admin/tab-options.php:174 admin/user-profile.php:97 inc/forms.php:806
+#: inc/users.php:70
+msgid "None"
+msgstr "ללא"
+
+#: admin/tab-options.php:180
+msgid "Pages"
+msgstr "עמודים"
+
+#: admin/tab-options.php:184
+msgid "Login Page:"
+msgstr "עמוד כניסה"
+
+#: admin/tab-options.php:187
+msgid "Specify a login page (optional)"
+msgstr "נא לציין עמוד כניסה (רשות)"
+
+#: admin/tab-options.php:196
+msgid "Register Page:"
+msgstr "עמוד ההרשמה"
+
+#: admin/tab-options.php:199
+msgid "For creating a register link in the login form"
+msgstr "כדי ליצור קישור להרשמה בטופס הכניסה"
+
+#: admin/tab-options.php:208
+msgid "User Profile Page:"
+msgstr "עמוד פרופיל המשתמש:"
+
+#: admin/tab-options.php:211
+msgid "For creating a forgot password link in the login form"
+msgstr "כדי ליצור קישור לאיפוס סיסמה בטופס הכניסה"
+
+#: admin/tab-options.php:217 admin/tab-options.php:219
+msgid "Stylesheet"
+msgstr "גיליון עיצוב"
+
+#: admin/tab-options.php:228
+msgid "Custom Stylesheet:"
+msgstr "גיליון עיצוב מותאם אישית:"
+
+#: admin/tab-options.php:234 admin/tab-options.php:260
+msgid "Update Settings"
+msgstr "עדכן ההגדרות"
+
+#: admin/tab-options.php:241
+msgid "Custom Post Types"
+msgstr "סוגי פוסט"
+
+#: admin/tab-options.php:342
+msgid "Custom Post Type settings were updated"
+msgstr "הגדרות סוגי פוסט עודכנו"
+
+#: admin/tab-options.php:460
+msgid "WP-Members settings were updated"
+msgstr "הגדרות וורדפרס-חברים עודכנו"
+
+#: admin/tab-options.php:530 admin/tab-options.php:559
+msgid "USE CUSTOM URL BELOW"
+msgstr "להשתמש בכתובת URL מותאמת אישית להלן"
+
+#: admin/tab-options.php:548
+msgid "Select a page"
+msgstr "בחירת עמוד"
+
+#: admin/user-export.php:72
+msgid "Activated?"
+msgstr "פעיל?"
+
+#: admin/user-export.php:73
+msgid "Subscription"
+msgstr "מנוי"
+
+#: admin/user-export.php:73
+msgid "Expires"
+msgstr "פג תוקף"
+
+#: admin/user-export.php:75
+msgid "Registered"
+msgstr "רשום"
+
+#: admin/user-export.php:76
+msgid "IP"
+msgstr "כתובת IP"
+
+#: admin/user-export.php:108 admin/users.php:336
+msgid "No"
+msgstr "לא"
+
+#: admin/user-profile.php:52
+msgid "WP-Members Additional Fields"
+msgstr "שדות נוספים של וורדפרס-חברים"
+
+#: admin/user-profile.php:115 inc/users.php:90 inc/wp-registration.php:37
+#: inc/wp-registration.php:154
+msgid "(required)"
+msgstr "(חובה)"
+
+#: admin/user-profile.php:283
+msgid "Activate this user?"
+msgstr "לאשר את המשתמש הזה?"
+
+#: admin/user-profile.php:288
+msgid "Reactivate this user?"
+msgstr "לאשר מחדש את המשתמש הזה?"
+
+#: admin/user-profile.php:293
+msgid "Deactivate this user?"
+msgstr "לבטל את המשתמש הזה?"
+
+#: admin/user-profile.php:339
+msgid "IP @ registration"
+msgstr "כתובת IP והרשמה"
+
+#: admin/users.php:59 admin/users.php:63
+msgid "Activate"
+msgstr "הפעלה"
+
+#: admin/users.php:61 admin/users.php:65
+msgid "Export"
+msgstr "יצוא"
+
+#: admin/users.php:66 admin/users.php:107
+msgid "Export All Users"
+msgstr "יצוא כל המשתמשים"
+
+#: inc/class-wp-members-widget.php:18
+msgid "Displays the WP-Members sidebar login."
+msgstr "מציג את הכניסה של וורדפרס-חברים בסרגל הצד"
+
+#: inc/class-wp-members-widget.php:33 inc/class-wp-members-widget.php:76
+msgid "Login Status"
+msgstr "מצב ההתחברות"
+
+#: inc/class-wp-members-widget.php:40
+msgid "Title:"
+msgstr "כותרת:"
+
+#: inc/class-wp-members-widget.php:44
+msgid "Redirect to (optional):"
+msgstr "להפנות ל (רשות):"
+
+#: inc/class-wp-members.php:388 inc/shortcodes.php:117 inc/shortcodes.php:386
+msgid "There was an error with the CAPTCHA form."
+msgstr "היתה שגיאה בטופס קוד האימות."
+
+#: inc/class-wp-members.php:546
+msgid "First Name"
+msgstr "שם"
+
+#: inc/class-wp-members.php:547
+msgid "Last Name"
+msgstr "שם משפחה"
+
+#: inc/class-wp-members.php:548
+msgid "Address 1"
+msgstr "כתובת"
+
+#: inc/class-wp-members.php:549
+msgid "Address 2"
+msgstr "כתובת 2"
+
+#: inc/class-wp-members.php:550
+msgid "City"
+msgstr "יישוב"
+
+#: inc/class-wp-members.php:551
+msgid "State"
+msgstr "מדינה"
+
+#: inc/class-wp-members.php:552
+msgid "Zip"
+msgstr "מיקוד"
+
+#: inc/class-wp-members.php:553
+msgid "Country"
+msgstr "ארץ"
+
+#: inc/class-wp-members.php:554
+msgid "Day Phone"
+msgstr "טלפון"
+
+#: inc/class-wp-members.php:555 inc/class-wp-members.php:588
+msgid "Email"
+msgstr "אימייל"
+
+#: inc/class-wp-members.php:556
+msgid "Confirm Email"
+msgstr "אישור האימייל"
+
+#: inc/class-wp-members.php:557
+msgid "Website"
+msgstr "אתר"
+
+#: inc/class-wp-members.php:558
+msgid "Biographical Info"
+msgstr "מידע ביוגרפי"
+
+#: inc/class-wp-members.php:559 inc/class-wp-members.php:569
+#: inc/class-wp-members.php:645
+msgid "Password"
+msgstr "סיסמה"
+
+#: inc/class-wp-members.php:560
+msgid "Confirm Password"
+msgstr "אישור הסיסמה"
+
+#: inc/class-wp-members.php:561
+msgid "TOS"
+msgstr "תנאי השימוש"
+
+#: inc/class-wp-members.php:567
+msgid "Existing Users Log In"
+msgstr "כניסת משתמשים רשומים"
+
+#: inc/class-wp-members.php:568 inc/class-wp-members.php:587
+#: inc/class-wp-members.php:608 inc/class-wp-members.php:644
+msgid "Username"
+msgstr "שם משתמש"
+
+#: inc/class-wp-members.php:570
+msgid "Log In"
+msgstr "כניסה"
+
+#: inc/class-wp-members.php:571
+msgid "Remember Me"
+msgstr "זכור אותי"
+
+#: inc/class-wp-members.php:572
+msgid "Forgot password?"
+msgstr "לאפס את הסיסמה?"
+
+#: inc/class-wp-members.php:573
+msgid "Click here to reset"
+msgstr "נא ללחוץ כאן כדי לאפס"
+
+#: inc/class-wp-members.php:574
+msgid "New User?"
+msgstr "משתמש חדש?"
+
+#: inc/class-wp-members.php:575
+msgid "Click here to register"
+msgstr "נא ללחוץ כאן כדי להירשם"
+
+#: inc/class-wp-members.php:576
+msgid "Forgot username?"
+msgstr "שכחת את שם המשתמש?"
+
+#: inc/class-wp-members.php:577
+msgid "Click here"
+msgstr "ללחוץ כאן"
+
+#: inc/class-wp-members.php:580 inc/class-wp-members.php:630
+msgid "Change Password"
+msgstr "החלפת סיסמה"
+
+#: inc/class-wp-members.php:581
+msgid "New password"
+msgstr "סיסמה חדשה"
+
+#: inc/class-wp-members.php:582
+msgid "Confirm new password"
+msgstr "אישור הסיסמה החדשה"
+
+#: inc/class-wp-members.php:583
+msgid "Update Password"
+msgstr "עדכון הסיסמה"
+
+#: inc/class-wp-members.php:586
+msgid "Reset Forgotten Password"
+msgstr "איפוס סיסמה שנשכחה"
+
+#: inc/class-wp-members.php:589
+msgid "Reset Password"
+msgstr "איפוס סיסמה"
+
+#: inc/class-wp-members.php:592 inc/class-wp-members.php:594
+msgid "Retrieve username"
+msgstr "שחזור שם המשתמש"
+
+#: inc/class-wp-members.php:593
+msgid "Email Address"
+msgstr "כתובת אימייל"
+
+#: inc/class-wp-members.php:597
+msgid "New User Registration"
+msgstr "רישום משתמש חדש"
+
+#: inc/class-wp-members.php:598
+msgid "Choose a Username"
+msgstr "בחירת שם משתמש"
+
+#: inc/class-wp-members.php:599
+msgid "Input the code:"
+msgstr "להזין את הקוד:"
+
+#: inc/class-wp-members.php:600
+#, php-format
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "נא להסכים ל%sתנאי השימוש%s"
+
+#: inc/class-wp-members.php:601
+msgid "Reset Form"
+msgstr "איפוס הטופס"
+
+#: inc/class-wp-members.php:602 inc/class-wp-members.php:648 inc/core.php:522
+msgid "Register"
+msgstr "הרשמה"
+
+#: inc/class-wp-members.php:604
+msgid "Required field"
+msgstr "שדה חובה"
+
+#: inc/class-wp-members.php:607 inc/shortcodes.php:432
+msgid "Edit Your Information"
+msgstr "עריכת הפרטים שלך"
+
+#: inc/class-wp-members.php:609
+msgid "Update Profile"
+msgstr "עדכון הפרופיל"
+
+#: inc/class-wp-members.php:610
+msgid "Update this file"
+msgstr "עדכון הקובץ הזה"
+
+#: inc/class-wp-members.php:613
+msgid "Login Failed!"
+msgstr "הכניסה נכשלה!"
+
+#: inc/class-wp-members.php:614
+msgid "You entered an invalid username or password."
+msgstr "הזנת שם משתמש או סיסמה שגויים."
+
+#: inc/class-wp-members.php:615
+msgid "Click here to continue."
+msgstr "נא ללחוץ כאן כדי להמשיך"
+
+#: inc/class-wp-members.php:616
+msgid "Password fields cannot be empty"
+msgstr "שדות הסיסמה הם שדות חובה"
+
+#: inc/class-wp-members.php:617
+msgid "Sorry, that email address was not found."
+msgstr "מצטערים, כתובת האימייל הזו איננה"
+
+#: inc/class-wp-members.php:618
+#, php-format
+msgid "An email was sent to %s with your username."
+msgstr "אימייל עם שם המשתמש שלך נשלח ל %s"
+
+#: inc/class-wp-members.php:619
+#, php-format
+msgid "Sorry, %s is a required field."
+msgstr "מצטערים, %s הוא שדה חובה"
+
+#: inc/class-wp-members.php:620
+msgid "You must enter a valid email address."
+msgstr "חובה להזין אימייל תקף"
+
+#: inc/class-wp-members.php:621
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "שם המשתמש אינו יכול לכלול תווים שאינם אלפא-נומריים."
+
+#: inc/class-wp-members.php:622
+msgid "Sorry, username is a required field"
+msgstr "מצטערים, שם המשתמש הוא שדה חובה"
+
+#: inc/class-wp-members.php:623
+msgid "Passwords did not match."
+msgstr "הסיסמאות אינן תואמות"
+
+#: inc/class-wp-members.php:624
+msgid "Emails did not match."
+msgstr "כתובות האימייל אינן תואמות"
+
+#: inc/class-wp-members.php:625
+msgid "You must complete the CAPTCHA form."
+msgstr "חובה להשלים את טופס קוד האימות."
+
+#: inc/class-wp-members.php:626
+msgid "CAPTCHA was not valid."
+msgstr "קוד האימות אינו תקף"
+
+#: inc/class-wp-members.php:629
+msgid "Edit My Information"
+msgstr "עריכת הפרטים שלך"
+
+#: inc/class-wp-members.php:631 inc/class-wp-members.php:634
+#: inc/class-wp-members.php:636 inc/class-wp-members.php:640
+#, php-format
+msgid "You are logged in as %s"
+msgstr "אתה מחובר כ- %s."
+
+#: inc/class-wp-members.php:632
+msgid "Click to log out."
+msgstr "יציאה"
+
+#: inc/class-wp-members.php:633
+msgid "Begin using the site."
+msgstr "אפשר להתחיל להשתמש באתר"
+
+#: inc/class-wp-members.php:635
+msgid "Click to log out"
+msgstr "ללחוץ כדי לצאת"
+
+#: inc/class-wp-members.php:637
+msgid "click to log out"
+msgstr "ללחוץ כדי לצאת"
+
+#: inc/class-wp-members.php:641
+msgid "click here to log out"
+msgstr "ללחוץ כאן כדי לצאת"
+
+#: inc/class-wp-members.php:642
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "הכניסה נכשלה!<br>הזנת שם משתמש או סיסמה שגויים."
+
+#: inc/class-wp-members.php:643
+msgid "You are not logged in."
+msgstr "עוד לא נכנסת."
+
+#: inc/class-wp-members.php:646
+msgid "log in"
+msgstr "כניסה"
+
+#: inc/class-wp-members.php:647
+msgid "Forgot?"
+msgstr "שכחת?"
+
+#: inc/class-wp-members.php:651
+msgid ""
+"This content is restricted to site members.  If you are an existing user, "
+"please log in.  New users may register below."
+msgstr ""
+"תוכן זה מוגבל לחברי האתר.  אם אתה משתמש קיים, נא להיכנס.  משתמשים חדשים "
+"יכולים להירשם להלן."
+
+#: inc/class-wp-members.php:652
+msgid "Sorry, that username is taken, please try another."
+msgstr "מצטערים, שם המשתמש הזה תפוס, נא לנסות שם אחר."
+
+#: inc/class-wp-members.php:653
+msgid ""
+"Sorry, that email address already has an account.<br />Please try another."
+msgstr "מצטערים, כבר יש חשבון עם האימייל הזה.<br />נא לנסות אחר."
+
+#: inc/class-wp-members.php:654
+msgid ""
+"Congratulations! Your registration was successful.<br /><br />You may now "
+"log in using the password that was emailed to you."
+msgstr ""
+"יופי! ההרשמה הצליחה<br /><br />אפשר להתחבר כעת עם הסיסמה שנשלחה אליך באימייל."
+
+#: inc/class-wp-members.php:655
+msgid "Your information was updated!"
+msgstr "המידע שלך עודכן!"
+
+#: inc/class-wp-members.php:656
+msgid "Passwords did not match.<br /><br />Please try again."
+msgstr "הסיסמאות אינן תואמות.<br><br>נא לנסות שוב."
+
+#: inc/class-wp-members.php:657
+msgid "Password successfully changed!"
+msgstr "הסיסמה הוחלפה בהצלחה!"
+
+#: inc/class-wp-members.php:658
+msgid "Either the username or email address do not exist in our records."
+msgstr "שם המשתמש או כתובת האימייל לא קיימים ברשומות שלנו."
+
+#: inc/class-wp-members.php:659
+msgid ""
+"Password successfully reset!<br /><br />An email containing a new password "
+"has been sent to the email address on file for your account."
+msgstr ""
+"הסיסמה אופסה בהצלחה!<br /><br />אימייל עם הסיסמה החדשה נשלח אל כתובת האימייל "
+"שלך."
+
+#: inc/core.php:106
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "<strong>שגיאה</strong>: המשתמש אינו פעיל."
+
+#: inc/register.php:45
+msgid "There was an error processing the form."
+msgstr "אירעה שגיאה בעיבוד הטופס."
+
+#: inc/register.php:557
+msgid "We were unable to validate the public key."
+msgstr "לא הצלחנו לאמת את המפתח הציבורי."
+
+#: inc/register.php:561
+msgid "We were unable to validate the private key."
+msgstr "הצלחנו לאמת את המפתח הפרטי."
+
+#: inc/register.php:565
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "הפרמטר המאתגר של קוד האימות היה שגוי."
+
+#: inc/register.php:569
+msgid "The CAPTCHA solution was incorrect."
+msgstr "פתרון קוד האימות היה שגוי"
+
+#: inc/register.php:573
+msgid "The parameters to verify were incorrect"
+msgstr "הפרמטרים לאימות היו שגויים"
+
+#: inc/register.php:577
+msgid ""
+"reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr "מפתחות קוד האימות של-API reCAPTCHA קשורות לדומיין ספציפי מסיבות אבטחה."
+
+#: inc/register.php:581
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "השרת של קוד האימות reCAPTCHA אינו נגיש. נא לנסות שוב."
+
+#: inc/register.php:585
+msgid "You have entered an incorrect code value. Please try again."
+msgstr "הזנת ערך קוד שגוי. נא נסה שוב."
+
+#: inc/shortcodes.php:346
+msgid "Click here to log out."
+msgstr "נא ללחוץ כאן כדי להתנתק."
+
+#: inc/users.php:37
+msgid "Additional Information"
+msgstr "מידע נוסף"
+
+#: inc/utilities.php:202
+msgid "(more&hellip;)"
+msgstr "עוד..."
+
+#: wp-members-tos.php:23
+msgid "Terms of Service"
+msgstr "תנאי שימוש"
+
+#: wp-members-tos.php:35
+#, php-format
+msgid "%sclose%s"
+msgstr "%sסגירה%s"
+
+#: wp-members-tos.php:37
+#, php-format
+msgid "%sprint%s"
+msgstr "%sספרינט%s"
+
+#. Plugin Name of the plugin/theme
+msgid "WP-Members"
+msgstr "וורדפרס-חברים"
+
+#. Plugin URI of the plugin/theme
+msgid "http://rocketgeek.com"
+msgstr "http://rocketgeek.com"
+
+#. Description of the plugin/theme
+msgid ""
+"WP access restriction and user registration.  For more information on plugin "
+"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
+"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
+"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
+"available. WP-Members(tm) is a trademark of butlerblog.com."
+msgstr ""
+"הגבלת גישה לאתר והרשמה. למידע נוסף על תכונות התוסף, נא להתייחס ל<a href="
+"\"http://rocketgeek.com/plugins/wp-members/users-guide/\">מדריך המקוון</a>. "
+"גם<a href=\"http://rocketgeek.com/plugins/wp-members/quick-start-guide/"
+"\">מדריך התחלה מהירה</a> זמין. וורדפרס-חברים (סימן רשום) הוא סימן רשום של "
+"butlerblog.com."
+
+#. Author of the plugin/theme
+msgid "Chad Butler"
+msgstr "Chad Butler"
+
+#. Author URI of the plugin/theme
+msgid "http://butlerblog.com/"
+msgstr "http://butlerblog.com/"
