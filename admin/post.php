@@ -106,7 +106,7 @@ function wpmem_posts_page_load() {
 					'post_type' => $type,
 				);
 				if ( isset( $_GET['post_status'] ) && 'all' != $_GET['post_status'] ) {
-					$arr['post_status'] = $_GET['post_status'];
+					$arr['post_status'] = sanitize_text_field( $_GET['post_status'] );
 				}
 	
 				$sendback = add_query_arg( array( $arr ), '', $sendback );
@@ -141,7 +141,7 @@ function wpmem_posts_admin_notices() {
 	global $pagenow, $post_type;
 	if ( $pagenow == 'edit.php' && isset( $_REQUEST['a'] ) ) {
 		$msg = ( $_REQUEST['a'] == 'block' ) ? sprintf( __( '%s blocked', 'wp-members' ), $post_type ) : sprintf( __( '%s unblocked', 'wp-members' ), $post_type );
-		echo '<div class="updated"><p>' . $_REQUEST['n'] . ' ' . $msg . '</p></div>';
+		echo '<div class="updated"><p>' . esc_html( $_REQUEST['n'] ) . ' ' . esc_html( $msg ) . '</p></div>';
 	}
 }
 
@@ -264,7 +264,7 @@ function wpmem_block_meta_save( $post_id ) {
 	}
 
 	// Get value.
-	$block = isset( $_POST['wpmem_block'] ) ? $_POST['wpmem_block'] : null;
+	$block = ( isset( $_POST['wpmem_block'] ) ) ? sanitize_text_field( $_POST['wpmem_block'] ) : null;
 
 	// Need the post object.
 	global $post; 
@@ -301,7 +301,7 @@ function wpmem_block_meta_save( $post_id ) {
  */
 function wpmem_post_columns( $columns ) {
 	global $wpmem;
-	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
+	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'post';
 	
 	if ( $post_type == 'page' || $post_type == 'post' || array_key_exists( $post_type, $wpmem->post_types ) ) {
 		$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
@@ -322,7 +322,7 @@ function wpmem_post_columns( $columns ) {
 function wpmem_post_columns_content( $column_name, $post_ID ) {
 
 	global $wpmem;
-	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? $_REQUEST['post_type'] : 'post';
+	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'post';
 
 	if ( $column_name == 'wpmem_block' ) { 
 

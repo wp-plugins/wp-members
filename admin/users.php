@@ -138,6 +138,7 @@ function wpmem_users_page_load() {
 			// Update the users.
 			$x = 0;
 			foreach ( $users as $user ) {
+				$user = filter_var( $user, FILTER_VALIDATE_INT );
 				// Check to see if the user is already activated, if not, activate.
 				if ( ! get_user_meta( $user, 'active', true ) ) {
 					wpmem_a_activate_user( $user, $chk_pass );
@@ -312,7 +313,7 @@ function wpmem_users_views( $views ) {
 		$arr[] = 'Not Active';
 	}
 	$arr[] = 'Not Exported';
-	$show = ( isset( $_GET['show'] ) ) ? $_GET['show'] : false;
+	$show = ( isset( $_GET['show'] ) ) ? sanitize_text_field( $_GET['show'] ) : false;
 
 	for ( $row = 0; $row < count( $arr ); $row++ ) {
 		$link = "users.php?action=show&amp;show=";
@@ -412,7 +413,7 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 			$user_info = get_userdata( $user_id );
 			return $user_info->$column_name;
 			break;
-				
+
 		case 'user_id':
 			return $user_id;
 

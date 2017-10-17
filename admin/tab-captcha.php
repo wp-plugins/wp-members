@@ -229,7 +229,7 @@ function wpmem_update_captcha() {
 	check_admin_referer( 'wpmem-update-captcha' );
 
 	$settings     = get_option( 'wpmembers_captcha' );
-	$update_type  = $_POST['wpmem_recaptcha_type'];
+	$update_type  = sanitize_text_field( $_POST['wpmem_recaptcha_type'] );
 	$new_settings = array();
 
 	// If there are no current settings.
@@ -243,11 +243,11 @@ function wpmem_update_captcha() {
 			$new_settings['really_simple'] = $settings['really_simple'];
 		}
 		$new_settings['recaptcha'] = array(
-			'public'  => trim( $_POST['wpmem_captcha_publickey'] ),
-			'private' => trim( $_POST['wpmem_captcha_privatekey'] ),
+			'public'  => sanitize_text_field( $_POST['wpmem_captcha_publickey'] ),
+			'private' => sanitize_text_field( $_POST['wpmem_captcha_privatekey'] ),
 		);
 		if ( $update_type == 'recaptcha' && isset( $_POST['wpmem_captcha_theme'] ) ) {
-			$new_settings['recaptcha']['theme'] = $_POST['wpmem_captcha_theme'];
+			$new_settings['recaptcha']['theme'] = sanitize_text_field( $_POST['wpmem_captcha_theme'] );
 		}
 	}
 
@@ -256,18 +256,18 @@ function wpmem_update_captcha() {
 			// Updating really_simple but need to maintain recaptcha.
 			$new_settings['recaptcha'] = $settings['recaptcha'];
 		}
-		$font_color = $_POST['font_color_r'] . ',' . $_POST['font_color_g'] . ',' . $_POST['font_color_b'];
-		$bg_color   = $_POST['bg_color_r']   . ',' . $_POST['bg_color_g']   . ',' . $_POST['bg_color_b'];
+		$font_color = sanitize_text_field( $_POST['font_color_r'] ) . ',' . sanitize_text_field( $_POST['font_color_g'] ) . ',' . sanitize_text_field( $_POST['font_color_b'] );
+		$bg_color   = sanitize_text_field( $_POST['bg_color_r'] )   . ',' . sanitize_text_field( $_POST['bg_color_g'] )   . ',' . sanitize_text_field( $_POST['bg_color_b']   );
 		$new_settings['really_simple'] = array(
-				'characters'   => $_POST['characters'],
-				'num_char'     => $_POST['num_char'],
-				'dim_w'        => $_POST['dim_w'],
-				'dim_h'        => $_POST['dim_h'],
+				'characters'   => sanitize_text_field( $_POST['characters'] ),
+				'num_char'     => sanitize_text_field( $_POST['num_char'] ),
+				'dim_w'        => sanitize_text_field( $_POST['dim_w'] ),
+				'dim_h'        => sanitize_text_field( $_POST['dim_h'] ),
 				'font_color'   => $font_color,
 				'bg_color'     => $bg_color,
-				'font_size'    => $_POST['font_size'],
-				'kerning'      => $_POST['kerning'],
-				'img_type'     => $_POST['img_type'],
+				'font_size'    => sanitize_text_field( $_POST['font_size'] ),
+				'kerning'      => sanitize_text_field( $_POST['kerning'] ),
+				'img_type'     => sanitize_text_field( $_POST['img_type'] ),
 		);
 	}
 
