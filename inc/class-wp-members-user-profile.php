@@ -30,7 +30,7 @@ class WP_Members_User_Profile {
 	static function profile( $user_obj ) {
 	
 		global $current_screen, $user_ID, $wpmem;
-		$user_id = ( 'profile' == $current_screen->id ) ? $user_ID : $_REQUEST['user_id']; 
+		$user_id = ( 'profile' == $current_screen->id ) ? $user_ID : filter_var( $_REQUEST['user_id'], FILTER_SANITIZE_NUMBER_INT ); 
 		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin'; ?>
 
 		<h3><?php
@@ -221,8 +221,8 @@ class WP_Members_User_Profile {
 		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin';
 	
 		if ( ! $user_id ) {
-			$user_id = wpmem_get( 'user_id', false, 'request' );
-			if ( ! $user_id ) {
+			$user_id = filter_var( wpmem_get( 'user_id', -1, 'request' ), FILTER_SANITIZE_NUMBER_INT );
+			if ( 1 > $user_id ) {
 			// Still no user id? User cannot be updated.
 			return;
 			}
@@ -253,7 +253,7 @@ class WP_Members_User_Profile {
 				&& $field['type'] != 'multicheckbox' 
 				&& $field['type'] != 'file' 
 				&& $field['type'] != 'image' ) {
-				( isset( $_POST[ $meta ] ) ) ? $fields[ $meta ] = $_POST[ $meta ] : false;
+				( isset( $_POST[ $meta ] ) && 'password' != $field['type'] ) ? $fields[ $meta ] = sanitize_text_field( $_POST[ $meta ] ) : false;
 				
 				// For user profile (not admin).
 				$chk = false;
@@ -269,9 +269,9 @@ class WP_Members_User_Profile {
 			} elseif ( $meta == 'password' && $field['register'] ) {
 				$chk_pass = true;
 			} elseif ( $field['type'] == 'checkbox' ) {
-				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? $_POST[ $meta ] : '';
+				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? sanitize_text_field( $_POST[ $meta ] ) : '';
 			} elseif ( $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) {
-				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? implode( $field['delimiter'], $_POST[ $meta ] ) : '';
+				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? implode( $field['delimiter'], wp_unslash( $_POST[ $meta ] ) ) : '';
 			}
 		}
 
@@ -303,7 +303,7 @@ class WP_Members_User_Profile {
 		if ( 'admin' == $display || current_user_can( 'edit_users' ) ) {
 			if ( $wpmem->mod_reg == 1 ) {
 
-				$wpmem_activate_user = ( isset( $_POST['activate_user'] ) == '' ) ? -1 : $_POST['activate_user'];
+				$wpmem_activate_user = ( isset( $_POST['activate_user'] ) == '' ) ? -1 : filter_var( $_POST['activate_user'], FILTER_SANITIZE_NUMBER_INT );
 
 				if ( $wpmem_activate_user == 1 ) {
 					wpmem_a_activate_user( $user_id, $chk_pass );

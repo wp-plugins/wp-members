@@ -159,12 +159,16 @@ class WP_Members_Forms {
 				$pieces = explode( '|', $option );
 				$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
 				$chk = ( isset( $pieces[2] ) && '' == $compare ) ? $pieces[1] : '';
-				$str = $str . $this->create_form_field( array(
-					'name'    => $name . '[]',
-					'type'    => 'checkbox',
-					'value'   => $pieces[1],
-					'compare' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
-				) ) . "&nbsp;" . $pieces[0] . "<br />\n";
+				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
+					$str = $str . $this->create_form_field( array(
+						'name'    => $name . '[]',
+						'type'    => 'checkbox',
+						'value'   => $pieces[1],
+						'compare' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
+					) ) . "&nbsp;" . $pieces[0] . "<br />\n";
+				} else {
+					$str = $str . '<span class="div_multicheckbox_separator">' . $pieces[0] . "</span><br />\n";
+				}
 			}
 			break;
 			
@@ -175,7 +179,11 @@ class WP_Members_Forms {
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				$id = $name . '_' . $num;
-				$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> " . __( $pieces[0], 'wp-members' ) . "<br />\n";
+				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
+					$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"$pieces[1]\"" . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> " . __( $pieces[0], 'wp-members' ) . "<br />\n";
+				} else {
+					$str = $str . '<span class="div_radio_separator">' . __( $pieces[0], 'wp-members' ) . "</span><br />\n";
+				}
 				$num++;
 			}
 			break;		
@@ -1038,11 +1046,11 @@ class WP_Members_Forms {
 
 		// Create hidden fields.
 		$var         = ( $tag == 'edit' ) ? 'update' : 'register';
-		$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
-		$hidden_rows['_wpmem_a']        = '<input name="a" type="hidden" value="' . $var . '" />';
-		$hidden_rows['_wpmem_reg_page'] = '<input name="wpmem_reg_page" type="hidden" value="' . get_permalink() . '" />';
+		$redirect_to = ( isset( $_REQUEST['redirect_to'] ) ) ? $_REQUEST['redirect_to'] : ( ( $redirect_to ) ? $redirect_to : get_permalink() );
+		$hidden_rows['_wpmem_a']        = '<input name="a" type="hidden" value="' . esc_attr( $var ) . '" />';
+		$hidden_rows['_wpmem_reg_page'] = '<input name="wpmem_reg_page" type="hidden" value="' . esc_url( get_permalink() ) . '" />';
 		if ( $redirect_to != get_permalink() ) {
-			$hidden_rows['_wpmem_redirect_to'] = '<input name="redirect_to" type="hidden" value="' . $redirect_to . '" />';
+			$hidden_rows['_wpmem_redirect_to'] = '<input name="redirect_to" type="hidden" value="' . esc_url( $redirect_to ) . '" />';
 		}
 		if ( isset( $hidden_tos ) ) {
 			$hidden_rows['_wpmem_tos'] = $hidden_tos;

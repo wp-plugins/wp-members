@@ -391,6 +391,9 @@ function wpmem_login_status( $echo = true ) {
 /**
  * Utility function to validate $_POST, $_GET, and $_REQUEST.
  *
+ * While this function retrieves data, remember that the data should generally be
+ * sanitized or escaped depending on how it is used.
+ *
  * @since 3.1.3
  *
  * @param  string $tag     The form field or query string.

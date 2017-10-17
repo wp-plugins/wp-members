@@ -189,16 +189,16 @@ function wpmem_registration( $tag ) {
 		$wpmem->user->post_data['user_registered'] = current_time( 'mysql', 1 );
 		$wpmem->user->post_data['user_role']       = get_option( 'default_role' );
 		$wpmem->user->post_data['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
-		$wpmem->user->post_data['wpmem_reg_url']   = wpmem_get( 'wpmem_reg_page', wpmem_get( 'redirect_to', false, 'request' ), 'request' );
+		$wpmem->user->post_data['wpmem_reg_url']   = esc_url_raw( wpmem_get( 'wpmem_reg_page', wpmem_get( 'redirect_to', false, 'request' ), 'request' ) );
 
 		/*
 		 * These native fields are not installed by default, but if they
 		 * are added, use the $_POST value - otherwise, default to username.
 		 * Value can be filtered with wpmem_register_data.
 	 	 */
-		$wpmem->user->post_data['user_nicename']   = wpmem_get( 'user_nicename', $wpmem->user->post_data['username'] );
-		$wpmem->user->post_data['display_name']    = wpmem_get( 'display_name',  $wpmem->user->post_data['username'] );
-		$wpmem->user->post_data['nickname']        = wpmem_get( 'nickname',      $wpmem->user->post_data['username'] );
+		$wpmem->user->post_data['user_nicename']   = sanitize_text_field( wpmem_get( 'user_nicename', $wpmem->user->post_data['username'] ) );
+		$wpmem->user->post_data['display_name']    = sanitize_text_field( wpmem_get( 'display_name',  $wpmem->user->post_data['username'] ) );
+		$wpmem->user->post_data['nickname']        = sanitize_text_field( wpmem_get( 'nickname',      $wpmem->user->post_data['username'] ) );
 		/**
 		 * Filter registration data after validation before data insertion.
 		 *

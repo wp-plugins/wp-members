@@ -512,7 +512,7 @@ class WP_Members {
 	function get_action() {
 
 		// Get the action being done (if any).
-		$this->action = wpmem_get( 'a', '', 'request' ); //( isset( $_REQUEST['a'] ) ) ? trim( $_REQUEST['a'] ) : '';
+		$this->action = sanitize_text_field( wpmem_get( 'a', '', 'request' ) );
 
 		// For backward compatibility with processes that check $wpmem_a.
 		global $wpmem_a;
@@ -856,8 +856,8 @@ class WP_Members {
 					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
 					$this->fields[ $meta_key ]['options']   = array();
 					foreach ( $val[7] as $value ) {
-						$pieces = explode( $this->fields[ $meta_key ]['delimiter'], trim( $value ) );
-						if ( $pieces[1] != '' ) {
+						$pieces = explode( '|', trim( $value ) );
+						if ( isset( $pieces[1] ) && $pieces[1] != '' ) {
 							$this->fields[ $meta_key ]['options'][ $pieces[1] ] = $pieces[0];
 						}
 					}

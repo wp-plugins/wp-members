@@ -101,7 +101,7 @@ function wpmem_update_dialogs() {
 	}
 
 	// Terms of Service.
-	update_option( 'wpmembers_tos', $_POST['dialogs_tos'] );
+	update_option( 'wpmembers_tos', wp_kses( $_POST['dialogs_tos'], 'post' ) );
 
 	return __( 'WP-Members dialogs were updated', 'wp-members' );
 }

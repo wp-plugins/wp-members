@@ -110,11 +110,11 @@ function wpmem_update_emails() {
 
 	// Update the email address (if applicable).
 	if ( $wpmem->email['from'] != $_POST['wp_mail_from'] || $wpmem->email['from_name'] != $_POST['wp_mail_from_name'] ) {
-		$wpmem->email['from']      = $_POST['wp_mail_from'];
-		$wpmem->email['from_name'] = $_POST['wp_mail_from_name'];
+		$wpmem->email['from']      = sanitize_email( $_POST['wp_mail_from'] );
+		$wpmem->email['from_name'] = sanitize_text_field( $_POST['wp_mail_from_name'] );
 		$wpmem_newsettings = get_option( 'wpmembers_settings' );
-		$wpmem_newsettings['email']['from']      = $_POST['wp_mail_from'];
-		$wpmem_newsettings['email']['from_name'] = $_POST['wp_mail_from_name'];
+		$wpmem_newsettings['email']['from']      = sanitize_email( $_POST['wp_mail_from'] );
+		$wpmem_newsettings['email']['from_name'] = sanitize_text_field( $_POST['wp_mail_from_name'] );
 		update_option( 'wpmembers_settings', $wpmem_newsettings );
 	}
 	
@@ -127,15 +127,15 @@ function wpmem_update_emails() {
 
 	for ( $row = 0; $row < ( count( $arr ) - 1 ); $row++ ) {
 		$arr2 = array( 
-			"subj" => $_POST[ $arr[ $row ] . '_subj' ],
-			"body" => $_POST[ $arr[ $row ] . '_body' ],
+			"subj" => sanitize_text_field( $_POST[ $arr[ $row ] . '_subj' ] ),
+			"body" => wp_kses( $_POST[ $arr[ $row ] . '_body' ], 'post' ),
 		);
 		update_option( $arr[ $row ], $arr2, false );
 		$arr2 = '';
 	}
 
 	// Updated the email footer.
-	update_option( $arr[ $row ], $_POST[ $arr[ $row ] . '_body' ], false );
+	update_option( $arr[ $row ], wp_kses( $_POST[ $arr[ $row ] . '_body' ], 'post' ), false );
 	
 	if ( ! empty ( $wpmem->admin->emails ) ) {
 		foreach( $wpmem->admin->emails as $email ) {

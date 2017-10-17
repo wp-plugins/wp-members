@@ -472,7 +472,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
 	
 	// What user?
 	if ( isset( $atts['id'] ) ) {
-		$the_ID = ( $atts['id'] == 'get' ) ? wpmem_get( 'uid', '', 'get' ) : $atts['id'];
+		$the_ID = ( $atts['id'] == 'get' ) ? filter_var( wpmem_get( 'uid', '', 'get' ), FILTER_SANITIZE_NUMBER_INT ) : $atts['id']; // Ultimately, the_ID will be checked to determine if it is numeric by WP_User::get_data_by().
 	} else {
 		$the_ID = get_current_user_id();
 	}

@@ -219,8 +219,8 @@ class WP_Members_Admin_API {
 	 */
 	function email_update( $args ) {
 		$settings = array(
-			'subj' => wpmem_get( $args['subject_input'] ),
-			'body' => wpmem_get( $args['body_input'] ),
+			'subj' => sanitize_text_field( wpmem_get( $args['subject_input'] ) ),
+			'body' => wp_kses( wpmem_get( $args['body_input'] ), 'post' ),
 		);
 		update_option( $args['name'], $settings, true );
 		$this->emails[ $args['name'] ]['subject_value'] = $settings['subj'];
@@ -283,7 +283,7 @@ class WP_Members_Admin_API {
 		$settings = array();
 		foreach ( $this->dialogs as $dialog ) {
 			if ( isset( $_POST[ $dialog['name'] . '_dialog' ] ) ) {
-				$settings[ $dialog['name'] ] = $_POST[ $dialog['name'] . '_dialog' ];
+				$settings[ $dialog['name'] ] = wp_kses( $_POST[ $dialog['name'] . '_dialog' ], 'post' );
 			}
 		}
 		update_option( 'wpmembers_dialogs', $settings, true );
