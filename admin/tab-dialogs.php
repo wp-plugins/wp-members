@@ -50,7 +50,7 @@ function wpmem_a_build_dialogs() {
 					<h3><span>WP-Members <?php _e( 'Dialogs and Error Messages', 'wp-members' ); ?></span></h3>
 					<div class="inside">
 						<p><?php printf( __( 'You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc.', 'wp-members' ), '- &lt;p&gt;, &lt;b&gt;, &lt;i&gt;,' ); ?></p>
-						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>"> 
+						<form name="updatedialogform" id="updatedialogform" method="post" action="<?php echo esc_url( wpmem_admin_form_post_url() ); ?>"> 
 						<?php wp_nonce_field( 'wpmem-update-dialogs' ); ?>
 							<table class="form-table">
 							<?php if ( ! empty ( $wpmem->admin->dialogs ) ) {	
@@ -61,7 +61,7 @@ function wpmem_a_build_dialogs() {
 							<?php $wpmem_tos = stripslashes( get_option( 'wpmembers_tos' ) ); ?>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Terms of Service (TOS)', 'wp-members' ); ?></th> 
-									<td><textarea name="dialogs_tos" rows="3" cols="50" id="" class="large-text code"><?php echo $wpmem_tos; ?></textarea></td> 
+									<td><textarea name="dialogs_tos" rows="3" cols="50" id="" class="large-text code"><?php echo esc_textarea( $wpmem_tos ); ?></textarea></td> 
 								</tr>
 								<tr valign="top">
 									<th scope="row">&nbsp;</th>

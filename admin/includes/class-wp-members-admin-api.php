@@ -198,14 +198,14 @@ class WP_Members_Admin_API {
 	 * @param array $args Settings array for the email.
 	 */
 	function do_email_input( $args ) { ?>
-        <tr valign="top"><td colspan="2"><strong><?php echo $args['heading']; ?></strong></td></tr>
+        <tr valign="top"><td colspan="2"><strong><?php echo esc_html( $args['heading'] ); ?></strong></td></tr>
         <tr valign="top">
-            <th scope="row"><?php echo $args['subject_label']; ?></th>
-            <td><input type="text" name="<?php echo $args['subject_input']; ?>" size="80" value="<?php echo wp_unslash( $args['subject_value'] ); ?>"></td> 
+            <th scope="row"><?php echo esc_html( $args['subject_label'] ); ?></th>
+            <td><input type="text" name="<?php echo esc_attr( $args['subject_input'] ); ?>" size="80" value="<?php echo esc_attr( wp_unslash( $args['subject_value'] ) ); ?>"></td> 
         </tr>
         <tr valign="top">
-            <th scope="row"><?php echo $args['body_label']; ?></th>
-            <td><textarea name="<?php echo $args['body_input']; ?>" rows="12" cols="50" id="" class="large-text code"><?php echo wp_unslash( $args['body_value'] ); ?></textarea></td>
+            <th scope="row"><?php echo esc_html( $args['body_label'] ); ?></th>
+            <td><textarea name="<?php echo esc_attr( $args['body_input'] ); ?>" rows="12" cols="50" id="" class="large-text code"><?php echo esc_textarea( wp_unslash( $args['body_value'] ) ); ?></textarea></td>
         </tr>
         <tr><td colspan="2"><hr /></td></tr><?php
 	}
@@ -269,8 +269,8 @@ class WP_Members_Admin_API {
 	 */
 	function do_dialog_input( $args ) { ?>
         <tr valign="top"> 
-            <th scope="row"><?php echo $args['label']; ?></th> 
-            <td><textarea name="<?php echo $args['name'] . "_dialog"; ?>" rows="3" cols="50" id="" class="large-text code"><?php echo wp_unslash( $args['value'] ); ?></textarea></td> 
+            <th scope="row"><?php echo esc_html( $args['label'] ); ?></th> 
+            <td><textarea name="<?php echo esc_attr( $args['name'] . "_dialog" ); ?>" rows="3" cols="50" id="" class="large-text code"><?php echo esc_textarea( wp_unslash( $args['value'] ) ); ?></textarea></td> 
         </tr><?php
 	}
 
@@ -475,7 +475,7 @@ class WP_Members_Admin_API {
 	 */
 	function form_post_url( $args = false ) {
 		global $pagenow, $plugin_page, $wpmem;
-		$tab = wpmem_get( 'tab', false, 'get' );
+		$tab = sanitize_text_field( wpmem_get( 'tab', false, 'get' ) );
 		$params = array( 'page' => $plugin_page );
 		if ( $tab ) {
 			$params['tab'] = $tab;
@@ -486,7 +486,7 @@ class WP_Members_Admin_API {
 			}
 		}
 		$url = add_query_arg( $params, admin_url( $pagenow ) );
-		return $url;
+		return esc_url( $url );
 	}
 	
 } // End of WP_Members_Admin_API class.

@@ -754,7 +754,7 @@ function wpmem_admin_fields_update() {
 			$type = sanitize_text_field( wpmem_get( 'add_type' ) );
 
 			$arr[0] = filter_var( wpmem_get( 'add_order_id' ), FILTER_SANITIZE_NUMBER_INT );
-			$arr[1] = stripslashes( wpmem_get( 'add_name' ) );
+			$arr[1] = sanitize_text_field( stripslashes( wpmem_get( 'add_name' ) ) );
 			$arr[2] = $us_option;
 			$arr[3] = $type;
 			$arr[4] = ( 'y' == wpmem_get( 'add_display', 'n'  ) ) ? 'y' : 'n';
@@ -762,12 +762,12 @@ function wpmem_admin_fields_update() {
 			$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
 
 			if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-				$arr['placeholder'] = stripslashes( wpmem_get( 'add_placeholder' ) );
+				$arr['placeholder'] = sanitize_text_field( stripslashes( wpmem_get( 'add_placeholder' ) ) );
 			}
 
 			if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
-				$arr['pattern'] = stripslashes( wpmem_get( 'add_pattern' ) );
-				$arr['title']   = stripslashes( wpmem_get( 'add_title' ) );
+				$arr['pattern'] = sanitize_text_field( stripslashes( wpmem_get( 'add_pattern' ) ) );
+				$arr['title']   = sanitize_text_field( stripslashes( wpmem_get( 'add_title' ) ) );
 			}
 
 			if ( 'number' == $type || 'date' == $type ) {
@@ -803,12 +803,12 @@ function wpmem_admin_fields_update() {
 			}
 
 			if ( $type == 'file' || $type == 'image' ) {
-				$arr[7] = stripslashes( $_POST['add_file_value'] );
+				$arr[7] = sanitize_text_field( stripslashes( $_POST['add_file_value'] ) );
 			}
 
 			if ( wpmem_get( 'add_type' ) == 'hidden' ) { 
 				$add_field_err_msg = ( ! $_POST['add_hidden_value'] ) ? __( 'A value is required for hidden fields. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
-				$arr[7] = ( isset( $_POST['add_hidden_value'] ) )   ? stripslashes( $_POST['add_hidden_value'] ) : '';
+				$arr[7] = ( isset( $_POST['add_hidden_value'] ) ) ? sanitize_text_field( stripslashes( $_POST['add_hidden_value'] ) ) : '';
 			}
 
 			if ( $action == 'add_field' ) {
@@ -827,8 +827,8 @@ function wpmem_admin_fields_update() {
 						}
 					}
 				}
-				$did_update =  sprintf( __( '%s was updated', 'wp-members' ), stripslashes( $add_name ) );
-				$did_update.= '<p><a href="' . add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields' ), get_admin_url() . 'options-general.php' ) . '">&laquo; ' . __( 'Return to Fields Table', 'wp-members' ) . '</a></p>';
+				$did_update =  sprintf( __( '%s was updated', 'wp-members' ), esc_html( stripslashes( $add_name ) ) );
+				$did_update.= '<p><a href="' . esc_url( add_query_arg( array( 'page' => 'wpmem-settings', 'tab' => 'fields' ), get_admin_url() . 'options-general.php' ) ) . '">&laquo; ' . __( 'Return to Fields Table', 'wp-members' ) . '</a></p>';
 			}
 
 			$wpmem_newfields = $wpmem_fields;
