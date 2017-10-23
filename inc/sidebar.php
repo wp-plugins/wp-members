@@ -42,7 +42,7 @@ function wpmem_inc_status() {
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( $wpmem->get_text( 'sb_login_status' ), $user_login )
-		. ' | <a href="' . $logout . '">' . $wpmem->get_text( 'sb_logout_link' ) . '</a></p>';
+		. ' | <a href="' . esc_url( $logout ) . '">' . $wpmem->get_text( 'sb_logout_link' ) . '</a></p>';
 
 	return $status;
 }
@@ -157,7 +157,7 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		}
 
 		$hidden = '<input type="hidden" name="rememberme" value="forever" />' . $args['n'] .
-				'<input type="hidden" name="redirect_to" value="' . ( ( $redirect_to ) ? $redirect_to : $post_to ) . '" />' . $args['n'] .
+				'<input type="hidden" name="redirect_to" value="' . esc_url( ( ( $redirect_to ) ? $redirect_to : $post_to ) ) . '" />' . $args['n'] .
 				'<input type="hidden" name="a" value="login" />' . $args['n'] .
 				'<input type="hidden" name="slog" value="true" />';
 		/**
@@ -169,12 +169,12 @@ function wpmem_do_sidebar( $redirect_to = null ) {
 		 */
 		$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );
 
-		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . $wpmem->get_text( 'sb_login_button' ) . '" />';
+		$buttons = '<input type="submit" name="Submit" class="buttons" value="' . esc_attr( $wpmem->get_text( 'sb_login_button' ) ) . '" />';
 
 		if ( $wpmem->user_pages['profile'] != null ) { 
 			/** This filter is documented in wp-members/inc/forms.php */
 			$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
-			$link_html = ' <a href="' . $link . '">' . $wpmem->get_text( 'sb_login_forgot' ) . '</a>&nbsp;';
+			$link_html = ' <a href="' . esc_url( $link ) . '">' . $wpmem->get_text( 'sb_login_forgot' ) . '</a>&nbsp;';
 			/**
 			 * Filter the sidebar forgot password.
 			 *

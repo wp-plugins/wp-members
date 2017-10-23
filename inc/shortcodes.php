@@ -359,8 +359,8 @@ function wpmem_sc_user_profile( $atts, $content, $tag ) {
 			break;
 
 		case "pwdchange":
-
 			$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
+			$content = ( 'pwdchangesuccess' == $wpmem->regchk ) ? $content . wpmem_inc_memberlinks() : $content;
 			break;
 
 		case "renew":
@@ -574,7 +574,7 @@ function wpmem_sc_logout( $atts, $content, $tag ) {
 	if ( is_user_logged_in() && $tag == 'wpmem_logout' ) {
 		$link = ( isset( $atts['url'] ) ) ? add_query_arg( 'a', 'logout', $atts['url'] ) : add_query_arg( 'a', 'logout' );
 		$text = ( $content ) ? $content : __( 'Click here to log out.', 'wp-members' );
-		return do_shortcode( "<a href=\"$link\">$text</a>" );
+		return do_shortcode( '<a href="' . esc_url( $link ) . '">' . $text . '</a>' );
 	}
 }
 

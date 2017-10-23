@@ -207,8 +207,8 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . add_query_arg( 'a', 'edit' )      . '">' . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
-				'<li><a href="' . add_query_arg( 'a', 'pwdchange' ) . '">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
+				'<li><a href="' . esc_url( add_query_arg( 'a', 'edit' ) )      . '">' . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
+				'<li><a href="' . esc_url( add_query_arg( 'a', 'pwdchange' ) ) . '">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -260,8 +260,8 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . $logout . '">' . $wpmem->get_text( 'register_logout' ) . '</a></li>',
-				'<li><a href="' . get_option('home') . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
+				'<li><a href="' . esc_url( $logout ) . '">' . $wpmem->get_text( 'register_logout' ) . '</a></li>',
+				'<li><a href="' . esc_url( get_option('home') ) . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);
@@ -310,7 +310,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'user_login'     => $user_login,
 			'welcome'        => $wpmem->get_text( 'login_welcome' ),
 			'logout_text'    => $wpmem->get_text( 'login_logout' ),
-			'logout_link'    => '<a href="' . $logout . '">%s</a>',
+			'logout_link'    => '<a href="' . esc_url( $logout ) . '">%s</a>',
 			'separator'      => '<br />',
 		);
 		/**
@@ -356,7 +356,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'user_login'     => $user_login,
 			'welcome'        => $wpmem->get_text( 'status_welcome' ),
 			'logout_text'    => $wpmem->get_text( 'status_logout' ),
-			'logout_link'    => '<a href="' . $logout . '">%s</a>',
+			'logout_link'    => '<a href="' . esc_url( $logout ) . '">%s</a>',
 			'separator'      => ' | ',
 		);
 		/**

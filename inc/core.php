@@ -194,17 +194,20 @@ if ( ! function_exists( 'wpmem_no_reset' ) ):
 function wpmem_no_reset() {
 
 	global $wpmem;
+	
+	$raw_val = wpmem_get( 'user_login', false );
+	if ( $raw_val ) {
+		if ( strpos( $raw_val, '@' ) ) {
+			$user = get_user_by( 'email', sanitize_email( $raw_val ) );
+		} else {
+			$username = sanitize_user( $raw_val );
+			$user     = get_user_by( 'login', $username );
+		}
 
-	if ( strpos( $_POST['user_login'], '@' ) ) {
-		$user = get_user_by( 'email', trim( $_POST['user_login'] ) );
-	} else {
-		$username = trim( $_POST['user_login'] );
-		$user     = get_user_by( 'login', $username );
-	}
-
-	if ( $wpmem->mod_reg == 1 ) { 
-		if ( get_user_meta( $user->ID, 'active', true ) != 1 ) {
-			return false;
+		if ( $wpmem->mod_reg == 1 ) { 
+			if ( get_user_meta( $user->ID, 'active', true ) != 1 ) {
+				return false;
+			}
 		}
 	}
 
@@ -279,22 +282,22 @@ function wpmem_wp_reg_finalize( $user_id ) {
 
 	global $wpmem;
 	// Is this WP's native registration? Checks the native submit button.
-	$is_native  = ( isset( $_POST['wp-submit'] ) && $_POST['wp-submit'] == esc_attr( __( 'Register' ) ) ) ? true : false;
+	$is_native  = ( __( 'Register' ) == wpmem_get( 'wp-submit' ) ) ? true : false;
 	// Is this a Users > Add New process? Checks the post action.
-	$is_add_new = ( isset( $_POST['action'] ) && $_POST['action'] == 'createuser' ) ? true : false;
+	$is_add_new = ( 'createuser' == wpmem_get( 'action' ) ) ? true : false;
 	// Is this a WooCommerce checkout registration? Checks for WC fields.
-	$is_woo     = ( isset( $_POST['woocommerce_checkout_place_order'] ) || isset( $_POST['woocommerce-register-nonce'] ) ) ? true : false;
+	$is_woo     = ( wpmem_get( 'woocommerce_checkout_place_order' ) || wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
 	if ( $is_native || $is_add_new || $is_woo ) {
 		// Get any excluded meta fields.
 		$exclude = wpmem_get_excluded_meta( 'register' );
 		foreach ( wpmem_fields( 'wp_finalize' ) as $meta_key => $field ) {
-			if ( isset( $_POST[ $meta_key ] ) && ! in_array( $meta_key, $exclude ) && 'file' != $field['type'] && 'image' != $field['type'] ) {
+			$value = wpmem_get( $meta_key, false );
+			if ( $value && ! in_array( $meta_key, $exclude ) && 'file' != $field['type'] && 'image' != $field['type'] ) {
 				if ( 'multiselect' == $field['type'] || 'multicheckbox' == $field['type'] ) {
-					$data = implode( $field['delimiter'], $_POST[ $meta_key ] );
-				} else {
-					$data = $_POST[ $meta_key ];
+					$value = implode( $field['delimiter'], $value );
 				}
-				update_user_meta( $user_id, $meta_key, sanitize_text_field( $data ) );
+				$sanitized_value = sanitize_text_field( $value );
+				update_user_meta( $user_id, $meta_key, $sanitized_value );
 			}
 		}
 	}
