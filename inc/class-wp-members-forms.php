@@ -550,7 +550,7 @@ class WP_Members_Forms {
 				 */
 				if ( 'register' == $key ) {
 					if ( isset( $wpmem->user_pages['login'] ) && $wpmem->user_pages['login'] != '' ) {
-						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url() != wpmem_login_url() ) ? $form : $form . $link;
+						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url( true, false ) != wpmem_login_url() ) ? $form : $form . $link;
 					} else {
 						global $post;
 						if ( has_shortcode( $post->post_content, 'wpmem_profile' ) ) {
