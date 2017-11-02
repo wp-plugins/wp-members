@@ -359,7 +359,7 @@ class WP_Members {
 		add_filter( 'register_form',             'wpmem_wp_register_form' );         // adds fields to the default wp registration
 		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
 		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
-		add_filter( 'comments_open',             'wpmem_securify_comments', 99 );    // securifies the comments
+		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
 		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
@@ -814,6 +814,55 @@ class WP_Members {
 
 		return $content;
 		
+	}
+	
+	/**
+	 * Securifies the comments.
+	 *
+	 * If the user is not logged in and the content is blocked
+	 * (i.e. wpmem->is_blocked() returns true), function loads a
+	 * dummy/empty comments template.
+	 *
+	 * @since 2.9.9
+	 * @since 3.2.0 Moved wpmem_securify_comments() to main class, renamed.
+	 *
+	 * @return bool $open true if current post is open for comments, otherwise false.
+	 */
+	function do_securify_comments( $open ) {
+
+		$open = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? false : $open;
+
+		/**
+		 * Filters whether comments are open or not.
+		 *
+		 * @since 3.0.0
+		 * @since 3.2.0 Moved to main class.
+		 *
+		 * @param bool $open true if current post is open for comments, otherwise false.
+		 */
+		$open = apply_filters( 'wpmem_securify_comments', $open );
+
+		if ( ! $open ) {
+			/** This filter is documented in wp-includes/comment-template.php */
+			add_filter( 'comments_array', array( $this, 'do_securify_comments_array' ), 10, 2 );
+		}
+
+		return $open;
+	}
+	
+	/**
+	 * Empties the comments array if content is blocked.
+	 *
+	 * @since 3.0.1
+	 * @since 3.2.0 Moved wpmem_securify_comments_array() to main class, renamed.
+	 *
+	 * @global object $wpmem The WP-Members object class.
+	 *
+	 * @return array $comments The comments array.
+	 */
+	function do_securify_comments_array( $comments , $post_id ) {
+		$comments = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? array() : $comments;
+		return $comments;
 	}
 	
 	/**
