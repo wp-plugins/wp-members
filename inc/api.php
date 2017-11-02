@@ -171,8 +171,10 @@ function wpmem_current_url( $slash = true, $getq = true ) {
  * Wrapper for $wpmem->create_form_field().
  *
  * @since 3.1.2
+ * @since 3.2.0 Accepts wpmem_create_formfield() arguments.
  *
- * @param array  $args {
+ * @global object $wpmem    The WP_Members object class.
+ * @param string|array  $args {
  *     @type string  $name        (required) The field meta key.
  *     @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
  *     @type string  $value       (required) The field's value (can be a null value).
@@ -186,10 +188,26 @@ function wpmem_current_url( $slash = true, $getq = true ) {
  *     @type string  $min         (optional) Adds a min attribute (HTML5).
  *     @type string  $max         (optional) Adds a max attribute (HTML5).
  * }
- * @return string The HTML of the form field.
+ * @param  string $type     The field type.
+ * @param  string $value    The default value for the field.
+ * @param  string $valtochk Optional for comparing the default value of the field.
+ * @param  string $class    Optional for setting a specific CSS class for the field.
+ * @return string           The HTML of the form field.
  */
-function wpmem_form_field( $args ) {
+//function wpmem_form_field( $args ) {
+function wpmem_form_field( $name, $type=null, $value=null, $valtochk=null, $class='textbox' ) {
 	global $wpmem;
+	if ( is_array( $name ) ) {
+		$args = $name;
+	} else {
+		$args = array(
+			'name'     => $name,
+			'type'     => $type,
+			'value'    => $value,
+			'compare'  => $valtochk,
+			'class'    => $class,
+		);
+	}
 	return $wpmem->forms->create_form_field( $args );
 }
 
