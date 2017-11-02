@@ -254,12 +254,6 @@ class WP_Members_User {
 		if ( $is_error ) {
 			return $is_error;
 		}
-		// Update user password.
-		wp_set_password( $args['pass1'], $user_ID );
-		// Maintain login state.
-		$user = get_user_by( 'id', $user_ID );
-		wp_set_current_user( $user_ID, $user->user_login );
-		wp_set_auth_cookie( $user_ID );
 		/**
 		 * Fires after password change.
 		 *
@@ -432,5 +426,26 @@ class WP_Members_User {
 			$user->add_role( $role );
 			break;
 		}
+	}
+	
+	/**
+	 * Sets user as logged on on password change.
+	 *
+	 * (Hooked to wpmem_pwd_change)
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global	object	$user
+	 * @param	int		$user_id
+	 * @param	string	$password
+	 */
+	function set_as_logged_in( $user_id, $password ) {
+		global $user;
+		// Update user password.
+		wp_set_password( $password, $user_id );
+		// Maintain login state.
+		$user = get_user_by( 'id', $user_id );
+		wp_set_current_user( $user_id, $user->user_login );
+		wp_set_auth_cookie( $user_id );
 	}
 }
