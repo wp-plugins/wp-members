@@ -72,7 +72,7 @@ class WP_Members_Forms {
 		case "email":
 		case "number":
 		case "date":
-			$class = ( 'textbox' == $class ) ? "textbox" : sanitize_html_class( $class );
+			$class = ( 'textbox' == $class ) ? "textbox" : $this->sanitize_class( $class );
 			switch ( $type ) {
 				case 'url':
 					$value = esc_url( $value );
@@ -96,25 +96,25 @@ class WP_Members_Forms {
 			break;
 		
 		case "password":
-			$class = sanitize_html_class( $class );
+			$class = $this->sanitize_class( $class );
 			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "image":
 		case "file":
-			$class = ( 'textbox' == $class ) ? "file" : sanitize_html_class( $class );
+			$class = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
 			$str = "<input name=\"$name\" type=\"file\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "checkbox":
-			$class = ( 'textbox' == $class ) ? "checkbox" : sanitize_html_class( $class );
+			$class = ( 'textbox' == $class ) ? "checkbox" : $this->sanitize_class( $class );
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "textarea":
 			$value = esc_textarea( stripslashes( $value ) ); // stripslashes( esc_textarea( $value ) );
-			$class = ( 'textbox' == $class ) ? "textarea" : sanitize_html_class( $class );
+			$class = ( 'textbox' == $class ) ? "textarea" : $this->sanitize_class( $class );
 			$rows  = ( isset( $args['rows'] ) ) ? esc_attr( $args['rows'] ) : '5';
 			$cols  = ( isset( $args['cols'] ) ) ? esc_attr( $args['cols'] ) : '20';
 			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
@@ -174,12 +174,12 @@ class WP_Members_Forms {
 			break;
 			
 		case "radio":
-			$class = ( 'textbox' == $class ) ? "radio" : sanitize_html_class( $class );
+			$class = ( 'textbox' == $class ) ? "radio" : $this->sanitize_class( $class );
 			$str = '';
 			$num = 1;
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$id = sanitize_html_class( $name . '_' . $num );
+				$id = $this->sanitize_class( $name . '_' . $num );
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
 					$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"" . esc_attr( $pieces[1] ) . '"' . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> " . esc_html( __( $pieces[0], 'wp-members' ) ) . "<br />\n";
 				} else {
@@ -225,13 +225,41 @@ class WP_Members_Forms {
 			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
 		}
 
-		$label = '<label for="' . esc_attr( $meta_key ) . '" class="' . sanitize_html_class( $class ) . '">' . __( $label, 'wp-members' );
+		$label = '<label for="' . esc_attr( $meta_key ) . '" class="' . $this->sanitize_class( $class ) . '">' . __( $label, 'wp-members' );
 		$label = ( $required ) ? $label . $req_mark : $label;
 		$label = $label . '</label>';
 		
 		return $label;
 	}
 	
+	/**
+	 * Sanitizes classes passed to the WP-Members form building functions.
+	 *
+	 * This generally uses just sanitize_html_class() but allows for 
+	 * whitespace so multiple classes can be passed (such as "regular-text code").
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param	string $class
+	 * @return	string sanitized_class
+	 */
+	function sanitize_class( $class ) {
+		// If no whitespace, just return WP sanitized class.
+		if ( ! strpos( $class, ' ' ) ) {
+			return sanitize_html_class( $class );
+		} else {
+			// Break string by whitespace, sanitize individual class names.
+			$class_array = explode( ' ', $class );
+			$len = count( $class_array ); $i = 0;
+			$sanitized_class = '';
+			foreach ( $class_array as $single_class ) {
+				$sanitized_class .= sanitize_html_class( $single_class );
+				$sanitized_class .= ( $i == $len - 1 ) ? '' : ' ';
+				$i++;
+			}
+			return $sanitized_class;
+		}
+	}
 	/**
 	 * Uploads file from the user.
 	 *
@@ -465,7 +493,7 @@ class WP_Members_Forms {
 		}
 
 		// Build hidden fields, filter, and add to the form.
-		$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', $args['redirect_to'] ) . $args['n'];
+		$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', esc_url( $args['redirect_to'] ) ) . $args['n'];
 		$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $arr['action'] ) . $args['n'];
 		$hidden = ( $arr['action'] != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
 
@@ -836,7 +864,7 @@ class WP_Members_Forms {
 				// Does the tos field.
 				if ( 'tos' == $meta_key ) {
 
-					$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; 
+					$val = sanitize_text_field( wpmem_get( $meta_key, '' ) ); //( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; 
 
 					// Should be checked by default? and only if form hasn't been submitted.
 					$val   = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;

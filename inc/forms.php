@@ -471,9 +471,9 @@ function wpmem_build_rs_captcha() {
 		return array( 
 			'label_text' => $wpmem->get_text( 'register_rscaptcha' ),
 			'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
-			'field'      => '<input id="captcha_code" name="captcha_code" size="'.$size.'" type="text" />
-					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . $pre . '" />
-					<img src="'.$src.'" alt="captcha" width="'.$img_w.'" height="'.$img_h.'" />'
+			'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" />
+					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />
+					<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />'
 		);
 	} else {
 		return;

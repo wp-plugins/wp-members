@@ -84,7 +84,7 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 
 					$row_before = '<p class="wpmem-checkbox">';
 					$label = '<label for="' . $meta_key . '">' . $label . $req;
-					$input = wpmem_create_formfield( $meta_key, $field['type'], $field['checked_value'], $val );
+					$input = wpmem_form_field( $meta_key, $field['type'], $field['checked_value'], $val );
 					$row_after = '</label></p>';
 
 				} elseif ( 'hidden' == $field['type'] ) {
