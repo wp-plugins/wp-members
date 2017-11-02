@@ -346,6 +346,7 @@ class WP_Members {
 		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 		add_filter( 'comments_open',             'wpmem_securify_comments', 99 );    // securifies the comments
 		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
+		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
@@ -1086,5 +1087,19 @@ class WP_Members {
 			$this->admin = new WP_Members_Admin_API;
 		}
 	}
-
+	
+	/**
+	 * Adds WP-Members query vars to WP's public query vars.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @see https://codex.wordpress.org/Plugin_API/Filter_Reference/query_vars
+	 *
+	 * @param	array	$qvars
+	 */
+	public function add_query_vars ( $qvars ) {
+		$qvars[] = 'a'; // The WP-Members action variable.
+		return $qvars;
+	}
+	
 } // End of WP_Members class.
