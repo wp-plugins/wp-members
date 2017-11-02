@@ -351,6 +351,7 @@ class WP_Members {
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ) );
+		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
 
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
@@ -361,6 +362,8 @@ class WP_Members {
 		add_filter( 'comments_open',             'wpmem_securify_comments', 99 );    // securifies the comments
 		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
+		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
+		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
@@ -811,6 +814,96 @@ class WP_Members {
 
 		return $content;
 		
+	}
+	
+	/**
+	 * Hides posts based on settings and meta.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param  array  $query
+	 * @return array  $query
+	 */
+	function do_hide_posts( $query ) {
+		//global $wp_query, $wpmem;
+		if ( ! is_admin() && ( ! is_user_logged_in() || ! wpmem_user_has_access() ) ) {
+			//$post_type = $query->get( 'post_type' );
+			//$post_type = $query->query_vars['post_type'];
+			//if ( isset( $wpmem->block[ $post_type] ) && 2 == $wpmem->block[ $post_type ] ) { 
+			//	$query->set( 'meta_key', '_wpmem_block' );
+			//	$query->set( 'meta_value', '0' );
+			//} else {
+				// Filter query based on post type setting.
+				$meta_query = array(
+					'relation' => 'OR',
+					 array(
+						'key'     => '_wpmem_block',
+						'value'   => '2',
+						'compare' => '!=',
+					 ),
+					array(
+						'key'     => '_wpmem_block',
+						'value'   => 'anyvalue',
+						'compare' => 'NOT EXISTS',
+					)
+				);
+			//}
+			$query->set( 'meta_query', $meta_query );
+		}
+		return $query;
+	}
+
+	/**
+	 * Filter to hide pages for get_pages().
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpdb
+	 * @param  array  $pages
+	 * @return array  $pages
+	 */
+	function filter_get_pages( $pages ) {
+		if ( ! is_user_logged_in() || ! wpmem_user_has_access() ) {
+			global $wpdb;
+			// if pages are hidden by default, get an array of all pages EXCEPT those not marked hidden
+			// get an array of all pages with _wpmem_block = 2
+			$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = '2'";
+
+			$excludes = $wpdb->get_results( $sql, ARRAY_A );
+			foreach ( $excludes as $value ) {
+				$new_excludes[] = $value['post_id'];
+			}
+			$new_pages = array();
+			foreach ( $pages as $key => $page ) {
+				if ( ! in_array( $page->ID, $new_excludes ) ) {
+					$new_pages[ $key ] = $page;
+				}
+			}
+			$pages = $new_pages;
+		}
+		return $pages;
+	}
+
+	/**
+	 * Filter to hide menu items.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param  array  $items
+	 * @param         $menu
+	 * @param  array  $args
+	 * @return array  $items
+	 */
+	function filter_nav_menu_items( $items, $menu, $args ) {
+		if ( ! is_user_logged_in() || ! wpmem_user_has_access() ) {
+			foreach ( $items as $key => $item ) {
+				$hide = get_post_meta( $item->object_id, '_wpmem_block', true );
+				if ( $hide == 2 ) {
+					unset( $items[$key] );
+				}
+			}
+		}
+		return $items;
 	}
 
 	/**

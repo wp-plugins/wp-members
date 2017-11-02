@@ -94,6 +94,7 @@ function wpmem_a_build_options() {
 										__( 'Do not block', 'wp-members' ) . '|0',
 										__( 'Block', 'wp-members' ) . '|1',
 										// @todo Future development. __( 'Hide', 'wp-members' ) . '|2',
+										__( 'Hide', 'wp-members' ) . '|2',
 									);
 									echo wpmem_create_formfield( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
 									<span><?php echo $val; ?></span><?php // @todo - this needs to be translatable. ?>

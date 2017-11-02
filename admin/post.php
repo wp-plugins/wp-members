@@ -220,8 +220,12 @@ function wpmem_block_meta() {
 		<?php echo $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
-		<input type="checkbox" id="wpmem_block" name="wpmem_block" value="<?php echo $block; ?>" <?php checked( get_post_meta( $post->ID, $meta, true ), $block ); ?> />
-		<label for="wpmem_block"><?php echo $text; ?></label>
+		<select id="wpmem_block" name="wpmem_block">
+			<option value="0" <?php selected( get_post_meta( $post->ID, $meta, true ), '0' ); ?>>Unblock</option>
+			<option value="1" <?php selected( get_post_meta( $post->ID, $meta, true ), '1' ); ?>>Block</option>
+			<option value="2" <?php selected( get_post_meta( $post->ID, $meta, true ), '2' ); ?>>Hide</option>
+		</select>
+		<label for="wpmem_block"><?php echo 'this ' . strtolower( $post_type->labels->singular_name ); ?><?php //echo $text; ?></label>
 	</p>
 	<?php
 	/**
