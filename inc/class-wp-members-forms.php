@@ -388,6 +388,17 @@ class WP_Members_Forms {
 	 * @return string $form  The HTML for the form as a string.
 	 */
 	function login_form( $page, $arr ) {
+		
+		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
+		if ( isset( $_REQUEST['redirect_to'] ) ) {
+			$redirect_to = $_REQUEST['redirect_to'];
+		} else {
+			if ( isset( $arr['redirect_to'] ) ) {
+				$redirect_to = $arr['redirect_to'];
+			} else {
+				$redirect_to = ( isset( $_SERVER['REQUEST_URI'] ) ) ? $_SERVER['REQUEST_URI'] : get_permalink();
+			}
+		}
 
 		global $wpmem;
 
@@ -422,7 +433,7 @@ class WP_Members_Forms {
 			'remember_check'  => true,
 			'n'               => "\n",
 			't'               => "\t",
-			'redirect_to'     => ( isset( $_REQUEST['redirect_to'] ) ) ? esc_url( $_REQUEST['redirect_to'] ) : ( ( isset( $arr['redirect_to'] ) ) ? $arr['redirect_to'] : get_permalink() ),
+			'redirect_to'     => $redirect_to,
 			'login_form_action' => true,
 
 		);
