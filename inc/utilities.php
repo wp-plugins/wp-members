@@ -31,36 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'wpmem_create_formfield' ) ):
-/**
- * Creates form fields
- *
- * Creates various form fields and returns them as a string.
- *
- * @since 1.8.0
- * @since 3.1.0 Converted to wrapper for create_form_field() in utlities object.
- *
- * @global object $wpmem    The WP_Members object class.
- * @param  string $name     The name of the field.
- * @param  string $type     The field type.
- * @param  string $value    The default value for the field.
- * @param  string $valtochk Optional for comparing the default value of the field.
- * @param  string $class    Optional for setting a specific CSS class for the field.
- * @return string $str      The field returned as a string.
- */
-function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' ) {
-	global $wpmem;
-	$args = array(
-		'name'     => $name,
-		'type'     => $type,
-		'value'    => $value,
-		'compare'  => $valtochk,
-		'class'    => $class,
-	);
-	return $wpmem->forms->create_form_field( $args );
-}
-endif;
-
 
 if ( ! function_exists( 'wpmem_texturize' ) ):
 /**
