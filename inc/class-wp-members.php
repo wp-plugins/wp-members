@@ -337,6 +337,7 @@ class WP_Members {
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
+		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ) );
 
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
