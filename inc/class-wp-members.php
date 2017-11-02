@@ -489,6 +489,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/email.php' );
 		//require_once( WPMEM_PATH . 'inc/users.php' ); @deprecated 3.1.9
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
+
 	}
 
 	/**

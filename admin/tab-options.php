@@ -93,7 +93,6 @@ function wpmem_a_build_options() {
 									$values = array(
 										__( 'Do not block', 'wp-members' ) . '|0',
 										__( 'Block', 'wp-members' ) . '|1',
-										// @todo Future development. __( 'Hide', 'wp-members' ) . '|2',
 										__( 'Hide', 'wp-members' ) . '|2',
 									);
 									echo wpmem_create_formfield( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
@@ -245,11 +244,11 @@ function wpmem_a_build_options() {
 									<input class="regular-text code" type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" size="50" />
 								  </li>
 							  </div>
-								<br /></br />
 								<input type="hidden" name="wpmem_admin_a" value="update_settings">
 								<?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?>
 							</ul>
 						</form>
+						<p>If you like <strong>WP-Members</strong> please give it a <a href="https://wordpress.org/support/plugin/wp-members/reviews?rate=5#new-post">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks!!</p>
 					</div><!-- .inside -->
 				</div>
 				<?php if ( $post_types ) { ?>
@@ -501,7 +500,7 @@ function wpmem_admin_new_settings( $new ) {
 				$val[ $subkey ] = ( is_numeric( $subval ) ) ? get_page_link( $subval ) : $subval;
 			}
 		}
-		$wpmem->$key = $val;
+		$wpmem->{$key} = $val;
 	}
 }
 
@@ -523,10 +522,10 @@ function wpmem_admin_style_list( $style ) {
 		'Twenty Fifteen - no float'  => WPMEM_DIR . 'css/wp-members-2015-no-float.css',
 		'Twenty Fourteen'            => WPMEM_DIR . 'css/wp-members-2014.css',
 		'Twenty Fourteen - no float' => WPMEM_DIR . 'css/wp-members-2014-no-float.css',
-		'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
-		'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
-		'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
-		'Twenty Ten'                 => WPMEM_DIR . 'css/wp-members.css',
+		//'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
+		//'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
+		//'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
+		//'Twenty Ten'                 => WPMEM_DIR . 'css/wp-members.css',
 		//'Kubrick'                    => WPMEM_DIR . 'css/wp-members-kubrick.css',
 	);
 
