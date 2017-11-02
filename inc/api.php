@@ -36,6 +36,8 @@
  * - wpmem_current_post_id
  * - wpmem_user_data
  * - wpmem_update_user_role
+ * - wpmem_display_message
+ * - wpmem_user_has_access
  */
 
 // Exit if accessed directly.
@@ -589,6 +591,45 @@ function wpmem_update_user_role( $user_id, $role, $action = 'change' ) {
 	global $wpmem;
 	$action = ( 'add' == $action ) ? 'add' : $action;
 	$wpmem->update_user_role( $user_id, $role, $action );
+}
+
+/**
+ * Dispalays requested dialog.
+ *
+ * @since 3.2.0
+ *
+ * @todo Needs testing and finalization before release.
+ */
+function wpmem_display_message( $tag, $echo = true ) {
+	if ( $echo ) {
+		echo wpmem_inc_regmessage( $tag );
+	} else {
+		return wpmem_inc_regmessage( $tag );
+	}
+}
+
+/**
+ * A function for checking user access criteria.
+ *
+ * @since 3.2.0
+ *
+ * @param  integer $user_id User ID (optional|default: false).
+ * @return boolean $access  If user has access.
+ */
+function wpmem_user_has_access( $user_id = false ) {
+	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+	$access  = ( is_user_logged_in() ) ? true : false;
+	/**
+	 * Filter the access result.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param  boolean $access
+	 * @param  integer $user_id
+	 * @param  array   $args
+	 */
+	$access = apply_filters( 'wpmem_user_has_access', $access, $user_id );
+	return $access;
 }
 
 // End of file.
