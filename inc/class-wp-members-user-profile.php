@@ -1,6 +1,6 @@
 <?php
 /**
- * The WP_Members Admin User Profile Class.
+ * The WP_Members User Profile Class.
  *
  * @package WP-Members
  * @subpackage WP_Members Admin User Profile Object Class

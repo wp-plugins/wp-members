@@ -1,12 +1,12 @@
-﻿=== WP-Members: Membership Framework ===
+﻿=== WP-Members Membership Plugin ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 3.6
 Tested up to: 4.8
-Stable tag: 3.1.9
+Stable tag: 3.2.0
 License: GPLv2
 
-WP-Members&trade; is a free membership management framework for WordPress&reg; that restricts content to registered users.
+WP-Members membership plugin turns your WordPress site into a membership site.  Restrict premium content, require registration with custom fields, and more.
 
 == Description ==
 
@@ -20,15 +20,13 @@ Simple to install and configure - yet customizable and scalable!
 
 = Features: =
 
-* Block posts, pages, both, or none by default
-* Block individual posts/pages
+* Block posts, pages, and custom post types
 * User login, registration, and profile integrated into your theme
 * Sidebar login widget
 * Create custom registration and profile fields
-* Set which fields display and which are required
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
-* Setting to automatically create post excerpts
+* Create post excerpt teaser content automatically
 * More than 100 action and filter hooks for extensibility
 
 By default, WordPress&reg; allows all content to be "open" and viewable by anyone and allows the site owner to restrict specific content if desired by setting a password for the post.  WP-Members&trade; operates with the reverse assumption.  It restricts all posts by default but allows the site owner to "unblock" content as desired.  WP-Members&trade; also offers the ability to change these default plugin settings.  For those that simply want to utilize the member management features and possibly restrict some content, the default setting can easily be toggled to block or unblock pages and/or posts by default.  No matter what the default setting, individual posts or pages can be set to be blocked or unblocked at the article level, overriding the default setting.
@@ -135,14 +133,31 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 
 == Changelog ==
 
+= 3.2.0 =
+
+* Changed default address meta fields to WooCommerce billing meta keys.
+* Removed language packs that already install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
+* Added wpmem_register_hidden_rows filter.
+* Added "post_to" key for wpmem_register_form_args.
+* Rebuild of user export function. User export now uses fputcsv.
+* Updates/code improvement for enqueueing styles.
+* Updated widget, added widget_title filter before wpmem_widget_title, documented wpmem_widget_id filter, added instance and id_base parameters.
+* Updated empty $fields check to not rewrite fields.
+* Deprecated wpmem_inc_status().
+* Deprecated wpmem_do_sidebar().
+* Eliminated permission-based file load for admin files.
+
+
 = 3.1.9 =
 
+* Security enhancements.
 * Improved user search in Users > All Users.
 * Fully deprecated obsolete reCAPTCHA v1. If v1 is selected as a setting, it will be automatically changed to v2. (v1 users check your API keys for compatibility.)
 * Removed obsolete comments_template.php.
 * Set image field to display "medium" image in dashboard/admin user profile. Admin profile image display links to media editor.
 * Added default format to date field shortcode to date format set in WP settings.
 * Added format attribute to date field shortcode for custom date formatting.
+* Added User ID as an optional column for the Users > All Users screen.
 * Deprecated wpmem_user_profile(), wpmem_profile_update(), wpmem_user_profile_multipart(), wpmem_admin_fields(), wpmem_admin_update().
 * Rebuild of dashboard profile functions incorporated into new user profile object class.
 * Fields tab bulk action now checks for both page and tab (rather than just tab) to prevent namespace collisions.
@@ -150,6 +165,9 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Removed height property of button_div for generic stylesheets.
 * Fixed user edit shortcode to display updated user data without page refresh.
 * Fixed password change so that login state is maintained after password update.
+* Fix for multiple checkbox and multiple select field types if "comma" was selected as the delimiter (previously, this would break the field settings array option assembly).
+* Improvements on field manager add/edit field screen.
+* Improvements to multiple checkbox and radio groups: better handling of non-value selections and span wrapper for group separators.
 
 = 3.1.8 =
 

@@ -389,10 +389,9 @@ endif;
 function wpmem_inc_attribution() {
 
 	global $wpmem;
-	$http = ( is_ssl() ) ? 'https://' : 'http://';
 	$str = '
 	<div align="center">
-		<small>Powered by <a href="' . $http . 'rocketgeek.com" target="_blank">WP-Members</a></small>
+		<small>Powered by <a href="https://rocketgeek.com" target="_blank">WP-Members</a></small>
 	</div>';
 		
 	return ( 1 == $wpmem->attrib ) ? $str : '';
