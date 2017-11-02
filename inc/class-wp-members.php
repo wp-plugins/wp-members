@@ -190,6 +190,15 @@ class WP_Members {
 	public $texturize;
 
 	/**
+	 * Enable logged-in menu clones.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    string
+	 */
+	public $clone_menus;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
@@ -238,6 +247,10 @@ class WP_Members {
 		
 		// Load user functions.
 		$this->user = new WP_Members_User;
+		// Load clone menus.
+		if ( $this->clone_menus ) {
+			$this->menus = new WP_Members_Menus();
+		}
 		
 		/**
 		 * Fires after main settings are loaded.
@@ -462,6 +475,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
 		require_once( WPMEM_PATH . 'inc/core.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
 		require_once( WPMEM_PATH . 'inc/utilities.php' );

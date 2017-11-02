@@ -89,6 +89,10 @@ function wpmem_upgrade_settings() {
 	// If install is 3.0 or higher.
 	if ( $is_three ) {
 		
+		if ( ! isset( $wpmem_settings['clone_menus'] ) ) {
+			$wpmem_settings['clone_menus'] = 0;
+		}
+		
 		// reCAPTCHA v1 is obsolete.
 		if ( isset( $wpmem_settings['captcha'] ) && 1 == $wpmem_settings['captcha'] ) {
 			$wpmem_settings['captcha'] = 3;
@@ -172,6 +176,7 @@ function wpmem_upgrade_settings() {
 			'cssurl'     => get_option( 'wpmembers_cssurl' ),
 			'style'      => get_option( 'wpmembers_style'  ),
 			'attrib'     => get_option( 'wpmembers_attrib' ),
+			'clone_menus'     => 0,
 		);
 		// Handle auto excerpt setting change and add to setting array.
 		$autoex = get_option( 'wpmembers_autoex' );
@@ -482,6 +487,7 @@ function wpmem_install_settings() {
 			'post' => array( 'enabled' => 0, 'length' => '' ),
 			'page' => array( 'enabled' => 0, 'length' => '' ),
 		),
+		'clone_menus'     => 0,
 		'notify'    => 0,
 		'mod_reg'   => 0,
 		'captcha'   => 0,
