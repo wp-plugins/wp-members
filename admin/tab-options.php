@@ -164,6 +164,7 @@ function wpmem_a_build_options() {
 							/** This filter is defined in class-wp-members.php */
 							$dropin_folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
 							$arr = array(
+								array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products'),'enable_products'),
 								array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 								array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 								array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
@@ -262,7 +263,7 @@ function wpmem_a_build_options() {
 									<th scope="row"><?php _e( 'Add to WP-Members Settings', 'wp-members' ); ?></th>
 									<td><fieldset><?php
 									foreach ( $post_arr as $key => $val ) {
-										if ( 'post' != $key && 'page' != $key ) {
+										if ( 'post' != $key && 'page' != $key && 'wpmem_mem_plan' != $key ) {
 											$checked = ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ? ' checked' : '';
 											echo '<label for="' . $key . '"><input type="checkbox" name="wpmembers_handle_cpts[]" value="' . $key . '"' . $checked . ' />' . $val . '</label><br />';
 										}
@@ -307,9 +308,11 @@ function wpmem_update_cpts() {
 	$post_arr = array();
 	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	if ( $post_types ) {
-		foreach ( $post_types as $post_type ) { 
+		foreach ( $post_types as $post_type ) {
 			$cpt_obj = get_post_type_object( $post_type );
-			$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+			if ( $cpt_obj->labels->name != 'wpmem_mem_plan' ) {
+				$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
+			}
 		}
 	}
 
@@ -403,6 +406,7 @@ function wpmem_update_options() {
 
 	$wpmem_newsettings = array(
 		'version' => WPMEM_VERSION,
+		'enable_products' => filter_var( wpmem_get( 'wpmem_settings_products', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 		'clone_menus' => filter_var( wpmem_get( 'wpmem_settings_menus', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 		'notify'    => filter_var( wpmem_get( 'wpmem_settings_notify', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 		'mod_reg'   => filter_var( wpmem_get( 'wpmem_settings_moderate', 0 ), FILTER_SANITIZE_NUMBER_INT ),

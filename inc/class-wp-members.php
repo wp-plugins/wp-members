@@ -188,7 +188,16 @@ class WP_Members {
 	 * @var    boolean
 	 */
 	public $texturize;
-
+	
+	/**
+	 * Enable product creation.
+	 *
+	 * @since 3.2.0
+	 * @access public
+	 * @var boolean
+	 */
+	public $enable_products;
+	
 	/**
 	 * Enable logged-in menu clones.
 	 *
@@ -247,6 +256,10 @@ class WP_Members {
 		
 		// Load user functions.
 		$this->user = new WP_Members_User;
+
+		// Load membership plans
+		$this->membership = new WP_Members_Products();
+		
 		// Load clone menus.
 		if ( $this->clone_menus ) {
 			$this->menus = new WP_Members_Menus();
@@ -350,6 +363,7 @@ class WP_Members {
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
+		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ) );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
 
@@ -362,6 +376,7 @@ class WP_Members {
 		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
 		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
+		add_filter( 'wpmem_securify',            array( $this->membership, 'check_access' ) );
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
 		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
 		
@@ -479,6 +494,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
 		require_once( WPMEM_PATH . 'inc/core.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
 		require_once( WPMEM_PATH . 'inc/utilities.php' );

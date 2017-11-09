@@ -62,6 +62,9 @@ class WP_Members_Admin_API {
 		
 		// Load default dialogs.
 		$dialogs = $this->default_dialogs();
+
+		global $wpmem;
+		$wpmem->membership->admin = new WP_Members_Products_Admin();
 	}
 
 	/**
@@ -77,6 +80,7 @@ class WP_Members_Admin_API {
 		include_once( WPMEM_PATH . 'admin/users.php' );
 		include_once( WPMEM_PATH . 'admin/user-profile.php' );
 		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
+		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-products-admin.php' );
 		include_once( WPMEM_PATH . 'admin/dialogs.php' );
 		include_once( WPMEM_PATH . 'admin/post.php' );
 		include_once( WPMEM_PATH . 'admin/includes/api.php' );
