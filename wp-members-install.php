@@ -89,6 +89,10 @@ function wpmem_upgrade_settings() {
 	// If install is 3.0 or higher.
 	if ( $is_three ) {
 		
+		if ( ! isset( $wpmem_settings['enable_products'] ) ) {
+			$wpmem_settings['enable_products'] = 0;
+		}
+		
 		if ( ! isset( $wpmem_settings['clone_menus'] ) ) {
 			$wpmem_settings['clone_menus'] = 0;
 		}
@@ -177,6 +181,7 @@ function wpmem_upgrade_settings() {
 			'style'      => get_option( 'wpmembers_style'  ),
 			'attrib'     => get_option( 'wpmembers_attrib' ),
 			'clone_menus'     => 0,
+			'enable_products' => 0,
 		);
 		// Handle auto excerpt setting change and add to setting array.
 		$autoex = get_option( 'wpmembers_autoex' );
@@ -487,6 +492,7 @@ function wpmem_install_settings() {
 			'post' => array( 'enabled' => 0, 'length' => '' ),
 			'page' => array( 'enabled' => 0, 'length' => '' ),
 		),
+		'enable_products' => 0,
 		'clone_menus'     => 0,
 		'notify'    => 0,
 		'mod_reg'   => 0,
