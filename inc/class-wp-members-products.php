@@ -22,7 +22,10 @@ class WP_Members_Products {
 	public $product_detail = array();
 	
 	function __construct() {
+		
 		$this->load_products();
+		
+		add_filter( 'wpmem_securify', array( $this, 'check_access' ) );
 	}
 	
 	function load_products() {
@@ -51,16 +54,16 @@ class WP_Members_Products {
 		// Is the user logged in and is this blocked content?
 		if ( is_user_logged_in() && wpmem_is_blocked() ) {
 			// Get the post access products.
-			$post_plan = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
+			$post_products = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
 			// If the post is restricted to a product.
-			if ( $post_plan ) {
+			if ( $post_products ) {
 				// The error message for invalid users.
 				// @todo Filter this and also translate it.
 				$error_msg = 'Sorry, you do not have access to this page.';
 				
 				// @todo This is the nuts and bolts - work around whether a user has access
 				// to this product or not. 
-				if ( $wpmem->user->has_access() ) {
+				if ( $wpmem->user->has_access( $post_products ) ) {
 					return $content;
 				}
 				return $error_msg;

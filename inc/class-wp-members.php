@@ -253,9 +253,9 @@ class WP_Members {
 		
 		// Load api.
 		$this->api = new WP_Members_API;
-		
+	
 		// Load user functions.
-		$this->user = new WP_Members_User;
+		$this->user = new WP_Members_User( $this );
 
 		// Load membership plans
 		$this->membership = new WP_Members_Products();
@@ -376,7 +376,6 @@ class WP_Members {
 		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
 		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
-		add_filter( 'wpmem_securify',            array( $this->membership, 'check_access' ) );
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
 		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
 		

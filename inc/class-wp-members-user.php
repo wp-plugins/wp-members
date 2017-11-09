@@ -27,13 +27,29 @@ class WP_Members_User {
 	public $post_data = array();
 	
 	/**
+	 * Container for user access information.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    array
+	 */
+	public $access = array();
+	
+	/**
 	 * Initilize the User object.
 	 *
 	 * @since 3.1.7
+	 *
+	 * @param object $settings The WP_Members Object
 	 */
-	function __construct() {
+	function __construct( $settings ) {
 		//add_action( 'user_register', array( $this, 'register' ), 9 ); // @todo This need rigorous testing, especially front end processing such as WC.
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
+	
+		// Load anything the user as access to.
+		if ( 1 == $settings->enable_products ) {
+			$this->get_user_products();
+		}
 	}
 	
 	/**
@@ -453,9 +469,26 @@ class WP_Members_User {
 	 * Validates user access to content.
 	 *
 	 * @since 3.2.0
+	 *
+	 * @param  mixed $product
+	 * @param  int   $user_id (optional)
+	 * @return bool  
 	 */
-	function has_access() {
+	function has_access( $product, $user_id = false ) {
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		
 		return true;
+	}
+	
+	/**
+	 * Loads anything the user has access to.
+	 *
+	 * @since 3.2.0
+	 *
+	 */
+	function get_user_products() {
+		$this->access = array(
+
+		);
 	}
 }
