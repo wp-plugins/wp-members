@@ -303,7 +303,8 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 		break;
 
 	case 'login':
-
+		
+		$logout = urldecode( $logout ); // @todo Resolves sprintf issue if url is encoded.
 		$args = array(
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
