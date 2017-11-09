@@ -206,10 +206,12 @@ function wpmem_block_meta() {
 
 	if ( isset( $wpmem->block[ $post->post_type ] ) && $wpmem->block[ $post->post_type ] == 1 ) {
 		$block = 0;
+		$notice_icon = '<span class="dashicons dashicons-lock"></span>';
 		$notice_text = sprintf( __( '%s are blocked by default.', 'wp-members' ), $post_type->labels->name );
 		$text = sprintf( __( 'Unblock this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
 	} else {
 		$block = 1;
+		$notice_icon = '<span class="dashicons dashicons-unlock"></span>';
 		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
 		$text = sprintf( __( 'Block this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
 	}
@@ -217,7 +219,7 @@ function wpmem_block_meta() {
 	$admin_url = get_admin_url(); ?>
 	
 	<p>
-		<?php echo $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
+		<?php echo $notice_icon . ' ' . $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
 		<select id="wpmem_block" name="wpmem_block">
@@ -340,8 +342,9 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
 			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
 		}
 
-		echo ( $wpmem->block[ $post_type ] == 1 && $block_meta == '0' ) ? __( 'Yes' ) : '';
-		echo ( $wpmem->block[ $post_type ] == 0 && $block_meta == '1' ) ? __( 'Yes' ) : '';
+		echo ( $wpmem->block[ $post_type ] == 1 && $block_meta == '0' ) ? '<span class="dashicons dashicons-unlock" style="color:red"></span>' : '';
+		echo ( $wpmem->block[ $post_type ] == 0 && $block_meta == '1' ) ? '<span class="dashicons dashicons-lock" style="color:green"></span>' : '';
+		echo ( 2 == $block_meta ) ? '<span class="dashicons dashicons-hidden"></span>' : '';
 	}
 }
 
