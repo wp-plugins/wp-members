@@ -448,4 +448,14 @@ class WP_Members_User {
 		wp_set_current_user( $user_id, $user->user_login );
 		wp_set_auth_cookie( $user_id );
 	}
+	
+	/**
+	 * Validates user access to content.
+	 *
+	 * @since 3.2.0
+	 */
+	function has_access() {
+		
+		return true;
+	}
 }

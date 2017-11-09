@@ -23,7 +23,6 @@ class WP_Members_Products {
 	
 	function __construct() {
 		$this->load_products();
-		add_filter( 'wpmem_securify', array( $this, 'check_user_access' ) );
 	}
 	
 	function load_products() {
@@ -46,7 +45,7 @@ class WP_Members_Products {
 	 * @param  string $content
 	 * @return string $content
 	 */
-	function check_user_access( $content ) {
+	function check_access( $content ) {
 		
 		global $post, $wpmem;
 		// Is the user logged in and is this blocked content?
@@ -60,12 +59,9 @@ class WP_Members_Products {
 				$error_msg = 'Sorry, you do not have access to this page.';
 				
 				// @todo This is the nuts and bolts - work around whether a user has access
-				// to this product or not. (Currently, this is by role - not product).
-				$user = wp_get_current_user();
-				foreach ( $user->roles as $role ) {
-					if ( in_array( $role, $post_role ) ) {
-						return $content;
-					}
+				// to this product or not. 
+				if ( $wpmem->user->has_access() ) {
+					return $content;
 				}
 				return $error_msg;
 			} else {
