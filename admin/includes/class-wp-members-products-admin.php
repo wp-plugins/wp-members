@@ -186,9 +186,9 @@ class WP_Members_Products_Admin {
 	 */
 	function add_product_to_post( $post, $block ) {
 		global $wpmem;
-		$product = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
-		$product = ( $product ) ? $product : array();
-		$values = array();
+		$product  = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
+		$product  = ( $product ) ? $product : array();
+		$values[] = __( 'None', 'wp-members' ) . '|';
 		foreach ( $wpmem->membership->products as $key => $value ) {
 			$values[] = $value . '|' . $key;
 		}
@@ -213,16 +213,22 @@ class WP_Members_Products_Admin {
 	 *
 	 * @global object $wpmem
 	 * @param  object $post
-	 * @param  string $block
-	 * @param  string $unblock
 	 */
-	function save_product_to_post( $post, $block, $unblock ) {
+	function save_product_to_post( $post ) {
 		global $wpmem;
 		$products = wpmem_get( $wpmem->membership->post_meta );
-		if ( $products ) {
-			update_post_meta( $post->ID, $wpmem->membership->post_meta, $products );
-		} else {
+		$products = ( $products ) ? $products : array();
+		if ( empty( $products ) || ( 1 == count( $products ) && '' == $products[0] ) ) {
 			delete_post_meta( $post->ID, $wpmem->membership->post_meta );
+		} else {
+			update_post_meta( $post->ID, $wpmem->membership->post_meta, $products );
+		}
+		foreach ( $wpmem->membership->products as $key => $name ) {
+			if ( in_array( $key, $products ) ) {
+				update_post_meta( $post->ID, $wpmem->membership->post_stem . $key, 1 );
+			} else {
+				delete_post_meta( $post->ID, $wpmem->membership->post_stem . $key );
+			}
 		}
 	}
 	

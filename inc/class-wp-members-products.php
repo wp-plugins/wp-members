@@ -18,7 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WP_Members_Products {
 
-	public $post_meta = 'wpmem_products';
+	public $post_meta = '_wpmem_products';
+	public $post_stem = '_wpmem_products_';
 	public $product_detail = array();
 	
 	function __construct() {
