@@ -616,9 +616,15 @@ function wpmem_display_message( $tag, $echo = true ) {
  * @param  integer $user_id User ID (optional|default: false).
  * @return boolean $access  If user has access.
  */
-function wpmem_user_has_access( $user_id = false ) {
+function wpmem_user_has_access( $user_id = false, $product = false ) {
+	global $wpmem; 
+	
 	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 	$access  = ( is_user_logged_in() ) ? true : false;
+	
+	// @todo
+	$access = ( ! $wpmem->user->has_access( $product, $user_id ) ) ? true : $access;
+	
 	/**
 	 * Filter the access result.
 	 *
