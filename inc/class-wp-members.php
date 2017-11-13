@@ -208,6 +208,15 @@ class WP_Members {
 	public $clone_menus;
 	
 	/**
+	 * Container for error messages.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    string
+	 */
+	public $error;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
