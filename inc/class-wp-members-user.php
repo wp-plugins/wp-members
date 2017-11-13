@@ -476,8 +476,14 @@ class WP_Members_User {
 	 */
 	function has_access( $product, $user_id = false ) {
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		
-		return true;
+		foreach ( $product as $prod ) {
+			if ( isset( $this->access[ $prod ] ) ) {
+				if ( $this->is_current( $this->access[ $prod ] ) ) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -486,9 +492,19 @@ class WP_Members_User {
 	 * @since 3.2.0
 	 *
 	 */
-	function get_user_products() {
+	function get_user_products( $user_id = false ) {
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		$this->access = array(
 
 		);
+	}
+	
+	/**
+	 * Utility for expiration validation.
+	 *
+	 * @3.2.0
+	 */
+	function is_current( $date ) {
+		return ( time() < strtotime( $date ) ) ? true : false;
 	}
 }

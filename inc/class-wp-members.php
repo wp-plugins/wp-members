@@ -889,6 +889,63 @@ class WP_Members {
 		$comments = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? array() : $comments;
 		return $comments;
 	}
+
+	/**
+	 * Gets an array of hidden post IDs.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpdb
+	 * @return array  $hidden
+	 */
+	function hidden_posts() {
+		global $wpdb;
+		$hidden = get_transient( '_wpmem_hidden_posts' );
+		if ( false === $hidden ) {
+			$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2";
+			$results = $wpdb->get_results( $sql );
+			foreach( $results as $result ) {
+				$hidden[] = $result->post_id;
+			}
+			set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
+		}
+		return $hidden;
+	}
+	
+	/**
+	 * Gets an array of hidden post IDs.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpmem
+	 * @return array  $hidden
+	 */
+	function get_hidden_posts() {
+		global $wpmem;
+		$hidden = array();
+		// @todo This should really be either a transient, or an array of
+		// post IDs should be updated anytime a post is saved/updated.
+		if ( ! is_admin() && ( ! is_user_logged_in() ) ) {
+			$hidden = $this->hidden_posts();
+		}
+
+		// @todo Separate query here to check. If the user IS logged in, check what posts they DON'T have access to.
+		if ( ! is_admin() && is_user_logged_in() && 1 == $wpmem->enable_products ) {
+			// Get user product access.
+			// @todo This should certainly be a transient stored in the user object.
+			foreach ( $wpmem->membership->products as $key => $value ) {
+				if ( ! isset( $wpmem->user->access[ $key ] ) || ! $wpmem->user->is_current( $wpmem->user->access[ $key ] ) ) {
+					$hidden_posts = $this->hidden_posts();
+					foreach ( $hidden_posts as $post_id ) {
+						if ( 1 == get_post_meta( $post_id, $wpmem->membership->post_stem . $key, true ) ) {
+							$hidden[] = $post_id;
+						}
+					}
+				}
+			}
+		}
+		return $hidden;
+	}
 	
 	/**
 	 * Hides posts based on settings and meta.
@@ -899,30 +956,9 @@ class WP_Members {
 	 * @return array  $query
 	 */
 	function do_hide_posts( $query ) {
-		//global $wp_query, $wpmem;
-		if ( ! is_admin() && ( ! is_user_logged_in() || ! wpmem_user_has_access() ) ) {
-			//$post_type = $query->get( 'post_type' );
-			//$post_type = $query->query_vars['post_type'];
-			//if ( isset( $wpmem->block[ $post_type] ) && 2 == $wpmem->block[ $post_type ] ) { 
-			//	$query->set( 'meta_key', '_wpmem_block' );
-			//	$query->set( 'meta_value', '0' );
-			//} else {
-				// Filter query based on post type setting.
-				$meta_query = array(
-					'relation' => 'OR',
-					 array(
-						'key'     => '_wpmem_block',
-						'value'   => '2',
-						'compare' => '!=',
-					 ),
-					array(
-						'key'     => '_wpmem_block',
-						'value'   => 'anyvalue',
-						'compare' => 'NOT EXISTS',
-					)
-				);
-			//}
-			$query->set( 'meta_query', $meta_query );
+		$hidden_posts = $this->get_hidden_posts();
+		if ( ! empty( $hidden_posts ) ) {
+			$query->set( 'post__not_in', $hidden_posts );
 		}
 		return $query;
 	}
@@ -937,19 +973,11 @@ class WP_Members {
 	 * @return array  $pages
 	 */
 	function filter_get_pages( $pages ) {
-		if ( ! is_user_logged_in() || ! wpmem_user_has_access() ) {
-			global $wpdb;
-			// if pages are hidden by default, get an array of all pages EXCEPT those not marked hidden
-			// get an array of all pages with _wpmem_block = 2
-			$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = '2'";
-
-			$excludes = $wpdb->get_results( $sql, ARRAY_A );
-			foreach ( $excludes as $value ) {
-				$new_excludes[] = $value['post_id'];
-			}
+		$hidden_posts = $this->get_hidden_posts();
+		if ( ! empty ( $hidden_posts ) ) {
 			$new_pages = array();
 			foreach ( $pages as $key => $page ) {
-				if ( ! in_array( $page->ID, $new_excludes ) ) {
+				if ( ! in_array( $page->ID, $hidden_posts ) ) {
 					$new_pages[ $key ] = $page;
 				}
 			}
@@ -969,11 +997,11 @@ class WP_Members {
 	 * @return array  $items
 	 */
 	function filter_nav_menu_items( $items, $menu, $args ) {
-		if ( ! is_user_logged_in() || ! wpmem_user_has_access() ) {
+		$hidden_posts = $this->get_hidden_posts();
+		if ( ! empty( $hidden_posts ) ) {
 			foreach ( $items as $key => $item ) {
-				$hide = get_post_meta( $item->object_id, '_wpmem_block', true );
-				if ( $hide == 2 ) {
-					unset( $items[$key] );
+				if ( in_array( $item->object_id, $hidden_posts ) ) {
+					unset( $items[ $key ] );
 				}
 			}
 		}
