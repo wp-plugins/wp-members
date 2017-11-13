@@ -116,7 +116,8 @@ class WP_Members_Products_Admin {
 	 *
 	 * @param  object $post
 	 */
-	function details_html( $post ) { ?>
+	function details_html( $post ) { 
+		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); ?>
 		<div class="inside">
 			<?php wp_nonce_field( '_membership_product_nonce', 'membership_product_nonce' ); ?>
 			<p class="form-field">
@@ -125,26 +126,49 @@ class WP_Members_Products_Admin {
 			</p>
 			<p class="form-field">
 				<input type="checkbox" name="membership_product_role_required" id="membership_product_role_required" value="role-required" <?php echo ( $this->get_meta( 'membership_product_role_required' ) === 'role-required' ) ? 'checked' : ''; ?>>
-				<label for="membership_product_role_required"><?php _e( 'Role Required?', 'membership_product' ); ?></label>	</p>
-			<p class="form-field">
-				<label for="membership_product_role"><?php _e( 'Role', 'membership_product' ); ?></label>
+				<label for="membership_product_role_required"><?php _e( 'Role Required?', 'membership_product' ); ?></label>
+				<label for="membership_product_role"></label>
 				<select name="membership_product_role" id="membership_product_role">
 					<option value=""><?php _e( 'No Role', 'wp-members' ); ?></option>
 					<?php wp_dropdown_roles( $this->get_meta( 'membership_product_role' ) ); ?>
 				</select>
 			</p>
-			<p class="form-field">
+			<p>
 				<input type="checkbox" name="membership_product_expires" id="membership_product_expires" value="expires" <?php echo ( $this->get_meta( 'membership_product_expires' ) === 'expires' ) ? 'checked' : ''; ?>>
-				<label for="membership_product_expires"><?php _e( 'Expires', 'membership_product' ); ?></label></p>
-			<p class="form-field">
-				<label for="membership_product_time_period"><?php _e( 'Time period', 'membership_product' ); ?></label>
-				<input type="text" name="membership_product_time_period" id="membership_product_time_period" value="<?php echo $this->get_meta( 'membership_product_time_period' ); ?>">
+				<label for="membership_product_expires"><?php _e( 'Expires', 'membership_product' ); ?></label>
+				<span id="membership_product_expires_wrap">
+					<label for="membership_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'membership_product' ); ?></label>
+					<input type="text" name="membership_product_number_of_periods" id="membership_product_number_of_periods" value="<?php echo $this->get_meta( 'membership_product_number_of_periods' ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
+					<label for="membership_product_time_period" style="display:none;"><?php _e( 'Period', 'membership_product' ); ?></label>
+					<?php echo wpmem_form_field( array( 'name'=>'membership_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'membership_product_number_of_periods' ) ) ); ?>
+				</span>
 			</p>
-			<p class="form-field">
-				<label for="membership_product_number_of_periods"><?php _e( 'Number of periods', 'membership_product' ); ?></label>
-				<input type="text" name="membership_product_number_of_periods" id="membership_product_number_of_periods" value="<?php echo $this->get_meta( 'membership_product_number_of_periods' ); ?>">
-			</p>
-		</div><?php
+		</div>
+		<script>
+(function($) {
+	$(document).ready(function() {
+		$("#membership_product_role").hide();
+		$("#membership_product_expires_wrap").hide();
+	});
+	$(document).ready(function() {
+	  $('#membership_product_role_required').on('change', function (){
+		if ($(this).is(':checked')) {
+			$('#membership_product_role').show();
+			} else {
+			$('#membership_product_role').hide();
+			}
+	  });
+	 $('#membership_product_expires').on('change', function (){
+		if ($(this).is(':checked')) {
+			$('#membership_product_expires_wrap').show();
+			} else {
+			$('#membership_product_expires_wrap').hide();
+			}
+	  });
+	});
+})(jQuery);
+
+		</script><?php
 	}
 
 	/**
