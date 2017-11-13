@@ -221,7 +221,7 @@ function wpmem_form_field( $name, $type=null, $value=null, $valtochk=null, $clas
  * @global object $wpmem
  * @param array  $args {
  *     @type string $meta_key
- *     @type string $label_text
+ *     @type string $label
  *     @type string $type
  *     @type string $class      (optional)
  *     @type string $required   (optional)

@@ -208,12 +208,10 @@ function wpmem_block_meta() {
 		$block = 0;
 		$notice_icon = '<span class="dashicons dashicons-lock"></span>';
 		$notice_text = sprintf( __( '%s are blocked by default.', 'wp-members' ), $post_type->labels->name );
-		$text = sprintf( __( 'Unblock this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
 	} else {
 		$block = 1;
 		$notice_icon = '<span class="dashicons dashicons-unlock"></span>';
 		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
-		$text = sprintf( __( 'Block this %s', 'wp-members' ), strtolower( $post_type->labels->singular_name ) );
 	}
 	$meta = '_wpmem_block';
 	$admin_url = get_admin_url(); ?>

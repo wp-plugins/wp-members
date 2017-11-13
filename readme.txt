@@ -1,8 +1,8 @@
 ﻿=== WP-Members Membership Plugin ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
-Requires at least: 3.6
-Tested up to: 4.8
+Requires at least: 4.0
+Tested up to: 4.9
 Stable tag: 3.2.0
 License: GPLv2
 
@@ -110,7 +110,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 
 == Upgrade Notice ==
 
-WP-Members 3.1.9 is a major update. There are no database changes (rollback is possible). See changelog for important details. Minimum WP version is 3.6.
+WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
 
 == Screenshots ==
 
@@ -136,7 +136,7 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 = 3.2.0 =
 
 * Changed default address meta fields to WooCommerce billing meta keys.
-* Removed language packs that already install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
+* Removed language packs that install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
 * Added wpmem_register_hidden_rows filter.
 * Added "post_to" key for wpmem_register_form_args.
 * Rebuild of user export function. User export now uses fputcsv.
@@ -145,7 +145,14 @@ WP-Members 3.1.9 is a major update. There are no database changes (rollback is p
 * Updated empty $fields check to not rewrite fields.
 * Deprecated wpmem_inc_status().
 * Deprecated wpmem_do_sidebar().
+* Deprecated wpmem_create_formfield(), use wpmem_form_field() instead.
 * Eliminated permission-based file load for admin files.
+* Maintain user login state when password is changed.
+* Added wpmem_get_sub_str() string manipulation utility.
+* Updated login form redirect_to to account for query vars.
+* Fixes issue with login status if logout url is encoded (sprintf() has too few arguments).
+* Added Membership Products Custom Post Type.
+* Added "Hide Post" option for blocking content (currently only by post meta _wpmem_block).
 
 
 = 3.1.9 =
