@@ -32,36 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Creates the captcha tab.
- *
- * @since 2.8.0
- *
- * @param  string      $tab The admin tab being displayed.
- * @return string|bool      The captcha options tab, otherwise false.
- */
-function wpmem_a_captcha_tab( $tab ) {
-	if ( $tab == 'captcha' ) {
-		return wpmem_a_build_captcha_options();
-	} else {
-		return false;
-	}
-}
-
-
-/**
- * Adds the captcha tab.
- *
- * @since 2.8.0
- *
- * @param  array $tabs The array of tabs for the admin panel.
- * @return array       The updated array of tabs for the admin panel.
- */
-function wpmem_add_captcha_tab( $tabs ) {
-	return array_merge( $tabs, array( 'captcha' => 'Captcha' ) );
-}
-
-
-/**
  * Primary admin function.
  *
  * @since 2.1.0
