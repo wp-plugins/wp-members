@@ -84,7 +84,6 @@ class WP_Members_Admin_API {
 		include_once( WPMEM_PATH . 'admin/dialogs.php' );
 		include_once( WPMEM_PATH . 'admin/post.php' );
 		include_once( WPMEM_PATH . 'admin/includes/api.php' );
-		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
 		include_once( WPMEM_PATH . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
@@ -106,11 +105,11 @@ class WP_Members_Admin_API {
 	 */
 	function load_hooks() {
 		
-		add_action( 'admin_enqueue_scripts',         'wpmem_dashboard_enqueue_scripts' );
+		add_action( 'admin_enqueue_scripts',         array( $this, 'dashboard_enqueue_scripts' ) );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_admin_do_tab' );
 		add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
 		add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
-		add_filter( 'plugin_action_links',           'wpmem_admin_plugin_links', 10, 2 );
+		add_filter( 'plugin_action_links',           array( $this, 'plugin_links' ), 10, 2 );
 		add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
@@ -493,6 +492,47 @@ class WP_Members_Admin_API {
 		return esc_url( $url );
 	}
 	
+	/**
+	 * Enqueues the admin javascript and css files.
+	 *
+	 * Replaces wpmem_admin_enqueue_scripts().
+	 * Only loads the js and css on admin screens that use them.
+	 *
+	 * @since 3.1.7
+	 * @deprecated 3.2.0 Moved to admin object, rename dashboard_enqueue_scripts().
+	 *
+	 * @param str $hook The admin screen hook being loaded.
+	 */
+	function dashboard_enqueue_scripts( $hook ) {
+		if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
+			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+		}
+		if ( $hook == 'settings_page_wpmem-settings' ) {
+			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
+		}
+	}
+
+	/**
+	 * Filter to add link to settings from plugin panel.
+	 *
+	 * @since 2.4.0
+	 * @since 3.2.0 Moved to admin API class, renamed from wpmem_admin_plugin_links().
+	 *
+	 * @param  array  $links
+	 * @param  string $file
+	 * @return array  $links
+	 */
+	function plugin_links( $links, $file ) {
+		static $wpmem_plugin;
+		if ( ! $wpmem_plugin ) {
+			$wpmem_plugin = plugin_basename( WPMEM_PATH . '/wp-members.php' );
+		}
+		if ( $file == $wpmem_plugin ) {
+			$settings_link = '<a href="' . add_query_arg( 'page', 'wpmem-settings', 'options-general.php' ) . '">' . __( 'Settings', 'wp-members' ) . '</a>';
+			$links = array_merge( array( $settings_link ), $links );
+		}
+		return $links;
+	}
 } // End of WP_Members_Admin_API class.
 
 // End of file.

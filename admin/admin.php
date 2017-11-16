@@ -32,28 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Filter to add link to settings from plugin panel.
- *
- * @since 2.4.0
- *
- * @param  array  $links
- * @param  string $file
- * @return array  $links
- */
-function wpmem_admin_plugin_links( $links, $file ) {
-	static $wpmem_plugin;
-	if ( ! $wpmem_plugin ) {
-		$wpmem_plugin = plugin_basename( WPMEM_PATH . '/wp-members.php' );
-	}
-	if ( $file == $wpmem_plugin ) {
-		$settings_link = '<a href="' . add_query_arg( 'page', 'wpmem-settings', 'options-general.php' ) . '">' . __( 'Settings', 'wp-members' ) . '</a>';
-		$links = array_merge( array( $settings_link ), $links );
-	}
-	return $links;
-}
-
-
-/**
  * Creates the captcha tab.
  *
  * @since 2.8.0
