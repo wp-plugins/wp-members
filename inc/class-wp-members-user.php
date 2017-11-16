@@ -507,4 +507,61 @@ class WP_Members_User {
 	function is_current( $date ) {
 		return ( time() < strtotime( $date ) ) ? true : false;
 	}
+
+	/**
+	 * Checks if a user is activated.
+	 *
+	 * @since 2.7.1
+	 * @since 3.2.0 Moved from core to user object.
+	 *
+	 * @param  object $user     The WordPress User object.
+	 * @param  string $username The user's username (user_login).
+	 * @param  string $password The user's password.
+	 * @return object $user     The WordPress User object.
+	 */ 
+	function check_activated( $user, $username, $password ) {
+		// Password must be validated.
+		$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
+
+		if ( ! $pass ) { 
+			return $user;
+		}
+
+		// Activation flag must be validated.
+		if ( ! wpmem_is_user_activated( $user->ID ) ) {
+			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
+		}
+
+		// If the user is validated, return the $user object.
+		return $user;
+	}
+	
+	/**
+	 * Prevents users not activated from resetting their password.
+	 *
+	 * @since 2.5.1
+	 * @since 3.2.0 Moved to user object, renamed no_reset().
+	 *
+	 * @return bool Returns false if the user is not activated, otherwise true.
+	 */
+	function no_reset() {
+		global $wpmem;
+		$raw_val = wpmem_get( 'user_login', false );
+		if ( $raw_val ) {
+			if ( strpos( $raw_val, '@' ) ) {
+				$user = get_user_by( 'email', sanitize_email( $raw_val ) );
+			} else {
+				$username = sanitize_user( $raw_val );
+				$user     = get_user_by( 'login', $username );
+			}
+			if ( $wpmem->mod_reg == 1 ) { 
+				if ( get_user_meta( $user->ID, 'active', true ) != 1 ) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 }
