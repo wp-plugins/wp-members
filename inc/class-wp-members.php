@@ -366,7 +366,7 @@ class WP_Members {
 
 		// Add actions.
 		add_action( 'template_redirect',     array( $this, 'get_action' ) );
-		add_action( 'widgets_init',          'widget_wpmemwidget_init' );  // initializes the widget
+		add_action( 'widgets_init',          'wpmem_widget_init' );  // initializes the widget
 		add_action( 'admin_init',            array( $this, 'load_admin' ) ); // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
