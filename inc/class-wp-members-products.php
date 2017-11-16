@@ -31,7 +31,7 @@ class WP_Members_Products {
 	
 	function load_products() {
 		global $wpdb;
-		$sql    = "SELECT ID, post_title, post_name FROM " . $wpdb->prefix . "posts WHERE post_type = 'wpmem_mem_plan' AND post_status = 'publish';";
+		$sql    = "SELECT ID, post_title, post_name FROM " . $wpdb->prefix . "posts WHERE post_type = 'wpmem_product' AND post_status = 'publish';";
 		$result = $wpdb->get_results( $sql );
 		$this->products = array();
 		foreach ( $result as $plan ) {
@@ -130,7 +130,7 @@ class WP_Members_Products {
 			'show_in_rest'          => false,
 			//'register_meta_box_cb'  => '', // callback for meta box
 		);
-		register_post_type( 'wpmem_mem_plan', $args );
+		register_post_type( 'wpmem_product', $args );
 	}
 	
 }

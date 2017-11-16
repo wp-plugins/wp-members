@@ -263,7 +263,7 @@ function wpmem_a_build_options() {
 									<th scope="row"><?php _e( 'Add to WP-Members Settings', 'wp-members' ); ?></th>
 									<td><fieldset><?php
 									foreach ( $post_arr as $key => $val ) {
-										if ( 'post' != $key && 'page' != $key && 'wpmem_mem_plan' != $key ) {
+										if ( 'post' != $key && 'page' != $key && 'wpmem_product' != $key ) {
 											$checked = ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ? ' checked' : '';
 											echo '<label for="' . $key . '"><input type="checkbox" name="wpmembers_handle_cpts[]" value="' . $key . '"' . $checked . ' />' . $val . '</label><br />';
 										}
@@ -310,7 +310,7 @@ function wpmem_update_cpts() {
 	if ( $post_types ) {
 		foreach ( $post_types as $post_type ) {
 			$cpt_obj = get_post_type_object( $post_type );
-			if ( $cpt_obj->labels->name != 'wpmem_mem_plan' ) {
+			if ( $cpt_obj->labels->name != 'wpmem_product' ) {
 				$post_arr[ $cpt_obj->name ] = $cpt_obj->labels->name;
 			}
 		}

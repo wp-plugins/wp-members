@@ -20,8 +20,8 @@ class WP_Members_Products_Admin {
 	 * @since 3.2.0
 	 */
 	function __construct() {
-		add_filter( 'manage_wpmem_mem_plan_posts_columns',       array( $this, 'columns_heading' ) );
-		add_action( 'manage_wpmem_mem_plan_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
+		add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
+		add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
 		add_action( 'add_meta_boxes',                            array( $this, 'meta_boxes' ) );
 		add_action( 'save_post',                                 array( $this, 'save_details' ) );
 		add_action( 'wpmem_admin_after_block_meta',              array( $this, 'add_product_to_post' ), 10, 2 );
@@ -98,12 +98,12 @@ class WP_Members_Products_Admin {
 	 * @since 3.2.0
 	 */
 	function meta_boxes() {
-		remove_meta_box( 'slugdiv', 'wpmem_mem_plan', 'normal' );
+		remove_meta_box( 'slugdiv', 'wpmem_product', 'normal' );
 		add_meta_box(
 			'membership_product',
 			__( 'Membership Product Details', 'wp-members' ),
 			array( $this, 'details_html' ),
-			'wpmem_mem_plan',
+			'wpmem_product',
 			'normal',
 			'high'
 		);
