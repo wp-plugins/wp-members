@@ -956,6 +956,7 @@ class WP_Members {
 			foreach ( $wpmem->membership->products as $key => $value ) {
 				if ( ! isset( $wpmem->user->access[ $key ] ) || ! $wpmem->user->is_current( $wpmem->user->access[ $key ] ) ) {
 					$hidden_posts = $this->hidden_posts();
+					$hidden_posts = ( is_array( $hidden_posts ) ) ? $hidden_posts : array();
 					foreach ( $hidden_posts as $post_id ) {
 						if ( 1 == get_post_meta( $post_id, $wpmem->membership->post_stem . $key, true ) ) {
 							$hidden[] = $post_id;
