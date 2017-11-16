@@ -117,7 +117,9 @@ class WP_Members_Products_Admin {
 	 * @param  object $post
 	 */
 	function details_html( $post ) { 
-		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); ?>
+		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); 
+		$show_role_detail = ( $this->get_meta( 'membership_product_role_required' ) === 'role-required' ) ? 'show' : 'hide';
+		$show_exp_detail  = ( $this->get_meta( 'membership_product_expires' ) === 'expires' ) ? 'show' : 'hide'; ?>
 		<div class="inside">
 			<?php wp_nonce_field( '_membership_product_nonce', 'membership_product_nonce' ); ?>
 			<p class="form-field">
@@ -140,34 +142,33 @@ class WP_Members_Products_Admin {
 					<label for="membership_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'membership_product' ); ?></label>
 					<input type="text" name="membership_product_number_of_periods" id="membership_product_number_of_periods" value="<?php echo $this->get_meta( 'membership_product_number_of_periods' ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
 					<label for="membership_product_time_period" style="display:none;"><?php _e( 'Period', 'membership_product' ); ?></label>
-					<?php echo wpmem_form_field( array( 'name'=>'membership_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'membership_product_number_of_periods' ) ) ); ?>
+					<?php echo wpmem_form_field( array( 'name'=>'membership_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'membership_product_time_period' ) ) ); ?>
 				</span>
 			</p>
 		</div>
 		<script>
-(function($) {
-	$(document).ready(function() {
-		$("#membership_product_role").hide();
-		$("#membership_product_expires_wrap").hide();
-	});
-	$(document).ready(function() {
-	  $('#membership_product_role_required').on('change', function (){
-		if ($(this).is(':checked')) {
-			$('#membership_product_role').show();
-			} else {
-			$('#membership_product_role').hide();
-			}
-	  });
-	 $('#membership_product_expires').on('change', function (){
-		if ($(this).is(':checked')) {
-			$('#membership_product_expires_wrap').show();
-			} else {
-			$('#membership_product_expires_wrap').hide();
-			}
-	  });
-	});
-})(jQuery);
-
+			(function($) {
+				$(document).ready(function() {
+					$("#membership_product_role").<?php echo ( $show_role_detail ); ?>();
+					$("#membership_product_expires_wrap").<?php echo ( $show_exp_detail ); ?>();
+				});
+				$(document).ready(function() {
+				  $('#membership_product_role_required').on('change', function (){
+					if ($(this).is(':checked')) {
+						$('#membership_product_role').show();
+						} else {
+						$('#membership_product_role').hide();
+						}
+				  });
+				 $('#membership_product_expires').on('change', function (){
+					if ($(this).is(':checked')) {
+						$('#membership_product_expires_wrap').show();
+						} else {
+						$('#membership_product_expires_wrap').hide();
+						}
+				  });
+				});
+			})(jQuery);
 		</script><?php
 	}
 
