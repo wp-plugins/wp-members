@@ -418,11 +418,11 @@ class WP_Members_Forms {
 			'row_after'       => '',
 			'buttons_before'  => '<div class="button_div">',
 			'buttons_after'   => '</div>',
-			'link_before'     => '<div align="right" class="link-text">',
+			'link_before'     => '<div class="link-text">',
 			'link_after'      => '</div>',
 
 			// classes & ids
-			'form_id'         => '',
+			'form_id'         => 'wpmem_' . $arr['action'],
 			'form_class'      => 'form',
 			'button_id'       => '',
 			'button_class'    => 'buttons',
@@ -614,7 +614,7 @@ class WP_Members_Forms {
 		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . sanitize_html_class( $args['form_id'] ) . '" class="' . sanitize_html_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
 
 		// Apply anchor.
-		$form = '<a name="' . $arr['action'] . '"></a>' . $args['n'] . $form;
+		$form = '<a id="' . esc_attr( $arr['action'] ) . '"></a>' . $args['n'] . $form;
 
 		// Apply main wrapper.
 		$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'];
@@ -688,7 +688,7 @@ class WP_Members_Forms {
 			'buttons_after'    => '</div>',
 
 			// Classes & ids.
-			'form_id'          => '',
+			'form_id'          => ( 'new' == $tag ) ? 'wpmem_register' : 'wpmem_profile',
 			'form_class'       => 'form',
 			'button_id'        => '',
 			'button_class'     => 'buttons',
@@ -1070,7 +1070,7 @@ class WP_Members_Forms {
 			// Start with a clean row.
 			$row = '';
 			$row = '<div class="clear"></div>';
-			$row.= '<div align="right" class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] ) . '</div>';
+			$row.= '<div class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] ) . '</div>';
 
 			// Add the captcha row to the form.
 			/**
@@ -1174,7 +1174,7 @@ class WP_Members_Forms {
 		$form = '<form name="form" method="post"' . $enctype . ' action="' . esc_attr( $args['post_to'] ) . '" id="' . sanitize_html_class( $args['form_id'] ) . '" class="' . sanitize_html_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 		// Apply anchor.
-		$form = '<a name="register"></a>' . $args['n'] . $form;
+		$form = '<a id="register"></a>' . $args['n'] . $form;
 
 		// Apply main div wrapper.
 		$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'] . $args['n'];
