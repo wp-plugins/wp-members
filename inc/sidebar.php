@@ -24,6 +24,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+/**
+ * Initializes the WP-Members widget.
+ *
+ * @since 3.2.0 Replaces widget_wpmemwidget_init
+ */
+function wpmem_widget_init() {
+	// Register the WP-Members widget.
+	register_widget( 'widget_wpmemwidget' );
+}
+
 if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**
  * Generate users login status if logged in and gives logout link.

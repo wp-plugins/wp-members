@@ -133,20 +133,6 @@ function wpmem_logout( $redirect_to = false ) {
 endif;
 
 
-if ( ! function_exists( 'widget_wpmemwidget_init' ) ):
-/**
- * Initializes the WP-Members widget.
- *
- * @since 2.0.0
- * @since 3.1.6 Dependencies now loaded by object.
- */
-function widget_wpmemwidget_init() {
-	// Register the WP-Members widget.
-	register_widget( 'widget_wpmemwidget' );
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_change_password' ) ):
 /**
  * Handles user password change (not reset).
