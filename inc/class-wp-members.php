@@ -383,7 +383,7 @@ class WP_Members {
 		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
 		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
 		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
-		add_filter( 'wpmem_securify',            'wpmem_reg_securify' );             // adds success message on login form if redirected
+		add_filter( 'wpmem_securify',            array( $this, 'reg_securify' ) );    // adds success message on login form if redirected
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
 		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
@@ -511,6 +511,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/sidebar.php' );
 		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/email.php' );
+		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		//require_once( WPMEM_PATH . 'inc/users.php' ); @deprecated 3.1.9
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
 
@@ -888,6 +889,25 @@ class WP_Members {
 	function do_securify_comments_array( $comments , $post_id ) {
 		$comments = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? array() : $comments;
 		return $comments;
+	}
+
+	/**
+	 * Adds the successful registration message on the login page if reg_nonce validates.
+	 *
+	 * @since 3.1.7
+	 * @since 3.2.0 Moved to wpmem object, renamed reg_securify()
+	 *
+	 * @param  string $content
+	 * @return string $content
+	 */
+	function reg_securify( $content ) {
+		global $wpmem, $wpmem_themsg;
+		$nonce = wpmem_get( 'reg_nonce', false, 'get' );
+		if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
+			$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
+			$content = $content . wpmem_inc_login();
+		}
+		return $content;
 	}
 
 	/**

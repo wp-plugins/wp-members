@@ -871,3 +871,42 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 	return $wpmem->forms->create_form_field( $args );
 }
 endif;
+
+/**
+ * Adds the successful registration message on the login page if reg_nonce validates.
+ *
+ * @since 3.1.7
+ * @deprecated 3.2.0 Use $wpmem->reg_securify() instead.
+ *
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_reg_securify( $content ) {
+	global $wpmem, $wpmem_themsg;
+	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
+	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
+		$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
+		$content = $content . wpmem_inc_login();
+	}
+	return $content;
+}
+
+/**
+ * Enqueues the admin javascript and css files.
+ *
+ * Replaces wpmem_admin_enqueue_scripts().
+ * Only loads the js and css on admin screens that use them.
+ *
+ * @since 3.1.7
+ * @deprecated 3.2.0 Use $wpmem->admin->dashboard_enqueue_script() instead.
+ *
+ * @param str $hook The admin screen hook being loaded.
+ */
+function wpmem_dashboard_enqueue_scripts( $hook ) {
+	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+	}
+	if ( $hook == 'settings_page_wpmem-settings' ) {
+		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
+	}
+}

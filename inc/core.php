@@ -172,18 +172,6 @@ function wpmem_no_reset() {
 }
 endif;
 
-
-/**
- * Loads the stylesheet for backend registration.
- *
- * @since 2.8.7
- */
-function wpmem_wplogin_stylesheet() {
-	// @todo Should this enqueue styles?
-	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
-}
-
-
 /**
  * Handles retrieving a forgotten username.
  *
@@ -198,45 +186,6 @@ function wpmem_wplogin_stylesheet() {
 function wpmem_retrieve_username() {
 	global $wpmem;
 	return $wpmem->user->retrieve_username();
-}
-
-
-/**
- * Adds the successful registration message on the login page if reg_nonce validates.
- *
- * @since 3.1.7
- *
- * @param  string $content
- * @return string $content
- */
-function wpmem_reg_securify( $content ) {
-	global $wpmem, $wpmem_themsg;
-	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
-	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
-		$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
-		$content = $content . wpmem_inc_login();
-	}
-	return $content;
-}
-
-
-/**
- * Enqueues the admin javascript and css files.
- *
- * Replaces wpmem_admin_enqueue_scripts().
- * Only loads the js and css on admin screens that use them.
- *
- * @since 3.1.7
- *
- * @param str $hook The admin screen hook being loaded.
- */
-function wpmem_dashboard_enqueue_scripts( $hook ) {
-	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
-	}
-	if ( $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
-	}
 }
 
 // End of file.
