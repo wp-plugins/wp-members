@@ -6,11 +6,13 @@ Tested up to: 4.9
 Stable tag: 3.2.0
 License: GPLv2
 
-WP-Members membership plugin turns your WordPress site into a membership site.  Restrict premium content, require registration with custom fields, and more.
+WP-Members membership plugin turns your WordPress site into a membership site.  Restrict premium content, create custom registration fields, and more.
 
 == Description ==
 
-WP-Members&trade; is the original membership plugin for WordPress&reg;.  Perfect for newsletters, premium content sites, clubs/associations, and more!  
+=== Membership Sites. Simplified. ===
+
+You need a membership site. You want to focus on your business, not mastering a plugin. WP-Members is simple to use, yet flexible in every way imaginable.
 
 The plugin restricts selected WordPress&reg; content to registered site members.  WP-Members&trade; puts the registration process on the site front end so it is inline with your content rather than the native WP login page.  WP-Members&trade; requires __no__ modifications to your theme while remainging scalable for users who want to customize the look and feel, or want to restrict only some content.  It is a great tool for sites offering premium content to subscribers, and is adaptable to a variety of applications.
 
@@ -153,6 +155,15 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Fixes issue with login status if logout url is encoded (sprintf() has too few arguments).
 * Added Membership Products Custom Post Type.
 * Added "Hide Post" option for blocking content (currently only by post meta _wpmem_block).
+* Removed several outdated stylesheets from selecion ( still download for users who may use them).
+* Fixed issue with login page logged in state if encoded url exists (decode logout link url).
+* Added wpmem_update_user_role() API function.
+* Added wpmem_display_message() API function.
+* Added wpmem_user_has_access() API function.
+* HTML5 update - form anchor tags changed from "name" to "id".
+* HTML5 update - form id tags set default value (can still be filtered).
+* HTML5 update - removed "align" attribute (captcha, link-text).
+* Moved remaining core functions to appropriate object classes, left wrappers for most.
 
 
 = 3.1.9 =
