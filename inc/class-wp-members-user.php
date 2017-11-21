@@ -494,9 +494,7 @@ class WP_Members_User {
 	 */
 	function get_user_products( $user_id = false ) {
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		$this->access = array(
-
-		);
+		$this->access = get_user_meta( $user_id, '_wpmem_products', true );
 	}
 	
 	/**
