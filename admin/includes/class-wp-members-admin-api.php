@@ -93,7 +93,7 @@ class WP_Members_Admin_API {
 			include_once( WPMEM_PATH . 'admin/tab-about.php' );
 			include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			include_once( WPMEM_PATH . 'admin/tab-dropins.php' );
-			include_once( WPMEM_PATH . 'admin/tab-memberships.php' );
+			//include_once( WPMEM_PATH . 'admin/tab-memberships.php' );
 		}
 	}
 
@@ -131,6 +131,9 @@ class WP_Members_Admin_API {
 			add_action( 'wpmem_user_activated',       'wpmem_set_activated_user' );
 			add_action( 'wpmem_user_deactivated',     'wpmem_set_deactivated_user' );
 			add_filter( 'user_row_actions',           'wpmem_insert_activate_link', 10, 2 );
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_activate',   7 );
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_expiration', 8 );
+			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_ip',         9 );
 		}
 	
 		// If user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns.
@@ -142,11 +145,6 @@ class WP_Members_Admin_API {
 			add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
 			add_filter( 'manage_pages_columns',       'wpmem_post_columns' );
 			add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
-			
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_activate',   7 );
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_expiration', 8 );
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_ip',         9 );
-			
 			add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action'   );
 			add_action( 'load-edit.php',         'wpmem_posts_page_load'     );
 			add_action( 'admin_notices',         'wpmem_posts_admin_notices' );
