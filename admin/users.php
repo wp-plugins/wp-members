@@ -538,14 +538,14 @@ function wpmem_a_pre_user_query( $user_search ) {
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
 			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
 				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
-				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
+				AND {$wpdb->usermeta}.meta_value = \"" . esc_sql( $show ) . "\" )";
 			break;
 
 		case 'pending':
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID IN (
 			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
 				WHERE {$wpdb->usermeta}.meta_key = 'exp_type'
-				AND {$wpdb->usermeta}.meta_value = \"$show\" )";
+				AND {$wpdb->usermeta}.meta_value = \"" . esc_sql( $show ) . "\" )";
 			break;
 
 		case 'expired':
@@ -557,7 +557,7 @@ function wpmem_a_pre_user_query( $user_search ) {
 			break;
 	}
 
-	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query,	$user_search->query_where );
+	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query, $user_search->query_where );
 }
 
 
