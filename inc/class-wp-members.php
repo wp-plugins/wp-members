@@ -373,7 +373,7 @@ class WP_Members {
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
-		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ) );
+		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10, 2 );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
 
 		// Add filters.
