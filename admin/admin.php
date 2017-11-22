@@ -55,7 +55,7 @@ function wpmem_admin() {
 	} ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'options-general' ); ?>
+		<?php //screen_icon( 'options-general' ); ?>
 		<!--<h2>WP-Members <?php _e('Settings', 'wp-members'); ?></h2>-->
 		<?php 
 		$tab = ( isset( $_GET['tab'] ) ) ? sanitize_text_field( $_GET['tab'] ) : 'options';
