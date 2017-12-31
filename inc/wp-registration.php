@@ -49,6 +49,9 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 	}
 	
 	if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
+		
+		unset( $wpmem_fields['username'] );
+		
 		foreach ( $wpmem_fields as $meta_key => $field ) {
 
 			$req = ( $field['required'] ) ? ( ( $is_woo ) ? ' <span class="required">*</span>' : ' <span class="req">' . __( '(required)' ) . '</span>' ) : '';
