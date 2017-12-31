@@ -731,42 +731,6 @@ class WP_Members_Forms {
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
 
-		// Username is editable if new reg, otherwise user profile is not.
-		if ( 'edit' == $tag ) {
-			// This is the User Profile edit - username is not editable.
-			$val   = $userdata->user_login;
-			$label = '<label for="user_login" class="text">' . $wpmem->get_text( 'profile_username' ) . '</label>';
-			$input = '<p class="noinput">' . $val . '</p>';
-			$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
-			$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
-		} else { 
-			// This is a new registration.
-			$val   = ( isset( $_POST['user_login'] ) ) ? stripslashes( $_POST['user_login'] ) : '';
-			$label = '<label for="user_login" class="text">' . $wpmem->get_text( 'register_username' ) . $args['req_mark'] . '</label>';
-			$input = wpmem_form_field( array( 
-				'name'     => 'user_login',
-				'type'     => 'text',
-				'value'    => $val,
-				'compare'  => '',
-				'required' => true,
-			) );
-
-		}
-
-		// Add the username row to the array.
-		$rows['username'] = array( 
-			'meta'         => 'username',
-			'type'         => 'text',
-			'value'        => $val,
-			'label_text'   => $wpmem->get_text( 'register_username' ),
-			'row_before'   => $args['row_before'],
-			'label'        => $label,
-			'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
-			'field'        => $input,
-			'field_after'  => ( $args['wrap_inputs'] ) ? '</div>': '',
-			'row_after'    => $args['row_after'],
-		);
-
 		/**
 		 * Filter the array of form fields.
 		 *
@@ -792,7 +756,7 @@ class WP_Members_Forms {
 			$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 
 			// Skips user selected passwords for profile update.
-			$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
+			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
 			$do_row = ( 'edit' == $tag && in_array( $meta_key, $pass_arr ) ) ? false : true;
 
 			// Skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos.
@@ -827,7 +791,7 @@ class WP_Members_Forms {
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
 					
 					$label = wpmem_form_label( array(
-						'meta_key' => $meta_key, 
+						'meta_key' => ( 'username' == $meta_key ) ? 'user_login' : $meta_key, 
 						'label'    => __( $field['label'], 'wp-members' ), 
 						'type'     => $field['type'], 
 						'class'    => $class, 
@@ -948,9 +912,8 @@ class WP_Members_Forms {
 					} else {
 
 						// For all other input types.
-						//$input = wpmem_create_formfield( $meta_key, $field['type'], $val, $valtochk );
 						$formfield_args = array( 
-							'name'     => $meta_key,
+							'name'     => ( 'username' == $meta_key ) ? 'user_login' : $meta_key,
 							'type'     => $field['type'],
 							'value'    => $val,
 							'compare'  => $valtochk,

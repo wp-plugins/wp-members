@@ -61,6 +61,7 @@ function wpmem_do_install() {
 		$wpmem_settings = wpmem_upgrade_settings();
 		wpmem_upgrade_captcha();
 		wpmem_append_email();
+		wpmem_upgrade_fields();
 		
 	}
 	
@@ -540,6 +541,7 @@ function wpmem_install_settings() {
  */
 function wpmem_install_fields() {
 	$fields = array(
+		array( 0,  'Choose a Username', 'username',          'text',     'y', 'y', 'y' ),
 		array( 1,  'First Name',        'first_name',        'text',     'y', 'y', 'y' ),
 		array( 2,  'Last Name',         'last_name',         'text',     'y', 'y', 'y' ),
 		array( 3,  'Address 1',         'billing_address_1', 'text',     'y', 'y', 'n' ),
@@ -555,7 +557,7 @@ function wpmem_install_fields() {
 		array( 13, 'Biographical Info', 'description',       'textarea', 'n', 'n', 'y' ),
 		array( 14, 'Password',          'password',          'password', 'n', 'n', 'n' ),
 		array( 15, 'Confirm Password',  'confirm_password',  'password', 'n', 'n', 'n' ),
-		array( 16, 'TOS',               'tos',               'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
+		array( 16, 'Terms of Service',  'tos',               'checkbox', 'n', 'n', 'n', 'agree', 'n' ),
 	);
 	update_option( 'wpmembers_fields', $fields, '', 'yes' ); // using update_option to allow for forced update
 	return $fields;
@@ -584,4 +586,18 @@ function wpmem_install_dialogs() {
 	update_option( 'wpmembers_dialogs', $wpmem_dialogs_arr, '', 'yes' ); // using update_option to allow for forced update
 }
 
+/**
+ * Upgrades fields settings.
+ *
+ * @since 3.2.0
+ */
+function wpmem_upgrade_fields() {
+	$fields = get_option( 'wpmembers_fields' );
+	// Check if username is in the array.
+	if ( ! array_key_exists( 'username', $fields ) ) {
+		$username_array = array( 0, 'Choose a Username', 'username', 'text', 'y', 'y', 'y' );
+		array_unshift( $fields, $username_array );
+		update_option( 'wpmembers_fields', $fields, '', 'yes' );
+	}
+}
 // End of file.
