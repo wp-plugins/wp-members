@@ -420,6 +420,8 @@ class WP_Members_Forms {
 			'buttons_after'   => '</div>',
 			'link_before'     => '<div class="link-text">',
 			'link_after'      => '</div>',
+			'link_span_before' => '<span class="link-text-%s">',
+			'link_span_after'  => '</span>',
 
 			// classes & ids
 			'form_id'         => 'wpmem_' . $arr['action'],
@@ -571,6 +573,8 @@ class WP_Members_Forms {
 				 */
 				$link = apply_filters( "wpmem_{$tag}_link", $value['link'] );
 				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . esc_url( $link ) . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';
+				$link_str = $args['link_before'];
+				$link_str.= ( '' != $args['link_span_before'] ) ? sprintf( $args['link_span_before'], $key ) : '';
 				/**
 				 * Filters the register, forgot password, and forgot username links HTML.
 				 *
@@ -581,7 +585,9 @@ class WP_Members_Forms {
 				 * @param string $str  The link HTML.
 				 * @param string $link The link.
 				 */
-				$link = $args['link_before'] . apply_filters( "wpmem_{$tag}_link_str", $str, $link ) . $args['link_after'] . $args['n'];
+				$link_str.= apply_filters( "wpmem_{$tag}_link_str", $str, $link );
+				$link_str.= ( '' != $args['link_span_after'] ) ? $args['link_span_after'] : '';
+				$link_str.= $args['link_after'] . $args['n'];
 				/*
 				 * If this is the register link, and the current post type is set to
 				 * display the register form, and the current page is not the login
@@ -589,17 +595,17 @@ class WP_Members_Forms {
 				 */
 				if ( 'register' == $key ) {
 					if ( isset( $wpmem->user_pages['login'] ) && $wpmem->user_pages['login'] != '' ) {
-						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url( true, false ) != wpmem_login_url() ) ? $form : $form . $link;
+						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url( true, false ) != wpmem_login_url() ) ? $form : $form . $link_str;
 					} else {
 						global $post;
 						if ( has_shortcode( $post->post_content, 'wpmem_profile' ) ) {
 							$form = $form;
 						} else {
-							$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && ! has_shortcode( $post->post_content, 'wpmem_form' ) ) ? $form : $form . $link;
+							$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && ! has_shortcode( $post->post_content, 'wpmem_form' ) ) ? $form : $form . $link_str;
 						}
 					}
 				} else {
-					$form = $form . $link;
+					$form = $form . $link_str;
 				}
 			}
 		}
@@ -1017,7 +1023,9 @@ class WP_Members_Forms {
 		// Put the rows from the array into $form.
 		$form = ''; $enctype = '';
 		foreach ( $rows as $row_item ) {
+			// Check form to see if we need multipart enctype.
 			$enctype = ( $row_item['type'] == 'file' ||  $row_item['type'] == 'image' ) ? "multipart/form-data" : $enctype;
+			// Assemble row pieces.
 			$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
 			$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
 			$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
@@ -1219,5 +1227,229 @@ class WP_Members_Forms {
 		}
 		return $form;
 	}
+	
+	/**
+	 * Login Dialog.
+	 *
+	 * Loads the login form for user login.
+	 *
+	 * @since 1.8
+	 * @since 3.1.4 Global $wpmem_regchk no longer needed.
+	 *
+	 * @global object $post         The WordPress Post object.
+	 * @global object $wpmem        The WP_Members object.
+	 * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
+	 * @param  string $redirect_to  Redirect URL. Default: null.
+	 * @param  string $show         If the form is being displayed in place of blocked content. Default: show.
+	 * @return string $str          The generated html for the login form.
+	 */
+	function do_login_form( $page = "page", $redirect_to = null, $show = 'show' ) {
+
+		global $post, $wpmem;
+
+		$str = '';
+
+		if ( $page == "page" ) {
+
+			 if ( $wpmem->regchk != "success" ) {
+
+				$dialogs = get_option( 'wpmembers_dialogs' );
+
+				// This shown above blocked content.
+				$msg = $wpmem->get_text( 'restricted_msg' );
+				$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
+				$str = '<div id="wpmem_restricted_msg"><p>' . $msg . '</p></div>';
+
+				/**
+				 * Filter the post restricted message.
+				 *
+				 * @since 2.7.3
+				 *
+				 * @param string $str The post restricted message.
+				 */
+				$str = apply_filters( 'wpmem_restricted_msg', $str );
+
+			} 	
+		} 
+
+		// Create the default inputs.
+		$default_inputs = array(
+			array(
+				'name'   => $wpmem->get_text( 'login_username' ), 
+				'type'   => 'text', 
+				'tag'    => 'log',
+				'class'  => 'username',
+				'div'    => 'div_text',
+			),
+			array( 
+				'name'   => $wpmem->get_text( 'login_password' ), 
+				'type'   => 'password', 
+				'tag'    => 'pwd', 
+				'class'  => 'password',
+				'div'    => 'div_text',
+			),
+		);
+
+		/**
+		 * Filter the array of login form fields.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $default_inputs An array matching the elements used by default.
+		 */
+		$default_inputs = apply_filters( 'wpmem_inc_login_inputs', $default_inputs );
+
+		$defaults = array( 
+			'heading'      => $wpmem->get_text( 'login_heading' ), 
+			'action'       => 'login', 
+			'button_text'  => $wpmem->get_text( 'login_button' ),
+			'inputs'       => $default_inputs,
+			'redirect_to'  => $redirect_to,
+		);	
+
+		/**
+		 * Filter the arguments to override login form defaults.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $args An array of arguments to use. Default null.
+		 */
+		$args = apply_filters( 'wpmem_inc_login_args', '' );
+
+		$arr  = wp_parse_args( $args, $defaults );
+
+		$str  = ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
+
+		return $str;
+	}
+
+	/**
+	 * Change Password Dialog.
+	 *
+	 * Loads the form for changing password.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @global object $wpmem The WP_Members object.
+	 * @return string $str   The generated html for the change password form.
+	 */
+	function do_changepassword_form() {
+
+		global $wpmem;
+
+		// create the default inputs
+		$default_inputs = array(
+			array(
+				'name'   => $wpmem->get_text( 'pwdchg_password1' ), 
+				'type'   => 'password',
+				'tag'    => 'pass1',
+				'class'  => 'password',
+				'div'    => 'div_text',
+			),
+			array( 
+				'name'   => $wpmem->get_text( 'pwdchg_password2' ), 
+				'type'   => 'password', 
+				'tag'    => 'pass2',
+				'class'  => 'password',
+				'div'    => 'div_text',
+			),
+		);
+
+		/**
+		 * Filter the array of change password form fields.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $default_inputs An array matching the elements used by default.
+		 */	
+		$default_inputs = apply_filters( 'wpmem_inc_changepassword_inputs', $default_inputs );
+
+		$defaults = array(
+			'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
+			'action'       => 'pwdchange', 
+			'button_text'  => $wpmem->get_text( 'pwdchg_button' ), 
+			'inputs'       => $default_inputs,
+		);
+
+		/**
+		 * Filter the arguments to override change password form defaults.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $args An array of arguments to use. Default null.
+		 */
+		$args = apply_filters( 'wpmem_inc_changepassword_args', '' );
+
+		$arr  = wp_parse_args( $args, $defaults );
+
+		$str  = wpmem_login_form( 'page', $arr );
+
+		return $str;
+	}
+	
+	/**
+	 * Reset Password Dialog.
+	 *
+	 * Loads the form for resetting password.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global object $wpmem The WP_Members object.
+	 * @return string $str   The generated html fo the reset password form.
+	 */
+	function do_resetpassword_form() { 
+
+		global $wpmem;
+
+		// Create the default inputs.
+		$default_inputs = array(
+			array(
+				'name'   => $wpmem->get_text( 'pwdreset_username' ), 
+				'type'   => 'text',
+				'tag'    => 'user', 
+				'class'  => 'username',
+				'div'    => 'div_text',
+			),
+			array( 
+				'name'   => $wpmem->get_text( 'pwdreset_email' ), 
+				'type'   => 'text', 
+				'tag'    => 'email', 
+				'class'  => 'password',
+				'div'    => 'div_text',
+			),
+		);
+
+		/**
+		 * Filter the array of reset password form fields.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $default_inputs An array matching the elements used by default.
+		 */	
+		$default_inputs = apply_filters( 'wpmem_inc_resetpassword_inputs', $default_inputs );
+
+		$defaults = array(
+			'heading'      => $wpmem->get_text( 'pwdreset_heading' ),
+			'action'       => 'pwdreset', 
+			'button_text'  => $wpmem->get_text( 'pwdreset_button' ), 
+			'inputs'       => $default_inputs,
+		);
+
+		/**
+		 * Filter the arguments to override reset password form defaults.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $args An array of arguments to use. Default null.
+		 */
+		$args = apply_filters( 'wpmem_inc_resetpassword_args', '' );
+
+		$arr  = wp_parse_args( $args, $defaults );
+
+		$str  = wpmem_login_form( 'page', $arr );
+
+		return $str;
+	}
+
 
 } // End of WP_Members_Forms class.
