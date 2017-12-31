@@ -126,7 +126,7 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 					case( 'multicheckbox' ):
 					case( 'radio' ):	
 						$row_before = '<p class="' . $field['type'] . '">';
-						$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+						$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; // @todo Should this be escaped?
 						$formfield_args = array( 
 							'name'     => $meta_key,
 							'type'     => $field['type'],
@@ -147,9 +147,16 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 
 					default:
 						$class = ( $is_woo ) ? 'woocommerce-Input woocommerce-Input--text input-text' : 'input';
-						$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="' . $class . '" value="';
-						$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
-						$input.= '" size="25" />';
+						//$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="' . $class . '" value="';
+						$input = wpmem_form_field( array( 
+								'name' => $meta_key, 
+								'type' => $field['type'], 
+								'value' => ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '',
+								'compare' => ( isset( $field['compare'] ) ) ? $field['compare'] : '',
+								'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
+							) );
+						//$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
+						//$input.= '" size="25" />';
 						break;
 					}
 
