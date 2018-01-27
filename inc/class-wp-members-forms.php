@@ -33,8 +33,10 @@ class WP_Members_Forms {
 	 * @since 3.1.2 Changed $valtochk to $compare.
 	 * @since 3.1.6 Added $placeholder.
 	 * @since 3.1.7 Added number type & $min, $max, $title and $pattern attributes.
+	 * @since 3.2.0 Added $id argument.
 	 *
 	 * @param array  $args {
+	 *     @type string  $id
 	 *     @type string  $name
 	 *     @type string  $type
 	 *     @type string  $value
@@ -54,6 +56,7 @@ class WP_Members_Forms {
 	 */
 	function create_form_field( $args ) {
 		
+		$id          = ( isset( $args['id'] ) ) ? esc_attr( $args['id'] ) : esc_attr( $args['name'] );
 		$name        = esc_attr( $args['name'] );
 		$type        = esc_attr( $args['type'] );
 		$value       = maybe_unserialize( $args['value'] );
@@ -92,24 +95,24 @@ class WP_Members_Forms {
 			$title       = ( $title       ) ? ' title="' . esc_attr( $title ) . '"' : '';
 			$min         = ( isset( $args['min'] ) && $args['min'] != '' ) ? ' min="' . esc_attr( $args['min'] ) . '"' : '';
 			$max         = ( isset( $args['max'] ) && $args['max'] != '' ) ? ' max="' . esc_attr( $args['max'] ). '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "password":
 			$class = $this->sanitize_class( $class );
 			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "image":
 		case "file":
 			$class = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"file\" id=\"$name\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "checkbox":
 			$class = ( 'textbox' == $class ) ? "checkbox" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$name\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "textarea":
@@ -117,7 +120,7 @@ class WP_Members_Forms {
 			$class = ( 'textbox' == $class ) ? "textarea" : $this->sanitize_class( $class );
 			$rows  = ( isset( $args['rows'] ) ) ? esc_attr( $args['rows'] ) : '5';
 			$cols  = ( isset( $args['cols'] ) ) ? esc_attr( $args['cols'] ) : '20';
-			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$name\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
+			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$id\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
 			break;
 	
 		case "hidden":
@@ -133,7 +136,7 @@ class WP_Members_Forms {
 			$class = ( 'textbox' == $class ) ? "dropdown" : $class;
 			$class = ( 'multiselect' == $type ) ? "multiselect" : $class;
 			$pname = ( 'multiselect' == $type ) ? $name . "[]" : $name;
-			$str = "<select name=\"$pname\" id=\"$name\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
+			$str = "<select name=\"$pname\" id=\"$id\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				if ( 'multiselect' == $type ) {
@@ -162,6 +165,7 @@ class WP_Members_Forms {
 				$chk = ( isset( $pieces[2] ) && '' == $compare ) ? $pieces[1] : '';
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
 					$str = $str . $this->create_form_field( array(
+						'id'      => $id . '[' . $pieces[1] . ']',
 						'name'    => $name . '[]',
 						'type'    => 'checkbox',
 						'value'   => $pieces[1],
@@ -179,7 +183,7 @@ class WP_Members_Forms {
 			$num = 1;
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$id = $this->sanitize_class( $name . '_' . $num );
+				$id = $this->sanitize_class( $id . '_' . $num );
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
 					$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"" . esc_attr( $pieces[1] ) . '"' . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> " . esc_html( __( $pieces[0], 'wp-members' ) ) . "<br />\n";
 				} else {
