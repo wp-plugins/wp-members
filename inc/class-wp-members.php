@@ -1120,6 +1120,10 @@ class WP_Members {
 
 		// Default excluded fields.
 		$excluded_fields = array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' );
+		
+		if ( 'update' == $tag ) {
+			$excluded_fields[] = 'username';
+		}
 
 		/**
 		 * Filter the fields to be excluded when user is created/updated.
@@ -1152,7 +1156,6 @@ class WP_Members {
 		}
 	}
 	
-
 	/**
 	 * Returns a requested text string.
 	 *
@@ -1300,7 +1303,6 @@ class WP_Members {
 		return $text[ $str ];
 	
 	} // End of get_text().
-	
 	
 	/**
 	 * Load the admin api.

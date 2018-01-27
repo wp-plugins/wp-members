@@ -411,8 +411,8 @@ function wpmem_a_render_fields_tab_field_table() {
 				'label'    => $field[1],
 				'meta'     => $meta,
 				'type'     => $field[3],
-				'display'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
-				'req'      => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
+				'display'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
+				'req'      => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
 				//'profile'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', true, $field[6] ) : '',
 				'edit'     => wpmem_fields_edit_link( $meta ),
 				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
@@ -580,7 +580,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 	 */
 	function column_delete( $item ) {
 		$can_delete = ( $item['meta_key'] == 'user_nicename' || $item['meta_key'] == 'display_name' || $item['meta_key'] == 'nickname' ) ? true : false;
-		return ( ( $can_delete ) || $item['native'] != true ) ? sprintf( '<input type="checkbox" name="field[%s]" value="delete" />', $item['meta'] ) : '';
+		return ( ( $can_delete ) || ! $item['native'] ) ? sprintf( $item['native'] . '<input type="checkbox" name="field[%s]" value="delete" />', $item['meta'] ) : '';
 	}
 	
 	/**
@@ -696,7 +696,7 @@ function wpmem_admin_fields_update() {
 			// Update display/required settings
 			foreach ( $wpmem_fields as $key => $field ) {
 				$meta_key = $field[2];
-				if ( 'user_email' == $meta_key ) {
+				if ( 'username' == $meta_key || 'user_email' == $meta_key ) {
 					$wpmem_fields[ $key ][4] = 'y';
 					$wpmem_fields[ $key ][5] = 'y';
 				} else {

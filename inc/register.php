@@ -70,7 +70,7 @@ function wpmem_registration( $tag ) {
 	// Build the $wpmem->user->post_data array from $_POST data.
 	foreach ( $wpmem->fields as $meta_key => $field ) {
 		if ( $field['register'] ) {
-			if ( 'password' != $meta_key || 'confirm_password' != $meta_key ) {
+			if ( 'password' != $meta_key && 'confirm_password' != $meta_key && 'username' != $meta_key ) {
 				if ( isset( $_POST[ $meta_key ] ) ) {
 					switch ( $field['type'] ) {
 					case 'checkbox':
@@ -117,9 +117,9 @@ function wpmem_registration( $tag ) {
 	// Check for required fields, reverse the array for logical error message order.
 	$wpmem_fields_rev = array_reverse( $wpmem->fields );
 
+	$pass_arr = ( 'update' == $tag ) ? array( 'username', 'password', 'confirm_password', 'password_confirm' ) : array( 'password', 'confirm_password', 'password_confirm' );
 	foreach ( $wpmem_fields_rev as $meta_key => $field ) {
-		$pass_arr = array( 'password', 'confirm_password', 'password_confirm' );
-		$pass_chk = ( $tag == 'update' && in_array( $meta_key, $pass_arr ) ) ? true : false;
+		$pass_chk = ( 'update' == $tag && in_array( $meta_key, $pass_arr ) ) ? true : false;
 		// Validation if the field is required.
 		if ( $field['required'] && $pass_chk == false ) { // @todo - verify $field['required']
 			if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
@@ -132,7 +132,7 @@ function wpmem_registration( $tag ) {
 				}
 			} else {
 				// If the required field is any other field type.
-				if ( ! $wpmem->user->post_data[ $meta_key ] ) { 
+				if ( ! $wpmem->user->post_data[ $meta_key ] ) {
 					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 				}
 			}
