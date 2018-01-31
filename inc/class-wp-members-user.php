@@ -190,11 +190,11 @@ class WP_Members_User {
 		do_action( 'wpmem_post_register_data', $this->post_data );
 
 		// Send a notification email to the user.
-		wpmem_inc_regemail( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
+		$wpmem->email->to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
 
 		// Notify admin of new reg, if needed.
 		if ( $wpmem->notify == 1 ) { 
-			wpmem_notify_admin( $user_id, $wpmem->fields, $this->post_data );
+			$wpmem->email->notify_admin( $user_id, $wpmem->fields, $this->post_data );
 		}
 		
 		/**
@@ -318,7 +318,7 @@ class WP_Members_User {
 					// Update the users password.
 					wp_set_password( $new_pass, $user->ID );
 					// Send it in an email.
-					wpmem_inc_regemail( $user->ID, $new_pass, 3 );
+					$wpmem->email->to_user( $user->ID, $new_pass, 3 );
 					/**
 					 * Fires after password reset.
 					 *
@@ -347,15 +347,17 @@ class WP_Members_User {
 	 * @since 3.1.6 Dependencies now loaded by object.
 	 * @since 3.1.8 Moved to user object.
 	 *
+	 * @global object $wpmem
 	 * @return string $regchk The regchk value.
 	 */
 	function retrieve_username() {
+		global $wpmem;
 		if ( isset( $_POST['formsubmit'] ) ) {
 			$email = sanitize_email( $_POST['user_email'] );
 			$user  = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $email ) : false;
 			if ( $user ) {
 				// Send it in an email.
-				wpmem_inc_regemail( $user->ID, '', 4 );
+				$wpmem->email->to_user( $user->ID, '', 4 );
 				/**
 				 * Fires after retrieving username.
 				 *

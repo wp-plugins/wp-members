@@ -51,11 +51,11 @@ function wpmem_a_build_emails() {
 							<table class="form-table"> 
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email address', 'wp-members' ); ?></th> 
-									<td><input type="text" name="wp_mail_from" size="40" value="<?php echo esc_attr( $wpmem->email['from'] ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> email@yourdomain.com</span></td> 
+									<td><input type="text" name="wp_mail_from" size="40" value="<?php echo esc_attr( $wpmem->email->from ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> email@yourdomain.com</span></td> 
 								</tr>
 								<tr valign="top"> 
 									<th scope="row"><?php _e( 'Set a custom email name', 'wp-members' ); ?></th> 
-									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo esc_attr( stripslashes( $wpmem->email['from_name'] ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
+									<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo esc_attr( stripslashes( $wpmem->email->from_name ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
 								</tr>
 								<tr><td colspan="2"><hr /></td></tr>
 							<?php if ( ! empty ( $wpmem->admin->emails ) ) {	
@@ -109,9 +109,9 @@ function wpmem_update_emails() {
 	check_admin_referer( 'wpmem-update-emails' );
 
 	// Update the email address (if applicable).
-	if ( $wpmem->email['from'] != $_POST['wp_mail_from'] || $wpmem->email['from_name'] != $_POST['wp_mail_from_name'] ) {
-		$wpmem->email['from']      = sanitize_email( $_POST['wp_mail_from'] );
-		$wpmem->email['from_name'] = sanitize_text_field( $_POST['wp_mail_from_name'] );
+	if ( $wpmem->email->from    != $_POST['wp_mail_from'] || $wpmem->email->from_name != $_POST['wp_mail_from_name'] ) {
+		$wpmem->email->from      = sanitize_email( $_POST['wp_mail_from'] );
+		$wpmem->email->from_name = sanitize_text_field( $_POST['wp_mail_from_name'] );
 		$wpmem_newsettings = get_option( 'wpmembers_settings' );
 		$wpmem_newsettings['email']['from']      = sanitize_email( $_POST['wp_mail_from'] );
 		$wpmem_newsettings['email']['from_name'] = sanitize_text_field( $_POST['wp_mail_from_name'] );

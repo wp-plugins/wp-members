@@ -272,6 +272,9 @@ class WP_Members {
 		// Load membership plans
 		$this->membership = new WP_Members_Products();
 		
+		// Load email functions
+		$this->email = new WP_Members_Email;
+		
 		// Load clone menus.
 		if ( $this->clone_menus ) {
 			$this->menus = new WP_Members_Menus();
@@ -452,11 +455,12 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-email.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/core.php' );
@@ -466,7 +470,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
 		require_once( WPMEM_PATH . 'inc/sidebar.php' );
 		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); @deprecated 3.2.0
-		require_once( WPMEM_PATH . 'inc/email.php' );
+		//require_once( WPMEM_PATH . 'inc/email.php' ); @deprecated 3.2.0
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		//require_once( WPMEM_PATH . 'inc/users.php' ); @deprecated 3.1.9
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
