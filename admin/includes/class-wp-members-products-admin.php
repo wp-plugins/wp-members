@@ -18,14 +18,19 @@ class WP_Members_Products_Admin {
 	 * Class constructor.
 	 *
 	 * @since 3.2.0
+	 *
+	 * @global object $wpmem
 	 */
 	function __construct() {
-		add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
-		add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
-		add_action( 'add_meta_boxes',                            array( $this, 'meta_boxes' ) );
-		add_action( 'save_post',                                 array( $this, 'save_details' ) );
-		add_action( 'wpmem_admin_after_block_meta',              array( $this, 'add_product_to_post' ), 10, 2 );
-		add_action( 'wpmem_admin_block_meta_save',               array( $this, 'save_product_to_post' ), 10, 3 );
+		global $wpmem;
+		if ( 1 == $wpmem->enable_products ) {
+			add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
+			add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
+			add_action( 'add_meta_boxes',               array( $this, 'meta_boxes' ) );
+			add_action( 'save_post',                    array( $this, 'save_details' ) );
+			add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
+			add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
+		}
 	}
 
 	/**
