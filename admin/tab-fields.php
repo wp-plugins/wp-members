@@ -224,11 +224,21 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 			</li>
 			<li>
 				<label><?php _e( 'Display?', 'wp-members' ); ?></label>
+				<?php if ( 'username' != $meta_key && 'user_email' != $meta_key ) { ?>
 				<input type="checkbox" name="add_display" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['register'] ) : false; ?> />
+				<?php } else { ?>
+				<span><?php _e( 'This field is always displayed', 'wp-members' ); ?></span>
+				<input type="hidden" name="add_display" value="y" />
+				<?php } ?>
 			</li>
 			<li>
 				<label><?php _e( 'Required?', 'wp-members' ); ?></label>
+				<?php if ( 'username' != $meta_key && 'user_email' != $meta_key ) { ?>
 				<input type="checkbox" name="add_required" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['required'] ) : false; ?> />
+				<?php } else { ?>
+				<span><?php _e( 'This field is always required', 'wp-members' ); ?></span>
+				<input type="hidden" name="add_required" value="y" />
+				<?php } ?>
 			</li>
 			<!--<div id="wpmem_allowhtml">
 			<li>
