@@ -214,16 +214,19 @@ function wpmem_block_meta() {
 		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
 	}
 	$meta = '_wpmem_block';
-	$admin_url = get_admin_url(); ?>
-	
+	$admin_url = get_admin_url(); 
+
+	$post_meta_value = get_post_meta( $post->ID, $meta, true );
+	$post_meta_value = ( ! $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value;
+	?>
 	<p>
 		<?php echo $notice_icon . ' ' . $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
 		<select id="wpmem_block" name="wpmem_block">
-			<option value="0" <?php selected( get_post_meta( $post->ID, $meta, true ), '0' ); ?>>Unblock</option>
-			<option value="1" <?php selected( get_post_meta( $post->ID, $meta, true ), '1' ); ?>>Block</option>
-			<option value="2" <?php selected( get_post_meta( $post->ID, $meta, true ), '2' ); ?>>Hide</option>
+			<option value="0" <?php selected( $post_meta_value, '0' ); ?>>Unblock</option>
+			<option value="1" <?php selected( $post_meta_value, '1' ); ?>>Block</option>
+			<option value="2" <?php selected( $post_meta_value, '2' ); ?>>Hide</option>
 		</select>
 		<label for="wpmem_block"><?php echo 'this ' . strtolower( $post_type->labels->singular_name ); ?><?php //echo $text; ?></label>
 	</p>
