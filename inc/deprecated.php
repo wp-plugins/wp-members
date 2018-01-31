@@ -910,3 +910,344 @@ function wpmem_dashboard_enqueue_scripts( $hook ) {
 		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
 	}
 }
+
+/**
+ * Function for forms called by shortcode.
+ *
+ * @since 3.0.0
+ * @since 3.1.3 Added forgot_username shortcode.
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::forms()
+ *
+ * @global object $wpmem The WP_Members object.
+ *
+ * @param  array  $attr
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_forms( $atts, $content = null, $tag = 'wpmem_form' ) {
+	global $wpmem;
+	return $wpmem->shortcodes->forms( $atts, $content, $tag );
+}
+
+/**
+ * Handles the logged in status shortcodes.
+ *
+ * There are two shortcodes to display content based on a user being logged
+ * in - [wp-members status=in] and [wpmem_logged_in] (status=in is a legacy
+ * shortcode, but will still function). There are several attributes that
+ * can be used with the shortcode: in|out, sub for subscription only info,
+ * id, and role. IDs and roles can be comma separated values for multiple
+ * users and roles. Additionally, status=out can be used to display content
+ * only to logged out users or visitors.
+ *
+ * @since 3.0.0
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::forms()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $status
+ *     @type int    $id
+ *     @type string $role
+ *     @type string $sub
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) {
+	global $wpmem;
+	return $wpmem->shortcodes->logged_in( $atts, $content, $tag );
+}
+
+/**
+ * Handles the [wpmem_logged_out] shortcode.
+ *
+ * @since 3.0.0
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::logged_out()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_logged_out( $atts, $content = null, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->logged_out( $atts, $content, $tag );
+}
+
+/**
+ * User count shortcode [wpmem_show_count].
+ *
+ * User count displays a total user count or a count of users by specific
+ * role (role="some_role").  It also accepts attributes for counting users
+ * by a meta field (key="meta_key" value="meta_value").  A label can be 
+ * displayed using the attribute label (label="Some label:").
+ *
+ * @since 3.0.0
+ * @since 3.1.5 Added total user count features.
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::user_count()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  string $content The shortcode content.
+ * @return string $content
+ */
+function wpmem_sc_user_count( $atts, $content = null ) {
+	global $wpmem;
+	return $wpmem->shortcodes->user_count( $atts, $content, $tag );
+}
+
+/**
+ * Creates the user profile dashboard area [wpmem_profile].
+ *
+ * @since 3.1.0
+ * @since 3.1.2 Added function arguments.
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::user_profile()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  string $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $redirect_to
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_user_profile( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->user_profile( $atts, $content, $tag );
+}
+
+/**
+ * Log in/out shortcode [wpmem_loginout].
+ *
+ * @since 3.1.1
+ * @since 3.1.6 Uses wpmem_loginout().
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::loginout()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string  $login_redirect_to  The url to redirect to after login (optional).
+ *     @type string  $logout_redirect_to The url to redirect to after logout (optional).
+ *     @type string  $login_text         Text for the login link (optional).
+ *     @type string  $logout_text        Text for the logout link (optional).
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @return string $content
+ */
+function wpmem_sc_loginout( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->loginout( $atts, $content, $tag );
+}
+
+/**
+ * Function to handle field shortcodes [wpmem_field].
+ *
+ * Shortcode to display the data for a given user field. Requires
+ * that a field meta key be passed as an attribute.  Can either of
+ * the following:
+ * - [wpmem_field field="meta_key"]
+ * - [wpmem_field meta_key] 
+ *
+ * Other attributes:
+ *
+ * - id (numeric user ID or "get" to retrieve uid from query string.
+ * - underscores="true" strips underscores from the displayed value.
+ * - display="raw" displays the stored value for dropdowns, radios, files.
+ * - size(thumbnail|medium|large|full|w,h): image field only.
+ *
+ * @since 3.1.2
+ * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.
+ * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::fields()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string {meta_key}
+ *     @type string $field
+ *     @type int    $id
+ *     @type string $underscores
+ *     @type string $display
+ *     @type string size
+ * }
+ * @param  string $content Any content passed with the shortcode (default:null).
+ * @param  string $tag     The shortcode tag (wpmem_form).
+ * @return string $content Content to return.
+ */
+function wpmem_sc_fields( $atts, $content = null, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->fields( $atts, $content, $tag );
+}
+
+/**
+ * Logout link shortcode [wpmem_logout].
+ *
+ * @since 3.1.2
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::logout()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $url
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_logout( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->logout( $atts, $content, $tag );
+}
+
+/**
+ * TOS shortcode [wpmem_tos].
+ *
+ * @since 3.1.2
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::tos()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $url
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_tos( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->tos( $atts, $content, $tag );
+}
+
+/**
+ * Display user avatar.
+ *
+ * @since 3.1.7
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::avatar()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ *
+ *     @type string $id   The user email or id.
+ *     @type int    $size Avatar size (square) in pixels.
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_avatar( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->avatar( $atts, $content, $tag );
+}
+
+/**
+ * Generates a login link with a return url.
+ *
+ * @since 3.1.7
+ * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::login_link()
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  array  $atts {
+ *     The shortcode attributes.
+ * }
+ * @param  string $content
+ * @param  string $tag
+ * @retrun string $content
+ */
+function wpmem_sc_link( $atts, $content, $tag ) {
+	global $wpmem;
+	return $wpmem->shortcodes->login_link( $atts, $content, $tag );
+}
+
+if ( ! function_exists( 'wpmem_inc_regemail' ) ):
+/**
+ * Builds emails for the user.
+ *
+ * @since 1.8.0
+ * @since 2.7.4 Added wpmem_email_headers and individual body/subject filters.
+ * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
+ * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
+ * @since 3.1.1 Added $custom argument for custom emails.
+ * @since 3.2.0 Now a wrapper for WP_Members_Email::to_user().
+ *
+ * @global object $wpmem                The WP_Members object.
+ * @global string $wpmem_mail_from      The email from address.
+ * @global string $wpmem_mail_from_name The email from name.
+ * @param  int    $user_ID              The User's ID.
+ * @param  string $password             Password from the registration process.
+ * @param  string $toggle               Toggle indicating the email being sent (newreg|newmod|appmod|repass|getuser).
+ * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
+ * @param  array  $fields               Array of the registration data (defaults to null).
+ * @param  array  $custom               Array of custom email information (defaults to null).
+ */
+function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null, $field_data = null, $custom = null ) {
+	global $wpmem;
+	$wpmem->email->to_user( $user_id, $password, $toggle, $wpmem_fields, $field_data, $custom );
+	return;
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_notify_admin' ) ):
+/**
+ * Builds the email for admin notification of new user registration.
+ *
+ * @since 2.3
+ * @since 3.2.0 Now a wrapper for WP_Members_Email::notify_admin().
+ *
+ * @global object $wpmem                The WP_Members object.
+ * @param  int    $user_id              The User's ID.
+ * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
+ * @param  array  $field_data           Array of the registration data (defaults to null).
+ */
+function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
+	global $wpmem;
+	$wpmem->email->notify_admin( $user_id, $wpmem_fields, $field_data );
+}
+endif;
+
+
+/**
+ * Filters the wp_mail from address (if set).
+ *
+ * @since 2.7.0
+ * @since 3.1.0 Converted to use email var in object.
+ * @since 3.2.0 Now a wrapper for WP_Members_Email::from().
+ *
+ * @global object $wpmem
+ * @param  string $email
+ * @return string $wpmem_mail_from|$email
+ */
+function wpmem_mail_from( $email ) {
+	global $wpmem;
+	return $wpmem->email->from( $email );
+}
+
+
+/**
+ * Filters the wp_mail from name (if set).
+ *
+ * @since 2.7.0
+ * @since 3.1.0 Converted to use email var in object.
+ * @since 3.2.0 Now a wrapper for WP_Members_Email::from_name().
+ *
+ * @global object $wpmem
+ * @param  string $name
+ * @return string $wpmem_mail_from_name|$name
+ */
+function wpmem_mail_from_name( $name ) {
+	global $wpmem;
+	return $wpmem->email->from_name( $name );
+}
