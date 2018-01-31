@@ -265,6 +265,9 @@ class WP_Members {
 	
 		// Load user functions.
 		$this->user = new WP_Members_User( $this );
+		
+		// Load shortcodes.
+		$this->shortcodes = new WP_Members_Shortcodes();
 
 		// Load membership plans
 		$this->membership = new WP_Members_Products();
@@ -291,12 +294,6 @@ class WP_Members {
 	
 		// Load actions and filters.
 		$this->load_hooks();
-	
-		// Load shortcodes.
-		$this->load_shortcodes();
-	
-		// Load fields.
-		//$this->load_fields();
 		
 		// Load contants.
 		$this->load_constants();
@@ -305,48 +302,6 @@ class WP_Members {
 		if ( $this->dropins ) {
 			$this->load_dropins();
 		}
-	}
-
-	/**
-	 * Plugin initialization function to load shortcodes.
-	 *
-	 * @since 3.0.0
-	 * @since 3.0.7 Added wpmem_show_count.
-	 * @since 3.1.0 Added wpmem_profile.
-	 * @since 3.1.1 Added wpmem_loginout.
-	 * @since 3.1.6 Dependencies now loaded by object.
-	 */
-	function load_shortcodes() {
-
-		/**
-		 * Fires before shortcodes load.
-		 *
-		 * @since 3.0.0
-		 * @since 3.1.6 Fires before shortcodes load.
-		 */
-		do_action( 'wpmem_load_shortcodes' );
-		
-		add_shortcode( 'wp-members',       'wpmem_shortcode'       );
-		add_shortcode( 'wpmem_field',      'wpmem_sc_fields'       );
-		add_shortcode( 'wpmem_logged_in',  'wpmem_sc_logged_in'    );
-		add_shortcode( 'wpmem_logged_out', 'wpmem_sc_logged_out'   );
-		add_shortcode( 'wpmem_logout',     'wpmem_sc_logout'       );
-		add_shortcode( 'wpmem_form',       'wpmem_sc_forms'        );
-		add_shortcode( 'wpmem_show_count', 'wpmem_sc_user_count'   );
-		add_shortcode( 'wpmem_profile',    'wpmem_sc_user_profile' );
-		add_shortcode( 'wpmem_loginout',   'wpmem_sc_loginout'     );
-		add_shortcode( 'wpmem_tos',        'wpmem_sc_tos'          );
-		add_shortcode( 'wpmem_avatar',     'wpmem_sc_avatar'       );
-		add_shortcode( 'wpmem_login_link', 'wpmem_sc_link'         );
-		add_shortcode( 'wpmem_reg_link',   'wpmem_sc_link'         );
-		
-		/**
-		 * Fires after shortcodes load.
-		 * 
-		 * @since 3.0.0
-		 * @since 3.1.6 Was wpmem_load_shortcodes, now wpmem_shortcodes_loaded.
-		 */
-		do_action( 'wpmem_shortcodes_loaded' );
 	}
 	
 	/**
@@ -503,13 +458,14 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/core.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
 		require_once( WPMEM_PATH . 'inc/utilities.php' );
 		require_once( WPMEM_PATH . 'inc/forms.php' );
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
 		require_once( WPMEM_PATH . 'inc/sidebar.php' );
-		require_once( WPMEM_PATH . 'inc/shortcodes.php' );
+		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); @deprecated 3.2.0
 		require_once( WPMEM_PATH . 'inc/email.php' );
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		//require_once( WPMEM_PATH . 'inc/users.php' ); @deprecated 3.1.9
