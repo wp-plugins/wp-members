@@ -554,16 +554,16 @@ New Features:
 * Added a new filter hook wpmem_securify.  This hook applies a filter to the $content variable at the end of the wpmem_securify function.  The primary reason for this hook is to be able to run filters on $content that would give you the ability to block content even if the user is logged in (the wpmem_block filter only works for non-logged in state).  This will bring in the ability to block users from content based on defined criteria such as content is for members of "group A" but the user is does not have access to "group A" content.
 * Added wpmem_email_headers filter hook.  This will allow you to easily filter the headers for the email process of the plugin giving you the ability to send HTML email without modifying the plugin.
 * Added wpmem_user_activated action hook.  This hook will give you the ability to run actions at the end of user activation.  For sites that moderate registration, this gives you the ability to hook in actions that you might not want to do before approval of the registration (such as would normally be done with wpmem_post_register_data).
-* Added new shortcode for creating a user list/member directory.  __This shortcode requires installation of the premium add-on module WP-Members User List [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__. The shortcode has parameters for including a member search function as well as filter hooks for filtering the layout of the directory elements.
-* Added new shortcode for protecting inline content with the __premium add-on module WP-Members PayPal Subscription [available to rocketgeek.com members](http://rocketgeek.com/about/site-membership-subscription/)__.
+* Added new shortcode for creating a user list/member directory.  __This shortcode requires installation of the premium add-on module WP-Members User List [available to rocketgeek.com members](https://rocketgeek.com/about/site-membership-subscription/)__. The shortcode has parameters for including a member search function as well as filter hooks for filtering the layout of the directory elements.
+* Added new shortcode for protecting inline content with the __premium add-on module WP-Members PayPal Subscription [available to rocketgeek.com members](https://rocketgeek.com/about/site-membership-subscription/)__.
 
 Bug Fix:
 
-* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/page-shortcodes/).
+* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](https://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/page-shortcodes/).
 
 Code Improvement:
 
-* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
+* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](https://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
 
 = 2.7.6 =
 

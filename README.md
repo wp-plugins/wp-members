@@ -11,7 +11,7 @@ This is the development repository for the WP-Members plugin for WordPress.
 Keep in mind that the branch here is a development branch, so it should be tested prior to loading to a production site.  Although every effort is made to only load stable updates to this repo, this may not necessarily be production ready and some features may be subject to change prior to release.
 
 If you need a production ready version of the plugin, use the version hosted here:
-http://wordpress.org/extend/plugins/wp-members/
+https://wordpress.org/plugins/wp-members/
 
 ## Bug Reporting and Pull Requests ##
 

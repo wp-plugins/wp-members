@@ -5,13 +5,13 @@
  * Functions to manage the emails tab.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2017  Chad Butler
+ * You can find out more about this plugin at https://rocketgeek.com
+ * Copyright (c) 2006-2018  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2017
+ * @copyright 2006-2018
  *
  * Functions included:
  * - wpmem_a_build_emails
@@ -42,7 +42,7 @@ function wpmem_a_build_emails() {
 					<div class="inside">
 						<p>
 						<?php _e( 'You can customize the content of the emails sent by the plugin.', 'wp-members' ); ?><br />
-						<a href="http://rocketgeek.com/plugins/wp-members/users-guide/customizing-emails/" target="_blank">
+						<a href="https://rocketgeek.com/plugins/wp-members/users-guide/customizing-emails/" target="_blank">
 						<?php _e( 'A list of shortcodes is available here.', 'wp-members' ); ?></a>
 						</p>
 						<hr />
@@ -83,7 +83,7 @@ function wpmem_a_build_emails() {
 				<div class="postbox">
 					<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 					<div class="inside">
-						<strong><i>See the <a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/emails/" target="_blank">Users Guide on email options</a>.</i></strong>
+						<strong><i>See the <a href="https://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/emails/" target="_blank">Users Guide on email options</a>.</i></strong>
 					</div>
 				</div>
 			</div> <!-- #post-body-content -->

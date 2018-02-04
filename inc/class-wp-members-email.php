@@ -49,6 +49,7 @@ class WP_Members_Email {
 	 * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
 	 * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
 	 * @since 3.1.1 Added $custom argument for custom emails.
+	 * @since 3.2.0 Moved to WP_Members_Email::to_user().
 	 *
 	 * @global object $wpmem                The WP_Members object.
 	 * @global string $wpmem_mail_from      The email from address.
@@ -192,6 +193,7 @@ class WP_Members_Email {
 				 * Filters the new registration email.
 				 *
 				 * @since 2.7.4
+				 * @deprecated 3.2.0 Use wpmem_email_filter instead.
 				 *
 				 * @param string $arr['body'] The body content of the new registration email.
 				 */
@@ -204,6 +206,7 @@ class WP_Members_Email {
 				 * Filters the new moderated registration email.
 				 *
 				 * @since 2.7.4
+				 * @deprecated 3.2.0 Use wpmem_email_filter instead.
 				 *
 				 * @param string $arr['body'] The body content of the moderated registration email.
 				 */
@@ -216,6 +219,7 @@ class WP_Members_Email {
 				 * Filters the reset password email.
 				 *
 				 * @since 2.7.4
+				 * @deprecated 3.2.0 Use wpmem_email_filter instead.
 				 *
 				 * @param string $arr['body'] The body content of the reset password email.
 				 */
@@ -228,6 +232,7 @@ class WP_Members_Email {
 				 * Filters the approved registration email.
 				 *
 				 * @since 2.7.4
+				 * @deprecated 3.2.0 Use wpmem_email_filter instead.
 				 *
 				 * @param string $arr['body'] The body content of the approved registration email.
 				 */
@@ -310,6 +315,7 @@ class WP_Members_Email {
 	 * Builds the email for admin notification of new user registration.
 	 *
 	 * @since 2.3
+	 * @since 3.2.0 Moved to WP_Members_Email::notify_admin().
 	 *
 	 * @global object $wpmem                The WP_Members object.
 	 * @global string $wpmem_mail_from      The email from address.
@@ -514,7 +520,8 @@ class WP_Members_Email {
 	 * Filters the wp_mail from address (if set).
 	 *
 	 * @since 2.7
-	 * @since 3.1 Converted to use email var in object.
+	 * @since 3.1.0 Converted to use email var in object.
+	 * @since 3.2.0 Moved to WP_Members_Email::from().
 	 *
 	 * @global object $wpmem
 	 * @param  string $email
@@ -529,7 +536,8 @@ class WP_Members_Email {
 	 * Filters the wp_mail from name (if set).
 	 *
 	 * @since 2.7
-	 * @since 3.1 Converted to use email var in object.
+	 * @since 3.1.0 Converted to use email var in object.
+	 * @since 3.2.0 Moved to WP_Members_Email::from_name().
 	 *
 	 * @global object $wpmem
 	 * @param  string $name

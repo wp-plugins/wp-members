@@ -5,14 +5,14 @@
  * Functions to manage the captcha tab.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2017  Chad Butler
+ * You can find out more about this plugin at https://rocketgeek.com
+ * Copyright (c) 2006-2018  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WordPress
  * @subpackage WP-Members
  * @author Chad Butler
- * @copyright 2006-2017
+ * @copyright 2006-2018
  *
  * Functions included:
  * - wpmem_a_build_captcha_options
@@ -64,7 +64,7 @@ function wpmem_a_build_captcha_options() {
 
 	$wpmem_captcha = get_option( 'wpmembers_captcha' );
 	$url           = home_url();
-	$help_link     = __( sprintf( 'See the %sUsers Guide on CAPTCHA%s.', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">', '</a>' ), 'wp-members' );	
+	$help_link     = __( sprintf( 'See the %sUsers Guide on CAPTCHA%s.', '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">', '</a>' ), 'wp-members' );	
 	?>
 	<div class="metabox-holder has-right-sidebar">
 

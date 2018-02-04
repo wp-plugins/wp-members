@@ -3,14 +3,14 @@
  * WP-Members Dropins Admin Functions
  *
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com/plugins/wp-members/extensions/editor/
- * Copyright (c) 2006-2017  Chad Butler
+ * You can find out more about this plugin at https://rocketgeek.com/plugins/wp-members/extensions/editor/
+ * Copyright (c) 2006-2018  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @subpackage WP-Members Editor
  * @author Chad Butler
- * @copyright 2006-2017
+ * @copyright 2006-2018
  */
 
 // Exit if accessed directly.

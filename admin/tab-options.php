@@ -5,13 +5,13 @@
  * Functions to manage the plugin options tab.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2017  Chad Butler
+ * You can find out more about this plugin at https://rocketgeek.com
+ * Copyright (c) 2006-2018  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2017
+ * @copyright 2006-2018
  *
  * Functions included:
  * - wpmem_a_build_options
@@ -40,8 +40,8 @@ function wpmem_a_build_options() {
 
 	/** This filter is documented in wp-members/inc/email.php */
 	$admin_email = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
-	$chg_email   = __( sprintf( '%sChange%s or %sFilter%s this address', '<a href="' . site_url( 'wp-admin/options-general.php', 'admin' ) . '">', '</a>', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_notify_addr/">', '</a>' ), 'wp-members' );
-	$help_link   = __( sprintf( 'See the %sUsers Guide on plugin options%s.', '<a href="http://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">', '</a>' ), 'wp-members' );	
+	$chg_email   = __( sprintf( '%sChange%s or %sFilter%s this address', '<a href="' . site_url( 'wp-admin/options-general.php', 'admin' ) . '">', '</a>', '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_notify_addr/">', '</a>' ), 'wp-members' );
+	$help_link   = __( sprintf( 'See the %sUsers Guide on plugin options%s.', '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">', '</a>' ), 'wp-members' );	
 
 	// Build an array of post types
 	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );

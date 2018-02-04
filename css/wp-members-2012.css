@@ -4,7 +4,7 @@
  * CSS for the WP-Members plugin using Twenty Twelve Theme
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com
+ * You can find out more about this plugin at https://rocketgeek.com
  * Copyright (c) 2006-2015 Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
@@ -20,11 +20,11 @@ There are quite a few examples in here of what you can do to style the forms.
 You can build off of this or start from scratch and set your own 
 custom css for the plugin (set the location in the admin panel).
 
-See http://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
+See https://rocketgeek.com/tips-and-tricks/setting-up-a-custom-wp-members-stylesheet/
 for information on how to set up the plugin with a custom stylesheet.
 
 For information how to load custom stylesheets with wp_enqueue_style,
-see http://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
+see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 */
 
 

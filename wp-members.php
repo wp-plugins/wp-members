@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: WP-Members
-Plugin URI:  http://rocketgeek.com
-Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="http://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="http://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
+Plugin URI:  https://rocketgeek.com
+Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="https://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
 Version:     3.2.0
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
@@ -13,7 +13,7 @@ License:     GPLv2
 
 
 /*  
-	Copyright (c) 2006-2017  Chad Butler
+	Copyright (c) 2006-2018  Chad Butler
 
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
@@ -51,13 +51,13 @@ License:     GPLv2
 	derivative work you are developing complies with the license, copyright, 
 	trademark, or if you do not understand the difference between
 	open source and public domain, contact the original author at:
-	http://rocketgeek.com/contact/.
+	https://rocketgeek.com/contact/.
 
 
 	INSTALLATION PROCEDURE:
 	
 	For complete installation and usage instructions,
-	visit http://rocketgeek.com
+	visit https://rocketgeek.com
 */
 
 // Exit if accessed directly.

@@ -5,13 +5,13 @@
  * Functions to manage the fields tab.
  * 
  * This file is part of the WP-Members plugin by Chad Butler
- * You can find out more about this plugin at http://rocketgeek.com
- * Copyright (c) 2006-2017  Chad Butler
+ * You can find out more about this plugin at https://rocketgeek.com
+ * Copyright (c) 2006-2018  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package WP-Members
  * @author Chad Butler
- * @copyright 2006-2017
+ * @copyright 2006-2018
  */
 
 // Exit if accessed directly.
@@ -148,7 +148,7 @@ function wpmem_a_render_fields_tab() {
 		} ?>
 		<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 		<div class="inside">
-			<strong><i><a href="http://rocketgeek.com/plugins/wp-members/docs/plugin-settings/fields/" target="_blank"><?php _e( 'Field Manager Documentation', 'wp-members' ); ?></a></i></strong>
+			<strong><i><a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/fields/" target="_blank"><?php _e( 'Field Manager Documentation', 'wp-members' ); ?></a></i></strong>
 		</div>
 		<?php
 	}
@@ -359,7 +359,7 @@ Last Row|last_row<?php } } ?></textarea>
 			</li>
 			<li>
 				<label>&nbsp;</label>
-				<span class="description"><a href="http://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
+				<span class="description"><a href="https://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
 			</li>
 		<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 		<?php } ?>

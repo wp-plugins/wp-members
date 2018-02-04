@@ -40,11 +40,11 @@ There are also some special pages that can be created with simple shortcodes:
 * A User Profile page where registered members can edit their information and change/reset their password: [wpmem_profile]
 * A Registration page available for those that need a specific URL for registrations (such as email marketing or banner ad landing pages).  Note: this is strictly optional as a registration form can also be included by default on blocked content pages: [wpmem_form register]
 * A Login page.  This is also an optional page as the login form is included by default on blocked content.  But if you need a specific login page, this can be created with a simple shortcode: [wpmem_form login]
-* [And more shortcodes are available](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/)!
+* [And more shortcodes are available](https://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/)!
 
 The plugin runs on a framework with over 100 action and filter hooks so you can fully customize your implementation.
 
-In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](http://rocketgeek.com/about/site-membership-subscription/).
+In addition to all of the features above, the plugin can be extended with premium add-on modules available from the support site rocketgeek.com.  Members of rocketgeek.com have access to support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework.  Some of the add-ons have their own hooks and shortcodes to further extend the plugin's extensibility.  [Visit the site for more info](https://rocketgeek.com/about/site-membership-subscription/).
 
 = What the plugin does not do =
 
@@ -57,7 +57,7 @@ WP-Members&trade; is designed to run "out-of-the-box" with no modifications to y
 
 = Basic Install: =
 
-The best start is to follow the instructions in the [Quick Start Guide](http://rocketgeek.com/plugins/wp-members/quick-start-guide/).  There is also a complete [Users Guide available](http://rocketgeek.com/plugins/wp-members/users-guide/) that covers all of the plugin's features in depth.
+The best start is to follow the instructions in the [Quick Start Guide](https://rocketgeek.com/plugins/wp-members/quick-start-guide/).  There is also a complete [Users Guide available](https://rocketgeek.com/plugins/wp-members/users-guide/) that covers all of the plugin's features in depth.
 
 1. Upload the `/wp-members/` directory and its contents to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress&reg;
@@ -77,22 +77,22 @@ NOTE: Please follow instructions for installation. The vast majority of people t
 
 = Additional Settings and Information = 
 
-A full Users Guide is [available here](http://rocketgeek.com/plugins/wp-members/users-guide/).  The guide outlines the installation process, and also documents how to use all of the settings.
+A full Users Guide is [available here](https://rocketgeek.com/plugins/wp-members/users-guide/).  The guide outlines the installation process, and also documents how to use all of the settings.
 
 = Plugin Extensibility =
 
 WP-Members&trade; is designed to be an out-of-the-box usable plugin, but also have an extensible framework for maximum flexibility and customization.  For this purpose, there are a number of shortcodes, filters, and actions that can be used.
 
-See [this page](http://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
+See [this page](https://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/) for a list of shortcodes and their description.
 
-The plugin has 80 filter and action hooks.  For a list of hooks and a description of their use, see [this page](http://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
+The plugin has 80 filter and action hooks.  For a list of hooks and a description of their use, see [this page](https://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/)
 
-The plugin's premium support site has __loads__ of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](http://rocketgeek.com/about/site-membership-subscription/).  Members of the premium support site also have access to premium add-on modules.
+The plugin's premium support site has __loads__ of tips, tricks, and sample code for you to make maximum use out of the plugin.  [Get more information here](https://rocketgeek.com/about/site-membership-subscription/).  Members of the premium support site also have access to premium add-on modules.
 
 
 == Frequently Asked Questions ==
 
-The FAQs are maintained at http://rocketgeek.com/plugins/wp-members/users-guide/faqs/
+The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/users-guide/faqs/
 
 
 == Other Notes ==
@@ -107,7 +107,7 @@ An [official statement is available here](http://butlerblog.com/regarding-wp-mem
 
 = Regarding RocketGeek.com =
 
-Premium priority support is available at the plugin's site [RocketGeek.com](http://rocketgeek.com).  A site membership includes priority support, members-only forum access, plugin extensions, and a custom code snippet library.  [RocketGeek.com](http://rocketgeek.com) is the only site officially managed for this plugin's support.
+Premium priority support is available at the plugin's site [RocketGeek.com](https://rocketgeek.com).  A site membership includes priority support, members-only forum access, plugin extensions, and a custom code snippet library.  [RocketGeek.com](https://rocketgeek.com) is the only site officially managed for this plugin's support.
 
 
 == Upgrade Notice ==
