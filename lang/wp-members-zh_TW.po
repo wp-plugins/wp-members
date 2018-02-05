@@ -1,1692 +1,1425 @@
-# Copyright (C) 2010 WP-Members
-# This file is distributed under the same license as the WP-Members package.
+# Translation of Plugins - WP-Members Membership Plugin - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - WP-Members Membership Plugin - Development (trunk) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Members 2.4.0 beta 4\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
-"POT-Creation-Date: 2016-05-03 17:39-0500\n"
-"PO-Revision-Date: 2016-05-03 17:39-0500\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2018-02-04 12:17-0600\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.8.7\n"
-"X-Poedit-SearchPath-0: /home/aure/raid/www/wordpress_31RC2_coitcv/wp-content/"
-"plugins/wp-members\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.0.6\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - WP-Members Membership Plugin - Development (trunk)\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 
-#: admin/admin.php:72 admin/admin.php:143
-msgid "Settings"
-msgstr "  設定"
-
-#: admin/dialogs.php:104
-msgid ""
-"Your WP settings allow anyone to register - this is not the recommended "
-"setting."
-msgstr "你的WP設定允許任何人註冊-不建議此設定"
-
-#: admin/dialogs.php:105
-#, php-format
-msgid ""
-"You can %s change this here %s making sure the box next to \"Anyone can "
-"register\" is unchecked."
-msgstr "你可以%s在這裡變更%s 確認在\"任何人可註冊\"旁的選框是沒有鉤選的"
-
-#: admin/dialogs.php:106
-msgid ""
-"This setting allows a link on the /wp-login.php page to register using the "
-"WP native registration process thus circumventing any registration you are "
-"using with WP-Members. In some cases, this may suit the users wants/needs, "
-"but most users should uncheck this option. If you do not change this "
-"setting, you can choose to ignore these warning messages under WP-Members "
-"Settings."
-msgstr ""
-"此設定允許一條在/wp-login.php頁面上的連結用WP原始的註冊程序來註冊.如此一來,就"
-"可涵蓋任何使用WP-Members的註冊. 某些情況下,這樣的設定適合用戶的需求,但大部分"
-"用戶應不要鉤選此選框. 如果你沒有變更此設定,你可以在WP-Members的設定中選擇忽略"
-"這些警示訊息"
-
-#: admin/dialogs.php:110
-msgid ""
-"Your WP settings allow anyone to comment - this is not the recommended "
-"setting."
-msgstr "你的WP設定允許任何人發表意見"
-
-#: admin/dialogs.php:111
-#, php-format
-msgid ""
-"You can %s change this here %s by checking the box next to \"Users must be "
-"registered and logged in to comment.\""
-msgstr "你可以%s在這裡變更%s 確認在\"任何人可註冊\"旁的選框是沒有鉤選的"
-
-#: admin/dialogs.php:112
-msgid ""
-"This setting allows any users to comment, whether or not they are "
-"registered. Depending on how you are using WP-Members will determine whether "
-"you should change this setting or not. If you do not change this setting, "
-"you can choose to ignore these warning messages under WP-Members Settings."
-msgstr ""
-"此設定允許任何用戶發表意見, 無論他們有無註冊.你是如何使用WP-Members決定你是否"
-"應改變此設定.如果你沒有變更此設定,你可以在WP-Members的設定中選擇忽略這些警示"
-"訊息"
-
-#: admin/dialogs.php:116
-msgid ""
-"Your WP settings allow full text rss feeds - this is not the recommended "
-"setting."
-msgstr "你的WP設定允許全文字的RSS訊息來源"
-
-#: admin/dialogs.php:117
-#, php-format
-msgid ""
-"You can %s change this here %s by changing \"For each article in a feed, show"
-"\" to \"Summary.\""
-msgstr "你可以%s在這裡變更%s 用改變\"每一訊息來源一篇文章,顯示\" 成 \"概要.\""
-
-#: admin/dialogs.php:118
-msgid ""
-"Leaving this set to full text allows anyone to read your protected content "
-"in an RSS reader. Changing this to Summary prevents this as your feeds will "
-"only show summary text."
-msgstr ""
-"保留這裡設為全文,將允許任何人在一RSS閱讀器可閱讀你保護的文章內容.將此改為概要"
-"就可以防止,因你的RSS訊息來源只會顯示概要訊息文字."
-
-#: admin/dialogs.php:122
-msgid "You have set WP-Members to hold registrations for approval"
-msgstr "你已將WP-Members設為核准中保留註冊"
-
-#: admin/dialogs.php:123
-msgid ""
-"but you have not changed the default message for \"Registration Completed\" "
-"under \"WP-Members Dialogs and Error Messages.\"  You should change this "
-"message to let users know they are pending approval."
-msgstr ""
-"但你尚未變更在\"WP-Members對話框及錯誤訊息\" 裡默認的\"註冊完成\"訊息. 你應該"
-"變更此訊息以讓用戶知道他們的註冊正在核可中"
-
-#: admin/dialogs.php:127
-msgid "You have set WP-Members to turn off the registration process"
-msgstr "你已設定WP-Members關閉註冊程序"
-
-#: admin/dialogs.php:128
-msgid ""
-"but you also set to moderate and/or email admin new registrations.  You will "
-"need to set up a registration page for users to register."
-msgstr ""
-"但你也設定管制 以及/或者 電子郵件管理新的註冊. 你必須為訪客用戶設一個註冊頁"
-"面."
-
-#: admin/dialogs.php:132
-msgid "You have turned on reCAPTCHA"
-msgstr "你已打開驗證碼服務功能"
-
-#: admin/dialogs.php:133
-msgid ""
-"but you have not entered API keys.  You will need both a public and private "
-"key.  The CAPTCHA will not display unless a valid API key is included."
-msgstr ""
-"但你尚未輸入應用程式介面鍵. 你需要一個公開鍵及一個隱密鍵. 除非含有一個有效的"
-"API鍵否則驗證碼功能不會顯示."
-
-#: admin/dialogs.php:157
-msgid "Version:"
-msgstr "版本:"
-
-#: admin/dialogs.php:158
-#, fuzzy
-msgid "Quick Start Guide"
-msgstr ""
-"Restricción de acceso a WordPress y registro extendido de usuarios. Para más "
-"información, puede descargar la guía de usuario en <a href=\"http://"
-"butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. Vea una "
-"demostración en <a href=\"http://butlerblog.com/wpmembers\">http://"
-"butlerblog.com/wpmembers</a>. WP-Members(tm) es marca registrada de "
-"butlerblog.com."
-
-#: admin/dialogs.php:159
-#, fuzzy
-msgid "Online User Guide"
-msgstr "用戶更新"
-
-#: admin/dialogs.php:160
-msgid "FAQs"
+#: admin/tab-fields.php:431
+msgid "User ID"
 msgstr ""
 
-#: admin/dialogs.php:167
-#, fuzzy
-msgid "Thank you for using WP-Members"
-msgstr "感謝您使用WP-Members! 您所使用的是 %s 版本"
-
-#: admin/dialogs.php:168
-msgid "A plugin developed by"
+#: admin/tab-dropins.php:272
+msgid "Description"
 msgstr ""
 
-#: admin/dialogs.php:169
-msgid "Follow"
-msgstr "追蹤"
-
-#: admin/dialogs.php:186 admin/dialogs.php:190
-msgid "Latest from RocketGeek"
+#: admin/tab-dropins.php:271
+msgid "Version"
 msgstr ""
 
-#: admin/dialogs.php:207 admin/dialogs.php:220
-msgid "Latest from ButlerBlog"
+#: admin/tab-dropins.php:270
+msgid "File"
 msgstr ""
 
-#: admin/includes/class-wp-members-admin-api.php:220
-msgid "Options"
-msgstr "選項"
-
-#: admin/includes/class-wp-members-admin-api.php:221
-msgid "Fields"
-msgstr "區塊 "
-
-#: admin/includes/class-wp-members-admin-api.php:222
-msgid "Dialogs"
-msgstr "對話框"
-
-#: admin/includes/class-wp-members-admin-api.php:223
-msgid "Emails"
-msgstr "電子郵件"
-
-#: admin/includes/class-wp-members-admin-api.php:239
-msgid "New Registration"
-msgstr "新註冊"
-
-#: admin/includes/class-wp-members-admin-api.php:248
-msgid "Registration is Moderated"
-msgstr "註冊正在核可"
-
-#: admin/includes/class-wp-members-admin-api.php:254
-msgid "Registration is Moderated, User is Approved"
-msgstr "註冊正在核可,用戶核准"
-
-#: admin/includes/class-wp-members-admin-api.php:262
-msgid "Password Reset"
-msgstr "密碼重設"
-
-#: admin/includes/class-wp-members-admin-api.php:269
-msgid "Retrieve Username"
+#: admin/tab-dropins.php:269
+msgid "Name"
 msgstr ""
 
-#: admin/includes/class-wp-members-admin-api.php:277
-msgid "Admin Notification"
-msgstr "管理員通知行為"
-
-#: admin/post.php:51 admin/post.php:53 admin/tab-options.php:87
-#, fuzzy
-msgid "Block"
-msgstr "默認封鎖發文"
-
-#: admin/post.php:52 admin/post.php:54
-msgid "Unblock"
+#: admin/tab-dropins.php:206
+msgid "You can change location of the dropin folder using the <code>wpmem_dropin_folder</code> filter."
 msgstr ""
 
-#: admin/post.php:188
-#, php-format
-msgid "%s Restriction"
+#: admin/tab-dropins.php:205
+msgid "Current dropin folder: "
 msgstr ""
 
-#: admin/post.php:215
-#, php-format
-msgid "%s are blocked by default."
+#: admin/tab-dropins.php:204
+msgid "Manage Dropins"
 msgstr ""
 
-#: admin/post.php:216
-#, php-format
-msgid "Unblock this %s"
+#: admin/tab-dropins.php:79 admin/tab-dropins.php:378
+msgid "WP-Members Dropin settings were updated"
 msgstr ""
 
-#: admin/post.php:219
-#, php-format
-msgid "%s are not blocked by default."
+#: admin/tab-fields.php:525
+msgid "Users Search"
 msgstr ""
-
-#: admin/post.php:220
-#, php-format
-msgid "Block this %s"
-msgstr ""
-
-#: admin/post.php:226 admin/tab-fields.php:282 admin/tab-fields.php:473
-msgid "Edit"
-msgstr ""
-
-#: admin/post.php:313
-#, fuzzy
-msgid "Unblocked?"
-msgstr "附註: 在文章層級,頁面仍可單獨選擇封鎖或打開"
-
-#: admin/post.php:313
-#, fuzzy
-msgid "Blocked?"
-msgstr "附註: 在文章層級,頁面仍可單獨選擇封鎖或打開"
-
-#: admin/post.php:345 admin/post.php:346 admin/user-export.php:108
-msgid "Yes"
-msgstr "可"
-
-#: admin/tab-captcha.php:42 admin/tab-dialogs.php:47 admin/tab-emails.php:80
-#: admin/tab-fields.php:44 admin/tab-options.php:58
-msgid "Need help?"
-msgstr ""
-
-#: admin/tab-captcha.php:53
-msgid "Manage reCAPTCHA Options"
-msgstr "管理驗證碼系統選項"
-
-#: admin/tab-captcha.php:67
-msgid ""
-"reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books "
-"while blocking spam on your blog."
-msgstr ""
-"reCAPTCHA 是一個免費開放的驗證碼系統技術服務, 它可以將文字內容數字化,幫你擋除"
-"部落格中的垃圾留言,訊息. "
-
-#: admin/tab-captcha.php:68
-#, fuzzy, php-format
-msgid ""
-"reCAPTCHA asks commenters to retype two words scanned from a book to prove "
-"that they are a human. This verifies that they are not a spambot while also "
-"correcting the automatic scans of old books. So you get less spam, and the "
-"world gets accurately digitized books. Everybody wins! For details, visit "
-"the %s reCAPTCHA website%s"
-msgstr ""
-"驗証碼服務要求使用者重新輸入從一本書掃描來的二個字以證明輸入者是人類.如此可以"
-"識別輸入者不是製造垃圾文件的機器人, 同時也對原文的掃描作自動更正.如此, 你比較"
-"不會收到垃圾文件, 大家也獲得正確數字化的電子文件. 對大家皆有利! 詳細介紹請參"
-"訪reCAPTCHA的網站."
-
-#: admin/tab-captcha.php:73 admin/tab-captcha.php:99
-msgid "reCAPTCHA Keys"
-msgstr " 驗証碼服務鍵"
-
-#: admin/tab-captcha.php:75
-#, fuzzy, php-format
-msgid ""
-"reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" "
-"key. You can sign up for a %s free reCAPTCHA key%s"
-msgstr ""
-"驗証碼服務需要應用程式介面鍵, 由一個 \"public\"和一個 \"private\"鍵組成. 你可"
-"以註冊一組免費的驗證碼服務鍵"
-
-#: admin/tab-captcha.php:76
-msgid "Public Key"
-msgstr "公開鍵"
-
-#: admin/tab-captcha.php:77
-msgid "Private Key"
-msgstr "隱密鍵"
-
-#: admin/tab-captcha.php:81
-msgid "Choose Theme"
-msgstr "選擇主題"
-
-#: admin/tab-captcha.php:84
-msgid "Red"
-msgstr " 紅"
-
-#: admin/tab-captcha.php:85
-msgid "White"
-msgstr "白"
-
-#: admin/tab-captcha.php:86
-msgid "Black Glass"
-msgstr "黑玻璃"
-
-#: admin/tab-captcha.php:87
-msgid "Clean"
-msgstr "乾淨"
-
-#: admin/tab-captcha.php:101
-#, php-format
-msgid ""
-"reCAPTCHA requires an API key, consisting of a \"site\" and a \"secret\" "
-"key. You can sign up for a %s free reCAPTCHA key%s"
-msgstr ""
-
-#: admin/tab-captcha.php:102
-msgid "Site Key"
-msgstr ""
-
-#: admin/tab-captcha.php:103
-msgid "Secret Key"
-msgstr ""
-
-#: admin/tab-captcha.php:134
-msgid "Characters for image"
-msgstr ""
-
-#: admin/tab-captcha.php:138
-msgid "Number of characters"
-msgstr ""
-
-#: admin/tab-captcha.php:142
-msgid "Image dimensions"
-msgstr ""
-
-#: admin/tab-captcha.php:143
-msgid "Width"
-msgstr ""
-
-#: admin/tab-captcha.php:143
-msgid "Height"
-msgstr ""
-
-#: admin/tab-captcha.php:146
-msgid "Font color of characters"
-msgstr ""
-
-#: admin/tab-captcha.php:150
-msgid "Background color of image"
-msgstr ""
-
-#: admin/tab-captcha.php:154
-msgid "Font size"
-msgstr ""
-
-#: admin/tab-captcha.php:158
-msgid "Width between characters"
-msgstr ""
-
-#: admin/tab-captcha.php:162
-#, fuzzy
-msgid "Image type"
-msgstr "欄位類型"
-
-#: admin/tab-captcha.php:176
-msgid ""
-"To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin "
-"installed and activated."
-msgstr ""
-
-#: admin/tab-captcha.php:200
-#, fuzzy
-msgid "Update CAPTCHA Settings"
-msgstr "更新設定"
-
-#: admin/tab-captcha.php:271
-#, fuzzy
-msgid "CAPTCHA was updated for WP-Members"
-msgstr "reCAPTCHA已經更新"
-
-#: admin/tab-dialogs.php:32
-msgid "Restricted post (or page), displays above the login/registration form"
-msgstr "有限制的發文(或頁面), 顯示於登入/註冊表上方"
-
-#: admin/tab-dialogs.php:33
-msgid "Username is taken"
-msgstr "帳戶名已被使用"
-
-#: admin/tab-dialogs.php:34
-msgid "Email is registered"
-msgstr "電子郵件已被註冊"
-
-#: admin/tab-dialogs.php:35
-msgid "Registration completed"
-msgstr "完成註冊"
-
-#: admin/tab-dialogs.php:36
-msgid "User update"
-msgstr "用戶更新"
-
-#: admin/tab-dialogs.php:37
-msgid "Passwords did not match"
-msgstr "密碼不符"
-
-#: admin/tab-dialogs.php:38
-msgid "Password changes"
-msgstr "更改密碼"
-
-#: admin/tab-dialogs.php:39
-msgid "Username or email do not exist when trying to reset forgotten password"
-msgstr "當要重設忘記的密碼時用戶名或電子郵件不存在"
-
-#: admin/tab-dialogs.php:40
-msgid "Password reset"
-msgstr "密碼重設"
-
-#: admin/tab-dialogs.php:57
-msgid "Dialogs and Error Messages"
-msgstr "對話框和錯誤訊息"
-
-#: admin/tab-dialogs.php:59
-#, fuzzy, php-format
-msgid ""
-"You can customize the text for dialogs and error messages. Simple HTML is "
-"allowed %s etc."
-msgstr "可自設對話框和錯誤訊息的文字內容, ......"
-
-#: admin/tab-dialogs.php:72
-msgid "Terms of Service (TOS)"
-msgstr "服務條款"
-
-#: admin/tab-dialogs.php:79
-msgid "Update Dialogs"
-msgstr "更新對話框"
-
-#: admin/tab-dialogs.php:118
-msgid "WP-Members dialogs were updated"
-msgstr "WP_Members對話框已更新"
-
-#: admin/tab-emails.php:37
-msgid "Email Messages"
-msgstr "電子郵件訊息"
-
-#: admin/tab-emails.php:40
-msgid "You can customize the content of the emails sent by the plugin."
-msgstr "您可以自訂插件發送的電子郵件的內容"
-
-#: admin/tab-emails.php:42
-msgid "A list of shortcodes is available here."
-msgstr "列表的簡碼可以在這裡找到"
-
-#: admin/tab-emails.php:49
-msgid "Set a custom email address"
-msgstr "設置自定義的電子郵件地址"
-
-#: admin/tab-emails.php:50 admin/tab-emails.php:54 admin/tab-emails.php:64
-msgid "(optional)"
-msgstr "(選項)"
-
-#: admin/tab-emails.php:53
-msgid "Set a custom email name"
-msgstr "設置自定義的電子郵件名稱"
-
-#: admin/tab-emails.php:64
-msgid "Email Signature"
-msgstr "電郵簽名"
-
-#: admin/tab-emails.php:72
-msgid "Update Emails"
-msgstr "更新電子郵件"
-
-#: admin/tab-emails.php:140
-msgid "WP-Members emails were updated"
-msgstr "WP_Members電子郵件已更新"
-
-#: admin/tab-fields.php:169
-msgid "WP-Members fields were updated"
-msgstr "WP_Members區塊已更新"
-
-#: admin/tab-fields.php:181
-msgid "Field Label is required for adding a new field. Nothing was updated."
-msgstr "選填標籤是用來增加新的選填.沒有任何更新"
-
-#: admin/tab-fields.php:182
-msgid "Option Name is required for adding a new field. Nothing was updated."
-msgstr "姓名選填是用來增加新的欄位.沒有任何更新"
-
-#: admin/tab-fields.php:184
-msgid "Option Name must contain only letters, numbers, and underscores"
-msgstr ""
-
-#: admin/tab-fields.php:191
-msgid "A field with that option name already exists"
-msgstr ""
-
-#: admin/tab-fields.php:197
-#, php-format
-msgid ""
-"Sorry, \"%s\" is a <a href=\"https://codex.wordpress.org/Function_Reference/"
-"register_taxonomy#Reserved_Terms\" target=\"_blank\">reserved term</a>. "
-"Field was not added."
-msgstr ""
-
-#: admin/tab-fields.php:215
-#, fuzzy
-msgid "Checked value is required for checkboxes. Nothing was updated."
-msgstr "選填標籤是用來增加新的選填.沒有任何更新"
-
-#: admin/tab-fields.php:245
-#, fuzzy
-msgid "field was added"
-msgstr "區塊標籤"
-
-#: admin/tab-fields.php:263
-#, fuzzy
-msgid "field was updated"
-msgstr "WP_Members區塊已更新"
-
-#: admin/tab-fields.php:309 admin/tab-fields.php:437
-#, fuzzy
-msgid "Edit Field"
-msgstr "編輯你的資訊"
-
-#: admin/tab-fields.php:309
-#, fuzzy
-msgid "Add a Field"
-msgstr "增加/刪除"
-
-#: admin/tab-fields.php:315 admin/tab-fields.php:467
-msgid "Field Label"
-msgstr "區塊標籤"
-
-#: admin/tab-fields.php:317
-msgid "The name of the field as it will be displayed to the user."
-msgstr ""
-
-#: admin/tab-fields.php:320 admin/tab-fields.php:468
-msgid "Option Name"
-msgstr "選項名稱"
-
-#: admin/tab-fields.php:326
-msgid ""
-"The database meta value for the field. It must be unique and contain no "
-"spaces (underscores are ok)."
-msgstr ""
-
-#: admin/tab-fields.php:330 admin/tab-fields.php:469
-msgid "Field Type"
-msgstr "欄位類型"
-
-#: admin/tab-fields.php:336
-msgid "text"
-msgstr "文字"
-
-#: admin/tab-fields.php:337
-msgid "email"
-msgstr ""
-
-#: admin/tab-fields.php:338
-msgid "textarea"
-msgstr "文字區 "
-
-#: admin/tab-fields.php:339
-msgid "checkbox"
-msgstr "核選框"
-
-#: admin/tab-fields.php:340
-msgid "multiple checkbox"
-msgstr ""
-
-#: admin/tab-fields.php:341
-msgid "select (dropdown)"
-msgstr ""
-
-#: admin/tab-fields.php:342
-msgid "multiple select"
-msgstr ""
-
-#: admin/tab-fields.php:343
-msgid "radio group"
-msgstr ""
-
-#: admin/tab-fields.php:344
-msgid "password"
-msgstr "密碼"
-
-#: admin/tab-fields.php:345
-msgid "image"
-msgstr ""
-
-#: admin/tab-fields.php:346
-msgid "file"
-msgstr ""
-
-#: admin/tab-fields.php:347
-msgid "url"
-msgstr ""
-
-#: admin/tab-fields.php:348
-msgid "hidden"
-msgstr ""
-
-#: admin/tab-fields.php:353 admin/tab-fields.php:470
-msgid "Display?"
-msgstr "顯示?"
-
-#: admin/tab-fields.php:357 admin/tab-fields.php:471
-msgid "Required?"
-msgstr "必要?"
-
-#: admin/tab-fields.php:363
-msgid "Additional information for field upload fields"
-msgstr ""
-
-#: admin/tab-fields.php:366
-msgid "Accepted file types:"
-msgstr ""
-
-#: admin/tab-fields.php:371
-msgid "Accepted file types should be set like this: jpg|jpeg|png|gif"
-msgstr ""
-
-#: admin/tab-fields.php:378
-#, fuzzy
-msgid "Additional information for checkbox fields"
-msgstr "WP-members附加區塊"
-
-#: admin/tab-fields.php:381
-#, fuzzy
-msgid "Checked by default?"
-msgstr "合格?"
-
-#: admin/tab-fields.php:385
-#, fuzzy
-msgid "Stored value if checked:"
-msgstr "合格?"
-
-#: admin/tab-fields.php:397
-#, fuzzy
-msgid "Additional information for dropdown fields"
-msgstr "WP-members附加區塊"
-
-#: admin/tab-fields.php:400
-msgid "For dropdown, array of values:"
-msgstr "下拉選單, 使用一批數值於下拉單"
-
-#: admin/tab-fields.php:425
-msgid "Options should be Option Name|option_value,"
-msgstr "選項須為選項值"
 
 #: admin/tab-fields.php:429
-msgid "Visit plugin site for more information"
-msgstr "更多資訊請查閱插件網站"
-
-#: admin/tab-fields.php:437
-#, fuzzy
-msgid "Add Field"
-msgstr "增加/刪除"
-
-#: admin/tab-fields.php:458
-msgid "Manage Fields"
-msgstr "區塊管理"
-
-#: admin/tab-fields.php:460
-msgid ""
-"Determine which fields will display and which are required.  This includes "
-"all fields, both native WP fields and WP-Members custom fields."
-msgstr ""
-"判定哪些區塊會顯示及哪些區塊是必要的. 這裡包括所有區塊, 原始WP區塊和WP-"
-"Members客製區塊"
-
-#: admin/tab-fields.php:461
-msgid "(Note: Email is always mandatory and cannot be changed.)"
-msgstr "(註: 電子郵件永遠是有管制並不能改變的.)"
-
-#: admin/tab-fields.php:466
-msgid "Add/Delete"
-msgstr "增加/刪除"
-
-#: admin/tab-fields.php:472
-msgid "Checked?"
-msgstr "合格?"
-
-#: admin/tab-fields.php:474
-#, fuzzy
-msgid "Users Screen"
-msgstr "輸出"
-
-#: admin/tab-fields.php:486
-msgid "Delete"
-msgstr "刪除"
-
-#: admin/tab-fields.php:498
-msgid "(Email cannot be removed)"
-msgstr "（電子郵件不能被刪除）"
-
-#: admin/tab-fields.php:518
-#, fuzzy
-msgid "Registration Date"
-msgstr "完成註冊"
-
-#: admin/tab-fields.php:521
-#, fuzzy
-msgid "native"
-msgstr ""
-"判定哪些區塊會顯示及哪些區塊是必要的. 這裡包括所有區塊, 原始WP區塊和WP-"
-"Members客製區塊"
-
-#: admin/tab-fields.php:531
-#, fuzzy
-msgid "Active"
-msgstr " 開通 "
-
-#: admin/tab-fields.php:543
-#, fuzzy
-msgid "Registration IP"
-msgstr "註冊位址"
-
-#: admin/tab-fields.php:578
-msgid "Update Fields"
-msgstr "更新區塊"
-
-#: admin/tab-options.php:69
-msgid "Manage Options"
-msgstr "選項管理"
-
-#: admin/tab-options.php:86
-msgid "Do not block"
+msgid "Subscription Type"
 msgstr ""
 
-#: admin/tab-options.php:88
-msgid "Hide"
+#: admin/tab-fields.php:872
+msgid "Form field order updated."
 msgstr ""
 
-#: admin/tab-options.php:99
-msgid "Show Excerpts"
+#: admin/tab-fields.php:830
+msgid "%s was updated"
 msgstr ""
 
-#: admin/tab-options.php:100
-msgid "Show Login Form"
+#: admin/tab-fields.php:817
+msgid "%s was added"
 msgstr ""
 
-#: admin/tab-options.php:101
-msgid "Show Registration Form"
+#: admin/tab-fields.php:732
+msgid "Meta Key is required. Nothing was updated."
 msgstr ""
 
-#: admin/tab-options.php:102
-#, fuzzy
-msgid "Auto Excerpt:"
-msgstr "顯示引用"
-
-#: admin/tab-options.php:122
-#, fuzzy
-msgid "Number of words in excerpt:"
-msgstr "顯示引用"
-
-#: admin/tab-options.php:136
-msgid "Time-based expiration"
-msgstr " 計時有效期"
-
-#: admin/tab-options.php:136
-msgid "Allows for access to expire"
-msgstr "考慮(允許)存取以終止"
-
-#: admin/tab-options.php:137
-msgid "Trial period"
-msgstr "試用期"
-
-#: admin/tab-options.php:137
-msgid "Allows for a trial period"
-msgstr "考慮(允許)試用"
-
-#: admin/tab-options.php:153
-msgid "Notify admin"
-msgstr "通知管理員"
-
-#: admin/tab-options.php:153
-#, fuzzy, php-format
-msgid "Notify %s for each new registration? %s"
-msgstr "每件新註冊都發電郵給管理員"
-
-#: admin/tab-options.php:154
-msgid "Moderate registration"
-msgstr "註冊核可"
-
-#: admin/tab-options.php:154
-msgid "Holds new registrations for admin approval"
-msgstr "保留新註冊以待管理員核准"
-
-#: admin/tab-options.php:155
-msgid "Ignore warning messages"
-msgstr "略過警示訊息"
-
-#: admin/tab-options.php:155
-msgid "Ignores WP-Members warning messages in the admin panel"
-msgstr "略過管理台的WP-Members警示訊息"
-
-#: admin/tab-options.php:167
-msgid "Attribution"
+#: admin/tab-fields.php:731
+msgid "Field Label is required. Nothing was updated."
 msgstr ""
 
-#: admin/tab-options.php:169
-msgid ""
-"Attribution is appreciated!  Display \"powered by\" link on register form?"
+#: admin/tab-dropins.php:315 admin/tab-fields.php:568
+msgid "Save Settings"
 msgstr ""
 
-#: admin/tab-options.php:172
-#, fuzzy
-msgid "Enable CAPTCHA"
-msgstr "開啟註冊使用驗證碼功能"
-
-#: admin/tab-options.php:174 admin/user-profile.php:97 inc/forms.php:806
-#: inc/users.php:70
-msgid "None"
+#: admin/tab-fields.php:567
+msgid "Delete Selected"
 msgstr ""
 
-#: admin/tab-options.php:180
-msgid "Pages"
+#: admin/tab-fields.php:517
+msgid "Display Label"
 msgstr ""
 
-#: admin/tab-options.php:184
-msgid "Login Page:"
+#: admin/tab-fields.php:420
+msgid "Drag and drop to reorder fields"
 msgstr ""
 
-#: admin/tab-options.php:187
-msgid "Specify a login page (optional)"
+#: admin/tab-fields.php:380 admin/tab-fields.php:831
+msgid "Return to Fields Table"
 msgstr ""
 
-#: admin/tab-options.php:196
-#, fuzzy
-msgid "Register Page:"
-msgstr "註冊頁網址："
-
-#: admin/tab-options.php:199
-msgid "For creating a register link in the login form"
+#: admin/tab-fields.php:269
+msgid "Maximum Value"
 msgstr ""
 
-#: admin/tab-options.php:208
-#, fuzzy
-msgid "User Profile Page:"
-msgstr "用戶更新"
-
-#: admin/tab-options.php:211
-msgid "For creating a forgot password link in the login form"
+#: admin/tab-fields.php:265
+msgid "Minimum Value"
 msgstr ""
 
-#: admin/tab-options.php:217 admin/tab-options.php:219
-msgid "Stylesheet"
+#: admin/tab-fields.php:256
+msgid "Title"
 msgstr ""
 
-#: admin/tab-options.php:228
-#, fuzzy
-msgid "Custom Stylesheet:"
-msgstr "客製"
-
-#: admin/tab-options.php:234 admin/tab-options.php:260
-msgid "Update Settings"
-msgstr "更新設定"
-
-#: admin/tab-options.php:241
-msgid "Custom Post Types"
+#: admin/tab-fields.php:250
+msgid "Pattern"
 msgstr ""
 
-#: admin/tab-options.php:342
-msgid "Custom Post Type settings were updated"
+#: admin/tab-fields.php:242
+msgid "Placeholder"
 msgstr ""
 
-#: admin/tab-options.php:460
-msgid "WP-Members settings were updated"
-msgstr "WP-members  已更新設定"
-
-#: admin/tab-options.php:530 admin/tab-options.php:559
-msgid "USE CUSTOM URL BELOW"
+#: admin/tab-fields.php:235
+msgid "Allow HTML?"
 msgstr ""
 
-#: admin/tab-options.php:548
-#, fuzzy
-msgid "Select a page"
-msgstr "新註冊"
-
-#: admin/user-export.php:72
-msgid "Activated?"
-msgstr "開通?"
-
-#: admin/user-export.php:73
-msgid "Subscription"
-msgstr "訂閱"
-
-#: admin/user-export.php:73
-msgid "Expires"
-msgstr "過期"
-
-#: admin/user-export.php:75
-msgid "Registered"
-msgstr "註冊過的"
-
-#: admin/user-export.php:76
-msgid "IP"
-msgstr " 位址"
-
-#: admin/user-export.php:108 admin/users.php:336
-msgid "No"
-msgstr " 不可"
-
-#: admin/user-profile.php:52
-msgid "WP-Members Additional Fields"
-msgstr "WP-members附加區塊"
-
-#: admin/user-profile.php:115 inc/users.php:90 inc/wp-registration.php:37
-#: inc/wp-registration.php:154
-msgid "(required)"
-msgstr "必要?"
-
-#: admin/user-profile.php:283
-msgid "Activate this user?"
-msgstr "開通此用戶?"
-
-#: admin/user-profile.php:288
-msgid "Reactivate this user?"
-msgstr "重新開通此用戶?"
-
-#: admin/user-profile.php:293
-msgid "Deactivate this user?"
-msgstr "開除此用戶?"
-
-#: admin/user-profile.php:339
-msgid "IP @ registration"
-msgstr "註冊位址"
-
-#: admin/users.php:59 admin/users.php:63
-msgid "Activate"
+#: admin/tab-fields.php:220
+msgid "date"
 msgstr ""
 
-#: admin/users.php:61 admin/users.php:65
-msgid "Export"
-msgstr "輸出"
-
-#: admin/users.php:66 admin/users.php:107
-#, fuzzy
-msgid "Export All Users"
-msgstr "輸出"
-
-#: inc/class-wp-members-widget.php:18
-msgid "Displays the WP-Members sidebar login."
+#: admin/tab-fields.php:219
+msgid "number"
 msgstr ""
 
-#: inc/class-wp-members-widget.php:33 inc/class-wp-members-widget.php:76
-msgid "Login Status"
-msgstr "會員登入"
-
-#: inc/class-wp-members-widget.php:40
-msgid "Title:"
-msgstr "標題"
-
-#: inc/class-wp-members-widget.php:44
-msgid "Redirect to (optional):"
+#: admin/tab-fields.php:151
+msgid "Field Manager Documentation"
 msgstr ""
 
-#: inc/class-wp-members.php:388 inc/shortcodes.php:117 inc/shortcodes.php:386
-msgid "There was an error with the CAPTCHA form."
-msgstr "驗證碼表單有錯誤"
-
-#: inc/class-wp-members.php:546
-msgid "First Name"
-msgstr "名"
-
-#: inc/class-wp-members.php:547
-msgid "Last Name"
-msgstr "姓"
-
-#: inc/class-wp-members.php:548
-msgid "Address 1"
-msgstr "地址 1"
-
-#: inc/class-wp-members.php:549
-msgid "Address 2"
-msgstr "地址 2"
-
-#: inc/class-wp-members.php:550
-msgid "City"
-msgstr " 城市"
-
-#: inc/class-wp-members.php:551
-msgid "State"
-msgstr "州"
-
-#: inc/class-wp-members.php:552
-msgid "Zip"
-msgstr "郵遞區號"
-
-#: inc/class-wp-members.php:553
-msgid "Country"
-msgstr "國家"
-
-#: inc/class-wp-members.php:554
-msgid "Day Phone"
-msgstr "日間電話"
-
-#: inc/class-wp-members.php:555 inc/class-wp-members.php:588
-msgid "Email"
-msgstr "電子郵件"
-
-#: inc/class-wp-members.php:556
-msgid "Confirm Email"
+#: admin/tab-fields.php:137
+msgid "Fields deleted"
 msgstr ""
 
-#: inc/class-wp-members.php:557
-msgid "Website"
-msgstr "網站"
-
-#: inc/class-wp-members.php:558
-msgid "Biographical Info"
-msgstr "關於我"
-
-#: inc/class-wp-members.php:559 inc/class-wp-members.php:569
-#: inc/class-wp-members.php:645
-msgid "Password"
-msgstr "密碼"
-
-#: inc/class-wp-members.php:560
-msgid "Confirm Password"
+#: admin/tab-fields.php:110
+msgid "Are you sure you want to delete the following fields?"
 msgstr ""
 
-#: inc/class-wp-members.php:561
-msgid "TOS"
-msgstr "服務條款 "
-
-#: inc/class-wp-members.php:567
-#, fuzzy
-msgid "Existing Users Log In"
-msgstr "登入"
-
-#: inc/class-wp-members.php:568 inc/class-wp-members.php:587
-#: inc/class-wp-members.php:608 inc/class-wp-members.php:644
-msgid "Username"
-msgstr "用戶名"
-
-#: inc/class-wp-members.php:570
-msgid "Log In"
+#: admin/tab-options.php:90
+msgid "Content Blocking"
 msgstr ""
 
-#: inc/class-wp-members.php:571
-msgid "Remember Me"
+#: admin/includes/class-wp-members-admin-api.php:274
+msgid "Your custom email message content."
 msgstr ""
 
-#: inc/class-wp-members.php:572
-msgid "Forgot password?"
-msgstr "忘記密碼?"
-
-#: inc/class-wp-members.php:573
-msgid "Click here to reset"
-msgstr "點擊此處重設"
-
-#: inc/class-wp-members.php:574
-msgid "New User?"
-msgstr "新用戶?"
-
-#: inc/class-wp-members.php:575
-msgid "Click here to register"
-msgstr "點擊此處註冊Cheatin&#8217;uh?"
-
-#: inc/class-wp-members.php:576
-msgid "Forgot username?"
+#: admin/includes/class-wp-members-admin-api.php:268
+msgid "Custom email"
 msgstr ""
 
-#: inc/class-wp-members.php:577
-msgid "Click here"
+#: admin/tab-options.php:191
+msgid "Really Simple CAPTCHA"
 msgstr ""
 
-#: inc/class-wp-members.php:580 inc/class-wp-members.php:630
-msgid "Change Password"
-msgstr "變更密碼"
-
-#: inc/class-wp-members.php:581
-msgid "New password"
+#: admin/tab-options.php:190
+msgid "reCAPTCHA"
 msgstr ""
 
-#: inc/class-wp-members.php:582
-msgid "Confirm new password"
+#: admin/tab-options.php:134
+msgid "Custom read more link (optional):"
 msgstr ""
 
-#: inc/class-wp-members.php:583
-msgid "Update Password"
-msgstr "更新密碼"
-
-#: inc/class-wp-members.php:586
-msgid "Reset Forgotten Password"
-msgstr "重設遺忘密碼"
-
-#: inc/class-wp-members.php:589
-msgid "Reset Password"
+#: admin/tab-fields.php:191 admin/tab-fields.php:518
+msgid "Meta Key"
 msgstr ""
 
-#: inc/class-wp-members.php:592 inc/class-wp-members.php:594
-msgid "Retrieve username"
+#: admin/tab-fields.php:359
+msgid "Value"
 msgstr ""
 
-#: inc/class-wp-members.php:593
-msgid "Email Address"
+#: admin/tab-fields.php:810
+msgid "A value is required for hidden fields. Nothing was updated."
 msgstr ""
 
-#: inc/class-wp-members.php:597
-#, fuzzy
-msgid "New User Registration"
-msgstr "新用戶?"
-
-#: inc/class-wp-members.php:598
-msgid "Choose a Username"
-msgstr "選取用戶名稱選取用戶名稱"
-
-#: inc/class-wp-members.php:599
-msgid "Input the code:"
+#: admin/tab-fields.php:323
+msgid "Values (Displayed|Stored):"
 msgstr ""
 
-#: inc/class-wp-members.php:600
-#, fuzzy, php-format
-msgid "Please indicate that you agree to the %s TOS %s"
-msgstr "請即表示您同意％s TOS％s的內容"
+#: admin/post.php:143
+msgid "%s blocked"
+msgstr ""
 
-#: inc/class-wp-members.php:601
-#, fuzzy
-msgid "Reset Form"
-msgstr "驗證碼表單有錯誤"
+#: admin/post.php:143
+msgid "%s unblocked"
+msgstr ""
 
-#: inc/class-wp-members.php:602 inc/class-wp-members.php:648 inc/core.php:522
-msgid "Register"
-msgstr "註冊"
+#: inc/api.php:471
+msgid "log out"
+msgstr "登出"
 
-#: inc/class-wp-members.php:604
-msgid "Required field"
-msgstr "必填區塊"
+#: admin/users.php:180
+msgid "That user is already active"
+msgstr "該用戶帳號已啟用"
 
-#: inc/class-wp-members.php:607 inc/shortcodes.php:432
-msgid "Edit Your Information"
-msgstr "編輯你的資訊"
+#: admin/users.php:175
+msgid "%s activated"
+msgstr ""
 
-#: inc/class-wp-members.php:609
-#, fuzzy
-msgid "Update Profile"
-msgstr "用戶更新"
+#: admin/users.php:151
+msgid "No users selected"
+msgstr ""
 
-#: inc/class-wp-members.php:610
+#: admin/users.php:148
+msgid "%s users activated"
+msgstr "%s 用戶已啟用"
+
+#: admin/tab-options.php:261
+msgid "Add to WP-Members Settings"
+msgstr ""
+
+#: admin/tab-options.php:161
+msgid "Other Settings"
+msgstr ""
+
+#: admin/tab-options.php:151
+msgid "Subscription Settings"
+msgstr ""
+
+#: admin/tab-options.php:79
+msgid "Content"
+msgstr "內容"
+
+#: admin/tab-fields.php:314
+msgid "Stored values delimiter:"
+msgstr ""
+
+#: admin/tab-about.php:34 admin/tab-about.php:56
+msgid "About WP-Members"
+msgstr "關於 WP-Members"
+
+#: admin/dialogs.php:145
+msgid "If you will not be changing these settings, you can turn off these warning messages by checking the \"Ignore warning messages\" in the settings below."
+msgstr ""
+
+#: admin/dialogs.php:144
+msgid "You have active settings that are not recommended."
+msgstr ""
+
+#: inc/class-wp-members.php:1057
+msgid "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account."
+msgstr "密碼已成功重置！<br /><br />包含新密碼的電子郵件已發送到您帳戶的電子郵件地址。"
+
+#: inc/class-wp-members.php:1056
+msgid "Either the username or email address do not exist in our records."
+msgstr "用戶名或電子郵件地址不在我們的記錄中。"
+
+#: inc/class-wp-members.php:1055
+msgid "Password successfully changed!"
+msgstr "密碼修改成功！"
+
+#: inc/class-wp-members.php:1054
+msgid "Passwords did not match.<br /><br />Please try again."
+msgstr "密碼不正確。<br /><br />請重試。"
+
+#: inc/class-wp-members.php:1053
+msgid "Your information was updated!"
+msgstr "您的資訊已更新！"
+
+#: inc/class-wp-members.php:1052
+msgid "Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you."
+msgstr "恭喜！ 您已完成註冊。<br /><br />您現在可以使用寄發給您的密碼登入網站。"
+
+#: inc/class-wp-members.php:1051
+msgid "Sorry, that email address already has an account.<br />Please try another."
+msgstr "很抱歉，該電子郵件地址已被使用。<br />請嘗試其他電子郵件地址。"
+
+#: inc/class-wp-members.php:1050
+msgid "Sorry, that username is taken, please try another."
+msgstr "抱歉，帳號已被使用，請嘗試另一組帳號。"
+
+#: inc/class-wp-members.php:1049
+msgid "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below."
+msgstr ""
+
+#: inc/class-wp-members.php:1007
 msgid "Update this file"
 msgstr ""
 
-#: inc/class-wp-members.php:613
-msgid "Login Failed!"
-msgstr "登入失敗"
-
-#: inc/class-wp-members.php:614
-msgid "You entered an invalid username or password."
-msgstr "你輸入了一個無效的用戶名或密碼"
-
-#: inc/class-wp-members.php:615
-msgid "Click here to continue."
-msgstr "點擊此處繼續"
-
-#: inc/class-wp-members.php:616
-msgid "Password fields cannot be empty"
-msgstr "密碼區塊不可空白"
-
-#: inc/class-wp-members.php:617
-msgid "Sorry, that email address was not found."
+#: inc/class-wp-members.php:958
+msgid "TOS"
 msgstr ""
 
-#: inc/class-wp-members.php:618
-#, php-format
+#: inc/class-wp-members.php:957
+msgid "Confirm Password"
+msgstr "確認密碼"
+
+#: inc/class-wp-members.php:955
+msgid "Biographical Info"
+msgstr ""
+
+#: inc/class-wp-members.php:954
+msgid "Website"
+msgstr "網站"
+
+#: inc/class-wp-members.php:953
+msgid "Confirm Email"
+msgstr "確認郵件"
+
+#: inc/class-wp-members.php:951
+msgid "Day Phone"
+msgstr "日間電話"
+
+#: inc/class-wp-members.php:950
+msgid "Country"
+msgstr "國家"
+
+#: inc/class-wp-members.php:949
+msgid "Zip"
+msgstr ""
+
+#: inc/class-wp-members.php:948
+msgid "State"
+msgstr "州"
+
+#: inc/class-wp-members.php:947
+msgid "City"
+msgstr "城市"
+
+#: inc/class-wp-members.php:946
+msgid "Address 2"
+msgstr "地址 2"
+
+#: inc/class-wp-members.php:945
+msgid "Address 1"
+msgstr "地址 1"
+
+#: inc/class-wp-members.php:944
+msgid "Last Name"
+msgstr "姓"
+
+#: inc/class-wp-members.php:943
+msgid "First Name"
+msgstr "名字"
+
+#: admin/tab-fields.php:221
+msgid "hidden"
+msgstr ""
+
+#: admin/tab-fields.php:218
+msgid "url"
+msgstr "網址"
+
+#: admin/tab-fields.php:216
+msgid "image"
+msgstr "圖片"
+
+#: admin/tab-fields.php:214
+msgid "radio group"
+msgstr ""
+
+#: admin/tab-fields.php:213
+msgid "multiple select"
+msgstr ""
+
+#: admin/tab-fields.php:212
+msgid "select (dropdown)"
+msgstr "選擇（下拉）"
+
+#: admin/tab-fields.php:211
+msgid "multiple checkbox"
+msgstr ""
+
+#: admin/tab-fields.php:208
+msgid "email"
+msgstr "電郵地址"
+
+#: inc/class-wp-members.php:986
+msgid "Click here"
+msgstr "按這裡"
+
+#: inc/class-wp-members.php:985
+msgid "Forgot username?"
+msgstr "忘記用戶名?"
+
+#: admin/tab-options.php:356
+msgid "Custom Post Type settings were updated"
+msgstr ""
+
+#: admin/tab-options.php:255
+msgid "Custom Post Types"
+msgstr "自訂文章類型"
+
+#: admin/post.php:214
+msgid "Block this %s"
+msgstr "封鎖這個 %s"
+
+#: admin/post.php:213
+msgid "%s are not blocked by default."
+msgstr "%s 預設不被封鎖。"
+
+#: admin/post.php:210
+msgid "Unblock this %s"
+msgstr ""
+
+#: admin/post.php:209
+msgid "%s are blocked by default."
+msgstr "%s 被預設封鎖。"
+
+#: admin/post.php:182
+msgid "%s Restriction"
+msgstr ""
+
+#: inc/class-wp-members.php:989 inc/class-wp-members.php:991
+msgid "Retrieve username"
+msgstr ""
+
+#: inc/class-wp-members.php:990
+msgid "Email Address"
+msgstr "郵箱地址"
+
+#: inc/class-wp-members.php:1015
 msgid "An email was sent to %s with your username."
 msgstr ""
 
-#: inc/class-wp-members.php:619
-#, php-format
-msgid "Sorry, %s is a required field."
-msgstr "抱歉, %s 是必須的"
-
-#: inc/class-wp-members.php:620
-msgid "You must enter a valid email address."
-msgstr "你必須輸入一個有效的電子郵件"
-
-#: inc/class-wp-members.php:621
-msgid "The username cannot include non-alphanumeric characters."
-msgstr "用戶名不可包含非字母形式的字元."
-
-#: inc/class-wp-members.php:622
-msgid "Sorry, username is a required field"
-msgstr "抱歉, 用戶名是必須的"
-
-#: inc/class-wp-members.php:623
-#, fuzzy
-msgid "Passwords did not match."
-msgstr "密碼不符"
-
-#: inc/class-wp-members.php:624
-#, fuzzy
-msgid "Emails did not match."
-msgstr "密碼不符"
-
-#: inc/class-wp-members.php:625
-msgid "You must complete the CAPTCHA form."
-msgstr "你必須完成驗證碼單"
-
-#: inc/class-wp-members.php:626
-msgid "CAPTCHA was not valid."
+#: inc/class-wp-members.php:1014
+msgid "Sorry, that email address was not found."
 msgstr ""
 
-#: inc/class-wp-members.php:629
-msgid "Edit My Information"
-msgstr "編輯我的資訊 "
-
-#: inc/class-wp-members.php:631 inc/class-wp-members.php:634
-#: inc/class-wp-members.php:636 inc/class-wp-members.php:640
-#, php-format
-msgid "You are logged in as %s"
-msgstr "你已以%s名義登入"
-
-#: inc/class-wp-members.php:632
-#, fuzzy
-msgid "Click to log out."
-msgstr "登入"
-
-#: inc/class-wp-members.php:633
-msgid "Begin using the site."
-msgstr "開始使用本網站"
-
-#: inc/class-wp-members.php:635
-#, fuzzy
-msgid "Click to log out"
-msgstr "登入"
-
-#: inc/class-wp-members.php:637
-#, fuzzy
-msgid "click to log out"
-msgstr "登入"
-
-#: inc/class-wp-members.php:641
-msgid "click here to log out"
-msgstr "點擊此處登出"
-
-#: inc/class-wp-members.php:642
-msgid "Login Failed!<br />You entered an invalid username or password."
-msgstr "登入失敗! 你輸入了一個無效的用戶名或密碼."
-
-#: inc/class-wp-members.php:643
-#, fuzzy
-msgid "You are not logged in."
-msgstr "你已以%s名義登入"
-
-#: inc/class-wp-members.php:646
-#, fuzzy
-msgid "log in"
-msgstr "登入"
-
-#: inc/class-wp-members.php:647
-msgid "Forgot?"
-msgstr "忘記?"
-
-#: inc/class-wp-members.php:651
-#, fuzzy
-msgid ""
-"This content is restricted to site members.  If you are an existing user, "
-"please log in.  New users may register below."
-msgstr "本內容只對會員開放.如果您是現有會員請登入. 新用戶請於下方註冊"
-
-#: inc/class-wp-members.php:652
-msgid "Sorry, that username is taken, please try another."
-msgstr "抱歉,此用戶名已被採用, 請換一個再試."
-
-#: inc/class-wp-members.php:653
-msgid ""
-"Sorry, that email address already has an account.<br />Please try another."
-msgstr "抱歉, 此電子郵件已經有所屬帳戶. 請換一個再試."
-
-#: inc/class-wp-members.php:654
-#, fuzzy
-msgid ""
-"Congratulations! Your registration was successful.<br /><br />You may now "
-"log in using the password that was emailed to you."
-msgstr "恭喜! 您已註冊成功. 您現在可用我們電子郵件發給您的密碼登入"
-
-#: inc/class-wp-members.php:655
-msgid "Your information was updated!"
-msgstr "你的資料已更新!"
-
-#: inc/class-wp-members.php:656
-msgid "Passwords did not match.<br /><br />Please try again."
-msgstr "密碼不符. 請再試一次.."
-
-#: inc/class-wp-members.php:657
-msgid "Password successfully changed!"
+#: admin/includes/class-wp-members-admin-api.php:401
+msgid "Retrieve Username"
 msgstr ""
 
-#: inc/class-wp-members.php:658
-msgid "Either the username or email address do not exist in our records."
-msgstr "此用戶名或電子郵件不存在你的檔案中."
-
-#: inc/class-wp-members.php:659
-msgid ""
-"Password successfully reset!<br /><br />An email containing a new password "
-"has been sent to the email address on file for your account."
+#. Author URI of the plugin/theme
+msgid "http://butlerblog.com/"
 msgstr ""
 
-#: inc/core.php:106
-msgid "<strong>ERROR</strong>: User has not been activated."
-msgstr "錯誤,用戶名尚未開通"
-
-#: inc/register.php:45
-#, fuzzy
-msgid "There was an error processing the form."
-msgstr "驗證碼表單有錯誤"
-
-#: inc/register.php:557
-msgid "We were unable to validate the public key."
-msgstr "你沒有驗證公開鍵"
-
-#: inc/register.php:561
-msgid "We were unable to validate the private key."
-msgstr "你沒有驗證隱密鍵"
-
-#: inc/register.php:565
-msgid "The challenge parameter of the verify script was incorrect."
-msgstr "驗證腳本中的破解參數不正確"
-
-#: inc/register.php:569
-msgid "The CAPTCHA solution was incorrect."
-msgstr "驗證碼解答不正確"
-
-#: inc/register.php:573
-msgid "The parameters to verify were incorrect"
-msgstr "用以驗證之參數不正確"
-
-#: inc/register.php:577
-msgid ""
-"reCAPTCHA API keys are tied to a specific domain name for security reasons."
-msgstr "驗證碼功能的API鍵因安全維護與特定網域名有所連結"
-
-#: inc/register.php:581
-msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
-msgstr "驗證碼功能伺服器無法連線. 請嘗試重新提交."
-
-#: inc/register.php:585
-msgid "You have entered an incorrect code value. Please try again."
+#. Author of the plugin/theme
+msgid "Chad Butler"
 msgstr ""
 
-#: inc/shortcodes.php:346
-msgid "Click here to log out."
+#. Description of the plugin/theme
+msgid "WP access restriction and user registration.  For more information on plugin features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com."
 msgstr ""
 
-#: inc/users.php:37
-#, fuzzy
-msgid "Additional Information"
-msgstr "WP-members附加區塊"
-
-#: inc/utilities.php:202
-msgid "(more&hellip;)"
+#. Plugin URI of the plugin/theme
+msgid "https://rocketgeek.com"
 msgstr ""
-
-#: wp-members-tos.php:23
-msgid "Terms of Service"
-msgstr "服務條款"
-
-#: wp-members-tos.php:35
-#, php-format
-msgid "%sclose%s"
-msgstr "%s關閉%s"
-
-#: wp-members-tos.php:37
-#, fuzzy, php-format
-msgid "%sprint%s"
-msgstr "%S列印%s"
 
 #. Plugin Name of the plugin/theme
 msgid "WP-Members"
 msgstr "WP-Members"
 
-#. Plugin URI of the plugin/theme
-msgid "http://rocketgeek.com"
+#: wp-members-tos.php:37
+msgid "%sprint%s"
 msgstr ""
 
-#. Description of the plugin/theme
-msgid ""
-"WP access restriction and user registration.  For more information on plugin "
-"features, refer to <a href=\"http://rocketgeek.com/plugins/wp-members/users-"
-"guide/\">the online Users Guide</a>. A <a href=\"http://rocketgeek.com/"
-"plugins/wp-members/quick-start-guide/\">Quick Start Guide</a> is also "
-"available. WP-Members(tm) is a trademark of butlerblog.com."
+#: wp-members-tos.php:35
+msgid "%sclose%s"
+msgstr "%s關閉%s"
+
+#: wp-members-tos.php:23
+msgid "Terms of Service"
+msgstr "服務條款"
+
+#: inc/utilities.php:152
+msgid "(more&hellip;)"
+msgstr "（繼續閱讀&hellip;）"
+
+#: inc/class-wp-members-user-profile.php:37 inc/deprecated.php:639
+#: inc/users.php:37
+msgid "Additional Information"
+msgstr "附加資訊"
+
+#: inc/class-wp-members.php:1039
+msgid "click here to log out"
+msgstr "點擊此處登出"
+
+#: inc/class-wp-members.php:1045
+msgid "Forgot?"
+msgstr "忘記?"
+
+#: inc/api.php:470 inc/class-wp-members.php:1044
+msgid "log in"
+msgstr "登入"
+
+#: inc/class-wp-members.php:1041
+msgid "You are not logged in."
+msgstr "你尚未登入。"
+
+#: inc/class-wp-members.php:1040
+msgid "Login Failed!<br />You entered an invalid username or password."
+msgstr "登入失敗! 你輸入了一個無效的用戶名或密碼."
+
+#: inc/shortcodes.php:576
+msgid "Click here to log out."
+msgstr "點擊此處登出"
+
+#: inc/register.php:435
+msgid "You have entered an incorrect code value. Please try again."
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "Chad Butler"
-msgstr "Chad Butler"
-
-#. Author URI of the plugin/theme
-msgid "http://butlerblog.com/"
-msgstr "http://butlerblog.com/"
-
-#, fuzzy
-#~ msgid "%s posts %sed."
-#~ msgstr "默認封鎖發文"
-
-#, fuzzy
-#~ msgid "Post Restriction"
-#~ msgstr "新註冊"
-
-#, fuzzy
-#~ msgid "Page Restriction"
-#~ msgstr "新註冊"
-
-#~ msgid "Subject"
-#~ msgstr "主題"
-
-#~ msgid "Body"
-#~ msgstr "主體"
-
-#~ msgid "dropdown"
-#~ msgstr "下拉"
-
-#~ msgid "Block Posts by default"
-#~ msgstr "默認封鎖發文"
-
-#~ msgid ""
-#~ "Note: Posts can still be individually blocked or unblocked at the article "
-#~ "level"
-#~ msgstr "附註: 在文章層級,頁面仍可單獨選擇封鎖或打開"
-
-#~ msgid "Block Pages by default"
-#~ msgstr "默認封鎖頁面"
-
-#~ msgid ""
-#~ "Note: Pages can still be individually blocked or unblocked at the article "
-#~ "level"
-#~ msgstr "附註: 在文章層級,頁面仍可單獨選擇封鎖或打開"
-
-#~ msgid "Show excerpts"
-#~ msgstr "顯示引用"
-
-#~ msgid ""
-#~ "Shows excerpted content above the login/registration on both Posts and "
-#~ "Pages"
-#~ msgstr "於發文和頁面的註冊/登入上方顯示引用的內容"
-
-#~ msgid "Turns on CAPTCHA for registration"
-#~ msgstr "開啟註冊使用驗證碼功能"
-
-#, fuzzy
-#~ msgid "Hide registration"
-#~ msgstr "完成註冊"
-
-#~ msgid "Optional"
-#~ msgstr "選項"
-
-#, fuzzy
-#~ msgid "Automatically creates an excerpt"
-#~ msgstr "顯示引用"
-
-#~ msgid "AIM"
-#~ msgstr "AIM"
-
-#~ msgid "Yahoo IM"
-#~ msgstr "Yahoo IM"
-
-#~ msgid "Jabber/Google Talk"
-#~ msgstr "Jabber/Google Talk"
-
-#~ msgid ""
-#~ "Password successfully changed!<br /><br />You will need to re-login with "
-#~ "your new password."
-#~ msgstr "已成功變更密碼! 你必須用新密碼重新登入."
-
-#~ msgid ""
-#~ "Password successfully reset!<br /><br />An email containing a new "
-#~ "password has been sent to the email address on file for your account. You "
-#~ "may change this random password then re-login with your new password."
-#~ msgstr ""
-#~ "已成功重設密碼! 一封含有新密碼的電子郵件已發送至你用戶檔案中紀錄的電郵信"
-#~ "箱. 你可以重設此隨機密碼並以新設的密碼重新登入."
-
-#~ msgid "Use reCAPTCHA"
-#~ msgstr "使用驗證碼"
-
-#~ msgid "Turn off registration"
-#~ msgstr "關閉註冊(功能)"
-
-#~ msgid "Turns off the registration process, only allows login"
-#~ msgstr "關閉註冊處理程序, 只允許登入"
-
-#~ msgid "Legacy forms"
-#~ msgstr "內建表單"
-
-#~ msgid "Members Area URL:"
-#~ msgstr "會員專區網址"
-
-#~ msgid "Add"
-#~ msgstr "增加"
-
-#~ msgid "WP-Members expiration periods were updated"
-#~ msgstr "有效期限已更新"
-
-#~ msgid ""
-#~ "Settings were saved, but you have required fields that are not set to "
-#~ "display!"
-#~ msgstr ""
-#~ "La configuración se guardó, pero tiene campos obligatorios marcados como "
-#~ "no visibles, no tiene sentido!"
-
-#~ msgid ""
-#~ "Note: This will not cause an error for the end user, as only displayed "
-#~ "fields are validated.  However, you should still check that your "
-#~ "displayed and required fields match up.  Mismatched fields are "
-#~ "highlighted below."
-#~ msgstr ""
-#~ "注意: 這不會造成使用者端的錯誤訊息,因為只有顯示的區塊是有效的.然而,你仍必"
-#~ "須檢查你這端必要顯示的區塊是相符的."
-
-#~ msgid "If you find this plugin useful, please consider making a donation"
-#~ msgstr "如果你認為此插件有用處, 請考慮給與一份捐款"
-
-#~ msgid "Subscriptions"
-#~ msgstr "訂閱"
-
-#~ msgid "PayPal Settings"
-#~ msgstr "PayPal 設定"
-
-#~ msgid "If you find this plugin useful, please consider a %s donation %s"
-#~ msgstr "如果你認為此插件有用處, 請考慮給與一份捐款"
-
-#~ msgid "Custom"
-#~ msgstr "客製"
-
-#~ msgid "%d users were activated."
-#~ msgstr "%d 用戶已開通"
-
-#~ msgid ""
-#~ "Users ready to export, %s click here %s to generate and download a CSV."
-#~ msgstr "用戶準備輸出, %s點擊這裏產生並下載一個有效驗證."
-
-#~ msgid "WP-Members Users"
-#~ msgstr "WP-members用戶"
-
-#~ msgid "Add New"
-#~ msgstr "新增"
-
-#~ msgid "No users matched your criteria"
-#~ msgstr "無符合標準的用戶 "
-
-#~ msgid "Bulk Actions"
-#~ msgstr "大批量的執行"
-
-#~ msgid "Apply"
-#~ msgstr "申請"
-
-#~ msgid "Indicates a required field"
-#~ msgstr "指名一個必要的區塊"
-
-#~ msgid "Login"
-#~ msgstr "登入"
-
-#~ msgid "New Password"
-#~ msgstr "新密碼"
-
-#~ msgid "Repeat Password"
-#~ msgstr "重輸密碼"
-
-#~ msgid "Clear Form"
-#~ msgstr "清除表單"
-
-#~ msgid "Submit"
-#~ msgstr "提出"
-
-#~ msgid "Remember me"
-#~ msgstr " 記得我"
-
-#~ msgid "Cheatin&#8217; uh?"
-#~ msgstr "Cheatin&#8217; uh?"
-
-#~ msgid "there was an error and no users were exported"
-#~ msgstr "錯誤,無用戶輸出"
-
-#~ msgid "You are not currently logged in."
-#~ msgstr "你現在並未登入."
-
-#~ msgid "login"
-#~ msgstr "登入"
-
-#~ msgid "Bio"
-#~ msgstr "Semblanza"
-
-#~ msgid "Your registration info for %s"
-#~ msgstr "Su información de registro en %s"
-
-#~ msgid "Thank you for registering for %s"
-#~ msgstr "Gracias por registrarse en %s"
-
-#~ msgid "Your registration information is below."
-#~ msgstr "Su información de registro está abajo."
-
-#~ msgid "You may wish to retain a copy for your records."
-#~ msgstr "Puede guardar una copia de su información."
-
-#~ msgid "username: %s"
-#~ msgstr "usuario: %s"
-
-#~ msgid "password: %s"
-#~ msgstr "clave: %s"
-
-#~ msgid "You may login here:"
-#~ msgstr "Puede identificarse en:"
-
-#~ msgid "You may login at: %s"
-#~ msgstr "Puede acceder en: %s"
-
-#~ msgid "You originally registered at:"
-#~ msgstr "Originalmente se registro en:"
-
-#~ msgid "Password reset for %s"
-#~ msgstr "Reiniciada clave para %s"
-
-#~ msgid "New user registration for %s"
-#~ msgstr "Nuevo registro en %s"
-
-#~ msgid "The following user registered for %s"
-#~ msgstr "El siguiente usuario se registró en %s"
-
-#~ msgid "and is pending admin approval"
-#~ msgstr "y está pendiente confirmar su permiso de acceso"
-
-#~ msgid "expires"
-#~ msgstr "Caduca"
-
-#~ msgid "Extend user:"
-#~ msgstr "Extender Usuario:"
-
-#~ msgid "Settings saved."
-#~ msgstr "Configuración Guardada"
-
-#~ msgid "Sorry,"
-#~ msgstr "Lo lamentamos,"
-
-#~ msgid "Agree to %s Terms%s"
-#~ msgstr "De acuerdo con las %s condiciones de uso %s"
-
-#~ msgid "http://butlerblog.com/wp-members/"
-#~ msgstr "http://butlerblog.com/wp-members/"
-
-#~ msgid ""
-#~ "WP access restriction and user registration.  For more information and to "
-#~ "download the free \"quick start guide,\" visit <a href=\"http://"
-#~ "butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. View "
-#~ "the live demo at <a href=\"http://butlerblog.com/wpmembers\">http://"
-#~ "butlerblog.com/wpmembers</a>. WP-Members(tm) is a trademark of butlerblog."
-#~ "com."
-#~ msgstr ""
-#~ "Restricción de acceso a WordPress y registro extendido de usuarios. Para "
-#~ "más información, puede descargar la guía de usuario en <a href=\"http://"
-#~ "butlerblog.com/wp-members\">http://butlerblog.com/wp-members</a>. Vea una "
-#~ "demostración en <a href=\"http://butlerblog.com/wpmembers\">http://"
-#~ "butlerblog.com/wpmembers</a>. WP-Members(tm) es marca registrada de "
-#~ "butlerblog.com."
+#: inc/register.php:431
+msgid "The reCAPTCHA server was not reached.  Please try to resubmit."
+msgstr "驗證碼功能伺服器無法連線. 請嘗試重新提交."
+
+#: inc/register.php:427
+msgid "reCAPTCHA API keys are tied to a specific domain name for security reasons."
+msgstr "驗證碼功能的API鍵因安全維護與特定網域名有所連結"
+
+#: inc/register.php:423
+msgid "The parameters to verify were incorrect"
+msgstr "用以驗證之參數不正確"
+
+#: inc/register.php:419
+msgid "The CAPTCHA solution was incorrect."
+msgstr "驗證碼解答不正確"
+
+#: inc/register.php:415
+msgid "The challenge parameter of the verify script was incorrect."
+msgstr "驗證腳本中的破解參數不正確"
+
+#: inc/register.php:411
+msgid "We were unable to validate the private key."
+msgstr "你沒有驗證隱密鍵"
+
+#: inc/register.php:407
+msgid "We were unable to validate the public key."
+msgstr "你沒有驗證公開鍵"
+
+#: inc/class-wp-members.php:1023
+msgid "CAPTCHA was not valid."
+msgstr "驗證碼無效。"
+
+#: inc/class-wp-members.php:1022
+msgid "You must complete the CAPTCHA form."
+msgstr "你必須完成驗證碼單"
+
+#: inc/class-wp-members.php:1021
+msgid "Emails did not match."
+msgstr "電子郵件不符。"
+
+#: inc/class-wp-members.php:1020
+msgid "Passwords did not match."
+msgstr ""
+
+#: inc/class-wp-members.php:1019
+msgid "Sorry, username is a required field"
+msgstr "抱歉，帳號為必填欄位"
+
+#: inc/class-wp-members.php:1018
+msgid "The username cannot include non-alphanumeric characters."
+msgstr "用戶名不可包含非字母形式的字元."
+
+#: inc/class-wp-members.php:1017
+msgid "You must enter a valid email address."
+msgstr "你必須輸入一個有效的電子郵件"
+
+#: inc/class-wp-members.php:1024 inc/register.php:53
+msgid "There was an error processing the form."
+msgstr ""
+
+#: inc/class-wp-members.php:996
+msgid "Input the code:"
+msgstr ""
+
+#: inc/class-wp-members.php:994
+msgid "New User Registration"
+msgstr "新用戶註冊"
+
+#: inc/class-wp-members.php:997
+msgid "Please indicate that you agree to the %s TOS %s"
+msgstr "請點擊方框表示您同意服務條款 %s TOS %s"
+
+#: inc/class-wp-members.php:995
+msgid "Choose a Username"
+msgstr "選取用戶名稱選取用戶名稱"
+
+#: inc/class-wp-members.php:1006
+msgid "Update Profile"
+msgstr "更新帳戶資料"
+
+#: inc/class-wp-members.php:998
+msgid "Reset Form"
+msgstr ""
+
+#: inc/class-wp-members.php:1001
+msgid "Required field"
+msgstr "必填區塊"
+
+#: inc/class-wp-members.php:972
+msgid "Click here to register"
+msgstr "點擊此處註冊"
+
+#: inc/class-wp-members.php:971
+msgid "New User?"
+msgstr "新用戶?"
+
+#: inc/class-wp-members.php:970
+msgid "Click here to reset"
+msgstr "點擊此處重設"
+
+#: inc/class-wp-members.php:969
+msgid "Forgot password?"
+msgstr "忘記密碼?"
+
+#: inc/class-wp-members.php:968
+msgid "Remember Me"
+msgstr "記住我"
+
+#: inc/class-wp-members.php:984
+msgid "Reset Password"
+msgstr "重設密碼"
+
+#: inc/class-wp-members.php:981
+msgid "Reset Forgotten Password"
+msgstr "重設遺忘密碼"
+
+#: inc/class-wp-members.php:952 inc/class-wp-members.php:983
+msgid "Email"
+msgstr "電郵地址"
+
+#: inc/class-wp-members.php:978
+msgid "Update Password"
+msgstr "更新密碼"
+
+#: inc/class-wp-members.php:977
+msgid "Confirm new password"
+msgstr "確認新密碼"
+
+#: inc/class-wp-members.php:976
+msgid "New password"
+msgstr "新密碼"
+
+#: inc/class-wp-members.php:967 inc/shortcodes.php:645
+msgid "Log In"
+msgstr "登入"
+
+#: inc/class-wp-members.php:964
+msgid "Existing Users Log In"
+msgstr "現有用戶登入"
+
+#: inc/class-wp-members.php:956 inc/class-wp-members.php:966
+#: inc/class-wp-members.php:1043
+msgid "Password"
+msgstr "密碼"
+
+#: inc/class-wp-members.php:965 inc/class-wp-members.php:982
+#: inc/class-wp-members.php:1005 inc/class-wp-members.php:1042
+msgid "Username"
+msgstr "用戶名"
+
+#: inc/class-wp-members.php:1004 inc/deprecated.php:285
+msgid "Edit Your Information"
+msgstr "編輯你的資訊"
+
+#: inc/class-wp-members.php:1013
+msgid "Password fields cannot be empty"
+msgstr "密碼區塊不可空白"
+
+#: inc/class-wp-members.php:1035
+msgid "click to log out"
+msgstr ""
+
+#: inc/class-wp-members.php:1033
+msgid "Click to log out"
+msgstr ""
+
+#: inc/class-wp-members.php:1031
+msgid "Begin using the site."
+msgstr "開始使用本網站"
+
+#: inc/class-wp-members.php:1030
+msgid "Click to log out."
+msgstr ""
+
+#: inc/class-wp-members.php:1029 inc/class-wp-members.php:1032
+#: inc/class-wp-members.php:1034 inc/class-wp-members.php:1038
+msgid "You are logged in as %s"
+msgstr "你已以%s名義登入"
+
+#: inc/class-wp-members.php:975 inc/class-wp-members.php:1028
+msgid "Change Password"
+msgstr "變更密碼"
+
+#: inc/class-wp-members.php:1027
+msgid "Edit My Information"
+msgstr "編輯我的資訊 "
+
+#: inc/class-wp-members.php:1012
+msgid "Click here to continue."
+msgstr "點擊此處繼續"
+
+#: inc/class-wp-members.php:1011
+msgid "You entered an invalid username or password."
+msgstr "你輸入了一個無效的用戶名或密碼"
+
+#: inc/class-wp-members.php:1010
+msgid "Login Failed!"
+msgstr "登入失敗"
+
+#: inc/class-wp-members.php:999 inc/class-wp-members.php:1046 inc/core.php:282
+#: inc/shortcodes.php:642
+msgid "Register"
+msgstr "註冊"
+
+#: inc/class-wp-members.php:1016
+msgid "Sorry, %s is a required field."
+msgstr "抱歉, %s 是必須的"
+
+#: inc/core.php:85
+msgid "<strong>ERROR</strong>: User has not been activated."
+msgstr "錯誤,用戶名尚未開通"
+
+#: inc/class-wp-members.php:712 inc/deprecated.php:239 inc/shortcodes.php:97
+#: inc/shortcodes.php:325
+msgid "There was an error with the CAPTCHA form."
+msgstr "驗證碼表單有錯誤"
+
+#: inc/class-wp-members-widget.php:50
+msgid "Redirect to (optional):"
+msgstr ""
+
+#: inc/class-wp-members-widget.php:46
+msgid "Title:"
+msgstr "標題"
+
+#: inc/class-wp-members-widget.php:39 inc/class-wp-members-widget.php:82
+msgid "Login Status"
+msgstr "會員登入"
+
+#: inc/class-wp-members-widget.php:24
+msgid "Displays the WP-Members sidebar login."
+msgstr ""
+
+#: admin/users.php:55 admin/users.php:103
+msgid "Export All Users"
+msgstr ""
+
+#: admin/users.php:50 admin/users.php:54
+msgid "Export"
+msgstr "輸出"
+
+#: admin/users.php:48 admin/users.php:52 admin/users.php:79
+msgid "Activate"
+msgstr ""
+
+#: admin/user-profile.php:101
+msgid "IP @ registration"
+msgstr "註冊位址"
+
+#: admin/user-profile.php:53
+msgid "Deactivate this user?"
+msgstr "開除此用戶?"
+
+#: admin/user-profile.php:48
+msgid "Reactivate this user?"
+msgstr "重新開通此用戶?"
+
+#: admin/user-profile.php:43 inc/wp-registration.php:278
+msgid "Activate this user?"
+msgstr "開通此用戶?"
+
+#: admin/tab-fields.php:176 admin/tab-fields.php:293
+#: inc/class-wp-members-user-profile.php:124 inc/deprecated.php:441
+#: inc/deprecated.php:696 inc/users.php:94 inc/wp-registration.php:54
+#: inc/wp-registration.php:213
+msgid "(required)"
+msgstr "必要?"
+
+#: inc/class-wp-members-user-profile.php:37 inc/deprecated.php:371
+msgid "WP-Members Additional Fields"
+msgstr "WP-members附加區塊"
+
+#: admin/user-export.php:115 admin/users.php:404
+msgid "No"
+msgstr ""
+
+#: admin/user-export.php:81
+msgid "IP"
+msgstr " 位址"
+
+#: admin/user-export.php:80
+msgid "Registered"
+msgstr "註冊過的"
+
+#: admin/tab-fields.php:430 admin/user-export.php:78
+msgid "Expires"
+msgstr "過期"
+
+#: admin/user-export.php:78
+msgid "Subscription"
+msgstr "訂閱"
+
+#: admin/user-export.php:77
+msgid "Activated?"
+msgstr "開通?"
+
+#: admin/tab-options.php:564
+msgid "Select a page"
+msgstr ""
+
+#: admin/tab-options.php:545 admin/tab-options.php:575
+msgid "USE CUSTOM URL BELOW"
+msgstr ""
+
+#: admin/tab-options.php:475
+msgid "WP-Members settings were updated"
+msgstr "WP-members  已更新設定"
+
+#: admin/tab-options.php:248 admin/tab-options.php:274
+msgid "Update Settings"
+msgstr "更新設定"
+
+#: admin/tab-options.php:242
+msgid "Custom Stylesheet:"
+msgstr ""
+
+#: admin/tab-options.php:231 admin/tab-options.php:233
+msgid "Stylesheet"
+msgstr ""
+
+#: admin/tab-options.php:225
+msgid "For creating a forgot password link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:222
+msgid "User Profile Page:"
+msgstr ""
+
+#: admin/tab-options.php:213
+msgid "For creating a register link in the login form"
+msgstr ""
+
+#: admin/tab-options.php:210
+msgid "Register Page:"
+msgstr ""
+
+#: admin/tab-options.php:201
+msgid "Specify a login page (optional)"
+msgstr ""
+
+#: admin/tab-options.php:198
+msgid "Login Page:"
+msgstr ""
+
+#: admin/tab-options.php:194
+msgid "Pages"
+msgstr ""
+
+#: admin/tab-options.php:186 inc/class-wp-members-forms.php:893
+#: inc/class-wp-members-user-profile.php:92 inc/deprecated.php:416
+#: inc/deprecated.php:672 inc/users.php:70
+msgid "None"
+msgstr ""
+
+#: admin/tab-options.php:185
+msgid "Enable CAPTCHA"
+msgstr ""
+
+#: admin/tab-options.php:133
+msgid "Number of words in excerpt:"
+msgstr ""
+
+#: admin/tab-options.php:111
+msgid "Auto Excerpt:"
+msgstr ""
+
+#: admin/tab-options.php:182
+msgid "Attribution is appreciated!  Display \"powered by\" link on register form?"
+msgstr ""
+
+#: admin/tab-options.php:180
+msgid "Attribution"
+msgstr ""
+
+#: admin/tab-options.php:169
+msgid "Ignores WP-Members warning messages in the admin panel"
+msgstr "略過管理台的WP-Members警示訊息"
+
+#: admin/tab-options.php:169
+msgid "Ignore warning messages"
+msgstr "略過警示訊息"
+
+#: admin/tab-options.php:168
+msgid "Holds new registrations for admin approval"
+msgstr "保留新註冊以待管理員核准"
+
+#: admin/tab-options.php:168
+msgid "Moderate registration"
+msgstr "註冊核可"
+
+#: admin/tab-options.php:167
+msgid "Notify %s for each new registration? %s"
+msgstr ""
+
+#: admin/tab-options.php:167
+msgid "Notify admin"
+msgstr "通知管理員"
+
+#: admin/tab-options.php:149
+msgid "Allows for a trial period"
+msgstr "考慮(允許)試用"
+
+#: admin/tab-options.php:149
+msgid "Trial period"
+msgstr "試用期"
+
+#: admin/tab-options.php:148
+msgid "Allows for access to expire"
+msgstr "考慮(允許)存取以終止"
+
+#: admin/tab-options.php:148
+msgid "Time-based expiration"
+msgstr " 計時有效期"
+
+#: admin/tab-options.php:110
+msgid "Show Registration Form"
+msgstr ""
+
+#: admin/tab-options.php:109
+msgid "Show Login Form"
+msgstr ""
+
+#: admin/tab-options.php:108
+msgid "Show Excerpts"
+msgstr ""
+
+#: admin/tab-options.php:94
+msgid "Do not block"
+msgstr ""
+
+#: admin/tab-options.php:75
+msgid "Manage Options"
+msgstr "選項管理"
+
+#: admin/tab-fields.php:428
+msgid "Registration IP"
+msgstr ""
+
+#: admin/tab-fields.php:427
+msgid "Active"
+msgstr ""
+
+#: admin/tab-fields.php:426
+msgid "Registration Date"
+msgstr ""
+
+#: admin/tab-fields.php:503
+msgid "delete"
+msgstr ""
+
+#: admin/tab-fields.php:524
+msgid "Users Screen"
+msgstr ""
+
+#: admin/tab-fields.php:464
+msgid "Manage Fields"
+msgstr "區塊管理"
+
+#: admin/tab-fields.php:378 admin/tab-fields.php:645 admin/tab-fields.php:646
+msgid "Add Field"
+msgstr ""
+
+#: admin/tab-fields.php:352
+msgid "Visit plugin site for more information"
+msgstr "更多資訊請查閱插件網站"
+
+#: admin/tab-fields.php:348
+msgid "Options should be Option Name|option_value,"
+msgstr "選項須為選項值"
+
+#: admin/tab-fields.php:293
+msgid "Stored value if checked:"
+msgstr ""
+
+#: admin/tab-fields.php:289
+msgid "Checked by default?"
+msgstr ""
+
+#: admin/tab-fields.php:282
+msgid "Accepted file types should be set like this: jpg|jpeg|png|gif"
+msgstr ""
+
+#: admin/tab-fields.php:277
+msgid "Accepted file types:"
+msgstr ""
+
+#: admin/tab-fields.php:230 admin/tab-fields.php:521
+msgid "Required?"
+msgstr "必要?"
+
+#: admin/tab-fields.php:226 admin/tab-fields.php:520
+msgid "Display?"
+msgstr "顯示?"
+
+#: admin/tab-fields.php:217
+msgid "file"
+msgstr ""
+
+#: admin/tab-fields.php:215
+msgid "password"
+msgstr "密碼"
+
+#: admin/tab-fields.php:210
+msgid "checkbox"
+msgstr "核選框"
+
+#: admin/tab-fields.php:209
+msgid "textarea"
+msgstr "文字區 "
+
+#: admin/tab-fields.php:207
+msgid "text"
+msgstr "文字"
+
+#: admin/tab-fields.php:201 admin/tab-fields.php:519
+msgid "Field Type"
+msgstr "欄位類型"
+
+#: admin/tab-fields.php:197
+msgid "The database meta value for the field. It must be unique and contain no spaces (underscores are ok)."
+msgstr ""
+
+#: admin/tab-fields.php:188
+msgid "The name of the field as it will be displayed to the user."
+msgstr ""
+
+#: admin/tab-fields.php:186
+msgid "Field Label"
+msgstr "區塊標籤"
+
+#: admin/tab-fields.php:181
+msgid "Add a Field"
+msgstr ""
+
+#: admin/tab-fields.php:181 admin/tab-fields.php:378
+msgid "Edit Field"
+msgstr ""
+
+#: admin/post.php:220 admin/tab-fields.php:88 admin/tab-fields.php:523
+msgid "Edit"
+msgstr ""
+
+#: admin/tab-fields.php:779
+msgid "Checked value is required for checkboxes. Nothing was updated."
+msgstr ""
+
+#: admin/tab-fields.php:746
+msgid "Sorry, \"%s\" is a <a href=\"https://codex.wordpress.org/Function_Reference/register_taxonomy#Reserved_Terms\" target=\"_blank\">reserved term</a>. Field was not added."
+msgstr ""
+
+#: admin/tab-fields.php:741
+msgid "A field with that meta key already exists"
+msgstr ""
+
+#: admin/tab-fields.php:734
+msgid "Meta Key must contain only letters, numbers, and underscores"
+msgstr ""
+
+#: admin/tab-fields.php:709
+msgid "WP-Members fields were updated"
+msgstr "WP_Members區塊已更新"
+
+#: admin/tab-emails.php:146
+msgid "WP-Members emails were updated"
+msgstr "WP_Members電子郵件已更新"
+
+#: admin/tab-emails.php:76
+msgid "Update Emails"
+msgstr "更新電子郵件"
+
+#: admin/includes/class-wp-members-admin-api.php:272
+msgid "Body"
+msgstr "主體"
+
+#: admin/includes/class-wp-members-admin-api.php:269
+#: admin/includes/class-wp-members-admin-api.php:271
+msgid "Subject"
+msgstr "主題"
+
+#: admin/tab-emails.php:57
+msgid "Set a custom email name"
+msgstr "設置自定義的電子郵件名稱"
+
+#: admin/tab-emails.php:54 admin/tab-emails.php:58 admin/tab-emails.php:68
+#: admin/tab-fields.php:175
+msgid "(optional)"
+msgstr "(選項)"
+
+#: admin/tab-emails.php:53
+msgid "Set a custom email address"
+msgstr "設置自定義的電子郵件地址"
+
+#: admin/tab-emails.php:46
+msgid "A list of shortcodes is available here."
+msgstr "列表的簡碼可以在這裡找到"
+
+#: admin/tab-emails.php:44
+msgid "You can customize the content of the emails sent by the plugin."
+msgstr "您可以自訂插件發送的電子郵件的內容"
+
+#: admin/tab-emails.php:41
+msgid "Email Messages"
+msgstr "電子郵件訊息"
+
+#: admin/tab-emails.php:68
+msgid "Email Signature"
+msgstr "電郵簽名"
+
+#: admin/includes/class-wp-members-admin-api.php:409
+msgid "Admin Notification"
+msgstr "管理員通知行為"
+
+#: admin/includes/class-wp-members-admin-api.php:394
+msgid "Password Reset"
+msgstr "密碼重設"
+
+#: admin/includes/class-wp-members-admin-api.php:386
+msgid "Registration is Moderated, User is Approved"
+msgstr "註冊正在核可,用戶核准"
+
+#: admin/includes/class-wp-members-admin-api.php:380
+msgid "Registration is Moderated"
+msgstr "註冊正在核可"
+
+#: admin/includes/class-wp-members-admin-api.php:371
+msgid "New Registration"
+msgstr "新註冊"
+
+#: admin/tab-dialogs.php:106
+msgid "WP-Members dialogs were updated"
+msgstr "WP_Members對話框已更新"
+
+#: admin/tab-dialogs.php:70
+msgid "Update Dialogs"
+msgstr "更新對話框"
+
+#: admin/tab-dialogs.php:63
+msgid "Terms of Service (TOS)"
+msgstr "服務條款"
+
+#: admin/tab-dialogs.php:52
+msgid "You can customize the text for dialogs and error messages. Simple HTML is allowed %s etc."
+msgstr ""
+
+#: admin/tab-dialogs.php:50
+msgid "Dialogs and Error Messages"
+msgstr "對話框和錯誤訊息"
+
+#: admin/includes/class-wp-members-admin-api.php:443
+msgid "Password reset"
+msgstr "密碼重設"
+
+#: admin/includes/class-wp-members-admin-api.php:442
+msgid "Username or email do not exist when trying to reset forgotten password"
+msgstr "當要重設忘記的密碼時用戶名或電子郵件不存在"
+
+#: admin/includes/class-wp-members-admin-api.php:441
+msgid "Password changes"
+msgstr "更改密碼"
+
+#: admin/includes/class-wp-members-admin-api.php:440
+msgid "Passwords did not match"
+msgstr "密碼不符"
+
+#: admin/includes/class-wp-members-admin-api.php:439
+msgid "User update"
+msgstr "用戶更新"
+
+#: admin/includes/class-wp-members-admin-api.php:438
+msgid "Registration completed"
+msgstr "完成註冊"
+
+#: admin/includes/class-wp-members-admin-api.php:437
+msgid "Email is registered"
+msgstr "電子郵件已被註冊"
+
+#: admin/includes/class-wp-members-admin-api.php:436
+msgid "Username is taken"
+msgstr "帳戶名已被使用"
+
+#: admin/includes/class-wp-members-admin-api.php:435
+msgid "Restricted post (or page), displays above the login/registration form"
+msgstr "有限制的發文(或頁面), 顯示於登入/註冊表上方"
+
+#: admin/tab-captcha.php:275
+msgid "CAPTCHA was updated for WP-Members"
+msgstr ""
+
+#: admin/tab-captcha.php:204
+msgid "Update CAPTCHA Settings"
+msgstr ""
+
+#: admin/tab-captcha.php:180
+msgid "To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin installed and activated."
+msgstr ""
+
+#: admin/tab-captcha.php:166
+msgid "Image type"
+msgstr ""
+
+#: admin/tab-captcha.php:162
+msgid "Width between characters"
+msgstr ""
+
+#: admin/tab-captcha.php:158
+msgid "Font size"
+msgstr ""
+
+#: admin/tab-captcha.php:154
+msgid "Background color of image"
+msgstr ""
+
+#: admin/tab-captcha.php:150
+msgid "Font color of characters"
+msgstr ""
+
+#: admin/tab-captcha.php:147
+msgid "Height"
+msgstr ""
+
+#: admin/tab-captcha.php:147
+msgid "Width"
+msgstr ""
+
+#: admin/tab-captcha.php:146
+msgid "Image dimensions"
+msgstr ""
+
+#: admin/tab-captcha.php:142
+msgid "Number of characters"
+msgstr ""
+
+#: admin/tab-captcha.php:138
+msgid "Characters for image"
+msgstr ""
+
+#: admin/tab-captcha.php:107
+msgid "Secret Key"
+msgstr ""
+
+#: admin/tab-captcha.php:106
+msgid "Site Key"
+msgstr ""
+
+#: admin/tab-captcha.php:105
+msgid "reCAPTCHA requires an API key, consisting of a \"site\" and a \"secret\" key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+
+#: admin/tab-captcha.php:91
+msgid "Clean"
+msgstr "乾淨"
+
+#: admin/tab-captcha.php:90
+msgid "Black Glass"
+msgstr "黑玻璃"
+
+#: admin/tab-captcha.php:89
+msgid "White"
+msgstr "白"
+
+#: admin/tab-captcha.php:88
+msgid "Red"
+msgstr " 紅"
+
+#: admin/tab-captcha.php:85
+msgid "Choose Theme"
+msgstr "選擇主題"
+
+#: admin/tab-captcha.php:81
+msgid "Private Key"
+msgstr "隱密鍵"
+
+#: admin/tab-captcha.php:80
+msgid "Public Key"
+msgstr "公開鍵"
+
+#: admin/tab-captcha.php:79
+msgid "reCAPTCHA requires an API key, consisting of a \"public\" and a \"private\" key. You can sign up for a %s free reCAPTCHA key%s"
+msgstr ""
+
+#: admin/tab-captcha.php:77 admin/tab-captcha.php:103
+msgid "reCAPTCHA Keys"
+msgstr " 驗証碼服務鍵"
+
+#: admin/tab-captcha.php:72
+msgid "reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s"
+msgstr ""
+
+#: admin/tab-captcha.php:71
+msgid "reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog."
+msgstr "reCAPTCHA 是一個免費開放的驗證碼系統技術服務, 它可以將文字內容數字化,幫你擋除部落格中的垃圾留言,訊息. "
+
+#: admin/tab-captcha.php:57
+msgid "Manage reCAPTCHA Options"
+msgstr "管理驗證碼系統選項"
+
+#: admin/tab-captcha.php:46 admin/tab-dialogs.php:40 admin/tab-emails.php:84
+#: admin/tab-fields.php:149 admin/tab-options.php:64
+msgid "Need help?"
+msgstr ""
+
+#: admin/post.php:339 admin/post.php:340 admin/user-export.php:115
+msgid "Yes"
+msgstr ""
+
+#: admin/post.php:307
+msgid "Blocked?"
+msgstr ""
+
+#: admin/post.php:307
+msgid "Unblocked?"
+msgstr ""
+
+#: admin/post.php:46 admin/post.php:48
+msgid "Unblock"
+msgstr ""
+
+#: admin/post.php:45 admin/post.php:47 admin/tab-options.php:95
+msgid "Block"
+msgstr ""
+
+#: admin/dialogs.php:219 admin/dialogs.php:232
+msgid "Latest from ButlerBlog"
+msgstr ""
+
+#: admin/dialogs.php:198 admin/dialogs.php:202
+msgid "Latest from RocketGeek"
+msgstr ""
+
+#: admin/dialogs.php:181
+msgid "Follow"
+msgstr "追蹤"
+
+#: admin/dialogs.php:180
+msgid "A plugin developed by"
+msgstr ""
+
+#: admin/dialogs.php:179
+msgid "Thank you for using WP-Members"
+msgstr ""
+
+#: admin/dialogs.php:172
+msgid "FAQs"
+msgstr ""
+
+#: admin/dialogs.php:171
+msgid "Online User Guide"
+msgstr ""
+
+#: admin/dialogs.php:170
+msgid "Quick Start Guide"
+msgstr ""
+
+#: admin/dialogs.php:169
+msgid "Version:"
+msgstr "版本:"
+
+#: admin/dialogs.php:140
+msgid "but you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included."
+msgstr "但你尚未輸入應用程式介面鍵. 你需要一個公開鍵及一個隱密鍵. 除非含有一個有效的API鍵否則驗證碼功能不會顯示."
+
+#: admin/dialogs.php:139
+msgid "You have turned on reCAPTCHA"
+msgstr "你已打開驗證碼服務功能"
+
+#: admin/dialogs.php:135
+msgid "but you have not changed the default message for \"Registration Completed\" under \"WP-Members Dialogs and Error Messages.\"  You should change this message to let users know they are pending approval."
+msgstr "但你尚未變更在\"WP-Members對話框及錯誤訊息\" 裡默認的\"註冊完成\"訊息. 你應該變更此訊息以讓用戶知道他們的註冊正在核可中"
+
+#: admin/dialogs.php:134
+msgid "You have set WP-Members to hold registrations for approval"
+msgstr "你已將WP-Members設為核准中保留註冊"
+
+#: admin/dialogs.php:130
+msgid "Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text."
+msgstr "保留這裡設為全文,將允許任何人在一RSS閱讀器可閱讀你保護的文章內容.將此改為概要就可以防止,因你的RSS訊息來源只會顯示概要訊息文字."
+
+#: admin/dialogs.php:129
+msgid "You can %s change this here %s by changing \"For each article in a feed, show\" to \"Summary.\""
+msgstr "你可以%s在這裡變更%s 用改變\"每一訊息來源一篇文章,顯示\" 成 \"概要.\""
+
+#: admin/dialogs.php:128
+msgid "Your WP settings allow full text rss feeds - this is not the recommended setting."
+msgstr "你的WP設定允許全文字的RSS訊息來源"
+
+#: admin/dialogs.php:124
+msgid "This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "此設定允許任何用戶發表意見, 無論他們有無註冊.你是如何使用WP-Members決定你是否應改變此設定.如果你沒有變更此設定,你可以在WP-Members的設定中選擇忽略這些警示訊息"
+
+#: admin/dialogs.php:123
+msgid "You can %s change this here %s by checking the box next to \"Users must be registered and logged in to comment.\""
+msgstr "你可以%s在這裡變更%s 確認在\"任何人可註冊\"旁的選框是沒有鉤選的"
+
+#: admin/dialogs.php:122
+msgid "Your WP settings allow anyone to comment - this is not the recommended setting."
+msgstr "你的WP設定允許任何人發表意見"
+
+#: admin/dialogs.php:118
+msgid "This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings."
+msgstr "此設定允許一條在/wp-login.php頁面上的連結用WP原始的註冊程序來註冊.如此一來,就可涵蓋任何使用WP-Members的註冊. 某些情況下,這樣的設定適合用戶的需求,但大部分用戶應不要鉤選此選框. 如果你沒有變更此設定,你可以在WP-Members的設定中選擇忽略這些警示訊息"
+
+#: admin/dialogs.php:117
+msgid "You can %s change this here %s making sure the box next to \"Anyone can register\" is unchecked."
+msgstr "你可以%s在這裡變更%s 確認在\"任何人可註冊\"旁的選框是沒有鉤選的"
+
+#: admin/dialogs.php:116
+msgid "Your WP settings allow anyone to register - this is not the recommended setting."
+msgstr "你的WP設定允許任何人註冊-不建議此設定"
+
+#: admin/includes/class-wp-members-admin-api.php:355
+msgid "Emails"
+msgstr "電子郵件"
+
+#: admin/includes/class-wp-members-admin-api.php:354
+msgid "Dialogs"
+msgstr "對話框"
+
+#: admin/includes/class-wp-members-admin-api.php:353
+msgid "Fields"
+msgstr "區塊 "
+
+#: admin/includes/class-wp-members-admin-api.php:352
+msgid "Options"
+msgstr "選項"
+
+#: admin/admin.php:49 admin/admin.php:111
+msgid "Settings"
+msgstr "  設定"

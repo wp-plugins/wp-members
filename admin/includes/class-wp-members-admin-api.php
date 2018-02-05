@@ -93,7 +93,6 @@ class WP_Members_Admin_API {
 			include_once( WPMEM_PATH . 'admin/tab-about.php' );
 			include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
 			include_once( WPMEM_PATH . 'admin/tab-dropins.php' );
-			//include_once( WPMEM_PATH . 'admin/tab-memberships.php' );
 		}
 	}
 
