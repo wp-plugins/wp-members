@@ -1153,10 +1153,10 @@ class WP_Members {
 			
 			// Login form.
 			'login_heading'        => __( 'Existing Users Log In', 'wp-members' ),
-			'login_username'       => __( 'Username' ),
-			'login_password'       => __( 'Password' ),
-			'login_button'         => __( 'Log In' ),
-			'remember_me'          => __( 'Remember Me' ),
+			'login_username'       => __( 'Username', 'wp-members' ),
+			'login_password'       => __( 'Password', 'wp-members' ),
+			'login_button'         => __( 'Log In', 'wp-members' ),
+			'remember_me'          => __( 'Remember Me', 'wp-members' ),
 			'forgot_link_before'   => __( 'Forgot password?', 'wp-members' ) . '&nbsp;',
 			'forgot_link'          => __( 'Click here to reset', 'wp-members' ),
 			'register_link_before' => __( 'New User?', 'wp-members' ) . '&nbsp;',
@@ -1164,14 +1164,14 @@ class WP_Members {
 			
 			// Password change form.
 			'pwdchg_heading'       => __( 'Change Password', 'wp-members' ),
-			'pwdchg_password1'     => __( 'New password' ),
-			'pwdchg_password2'     => __( 'Confirm new password' ),
+			'pwdchg_password1'     => __( 'New password', 'wp-members' ),
+			'pwdchg_password2'     => __( 'Confirm new password', 'wp-members' ),
 			'pwdchg_button'        => __( 'Update Password', 'wp-members' ),
 			
 			// Password reset form.
 			'pwdreset_heading'     => __( 'Reset Forgotten Password', 'wp-members' ),
-			'pwdreset_username'    => __( 'Username' ),
-			'pwdreset_email'       => __( 'Email' ),
+			'pwdreset_username'    => __( 'Username', 'wp-members' ),
+			'pwdreset_email'       => __( 'Email', 'wp-members' ),
 			'pwdreset_button'      => __( 'Reset Password' ),
 			'username_link_before' => __( 'Forgot username?', 'wp-members' ) . '&nbsp;',
 			'username_link'        => __( 'Click here', 'wp-members' ),
@@ -1187,13 +1187,13 @@ class WP_Members {
 			'register_rscaptcha'   => __( 'Input the code:', 'wp-members' ),
 			'register_tos'         => __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ),
 			'register_clear'       => __( 'Reset Form', 'wp-members' ),
-			'register_submit'      => __( 'Register' ),
+			'register_submit'      => __( 'Register', 'wp-members' ),
 			'register_req_mark'    => '<span class="req">*</span>',
 			'register_required'    => '<span class="req">*</span>' . __( 'Required field', 'wp-members' ),
 			
 			// User profile update form.
 			'profile_heading'      => __( 'Edit Your Information', 'wp-members' ),
-			'profile_username'     => __( 'Username' ),
+			'profile_username'     => __( 'Username', 'wp-members' ),
 			'profile_submit'       => __( 'Update Profile', 'wp-members' ),
 			'profile_upload'       => __( 'Update this file', 'wp-members' ),
 			
@@ -1230,11 +1230,11 @@ class WP_Members {
 			'sb_logout'            => __( 'click here to log out', 'wp-members' ),
 			'sb_login_failed'      => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
 			'sb_not_logged_in'     => __( 'You are not logged in.', 'wp-members' ),
-			'sb_login_username'    => __( 'Username' ),
-			'sb_login_password'    => __( 'Password' ),
+			'sb_login_username'    => __( 'Username', 'wp-members' ),
+			'sb_login_password'    => __( 'Password', 'wp-members' ),
 			'sb_login_button'      => __( 'log in', 'wp-members' ),
 			'sb_login_forgot'      => __( 'Forgot?', 'wp-members' ),
-			'sb_login_register'    => __( 'Register' ),
+			'sb_login_register'    => __( 'Register', 'wp-members' ),
 			
 			// Default Dialogs.
 			'restricted_msg'       => __( "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.", 'wp-members' ),
