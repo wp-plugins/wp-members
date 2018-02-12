@@ -207,9 +207,9 @@ function wpmem_block_meta() {
 		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
 	}
 	
-	$post_meta_value = get_post_meta( $post->ID, '_wpmem_block', true ); echo $post_meta_value;
+	$post_meta_value = get_post_meta( $post->ID, '_wpmem_block', true );
 
-	$post_meta_value = ( null == $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value; echo $post_meta_value;
+	$post_meta_value = ( null == $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value;
 	$post_meta_settings = array(
 		'0' => __( 'Unblock', 'wp-members' ),
 		'1' => __( 'Block',   'wp-members' ),
