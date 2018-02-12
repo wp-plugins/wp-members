@@ -139,6 +139,9 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 
 * Changed default address meta fields to WooCommerce billing meta keys.
 * Removed language packs that install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
+* All remaining user facing strings in get_text() added wp-members textdomain.
+* wpmem_default_text_strings filter now must pass $defaults as a parameter.
+* Added locale as a parameter for localization filters.
 * Added wpmem_register_hidden_rows filter.
 * Added "post_to" key for wpmem_register_form_args.
 * Rebuild of user export function. User export now uses fputcsv.
@@ -148,6 +151,7 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Deprecated wpmem_inc_status().
 * Deprecated wpmem_do_sidebar().
 * Deprecated wpmem_create_formfield(), use wpmem_form_field() instead.
+* Deprecated a number of non-user callable functions.
 * Eliminated permission-based file load for admin files.
 * Maintain user login state when password is changed.
 * Added wpmem_get_sub_str() string manipulation utility.
@@ -164,6 +168,9 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * HTML5 update - form id tags set default value (can still be filtered).
 * HTML5 update - removed "align" attribute (captcha, link-text).
 * Moved remaining core functions to appropriate object classes, left wrappers for most.
+* Added new email class and shortcode class to replace previous functions/files.
+* Added link_span_before/link_span_after wrapper for login link text.
+* Updated "TOS" text to "Terms of Service".
 
 
 = 3.1.9 =

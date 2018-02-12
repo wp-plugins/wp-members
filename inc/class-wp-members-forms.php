@@ -1239,6 +1239,7 @@ class WP_Members_Forms {
 	 *
 	 * @since 1.8
 	 * @since 3.1.4 Global $wpmem_regchk no longer needed.
+	 * @since 3.2.0 Moved to forms class, renamed do_login_form().
 	 *
 	 * @global object $post         The WordPress Post object.
 	 * @global object $wpmem        The WP_Members object.
@@ -1333,6 +1334,7 @@ class WP_Members_Forms {
 	 * Loads the form for changing password.
 	 *
 	 * @since 2.0.0
+	 * @since 3.2.0 Moved to forms class, renamed do_changepassword_form().
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 * @return string $str   The generated html for the change password form.
@@ -1397,6 +1399,7 @@ class WP_Members_Forms {
 	 * Loads the form for resetting password.
 	 *
 	 * @since 2.1.0
+	 * @since 3.2.0 Moved to forms class, renamed do_resetpassword_form().
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 * @return string $str   The generated html fo the reset password form.
