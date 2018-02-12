@@ -42,10 +42,12 @@ function wpmem_bulk_posts_action() {
 	if ( ( isset( $_GET['post_type'] ) && ( 'page' == $_GET['post_type'] || 'post' == $_GET['post_type'] || array_key_exists( $_GET['post_type'], $wpmem->post_types ) ) ) || ! isset( $_GET['post_type'] ) ) { ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
-		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
 		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action']");
-		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action']");
+		jQuery('<option>').val('hide').text('<?php    _e( 'Hide',    'wp-members' ) ?>').appendTo("select[name='action']");
 		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('hide').text('<?php    _e( 'Hide', 'wp-members' ) ?>').appendTo("select[name='action2']");
 		});
 	</script><?php
 	}
@@ -69,39 +71,32 @@ function wpmem_posts_page_load() {
 
 	switch ( $action ) {
 
-		case ( 'block' ):
 		case ( 'unblock' ):
+		case ( 'block'   ):
+		case ( 'hide'    ):
 			// Validate nonce.
 			check_admin_referer( 'bulk-posts' );
 			// Get the posts.
 			$posts = ( isset( $_REQUEST['post'] ) ) ? $_REQUEST['post'] : '';
+			// Convert action.
+			$status = ( 'hide' == $action ) ? 2 : ( ( 'block' == $action ) ? 1 : 0 );
 			// Update posts.
 			$x = '';
 			if ( $posts ) {
 				foreach ( $posts as $post_id ) {
+					// Keep a count of posts updated.
 					$x++;
+					// Make sure $post_id is just an integer.
+					$post_id = (int)$post_id;
+					// Get the post type.
 					$post = get_post( $post_id );
 					$type = $post->post_type;
 					// Update accordingly.
-					if ( $wpmem->block[ $type ] == 0 ) {
-						if ( $action == 'block' ) {
-							update_post_meta( $post_id, '_wpmem_block', 1 );
-						} else {
-							delete_post_meta( $post_id, '_wpmem_block' );
-						}
-					}
-
-					if ( $wpmem->block[ $type ] == 1 ) {
-						if ( $action == 'unblock' ) {
-							update_post_meta( $post_id, '_wpmem_block', 0 );
-						} else {
-							delete_post_meta( $post_id, '_wpmem_block' );
-						}
-					}
+					wpmem_set_block_status( $status, $post_id, $post->post_type );
 				}
 				// Set the return message.
 				$arr = array( 
-					'a' => $action,
+					'a' => 'updated',
 					'n' => $x,
 					'post_type' => $type,
 				);
@@ -272,16 +267,9 @@ function wpmem_block_meta_save( $post_id ) {
 
 	// Get value.
 	$block = ( isset( $_POST['wpmem_block'] ) ) ? sanitize_text_field( $_POST['wpmem_block'] ) : null;
-
-	// Need the post object.
-	global $post; 
-
-	// Update accordingly.
-	if ( $block != null ) {
-		update_post_meta( $post_id, '_wpmem_block', $block );
-	} else {
-		delete_post_meta( $post_id, '_wpmem_block' );
-	}
+	
+	// Set the value.
+	wpmem_set_block_status( $block, $post_id, $post->post_type );
 
 	/**
 	 * Fires after the post block meta box is saved.
