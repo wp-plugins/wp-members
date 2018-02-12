@@ -58,16 +58,13 @@ class WP_Members_Products {
 			$post_products = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
 			// If the post is restricted to a product.
 			if ( $post_products ) {
-				// The error message for invalid users.
-				// @todo Filter this and also translate it.
-				$error_msg = 'Sorry, you do not have access to this page.';
-				
 				// @todo This is the nuts and bolts - work around whether a user has access
 				// to this product or not. 
 				if ( $wpmem->user->has_access( $post_products ) ) {
 					return $content;
 				}
-				return $error_msg;
+				// The error message for invalid users.
+				return $wpmem->get_text( 'product_restricted' );
 			} else {
 				// Content that has no product restriction.
 				return $content;

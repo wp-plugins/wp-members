@@ -1246,6 +1246,7 @@ class WP_Members {
 			'pwdchangesuccess'     => __( "Password successfully changed!", 'wp-members' ),
 			'pwdreseterr'          => __( "Either the username or email address do not exist in our records.", 'wp-members' ),
 			'pwdresetsuccess'      => __( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
+			'product_restricted'   => __( "Sorry, you do not have access to this content.", 'wp-members' ),
 		
 		); // End of $defaults array.
 		
