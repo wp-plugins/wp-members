@@ -200,28 +200,29 @@ function wpmem_block_meta() {
 	$post_type = $wp_post_types[ $post->post_type ];
 
 	if ( isset( $wpmem->block[ $post->post_type ] ) && $wpmem->block[ $post->post_type ] == 1 ) {
-		$block = 0;
 		$notice_icon = '<span class="dashicons dashicons-lock"></span>';
 		$notice_text = sprintf( __( '%s are blocked by default.', 'wp-members' ), $post_type->labels->name );
 	} else {
-		$block = 1;
 		$notice_icon = '<span class="dashicons dashicons-unlock"></span>';
 		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
 	}
-	$meta = '_wpmem_block';
-	$admin_url = get_admin_url(); 
+	
+	$post_meta_value = get_post_meta( $post->ID, '_wpmem_block', true ); echo $post_meta_value;
 
-	$post_meta_value = get_post_meta( $post->ID, $meta, true );
-	$post_meta_value = ( ! $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value;
-	?>
+	$post_meta_value = ( null == $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value; echo $post_meta_value;
+	$post_meta_settings = array(
+		'0' => __( 'Unblock', 'wp-members' ),
+		'1' => __( 'Block',   'wp-members' ),
+		'2' => __( 'Hide',    'wp-members' ),
+	); ?>
 	<p>
 		<?php echo $notice_icon . ' ' . $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
 	</p>
 	<p>
 		<select id="wpmem_block" name="wpmem_block">
-			<option value="0" <?php selected( $post_meta_value, '0' ); ?>>Unblock</option>
-			<option value="1" <?php selected( $post_meta_value, '1' ); ?>>Block</option>
-			<option value="2" <?php selected( $post_meta_value, '2' ); ?>>Hide</option>
+		<?php foreach ( $post_meta_settings as $key => $value ) {
+			echo '<option value="' . $key . '" ' . selected( $post_meta_value, $key, false ) . '>' . $value . '</option>';
+		} ?>
 		</select>
 		<label for="wpmem_block"><?php echo 'this ' . strtolower( $post_type->labels->singular_name ); ?><?php //echo $text; ?></label>
 	</p>
@@ -232,11 +233,12 @@ function wpmem_block_meta() {
 	 * Allows actions at the end of the block meta box on pages and posts.
 	 *
 	 * @since 2.8.8
+	 * @since 3.2.0 Changed to $post_meta_value (same as $block).
 	 *
-	 * @param $post  object  The WP Post Object.
-	 * @param $block boolean The WP-Members block value.
+	 * @param $post           object  The WP Post Object.
+	 * @param post_meta_value string  The WP-Members block value: 0|1|2 for unblock|block|hide.
 	 */
-	do_action( 'wpmem_admin_after_block_meta', $post, $block );
+	do_action( 'wpmem_admin_after_block_meta', $post, $post_meta_value );
 }
 
 
@@ -246,9 +248,12 @@ function wpmem_block_meta() {
  * @since 2.8
  *
  * @global object $post
- * @param  int $post_id The post ID
+ * @global object $wpmem
+ * @param  int    $post_id The post ID
  */
 function wpmem_block_meta_save( $post_id ) {
+	
+	global $post, $wpmem;
 
 	// Quit if we are doing autosave.
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
