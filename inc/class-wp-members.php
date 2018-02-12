@@ -1254,11 +1254,11 @@ class WP_Members {
 		 * Filter default terms.
 		 *
 		 * @since 3.1.0
+		 * @since 3.2.0 Passes $defaults param
+		 *
+		 * @param array $defaults
 		 */
-		$text = apply_filters( 'wpmem_default_text_strings', '' );
-		
-		// Merge filtered $terms with $defaults.
-		$text = wp_parse_args( $text, $defaults );
+		$text = apply_filters( 'wpmem_default_text_strings', $defaults );
 		
 		// Return the requested text string.
 		return $text[ $str ];
