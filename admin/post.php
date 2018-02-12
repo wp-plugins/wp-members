@@ -366,4 +366,34 @@ function wpmem_load_tinymce() {
 	}
 }
 
+/**
+ * Sets custom block status for a post.
+ *
+ * @since 3.2.0
+ *
+ * @global object $wpmem     The WP_Members object class.
+ * @param  int    $status    0|1|2 for unblock|block|hide
+ * @param  int    $post_id   The post ID to set a meta value.
+ * @param  string $post_type The post type.
+ */
+function wpmem_set_block_status( $status, $post_id, $post_type ) {
+	global $wpmem;
+	
+	// Previous value.
+	$prev_value = get_post_meta( $post_id, '_wpmem_block', true );
+
+	// Update accordingly.
+	if ( $prev_value && $status != $prev_value ) {
+		if ( $status == $wpmem->block[ $post_type ] ) {
+			delete_post_meta( $post_id, '_wpmem_block' );
+		} else {
+			update_post_meta( $post_id, '_wpmem_block', $status );
+		}
+	} elseif ( ! $prev_value && $status != $wpmem->block[ $post_type ] ) {
+		update_post_meta( $post_id, '_wpmem_block', $status );
+	} else { 
+		delete_post_meta( $post_id, '_wpmem_block' );
+	}
+}
+
 // End of File.
