@@ -107,9 +107,7 @@ class widget_wpmemwidget extends WP_Widget {
 		echo '<div id="' . $id . '">';
 		echo $args['before_title'] . $title . $args['after_title'];
 		// The Widget
-		if ( function_exists( 'wpmem_do_sidebar' ) ) { 
-			$this->do_sidebar( $redirect_to ); 
-		}
+		$this->do_sidebar( $redirect_to ); 
 		echo '</div>';
 		echo $args['after_widget'];
 	}

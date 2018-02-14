@@ -323,9 +323,9 @@ class WP_Members {
 		do_action( 'wpmem_load_hooks' );
 
 		// Add actions.
-		add_action( 'template_redirect',     array( $this, 'get_action' ) );
-		add_action( 'widgets_init',          'wpmem_widget_init' );  // initializes the widget
-		add_action( 'admin_init',            array( $this, 'load_admin' ) ); // check user role to load correct dashboard
+		add_action( 'template_redirect',     array( $this, 'get_action'  ) );
+		add_action( 'widgets_init',          array( $this, 'widget_init' ) );  // initializes the widget
+		add_action( 'admin_init',            array( $this, 'load_admin'  ) ); // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
@@ -468,11 +468,11 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/utilities.php' );
 		require_once( WPMEM_PATH . 'inc/forms.php' );
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
-		require_once( WPMEM_PATH . 'inc/sidebar.php' );
-		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); @deprecated 3.2.0
-		//require_once( WPMEM_PATH . 'inc/email.php' ); @deprecated 3.2.0
+		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
+		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); // @deprecated 3.2.0
+		//require_once( WPMEM_PATH . 'inc/email.php' ); // @deprecated 3.2.0
 		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
-		//require_once( WPMEM_PATH . 'inc/users.php' ); @deprecated 3.1.9
+		//require_once( WPMEM_PATH . 'inc/users.php' ); // @deprecated 3.1.9
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
 
 	}
@@ -1280,6 +1280,16 @@ class WP_Members {
 			include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
 			$this->admin = new WP_Members_Admin_API;
 		}
+	}
+	
+	/**
+	 * Initializes the WP-Members widget.
+	 *
+	 * @since 3.2.0 Replaces widget_wpmemwidget_init
+	 */
+	public function widget_init() {
+		// Register the WP-Members widget.
+		register_widget( 'widget_wpmemwidget' );
 	}
 	
 	/**

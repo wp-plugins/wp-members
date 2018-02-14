@@ -21,6 +21,7 @@
  * - wpmem_page_user_edit
  * - wpmem_page_forgot_username
  * - wpmem_inc_forgotusername
+ * - wpmem_inc_status
  */
 
 // Exit if accessed directly.
@@ -609,5 +610,30 @@ function wpmem_inc_forgotusername() {
 	
 	return $str;
 }
+
+if ( ! function_exists( 'wpmem_inc_status' ) ):
+/**
+ * Generate users login status if logged in and gives logout link.
+ *
+ * @since 1.8
+ * @since 3.2.0 Moved from sidebar.php (which is now obsolete).
+ *
+ * @global        $user_login
+ * @global object $wpmem
+ * @return string $status
+ */
+function wpmem_inc_status() {
+
+	global $user_login, $wpmem;
+	
+	/** This filter is documented in wp-members/inc/dialogs.php */
+	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
+
+	$status = '<p>' . sprintf( $wpmem->get_text( 'sb_login_status' ), $user_login )
+		. ' | <a href="' . esc_url( $logout ) . '">' . $wpmem->get_text( 'sb_logout_link' ) . '</a></p>';
+
+	return $status;
+}
+endif;
 
 // End of file.
