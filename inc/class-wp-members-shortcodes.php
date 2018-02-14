@@ -60,6 +60,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.0.0
 	 * @since 3.1.3 Added forgot_username shortcode.
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::forms().
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_themsg The WP-Members message container.
@@ -171,6 +172,7 @@ class WP_Members_Shortcodes {
 	 * only to logged out users or visitors.
 	 *
 	 * @since 3.0.0
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_in().
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 *
@@ -263,6 +265,7 @@ class WP_Members_Shortcodes {
 	 * Handles the [wpmem_logged_out] shortcode.
 	 *
 	 * @since 3.0.0
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_out().
 	 *
 	 * @param  array  $atts
 	 * @param  string $content
@@ -283,6 +286,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.0.0
 	 * @since 3.1.5 Added total user count features.
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::user_count().
 	 *
 	 * @global object $wpdb    The WordPress database object.
 	 * @param  array  $atts {
@@ -321,6 +325,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.1.0
 	 * @since 3.1.2 Added function arguments.
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::user_profile().
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_themsg The WP-Members message container.
@@ -436,6 +441,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.1.1
 	 * @since 3.1.6 Uses wpmem_loginout().
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::loginout().
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -473,6 +479,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.1.2
 	 * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.
 	 * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::fields().
 	 *
 	 * @global object $wpmem   The WP_Members object.
 	 * @param  array  $atts {
@@ -587,6 +594,7 @@ class WP_Members_Shortcodes {
 	 * Logout link shortcode [wpmem_logout].
 	 *
 	 * @since 3.1.2
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logout().
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -610,6 +618,7 @@ class WP_Members_Shortcodes {
 	 * TOS shortcode [wpmem_tos].
 	 *
 	 * @since 3.1.2
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::tos().
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -628,6 +637,7 @@ class WP_Members_Shortcodes {
 	 * Display user avatar.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::avatar().
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -657,6 +667,7 @@ class WP_Members_Shortcodes {
 	 * Generates a login link with a return url.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.0 Moved to WP_Members_Shortcodes::login_link().
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.

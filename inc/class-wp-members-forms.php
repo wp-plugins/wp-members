@@ -652,6 +652,7 @@ class WP_Members_Forms {
 		 * the generated form.
 		 *
 		 * @since 2.7.4
+		 * @deprecated 3.2.0 Use wpmem_login_form instead.
 		 *
 		 * @param string $str           The HTML to add before the form. Default null.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -1194,6 +1195,7 @@ class WP_Members_Forms {
 		 * the generated form.
 		 *
 		 * @since 2.7.4
+		 * @deprecated 3.2.0 Use wpmem_register_form instead.
 		 *
 		 * @param string $str The HTML to add before the form. Default null.
 		 * @param string $tag Toggle new registration or profile update. new|edit.

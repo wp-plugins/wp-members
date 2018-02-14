@@ -170,6 +170,7 @@ function wpmem_a_render_dropins_table() {
 	global $wpmem; 
 	
 	// Get the dropin folder.
+	/** This filter is documented in inc/class-wp-members.php */
 	$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
 
 	// Set file headers for dropins.

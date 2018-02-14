@@ -244,6 +244,7 @@ class WP_Members {
 			 */
 			require_once( WPMEM_PATH . 'wp-members-install.php' );
 			// Update settings.
+			/** This filter is documented in /inc/class-wp-members.php */
 			$settings = apply_filters( 'wpmem_settings', wpmem_do_install() );
 		}
 		
@@ -1254,9 +1255,9 @@ class WP_Members {
 		 * Filter default terms.
 		 *
 		 * @since 3.1.0
-		 * @since 3.2.0 Passes $defaults param
+		 * @since 3.2.0 Passes $defaults param as a required element.
 		 *
-		 * @param array $defaults
+		 * @param array $defaults (required)
 		 */
 		$text = apply_filters( 'wpmem_default_text_strings', $defaults );
 		
