@@ -652,7 +652,6 @@ class WP_Members_Forms {
 		 * the generated form.
 		 *
 		 * @since 2.7.4
-		 * @deprecated 3.2.0 Use wpmem_login_form instead.
 		 *
 		 * @param string $str           The HTML to add before the form. Default null.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -879,7 +878,9 @@ class WP_Members_Forms {
 					 * @param string       The link text.
 					 * @param string $tag  Toggle new registration or profile update. new|edit.
 					 */
-					$input.= apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->get_text( 'register_tos' ), $tos_pop, '</a>' ), $tag );
+					$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
+					
+					$input.= sprintf( $tos_link_text, $tos_pop, '</a>' );
 
 					// In previous versions, the div class would end up being the same as the row before.
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
@@ -1195,7 +1196,6 @@ class WP_Members_Forms {
 		 * the generated form.
 		 *
 		 * @since 2.7.4
-		 * @deprecated 3.2.0 Use wpmem_register_form instead.
 		 *
 		 * @param string $str The HTML to add before the form. Default null.
 		 * @param string $tag Toggle new registration or profile update. new|edit.
