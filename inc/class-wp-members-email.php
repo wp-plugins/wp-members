@@ -49,6 +49,7 @@ class WP_Members_Email {
 	 * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
 	 * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
 	 * @since 3.1.1 Added $custom argument for custom emails.
+	 * @since 3.2.0 Changed wpmem_msurl key to wpmem_profile.
 	 * @since 3.2.0 Moved to WP_Members_Email::to_user().
 	 *
 	 * @global object $wpmem                The WP_Members object.
@@ -123,7 +124,7 @@ class WP_Members_Email {
 		$arr['blogname']      = wp_specialchars_decode( get_option ( 'blogname' ), ENT_QUOTES );
 		$arr['exp_type']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'exp_type', true ) : '';
 		$arr['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
-		$arr['wpmem_msurl']   = esc_url( $wpmem->user_pages['profile'] );
+		$arr['wpmem_profile'] = esc_url( $wpmem->user_pages['profile'] );
 		$arr['wpmem_reg']     = esc_url( $wpmem->user_pages['register'] );
 		$arr['wpmem_login']   = esc_url( $wpmem->user_pages['login'] );
 		$arr['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
@@ -155,6 +156,7 @@ class WP_Members_Email {
 		 *
 		 * @since 2.9.7
 		 * @since 3.1.0 Added footer content to the array.
+		 * @since 3.2.0 Changed wpmem_msurl key to wpmem_profile.
 		 *
 		 * @param array $arr {
 		 *     An array containing email body, subject, user id, and additional settings.
@@ -168,7 +170,7 @@ class WP_Members_Email {
 		 *     @type string blogname
 		 *     @type string exp_type
 		 *     @type string exp_date
-		 *     @type string wpmem_msurl
+		 *     @type string wpmem_profile
 		 *     @type string reg_link
 		 *     @type string do_shortcodes
 		 *     @type bool   add_footer
@@ -253,8 +255,8 @@ class WP_Members_Email {
 					'password'     => $password,
 					'email'        => $arr['user_email'],
 					'reglink'      => $arr['reg_link'],
-					'members-area' => $arr['wpmem_msurl'],
-					'user-profile' => $arr['wpmem_msurl'],
+					'members-area' => $arr['wpmem_profile'],
+					'user-profile' => $arr['wpmem_profile'],
 					'exp-type'     => $arr['exp_type'],
 					'exp-data'     => $arr['exp_date'],
 					'exp-date'     => $arr['exp_date'],
