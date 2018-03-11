@@ -553,64 +553,6 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 
 }
 
-
-/**
- * Forgot Username Form.
- *
- * Loads the form for retrieving a username.
- *
- * @since 3.0.8
- *
- * @global object $wpmem The WP_Members object class.
- * @return string $str   The generated html for the forgot username form.
- */
-function wpmem_inc_forgotusername() {
-	
-	global $wpmem;
-
-	// create the default inputs
-	$default_inputs = array(
-		array(
-			'name'   => $wpmem->get_text( 'username_email' ), 
-			'type'   => 'text',
-			'tag'    => 'user_email',
-			'class'  => 'username',
-			'div'    => 'div_text',
-		),
-	);
-
-	/**
-	 * Filter the array of forgot username form fields.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param array $default_inputs An array matching the elements used by default.
- 	 */	
-	$default_inputs = apply_filters( 'wpmem_inc_forgotusername_inputs', $default_inputs );
-	
-	$defaults = array(
-		'heading'      => $wpmem->get_text( 'username_heading' ), 
-		'action'       => 'getusername', 
-		'button_text'  => $wpmem->get_text( 'username_button' ),
-		'inputs'       => $default_inputs,
-	);
-
-	/**
-	 * Filter the arguments to override change password form defaults.
-	 *
-	 * @since 
-	 *
-	 * @param array $args An array of arguments to use. Default null.
- 	 */
-	$args = apply_filters( 'wpmem_inc_forgotusername_args', '' );
-
-	$arr  = wp_parse_args( $args, $defaults );
-
-    $str  = wpmem_login_form( 'page', $arr );
-	
-	return $str;
-}
-
 if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**
  * Generate users login status if logged in and gives logout link.

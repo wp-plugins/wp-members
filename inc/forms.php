@@ -130,6 +130,22 @@ function wpmem_login_form( $page, $arr ) {
 }
 endif;
 
+/**
+ * Forgot Username Form.
+ *
+ * Loads the form for retrieving a username.
+ *
+ * @since 3.0.8
+ * @since 3.2.0 Moved to forms.php.
+ *
+ * @global object $wpmem The WP_Members object class.
+ * @return string $str   The generated html for the forgot username form.
+ */
+function wpmem_inc_forgotusername() {
+	global $wpmem;
+	return $wpmem->forms->do_forgotusername_form();
+}
+
 
 if ( ! function_exists( 'wpmem_inc_registration' ) ):
 /**
