@@ -373,13 +373,15 @@ function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
  * Creates a membership number.
  *
  * @since 3.1.1
+ * @since 3.2.0 Changed "lead" to "pad".
  *
  * @param  array  $args {
- *     @type string $option
- *     @type string $meta_key
- *     @type int    $start     (optional, default 0)
- *     @type int    $increment (optional, default 1)
- *     @type int    $lead
+ *     @type string $option    The wp_options name for the counter setting (required).
+ *     @type string $meta_key  The field's meta key (required).
+ *     @type int    $start     Number to start with (optional, default 0).
+ *     @type int    $increment Number to increment by (optional, default 1).
+ *     @type int    $digits    Number of digits for the number (optional).
+ *     @type boolen $pad       Pad leading zeros (optional, default true).
  * }
  * @return string $membersip_number
  */
