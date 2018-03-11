@@ -1271,10 +1271,14 @@ class WP_Members_Forms {
 				 * Filter the post restricted message.
 				 *
 				 * @since 2.7.3
+				 * @since 3.2.0 Added raw message string and HTML as separate params.
 				 *
-				 * @param string $str The post restricted message.
+				 * @param string $str The post restricted message with HTML.
+				 * @param string $msg The raw message string.
+				 * @param string      The 'before' HTML wrapper.
+				 * @param string      The 'after' HTML wrapper.
 				 */
-				$str = apply_filters( 'wpmem_restricted_msg', $str );
+				$str = apply_filters( 'wpmem_restricted_msg', $str, $msg, '<div id="wpmem_restricted_msg"><p>', '</p></div>' );
 
 			} 	
 		} 
