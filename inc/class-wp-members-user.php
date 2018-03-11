@@ -116,6 +116,7 @@ class WP_Members_User {
 	 * wrapper and is the direct function called for logout.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.0 Added logout_redirect filter
 	 *
 	 * @param string $redirect_to URL to redirect the user to (default: false).
 	 */
@@ -123,6 +124,8 @@ class WP_Members_User {
 		// Default redirect URL.
 		$redirect_to = ( $redirect_to ) ? $redirect_to : home_url();
 
+		/** This filter is documented in /wp-login.php */
+		$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $redirect_to, wp_get_current_user() );
 		/**
 		 * Filter where the user goes when logged out.
 		 *
