@@ -90,6 +90,13 @@ class WP_Members_User {
 			/**
 			 * Filter the redirect url.
 			 *
+			 * This is the plugin's original redirect filter. In 3.1.7, 
+			 * WP's login_redirect filter hook was added to provide better
+			 * integration support for other plugins and also for users
+			 * who may already be using WP's filter(s). login_redirect
+			 * comes first, then wpmem_login_redirect. So wpmem_login_redirect
+			 * can be used to override a default in login_redirect.
+			 *
 			 * @since 2.7.7
 			 *
 			 * @param string $redirect_to The url to direct to.

@@ -140,7 +140,7 @@ class WP_Members_Products_Admin {
 					<?php wp_dropdown_roles( $this->get_meta( 'membership_product_role' ) ); ?>
 				</select>
 			</p>
-			<p>
+			<p class="form-field">
 				<input type="checkbox" name="membership_product_expires" id="membership_product_expires" value="expires" <?php echo ( $this->get_meta( 'membership_product_expires' ) === 'expires' ) ? 'checked' : ''; ?>>
 				<label for="membership_product_expires"><?php _e( 'Expires', 'membership_product' ); ?></label>
 				<span id="membership_product_expires_wrap">

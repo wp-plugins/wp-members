@@ -254,41 +254,20 @@ class WP_Members {
 		}
 		
 		$this->load_user_pages();
-
-		// Set the stylesheet.
-		$this->cssurl = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style;
-		
-		// Load forms.
-		$this->forms = new WP_Members_Forms;
-		
-		// Load api.
-		$this->api = new WP_Members_API;
-	
-		// Load user functions.
-		$this->user = new WP_Members_User( $this );
-		
-		// Load shortcodes.
-		$this->shortcodes = new WP_Members_Shortcodes();
-
-		// Load membership plans
-		$this->membership = new WP_Members_Products();
-		
-		// Load email functions
-		$this->email = new WP_Members_Email;
-		
-		// Load clone menus.
-		if ( $this->clone_menus ) {
-			$this->menus = new WP_Members_Menus();
-		}
+		$this->cssurl     = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style; // Set the stylesheet.
+		$this->forms      = new WP_Members_Forms;         // Load forms.
+		$this->api        = new WP_Members_API;           // Load api.
+		$this->user       = new WP_Members_User( $this ); // Load user functions.
+		$this->shortcodes = new WP_Members_Shortcodes();  // Load shortcodes.
+		$this->membership = new WP_Members_Products();    // Load membership plans
+		$this->email      = new WP_Members_Email;         // Load email functions
+		$this->menus      = ( $this->clone_menus ) ? new WP_Members_Menus() : null; // Load clone menus.
 		
 		/**
 		 * Fires after main settings are loaded.
 		 *
 		 * @since 3.0
-		 * @todo Consider deprecating this action. It is undocumented (and unlikely used by users),
-		 *       With the move of the remaining initial loading to the constructor, the object is
-		 *       no longer available to this action, and moving it doesn't make much sense since
-		 *       wpmem_after_init would come right after it.
+		 * @deprecated 3.2.0 Use wpmem_after_init instead.
 		 */
 		do_action( 'wpmem_settings_loaded' );
 	

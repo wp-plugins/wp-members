@@ -65,16 +65,16 @@ function wpmem_a_build_about_tab() { ?>
                         to your site and/or business, please consider joining today!  (And if you're already a premium support subscriber - Thank You!  
                         You make this plugin possible.)</p>
                         <p>Introduced in 2006, WP-Members was the first WordPress Membership plugin and through support of the WP community it continues to grow
-                        and be developed.  Why put your trust in an unknown?  WP-Members has a 10 year track record of active development and support.</p>
+                        and be developed.  Why put your trust in an unknown?  WP-Members has a 12 year track record of active development and support.</p>
                         <p><strong><a href="http://rkt.bz/KB">Plugin Documentation</a></strong> |
                         <strong><a href="http://rkt.bz/about">Premium Support</a></strong> | 
                         <strong><a href="http://rkt.bz/join">Join Today!</a></strong></p>
                     </div>
                     <h3>Premium Extensions</h3>
                     <div class="inside">
-                    	<p>These are some of the popular extensions that are <strong>available to premium support subscribers</strong>:</p>
+                    	<p>These are some of the popular extensions that are available:</p>
                         <p><strong><a href="http://rkt.bz/0h">Advanced Options</a></strong><br />
-                        This exclusive extension adds a host of extra features to the plugin that are as simple to set up as checking a box. Hides the dashboard,
+                        This exclusive extension adds a host of additional features to the plugin that are as simple to set up as checking a box. Hides the dashboard,
                         override WP default URLs for login and registration, disable certain WP defaults, change WP-Members defaults, notify admin on user profile
                         update, integrate with other popular plugins like WooCommerce, BuddyPress, and ACF (Advanced Custom Fields), and more.  See a list
                         of available settings here.
