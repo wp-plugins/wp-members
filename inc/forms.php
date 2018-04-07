@@ -155,6 +155,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  *
  * @since 2.5.1
  * @since 3.1.7 Now a wrapper for $wpmem->forms->register_form()
+ * @since 3.2.0 Preparing for deprecation, use wpmem_register_form() instead.
  *
  * @global object $wpmem        The WP_Members object.
  * @param  string $tag          (optional) Toggles between new registration ('new') and user profile edit ('edit').
@@ -162,8 +163,9 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * @return string $form         The HTML for the entire form as a string.
  */
 function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = null ) {
-	global $wpmem; 
-	return $wpmem->forms->register_form( $tag, $heading, $redirect_to );
+	global $wpmem;
+	$args = array( 'tag' => $tag, 'heading' => $heading, 'redirect_to' => $redirect_to );
+	return $wpmem->forms->register_form( $args, $heading, $redirect_to );
 } // End wpmem_inc_registration.
 endif;
 

@@ -445,6 +445,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
 		require_once( WPMEM_PATH . 'inc/core.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
+		require_once( WPMEM_PATH . 'inc/api-forms.php' );
 		require_once( WPMEM_PATH . 'inc/utilities.php' );
 		require_once( WPMEM_PATH . 'inc/forms.php' );
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );

@@ -61,11 +61,29 @@ class WP_Members_Shortcodes {
 	 * @since 3.0.0
 	 * @since 3.1.3 Added forgot_username shortcode.
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::forms().
+	 * @since 3.2.0 Added id, exclude_fields, include_fields, and product attributes.
+	 *
+	 * @todo Complete support for id, exlude_fields, include_fields, and product attributes
+	 *       May require updates to core functions.
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_themsg The WP-Members message container.
 	 *
-	 * @param  array  $attr
+	 * @param  array  $atts {
+	 *     Possible shortcode attributes (some vary by form).
+	 *
+	 *     @type string $id              An ID for the form.
+	 *     @type string $login           Idenifies login form.
+	 *     @type string $password        Idenifies reset/change password form (login state dependent).
+	 *     @type string $user_edit       Idenifies user profile edit form.
+	 *     @type string $forgot_username Idenifies forgot username form.
+	 *     @type string $register        Idenifies register form.
+	 *     @type string $redirect_to     URL to redirect to on form submit.
+	 *     @type string $texturize       Add/fix texturization for the from HTML.
+	 *     @type string $exclude_fields  Fields to exclude (register/user_edit forms only).
+	 *     @type string $include_fields  Fields to include (register/user_edit forms only).
+	 *     @type string $product         Register for specific product (if products are enabled).
+	 * }
 	 * @param  string $content
 	 * @param  string $tag
 	 * @return string $content

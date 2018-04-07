@@ -672,11 +672,20 @@ class WP_Members_Forms {
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
 	 * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
-	 * @param  string $tag          (optional) Toggles between new registration ('new') and user profile edit ('edit').
+	 * @param  mixed  $mixed        (optional) String toggles between new registration ('new') and user profile edit ('edit'), or array containing settings arguments.
 	 * @param  string $heading      (optional) The heading text for the form, null (default) for new registration.
 	 * @return string $form         The HTML for the entire form as a string.
 	 */
-	function register_form( $tag = 'new', $heading = '', $redirect_to = null ) {
+	function register_form( $mixed = 'new', $heading = '', $redirect_to = null ) {
+		
+		// Handle legacy use.
+		if ( is_array( $mixed ) ) {
+			$tag         = $mixed['tag'];
+			$heading     = $mixed['heading'];
+			$redirect_to = $mixed['redirect_to'];
+		} else {
+			$tag = $mixed;
+		}
 
 		global $wpmem, $wpmem_regchk, $userdata; 
 
