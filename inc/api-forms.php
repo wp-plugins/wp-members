@@ -16,10 +16,10 @@
  * }
  * @return string $html
  */
-function wpmem_login_form( $args ) {
+/*function wpmem_login_form( $args ) {
   global $wpmem;
   return $wpmem->forms->login_form( $args );
-}
+}*/
 
 /**
  * Invokes a registration or user profile update form.

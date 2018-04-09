@@ -391,7 +391,16 @@ class WP_Members_Forms {
 	 * }
 	 * @return string $form  The HTML for the form as a string.
 	 */
-	function login_form( $page, $arr ) {
+	function login_form( $mixed, $arr = array() ) {
+
+		// Handle legacy use.
+		if ( is_array( $mixed ) ) {
+			$page = $mixed['page'];
+			$arr  = $mixed;
+		} else {
+			$page = $mixed;
+		}
+		
 		
 		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
 		if ( isset( $_REQUEST['redirect_to'] ) ) {

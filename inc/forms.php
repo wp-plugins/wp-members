@@ -126,7 +126,9 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  */
 function wpmem_login_form( $page, $arr ) {
 	global $wpmem;
-	return $wpmem->forms->login_form( $page, $arr );
+	$args = $arr;
+	$args['page'] = $page;
+	return $wpmem->forms->login_form( $args );
 }
 endif;
 
@@ -165,7 +167,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
 function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = null ) {
 	global $wpmem;
 	$args = array( 'tag' => $tag, 'heading' => $heading, 'redirect_to' => $redirect_to );
-	return $wpmem->forms->register_form( $args, $heading, $redirect_to );
+	return $wpmem->forms->register_form( $args );
 } // End wpmem_inc_registration.
 endif;
 
