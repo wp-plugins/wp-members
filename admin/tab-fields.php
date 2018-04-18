@@ -402,9 +402,9 @@ Last Row|last_row<?php } } ?></textarea>
 function wpmem_a_render_fields_tab_field_table() {
 	global $wpmem; 
 
-	$wpmem_ut_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );	
+	$wpmem_ut_fields_skip = array( 'username', 'user_email', 'confirm_email', 'password', 'confirm_password' );	
 	$wpmem_ut_fields = get_option( 'wpmembers_utfields' );
-	$wpmem_us_fields_skip = array( 'user_email', 'confirm_email', 'password', 'confirm_password' );	
+	$wpmem_us_fields_skip = array( 'username', 'user_email', 'confirm_email', 'password', 'confirm_password' );	
 	$wpmem_us_fields = get_option( 'wpmembers_usfields' );
 
 	$wpmem_fields = get_option( 'wpmembers_fields', array() );
@@ -496,7 +496,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 	
 	private $excludes = array( 'user_registered', 'active', 'wpmem_reg_ip', 'exp_type', 'expires', 'user_id' );
 	
-	private $no_delete = array( 'user_email', 'first_name', 'last_name', 'user_url' );
+	private $no_delete = array( 'username', 'user_email', 'first_name', 'last_name', 'user_url' );
 	
 	/**
 	 * Checkbox at start of row.
@@ -753,7 +753,7 @@ function wpmem_admin_fields_update() {
 			// Error check for reserved terms.
 			$reserved_terms = wpmem_wp_reserved_terms();
 			if ( in_array( strtolower( $add_option ), $reserved_terms ) ) {
-				$add_field_err_msg = sprintf( __( 'Sorry, "%s" is a <a href="https://codex.wordpress.org/Function_Reference/register_taxonomy#Reserved_Terms" target="_blank">reserved term</a>. Field was not added.', 'wp-members' ), $submitted_term );
+				$add_field_err_msg = sprintf( __( 'Sorry, "%s" is a <a href="https://codex.wordpress.org/Function_Reference/register_taxonomy#Reserved_Terms" target="_blank">reserved term</a>. Field was not added.', 'wp-members' ), $add_option );
 			}
 
 			// Error check option name for spaces and replace with underscores.
