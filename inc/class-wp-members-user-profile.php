@@ -164,7 +164,7 @@ class WP_Members_User_Profile {
 			 * }
 			 * @param string $tag adminprofile|userprofile
 			 */
-			$rows = apply_filters( 'wpmem_register_form_rows_admin', $rows, $display . 'profile' );
+			$rows = apply_filters( 'wpmem_register_form_rows_' . $display, $rows, $display . 'profile' );
 
 			// Handle form rows display from array.
 			foreach ( $rows as $row ) {
