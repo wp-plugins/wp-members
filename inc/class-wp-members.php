@@ -863,14 +863,26 @@ class WP_Members {
 		global $wpdb;
 		$hidden = get_transient( '_wpmem_hidden_posts' );
 		if ( false === $hidden ) {
-			$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2";
-			$results = $wpdb->get_results( $sql );
-			foreach( $results as $result ) {
-				$hidden[] = $result->post_id;
-			}
-			set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
+			$this->update_hidden_posts();
 		}
 		return $hidden;
+	}
+	
+	/**
+	 * Updates the hidden post array transient.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpdb
+	 */
+	function update_hidden_posts() {
+		global $wpdb;
+		$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2";
+		$results = $wpdb->get_results( $sql );
+		foreach( $results as $result ) {
+			$hidden[] = $result->post_id;
+		}
+		set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
 	}
 	
 	/**

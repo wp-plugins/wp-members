@@ -259,17 +259,19 @@ function wpmem_block_meta_save( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
-
 	// Quit if the nonce isn't there, or is wrong.
 	if ( ! isset( $_POST['wpmem_block_meta_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_block_meta_nonce'], 'wpmem_block_meta_nonce' ) ) {
 		return;
 	}
-
+	// Quit if it's a post revision
+	if ( false !== wp_is_post_revision( $post_id ) ) {
+		return;
+	}
 	// Quit if the current user cannot edit posts.
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
 	}
-
+	
 	// Get value.
 	$block = ( isset( $_POST['wpmem_block'] ) ) ? sanitize_text_field( $_POST['wpmem_block'] ) : null;
 	
@@ -386,6 +388,11 @@ function wpmem_set_block_status( $status, $post_id, $post_type ) {
 		update_post_meta( $post_id, '_wpmem_block', $status );
 	} else { 
 		delete_post_meta( $post_id, '_wpmem_block' );
+	}
+	
+	// If the value is to hide, delete the transient so that it updates.
+	if ( 2 == $status || ( 2 == $prev_value && $status != $prev_value ) ) {
+		$wpmem->update_hidden_posts();
 	}
 }
 
