@@ -49,7 +49,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  */
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
 	global $wpmem;
-	return $wpmem->forms->do_login_form( $page = "page", $redirect_to = null, $show = 'show' );
+	return $wpmem->forms->do_login_form( $page, $redirect_to, $show );
 }
 endif;
 

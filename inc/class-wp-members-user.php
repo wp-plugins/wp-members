@@ -457,7 +457,7 @@ class WP_Members_User {
 	}
 	
 	/**
-	 * Sets user as logged on on password change.
+	 * Sets user as logged on password change.
 	 *
 	 * (Hooked to wpmem_pwd_change)
 	 *

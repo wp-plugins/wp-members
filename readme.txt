@@ -137,6 +137,7 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 
 = 3.2.0 =
 
+* Tested and compatible with Gutenberg.
 * Changed default address meta fields to WooCommerce billing meta keys.
 * Removed language packs that install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
 * All remaining user facing strings in get_text() added wp-members textdomain.
