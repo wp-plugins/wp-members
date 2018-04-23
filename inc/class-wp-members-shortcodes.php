@@ -586,10 +586,10 @@ class WP_Members_Shortcodes {
 			if ( isset( $field_type ) && 'date' == $field_type ) {
 				if ( isset( $atts['format'] ) ) {
 					// Formats date: http://php.net/manual/en/function.date.php
-					$result =  date( $atts['format'], strtotime( $user_info->{$field} ) );
+					$result = ( '' != $user_info->{$field} ) ? date( $atts['format'], strtotime( $user_info->{$field} ) ) : '';
 				} else {
 					// Formats date to whatever the WP setting is.
-					$result = date_i18n( get_option( 'date_format' ), strtotime( $user_info->{$field} ) );
+					$result = ( '' != $user_info->{$field} ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info->{$field} ) ) : '';
 				}
 			}
 
