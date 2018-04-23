@@ -26,7 +26,7 @@ class WP_Members_Products {
 		
 		$this->load_products();
 		
-		add_filter( 'wpmem_securify', array( $this, 'check_access' ) );
+		add_filter( 'wpmem_securify', array( $this, 'product_access' ) );
 	}
 	
 	function load_products() {
@@ -44,12 +44,37 @@ class WP_Members_Products {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global object $post
 	 * @global object $wpmem
 	 * @param  string $content
 	 * @return string $content
 	 */
-	function check_access( $content ) {
+	function product_access( $content ) {
+		
+		global $wpmem;
+		// Is the user logged in and is this blocked content?
+		if ( is_user_logged_in() && wpmem_is_blocked() ) {
+			$access = $this->check_product_access();
+			// Handle content.
+			$content = ( $access ) ? $content : $wpmem->get_text( 'product_restricted' );
+			// Handle comments.
+			if ( ! $access ) {
+				add_filter( 'wpmem_securify_comments', '__return_false' );
+			}
+		}
+		// Return unfiltered content for all other cases.
+		return $content;
+	}
+
+	/**
+	 * Checks access restriction by product.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object  $post
+	 * @global object  $wpmem
+	 * @return boolean        true if user has access, otherwise false.
+	 */
+	function check_product_access() {
 		
 		global $post, $wpmem;
 		// Is the user logged in and is this blocked content?
@@ -60,18 +85,26 @@ class WP_Members_Products {
 			if ( $post_products ) {
 				// @todo This is the nuts and bolts - work around whether a user has access
 				// to this product or not. 
-				if ( $wpmem->user->has_access( $post_products ) ) {
-					return $content;
+				/**
+				 * Filter whether the user has access or not.
+				 *
+				 * @since 3.2.0
+				 *
+				 * @param boolean $user_has_access
+				 */
+				$user_has_access = apply_filters( 'wpmem_user_has_access', $wpmem->user->has_access( $post_products ) );
+				if ( $user_has_access ) {
+					return true;
 				}
 				// The error message for invalid users.
-				return $wpmem->get_text( 'product_restricted' );
+				return false;
 			} else {
 				// Content that has no product restriction.
-				return $content;
+				return true;
 			}
 		}
 		// Return unfiltered content for all other cases.
-		return $content;
+		return true;
 	}
 	
 	/**

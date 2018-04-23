@@ -877,8 +877,8 @@ class WP_Members {
 	 */
 	function update_hidden_posts() {
 		global $wpdb;
-		$sql = "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2";
-		$results = $wpdb->get_results( $sql );
+		$hidden  = array();
+		$results = $wpdb->get_results( "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2" );
 		foreach( $results as $result ) {
 			$hidden[] = $result->post_id;
 		}
