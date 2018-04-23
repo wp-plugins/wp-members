@@ -189,6 +189,8 @@ function wpmem_current_url( $slash = true, $getq = true ) {
  *     @type string  $title       (optional) Defines the title attribute.
  *     @type string  $min         (optional) Adds a min attribute (HTML5).
  *     @type string  $max         (optional) Adds a max attribute (HTML5).
+ *     @type string  $rows        (optional) Adds rows attribute to textarea.
+ *     @type string  $cols        (optional) Adds cols attribute to textarea.
  * }
  * @param  string $type     The field type.
  * @param  string $value    The default value for the field.

@@ -168,6 +168,7 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * HTML5 update - form anchor tags changed from "name" to "id".
 * HTML5 update - form id tags set default value (can still be filtered).
 * HTML5 update - removed "align" attribute (captcha, link-text).
+* Added placeholder, rows, and cols attribute support for textarea field settings.
 * Moved remaining core functions to appropriate object classes, left wrappers for most.
 * Added new email class and shortcode class to replace previous functions/files.
 * Added link_span_before/link_span_after wrapper for login link text.

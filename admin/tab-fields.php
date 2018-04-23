@@ -281,6 +281,18 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 			</li>
 		<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 		<?php } ?>
+		<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'textarea' ) ) ) ) ) { ?>
+		<?php echo ( $mode == 'add' ) ? '<div id="wpmem_rows_cols">' : ''; ?>
+			<li>
+				<label><?php _e( 'Rows', 'wp-members' ); ?></label>
+				<input type="number" name="add_rows" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['rows'] ) ? $field['rows'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+			</li>
+			<li>
+				<label><?php _e( 'Columns', 'wp-members' ); ?></label>
+				<input type="number" name="add_cols" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['cols'] ) ? $field['cols'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+			</li>
+		<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+		<?php } ?>
 		<?php if ( $mode == 'add' || ( $mode == 'edit' && ( $field['type'] == 'file' || $field['type'] == 'image' ) ) ) { ?>
 		<?php echo ( $mode == 'add' ) ? '<div id="wpmem_file_info">' : ''; ?>
 			<li>
@@ -783,6 +795,11 @@ function wpmem_admin_fields_update() {
 			if ( 'number' == $type || 'date' == $type ) {
 				$arr['min'] = filter_var( wpmem_get( 'add_min' ), FILTER_SANITIZE_NUMBER_INT );
 				$arr['max'] = filter_var( wpmem_get( 'add_max' ), FILTER_SANITIZE_NUMBER_INT );
+			}
+			
+			if ( 'textarea' == $type ) {
+				$arr['rows'] = filter_var( wpmem_get( 'add_rows' ), FILTER_SANITIZE_NUMBER_INT );
+				$arr['cols'] = filter_var( wpmem_get( 'add_cols' ), FILTER_SANITIZE_NUMBER_INT );
 			}
 
 			if ( $type == 'checkbox' ) {

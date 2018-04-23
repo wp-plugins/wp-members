@@ -118,9 +118,10 @@ class WP_Members_Forms {
 		case "textarea":
 			$value = esc_textarea( stripslashes( $value ) ); // stripslashes( esc_textarea( $value ) );
 			$class = ( 'textbox' == $class ) ? "textarea" : $this->sanitize_class( $class );
-			$rows  = ( isset( $args['rows'] ) ) ? esc_attr( $args['rows'] ) : '5';
-			$cols  = ( isset( $args['cols'] ) ) ? esc_attr( $args['cols'] ) : '20';
-			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$id\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
+			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
+			$rows  = ( isset( $args['rows'] ) && $args['rows'] ) ? esc_attr( $args['rows'] ) : '5';
+			$cols  = ( isset( $args['cols'] ) && $args['cols'] ) ? esc_attr( $args['cols'] ) : '20';
+			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$id\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
 			break;
 	
 		case "hidden":
@@ -954,6 +955,8 @@ class WP_Members_Forms {
 							'title'       => ( isset( $field['title']       ) ) ? $field['title']       : false,
 							'min'         => ( isset( $field['min']         ) ) ? $field['min']         : false,
 							'max'         => ( isset( $field['max']         ) ) ? $field['max']         : false,
+							'rows'        => ( isset( $field['rows']        ) ) ? $field['rows']        : false,
+							'cols'        => ( isset( $field['cols']        ) ) ? $field['cols']        : false,
 						);
 						if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
 							$formfield_args['delimiter'] = $field['delimiter'];

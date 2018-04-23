@@ -134,8 +134,10 @@
 			}
 			if ($("#wpmem_field_type_select").val() == 'textarea' )
 				$("#wpmem_allowhtml").show();
+				$("#wpmem_rows_cols").show();
 			else
 				$("#wpmem_allowhtml").hide();
+				$("#wpmem_rows_cols").hide();
 			if ($("#wpmem_field_type_select").val() == 'number' || $("#wpmem_field_type_select").val() == 'date' )
 				$("#wpmem_min_max").show();
 			else
