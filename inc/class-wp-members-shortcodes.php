@@ -179,18 +179,15 @@ class WP_Members_Shortcodes {
 	}
 
 	/**
-	 * Handles the logged in status shortcodes.
+	 * Handles the logged in status shortcodes [wpmem_logged_in].
 	 *
-	 * There are two shortcodes to display content based on a user being logged
-	 * in - [wp-members status=in] and [wpmem_logged_in] (status=in is a legacy
-	 * shortcode, but will still function). There are several attributes that
-	 * can be used with the shortcode: in|out, sub for subscription only info,
-	 * id, and role. IDs and roles can be comma separated values for multiple
-	 * users and roles. Additionally, status=out can be used to display content
-	 * only to logged out users or visitors.
+	 * There are several attributes that can be used with the shortcode: 
+	 * in|out, sub for subscription only info, id, and role. IDs and roles 
+	 * can be comma separated values for multiple users and roles. 
 	 *
 	 * @since 3.0.0
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_in().
+	 * @since 3.2.0 Added attributes for meta key/value pairs.
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 *
@@ -201,6 +198,8 @@ class WP_Members_Shortcodes {
 	 *     @type int    $id
 	 *     @type string $role
 	 *     @type string $sub
+	 *     @type string $meta_key
+	 *     @type string $meta_value
 	 * }
 	 * @param  string $content
 	 * @param  string $tag
@@ -261,7 +260,7 @@ class WP_Members_Shortcodes {
 
 				// If there is a meta key attribute.
 				if ( isset( $atts['meta_key'] ) ) {
-					$value = ( isset( $atts['meta_value'] ) ) ? $atta['meta_value'] : false;
+					$value = ( isset( $atts['meta_value'] ) ) ? $atts['meta_value'] : false;
 					if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
 						$do_return = true;
 					}
