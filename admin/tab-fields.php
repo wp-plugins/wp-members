@@ -184,14 +184,14 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 		<ul>
 			<li>
 				<label><?php _e( 'Field Label', 'wp-members' ); ?> <?php echo $span_required; ?></label>
-				<input type="text" name="add_name" value="<?php echo ( $mode == 'edit' ) ? $field['label'] : false; ?>" />
+				<input type="text" name="add_name" value="<?php echo ( $mode == 'edit' ) ? $field['label'] : false; ?>" required />
 				<?php _e( 'The name of the field as it will be displayed to the user.', 'wp-members' ); ?>
 			</li>
 			<li>
 				<label><?php _e( 'Meta Key', 'wp-members' ); ?> <?php echo $span_required; ?></label>
 				<?php if ( $mode == 'edit' ) { 
 					echo "<span>$meta_key</span>"; ?>
-					<input type="hidden" name="add_option" value="<?php echo $meta_key; ?>" /> 
+					<input type="hidden" name="add_option" value="<?php echo $meta_key; ?>" required /> 
 				<?php } else { ?>
 					<input type="text" name="add_option" value="" />
 					<?php _e( 'The database meta value for the field. It must be unique and contain no spaces (underscores are ok).', 'wp-members' ); ?>
@@ -781,7 +781,10 @@ function wpmem_admin_fields_update() {
 			$arr[3] = $type;
 			$arr[4] = ( 'y' == wpmem_get( 'add_display', 'n'  ) ) ? 'y' : 'n';
 			$arr[5] = ( 'y' == wpmem_get( 'add_required', 'n' ) ) ? 'y' : 'n';
-			$arr[6] = ( $us_option == 'user_nicename' || $us_option == 'display_name' || $us_option == 'nickname' ) ? 'y' : 'n';
+			
+			// Mark native fields:
+			$native_fields = array( 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name', 'first_name', 'last_name', 'nickname', 'description' );
+			$arr[6] = ( in_array( $us_option, $native_fields ) ) ? 'y' : 'n';
 
 			if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
 				$arr['placeholder'] = sanitize_text_field( stripslashes( wpmem_get( 'add_placeholder' ) ) );

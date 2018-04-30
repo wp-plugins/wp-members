@@ -173,7 +173,7 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Added new email class and shortcode class to replace previous functions/files.
 * Added link_span_before/link_span_after wrapper for login link text.
 * Updated "TOS" text to "Terms of Service".
-
+* Fixed a bug that caused WP native fields to be set as non-native when labels were updated in the fields tab.
 
 = 3.1.9 =
 
