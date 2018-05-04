@@ -1178,7 +1178,7 @@ class WP_Members {
 			'register_heading'     => __( 'New User Registration', 'wp-members' ),
 			'register_username'    => __( 'Choose a Username', 'wp-members' ),
 			'register_rscaptcha'   => __( 'Input the code:', 'wp-members' ),
-			'register_tos'         => __( 'Please indicate that you agree to the %s TOS %s', 'wp-members' ),
+			'register_tos'         => __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ), // @note: if default changes, default check after wpmem_tos_link_txt must change.
 			'register_clear'       => __( 'Reset Form', 'wp-members' ),
 			'register_submit'      => __( 'Register', 'wp-members' ),
 			'register_req_mark'    => '<span class="req">*</span>',

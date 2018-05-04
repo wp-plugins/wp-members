@@ -899,7 +899,19 @@ class WP_Members_Forms {
 					 */
 					$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
 					
-					$input.= sprintf( $tos_link_text, $tos_pop, '</a>' );
+					// If filtered value is not the default label, use that, otherwise use label.
+					if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
+						if ( 'TOS' != $field['label'] ) {
+							$tos_link_text = $field['label'];
+						}
+					}
+					
+					// If tos string does not contain link identifiers (%s), wrap the whole string.
+					if ( ! strpos( $tos_link_text, '%s' ) ) {
+						$tos_link_text = '%s' . $tos_link_text . '%s';
+					}
+					
+					$input .= ' ' . sprintf( $tos_link_text, $tos_pop, '</a>' );
 
 					// In previous versions, the div class would end up being the same as the row before.
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
