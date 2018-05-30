@@ -131,12 +131,12 @@ class WP_Members_User_Profile {
 						'value'        => $val,
 						'values'       => $values,
 						'label_text'   => __( $field['label'], 'wp-members' ),
-						'row_before'   => '',
-						'label'        => $label,
-						'field_before' => '',
+						'row_before'   => '<tr>',
+						'label'        => '<th>' . $label . '</th>',
+						'field_before' => '<td>',
 						'field'        => $input,
-						'field_after'  => '',
-						'row_after'    => '',
+						'field_after'  => '</td>',
+						'row_after'    => '</tr>',
 					);
 				}
 			}
@@ -168,11 +168,11 @@ class WP_Members_User_Profile {
 
 			// Handle form rows display from array.
 			foreach ( $rows as $row ) {
-				$show_field = '
-					<tr>
-						<th>' . $row['label'] . '</th>
-						<td>' . $row['field'] . '</td>
-					</tr>';
+				$show_field =
+					$row['row_before'] . 
+						$row['label'] .
+						$row['field_before'] . $row['field'] . $row['field_after'] .
+					$row['field_after'];
 
 				/**
 				 * Filter the profile field.
@@ -316,6 +316,10 @@ class WP_Members_User_Profile {
 				if ( function_exists( 'wpmem_a_extenduser' ) ) {
 					wpmem_a_extend_user( $user_id );
 				}
+			}
+			
+			if ( 1 == $wpmem->enable_products ) {
+				// update products.
 			}
 		}
 
