@@ -331,7 +331,6 @@ class WP_Members_User_Profile {
 		return;
 	}
 	
-	
 	/**
 	 * Sets user profile update to multipart form data.
 	 *
@@ -350,5 +349,114 @@ class WP_Members_User_Profile {
 			}
 		}
 		echo ( $has_file ) ? " enctype=\"multipart/form-data\"" : '';
+	}
+	
+	/**
+	 * Adds user activation to the user profile.
+	 *
+	 * @since 3.1.1
+	 * @since 3.2.0 Moved to WP_Members_User_Profile object
+	 *
+	 * @global object $wpmem
+	 * @param  int    $user_id
+	 */
+	public static function _show_activate( $user_id ) {
+		global $wpmem;
+		// See if reg is moderated, and if the user has been activated.
+		if ( $wpmem->mod_reg == 1 ) {
+			$user_active_flag = get_user_meta( $user_id, 'active', true );
+			switch( $user_active_flag ) {
+
+				case '':
+					$label  = __( 'Activate this user?', 'wp-members' );
+					$action = 1;
+					break;
+
+				case 0:
+					$label  = __( 'Reactivate this user?', 'wp-members' );
+					$action = 1;
+					break;
+
+				case 1:
+					$label  = __( 'Deactivate this user?', 'wp-members' );
+					$action = 0;
+					break;
+
+			} ?>
+			<tr>
+				<th><label><?php echo $label; ?></label></th>
+				<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
+			</tr>
+		<?php }
+	}
+
+	/**
+	 * Adds user expiration to the user profile.
+	 *
+	 * @since 3.1.1
+	 * @since 3.2.0 Moved to WP_Members_User_Profile object
+	 *
+	 * @global object $wpmem
+	 * @param  int    $user_id
+	 */
+	public static function _show_expiration( $user_id ) {
+
+	global $wpmem;
+		/*
+		 * If using subscription model, show expiration.
+		 * If registration is moderated, this doesn't show 
+		 * if user is not active yet.
+		 */
+		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
+			if ( ( $wpmem->mod_reg == 1 &&  get_user_meta( $user_id, 'active', true ) == 1 ) || ( $wpmem->mod_reg != 1 ) ) {
+				if ( function_exists( 'wpmem_a_extenduser' ) ) {
+					wpmem_a_extenduser( $user_id );
+				}
+			}
+		} 
+	} 
+
+
+	/**
+	 * Adds user registration IP to the user profile.
+	 *
+	 * @since 3.1.1
+	 * @since 3.2.0 Moved to WP_Members_User_Profile object
+	 *
+	 * @param  int    $user_id
+	 */
+	public static function _show_ip( $user_id ) { ?>
+		<tr>
+			<th><label><?php _e( 'IP @ registration', 'wp-members' ); ?></label></th>
+			<td><?php echo get_user_meta( $user_id, 'wpmem_reg_ip', true ); ?></td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Add user product access to user profile.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param  int    $user_id
+	 */
+	public static function _show_product( $user_id ) { 
+		// If product enabled
+		global $wpmem;
+		$products = $wpmem->membership->products;// $wpmem->user->get_user_products( $user_id );
+		echo '<pre>'; print_r( $products ); echo '</pre>'; 
+
+		?>
+		<tr>
+			<th><label><?php _e( 'Product Access', 'wp-members' ); ?></label></th>
+			<td><?php
+
+			foreach ( $wpmem->membership->products as $key => $label ) {
+				echo '<input type="checkbox" name="' . $key . '" >' . $label . '<br />';
+			}
+
+			?></td>
+		</tr>
+		<?php	
 	}
 }

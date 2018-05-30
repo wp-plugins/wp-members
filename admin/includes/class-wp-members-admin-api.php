@@ -78,7 +78,6 @@ class WP_Members_Admin_API {
 		
 		include_once( WPMEM_PATH . 'admin/admin.php' );
 		include_once( WPMEM_PATH . 'admin/users.php' );
-		include_once( WPMEM_PATH . 'admin/user-profile.php' );
 		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
 		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-products-admin.php' );
 		include_once( WPMEM_PATH . 'admin/dialogs.php' );
@@ -130,9 +129,12 @@ class WP_Members_Admin_API {
 			add_action( 'wpmem_user_activated',       'wpmem_set_activated_user' );
 			add_action( 'wpmem_user_deactivated',     'wpmem_set_deactivated_user' );
 			add_filter( 'user_row_actions',           'wpmem_insert_activate_link', 10, 2 );
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_activate',   7 );
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_expiration', 8 );
-			add_action( 'wpmem_admin_after_profile',  'wpmem_profile_show_ip',         9 );
+			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_activate'   ), 7 );
+			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_expiration' ), 8 );
+			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_ip'         ), 9 );
+			if ( 1 == $wpmem->enable_products ) {
+				add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_product' ), 10 );
+			}
 		}
 	
 		// If user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns.
