@@ -14,16 +14,11 @@
  * @copyright 2006-2018
  *
  * Functions included:
- * - wpmem_a_do_field_reorder
- * - wpmem_admin_plugin_links
- * - wpmem_a_captcha_tab
- * - wpmem_add_captcha_tab
  * - wpmem_admin
  * - wpmem_admin_do_tab
  * - wpmem_admin_tabs
  * - wpmem_admin_action
  * - wpmem_admin_add_new_user
- * - wpmem_admin_enqueue_scripts
  */
 
 // Exit if accessed directly.
@@ -55,8 +50,6 @@ function wpmem_admin() {
 	} ?>
 
 	<div class="wrap">
-		<?php //screen_icon( 'options-general' ); ?>
-		<!--<h2>WP-Members <?php _e('Settings', 'wp-members'); ?></h2>-->
 		<?php 
 		$tab = ( isset( $_GET['tab'] ) ) ? sanitize_text_field( $_GET['tab'] ) : 'options';
 
@@ -82,52 +75,6 @@ function wpmem_admin() {
 	</div><!-- .wrap --><?php
 
 	return;
-}
-
-
-/**
- * Displays the content for default tabs.
- *
- * While this function displays only the default tabs (options, fields, emails
- * and dialogs), custom tabs can be added via the action hook wpmem_admin_do_tab
- * in the wpmem_admin() function.
- * 
- * @since 2.8.0
- *
- * @param string $tab The tab that we are on and displaying.
- */
-function wpmem_admin_do_tab( $tab ) {
-
-	switch ( $tab ) {
-
-	case 'options' :
-		wpmem_a_build_options();
-		break;
-	case 'dialogs' :
-		wpmem_a_build_dialogs();
-		break;
-	case 'emails' :
-		wpmem_a_build_emails();
-		break;
-	}
-}
-
-
-/**
- * Assemble the tabs for the admin panel.
- *
- * Creates the defaults tabs array (options, fields, dialogs, emails) that
- * can be extended for custom admin tabs with the wpmem_admin_tabs filter.
- *
- * @since 2.8.0
- * @since 3.1.0 Wrapper for API admin_tabs().
- *
- * @global object $wpmem   The WP_Members object class.
- * @param  string $current he tab that we are on.
- */
-function wpmem_admin_tabs( $current = 'options' ) {
-	global $wpmem;
-	$wpmem->admin->do_tabs( $current );
 }
 
 

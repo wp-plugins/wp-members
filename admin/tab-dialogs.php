@@ -24,6 +24,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Creates the tab.
+ *
+ * @since 3.2.0
+ *
+ * @param  string      $tab The admin tab being displayed.
+ * @return string|bool      The tab html, otherwise false.
+ */
+function wpmem_a_dialogs_tab( $tab ) {
+	if ( $tab == 'dialogs' || ! $tab ) {
+		// Render the tab.
+		return wpmem_a_build_dialogs();
+	} else {
+		return false;
+	}
+}
+
+/**
  * Builds the dialogs panel.
  *
  * @since 2.2.2

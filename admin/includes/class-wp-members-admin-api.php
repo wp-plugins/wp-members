@@ -100,15 +100,22 @@ class WP_Members_Admin_API {
 	 *
 	 * @since 3.1.0
 	 * @since 3.1.7 Loads all admin hooks.
+	 *
+	 * @global object $wpmem
 	 */
 	function load_hooks() {
 		
+		global $wpmem;
+		
 		add_action( 'admin_enqueue_scripts',         array( $this, 'dashboard_enqueue_scripts' ) );
-		add_action( 'wpmem_admin_do_tab',            'wpmem_admin_do_tab' );
 		add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
 		add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
 		add_filter( 'plugin_action_links',           array( $this, 'plugin_links' ), 10, 2 );
 		add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
+		
+		add_action( 'wpmem_admin_do_tab',            'wpmem_a_options_tab', 1 );
+		add_action( 'wpmem_admin_do_tab',            'wpmem_a_dialogs_tab', 10 );
+		add_action( 'wpmem_admin_do_tab',            'wpmem_a_emails_tab', 15 );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.

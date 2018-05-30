@@ -29,10 +29,10 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * Filters and Actions.
  */
-add_action( 'wpmem_admin_do_tab',            'wpmem_a_fields_tab', 99, 1  );
+add_action( 'wpmem_admin_do_tab',            'wpmem_a_fields_tab', 5      );
 add_action( 'wpmem_after_admin_init',        'wpmem_admin_fields_update'  );
 add_action( 'admin_print_styles',            'wpmem_a_fields_tab_scripts' );
-add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder'  );
+add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder'   );
 
 /**
  * Calls the function to reorder fields.

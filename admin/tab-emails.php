@@ -24,6 +24,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Creates the tab.
+ *
+ * @since 3.2.0
+ *
+ * @param  string      $tab The admin tab being displayed.
+ * @return string|bool      The tab html, otherwise false.
+ */
+function wpmem_a_emails_tab( $tab ) {
+	if ( $tab == 'emails' || ! $tab ) {
+		// Render the tab.
+		return wpmem_a_build_emails();
+	} else {
+		return false;
+	}
+}
+
+/**
  * Builds the emails panel.
  *
  * @since 2.7

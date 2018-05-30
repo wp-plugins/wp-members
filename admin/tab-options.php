@@ -28,6 +28,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Creates the tab.
+ *
+ * @since 3.2.0
+ *
+ * @param  string      $tab The admin tab being displayed.
+ * @return string|bool      The about tab, otherwise false.
+ */
+function wpmem_a_options_tab( $tab ) {
+	if ( $tab == 'options' || ! $tab ) {
+		// Render the about tab.
+		return wpmem_a_build_options();
+	} else {
+		return false;
+	}
+}
+
+/**
  * Builds the settings panel.
  *
  * @since 2.2.2
