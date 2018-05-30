@@ -101,6 +101,7 @@
 (function($) {
 	$(document).ready(function() {
 		$("#wpmem_allowhtml").hide();
+		$("#wpmem_rows_cols").hide();
 		$("#wpmem_min_max").hide();
 		$("#wpmem_checkbox_info").hide();
 		$("#wpmem_dropdown_info").hide();
@@ -132,28 +133,35 @@
 				$("#wpmem_pattern").hide();
 				$("#wpmem_title").hide();
 			}
-			if ($("#wpmem_field_type_select").val() == 'textarea' )
+			if ($("#wpmem_field_type_select").val() == 'textarea' ) {
 				$("#wpmem_allowhtml").show();
 				$("#wpmem_rows_cols").show();
-			else
+			} else {
 				$("#wpmem_allowhtml").hide();
 				$("#wpmem_rows_cols").hide();
+			}
 			if ($("#wpmem_field_type_select").val() == 'number' || $("#wpmem_field_type_select").val() == 'date' )
 				$("#wpmem_min_max").show();
 			else
 				$("#wpmem_min_max").hide();
-			if ($("#wpmem_field_type_select").val() == 'checkbox')
+			if ($("#wpmem_field_type_select").val() == 'checkbox') {
 				$("#wpmem_checkbox_info").show();
-			else
+				$("#add_checked_value").prop('required',true);
+			} else {
 				$("#wpmem_checkbox_info").hide();
+				$("#add_checked_value").prop('required',false);
+			}
 			if ( $("#wpmem_field_type_select").val() == 'select' 
 				|| $("#wpmem_field_type_select").val() == 'multiselect'
 				|| $("#wpmem_field_type_select").val() == 'radio'
 				|| $("#wpmem_field_type_select").val() == 'multicheckbox'
-			)
+			) {
 				$("#wpmem_dropdown_info").show();
-			else
+				$("#add_dropdown_value").prop('required',true);
+			} else {
 				$("#wpmem_dropdown_info").hide();
+				$("#add_dropdown_value").prop('required',false);
+			}
 			if ( $("#wpmem_field_type_select").val() == 'multiselect' || $("#wpmem_field_type_select").val() == 'multicheckbox'
 			)
 				$("#wpmem_delimiter_info").show();
@@ -163,10 +171,13 @@
 				$("#wpmem_file_info").show();
 			else
 				$("#wpmem_file_info").hide();
-			if ($("#wpmem_field_type_select").val() == 'hidden')
+			if ($("#wpmem_field_type_select").val() == 'hidden') {
 				$("#wpmem_hidden_info").show();
-			else
+				$("#add_hidden_value").prop('required',true);
+			} else {
 				$("#wpmem_hidden_info").hide();
+				$("#add_hidden_value").prop('required',false);
+			}
 		});
 	});
 })(jQuery);

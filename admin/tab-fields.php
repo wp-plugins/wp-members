@@ -313,7 +313,7 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 			</li>
 			<li>
 				<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
-				<input type="text" name="add_checked_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? $field['checked_value'] : false; ?>" />
+				<input type="text" name="add_checked_value" id="add_checked_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? $field['checked_value'] : false; ?>" />
 			</li>
 		<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 		<?php } 
@@ -343,7 +343,7 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 			} ?>
 			<li>
 				<label style="vertical-align:top"><?php _e( 'Values (Displayed|Stored):', 'wp-members' ); ?> <?php echo $span_required; ?></label>
-				<textarea name="add_dropdown_value" rows="5" cols="40"><?php
+				<textarea name="add_dropdown_value" id="add_dropdown_value" rows="5" cols="40"><?php
 // Accomodate editing the current dropdown values or create dropdown value example.
 if ( $mode == 'edit' ) {
 for ( $row = 0; $row < count( $field['values'] ); $row++ ) {
@@ -379,7 +379,7 @@ Last Row|last_row<?php } } ?></textarea>
 		<?php echo ( $mode == 'add' ) ? '<div id="wpmem_hidden_info">' : ''; ?>
 			<li>
 				<label><?php _e( 'Value', 'wp-members' ); ?> <?php echo $span_required; ?></label>
-				<input type="text" name="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'hidden' ) ? $field['value'] : ''; ?>" />
+				<input type="text" name="add_hidden_value" id="add_hidden_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'hidden' ) ? $field['value'] : ''; ?>" />
 			</li>
 		<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 		<?php } ?>
