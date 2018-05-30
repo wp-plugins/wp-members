@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.2.0
+Stable tag: 3.1.9.3
 License: GPLv2
 
 WP-Members membership plugin turns your WordPress site into a membership site.  Restrict premium content, create custom registration fields, and more.
@@ -168,6 +168,7 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * HTML5 update - form anchor tags changed from "name" to "id".
 * HTML5 update - form id tags set default value (can still be filtered).
 * HTML5 update - removed "align" attribute (captcha, link-text).
+* Improved the add a field dialog to adjust required inputs depending on field type.
 * Added placeholder, rows, and cols attribute support for textarea field settings.
 * Moved remaining core functions to appropriate object classes, left wrappers for most.
 * Added new email class and shortcode class to replace previous functions/files.
