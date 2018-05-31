@@ -439,20 +439,20 @@ class WP_Members_User {
 	 *
 	 * @param integer $user_id
 	 * @param string  $role
-	 * @param string  $action (change|add|remove)
+	 * @param string  $action (set|add|remove)
 	 */
-	public function update_user_role( $user_id, $role, $action = 'change' ) {
+	public function update_user_role( $user_id, $role, $action = 'set' ) {
 		$user = new WP_User( $user_id );
 		switch ( $action ) {
 			case 'add':
-				$user->set_role( $role );
+				$user->add_role( $role );
 				break;
 			case 'remove':
 				$user->remove_role( $role );
 				break;
 			default:
-			$user->add_role( $role );
-			break;
+				$user->set_role( $role );
+				break;
 		}
 	}
 	

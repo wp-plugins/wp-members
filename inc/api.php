@@ -170,6 +170,15 @@ function wpmem_current_url( $slash = true, $getq = true ) {
 }
 
 /**
+ * Returns a post ID for the current URL.
+ *
+ * @since 3.2.0
+ */
+function wpmem_current_postid() {
+	return url_to_postid( wpmem_current_url() );
+}
+
+/**
  * Wrapper for $wpmem->create_form_field().
  *
  * @since 3.1.2
@@ -590,12 +599,11 @@ function wpmem_user_data( $user_id = false ) {
  * @global object  $wpmem
  * @param  integer $user_id (required)
  * @param  string  $role    (required)
- * @param  string  $action  (optional add|remove|change default:change)
+ * @param  string  $action  (optional add|remove|set default:set)
  */
-function wpmem_update_user_role( $user_id, $role, $action = 'change' ) {
+function wpmem_update_user_role( $user_id, $role, $action = 'set' ) {
 	global $wpmem;
-	$action = ( 'add' == $action ) ? 'add' : $action;
-	$wpmem->update_user_role( $user_id, $role, $action );
+	$wpmem->user->update_user_role( $user_id, $role, $action );
 }
 
 /**
