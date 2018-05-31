@@ -593,8 +593,14 @@ function wpmem_install_dialogs() {
  */
 function wpmem_upgrade_fields() {
 	$fields = get_option( 'wpmembers_fields' );
-	// Check if username is in the array.
-	if ( ! array_key_exists( 'username', $fields ) ) {
+	$old_style = false;
+	foreach ( $fields as $key => $val ) {
+		if ( is_numeric( $key ) ) {
+			$old_style = true;
+			$check_array[] = $val[2];
+		}
+	}
+	if ( $old_style && ! in_array( 'username', $check_array ) ) {
 		$username_array = array( 0, 'Choose a Username', 'username', 'text', 'y', 'y', 'y' );
 		array_unshift( $fields, $username_array );
 		update_option( 'wpmembers_fields', $fields, '', 'yes' );
