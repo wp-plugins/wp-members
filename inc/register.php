@@ -56,7 +56,7 @@ function wpmem_registration( $tag ) {
 	}
 
 	// Is this a registration or a user profile update?
-	if ( $tag == 'register' ) { 
+	if ( 'register' == $tag ) { 
 		$wpmem->user->post_data['username'] = sanitize_user( wpmem_get( 'user_login' ) );
 	}
 	
@@ -66,6 +66,13 @@ function wpmem_registration( $tag ) {
 	/** This filter defined in inc/class-wp-members-forms.php */
 	/** @deprecated 3.1.7 Use wpmem_fields instead. */
 	$wpmem->fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
+	
+	// If this is an update, and tos is a field, and the user has the correct saved value, remove tos.
+	if ( 'update' == $tag && isset( $wpmem->fields['tos'] ) ) {
+		if ( get_user_meta( $user_ID, 'tos', true ) == $wpmem->fields['tos']['checked_value'] ) {
+			unset( $wpmem->fields['tos'] );
+		}
+	}
 	
 	// Build the $wpmem->user->post_data array from $_POST data.
 	foreach ( $wpmem->fields as $meta_key => $field ) {
@@ -114,14 +121,15 @@ function wpmem_registration( $tag ) {
 	 */
 	$wpmem->user->post_data = apply_filters( 'wpmem_pre_validate_form', $wpmem->user->post_data, $tag );
 
-	// Check for required fields, reverse the array for logical error message order.
-	$wpmem_fields_rev = array_reverse( $wpmem->fields );
-
 	$pass_arr = ( 'update' == $tag ) ? array( 'username', 'password', 'confirm_password', 'password_confirm' ) : array( 'password', 'confirm_password', 'password_confirm' );
-	foreach ( $wpmem_fields_rev as $meta_key => $field ) {
-		$pass_chk = ( 'update' == $tag && in_array( $meta_key, $pass_arr ) ) ? true : false;
+	foreach ( $pass_arr as $pass ) {
+		unset( $wpmem->fields[ $pass ] );
+	}
+	
+	// Check for required fields, reverse the array for logical error message order.
+	foreach ( array_reverse( $wpmem->fields ) as $meta_key => $field ) {
 		// Validation if the field is required.
-		if ( $field['required'] && $pass_chk == false ) { // @todo - verify $field['required']
+		if ( $field['required'] ) { // @todo - verify $field['required']
 			if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
 				// If this is a new registration.
 				if ( 'register' == $tag ) {
@@ -148,7 +156,9 @@ function wpmem_registration( $tag ) {
 			$result = wpmu_validate_user_signup( $wpmem->user->post_data['username'], $wpmem->user->post_data['user_email'] ); 
 			$errors = $result['errors'];
 			if ( $errors->errors ) {
-				$wpmem_themsg = $errors->get_error_message(); return $wpmem_themsg; exit;
+				$wpmem_themsg = $errors->get_error_message(); 
+				return $wpmem_themsg; 
+				exit();
 			}
 
 		} else {

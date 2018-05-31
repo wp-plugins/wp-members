@@ -759,7 +759,23 @@ class WP_Members_Forms {
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
+		
+		// Get fields.
+		$wpmem_fields = wpmem_fields( $tag );
+		
+		// Fields to skip for user profile update.
 
+		if ( 'edit' == $tag ) {
+			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
+			// Skips tos on user edit page, unless they haven't got a value for tos.
+			if ( isset( $wpmem_fields['tos'] ) && ( $wpmem_fields['tos']['checked_value'] == get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
+				$pass_arr[] = 'tos';
+			}
+			foreach ( $pass_arr as $pass ) {
+				unset( $wpmem_fields[ $pass ] );
+			}
+		}
+		
 		/**
 		 * Filter the array of form fields.
 		 *
@@ -774,7 +790,7 @@ class WP_Members_Forms {
 		 * @param array        The array of form fields.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
 		 */
-		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
+		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem_fields, $tag );
 
 		$hidden_rows = array();
 
@@ -784,38 +800,23 @@ class WP_Members_Forms {
 			// Start with a clean row.
 			$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 
-			// Skips user selected passwords for profile update.
-			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
-			$do_row = ( 'edit' == $tag && in_array( $meta_key, $pass_arr ) ) ? false : true;
-
-			// Skips tos, makes tos field hidden on user edit page, unless they haven't got a value for tos.
-			if ( 'tos' == $meta_key && 'edit' == $tag && ( get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
-				$do_row = false; 
-				$hidden_tos = wpmem_form_field( array(
-					'name'  => $meta_key, 
-					'type'  => 'hidden', 
-					'value' => get_user_meta( $userdata->ID, 'tos', true )
-				) );
-			}
-
-			// Handle hidden fields
-			if ( 'hidden' == $field['type'] ) {
-				$do_row = false;
-				$hidden_rows[ $meta_key ] = wpmem_form_field( array( 
-					'name'     => $meta_key,
-					'type'     => $field['type'],
-					'value'    => $field['value'],
-					'compare'  => $valtochk,
-					//'class'    => ( $class ) ? $class : 'textbox',
-					'required' => $field['required'],
-				) );
-			}
-
 			// If the field is set to display and we aren't skipping, construct the row.
-			if ( $do_row && $field['register'] ) {
+			if ( $field['register'] ) {
+				
+				// Handle hidden fields
+				if ( 'hidden' == $field['type'] ) {
+					$do_row = false;
+					$hidden_rows[ $meta_key ] = wpmem_form_field( array( 
+						'name'     => $meta_key,
+						'type'     => $field['type'],
+						'value'    => $field['value'],
+						'compare'  => $valtochk,
+						'required' => $field['required'],
+					) );
+				}
 
 				// Label for all but TOS.
-				if ( $meta_key != 'tos' ) {
+				if ( 'tos' != $meta_key ) {
 
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
 					
@@ -868,7 +869,7 @@ class WP_Members_Forms {
 				// Does the tos field.
 				if ( 'tos' == $meta_key ) {
 
-					$val = sanitize_text_field( wpmem_get( $meta_key, '' ) ); //( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; 
+					$val = sanitize_text_field( wpmem_get( $meta_key, '' ) ); 
 
 					// Should be checked by default? and only if form hasn't been submitted.
 					$val   = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
@@ -882,7 +883,7 @@ class WP_Members_Forms {
 
 					// Determine if TOS is a WP page or not.
 					$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-					if ( has_shortcode( $tos_content, 'wp-members' ) || has_shortcode( $tos_content, 'wpmem_tos' ) ) {	
+					if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
 						$link = do_shortcode( $tos_content );
 						$tos_pop = '<a href="' . esc_url( $link ) . '" target="_blank">';
 					} else { 
@@ -900,8 +901,9 @@ class WP_Members_Forms {
 					$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
 					
 					// If filtered value is not the default label, use that, otherwise use label.
+					// @note: if default changes, this check must change.
 					if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
-						if ( 'TOS' != $field['label'] ) {
+						if ( __( 'TOS', 'wp-members' ) != $field['label'] && __( 'Terms of Service', 'wp-members' ) != $field['label'] ) {
 							$tos_link_text = $field['label'];
 						}
 					}
@@ -1101,9 +1103,6 @@ class WP_Members_Forms {
 		$hidden_rows['_wpmem_reg_page'] = '<input name="wpmem_reg_page" type="hidden" value="' . esc_url( get_permalink() ) . '" />';
 		if ( $redirect_to != get_permalink() ) {
 			$hidden_rows['_wpmem_redirect_to'] = '<input name="redirect_to" type="hidden" value="' . esc_url( $redirect_to ) . '" />';
-		}
-		if ( isset( $hidden_tos ) ) {
-			$hidden_rows['_wpmem_tos'] = $hidden_tos;
 		}
 		
 		/**

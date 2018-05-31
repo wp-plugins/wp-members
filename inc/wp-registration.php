@@ -61,28 +61,37 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 			
 				if ( 'checkbox' == $field['type'] ) {
 
-					if ( $meta_key == 'tos' ) {
+					if ( 'tos' == $meta_key ) {
 						$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-						if ( stristr( $tos_content, '[wp-members page="tos"' ) ) {
-
-							$tos_content = " " . $tos_content;
-							$ini = strpos( $tos_content, 'url="' );
-							$ini += strlen( 'url="' );
-							$len = strpos( $tos_content, '"]', $ini ) - $ini;
-							$link = substr( $tos_content, $ini, $len );
-							$tos_pop = '<a href="' . $link . '" target="_blank">';
-
+						if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
+							$link = do_shortcode( $tos_content );
+							$tos_pop = '<a href="' . esc_url( $link ) . '" target="_blank">';
 						} else { 
-							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WP_PLUGIN_URL . "/wp-members/wp-members-tos.php','mywindow');\">";
+							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WPMEM_DIR . "/wp-members-tos.php','mywindow');\">";
 						}
 						/** This filter is documented in wp-members/inc/register.php */
-						$tos = apply_filters( 'wpmem_tos_link_txt', sprintf( $wpmem->get_text( 'register_tos' ), $tos_pop, '</a>' ) );
+						$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), 'new' );
+												
+						// If filtered value is not the default label, use that, otherwise use label.
+						// @note: if default changes, this check must change.
+						if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
+							if ( __( 'TOS', 'wp-members' ) != $field['label'] && __( 'Terms of Service', 'wp-members' ) != $field['label'] ) {
+								$tos_link_text = $field['label'];
+							}
+						}
+
+						// If tos string does not contain link identifiers (%s), wrap the whole string.
+						if ( ! strpos( $tos_link_text, '%s' ) ) {
+							$tos_link_text = '%s' . $tos_link_text . '%s';
+						}
+
+						$tos_link_text = ' ' . sprintf( $tos_link_text, $tos_pop, '</a>' );
 					
 					}
 
-					$label = ( $meta_key == 'tos' ) ? $tos : __( $field['label'], 'wp-members' );
+					$label = ( 'tos' == $meta_key ) ? $tos_link_text : __( $field['label'], 'wp-members' );
 
-					$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+					$val = ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '';
 					$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
 
 					$row_before = '<p class="wpmem-checkbox">';
@@ -100,7 +109,6 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 							'type'     => $field['type'],
 							'value'    => $field['value'],
 							'compare'  => $valtochk,
-							//'class'    => ( $class ) ? $class : 'textbox',
 							'required' => $field['required'],
 						) );
 					$row_after = '';
