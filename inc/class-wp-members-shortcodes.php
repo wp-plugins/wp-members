@@ -155,6 +155,14 @@ class WP_Members_Shortcodes {
 				case in_array( 'forgot_username', $atts ):
 					$content = wpmem_page_forgot_username( $wpmem->regchk, $content );
 					break;
+					
+				case in_array( 'customizer_login', $atts ):
+					$content = wpmem_inc_login( 'login', $redirect_to );
+					break;
+					
+				case in_array( 'customizer_register', $atts ):
+					$content = wpmem_inc_registration( 'new', '', $redirect_to );
+					break;
 
 			}
 
