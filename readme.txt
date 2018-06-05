@@ -176,6 +176,8 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Updated "TOS" text to accept a custom label (priority to filtered label with wpmem_tos_link_txt).
 * Updated all processing involving "TOS" to better exclude the field on profile update (if saved value equals the field's checked value).
 * Fixed a bug that caused WP native fields to be set as non-native when labels were updated in the fields tab.
+* Shortcodes and options to display forms while logged in (for use with Customizer and working with CSS).
+* Added login/out menu item.
 
 = 3.1.9 =
 

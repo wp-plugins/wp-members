@@ -310,6 +310,7 @@ class WP_Members {
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
+		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10, 2 );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
@@ -1217,6 +1218,7 @@ class WP_Members {
 			'login_logout'         => __( 'Click to log out', 'wp-members' ),
 			'status_welcome'       => __( 'You are logged in as %s', 'wp-members' ),
 			'status_logout'        => __( 'click to log out', 'wp-members' ),
+			'menu_logout'          => __( 'Log Out', 'wp-members' ),
 			
 			// Widget.
 			'sb_status'            => __( 'You are logged in as %s', 'wp-members' ),
@@ -1297,6 +1299,33 @@ class WP_Members {
 	public function add_query_vars ( $qvars ) {
 		$qvars[] = 'a'; // The WP-Members action variable.
 		return $qvars;
+	}
+	
+	/**
+	 * Enqueues login/out script for the footer.
+	 *
+	 * @since 3.2.0
+	 */
+	public function loginout_script() {
+		if ( is_user_logged_in() ) {
+			wp_enqueue_script(  'jquery' );
+			add_action( 'wp_footer', array( $this, 'do_loginout_script' ) );
+		}
+	}
+	
+	/**
+	 * Outputs login/out script for the footer.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpmem
+	 */
+	public function do_loginout_script() {
+		global $wpmem;
+		$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+		?><script type="text/javascript">
+			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo $logout; ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
+		</script><?php
 	}
 	
 } // End of WP_Members class.
