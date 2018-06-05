@@ -1060,6 +1060,14 @@ class WP_Members_Forms {
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
 		 */
 		$rows = apply_filters( 'wpmem_register_form_rows', $rows, $tag );
+		
+		// Make sure all keys are set.
+		$row_keys = array( 'meta', 'type', 'value', 'values', 'label_text', 'row_before', 'label', 'field_before', 'field', 'field_after', 'row_after' );
+		foreach ( $rows as $meta_key => $row ) {
+			foreach ( $row_keys as $check_key ) {
+				$rows[ $meta_key ][ $check_key ] = ( isset( $rows[ $meta_key ][ $check_key ] ) ) ? $rows[ $meta_key ][ $check_key ] : '';
+			}
+		}
 
 		// Put the rows from the array into $form.
 		$form = ''; $enctype = '';
