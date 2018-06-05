@@ -50,6 +50,10 @@ class widget_wpmemwidget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect to (optional):', 'wp-members'); ?></label>
 			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
 		</p>
+		<p>
+			<input type="checkbox" id="<?php echo $this->get_field_id( 'customizer' ); ?>" name="<?php echo $this->get_field_name( 'customizer' ); ?>" value="show" />
+			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e('Display form when logged in', 'wp-members'); ?></label>
+		</p>
 		<?php
 	}
 
@@ -66,8 +70,9 @@ class widget_wpmemwidget extends WP_Widget {
 		// Strip tags for title to remove HTML.
 		$instance['title']       = strip_tags( $new_instance['title'] );
 		$instance['redirect_to'] = strip_tags( $new_instance['redirect_to'] );
+		$instance['customizer']  = strip_tags( $new_instance['customizer'] );
 
-			return $instance;
+		return $instance;
 	}
 
 	/**
@@ -80,6 +85,7 @@ class widget_wpmemwidget extends WP_Widget {
 
 		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
 		$title       = ( array_key_exists( 'title',       $instance ) ) ? $instance['title']       : __( 'Login Status', 'wp-members' );
+		$customizer  = ( array_key_exists( 'customizer',  $instance ) ) ? $instance['customizer']  : false;
 		
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -107,7 +113,7 @@ class widget_wpmemwidget extends WP_Widget {
 		echo '<div id="' . $id . '">';
 		echo $args['before_title'] . $title . $args['after_title'];
 		// The Widget
-		$this->do_sidebar( $redirect_to ); 
+		$this->do_sidebar( $redirect_to, $customizer ); 
 		echo '</div>';
 		echo $args['after_widget'];
 	}
@@ -125,10 +131,11 @@ class widget_wpmemwidget extends WP_Widget {
 	 * @since 3.2.0 Moved to widget_wpmemwidget class as do_sidebar().
 	 *
 	 * @param  string $redirect_to  A URL to redirect to upon login, default null.
+	 * @param  bool   $customizer   Whether to show the form for the customizer.
 	 * @global string $wpmem_regchk
 	 * @global string $user_login
 	 */
-	static function do_sidebar( $redirect_to = null ) {
+	static function do_sidebar( $redirect_to = null, $customizer = false ) {
 
 		global $wpmem, $wpmem_regchk;
 
@@ -154,7 +161,7 @@ class widget_wpmemwidget extends WP_Widget {
 		// Clean whatever the url is.
 		$post_to = esc_url( $post_to );
 
-		if ( ! is_user_logged_in() ){
+		if ( ! is_user_logged_in() || 'show' === $customizer ) {
 
 			// If the user is not logged in, we need the form.
 
