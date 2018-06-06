@@ -65,12 +65,12 @@ class WP_Members_Products_Admin {
 				echo $post->post_name;
 				break;
 			case 'role':
-				$role = $this->get_meta( 'membership_product_role' );
+				$role = $this->get_meta( 'wpmem_product_role' );
 				echo ( $role ) ? $role : __( 'No role required', 'wp-members' );
 				break;
 			case 'expires':
-				$number = $this->get_meta( 'membership_product_number_of_periods' );
-				$period = $this->get_meta( 'membership_product_time_period' );
+				$number = $this->get_meta( 'wpmem_product_number_of_periods' );
+				$period = $this->get_meta( 'wpmem_product_time_period' );
 				echo ( $number ) ? $number . ' ' . $period : __( 'Does not expire', 'wp-members' );
 				break;
 			case 'last_updated':
@@ -123,53 +123,52 @@ class WP_Members_Products_Admin {
 	 */
 	function details_html( $post ) { 
 		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); 
-		$show_role_detail = ( $this->get_meta( 'membership_product_role_required' ) === 'role-required' ) ? 'show' : 'hide';
-		$show_exp_detail  = ( $this->get_meta( 'membership_product_expires' ) === 'expires' ) ? 'show' : 'hide'; ?>
-		<div class="inside">
-			<?php wp_nonce_field( '_membership_product_nonce', 'membership_product_nonce' ); ?>
-			<p class="form-field">
-				<label for="membership_product_name_slug"><?php _e( 'Name (slug)', 'membership_product' ); ?></label>
-				<input type="text" name="membership_product_name_slug" id="membership_product_name_slug" value="<?php echo esc_attr( $post->post_name ); ?>">
+		$show_role_detail = ( false !== $this->get_meta( 'wpmem_product_role'    ) ) ? 'show' : 'hide';
+		$show_exp_detail  = ( false !== $this->get_meta( 'wpmem_product_expires' ) ) ? 'show' : 'hide'; ?>
+
+			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
+			<p>
+				<label for="wpmem_product_name_slug"><?php _e( 'Name (slug)', 'wp-members' ); ?></label>
+				<input type="text" name="wpmem_product_name_slug" id="wpmem_product_name_slug" value="<?php echo esc_attr( $post->post_name ); ?>">
 			</p>
-			<p class="form-field">
-				<input type="checkbox" name="membership_product_role_required" id="membership_product_role_required" value="role-required" <?php echo ( $this->get_meta( 'membership_product_role_required' ) === 'role-required' ) ? 'checked' : ''; ?>>
-				<label for="membership_product_role_required"><?php _e( 'Role Required?', 'membership_product' ); ?></label>
-				<label for="membership_product_role"></label>
-				<select name="membership_product_role" id="membership_product_role">
+			<p>
+				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $this->get_meta( 'wpmem_product_role' ) ) ? 'checked' : ''; ?>>
+				<label for="wpmem_product_role_required"><?php _e( 'Role Required?', 'wp-members' ); ?></label>
+				<label for="wpmem_product_role"></label>
+				<select name="wpmem_product_role" id="wpmem_product_role">
 					<option value=""><?php _e( 'No Role', 'wp-members' ); ?></option>
-					<?php wp_dropdown_roles( $this->get_meta( 'membership_product_role' ) ); ?>
+					<?php wp_dropdown_roles( $this->get_meta( 'wpmem_product_role' ) ); ?>
 				</select>
 			</p>
-			<p class="form-field">
-				<input type="checkbox" name="membership_product_expires" id="membership_product_expires" value="expires" <?php echo ( $this->get_meta( 'membership_product_expires' ) === 'expires' ) ? 'checked' : ''; ?>>
-				<label for="membership_product_expires"><?php _e( 'Expires', 'membership_product' ); ?></label>
-				<span id="membership_product_expires_wrap">
-					<label for="membership_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'membership_product' ); ?></label>
-					<input type="text" name="membership_product_number_of_periods" id="membership_product_number_of_periods" value="<?php echo $this->get_meta( 'membership_product_number_of_periods' ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
-					<label for="membership_product_time_period" style="display:none;"><?php _e( 'Period', 'membership_product' ); ?></label>
-					<?php echo wpmem_form_field( array( 'name'=>'membership_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'membership_product_time_period' ) ) ); ?>
+			<p>
+				<input type="checkbox" name="wpmem_product_expires" id="wpmem_product_expires" value="expires" <?php echo ( false !== $this->get_meta( 'wpmem_product_expires' ) ) ? 'checked' : ''; ?>>
+				<label for="wpmem_product_expires"><?php _e( 'Expires', 'wp-members' ); ?></label>
+				<span id="wpmem_product_expires_wrap">
+					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
+					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $this->get_meta( 'wpmem_product_number_of_periods' ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
+					<label for="wpmem_product_time_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
+					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'wpmem_product_time_period' ) ) ); ?>
 				</span>
 			</p>
-		</div>
 		<script>
 			(function($) {
 				$(document).ready(function() {
-					$("#membership_product_role").<?php echo ( $show_role_detail ); ?>();
-					$("#membership_product_expires_wrap").<?php echo ( $show_exp_detail ); ?>();
+					$("#wpmem_product_role").<?php echo ( $show_role_detail ); ?>();
+					$("#wpmem_product_expires_wrap").<?php echo ( $show_exp_detail ); ?>();
 				});
 				$(document).ready(function() {
-				  $('#membership_product_role_required').on('change', function (){
+				  $('#wpmem_product_role_required').on('change', function (){
 					if ($(this).is(':checked')) {
-						$('#membership_product_role').show();
+						$('#wpmem_product_role').show();
 						} else {
-						$('#membership_product_role').hide();
+						$('#wpmem_product_role').hide();
 						}
 				  });
-				 $('#membership_product_expires').on('change', function (){
+				 $('#wpmem_product_expires').on('change', function (){
 					if ($(this).is(':checked')) {
-						$('#membership_product_expires_wrap').show();
+						$('#wpmem_product_expires_wrap').show();
 						} else {
-						$('#membership_product_expires_wrap').hide();
+						$('#wpmem_product_expires_wrap').hide();
 						}
 				  });
 				});
@@ -186,22 +185,25 @@ class WP_Members_Products_Admin {
 	 */
 	function save_details( $post_id ) {
 		
-		$settings = array(
-			'membership_product_role_required',
-			'membership_product_role',
-			'membership_product_expires',
-			'membership_product_time_period',
-			'membership_product_number_of_periods',
-			'membership_product_name_slug',
-		);
-		
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-		if ( ! isset( $_POST['membership_product_nonce'] ) || ! wp_verify_nonce( $_POST['membership_product_nonce'], '_membership_product_nonce' ) ) return;
+		if ( ! isset( $_POST['wpmem_product_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_product_nonce'], '_wpmem_product_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
-		foreach ( $settings as $setting ) {
-			$field = wpmem_get( $setting, null );
-			update_post_meta( $post_id, $setting, esc_attr( $field ) );
+		update_post_meta( $post_id, 'wpmem_product_name_slug', esc_attr( wpmem_get( 'wpmem_product_name_slug', null ) ) );
+		
+		$role_required = wpmem_get( 'wpmem_product_role_required', false );
+		if ( ! $role_required ) {
+			update_post_meta( $post_id, 'wpmem_product_role', false );
+		} else {
+			update_post_meta( $post_id, 'wpmem_product_role', wpmem_get( 'wpmem_product_role' ) );
+		}
+		
+		$expires = wpmem_get( 'wpmem_product_expires', false );
+		if ( ! $expires ) {
+			update_post_meta( $post_id, 'wpmem_product_expires', false );
+		} else {
+			$expires_array = array( wpmem_get( 'wpmem_product_number_of_periods' ) . "|" . wpmem_get( 'wpmem_product_time_period' ) );
+			update_post_meta( $post_id, 'wpmem_product_expires', $expires_array );
 		}
 	}
 

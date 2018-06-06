@@ -20,6 +20,7 @@ class WP_Members_Products {
 
 	public $post_meta = '_wpmem_products';
 	public $post_stem = '_wpmem_products_';
+	public $products = array();
 	public $product_detail = array();
 	
 	function __construct() {
@@ -33,9 +34,19 @@ class WP_Members_Products {
 		global $wpdb;
 		$sql    = "SELECT ID, post_title, post_name FROM " . $wpdb->prefix . "posts WHERE post_type = 'wpmem_product' AND post_status = 'publish';";
 		$result = $wpdb->get_results( $sql );
-		$this->products = array();
 		foreach ( $result as $plan ) {
 			$this->products[ $plan->post_name ] = $plan->post_title;
+			
+			$this->product_detail[ $plan->post_name ]['title'] = $plan->post_title;
+			$post_meta = get_post_meta( $plan->ID );
+			foreach ( $post_meta as $key => $meta ) {
+				if ( false !== strpos( $key, 'wpmem_product' ) ) {
+					if ( $key == 'wpmem_product_expires' ) {
+						$meta[0] = unserialize( $meta[0] );
+					}
+					$this->product_detail[ $plan->post_name ][ str_replace( 'wpmem_product_', '', $key ) ] = $meta[0];
+				}
+			}
 		}
 	}
 
