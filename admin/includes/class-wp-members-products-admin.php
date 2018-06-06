@@ -121,10 +121,16 @@ class WP_Members_Products_Admin {
 	 *
 	 * @param  object $post
 	 */
-	function details_html( $post ) { 
+	function details_html( $post ) {
+		
+		$product_expires = $this->get_meta( 'wpmem_product_expires' );
+		$product_role    = $this->get_meta( 'wpmem_product_role'    );
+	
+		$product_expires = ( false !== $product_expires ) ? $product_expires[0] : $product_expires;
+		
 		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); 
-		$show_role_detail = ( false !== $this->get_meta( 'wpmem_product_role'    ) ) ? 'show' : 'hide';
-		$show_exp_detail  = ( false !== $this->get_meta( 'wpmem_product_expires' ) ) ? 'show' : 'hide'; ?>
+		$show_role_detail = ( false !== $product_role    ) ? 'show' : 'hide';
+		$show_exp_detail  = ( false !== $product_expires ) ? 'show' : 'hide'; ?>
 
 			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
 			<p>
@@ -132,7 +138,7 @@ class WP_Members_Products_Admin {
 				<input type="text" name="wpmem_product_name_slug" id="wpmem_product_name_slug" value="<?php echo esc_attr( $post->post_name ); ?>">
 			</p>
 			<p>
-				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $this->get_meta( 'wpmem_product_role' ) ) ? 'checked' : ''; ?>>
+				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $product_role ) ? 'checked' : ''; ?>>
 				<label for="wpmem_product_role_required"><?php _e( 'Role Required?', 'wp-members' ); ?></label>
 				<label for="wpmem_product_role"></label>
 				<select name="wpmem_product_role" id="wpmem_product_role">
@@ -141,13 +147,14 @@ class WP_Members_Products_Admin {
 				</select>
 			</p>
 			<p>
-				<input type="checkbox" name="wpmem_product_expires" id="wpmem_product_expires" value="expires" <?php echo ( false !== $this->get_meta( 'wpmem_product_expires' ) ) ? 'checked' : ''; ?>>
+				<input type="checkbox" name="wpmem_product_expires" id="wpmem_product_expires" value="expires" <?php echo ( false !== $product_expires ) ? 'checked' : ''; ?>>
 				<label for="wpmem_product_expires"><?php _e( 'Expires', 'wp-members' ); ?></label>
 				<span id="wpmem_product_expires_wrap">
 					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
-					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $this->get_meta( 'wpmem_product_number_of_periods' ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
+					<?php $period = explode( '|', $product_expires ); ?>
+					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $period[0]; ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
 					<label for="wpmem_product_time_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
-					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>$this->get_meta( 'wpmem_product_time_period' ) ) ); ?>
+					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period[1] ) ) ? $period[1] : '' ) ) ); ?>
 				</span>
 			</p>
 		<script>
