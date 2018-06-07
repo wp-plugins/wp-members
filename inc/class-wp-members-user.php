@@ -48,7 +48,7 @@ class WP_Members_User {
 	
 		// Load anything the user as access to.
 		if ( 1 == $settings->enable_products ) {
-			$this->get_user_products();
+			$this->access = $this->get_user_products();
 		}
 	}
 	
@@ -503,10 +503,50 @@ class WP_Members_User {
 	 *
 	 * @since 3.2.0
 	 *
+	 * @param int $user_id
 	 */
 	function get_user_products( $user_id = false ) {
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		$this->access = get_user_meta( $user_id, '_wpmem_products', true );
+		return get_user_meta( $user_id, '_wpmem_products', true );
+	}
+	
+	/**
+	 * Sets a product as active for a user.
+	 *
+	 * If the product expires, it sets an expiration date
+	 * based on the time period. Otherwise the value is
+	 * set to "true" (which does not expire).
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param string $product
+	 * @param int    $user_id
+	 */
+	function set_user_product( $product, $user_id = false ) {
+
+		global $wpmem;
+		
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		$user_products = $this->get_user_products( $user_id );
+		
+		if ( ! $user_products ) {
+			$user_products = array();
+		}
+
+		// Convert date to add.
+		$expires = $wpmem->membership->product_detail[ $product ]['expires'];
+		
+		if ( is_array( $expires ) ) {
+			$add_date = explode( "|", $wpmem->membership->product_detail[ $product ]['expires'][0] );
+			$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
+			$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
+		} else {
+			$user_products[ $product ] = true;
+		}
+		//echo '<pre>'; print_r( $user_products ); echo "</pre>";
+		
+		// Update product setting.
+		return update_user_meta( $user_id, '_wpmem_products', $user_products );
 	}
 	
 	/**

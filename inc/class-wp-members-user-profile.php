@@ -329,7 +329,24 @@ class WP_Members_User_Profile {
 			}
 			
 			if ( 1 == $wpmem->enable_products ) {
-				// update products.
+				// Update products.
+				if ( isset( $_POST['_wpmem_membership_product'] ) ) {
+					
+					foreach ( $_POST['_wpmem_membership_product'] as $product_key ) {
+						// Does product require a role?
+						if ( false !== $wpmem->membership->product_detail[ $product_key ]['role'] ) {
+							//echo 'set role for ' . $product_key . "<br />";
+							wpmem_update_user_role( $user_id, $wpmem->membership->product_detail[ $product_key ]['role'], 'add' );
+						}
+						// Does product expire?
+						//if ( false !== $wpmem->membership->product_detail[ $product_key ]['expires'] ) {
+						//	echo 'set expiration for ' . $product_key . "<br />";
+						//}
+						$wpmem->user->set_user_product( $product_key );
+					}	
+				}
+				//global $wpmem;
+				//echo '<pre>'; print_r( $wpmem->membership );
 			}
 		}
 
@@ -452,21 +469,18 @@ class WP_Members_User_Profile {
 	 *
 	 * @since 3.2.0
 	 *
+	 * @global object $wpmem
 	 * @param  int    $user_id
 	 */
 	public static function _show_product( $user_id ) { 
 		// If product enabled
-		global $wpmem;
-		$products = $wpmem->membership->products;// $wpmem->user->get_user_products( $user_id );
-		echo '<pre>'; print_r( $products ); echo '</pre>'; 
-
-		?>
+		global $wpmem; ?>
 		<tr>
 			<th><label><?php _e( 'Product Access', 'wp-members' ); ?></label></th>
 			<td><?php
 
 			foreach ( $wpmem->membership->products as $key => $label ) {
-				echo '<input type="checkbox" name="' . $key . '" >' . $label . '<br />';
+				echo '<input type="checkbox" name="_wpmem_membership_product[]" value="' . $key . '" >' . $label . '<br />';
 			}
 
 			?></td>

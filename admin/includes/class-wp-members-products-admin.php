@@ -69,9 +69,9 @@ class WP_Members_Products_Admin {
 				echo ( $role ) ? $role : __( 'No role required', 'wp-members' );
 				break;
 			case 'expires':
-				$number = $this->get_meta( 'wpmem_product_number_of_periods' );
-				$period = $this->get_meta( 'wpmem_product_time_period' );
-				echo ( $number ) ? $number . ' ' . $period : __( 'Does not expire', 'wp-members' );
+				$expires = $this->get_meta( 'wpmem_product_expires' );
+				$period = ( false !== $expires ) ? explode( "|", $expires[0] ) : __( 'Does not expire', 'wp-members' );
+				echo ( is_array( $period ) ) ? $period[0] . ' ' . $period[1] : $period;
 				break;
 			case 'last_updated':
 				echo date_i18n( get_option( 'date_format' ), strtotime( $post->post_modified ) );
@@ -128,7 +128,7 @@ class WP_Members_Products_Admin {
 	
 		$product_expires = ( false !== $product_expires ) ? $product_expires[0] : $product_expires;
 		
-		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|d', __( 'Week', 'wp-members' ) . '|w', __( 'Month', 'wp-members' ) . '|m', __( 'Year', 'wp-members' ) . '|y' ); 
+		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|day', __( 'Week', 'wp-members' ) . '|week', __( 'Month', 'wp-members' ) . '|month', __( 'Year', 'wp-members' ) . '|year' ); 
 		$show_role_detail = ( false !== $product_role    ) ? 'show' : 'hide';
 		$show_exp_detail  = ( false !== $product_expires ) ? 'show' : 'hide'; ?>
 
