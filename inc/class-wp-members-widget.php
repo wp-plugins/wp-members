@@ -53,7 +53,7 @@ class widget_wpmemwidget extends WP_Widget {
 		</p>
 		<p>
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'customizer' ); ?>" name="<?php echo $this->get_field_name( 'customizer' ); ?>" value="show" />
-			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e( 'Display form when logged in', 'wp-members' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e( 'Display Form in Customizer', 'wp-members' ); ?></label>
 		</p>
 		<?php
 	}
@@ -162,7 +162,7 @@ class widget_wpmemwidget extends WP_Widget {
 		// Clean whatever the url is.
 		$post_to = esc_url( $post_to );
 
-		if ( ! is_user_logged_in() || 'show' === $customizer ) {
+		if ( ! is_user_logged_in() || ( 'show' === $customizer && is_customize_preview() ) ) {
 
 			// If the user is not logged in, we need the form.
 
