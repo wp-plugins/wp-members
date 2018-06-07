@@ -36,23 +36,24 @@ class widget_wpmemwidget extends WP_Widget {
 	
 		/* Default widget settings. */
 		$defaults = array( 
-			'title'       => __('Login Status', 'wp-members'),
+			'title'       => __( 'Login Status', 'wp-members' ),
 			'redirect_to' => '',
+			'customizer'  => '',
 		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults );
 		
 		/* Title input */ ?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'wp-members'); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-members' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e('Redirect to (optional):', 'wp-members'); ?></label>
+			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e( 'Redirect to (optional):', 'wp-members' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
 		</p>
 		<p>
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'customizer' ); ?>" name="<?php echo $this->get_field_name( 'customizer' ); ?>" value="show" />
-			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e('Display form when logged in', 'wp-members'); ?></label>
+			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e( 'Display form when logged in', 'wp-members' ); ?></label>
 		</p>
 		<?php
 	}
