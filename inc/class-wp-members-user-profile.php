@@ -342,7 +342,7 @@ class WP_Members_User_Profile {
 						//if ( false !== $wpmem->membership->product_detail[ $product_key ]['expires'] ) {
 						//	echo 'set expiration for ' . $product_key . "<br />";
 						//}
-						$wpmem->user->set_user_product( $product_key );
+						$wpmem->user->set_user_product( $product_key, $user_id );
 					}	
 				}
 				//global $wpmem;
@@ -474,16 +474,19 @@ class WP_Members_User_Profile {
 	 */
 	public static function _show_product( $user_id ) { 
 		// If product enabled
-		global $wpmem; ?>
+		global $wpmem;
+		$user_products = $wpmem->user->get_user_products( $user_id ); ?>
 		<tr>
 			<th><label><?php _e( 'Product Access', 'wp-members' ); ?></label></th>
-			<td><?php
-
+			<td><table><?php
 			foreach ( $wpmem->membership->products as $key => $label ) {
-				echo '<input type="checkbox" name="_wpmem_membership_product[]" value="' . $key . '" >' . $label . '<br />';
+				$checked = ( $user_products && array_key_exists( $key, $user_products ) ) ? "checked" : "";
+				echo "<tr>";
+				echo '<td style="padding:0px 0px;"><input type="checkbox" name="_wpmem_membership_product[]" value="' . $key . '" ' . $checked . ' ></td><td style="padding:0px 0px;">' . $label . "</td>";
+				echo ( isset( $user_products[ $key ] ) && $user_products[ $key ] !== true && $user_products[ $key ] != '' ) ? '<td style="padding:0px 0px;">expires: ' . $user_products[ $key ] . '</td>': '<td style="padding:0px 0px;">&nbsp;</td>';
+				echo '</tr>';
 			}
-
-			?></td>
+				?></table></td>
 		</tr>
 		<?php	
 	}
