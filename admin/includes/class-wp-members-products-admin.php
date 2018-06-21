@@ -134,8 +134,8 @@ class WP_Members_Products_Admin {
 
 			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
 			<p>
-				<label for="wpmem_product_name_slug"><?php _e( 'Name (slug)', 'wp-members' ); ?></label>
-				<input type="text" name="wpmem_product_name_slug" id="wpmem_product_name_slug" value="<?php echo esc_attr( $post->post_name ); ?>">
+				<label for="wpmem_product_name"><?php _e( 'Name (slug)', 'wp-members' ); ?></label>
+				<input type="text" name="wpmem_product_name" id="wpmem_product_name" value="<?php echo esc_attr( $post->post_name ); ?>">
 			</p>
 			<p>
 				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $product_role ) ? 'checked' : ''; ?>>
@@ -152,7 +152,7 @@ class WP_Members_Products_Admin {
 				<span id="wpmem_product_expires_wrap">
 					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
 					<?php $period = explode( '|', $product_expires ); ?>
-					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $period[0]; ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>">
+					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $period[0]; ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>" style="width:66px;height:28px;vertical-align:middle;">
 					<label for="wpmem_product_time_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
 					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period[1] ) ) ? $period[1] : '' ) ) ); ?>
 				</span>
@@ -195,8 +195,12 @@ class WP_Members_Products_Admin {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['wpmem_product_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_product_nonce'], '_wpmem_product_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		
+		$post = get_post( $post_id );
 
-		update_post_meta( $post_id, 'wpmem_product_name_slug', esc_attr( wpmem_get( 'wpmem_product_name_slug', null ) ) );
+		$product_name = wpmem_get( 'wpmem_product_name', false );
+		$product_name = ( $product_name ) ? $product_name : $post->post_name;
+		update_post_meta( $post_id, 'wpmem_product_name', esc_attr( $product_name ) );
 		
 		$role_required = wpmem_get( 'wpmem_product_role_required', false );
 		if ( ! $role_required ) {
