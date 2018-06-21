@@ -57,7 +57,7 @@ function wpmem_registration( $tag ) {
 
 	// Is this a registration or a user profile update?
 	if ( 'register' == $tag ) { 
-		$wpmem->user->post_data['username'] = sanitize_user( wpmem_get( 'user_login' ) );
+		$wpmem->user->post_data['username'] = sanitize_user( wpmem_get( 'username' ) );
 	}
 	
 	// Add the user email to the $wpmem->user->post_data array for _data hooks.

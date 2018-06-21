@@ -821,7 +821,7 @@ class WP_Members_Forms {
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
 					
 					$label = wpmem_form_label( array(
-						'meta_key' => ( 'username' == $meta_key ) ? 'user_login' : $meta_key, 
+						'meta_key' => $meta_key, //( 'username' == $meta_key ) ? 'user_login' : $meta_key, 
 						'label'    => __( $field['label'], 'wp-members' ), 
 						'type'     => $field['type'], 
 						'class'    => $class, 
@@ -831,9 +831,8 @@ class WP_Members_Forms {
 
 				} 
 
-				// Gets the field value for both edit profile and submitted reg w/ error.
-				if ( ( 'edit' == $tag ) && ( '' == $wpmem->regchk ) ) {
-
+				// Gets the field value for edit profile.
+				if ( ( 'edit' == $tag ) && ( '' == $wpmem->regchk ) ) { 
 					switch ( $meta_key ) {
 						case( 'description' ):
 						case( 'textarea' == $field['type'] ):
@@ -958,7 +957,7 @@ class WP_Members_Forms {
 
 						// For all other input types.
 						$formfield_args = array( 
-							'name'     => ( 'username' == $meta_key ) ? 'user_login' : $meta_key,
+							'name'     => $meta_key, // ( 'username' == $meta_key ) ? 'user_login' : $meta_key,
 							'type'     => $field['type'],
 							'value'    => $val,
 							'compare'  => $valtochk,
