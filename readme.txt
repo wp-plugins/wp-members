@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.1.9.3
+Stable tag: 3.2.0
 License: GPLv2
 
 WP-Members membership plugin turns your WordPress site into a membership site.  Restrict premium content, create custom registration fields, and more.
