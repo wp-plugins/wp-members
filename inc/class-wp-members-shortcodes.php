@@ -95,7 +95,9 @@ class WP_Members_Shortcodes {
 		// Defaults.
 		$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
 		$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
-
+		
+		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'show_logged_out_state', false ) : false;
+		
 		/*
 		 * The [wpmem_form] shortcode requires additional tags (login, register, etc) that
 		 * will be in the $atts array. If $atts is not an array, no additional tags were
@@ -107,7 +109,7 @@ class WP_Members_Shortcodes {
 			switch ( $atts ) {
 
 				case in_array( 'login', $atts ):		
-					if ( is_user_logged_in() ) {
+					if ( is_user_logged_in() && '1' != $customizer ) {
 						/*
 						 * If the user is logged in, return any nested content (if any)
 						 * or the default bullet links if no nested content.
@@ -123,7 +125,7 @@ class WP_Members_Shortcodes {
 					break;
 
 				case in_array( 'register', $atts ):
-					if ( is_user_logged_in() ) {
+					if ( is_user_logged_in()  && '1' != $customizer ) {
 						/*
 						 * If the user is logged in, return any nested content (if any)
 						 * or the default bullet links if no nested content.

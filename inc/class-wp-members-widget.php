@@ -38,7 +38,6 @@ class widget_wpmemwidget extends WP_Widget {
 		$defaults = array( 
 			'title'       => __( 'Login Status', 'wp-members' ),
 			'redirect_to' => '',
-			'customizer'  => '',
 		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults );
 		
@@ -50,10 +49,6 @@ class widget_wpmemwidget extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'redirect_to' ); ?>"><?php _e( 'Redirect to (optional):', 'wp-members' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'redirect_to' ); ?>" name="<?php echo $this->get_field_name( 'redirect_to' ); ?>" value="<?php echo $instance['redirect_to']; ?>" style="width:95%;" />
-		</p>
-		<p>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'customizer' ); ?>" name="<?php echo $this->get_field_name( 'customizer' ); ?>" value="show" />
-			<label for="<?php echo $this->get_field_id( 'customizer' ); ?>"><?php _e( 'Display Form in Customizer', 'wp-members' ); ?></label>
 		</p>
 		<?php
 	}
@@ -71,7 +66,6 @@ class widget_wpmemwidget extends WP_Widget {
 		// Strip tags for title to remove HTML.
 		$instance['title']       = strip_tags( $new_instance['title'] );
 		$instance['redirect_to'] = strip_tags( $new_instance['redirect_to'] );
-		$instance['customizer']  = strip_tags( $new_instance['customizer'] );
 
 		return $instance;
 	}
@@ -86,7 +80,7 @@ class widget_wpmemwidget extends WP_Widget {
 
 		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
 		$title       = ( array_key_exists( 'title',       $instance ) ) ? $instance['title']       : __( 'Login Status', 'wp-members' );
-		$customizer  = ( array_key_exists( 'customizer',  $instance ) ) ? $instance['customizer']  : false;
+		$customizer  = ( is_customize_preview() ) ? get_theme_mod( 'show_logged_out_state', false ) : false;
 		
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -162,7 +156,7 @@ class widget_wpmemwidget extends WP_Widget {
 		// Clean whatever the url is.
 		$post_to = esc_url( $post_to );
 
-		if ( ! is_user_logged_in() || ( 'show' === $customizer && is_customize_preview() ) ) {
+		if ( ! is_user_logged_in() || ( '1' == $customizer && is_customize_preview() ) ) {
 
 			// If the user is not logged in, we need the form.
 

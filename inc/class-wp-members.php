@@ -314,7 +314,8 @@ class WP_Members {
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10, 2 );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
-
+		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
+		
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
 		add_filter( 'allow_password_reset',      'wpmem_no_reset' );                 // no password reset for non-activated users
@@ -1327,5 +1328,35 @@ class WP_Members {
 			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo $logout; ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
 		</script><?php
 	}
-	
+		
+	/**
+	 * Adds WP-Members controls to the Customizer
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param object $wp_customize The Customizer object.
+	 */
+	function customizer_settings( $wp_customize ) {
+		$wp_customize->add_section( 'wp_members' , array(
+			'title'      => 'WP-Members',
+			'priority'   => 190,
+		) );
+
+		// Add settings for output description
+		$wp_customize->add_setting( 'show_logged_out_state', array(
+			'default'    => '1',
+			'type'       => 'theme_mod', //'option'
+			'capability' => 'edit_theme_options',
+			'transport'  => 'refresh',
+		) );
+
+		// Add control and output for select field
+		$wp_customize->add_control( 'show_form_logged_out', array(
+			'label'      => __( 'Show forms as logged out', 'wp-members' ),
+			'section'    => 'wp_members',
+			'settings'   => 'show_logged_out_state',
+			'type'       => 'checkbox',
+			'std'        => '1'
+		) );
+	}
 } // End of WP_Members class.
