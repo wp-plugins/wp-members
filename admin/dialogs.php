@@ -209,6 +209,18 @@ function wpmem_a_rss_box() {
 	</div><?php
 }
 
+/**
+ * Adds the rating request meta box.
+ *
+ * @since 3.2.0
+ */
+function wpmem_a_rating_box() {
+	?><div class="postbox">
+		<h3><?php _e( 'Like WP-Members?', 'wp-members' ); ?></h3>
+		<div class="inside"><?php echo sprintf( __( 'If you like WP-Members please give it a %s&#9733;&#9733;&#9733;&#9733;&#9733;%s rating. Thanks!!', 'wp-members' ), '<a href="https://wordpress.org/support/plugin/wp-members/reviews?rate=5#new-post">', '</a>' ); ?></div>
+	</div><?php
+}
+
 
 /**
  * Add the dashboard widget.

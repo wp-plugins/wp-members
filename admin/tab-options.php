@@ -77,6 +77,7 @@ function wpmem_a_build_options() {
 
 		<div class="inner-sidebar">
 			<?php wpmem_a_meta_box(); ?>
+			<?php wpmem_a_rating_box(); ?>
 			<div class="postbox">
 				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">

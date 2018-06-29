@@ -41,6 +41,7 @@ function wpmem_a_build_about_tab() { ?>
 		<div class="postbox"><div class="inside">
 			<div style="width:20%;max-width:300px;min-width:200px;padding:10px;margin:10px;float:right;">
 				<?php wpmem_a_meta_box(); ?>
+				<?php wpmem_a_rating_box(); ?>
 				<?php wpmem_a_rss_box(); ?>
 				<div class="postbox"><div class="inside">
 				<h4><a href="http://rkt.bz/3O">WordPass</a></h4>
