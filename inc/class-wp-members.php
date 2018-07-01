@@ -759,8 +759,17 @@ class WP_Members {
 			// Protects comments if expiration module is used and user is expired.
 			} elseif ( is_user_logged_in() && $this->is_blocked() == true ){
 
-				$content = ( $this->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) ? wpmem_do_expmessage( $content ) : $content;
-
+				if ( $this->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) {
+					/**
+					 * Filters the user expired message used by the PayPal extension.
+					 *
+					 * @since 3.2.0
+					 *
+					 * @param string $message
+					 * @param string $content
+					 */
+					$content = apply_filters( 'wpmem_do_expmessage', wpmem_do_expmessage( $content ), $content );
+				}
 			}
 		}
 
