@@ -550,6 +550,25 @@ class WP_Members_User {
 	}
 	
 	/**
+	 * Removes a product from a user.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param string $product
+	 * @param int    $user_id
+	 */
+	function remove_user_product( $product, $user_id = false ) {
+		global $wpmem;
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		$user_products = $this->get_user_products( $user_id );
+		if ( $user_products ) {
+			unset( $user_products[ $product ] );
+			update_user_meta( $user_id, '_wpmem_products', $user_products );
+		}
+		return;
+	}
+	
+	/**
 	 * Utility for expiration validation.
 	 *
 	 * @3.2.0

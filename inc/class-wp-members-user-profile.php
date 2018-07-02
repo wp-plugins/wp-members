@@ -331,22 +331,20 @@ class WP_Members_User_Profile {
 			if ( 1 == $wpmem->enable_products ) {
 				// Update products.
 				if ( isset( $_POST['_wpmem_membership_product'] ) ) {
-					
-					foreach ( $_POST['_wpmem_membership_product'] as $product_key ) {
-						// Does product require a role?
-						if ( false !== $wpmem->membership->product_detail[ $product_key ]['role'] ) {
-							//echo 'set role for ' . $product_key . "<br />";
-							wpmem_update_user_role( $user_id, $wpmem->membership->product_detail[ $product_key ]['role'], 'add' );
+					foreach ( $_POST['_wpmem_membership_product'] as $product_key => $product_value ) {
+						// Enable or Disable?
+						if ( 'enable' == $product_value ) {
+							// Does product require a role?
+							if ( false !== $wpmem->membership->product_detail[ $product_key ]['role'] ) {
+								wpmem_update_user_role( $user_id, $wpmem->membership->product_detail[ $product_key ]['role'], 'add' );
+							}
+							$wpmem->user->set_user_product( $product_key, $user_id );
 						}
-						// Does product expire?
-						//if ( false !== $wpmem->membership->product_detail[ $product_key ]['expires'] ) {
-						//	echo 'set expiration for ' . $product_key . "<br />";
-						//}
-						$wpmem->user->set_user_product( $product_key, $user_id );
+						if ( 'disable' == $product_value ) {
+							$wpmem->user->remove_user_product( $product_key, $user_id );
+						}
 					}	
 				}
-				//global $wpmem;
-				//echo '<pre>'; print_r( $wpmem->membership );
 			}
 		}
 
@@ -482,9 +480,23 @@ class WP_Members_User_Profile {
 			foreach ( $wpmem->membership->products as $key => $label ) {
 				$checked = ( $user_products && array_key_exists( $key, $user_products ) ) ? "checked" : "";
 				echo "<tr>";
-				echo '<td style="padding:0px 0px;"><input type="checkbox" name="_wpmem_membership_product[]" value="' . $key . '" ' . $checked . ' ></td><td style="padding:0px 0px;">' . $label . "</td>";
-				echo ( isset( $user_products[ $key ] ) && $user_products[ $key ] !== true && $user_products[ $key ] != '' ) ? '<td style="padding:0px 0px;">expires: ' . $user_products[ $key ] . '</td>': '<td style="padding:0px 0px;">&nbsp;</td>';
-				echo '</tr>';
+				echo '<td style="padding:0px 0px;">
+				<select name="_wpmem_membership_product[' . $key . ']">
+					<option value="">----</option>
+					<option value="enable">'  . __( 'Enable', 'wp-members'  ) . '</option>
+					<option value="disable">' . __( 'Disable', 'wp-members' ) . '</option>
+				</select></td><td style="padding:0px 0px;">' . $label . '</td>
+				<td style="padding:0px 0px;">';
+				if ( isset( $user_products[ $key ] ) ) {
+					if ( $user_products[ $key ] !== true ) {
+						echo __( 'Expires:', 'wp-members' ) . ' ' . $user_products[ $key ];
+					} else {
+						_e( 'Enabled', 'wp-members' );
+					}
+				} else {
+					echo "&nbsp;";
+				}
+				echo '</td></tr>';
 			}
 				?></table></td>
 		</tr>
