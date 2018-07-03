@@ -101,7 +101,9 @@ class WP_Members_Forms {
 		case "password":
 			$class = $this->sanitize_class( $class );
 			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
-			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . " />";
+			$pattern     = ( $pattern     ) ? ' pattern="' . esc_attr( $pattern ) . '"' : '';
+			$title       = ( $title       ) ? ' title="' . esc_attr( $title ) . '"' : '';
+			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" class=\"$class\"$placeholder$title$pattern" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
 		case "image":
