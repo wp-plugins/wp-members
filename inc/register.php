@@ -121,9 +121,11 @@ function wpmem_registration( $tag ) {
 	 */
 	$wpmem->user->post_data = apply_filters( 'wpmem_pre_validate_form', $wpmem->user->post_data, $tag );
 
-	$pass_arr = ( 'update' == $tag ) ? array( 'username', 'password', 'confirm_password', 'password_confirm' ) : array( 'password', 'confirm_password', 'password_confirm' );
-	foreach ( $pass_arr as $pass ) {
-		unset( $wpmem->fields[ $pass ] );
+	if ( 'update' == $tag ) {
+		$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
+		foreach ( $pass_arr as $pass ) {
+			unset( $wpmem->fields[ $pass ] );
+		}
 	}
 	
 	// Check for required fields, reverse the array for logical error message order.
