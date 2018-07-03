@@ -296,8 +296,7 @@ class WP_Members_User_Profile {
 		 */
 		$fields = apply_filters( 'wpmem_' . $display . '_profile_update', $fields, $user_id );
 
-		// Get any excluded meta fields.
-		$exclude = wpmem_get_excluded_meta( 'admin-profile' );
+		// Handle meta update, skip excluded fields.
 		foreach ( $fields as $key => $val ) {
 			if ( ! in_array( $key, $exclude ) ) {
 				if ( ( 'admin' != $display && 'ok' == $chk ) || 'admin' == $display ) {

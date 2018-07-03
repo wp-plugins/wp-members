@@ -1089,6 +1089,10 @@ class WP_Members {
 			$excluded_fields[] = 'username';
 		}
 
+		if ( 'admin-profile' == $tag || 'user-profile' == $tag ) {
+			array_push( $excluded_fields, 'first_name', 'last_name', 'nickname', 'display_name', 'user_email', 'description', 'user_url' );
+		}
+
 		/**
 		 * Filter the fields to be excluded when user is created/updated.
 		 *
