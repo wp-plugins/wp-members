@@ -129,10 +129,8 @@ function wpmem_update_emails() {
 	if ( $wpmem->email->from    != $_POST['wp_mail_from'] || $wpmem->email->from_name != $_POST['wp_mail_from_name'] ) {
 		$wpmem->email->from      = sanitize_email( $_POST['wp_mail_from'] );
 		$wpmem->email->from_name = sanitize_text_field( $_POST['wp_mail_from_name'] );
-		$wpmem_newsettings = get_option( 'wpmembers_settings' );
-		$wpmem_newsettings['email']['from']      = sanitize_email( $_POST['wp_mail_from'] );
-		$wpmem_newsettings['email']['from_name'] = sanitize_text_field( $_POST['wp_mail_from_name'] );
-		update_option( 'wpmembers_settings', $wpmem_newsettings );
+		update_option( 'wpmembers_email_wpfrom', $wpmem->email->from );
+		update_option( 'wpmembers_email_wpname', $wpmem->email->from_name );
 	}
 	
 	// Update the various emails being used.

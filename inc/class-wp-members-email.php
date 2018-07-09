@@ -51,6 +51,16 @@ class WP_Members_Email {
 	public $settings;
 	
 	/**
+	 * Constructor
+	 *
+	 * @since 3.2.0
+	 */
+	function __construct() {
+		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
+		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
+	}
+	
+	/**
 	 * Builds emails for the user.
 	 *
 	 * @since 1.8.0
@@ -239,7 +249,7 @@ class WP_Members_Email {
 			$this->settings['body'] = ( $this->settings['add_footer'] ) ? $this->settings['body'] . "\r\n" . $foot : $this->settings['body'];
 
 			// Send message.
-			$this->send();
+			$this->send( 'user' );
 
 		}
 		return;
@@ -456,7 +466,7 @@ class WP_Members_Email {
 			$this->settings['body'] = apply_filters( 'wpmem_email_notify', $this->settings['body'] );
 
 			// Send the message.
-			$this->send();
+			$this->send( 'admin' );
 		}
 	}
 
@@ -497,11 +507,12 @@ class WP_Members_Email {
 	 *
 	 * @since 3.2.0
 	 */
-	function send() {
+	function send( $to ) {
+		$send_to = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
 		// Apply WP's "from" and "from name" email filters.
 		add_filter( 'wp_mail_from',      array( $this, 'from'      ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'from_name' ) );
 		// Send the message.
-		wp_mail( $this->settings['user_email'], stripslashes( $this->settings['subj'] ), stripslashes( $this->settings['body'] ), $this->settings['headers'] );
+		wp_mail( $send_to, stripslashes( $this->settings['subj'] ), stripslashes( $this->settings['body'] ), $this->settings['headers'] );
 	}
 }

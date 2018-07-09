@@ -50,6 +50,7 @@ function wpmem_do_install() {
 
 	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
 
+		// New install.
 		$wpmem_settings = wpmem_install_settings();
 		wpmem_install_fields();
 		wpmem_install_dialogs();
@@ -58,6 +59,7 @@ function wpmem_do_install() {
 
 	} else {
 		
+		// Upgrade.
 		$wpmem_settings = wpmem_upgrade_settings();
 		wpmem_upgrade_captcha();
 		wpmem_append_email();
@@ -129,14 +131,11 @@ function wpmem_upgrade_settings() {
 			$wpmem_settings['form_tags'] = array( 'default' => 'Registration Default' );
 		}
 		
-		// If email is not set, add it with existing setting or default.
-		if ( ! isset( $wpmem_settings['email'] ) ) {
-			$from = get_option( 'wpmembers_email_wpfrom' );
-			$name = get_option( 'wpmembers_email_wpname' );
-			$wpmem_settings['email'] = array(
-				'from'      => ( $from ) ? $from : '',
-				'from_name' => ( $name ) ? $name : '',
-			);
+		// If email is set in the settings array, change it back to the pre-3.1 option.
+		if ( isset( $wpmem_settings['email'] ) ) {
+			update_option( 'wpmembers_email_wpfrom', $wpmem_settings['email']['from'] );
+			update_option( 'wpmembers_email_wpname', $wpmem_settings['email']['from_name'] );
+			unset( $wpmem_settings['email'] );
 		}
 		
 		// Version number should be updated no matter what.
@@ -199,12 +198,6 @@ function wpmem_upgrade_settings() {
 		// Add new settings.
 		$wpmem_newsettings['post_types'] = array();
 		$wpmem_settings['form_tags'] = array( 'default' => 'Registration Default' );
-		$from = get_option( 'wpmembers_email_wpfrom' );
-		$name = get_option( 'wpmembers_email_wpname' );
-		$wpmem_settings['email'] = array(
-			'from'      => ( $from ) ? $from : '',
-			'from_name' => ( $name ) ? $name : '',
-		);
 		
 		// Merge settings.
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
@@ -511,7 +504,6 @@ function wpmem_install_settings() {
 		'attrib'    => 0,
 		'post_types' => array(),
 		'form_tags'  => array( 'default' => 'Registration Default' ),
-		'email'      => array( 'from' => '', 'from_name' => '' ),
 	);
 	
 	// Using update_option to allow for forced update.
