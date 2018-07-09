@@ -262,7 +262,8 @@ class WP_Members_User_Profile {
 				&& $field['type'] != 'multiselect' 
 				&& $field['type'] != 'multicheckbox' 
 				&& $field['type'] != 'file' 
-				&& $field['type'] != 'image' ) {
+				&& $field['type'] != 'image'
+			    && $field['type'] != 'textarea' ) {
 				( isset( $_POST[ $meta ] ) && 'password' != $field['type'] ) ? $fields[ $meta ] = sanitize_text_field( $_POST[ $meta ] ) : false;
 				
 				// For user profile (not admin).
@@ -282,6 +283,8 @@ class WP_Members_User_Profile {
 				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? sanitize_text_field( $_POST[ $meta ] ) : '';
 			} elseif ( $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) {
 				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? implode( $field['delimiter'], wp_unslash( $_POST[ $meta ] ) ) : '';
+			} elseif ( $field['type'] == 'textarea' ) {
+				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? sanitize_textarea_field( $_POST[ $meta ] ) : '';
 			}
 		}
 
