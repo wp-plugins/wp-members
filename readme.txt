@@ -132,7 +132,6 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Changed default address meta fields to WooCommerce billing meta keys.
 * Removed language packs that install from wordpress.org (de_DE, hu_HU, ja, nl_NL, pt_BR, ru_RU, and sv_SE).
 * All remaining user facing strings in get_text() added wp-members textdomain.
-* wpmem_default_text_strings filter now must pass $defaults as a parameter.
 * Added locale as a parameter for localization filters.
 * Added wpmem_register_hidden_rows filter.
 * Added "post_to" key for wpmem_register_form_args.
@@ -144,15 +143,14 @@ WP-Members 3.2.0 is a major update. See changelog for important details. Minimum
 * Deprecated wpmem_do_sidebar().
 * Deprecated wpmem_create_formfield(), use wpmem_form_field() instead.
 * Deprecated a number of non-user callable functions.
-* Eliminated permission-based file load for admin files.
+* Eliminated capability-based load for admin files.
 * Maintain user login state when password is changed.
 * Added wpmem_get_sub_str() string manipulation utility.
 * Updated login form redirect_to to account for query vars.
 * Fixes issue with login status if logout url is encoded (sprintf() has too few arguments).
 * Added Membership Products Custom Post Type.
 * Added "Hide Post" option for blocking content (currently only by post meta _wpmem_block).
-* Removed several outdated stylesheets from selecion ( still download for users who may use them).
-* Fixed issue with login page logged in state if encoded url exists (decode logout link url).
+* Removed several outdated stylesheets from selection (still packaged with download for users who may use them).
 * Added wpmem_update_user_role() API function.
 * Added wpmem_display_message() API function.
 * Added wpmem_user_has_access() API function.

@@ -238,16 +238,16 @@ function butlerblog_dashboard_widget() {
  * @since 2.8.0
  */
 function butlerblog_feed_output() {
-    echo '<div class="rss-widget">';
-    wp_widget_rss_output( array(
-        'url'          => 'http://feeds.feedburner.com/butlerblog',
-        'title'        => __( 'Latest from ButlerBlog', 'wp-members' ),
-        'items'        => 5,
-        'show_summary' => 0,
-        'show_author'  => 0,
-        'show_date'    => 1,
-    ) );
-    echo "</div>";
+	echo '<div class="rss-widget">';
+	wp_widget_rss_output( array(
+		'url'          => 'https://feeds.feedburner.com/butlerblog',
+		'title'        => __( 'Latest from ButlerBlog', 'wp-members' ),
+		'items'        => 5,
+		'show_summary' => 0,
+		'show_author'  => 0,
+		'show_date'    => 1,
+	) );
+	echo "</div>";
 }
 
 // End of file.
