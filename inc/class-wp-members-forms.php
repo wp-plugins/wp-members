@@ -376,7 +376,7 @@ class WP_Members_Forms {
 	 *     The elements needed to generate the form (login|reset password|forgotten password).
 	 *
 	 *     @type string $heading     Form heading text.
-	 *     @type string $action      The form action (login|pwdchange|pwdreset).
+	 *     @type string $action      The form action (login|pwdchange|pwdreset|getusername).
 	 *     @type string $button_text Form submit button text.
 	 *     @type array  $inputs {
 	 *         The form input values.
