@@ -127,6 +127,7 @@ class WP_Members_Email {
 		$this->settings['add_footer']    = true;
 		$this->settings['footer']        = get_option( 'wpmembers_email_footer' );
 		$this->settings['disable']       = false;
+		$this->settings['toggle']        = $this->settings['tag']; // Deprecated since 3.2.0, but remains in the array for legacy reasons.
 
 		// Apply filters (if set) for the sending email address.
 		$default_header = ( $this->from && $this->from_name ) ? 'From: "' . $this->from_name . '" <' . $this->from . '>' : '';
@@ -174,6 +175,7 @@ class WP_Members_Email {
 		 *     @type string footer
 		 *     @type bool   disable
 		 *     @type mixed  headers
+		 *     @type string toggle Deprecated since 3.2.0
 		 * }
 		 * @param array $wpmem_fields An array of the WP-Members fields.
 		 * @param array $field_data   An array of the posted registration data.
@@ -216,8 +218,10 @@ class WP_Members_Email {
 
 				// Add custom field shortcodes.
 				foreach ( $wpmem_fields as $meta_key => $field ) {
-					$val = ( is_array( $field_data ) && $field['register'] ) ? $field_data[ $meta_key ] : get_user_meta( $user_id, $meta_key, true );
-					$shortcodes[ $meta_key ] = $val;
+					if ( ! array_key_exists( $meta_key, $shortcodes ) ) {
+						$val = ( is_array( $field_data ) && $field['register'] ) ? $field_data[ $meta_key ] : get_user_meta( $user_id, $meta_key, true );
+						$shortcodes[ $meta_key ] = $val;
+					}
 				}
 
 				/**
