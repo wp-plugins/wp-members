@@ -133,8 +133,10 @@ function wpmem_upgrade_settings() {
 		
 		// If email is set in the settings array, change it back to the pre-3.1 option.
 		if ( isset( $wpmem_settings['email'] ) ) {
-			update_option( 'wpmembers_email_wpfrom', $wpmem_settings['email']['from'] );
-			update_option( 'wpmembers_email_wpname', $wpmem_settings['email']['from_name'] );
+			$from = ( is_array( $wpmem_settings['email'] ) ) ? $wpmem_settings['email']['from']      : '';
+			$name = ( is_array( $wpmem_settings['email'] ) ) ? $wpmem_settings['email']['from_name'] : '';
+			update_option( 'wpmembers_email_wpfrom', $from );
+			update_option( 'wpmembers_email_wpname', $name );
 			unset( $wpmem_settings['email'] );
 		}
 		
