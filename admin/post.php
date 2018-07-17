@@ -197,34 +197,37 @@ function wpmem_block_meta() {
 
 	wp_nonce_field( 'wpmem_block_meta_nonce', 'wpmem_block_meta_nonce' );
 
-	$post_type = $wp_post_types[ $post->post_type ];
-
-	if ( isset( $wpmem->block[ $post->post_type ] ) && $wpmem->block[ $post->post_type ] == 1 ) {
-		$notice_icon = '<span class="dashicons dashicons-lock"></span>';
-		$notice_text = sprintf( __( '%s are blocked by default.', 'wp-members' ), $post_type->labels->name );
-	} else {
-		$notice_icon = '<span class="dashicons dashicons-unlock"></span>';
-		$notice_text = sprintf( __( '%s are not blocked by default.', 'wp-members' ), $post_type->labels->name );
-	}
-	
+	$post_type       = $wp_post_types[ $post->post_type ];
 	$post_meta_value = get_post_meta( $post->ID, '_wpmem_block', true );
-
 	$post_meta_value = ( null == $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value;
 	$post_meta_settings = array(
 		'0' => __( 'Unblock', 'wp-members' ),
 		'1' => __( 'Block',   'wp-members' ),
 		'2' => __( 'Hide',    'wp-members' ),
-	); ?>
+	);
+	
+	switch ( $post_meta_value ) {
+		case 0:
+			$notice_text = __( 'Unblocked', 'wp-members' );
+			$notice_icon = '<span class="dashicons dashicons-unlock" style="color:red;"></span>';
+			break;
+		case 1:
+			$notice_text = __( 'Blocked', 'wp-members' );
+			$notice_icon = '<span class="dashicons dashicons-lock" style="color:green;"></span>';
+			break;
+		case 2:
+			$notice_text = __( 'Hidden', 'wp-members' );
+			$notice_icon = '<span class="dashicons dashicons-hidden" style="color:black;"></span>';
+			break;
+	} ?>
+	<p><?php echo $notice_icon; ?> <?php _e( 'Status:', 'wp-members' ); ?> <span id="wpmem_post_block_status"><?php echo $notice_text; ?></span> <a href="#" class="hide-if-no-js" id="wpmem_edit_block_status"><?php _e( 'Edit' ); ?></a>
 	<p>
-		<?php echo $notice_icon . ' ' . $notice_text . '&nbsp;&nbsp;<a href="' . add_query_arg( 'page', 'wpmem-settings', get_admin_url() . 'options-general.php' ) . '">' . __( 'Edit', 'wp-members' ) . '</a>'; ?>
-	</p>
-	<p>
-		<select id="wpmem_block" name="wpmem_block">
+		<div id="wpmem_block">
 		<?php foreach ( $post_meta_settings as $key => $value ) {
-			echo '<option value="' . $key . '" ' . selected( $post_meta_value, $key, false ) . '>' . $value . '</option>';
+			echo '<input type="radio" name="wpmem_block" value="' . $key . '" ' . checked( $post_meta_value, $key, false ) . ' /><label>' . $value . '</label><br />';
 		} ?>
-		</select>
-		<label for="wpmem_block"><?php echo 'this ' . strtolower( $post_type->labels->singular_name ); ?><?php //echo $text; ?></label>
+		<p><a href="#" class="hide-if-no-js button" id="wpmem_ok_block_status"><?php echo _e( 'OK' ); ?></a> <a href="#" class="hide-if-no-js" id="wpmem_cancel_block_status"><?php _e( 'Cancel' ); ?></a></p>
+		</div>
 	</p>
 	<?php
 	/**
