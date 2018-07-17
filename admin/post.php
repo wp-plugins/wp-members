@@ -309,7 +309,7 @@ function wpmem_post_columns( $columns ) {
 	$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'post';
 	
 	if ( $post_type == 'page' || $post_type == 'post' || array_key_exists( $post_type, $wpmem->post_types ) ) {
-		$columns['wpmem_block'] = ( $wpmem->block[ $post_type ] == 1 ) ? __( 'Unblocked?', 'wp-members' ) : __( 'Blocked?', 'wp-members' );
+		$columns['wpmem_block'] = __( 'Status', 'wp-members' );
 	}
 	return $columns;
 }
@@ -341,9 +341,20 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
 			$block_meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $block_meta );
 		}
 
-		echo ( $wpmem->block[ $post_type ] == 1 && $block_meta == '0' ) ? '<span class="dashicons dashicons-unlock" style="color:red"></span>' : '';
-		echo ( $wpmem->block[ $post_type ] == 0 && $block_meta == '1' ) ? '<span class="dashicons dashicons-lock" style="color:green"></span>' : '';
-		echo ( 2 == $block_meta ) ? '<span class="dashicons dashicons-hidden"></span>' : '';
+		if ( $wpmem->block[ $post_type ] == 1 ) {
+			$block_span = array( 'lock', 'green', 'Blocked' );
+		}
+		if ( $wpmem->block[ $post_type ] == 0 ) {
+			$block_span =  array( 'unlock', 'red', 'Unblocked' );
+		}
+		if ( $wpmem->block[ $post_type ] == 1 && $block_meta == '0' ) {
+			$block_span = array( 'unlock', 'red', 'Unblocked' );
+		} elseif ( $wpmem->block[ $post_type ] == 0 && $block_meta == '1' ) {
+			$block_span = array( 'lock', 'green', 'Blocked' );
+		} elseif ( 2 == $block_meta ) {
+			$block_span = array( 'hidden', '', 'Hidden' );
+		}
+		echo '<span class="dashicons dashicons-' . $block_span[0] . '" style="color:' . $block_span[1] . '" title="' . $block_span[2] . '"></span>';
 	}
 }
 
