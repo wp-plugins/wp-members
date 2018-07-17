@@ -440,7 +440,7 @@ class WP_Members_Forms {
 			'link_span_after'  => '</span>',
 
 			// classes & ids
-			'form_id'         => 'wpmem_' . $arr['action'],
+			'form_id'         => 'wpmem_' . $arr['action'] . '_form',
 			'form_class'      => 'form',
 			'button_id'       => '',
 			'button_class'    => 'buttons',
@@ -719,7 +719,7 @@ class WP_Members_Forms {
 			'buttons_after'    => '</div>',
 
 			// Classes & ids.
-			'form_id'          => ( 'new' == $tag ) ? 'wpmem_register' : 'wpmem_profile',
+			'form_id'          => ( 'new' == $tag ) ? 'wpmem_register_form' : 'wpmem_profile_form',
 			'form_class'       => 'form',
 			'button_id'        => '',
 			'button_class'     => 'buttons',
