@@ -58,3 +58,10 @@
 #sort {
 	width: 24px;
 }
+
+#wpmem_block input {
+	vertical-align: -webkit-baseline-middle;
+}
+#wpmem_post_block_status {
+	font-weight: 600;
+}

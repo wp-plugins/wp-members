@@ -181,3 +181,28 @@
 		});
 	});
 })(jQuery);
+
+/**
+ * JS for post block status meta box
+ *
+ * @since 3.2.1
+ */
+(function($) {
+	$(document).ready(function() {
+		$("#wpmem_block").hide();
+	});
+	$(document).ready(function() {
+		$("#wpmem_edit_block_status").click(function() {
+			$("#wpmem_block").show('normal');
+			$("#wpmem_edit_block_status").hide();
+		});
+		$("#wpmem_cancel_block_status").click(function() {
+			$("#wpmem_block").hide('normal');
+			$("#wpmem_edit_block_status").show();
+		});
+		$("#wpmem_ok_block_status").click(function() {
+			$("#wpmem_block").hide('normal');
+			$("#wpmem_edit_block_status").show();
+		});
+	});
+})(jQuery);

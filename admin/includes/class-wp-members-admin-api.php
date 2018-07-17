@@ -505,15 +505,16 @@ class WP_Members_Admin_API {
 	 * Only loads the js and css on admin screens that use them.
 	 *
 	 * @since 3.1.7
-	 * @deprecated 3.2.0 Moved to admin object, rename dashboard_enqueue_scripts().
+	 * @since 3.2.0 Moved into admin object, renamed dashboard_enqueue_scripts().
+	 * @since 3.2.1 Load js for post.php hook.
 	 *
 	 * @param str $hook The admin screen hook being loaded.
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
-		if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
+		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook ) {
 			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
-		}
-		if ( $hook == 'settings_page_wpmem-settings' ) {
+		} 
+		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook ) {
 			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
 		}
 	}
