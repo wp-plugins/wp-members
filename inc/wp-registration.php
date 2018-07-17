@@ -334,7 +334,7 @@ function wpmem_wp_reg_validate( $errors, $sanitized_user_login, $user_email ) {
 	global $wpmem;
 
 	// Get any meta fields that should be excluded.
-	$exclude = wpmem_get_excluded_meta( 'register' );
+	$exclude = wpmem_get_excluded_meta( 'wp-register' );
 
 	foreach ( wpmem_fields( 'wp_validate' ) as $meta_key => $field ) {
 		$is_error = false;
@@ -374,7 +374,7 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	$is_woo     = ( wpmem_get( 'woocommerce_checkout_place_order' ) || wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
 	if ( $is_native || $is_add_new || $is_woo ) {
 		// Get any excluded meta fields.
-		$exclude = wpmem_get_excluded_meta( 'register' );
+		$exclude = wpmem_get_excluded_meta( 'wp-register' );
 		foreach ( wpmem_fields( 'wp_finalize' ) as $meta_key => $field ) {
 			$value = wpmem_get( $meta_key, false );
 			if ( $value && ! in_array( $meta_key, $exclude ) && 'file' != $field['type'] && 'image' != $field['type'] ) {
