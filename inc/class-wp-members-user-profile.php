@@ -236,7 +236,11 @@ class WP_Members_User_Profile {
 		$wpmem_fields = ( 'admin' == $display ) ? wpmem_fields( 'admin_profile_update' ) : wpmem_fields( 'dashboard_profile_update' );
 		
 		$exclude = wpmem_get_excluded_meta( $display . '-profile' );
-		
+
+		foreach ( $exclude as $excluded ) {
+			unset( $wpmem_fields[ $excluded ] );
+		}
+
 		// If tos is an active field, this is the dashboard profile, and user has current field value.
 		if ( isset( $wpmem_fields['tos'] ) && get_user_meta( $user_id, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) {
 			unset( $wpmem_fields['tos'] );

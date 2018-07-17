@@ -1085,7 +1085,7 @@ class WP_Members {
 		// Default excluded fields.
 		$excluded_fields = array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' );
 		
-		if ( 'update' == $tag ) {
+		if ( 'update' == $tag || 'admin-profile' == $tag || 'user-profile' == $tag || 'wp-register' == $tag ) {
 			$excluded_fields[] = 'username';
 		}
 
