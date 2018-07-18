@@ -392,7 +392,7 @@ function wpmem_set_block_status( $status, $post_id, $post_type ) {
 	$prev_value = get_post_meta( $post_id, '_wpmem_block', true );
 
 	// Update accordingly.
-	if ( $prev_value && $status != $prev_value ) {
+	if ( false !== $prev_value && $status != $prev_value ) {
 		if ( $status == $wpmem->block[ $post_type ] ) {
 			delete_post_meta( $post_id, '_wpmem_block' );
 		} else {
@@ -400,7 +400,7 @@ function wpmem_set_block_status( $status, $post_id, $post_type ) {
 		}
 	} elseif ( ! $prev_value && $status != $wpmem->block[ $post_type ] ) {
 		update_post_meta( $post_id, '_wpmem_block', $status );
-	} else { 
+	} elseif ( $status != $prev_value ) {
 		delete_post_meta( $post_id, '_wpmem_block' );
 	}
 	
