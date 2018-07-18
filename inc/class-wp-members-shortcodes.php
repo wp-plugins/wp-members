@@ -609,8 +609,8 @@ class WP_Members_Shortcodes {
 
 			$content = ( $content ) ? $result . $content : $result;
 			
-			// Is it clickable?
-			$content = ( isset( $atts['clickable'] ) && ( false == $atts['clickable'] || 'false' == $atts['clickable'] ) ) ? $content : make_clickable( $content );
+			// Make it clickable?
+			$content = ( isset( $atts['clickable'] ) && ( true === $atts['clickable'] || 'true' == $atts['clickable'] ) ) ? make_clickable( $content ) : $content;
 
 			return do_shortcode( $content );
 		}
