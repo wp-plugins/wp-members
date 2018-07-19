@@ -47,7 +47,7 @@ function wpmem_bulk_posts_action() {
 		jQuery('<option>').val('hide').text('<?php    _e( 'Hide',    'wp-members' ) ?>').appendTo("select[name='action']");
 		jQuery('<option>').val('unblock').text('<?php _e( 'Unblock', 'wp-members' ) ?>').appendTo("select[name='action2']");
 		jQuery('<option>').val('block').text('<?php   _e( 'Block',   'wp-members' ) ?>').appendTo("select[name='action2']");
-		jQuery('<option>').val('hide').text('<?php    _e( 'Hide', 'wp-members' ) ?>').appendTo("select[name='action2']");
+		jQuery('<option>').val('hide').text('<?php    _e( 'Hide',    'wp-members' ) ?>').appendTo("select[name='action2']");
 		});
 	</script><?php
 	}
@@ -201,32 +201,29 @@ function wpmem_block_meta() {
 	$post_meta_value = get_post_meta( $post->ID, '_wpmem_block', true );
 	$post_meta_value = ( null == $post_meta_value ) ? $wpmem->block[ $post->post_type ] : $post_meta_value;
 	$post_meta_settings = array(
-		'0' => __( 'Unblock', 'wp-members' ),
-		'1' => __( 'Block',   'wp-members' ),
-		'2' => __( 'Hide',    'wp-members' ),
-	);
-	
-	switch ( $post_meta_value ) {
-		case 0:
-			$notice_text = __( 'Unblocked', 'wp-members' );
-			$notice_icon = '<span class="dashicons dashicons-unlock" style="color:red;"></span>';
-			break;
-		case 1:
-			$notice_text = __( 'Blocked', 'wp-members' );
-			$notice_icon = '<span class="dashicons dashicons-lock" style="color:green;"></span>';
-			break;
-		case 2:
-			$notice_text = __( 'Hidden', 'wp-members' );
-			$notice_icon = '<span class="dashicons dashicons-hidden" style="color:black;"></span>';
-			break;
-	} ?>
-	<p><?php echo $notice_icon; ?> <?php _e( 'Status:', 'wp-members' ); ?> <span id="wpmem_post_block_status"><?php echo $notice_text; ?></span> <a href="#" class="hide-if-no-js" id="wpmem_edit_block_status"><?php _e( 'Edit' ); ?></a>
+		'0' => array( 'text' => __( 'Unblocked', 'wp-members' ), 'icon' => '<span id="wpmem_post_icon_0" class="dashicons dashicons-unlock" ' . ( ( 0 != $post_meta_value ) ? 'style="display:none;"' : '' ) . '></span>' ),
+		'1' => array( 'text' => __( 'Blocked',   'wp-members' ), 'icon' => '<span id="wpmem_post_icon_1" class="dashicons dashicons-lock" '   . ( ( 1 != $post_meta_value ) ? 'style="display:none;"' : '' ) . '></span>' ),
+		'2' => array( 'text' => __( 'Hidden',    'wp-members' ), 'icon' => '<span id="wpmem_post_icon_2" class="dashicons dashicons-hidden" ' . ( ( 2 != $post_meta_value ) ? 'style="display:none;"' : '' ) . '></span>' ),
+	); ?>
+	<p><?php
+		foreach ( $post_meta_settings as $key => $value ) {
+			echo $value['icon'];
+		} ?> <?php
+		_e( 'Status:', 'wp-members' ); ?> <span id="wpmem_post_block_status"><?php echo $post_meta_settings[ $post_meta_value ]['text']; ?></span> <a href="#" class="hide-if-no-js" id="wpmem_edit_block_status"><?php _e( 'Edit' ); ?></a>
+	</p>
 	<p>
 		<div id="wpmem_block">
-		<?php foreach ( $post_meta_settings as $key => $value ) {
-			echo '<input type="radio" name="wpmem_block" value="' . $key . '" ' . checked( $post_meta_value, $key, false ) . ' /><label>' . $value . '</label><br />';
-		} ?>
-		<p><a href="#" class="hide-if-no-js button" id="wpmem_ok_block_status"><?php echo _e( 'OK' ); ?></a> <a href="#" class="hide-if-no-js" id="wpmem_cancel_block_status"><?php _e( 'Cancel' ); ?></a></p>
+		<?php
+		$original_value = ''; $original_label = '';
+		foreach ( $post_meta_settings as $key => $value ) {
+			$original_value = ( $post_meta_value == $key ) ? $key                  : $original_value;
+			$original_label = ( $post_meta_value == $key ) ? $value['text'] : $original_label;
+			echo '<input type="radio" id="wpmem_block_status_' . $key . '" name="wpmem_block" value="' . $key . '" ' . checked( $post_meta_value, $key, false ) . ' /><label>' . $value['text'] . '</label><br />';
+		}
+		echo '<input type="hidden" id="wpmem_block_original_value" name="wpmem_block_original_value" value="' . $original_value . '" />';
+		echo '<input type="hidden" id="wpmem_block_original_label" name="wpmem_block_original_label" value="' . $original_label . '" />';
+		?>
+		<p><a href="#" class="hide-if-no-js button" id="wpmem_ok_block_status"><?php echo _e( 'OK' ); ?></a> <!--<a href="#" class="hide-if-no-js" id="wpmem_cancel_block_status"><?php _e( 'Cancel' ); ?></a>--></p>
 		</div>
 	</p>
 	<?php

@@ -65,3 +65,12 @@
 #wpmem_post_block_status {
 	font-weight: 600;
 }
+#wpmem_post_icon_0 {
+	color: red;
+}
+#wpmem_post_icon_1 {
+	color: green;
+}
+#wpmem_post_icon_2 {
+	color: black;
+}
