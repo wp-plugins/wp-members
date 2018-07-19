@@ -24,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.9.7
  * @since 3.2.0 Updated to use fputcsv.
+ * @since 3.2.1 Added user data filters.
  *
  * @param array $args
  * @param array $users
@@ -38,7 +39,7 @@ function wpmem_export_users( $args, $users = null ) {
 	$defaults = array(
 		'export'         => 'all',
 		'filename'       => 'wp-members-user-export-' . $today . '.csv',
-		'export_fields'  => wpmem_fields(), //array(),
+		'export_fields'  => wpmem_fields(),
 		'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 		'entity_decode'  => false,
 	);
@@ -67,27 +68,36 @@ function wpmem_export_users( $args, $users = null ) {
 	$handle = fopen( 'php://output', 'w' );
 	fputs( $handle, "\xEF\xBB\xBF" ); // UTF-8 BOM
 
-	$header = [ 'User ID', 'Username' ];
+	$header = array( 'ID' => 'User ID', 'username' => 'Username' );
 	// Remove excluded fields from $export_fields while setting up $header array.
 	foreach ( $args['export_fields'] as $meta => $field ) {
 		if ( in_array( $meta, $args['exclude_fields'] ) ) {
 			unset( $args['export_fields'][ $meta ] );
 		} else {
-			$header[] = $field['label'];
+			$header[ $meta ] = $field['label'];
 		}
 	}
 
-	if ( $wpmem->mod_reg == 1 ) {
-		$header[] = __( 'Activated?', 'wp-members');
+	if ( 1 == $wpmem->mod_reg ) {
+		$header['active'] = __( 'Activated?', 'wp-members');
 	}
 
-	if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-		$header[] = __( 'Subscription', 'wp-members' );
-		$header[] = __( 'Expires', 'wp-members' );
+	if ( defined( 'WPMEM_EXP_MODULE' ) && 1 == $wpmem->use_exp ) {
+		$header['exp_type'] = __( 'Subscription', 'wp-members' );
+		$header['expires']  = __( 'Expires', 'wp-members' );
 	}
 
-	$header[] = __( 'Registered', 'wp-members' );
-	$header[] = __( 'IP', 'wp-members' );
+	$header['user_registered'] = __( 'Registered', 'wp-members' );
+	$header['wpmem_reg_ip']    = __( 'IP', 'wp-members' );
+	
+	/**
+	 * Filters user export header row before assembly.
+	 *
+	 * @since 3.2.1
+	 *
+	 * @param array $header The header column values
+	 */
+	$header = apply_filters( 'wpmem_user_export_header', $header );
 
 	fputcsv( $handle, $header );
 
@@ -98,40 +108,41 @@ function wpmem_export_users( $args, $users = null ) {
 		$user_info = get_userdata( $user );
 
 		$wp_user_fields = [ 'user_email', 'user_nicename', 'user_url', 'display_name' ];
-		$row = array();
+		$row = array( 'ID' => $user_info->ID, 'username' => $user_info->user_login );
 		foreach ( $args['export_fields'] as $meta => $field ) {
 			if ( in_array( $meta, $wp_user_fields ) ) {
-				$row[] = $user_info->{$meta};
+				$row[ $meta ] = $user_info->{$meta};
 			} else {
 				$raw_data = get_user_meta( $user, $meta, true );
-				$row[]    = ( $args['entity_decode'] ) ? html_entity_decode( $raw_data ) : $raw_data;
+				$row[ $meta ]    = ( $args['entity_decode'] ) ? html_entity_decode( $raw_data ) : $raw_data;
 			}
 		}
 
-		$row = array_merge(
-			[
-				$user_info->ID,
-				$user_info->user_login,
-			],
-			$row
-		);
-
-		if ( $wpmem->mod_reg == 1 ) {
-			$row[] = get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' );
+		if ( 1 == $wpmem->mod_reg ) {
+			$row['active'] = get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' );
 		}
 
-		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-			$row[] = get_user_meta( $user, 'exp_type', true );
-			$row[] = get_user_meta( $user, 'expires', true );
+		if ( defined( 'WPMEM_EXP_MODULE' ) && 1 == $wpmem->use_exp ) {
+			$row['exp_type'] = get_user_meta( $user, 'exp_type', true );
+			$row['expires']  = get_user_meta( $user, 'expires', true );
 		}
 
-		$row[] = $user_info->user_registered;
-		$row[] = get_user_meta( $user, 'wpmem_reg_ip', true );
+		$row['user_registered'] = $user_info->user_registered;
+		$row['wpmem_reg_ip']    = get_user_meta( $user, 'wpmem_reg_ip', true );
+
+		/**
+		 * Filter the user data before assembly.
+		 *
+		 * @since 3.2.1
+		 *
+		 * @param array $row The user data row
+		 */
+		$row = apply_filters( 'wpmem_user_export_row', $row );
 
 		fputcsv( $handle, $row );
 
 		// Update the user record as being exported.
-		if ( 'all' != $args['export'] ){
+		if ( 'all' != $args['export'] ) {
 			update_user_meta( $user, 'exported', 1 );
 		}
 	}
