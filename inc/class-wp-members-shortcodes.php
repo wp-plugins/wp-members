@@ -507,6 +507,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.
 	 * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::fields().
+	 * @since 3.2.0 Added clickable attribute.
 	 *
 	 * @global object $wpmem   The WP_Members object.
 	 * @param  array  $atts {
@@ -518,7 +519,7 @@ class WP_Members_Shortcodes {
 	 *     @type string $underscores
 	 *     @type string $display
 	 *     @type string $size
-	 *     @type string $clickable default:true
+	 *     @type string $clickable default:false
 	 * }
 	 * @param  string $content Any content passed with the shortcode (default:null).
 	 * @param  string $tag     The shortcode tag (wpmem_form).
@@ -594,7 +595,7 @@ class WP_Members_Shortcodes {
 			// Handle date fields.
 			if ( isset( $field_type ) && 'date' == $field_type ) {
 				if ( isset( $atts['format'] ) ) {
-					// Formats date: http://php.net/manual/en/function.date.php
+					// Formats date: https://secure.php.net/manual/en/function.date.php
 					$result = ( '' != $user_info->{$field} ) ? date( $atts['format'], strtotime( $user_info->{$field} ) ) : '';
 				} else {
 					// Formats date to whatever the WP setting is.

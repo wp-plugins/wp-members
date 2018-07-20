@@ -135,6 +135,7 @@ WP-Members 3.2.1 is a fix update for 3.2.0. See changelog.
 * Fixed update post when block status is not changed.
 * Rebuilt user interface for post restriction metabox to make it more intuitive.
 * Changed "clickable" attribute for field shortcode default to false.
+* Added wpmem_user_export_header and wpmem_user_export_row filter for export.
 
 = 3.2.0 =
 
