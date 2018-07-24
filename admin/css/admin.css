@@ -55,8 +55,8 @@
 #the-list {
 	cursor: move;
 }
-#sort {
-	width: 24px;
+#sort, #edit {
+	width: 30px;
 }
 
 #wpmem_block input {
