@@ -476,7 +476,7 @@ class WP_Members_Forms {
 		foreach ( $arr['inputs'] as $input ) {
 			$label = '<label for="' . esc_attr( $input['tag'] ) . '">' . $input['name'] . '</label>';
 			$field = wpmem_create_formfield( $input['tag'], $input['type'], '', '', $input['class'] );
-			$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . sanitize_html_class( $input['div'] ) . '">' : '';
+			$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . $this->sanitize_class( $input['div'] ) . '">' : '';
 			$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 			$rows[] = array( 
 				'row_before'   => $args['row_before'],
@@ -539,9 +539,9 @@ class WP_Members_Forms {
 		// Build the buttons, filter, and add to the form.
 		if ( $arr['action'] == 'login' ) {
 			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . '<label for="rememberme">' . $wpmem->get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
-			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . sanitize_html_class( $args['button_class'] ) . '" />' . $args['n'];
+			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		} else {
-			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . sanitize_html_class( $args['button_class'] ) . '" />' . $args['n'];
+			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		}
 
 		/**
@@ -633,7 +633,7 @@ class WP_Members_Forms {
 		$form = $args['fieldset_before'] . $args['n'] . $form . $args['fieldset_after'] . $args['n'];
 
 		// Apply form wrapper.
-		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . sanitize_html_class( $args['form_id'] ) . '" class="' . sanitize_html_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
+		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
 
 		// Apply anchor.
 		$form = '<a id="' . esc_attr( $arr['action'] ) . '"></a>' . $args['n'] . $form;
@@ -1145,8 +1145,8 @@ class WP_Members_Forms {
 
 		// Create buttons and wrapper.
 		$button_text = ( $tag == 'edit' ) ? $args['submit_update'] : $args['submit_register'];
-		$buttons = ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . sanitize_html_class( $args['button_class'] ) . '" /> ' . $args['n'] : '';
-		$buttons.= '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . sanitize_html_class( $args['button_class'] ) . '" />' . $args['n'];
+		$buttons = ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" /> ' . $args['n'] : '';
+		$buttons.= '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 
 		/**
 		 * Filter the HTML for form buttons.
@@ -1189,7 +1189,7 @@ class WP_Members_Forms {
 
 		// Apply form wrapper.
 		$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
-		$form = '<form name="form" method="post"' . $enctype . ' action="' . esc_attr( $args['post_to'] ) . '" id="' . sanitize_html_class( $args['form_id'] ) . '" class="' . sanitize_html_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
+		$form = '<form name="form" method="post"' . $enctype . ' action="' . esc_attr( $args['post_to'] ) . '" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 		// Apply anchor.
 		$form = '<a id="register"></a>' . $args['n'] . $form;
