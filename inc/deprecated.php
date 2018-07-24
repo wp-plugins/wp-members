@@ -796,7 +796,7 @@ if ( ! function_exists( 'wpmem_inc_status' ) ):
  * Generate users login status if logged in and gives logout link.
  *
  * @since 1.8
- * @since 3.2.0
+ * @deprecated 3.2.0
  *
  * @global        $user_login
  * @global object $wpmem
