@@ -136,8 +136,8 @@ class WP_Members_Forms {
 	
 		case "select":
 		case "multiselect":
-			$class = ( 'textbox' == $class ) ? "dropdown" : $class;
-			$class = ( 'multiselect' == $type ) ? "multiselect" : $class;
+			$class = ( 'textbox' == $class && 'multiselect' != $type ) ? "dropdown"    : $class;
+			$class = ( 'textbox' == $class && 'multiselect' == $type ) ? "multiselect" : $class;
 			$pname = ( 'multiselect' == $type ) ? $name . "[]" : $name;
 			$str = "<select name=\"$pname\" id=\"$id\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
 			foreach ( $value as $option ) {
