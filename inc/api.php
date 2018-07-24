@@ -170,11 +170,13 @@ function wpmem_current_url( $slash = true, $getq = true ) {
 }
 
 /**
- * Returns a post ID for the current URL.
+ * Gets post ID of current URL.
  *
- * @since 3.2.0
+ * @since 3.1.7
+ *
+ * @return int Post ID.
  */
-function wpmem_current_postid() {
+function wpmem_current_post_id() {
 	return url_to_postid( wpmem_current_url() );
 }
 
@@ -556,17 +558,6 @@ function wpmem_is_user_activated( $user_id = false ) {
 	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 	$active  = get_user_meta( $user_id, 'active', true );
 	return ( $active != 1 ) ? false : true;
-}
-
-/**
- * Gets post ID of current URL.
- *
- * @since 3.1.7
- *
- * @return int Post ID.
- */
-function wpmem_current_post_id() {
-	return url_to_postid( wpmem_current_url() );
 }
 
 /**
