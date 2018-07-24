@@ -236,7 +236,7 @@ class WP_Members_Products_Admin {
 			$values[] = $value . '|' . $key;
 		}
 		echo wpmem_form_label( array( 
-			'meta_key'=>'',
+			'meta_key'=>$wpmem->membership->post_meta,
 			'label'=>__( 'Limit access to:', 'wp-members' ),
 			'type'=> 'multiselect'
 		) );
@@ -246,6 +246,7 @@ class WP_Members_Products_Admin {
 			'type' => 'multiselect',
 			'value' => $values,
 			'compare' => $product,
+			'class' => 'wpmem-product-select2',
 		) );
 	}
 
