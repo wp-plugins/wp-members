@@ -482,16 +482,29 @@ class WP_Members_User {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param  mixed $product
-	 * @param  int   $user_id (optional)
+	 * @global object $wpmem
+	 * @param  mixed  $product
+	 * @param  int    $user_id (optional)
 	 * @return bool  
 	 */
 	function has_access( $product, $user_id = false ) {
-		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		global $wpmem;
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id; //echo '<pre>'; global $wpmem; print_r( $wpmem ); 
 		foreach ( $product as $prod ) {
 			if ( isset( $this->access[ $prod ] ) ) {
-				if ( $this->is_current( $this->access[ $prod ] ) ) {
-					return true;
+				// Is this an expiration product?
+				if ( isset( $wpmem->membership->product_detail[ $prod ]['expires'][0] ) && ! is_bool( $this->access[ $prod ] ) ) {
+					if ( $this->is_current( $this->access[ $prod ] ) ) {
+						return true;
+					}
+				} elseif ( '' != $wpmem->membership->product_detail[ $prod ]['role'] ) {
+					if ( $this->access[ $prod ] && wpmem_user_has_role( $wpmem->membership->product_detail[ $prod ]['role'] ) ) {
+						return true;
+					}
+				} else {
+					if ( $this->access[ $prod ] ) {
+						return true;
+					}
 				}
 			}
 		}
