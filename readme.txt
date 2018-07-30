@@ -129,6 +129,7 @@ WP-Members 3.2.1 is a fix update for 3.2.0. See changelog.
 
 = 3.2.2 =
 
+* Fixed a 3.2 upgrade issue, verifies username field is properly added to field settings array.
 * Fixed issue with user product verification where only expiration products were validated.
 * Fixed logic in form field builder so multiselect will accept a custom class. 
 * Added select2 support for setting product access in the post editor.
