@@ -59,6 +59,11 @@ function wpmem_a_build_about_tab() { ?>
 				and be developed.  <strong>Why put your trust in an unknown?  WP-Members has a <?php echo date('Y') - date('Y', strtotime('2006-01-01')); ?> year track record of active development and support.</strong></p>
 				<p><strong><a href="https://rkt.bz/KB">Plugin Documentation</a></strong> |
 				<strong><a href="https://rkt.bz/join">Premium Support &amp; Extensions</a></strong></p>
+			<h2>Priority Support</h2>
+				<p>If you want to make the most out of WP-Members, subscribing to Priority Support is a great way to do that. You'll not only get priority email support, but also a member-only forum  
+			and access to the member's only site with a code library of tutorials and customizations. You can also subscribe to the WP-Members Pro Bundle to get everything Priority Support has to offer
+			PLUS all of the premium extensions as well.<br /><br />
+			<a href="https://rkt.bz/join"><strong>Check out the Premium Support options here</strong></a>.</p>
 			<h2>Premium Extensions</h2>
 				<table>
 					<tr>
