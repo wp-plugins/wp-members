@@ -489,7 +489,7 @@ class WP_Members_User {
 	 */
 	function has_access( $product, $user_id = false ) {
 		global $wpmem;
-		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id; //echo '<pre>'; global $wpmem; print_r( $wpmem ); 
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		foreach ( $product as $prod ) {
 			if ( isset( $this->access[ $prod ] ) ) {
 				// Is this an expiration product?

@@ -104,7 +104,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.1 is a fix update for 3.2.0. See changelog.
+WP-Members 3.2.2 is a fix update for 3.2.0. See changelog.
 
 == Screenshots ==
 
