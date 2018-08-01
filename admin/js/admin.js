@@ -225,6 +225,8 @@
 	});
 })(jQuery);
 
-$(document).ready(function() {
-    $('.wpmem-product-select2').select2();
-});
+(function($) {
+	$(document).ready(function() {
+		$('.wpmem-product-select2').select2();
+	});
+})(jQuery);

@@ -77,3 +77,8 @@
 #wpmem_product_enabled {
 	color: green;
 }
+#s2id__wpmem_products,
+.select2-search-field,
+#_wpmem_products {
+	width: 100%;
+}
