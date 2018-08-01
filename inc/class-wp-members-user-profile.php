@@ -235,6 +235,9 @@ class WP_Members_User_Profile {
 
 		$wpmem_fields = ( 'admin' == $display ) ? wpmem_fields( 'admin_profile_update' ) : wpmem_fields( 'dashboard_profile_update' );
 		
+		// Check for password field before exclusions, just in case we are activating a user (otherwise password is removed on user/admin profiles).
+		$chk_pass = ( array_key_exists( 'password', $wpmem_fields ) && true === $wpmem_fields['password']['register'] ) ? true : false;
+	
 		$exclude = wpmem_get_excluded_meta( $display . '-profile' );
 
 		foreach ( $exclude as $excluded ) {
@@ -258,7 +261,6 @@ class WP_Members_User_Profile {
 		do_action( 'wpmem_' . $display . '_pre_user_update', $user_id, $wpmem_fields );
 
 		$fields = array();
-		$chk_pass = false;
 		foreach ( $wpmem_fields as $meta => $field ) {
 			if ( ! $field['native']
 				&& $field['type'] != 'password' 
@@ -281,8 +283,6 @@ class WP_Members_User_Profile {
 						$chk = 'ok';
 					}
 				}
-			} elseif ( $meta == 'password' && $field['register'] ) {
-				$chk_pass = true;
 			} elseif ( $field['type'] == 'checkbox' ) {
 				$fields[ $meta ] = ( isset( $_POST[ $meta ] ) ) ? sanitize_text_field( $_POST[ $meta ] ) : '';
 			} elseif ( $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) {
