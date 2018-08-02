@@ -181,7 +181,7 @@ class WP_Members_Shortcodes {
 					// Fixes the wptexturize.
 					remove_filter( 'the_content', 'wpautop' );
 					remove_filter( 'the_content', 'wptexturize' );
-					add_filter( 'the_content', 'wpmem_texturize', 999 );
+					add_filter( 'the_content', array( 'WP_Members', 'texturize' ), 999 );
 				}
 			} // End texturize functions
 		}
