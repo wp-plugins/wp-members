@@ -321,7 +321,7 @@ class WP_Members {
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
-		add_action( 'wp_enqueue_scripts',    'wpmem_enqueue_style' );      // Enqueues the stylesheet.
+		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10, 2 );
@@ -1386,4 +1386,18 @@ class WP_Members {
 			'std'        => '1'
 		) );
 	}
+	
+	/**
+	 * Loads the stylesheet for tableless forms.
+	 *
+	 * @since 2.6
+	 * @since 3.2.3 Moved to WP_Members class.
+	 *
+	 * @global object $wpmem The WP_Members object. 
+	 */
+	function enqueue_style() {
+		global $wpmem;
+		wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
+	}
+
 } // End of WP_Members class.

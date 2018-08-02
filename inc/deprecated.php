@@ -1251,3 +1251,17 @@ function wpmem_mail_from_name( $name ) {
 	global $wpmem;
 	return $wpmem->email->from_name( $name );
 }
+if ( ! function_exists( 'wpmem_enqueue_style' ) ):
+/**
+ * Loads the stylesheet for tableless forms.
+ *
+ * @since 2.6
+ * @deprecated 3.2.3 Use WP_Members::enqueue_style() intead.
+ *
+ * @global object $wpmem The WP_Members object. 
+ */
+function wpmem_enqueue_style() {
+	global $wpmem;
+	wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
+}
+endif;
