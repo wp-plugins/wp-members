@@ -1092,7 +1092,7 @@ function wpmem_sc_fields( $atts, $content = null, $tag ) {
  * Logout link shortcode [wpmem_logout].
  *
  * @since 3.1.2
- * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::logout()
+ * @deprecated 3.2.0 Use WP_Members_Shortcodes::logout() instead.
  *
  * @global object $wpmem The WP_Members object.
  * @param  array  $atts {
@@ -1113,7 +1113,7 @@ function wpmem_sc_logout( $atts, $content, $tag ) {
  * TOS shortcode [wpmem_tos].
  *
  * @since 3.1.2
- * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::tos()
+ * @deprecated 3.2.0 Use WP_Members_Shortcodes::tos() instead.
  *
  * @global object $wpmem The WP_Members object.
  * @param  array  $atts {
@@ -1134,7 +1134,7 @@ function wpmem_sc_tos( $atts, $content, $tag ) {
  * Display user avatar.
  *
  * @since 3.1.7
- * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::avatar()
+ * @deprecated 3.2.0 Use WP_Members_Shortcodes::avatar() instead.
  *
  * @global object $wpmem The WP_Members object.
  * @param  array  $atts {
@@ -1156,7 +1156,7 @@ function wpmem_sc_avatar( $atts, $content, $tag ) {
  * Generates a login link with a return url.
  *
  * @since 3.1.7
- * @since 3.2.0 Now a wrapper for WP_Members_Shortcodes::login_link()
+ * @deprecated 3.2.0 Use WP_Members_Shortcodes::login_link() instead.
  *
  * @global object $wpmem The WP_Members object.
  * @param  array  $atts {
@@ -1180,7 +1180,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
  * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
  * @since 3.1.1 Added $custom argument for custom emails.
- * @since 3.2.0 Now a wrapper for WP_Members_Email::to_user().
+ * @deprecated 3.2.0 Use WP_Members_Email::to_user() instead.
  *
  * @global object $wpmem                The WP_Members object.
  * @global string $wpmem_mail_from      The email from address.
@@ -1199,13 +1199,12 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 }
 endif;
 
-
 if ( ! function_exists( 'wpmem_notify_admin' ) ):
 /**
  * Builds the email for admin notification of new user registration.
  *
  * @since 2.3
- * @since 3.2.0 Now a wrapper for WP_Members_Email::notify_admin().
+ * @deprecated 3.2.0 Use WP_Members_Email::notify_admin() instead.
  *
  * @global object $wpmem                The WP_Members object.
  * @param  int    $user_id              The User's ID.
@@ -1218,13 +1217,12 @@ function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null 
 }
 endif;
 
-
 /**
  * Filters the wp_mail from address (if set).
  *
  * @since 2.7.0
  * @since 3.1.0 Converted to use email var in object.
- * @since 3.2.0 Now a wrapper for WP_Members_Email::from().
+ * @deprecated 3.2.0 Use WP_Members_Email::from() instead.
  *
  * @global object $wpmem
  * @param  string $email
@@ -1235,13 +1233,12 @@ function wpmem_mail_from( $email ) {
 	return $wpmem->email->from( $email );
 }
 
-
 /**
  * Filters the wp_mail from name (if set).
  *
  * @since 2.7.0
  * @since 3.1.0 Converted to use email var in object.
- * @since 3.2.0 Now a wrapper for WP_Members_Email::from_name().
+ * @deprecated 3.2.0 Use WP_Members_Email::from_name() instead.
  *
  * @global object $wpmem
  * @param  string $name
