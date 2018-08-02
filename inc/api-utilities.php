@@ -102,3 +102,23 @@ function wpmem_get_sub_str( $needle, $haystack, $position = 'after', $keep_needl
 	}
 	return $new;
 }
+
+if ( ! function_exists( 'wpmem_do_excerpt' ) ):
+/**
+ * Creates an excerpt on the fly if there is no 'more' tag.
+ *
+ * @since 2.6
+ * @since 3.2.3 Now a wrapper for WP_Members::do_excerpt().
+ *
+ * @global object $post  The post object.
+ * @global object $wpmem The WP_Members object.
+ *
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_do_excerpt( $content ) {
+	global $post, $more, $wpmem;
+	$content = $wpmem->do_excerpt( $content );
+	return $content;
+}
+endif;
