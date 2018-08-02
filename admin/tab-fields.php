@@ -107,19 +107,23 @@ function wpmem_a_render_fields_tab() {
 	if ( 'delete' == $delete_action ) {
 		$delete_fields = wpmem_get( 'delete' ); ?>
 		
-		<p><?php _e( 'Are you sure you want to delete the following fields?', 'wp-members' ); ?></p>
 		
-		<?php foreach ( $delete_fields as $meta ) {
-			$meta = esc_html( $meta );
-			echo esc_html( $wpmem->fields[ $meta ]['label'] ) . ' (meta key: ' . $meta . ')<br />';
-		} ?>
-		<form name="<?php echo esc_attr( $delete_action ); ?>" id="<?php echo esc_attr( $delete_action ); ?>" method="post" action="<?php echo esc_url( wpmem_admin_form_post_url() ); ?>">
-			<?php // wp_nonce_field( 'wpmem-delete-fields' ); ?>
-			<input type="hidden" name="delete_fields" value="<?php echo esc_attr( implode( ",", $delete_fields ) ); ?>" />
-			<input type="hidden" name="dodelete" value="delete_confirmed" />
-			<?php submit_button( 'Delete Fields' ); ?>
-		</form><?php
-
+		
+		<?php if ( empty( $delete_fields ) ) { ?>
+			<p><?php _e( 'No fields selected for deletion', 'wp-members' ); ?></p>
+		<?php } else { ?>
+			<p><?php _e( 'Are you sure you want to delete the following fields?', 'wp-members' ); ?></p>
+			<?php foreach ( $delete_fields as $meta ) {
+				$meta = esc_html( $meta );
+				echo esc_html( $wpmem->fields[ $meta ]['label'] ) . ' (meta key: ' . $meta . ')<br />';
+			} ?>
+			<form name="<?php echo esc_attr( $delete_action ); ?>" id="<?php echo esc_attr( $delete_action ); ?>" method="post" action="<?php echo esc_url( wpmem_admin_form_post_url() ); ?>">
+				<?php // wp_nonce_field( 'wpmem-delete-fields' ); ?>
+				<input type="hidden" name="delete_fields" value="<?php echo esc_attr( implode( ",", $delete_fields ) ); ?>" />
+				<input type="hidden" name="dodelete" value="delete_confirmed" />
+				<?php submit_button( 'Delete Fields' ); ?>
+			</form><?php
+		}
 	} else {
 		
 		if ( 'delete_confirmed' == wpmem_get( 'dodelete' ) ) {
