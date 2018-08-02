@@ -342,7 +342,7 @@ class WP_Members {
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
-			add_filter( 'authenticate', 'wpmem_check_activated', 99, 3 ); 
+			add_filter( 'authenticate', array( $this->user, 'check_activated' ), 99, 3 ); 
 		}
 
 		/**

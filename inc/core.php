@@ -60,25 +60,6 @@ function wpmem_securify( $content = null ) {
 endif;
 
 
-if ( ! function_exists( 'wpmem_check_activated' ) ):
-/**
- * Checks if a user is activated.
- *
- * @since 2.7.1
- *
- * @param  object $user     The WordPress User object.
- * @param  string $username The user's username (user_login).
- * @param  string $password The user's password.
- * @return object $user     The WordPress User object.
- */ 
-function wpmem_check_activated( $user, $username, $password ) {
-	global $wpmem;
-	$user = $wpmem->user->check_activated( $user, $username, $password );
-	return $user;
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_login' ) ):
 /**
  * Logs in the user.

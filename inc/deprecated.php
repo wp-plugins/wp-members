@@ -1248,6 +1248,27 @@ function wpmem_mail_from_name( $name ) {
 	global $wpmem;
 	return $wpmem->email->from_name( $name );
 }
+
+if ( ! function_exists( 'wpmem_check_activated' ) ):
+/**
+ * Checks if a user is activated.
+ *
+ * @since 2.7.1
+ * @deprecated 3.2.2 Use wpmem_is_user_activated() instead.
+ *
+ * @param  object $user     The WordPress User object.
+ * @param  string $username The user's username (user_login).
+ * @param  string $password The user's password.
+ * @return object $user     The WordPress User object.
+ */ 
+function wpmem_check_activated( $user, $username, $password ) {
+	wpmem_write_log( "wpmem_check_activated() is deprecated since WP-Members 3.2.2. Use wpmem_is_user_activated() instead" );
+	global $wpmem;
+	$user = $wpmem->user->check_activated( $user, $username, $password );
+	return $user;
+}
+endif;
+
 if ( ! function_exists( 'wpmem_enqueue_style' ) ):
 /**
  * Loads the stylesheet for tableless forms.

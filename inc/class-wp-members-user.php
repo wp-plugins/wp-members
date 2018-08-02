@@ -589,9 +589,23 @@ class WP_Members_User {
 	function is_current( $date ) {
 		return ( time() < strtotime( $date ) ) ? true : false;
 	}
+	
+	/**
+	 * Check if a user is activated.
+	 *
+	 * @since 3.2.2
+	 *
+	 * @param  int   $user_id
+	 * @return bool  $active
+	 */
+	function is_user_activated( $user_id = false ) {
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		$active  = get_user_meta( $user_id, 'active', true );
+		return ( $active != 1 ) ? false : true;
+	}
 
 	/**
-	 * Checks if a user is activated.
+	 * Checks if a user is activated during user authentication.
 	 *
 	 * @since 2.7.1
 	 * @since 3.2.0 Moved from core to user object.
@@ -610,7 +624,7 @@ class WP_Members_User {
 		}
 
 		// Activation flag must be validated.
-		if ( ! wpmem_is_user_activated( $user->ID ) ) {
+		if ( ! $this->is_user_activated( $user->ID ) ) {
 			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
 		}
 

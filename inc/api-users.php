@@ -84,14 +84,15 @@ function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
  * Checks if a user is activated.
  *
  * @since 3.1.7
+ * @since 3.2.3 Now a wrapper for WP_Members_Users::is_user_activated().
  *
- * @param  int  $user_id
+ * @global object $wpmem
+ * @param  int    $user_id
  * @return bool
  */
 function wpmem_is_user_activated( $user_id = false ) {
-	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-	$active  = get_user_meta( $user_id, 'active', true );
-	return ( $active != 1 ) ? false : true;
+	global $wpmem;
+	return $wpmem->user->is_user_activated( $user_id );
 }
 
 /**
