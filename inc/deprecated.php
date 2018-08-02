@@ -1323,3 +1323,19 @@ function wpmem_convert_tag( $tag ) {
 	}
 	return $tag;
 }
+
+if ( ! function_exists( 'wpmem_no_reset' ) ):
+/**
+ * Prevents users not activated from resetting their password.
+ *
+ * @since 2.5.1
+ * @since 3.2.0 Now a wrapper for $wpmem->user->no_reset().
+ * @deprecated 3.2.3 Use WP_Members_Users::no_reset() instead.
+ *
+ * @return bool Returns false if the user is not activated, otherwise true.
+ */
+function wpmem_no_reset() {
+	global $wpmem;
+	return $wpmem->user->no_reset();
+}
+endif;

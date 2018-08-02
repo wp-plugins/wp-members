@@ -330,13 +330,13 @@ class WP_Members {
 		
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
-		add_filter( 'allow_password_reset',      'wpmem_no_reset' );                 // no password reset for non-activated users
-		add_filter( 'register_form',             'wpmem_wp_register_form' );         // adds fields to the default wp registration
+		add_filter( 'allow_password_reset',      array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
+		add_filter( 'register_form',             'wpmem_wp_register_form' );                   // adds fields to the default wp registration
 		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
-		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );   // native registration validation
+		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );             // native registration validation
 		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
-		add_filter( 'wpmem_securify',            array( $this, 'reg_securify' ) );    // adds success message on login form if redirected
-		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
+		add_filter( 'wpmem_securify',            array( $this, 'reg_securify' ) );             // adds success message on login form if redirected
+		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 );    // adds custom query vars
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
 		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
 		
