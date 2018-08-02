@@ -20,7 +20,6 @@
  * - wpmem_texturize
  * - wpmem_enqueue_style
  * - wpmem_do_excerpt
- * - wpmem_get_excluded_meta
  * - wpmem_use_ssl
  * - wpmem_wp_reserved_terms
  * - wpmem_write_log
@@ -197,19 +196,6 @@ function wpmem_do_excerpt( $content ) {
 endif;
 
 
-/**
- * Sets an array of user meta fields to be excluded from update/insert.
- *
- * @since 2.9.3
- * @since Unknown Now a wrapper for get_excluded_fields().
- *
- * @param  string $tag A tag so we know where the function is being used.
- * @return array       Array of fields to be excluded from the registration form.
- */
-function wpmem_get_excluded_meta( $tag ) {
-	global $wpmem;
-	return $wpmem->excluded_fields( $tag );
-}
 
 
 /**

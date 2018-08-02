@@ -462,6 +462,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/api-forms.php' );
 		require_once( WPMEM_PATH . 'inc/api-users.php' );
 		require_once( WPMEM_PATH . 'inc/utilities.php' );
+		require_once( WPMEM_PATH . 'inc/api-utilities.php' );
 		require_once( WPMEM_PATH . 'inc/forms.php' );
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
 		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
