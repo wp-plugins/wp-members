@@ -122,3 +122,24 @@ function wpmem_do_excerpt( $content ) {
 	return $content;
 }
 endif;
+
+if ( ! function_exists( 'wpmem_texturize' ) ):
+/**
+ * Overrides the wptexturize filter.
+ *
+ * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
+ *
+ * @since 2.6.4
+ * @since 3.2.3 Now a wrapper for WP_Members::texturize().
+ *
+ * @todo Possibly deprecate or severely alter this process as its need may be obsolete.
+ *
+ * @global object $wpmem
+ * @param  string $content
+ * @return string $new_content
+ */
+function wpmem_texturize( $content ) {
+	global $wpmem;
+	return $wpmem->texturize( $content );
+}
+endif;

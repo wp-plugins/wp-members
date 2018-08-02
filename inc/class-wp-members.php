@@ -801,7 +801,7 @@ class WP_Members {
 			// Fix the wptexturize.
 			remove_filter( 'the_content', 'wpautop' );
 			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', 'wpmem_texturize', 999 );
+			add_filter( 'the_content', array( $this, 'texturize' ), 999 );
 		}
 
 		return $content;
@@ -1385,6 +1385,37 @@ class WP_Members {
 			'type'       => 'checkbox',
 			'std'        => '1'
 		) );
+	}
+
+	/**
+	 * Overrides the wptexturize filter.
+	 *
+	 * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
+	 *
+	 * @since 2.6.4
+	 * @since 3.2.3 Moved to WP_Members class.
+	 *
+	 * @todo Possibly deprecate or severely alter this process as its need may be obsolete.
+	 *
+	 * @param  string $content
+	 * @return string $new_content
+	 */
+	function texturize( $content ) {
+
+		$new_content = '';
+		$pattern_full = '{(\[wpmem_txt\].*?\[/wpmem_txt\])}is';
+		$pattern_contents = '{\[wpmem_txt\](.*?)\[/wpmem_txt\]}is';
+		$pieces = preg_split( $pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+		foreach ( $pieces as $piece ) {
+			if ( preg_match( $pattern_contents, $piece, $matches ) ) {
+				$new_content .= $matches[1];
+			} else {
+				$new_content .= wptexturize( wpautop( $piece ) );
+			}
+		}
+
+		return $new_content;
 	}
 	
 	/**
