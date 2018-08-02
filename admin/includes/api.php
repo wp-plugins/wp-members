@@ -103,3 +103,17 @@ function wpmem_admin_form_post_url( $args = false ) {
 	global $wpmem;
 	return $wpmem->admin->form_post_url( $args );
 }
+
+/**
+ * Returns an array of WordPress reserved terms.
+ *
+ * @since 3.0.2
+ * @since 3.2.3 Moved to Admin API as wrapper for WP_Members_Admin_API::wp_reserved_terms().
+ *
+ * @global object $wpmem
+ * @return array  An array of WordPress reserved terms.
+ */
+function wpmem_wp_reserved_terms() {
+	global $wpmem;
+	return $wpmem->admin->wp_reserved_terms();
+}
