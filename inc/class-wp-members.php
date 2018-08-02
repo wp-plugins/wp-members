@@ -1400,4 +1400,45 @@ class WP_Members {
 		wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
 	}
 
+
+	/**
+	 * Convert form tag.
+	 *
+	 * @todo This is temporary to handle form tag conversion.
+	 *
+	 * @since 3.1.7
+	 * @since 3.2.3 Moved to WP_Members class.
+	 *
+	 * @param  string $tag
+	 * @return string $tag
+	 */
+	function convert_tag( $tag ) {
+		switch ( $tag ) {
+			case 'new':
+				return 'register';
+				break;
+			case 'edit':
+			case 'update':
+				return 'profile';
+				break;
+			case 'wp':
+			case 'wp_validate':
+			case 'wp_finalize':
+				return 'register_wp';
+				break;
+			case 'dashboard_profile':
+			case 'dashboard_profile_update':
+				return 'profile_dashboard';
+				break;
+			case 'admin_profile':
+			case 'admin_profile_update':
+				return 'profile_admin';
+				break;
+			default:
+				return $tag;
+				break;
+		}
+		return $tag;
+	}
+
 } // End of WP_Members class.
