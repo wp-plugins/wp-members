@@ -461,16 +461,16 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/api.php' );
 		require_once( WPMEM_PATH . 'inc/api-forms.php' );
 		require_once( WPMEM_PATH . 'inc/api-users.php' );
-		require_once( WPMEM_PATH . 'inc/utilities.php' );
 		require_once( WPMEM_PATH . 'inc/api-utilities.php' );
 		require_once( WPMEM_PATH . 'inc/forms.php' );
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
+		require_once( WPMEM_PATH . 'inc/wp-registration.php' );
+		require_once( WPMEM_PATH . 'inc/deprecated.php' );
+		//require_once( WPMEM_PATH . 'inc/utilities.php' ); // @deprecated 3.2.3
 		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
 		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); // @deprecated 3.2.0
 		//require_once( WPMEM_PATH . 'inc/email.php' ); // @deprecated 3.2.0
-		include_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		//require_once( WPMEM_PATH . 'inc/users.php' ); // @deprecated 3.1.9
-		require_once( WPMEM_PATH . 'inc/deprecated.php' );
 
 	}
 
