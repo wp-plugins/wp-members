@@ -62,21 +62,5 @@ function wpmem_texturize( $content ) {
 endif;
 
 
-if ( ! function_exists( 'wpmem_enqueue_style' ) ):
-/**
- * Loads the stylesheet for tableless forms.
- *
- * @since 2.6
- *
- * @global object $wpmem The WP_Members object. 
- */
-function wpmem_enqueue_style() {
-	global $wpmem;
-	wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
-}
-endif;
-
-
-
 
 // End of file.
