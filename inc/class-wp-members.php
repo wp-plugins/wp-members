@@ -1175,7 +1175,7 @@ class WP_Members {
 			
 			// Login form.
 			'login_heading'        => __( 'Existing Users Log In', 'wp-members' ),
-			'login_username'       => __( 'Username', 'wp-members' ),
+			'login_username'       => __( 'Username or Email', 'wp-members' ),
 			'login_password'       => __( 'Password', 'wp-members' ),
 			'login_button'         => __( 'Log In', 'wp-members' ),
 			'remember_me'          => __( 'Remember Me', 'wp-members' ),

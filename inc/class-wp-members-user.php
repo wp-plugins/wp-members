@@ -60,25 +60,24 @@ class WP_Members_User {
 	 * wrapper and is the direct function called for login.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.3 Removed wpmem_login_fields filter.
+	 * @since 3.2.3 Replaced form collection with WP script to facilitate login with username OR email.
+	 * @since 3.2.3 Changed to wp_safe_redirect().
 	 *
 	 * @return string Returns "loginfailed" if failed login.
 	 */
 	function login() {
 		
-		$creds = array( 'user_login' => 'log', 'user_password' => 'pwd', 'remember' => 'rememberme', 'redirect_to' => 'redirect_to' );
-		/**
-		 * Filter the $fields the function handles.
-		 *
-		 * @since 3.1.7
-		 *
-		 * @param array $creds
-		 */
-		$creds = apply_filters( 'wpmem_login_fields', $creds );
-		foreach ( $creds as $key => $val ) {
-			$creds[ $key ] = ( 'user_login' == $key ) ? sanitize_user( wpmem_get( $val ) ) : wpmem_get( $val );
+		if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
+			$user_name = sanitize_user( $_POST['log'] );
+			$user = get_user_by( 'login', $user_name );
+
+			if ( ! $user && strpos( $user_name, '@' ) ) {
+				$user = get_user_by( 'email', $user_name );
+			}
 		}
 
-		$user = wp_signon( $creds, is_ssl() );
+		$user = wp_signon( array(), is_ssl() );
 
 		if ( is_wp_error( $user ) ) {
 			return "loginfailed";
@@ -103,7 +102,7 @@ class WP_Members_User {
 			 * @param int    $user->ID    The user's primary key ID.
 			 */
 			$redirect_to = apply_filters( 'wpmem_login_redirect', $redirect_to, $user->ID );
-			wp_redirect( $redirect_to );
+			wp_safe_redirect( $redirect_to );
 			exit();
 		}
 	}
