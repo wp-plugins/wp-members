@@ -136,14 +136,15 @@ function wpmem_update_user_role( $user_id, $role, $action = 'set' ) {
  * A function for checking user access criteria.
  *
  * @since 3.2.0
+ * @since 3.2.3 Reversed order of arguments.
  *
+ * @param  mixed   $product 
  * @param  integer $user_id User ID (optional|default: false).
  * @return boolean $access  If user has access.
  */
-function wpmem_user_has_access( $user_id = false, $product = false ) {
+function wpmem_user_has_access( $product, $user_id = false ) {
 	global $wpmem; 
-	$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-	return ( ! $wpmem->user->has_access( $product, $user_id ) ) ? true : $access;
+	return $wpmem->user->has_access( $product, $user_id );
 }
 
 /**
