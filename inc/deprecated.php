@@ -767,30 +767,6 @@ function wpmem_profile_update() {
 	}	
 }
 
-/**
- * Sets user profile update to multipart form data.
- *
- * If the fields array has a file or image field, this will echo the 
- * necessary "multipart/form-data" enctype for the form tag.
- *
- * @since 3.1.8
- * @deprecated 3.1.9
- */
-function wpmem_user_profile_multipart() {
-	
-	wpmem_write_log( "wpmem_user_profile_multipart() is deprecated. No alternative function exists." );
-	
-	global $wpmem;
-	$has_file = false;
-	foreach ( wpmem_fields() as $field ) {
-		if ( $field['type'] == 'file' || $field['type'] == 'image' ) {
-			$has_file = true;
-			break;
-		}
-	}
-	echo ( $has_file ) ? " enctype=\"multipart/form-data\"" : '';
-}
-
 if ( ! function_exists( 'wpmem_inc_status' ) ):
 /**
  * Generate users login status if logged in and gives logout link.
@@ -1266,76 +1242,5 @@ function wpmem_check_activated( $user, $username, $password ) {
 	global $wpmem;
 	$user = $wpmem->user->check_activated( $user, $username, $password );
 	return $user;
-}
-endif;
-
-if ( ! function_exists( 'wpmem_enqueue_style' ) ):
-/**
- * Loads the stylesheet for tableless forms.
- *
- * @since 2.6
- * @deprecated 3.2.3 Use WP_Members::enqueue_style() intead.
- *
- * @global object $wpmem The WP_Members object. 
- */
-function wpmem_enqueue_style() {
-	global $wpmem;
-	wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
-}
-endif;
-
-/**
- * Convert form tag.
- *
- * @todo This is temporary to handle form tag conversion.
- *
- * @since 3.1.7
- * @deprecated 3.2.3 Use WP_Members::convert_tag() instead.
- *
- * @param  string $tag
- * @return string $tag
- */
-function wpmem_convert_tag( $tag ) {
-	switch ( $tag ) {
-		case 'new':
-			return 'register';
-			break;
-		case 'edit':
-		case 'update':
-			return 'profile';
-			break;
-		case 'wp':
-		case 'wp_validate':
-		case 'wp_finalize':
-			return 'register_wp';
-			break;
-		case 'dashboard_profile':
-		case 'dashboard_profile_update':
-			return 'profile_dashboard';
-			break;
-		case 'admin_profile':
-		case 'admin_profile_update':
-			return 'profile_admin';
-			break;
-		default:
-			return $tag;
-			break;
-	}
-	return $tag;
-}
-
-if ( ! function_exists( 'wpmem_no_reset' ) ):
-/**
- * Prevents users not activated from resetting their password.
- *
- * @since 2.5.1
- * @since 3.2.0 Now a wrapper for $wpmem->user->no_reset().
- * @deprecated 3.2.3 Use WP_Members_Users::no_reset() instead.
- *
- * @return bool Returns false if the user is not activated, otherwise true.
- */
-function wpmem_no_reset() {
-	global $wpmem;
-	return $wpmem->user->no_reset();
 }
 endif;
