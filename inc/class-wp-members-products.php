@@ -54,19 +54,44 @@ class WP_Members_Products {
 	 * Sets up custom access restriction by product.
 	 *
 	 * @since 3.2.0
+	 * @since 3.2.2 Merged check_product_access() logic for better messaging.
 	 *
+	 * @global object $post
 	 * @global object $wpmem
 	 * @param  string $content
 	 * @return string $content
 	 */
 	function product_access( $content ) {
 		
-		global $wpmem;
+		global $post, $wpmem;
 		// Is the user logged in and is this blocked content?
 		if ( is_user_logged_in() && wpmem_is_blocked() ) {
-			$access = $this->check_product_access();
+
+			// Get the post access products.
+			$post_products = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
+			// If the post is restricted to a product.
+			if ( $post_products ) {
+				if ( wpmem_user_has_access( $post_products ) ) {
+					$access = true;
+				}
+				// The error message for invalid users.
+				$access = false;
+			} else {
+				// Content that has no product restriction.
+				$access = true;
+			}
+			
 			// Handle content.
-			$content = ( $access ) ? $content : $wpmem->get_text( 'product_restricted' );
+			/**
+			 * Filter the product restricted message.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string                The message.
+			 * @param array  $post_products Post products array.
+			 */
+			$content = ( $access ) ? $content : apply_filters( 'wpmem_product_restricted_msg', $wpmem->get_text( 'product_restricted' ), $post_products );
+			
 			// Handle comments.
 			if ( ! $access ) {
 				add_filter( 'wpmem_securify_comments', '__return_false' );
@@ -74,48 +99,6 @@ class WP_Members_Products {
 		}
 		// Return unfiltered content for all other cases.
 		return $content;
-	}
-
-	/**
-	 * Checks access restriction by product.
-	 *
-	 * @since 3.2.0
-	 *
-	 * @global object  $post
-	 * @global object  $wpmem
-	 * @return boolean        true if user has access, otherwise false.
-	 */
-	function check_product_access() {
-		
-		global $post, $wpmem;
-		// Is the user logged in and is this blocked content?
-		if ( is_user_logged_in() && wpmem_is_blocked() ) {
-			// Get the post access products.
-			$post_products = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
-			// If the post is restricted to a product.
-			if ( $post_products ) {
-				// @todo This is the nuts and bolts - work around whether a user has access
-				// to this product or not. 
-				/**
-				 * Filter whether the user has access or not.
-				 *
-				 * @since 3.2.0
-				 *
-				 * @param boolean $user_has_access
-				 */
-				$user_has_access = apply_filters( 'wpmem_user_has_access', $wpmem->user->has_access( $post_products ) );
-				if ( $user_has_access ) {
-					return true;
-				}
-				// The error message for invalid users.
-				return false;
-			} else {
-				// Content that has no product restriction.
-				return true;
-			}
-		}
-		// Return unfiltered content for all other cases.
-		return true;
 	}
 	
 	/**
