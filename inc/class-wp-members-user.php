@@ -485,30 +485,50 @@ class WP_Members_User {
 	 * @global object $wpmem
 	 * @param  mixed  $product
 	 * @param  int    $user_id (optional)
-	 * @return bool  
+	 * @return bool   $access
 	 */
 	function has_access( $product, $user_id = false ) {
 		global $wpmem;
-		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id; //echo '<pre>'; global $wpmem; print_r( $wpmem ); 
+		$access  = false;
 		foreach ( $product as $prod ) {
 			if ( isset( $this->access[ $prod ] ) ) {
 				// Is this an expiration product?
 				if ( isset( $wpmem->membership->product_detail[ $prod ]['expires'][0] ) && ! is_bool( $this->access[ $prod ] ) ) {
 					if ( $this->is_current( $this->access[ $prod ] ) ) {
-						return true;
+						$access = true;
+						break;
 					}
 				} elseif ( '' != $wpmem->membership->product_detail[ $prod ]['role'] ) {
 					if ( $this->access[ $prod ] && wpmem_user_has_role( $wpmem->membership->product_detail[ $prod ]['role'] ) ) {
-						return true;
+						$access = true;
+						break;
 					}
 				} else {
 					if ( $this->access[ $prod ] ) {
-						return true;
+						$access = true;
+						break;
 					}
 				}
 			}
 		}
-		return false;
+		
+		/**
+		 * Filter the access result.
+		 *
+		 * @since 3.2.0
+		 * @since 3.2.3 Added $product argument.
+		 *
+		 * @param  boolean $access
+		 * @param  mixed   $product
+		 * @param  integer $user_id
+		 * @param  array   $args
+		 */
+		return apply_filters( 'wpmem_user_has_access', $access, $product, $user_id );
+
 	}
 	
 	/**
@@ -584,7 +604,9 @@ class WP_Members_User {
 	/**
 	 * Utility for expiration validation.
 	 *
-	 * @3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param date $date
 	 */
 	function is_current( $date ) {
 		return ( time() < strtotime( $date ) ) ? true : false;
