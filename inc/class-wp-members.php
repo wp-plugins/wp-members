@@ -457,8 +457,8 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
-		require_once( WPMEM_PATH . 'inc/core.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
+		require_once( WPMEM_PATH . 'inc/api-email.php' );
 		require_once( WPMEM_PATH . 'inc/api-forms.php' );
 		require_once( WPMEM_PATH . 'inc/api-users.php' );
 		require_once( WPMEM_PATH . 'inc/api-utilities.php' );
@@ -466,6 +466,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
 		require_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
+		require_once( WPMEM_PATH . 'inc/core.php' ); // @todo Should be deprecated, functions are obsolete.
 		//require_once( WPMEM_PATH . 'inc/utilities.php' ); // @deprecated 3.2.3
 		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
 		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); // @deprecated 3.2.0

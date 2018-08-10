@@ -1175,56 +1175,6 @@ function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null,
 }
 endif;
 
-if ( ! function_exists( 'wpmem_notify_admin' ) ):
-/**
- * Builds the email for admin notification of new user registration.
- *
- * @since 2.3
- * @deprecated 3.2.0 Use WP_Members_Email::notify_admin() instead.
- *
- * @global object $wpmem                The WP_Members object.
- * @param  int    $user_id              The User's ID.
- * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
- * @param  array  $field_data           Array of the registration data (defaults to null).
- */
-function wpmem_notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
-	global $wpmem;
-	$wpmem->email->notify_admin( $user_id, $wpmem_fields, $field_data );
-}
-endif;
-
-/**
- * Filters the wp_mail from address (if set).
- *
- * @since 2.7.0
- * @since 3.1.0 Converted to use email var in object.
- * @deprecated 3.2.0 Use WP_Members_Email::from() instead.
- *
- * @global object $wpmem
- * @param  string $email
- * @return string $wpmem_mail_from|$email
- */
-function wpmem_mail_from( $email ) {
-	global $wpmem;
-	return $wpmem->email->from( $email );
-}
-
-/**
- * Filters the wp_mail from name (if set).
- *
- * @since 2.7.0
- * @since 3.1.0 Converted to use email var in object.
- * @deprecated 3.2.0 Use WP_Members_Email::from_name() instead.
- *
- * @global object $wpmem
- * @param  string $name
- * @return string $wpmem_mail_from_name|$name
- */
-function wpmem_mail_from_name( $name ) {
-	global $wpmem;
-	return $wpmem->email->from_name( $name );
-}
-
 if ( ! function_exists( 'wpmem_check_activated' ) ):
 /**
  * Checks if a user is activated.
