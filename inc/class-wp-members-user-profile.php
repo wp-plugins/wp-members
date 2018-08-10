@@ -31,7 +31,8 @@ class WP_Members_User_Profile {
 	
 		global $current_screen, $user_ID, $wpmem;
 		$user_id = ( 'profile' == $current_screen->id ) ? $user_ID : filter_var( $_REQUEST['user_id'], FILTER_SANITIZE_NUMBER_INT ); 
-		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin'; ?>
+		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin'; 
+		$display = ( current_user_can( 'edit_users' ) ) ? 'admin' : $display; ?>
 
 		<h3><?php
 		$heading = ( 'admin' == $display ) ? __( 'WP-Members Additional Fields', 'wp-members' ) : __( 'Additional Information', 'wp-members' );
