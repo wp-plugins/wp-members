@@ -107,11 +107,11 @@ function wpmem_export_users( $args, $users = null ) {
 
 		$user_info = get_userdata( $user );
 
-		$wp_user_fields = [ 'user_email', 'user_nicename', 'user_url', 'display_name' ];
+		$wp_user_fields = [ 'username', 'user_email', 'user_nicename', 'user_url', 'display_name' ];
 		$row = array( 'ID' => $user_info->ID, 'username' => $user_info->user_login );
 		foreach ( $args['export_fields'] as $meta => $field ) {
 			if ( in_array( $meta, $wp_user_fields ) ) {
-				$row[ $meta ] = $user_info->{$meta};
+				$row[ $meta ] = ( 'username' == $meta ) ? $user_info->user_login : $user_info->{$meta};
 			} else {
 				$raw_data = get_user_meta( $user, $meta, true );
 				$row[ $meta ]    = ( $args['entity_decode'] ) ? html_entity_decode( $raw_data ) : $raw_data;
