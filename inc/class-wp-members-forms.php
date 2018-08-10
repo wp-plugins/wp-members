@@ -834,7 +834,7 @@ class WP_Members_Forms {
 				} 
 
 				// Gets the field value for edit profile.
-				if ( ( 'edit' == $tag ) && ( '' == $wpmem->regchk ) ) { 
+				if ( ( 'edit' == $tag ) && ( '' == $wpmem->regchk ) ) {
 					switch ( $meta_key ) {
 						case( 'description' ):
 						case( 'textarea' == $field['type'] ):

@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.2.2.1
+Stable tag: 3.2.3
 License: GPLv2
 
 The WP-Members membership plugin turns your WordPress site into a membership site. Restrict premium content, create custom registration fields, and more.
@@ -104,7 +104,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.2.1 is a bug fix update. See changelog.
+WP-Members 3.2.3 is an update for 3.2.0. See changelog.
 
 == Screenshots ==
 
@@ -127,13 +127,24 @@ WP-Members 3.2.2.1 is a bug fix update. See changelog.
 
 == Changelog ==
 
-= 3.2.2.1 =
+= 3.2.3 =
 
-* Fixed bug in 3.2.1/3.2.2 for user activation when user creates password at registration and is activated from the user profile.
-* Fixed bug in admin js file for inclusion of select2, fixed admin css for select2.
+* Moved wpmem_fields(), wpmem_form_label(), and wpmem_form_field() to api-forms.php.
+* Moved wpmem_user_has_role(), wpmem_user_has_meta(), wpmem_is_user_activated(), wpmem_user_data(), wpmem_update_user_role(), and wpmem_user_has_access() to api-users.php.
+* Moved wpmem_do_excerpt(), wpmem_texturize(), wpmem_get_excluded_meta(), wpmem_use_ssl(), wpmem_write_log(), wpmem_load_dropins(), wpmem_array_insert(), and wpmem_get_sub_str() to api-utilities.php.
+* Moved wpmem_wp_reserved_terms() to admin API.
+* Deprecated wpmem_check_activated() and wpmem_use_ssl().
+* Removed obsolete functions wpmem_enqueue_style(), wpmem_convert_tag(), wpmem_no_reset(), and wpmem_user_profile_multipart(). 
+* Updated user login function to use WP script, facilitates login with username OR email, removes wpmem_login_fields filter, changes to wp_safe_redirect().
+* Established email API.
+* Added product attribute to [wpmem_logged_in] shortcode.
+* Added wpmem_force_ssl() API function.
+* Applied wpmem_force_ssl() to stylesheet in case it needs to load securely (even if the setting is saved as http://).
+* Bug fix in user export that caused usernames to be dropped.
 
 = 3.2.2 =
 
+* Fixed bug in 3.2.1/3.2.2 for user activation when user creates password at registration and is activated from the user profile.
 * Fixed a 3.2 upgrade issue, verifies username field is properly added to field settings array.
 * Fixed issue with user product verification where only expiration products were validated.
 * Fixed logic in form field builder so multiselect will accept a custom class. 
