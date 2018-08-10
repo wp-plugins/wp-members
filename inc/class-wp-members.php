@@ -1428,7 +1428,7 @@ class WP_Members {
 	 */
 	function enqueue_style() {
 		global $wpmem;
-		wp_enqueue_style ( 'wp-members', $wpmem->cssurl, '', WPMEM_VERSION );
+		wp_enqueue_style ( 'wp-members', wpmem_force_ssl( $wpmem->cssurl ), '', WPMEM_VERSION );
 	}
 
 	/**

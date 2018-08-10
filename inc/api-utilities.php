@@ -34,11 +34,24 @@ function wpmem_get_excluded_meta( $tag ) {
  * Returns http:// or https:// depending on ssl.
  *
  * @since 2.9.8
+ * @deprecated 3.2.3 Use wpmem_force_ssl() instead.
  *
  * @return string https://|http:// depending on whether ssl is being used.
  */
 function wpmem_use_ssl() {
 	return ( is_ssl() ) ? 'https://' : 'http://';
+}
+
+/**
+ * Forces a URL to be secure (ssl).
+ *
+ * @since 3.2.3
+ *
+ * @param  string $url URL to be make secure.
+ * @return string      The secure URL.
+ */
+function wpmem_force_ssl( $url ) {
+	return ( is_ssl() ) ? preg_replace( "/^http:/i", "https:", $url ) : $url;
 }
 
 /**
