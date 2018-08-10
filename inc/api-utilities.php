@@ -156,3 +156,39 @@ function wpmem_texturize( $content ) {
 	return $wpmem->texturize( $content );
 }
 endif;
+
+/**
+ * Inserts array items at a specific point in an array.
+ *
+ * @since 3.1.6
+ * @since 3.2.3 Moved to utilities api.
+ *
+ * @param  array  $array Original array.
+ * @param  array  $new   Array of new items to insert into $array.
+ * @param  string $key   Array key to insert new items before or after.
+ * @param  string $loc   Location to insert relative to $key (before|after) default:after.
+ * @return array         Original array with new items inserted.
+ */
+function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
+	$keys = array_keys( $array );
+	if ( 'before' == $loc ) {
+		$pos = (int) array_search( $key, $keys );
+	} else {
+		$index = array_search( $key, $keys );
+		$pos = ( false === $index ) ? count( $array ) : $index + 1;
+	}
+	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+}
+
+/**
+ * Wrapper for load_dropins()
+ *
+ * @since 3.1.4
+ * @since 3.2.3 Moved to utilities api.
+ *
+ * @global object $wpmem The WP_Members object.
+ */
+function wpmem_load_dropins() {
+	global $wpmem;
+	$wpmem->load_dropins();
+}

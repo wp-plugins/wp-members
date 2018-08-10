@@ -21,20 +21,16 @@
  * - wpmem_current_url
  * - wpmem_gettext
  * - wpmem_use_custom_dialog
- * - wpmem_user_has_role
  * - wpmem_create_membership_number
  * - wpmem_login_status
  * - wpmem_get
  * - wpmem_is_reg_page
- * - wpmem_load_dropins
  * - wpmem_loginout
- * - wpmem_array_insert
  * - wpmem_is_user_activated
  * - wpmem_current_post_id
  * - wpmem_user_data
  * - wpmem_update_user_role
  * - wpmem_display_message
- * - wpmem_user_has_access
  */
 
 // Exit if accessed directly.
@@ -307,18 +303,6 @@ function wpmem_is_reg_page( $check = false ) {
 }
 
 /**
- * Wrapper for load_dropins()
- *
- * @since 3.1.4
- *
- * @global object $wpmem The WP_Members object.
- */
-function wpmem_load_dropins() {
-	global $wpmem;
-	$wpmem->load_dropins();
-}
-
-/**
  * Creates a login/logout link.
  *
  * @since 3.1.6
@@ -352,28 +336,6 @@ function wpmem_loginout( $args = array(), $echo = false ) {
 	}
 	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
 	return $link;
-}
-
-/**
- * Inserts array items at a specific point in an array.
- *
- * @since 3.1.6
- *
- * @param  array  $array Original array.
- * @param  array  $new   Array of new items to insert into $array.
- * @param  string $key   Array key to insert new items before or after.
- * @param  string $loc   Location to insert relative to $key (before|after) default:after.
- * @return array         Original array with new items inserted.
- */
-function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
-	$keys = array_keys( $array );
-	if ( 'before' == $loc ) {
-		$pos = (int) array_search( $key, $keys );
-	} else {
-		$index = array_search( $key, $keys );
-		$pos = ( false === $index ) ? count( $array ) : $index + 1;
-	}
-	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
 }
 
 /**
