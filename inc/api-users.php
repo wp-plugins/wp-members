@@ -177,4 +177,16 @@ function wpmem_remove_user_product( $product, $user_id = false ) {
 	return;
 }
 
+/**
+ * Sets a user as logged in.
+ *
+ * @since 3.2.3
+ *
+ * @global object $wpmem
+ * @param  int    $user_id
+ */
+function wpmem_set_as_logged_in( $user_id ) {
+	global $wpmem;
+	$wpmem->user->set_as_logged_in( $user_id );
+}
 // End of file.

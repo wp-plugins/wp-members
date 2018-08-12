@@ -141,6 +141,8 @@ WP-Members 3.2.3 is an update for 3.2.0. See changelog.
 * Added wpmem_force_ssl() API function.
 * Applied wpmem_force_ssl() to stylesheet in case it needs to load securely (even if the setting is saved as http://).
 * Bug fix in user export that caused usernames to be dropped.
+* Updated password change for maintaining login state.
+* Added wpmem_set_as_logged_in() API function.
 
 = 3.2.2 =
 

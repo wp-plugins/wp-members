@@ -456,21 +456,28 @@ class WP_Members_User {
 	}
 	
 	/**
+	 * Sets a user's password.
+	 *
+	 * @since 3.2.3
+	 *
+	 * @param	int		$user_id
+	 * @param	string	$password
+	 */
+	function set_password( $user_id, $password ) {
+		wp_set_password( $password, $user_id );
+	}
+	
+	/**
 	 * Sets user as logged on password change.
 	 *
 	 * (Hooked to wpmem_pwd_change)
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global	object	$user
 	 * @param	int		$user_id
 	 * @param	string	$password
 	 */
-	function set_as_logged_in( $user_id, $password ) {
-		global $user;
-		// Update user password.
-		wp_set_password( $password, $user_id );
-		// Maintain login state.
+	function set_as_logged_in( $user_id ) {
 		$user = get_user_by( 'id', $user_id );
 		wp_set_current_user( $user_id, $user->user_login );
 		wp_set_auth_cookie( $user_id );
