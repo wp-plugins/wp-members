@@ -573,7 +573,7 @@ class WP_Members_User {
 		}
 
 		// Convert date to add.
-		$expires = $wpmem->membership->product_detail[ $product ]['expires'];
+		$expires = ( isset( $wpmem->membership->product_detail[ $product ]['expires'] ) ) ? $wpmem->membership->product_detail[ $product ]['expires'] : false;
 		
 		if ( is_array( $expires ) ) {
 			$add_date = explode( "|", $wpmem->membership->product_detail[ $product ]['expires'][0] );
