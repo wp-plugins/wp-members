@@ -71,7 +71,7 @@ function wpmem_bulk_user_action() {
  */
 function wpmem_insert_activate_link( $actions, $user_object ) {
 	global $wpmem;
-	if ( current_user_can( 'edit_users', $user_object->ID ) && $wpmem->mod_reg == 1 ) {
+	if ( 1 == $wpmem->mod_reg ) {
 
 		$var = get_user_meta( $user_object->ID, 'active', true );
 
