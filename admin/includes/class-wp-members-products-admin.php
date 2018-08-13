@@ -30,6 +30,7 @@ class WP_Members_Products_Admin {
 			add_action( 'save_post',                    array( $this, 'save_details' ) );
 			add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
 			add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
+			add_action( 'admin_footer',                 array( $this, 'enqueue_select2' ) );
 		}
 	}
 
@@ -273,6 +274,24 @@ class WP_Members_Products_Admin {
 			} else {
 				delete_post_meta( $post->ID, $wpmem->membership->post_stem . $key );
 			}
+		}
+	}
+	
+	/**
+	 * Enqueue select2 JS.
+	 *
+	 * @since 3.2.3
+	 */
+	function enqueue_select2() { 
+		$screen = get_current_screen();
+		if ( $screen->parent_base == 'edit' ) { ?>
+			<script language="javascript">
+				(function($) {
+					$(document).ready(function() {
+						$('.wpmem-product-select2').select2();
+					});
+				})(jQuery);
+			</script><?php
 		}
 	}
 	
