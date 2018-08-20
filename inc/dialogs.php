@@ -62,6 +62,8 @@ function wpmem_inc_loginfailed() {
 	 *
 	 * @since 2.9.0
 	 *
+	 * @todo Needs probably to pass user ID or some identifier so we can get user info without going to the post object and then get_user_by().
+	 *
 	 * @param array An array of arguments to merge with defaults.
 	 */
 	$args = apply_filters( 'wpmem_login_failed_args', '' );
@@ -79,6 +81,8 @@ function wpmem_inc_loginfailed() {
 	 * Filter the login failed dialog.
 	 *
 	 * @since 2.7.3
+	 *
+	 * @todo Needs probably to pass user ID or some identifier so we can get user info without going to the post object and then get_user_by().
 	 *
 	 * @param string $str The login failed dialog.
 	 */

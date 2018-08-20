@@ -461,8 +461,7 @@ class WP_Members_Admin_API {
 		$this->current_form = $current_form;
 		$this->current_form_fields = $fields;
 		*/
-		$current_form = wpmem_get( 'form', $form, 'get' ); //( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
-		$this->current_form = $current_form;
+		$this->current_form = sanitize_text_field( wpmem_get( 'form', $form, 'get' ) ); //( isset( $_GET['form'] ) ) ? $_GET['form'] : $form;
 		global $wpmem;
 		// Add numeric array form fields as associative
 		//foreach( $wpmem->fields as $field ) {

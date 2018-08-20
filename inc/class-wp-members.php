@@ -408,21 +408,21 @@ class WP_Members {
 	 * @since 3.0.0
 	 */
 	function load_constants() {
-		( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $this->block['post']  ) : '';
-		( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $this->block['page']  ) : '';
-		( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $this->show_excerpt['post'] ) : '';
-		( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $this->notify    ) : '';
-		( ! defined( 'WPMEM_MOD_REG'      ) ) ? define( 'WPMEM_MOD_REG',      $this->mod_reg   ) : '';
-		( ! defined( 'WPMEM_CAPTCHA'      ) ) ? define( 'WPMEM_CAPTCHA',      $this->captcha   ) : '';
-		( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       ( -1 * $this->show_reg['post'] ) ) : '';
+		( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $this->block['post']  ) : '';             // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $this->block['page']  ) : '';             // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $this->show_excerpt['post'] ) : '';       // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $this->notify    ) : '';                  // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_MOD_REG'      ) ) ? define( 'WPMEM_MOD_REG',      $this->mod_reg   ) : '';                  // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_CAPTCHA'      ) ) ? define( 'WPMEM_CAPTCHA',      $this->captcha   ) : '';                  // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       ( -1 * $this->show_reg['post'] ) ) : '';  // @todo Can deprecate? Probably 3.3
 		( ! defined( 'WPMEM_USE_EXP'      ) ) ? define( 'WPMEM_USE_EXP',      $this->use_exp   ) : '';
 		( ! defined( 'WPMEM_USE_TRL'      ) ) ? define( 'WPMEM_USE_TRL',      $this->use_trial ) : '';
-		( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $this->warnings  ) : '';
+		( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $this->warnings  ) : '';                  // @todo Can deprecate? Probably 3.3
 
-		( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  $this->user_pages['profile']  ) : '';
-		( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', $this->user_pages['register'] ) : '';
-		( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $this->user_pages['login']    ) : '';
-		
+		( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  $this->user_pages['profile']  ) : '';                 // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', $this->user_pages['register'] ) : '';                 // @todo Can deprecate? Probably 3.3
+		( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $this->user_pages['login']    ) : '';                 // @todo Can deprecate? Probably 3.3
+
 		( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';
 		
 		define( 'WPMEM_CSSURL', $this->cssurl );
@@ -467,7 +467,7 @@ class WP_Members {
 		require_once( WPMEM_PATH . 'inc/dialogs.php' );
 		require_once( WPMEM_PATH . 'inc/wp-registration.php' );
 		require_once( WPMEM_PATH . 'inc/deprecated.php' );
-		require_once( WPMEM_PATH . 'inc/core.php' ); // @todo Should be deprecated, functions are obsolete.
+		require_once( WPMEM_PATH . 'inc/core.php' ); // @todo Should be deprecated, functions are obsolete. Schedule for 3.3
 		//require_once( WPMEM_PATH . 'inc/utilities.php' ); // @deprecated 3.2.3
 		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
 		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); // @deprecated 3.2.0
@@ -563,8 +563,8 @@ class WP_Members {
 			
 			case 'pwdchange':
 				$regchk = $this->user->password_update( 'change' );
- 				break;
-			
+				break;
+
 			case 'pwdreset':
 				$regchk = $this->user->password_update( 'reset' );
 				break;
@@ -1171,6 +1171,16 @@ class WP_Members {
 			'password'         => __( 'Password', 'wp-members' ),
 			'confirm_password' => __( 'Confirm Password', 'wp-members' ),
 			'tos'              => __( 'TOS', 'wp-members' ),
+		);
+		
+		/*
+		 * Strings to be added in a future version, included so they will
+		 * be in the translation template ahead of time.
+		 * @todo Remove this once these strings have been officially included.
+		 */
+		$benign_strings = array(
+			__( 'No fields selected for deletion', 'wp-members' ),
+			__( 'Username or Email', 'wp-members' ),
 		);
 	
 		$defaults = array(

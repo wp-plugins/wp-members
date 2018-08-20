@@ -1062,7 +1062,8 @@ class WP_Members_Forms {
 		 */
 		$rows = apply_filters( 'wpmem_register_form_rows', $rows, $tag );
 		
-		// Make sure all keys are set.
+		// Make sure all keys are set just in case someone didn't return a proper array through the filter.
+		// @todo Merge this with the next foreach loop so we only have to foreach one time.
 		$row_keys = array( 'meta', 'type', 'value', 'values', 'label_text', 'row_before', 'label', 'field_before', 'field', 'field_after', 'row_after' );
 		foreach ( $rows as $meta_key => $row ) {
 			foreach ( $row_keys as $check_key ) {
