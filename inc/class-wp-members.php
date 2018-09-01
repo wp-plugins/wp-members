@@ -340,6 +340,8 @@ class WP_Members {
 		add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 );    // adds custom query vars
 		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
 		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
+		add_filter( 'get_previous_post_where',   array( $this, 'filter_get_adjacent_post_where' ) );
+		add_filter( 'get_next_post_where',       array( $this, 'filter_get_adjacent_post_where' ) );
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
@@ -1009,6 +1011,22 @@ class WP_Members {
 		return $items;
 	}
 
+	/**
+	 * Filter to remove hidden posts from prev/next links.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @global object $wpmem
+	 * @param  string $where
+	 * @return string $where
+	 */
+	function filter_get_adjacent_post_where( $where ) {
+		global $wpmem;
+		$hidden = implode( ",", $wpmem->get_hidden_posts() );	
+		$where  = $where . " AND p.ID NOT IN ( $hidden )";
+		return $where;
+	}
+	
 	/**
 	 * Sets the registration fields.
 	 *
