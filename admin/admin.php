@@ -51,7 +51,7 @@ function wpmem_admin() {
 
 	<div class="wrap">
 		<?php 
-		$tab = ( isset( $_GET['tab'] ) ) ? sanitize_text_field( $_GET['tab'] ) : 'options';
+		$tab = sanitize_text_field( wpmem_get( 'tab', 'options', 'get' ) );
 
 		// Render the tab being displayed.
 		$wpmem->admin->do_tabs( $tab );
