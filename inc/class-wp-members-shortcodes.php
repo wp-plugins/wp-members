@@ -198,6 +198,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.0.0
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_in().
 	 * @since 3.2.0 Added attributes for meta key/value pairs.
+	 * @since 3.2.3 Added product attribute.
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 *
@@ -272,6 +273,13 @@ class WP_Members_Shortcodes {
 				if ( isset( $atts['meta_key'] ) ) {
 					$value = ( isset( $atts['meta_value'] ) ) ? $atts['meta_value'] : false;
 					if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
+						$do_return = true;
+					}
+				}
+				
+				// If there is a product attribute.
+				if ( isset( $atts['product'] ) ) {
+					if ( wpmem_user_has_access( 'product' ) ) {
 						$do_return = true;
 					}
 				}
