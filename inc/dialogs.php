@@ -21,7 +21,6 @@
  * - wpmem_page_user_edit
  * - wpmem_page_forgot_username
  * - wpmem_inc_forgotusername
- * - wpmem_inc_status
  */
 
 // Exit if accessed directly.

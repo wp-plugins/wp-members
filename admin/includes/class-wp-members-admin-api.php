@@ -510,7 +510,7 @@ class WP_Members_Admin_API {
 	 * @param str $hook The admin screen hook being loaded.
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
-		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'user-edit.php' == $hook ) {
+		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
 			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook ) {

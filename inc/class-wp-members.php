@@ -892,7 +892,7 @@ class WP_Members {
 		global $wpdb;
 		$hidden = get_transient( '_wpmem_hidden_posts' );
 		if ( false === $hidden ) {
-			$this->update_hidden_posts();
+			$hidden = $this->update_hidden_posts();
 		}
 		return $hidden;
 	}
@@ -903,6 +903,7 @@ class WP_Members {
 	 * @since 3.2.0
 	 *
 	 * @global object $wpdb
+	 * @return array  $hidden
 	 */
 	function update_hidden_posts() {
 		global $wpdb;
@@ -912,6 +913,7 @@ class WP_Members {
 			$hidden[] = $result->post_id;
 		}
 		set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
+		return $hidden;
 	}
 	
 	/**
@@ -1026,7 +1028,7 @@ class WP_Members {
 		$where  = $where . " AND p.ID NOT IN ( $hidden )";
 		return $where;
 	}
-	
+
 	/**
 	 * Sets the registration fields.
 	 *

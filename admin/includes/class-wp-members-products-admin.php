@@ -284,7 +284,7 @@ class WP_Members_Products_Admin {
 	 */
 	function enqueue_select2() { 
 		$screen = get_current_screen();
-		if ( $screen->parent_base == 'edit' ) { ?>
+		if ( $screen->base == 'post' && $screen->parent_base == 'edit' ) { ?>
 			<script language="javascript">
 				(function($) {
 					$(document).ready(function() {

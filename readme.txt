@@ -129,20 +129,23 @@ WP-Members 3.2.3 is an update for 3.2.0. See changelog.
 
 = 3.2.3 =
 
+* Bug fix in user export that caused usernames to be dropped.
+* Bug fix to allow admins to edit their own profile.
+* Bug fix for jquery with regards to select2, only load if products are enabled.
+* Added email API.
+* Added product attribute to [wpmem_logged_in] shortcode.
+* Added wpmem_force_ssl() API function.
+* Added wpmem_set_as_logged_in() API function.
+* Added filters to remove posts marked hidden from previous/next links.
+* Updated user login function to use WP script, facilitates login with username OR email, removes wpmem_login_fields filter, changes to wp_safe_redirect().
+* Updated password change for maintaining login state.
 * Moved wpmem_fields(), wpmem_form_label(), and wpmem_form_field() to api-forms.php.
 * Moved wpmem_user_has_role(), wpmem_user_has_meta(), wpmem_is_user_activated(), wpmem_user_data(), wpmem_update_user_role(), and wpmem_user_has_access() to api-users.php.
 * Moved wpmem_do_excerpt(), wpmem_texturize(), wpmem_get_excluded_meta(), wpmem_use_ssl(), wpmem_write_log(), wpmem_load_dropins(), wpmem_array_insert(), and wpmem_get_sub_str() to api-utilities.php.
 * Moved wpmem_wp_reserved_terms() to admin API.
 * Deprecated wpmem_check_activated() and wpmem_use_ssl().
 * Removed obsolete functions wpmem_enqueue_style(), wpmem_convert_tag(), wpmem_no_reset(), and wpmem_user_profile_multipart(). 
-* Updated user login function to use WP script, facilitates login with username OR email, removes wpmem_login_fields filter, changes to wp_safe_redirect().
-* Established email API.
-* Added product attribute to [wpmem_logged_in] shortcode.
-* Added wpmem_force_ssl() API function.
 * Applied wpmem_force_ssl() to stylesheet in case it needs to load securely (even if the setting is saved as http://).
-* Bug fix in user export that caused usernames to be dropped.
-* Updated password change for maintaining login state.
-* Added wpmem_set_as_logged_in() API function.
 
 = 3.2.2 =
 
