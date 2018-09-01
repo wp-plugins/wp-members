@@ -507,18 +507,20 @@ class WP_Members_Admin_API {
 	 * @since 3.2.0 Moved into admin object, renamed dashboard_enqueue_scripts().
 	 * @since 3.2.1 Load js for post.php hook.
 	 *
-	 * @param str $hook The admin screen hook being loaded.
+	 * @global object $wpmem
+	 * @param  string $hook The admin screen hook being loaded.
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
+		global $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
 			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook ) {
 			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
 		}
-		if ( 'post.php' == $hook ) {
-			wp_register_style( 'select2css', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.css', false, '1.0', 'all' );
-			wp_register_script( 'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.js', array( 'jquery' ), '1.0', true );
+		if ( 'post.php' == $hook && 1 == $wpmem->enable_products ) {
+			wp_register_style( 'select2css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css', false, '4.0.5', 'all' );
+			wp_register_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 			wp_enqueue_style( 'select2css' );
 			wp_enqueue_script( 'select2' );
 		}
