@@ -73,9 +73,10 @@ class WP_Members_Products {
 			if ( $post_products ) {
 				if ( wpmem_user_has_access( $post_products ) ) {
 					$access = true;
+				} else {
+					// The error message for invalid users.
+					$access = false;
 				}
-				// The error message for invalid users.
-				$access = false;
 			} else {
 				// Content that has no product restriction.
 				$access = true;
