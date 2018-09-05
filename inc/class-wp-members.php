@@ -1024,8 +1024,11 @@ class WP_Members {
 	 */
 	function filter_get_adjacent_post_where( $where ) {
 		global $wpmem;
-		$hidden = implode( ",", $wpmem->get_hidden_posts() );	
-		$where  = $where . " AND p.ID NOT IN ( $hidden )";
+		$hidden_posts = $this->get_hidden_posts();
+		if ( ! empty( $hidden_posts ) ) {
+			$hidden = implode( ",", $hidden_posts );	
+			$where  = $where . " AND p.ID NOT IN ( $hidden )";
+		}
 		return $where;
 	}
 
