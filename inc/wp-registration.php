@@ -222,7 +222,7 @@ function wpmem_do_wp_newuser_form() {
 	echo '<table class="form-table"><tbody>';
 
 	$wpmem_fields = wpmem_fields( 'add_new' );
-	$exclude = wpmem_get_excluded_meta( 'register' );
+	$exclude = wpmem_get_excluded_meta( 'wp-register' );
 
 	foreach ( $wpmem_fields as $meta_key => $field ) {
 
