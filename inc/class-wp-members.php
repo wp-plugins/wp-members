@@ -700,14 +700,15 @@ class WP_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global string $wpmem_themsg Contains messages to be output.
 	 * @global object $post         The WordPress Post object.
+	 * @global object $wpmem        The WP_Members object.
+	 * @global string $wpmem_themsg Contains messages to be output.
 	 * @param  string $content
 	 * @return string $content
 	 */
 	function do_securify( $content = null ) {
 
-		global $wpmem_themsg, $post;
+		global $post, $wpmem, $wpmem_themsg;
 
 		$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
@@ -715,7 +716,7 @@ class WP_Members {
 
 			if ( $this->regchk == "captcha" ) {
 				global $wpmem_captcha_err;
-				$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
+				$wpmem_themsg = $wpmem->get_text( 'reg_captcha_err' )  . '<br /><br />' . $wpmem_captcha_err;
 			}
 
 			// Block/unblock Posts.
@@ -1270,6 +1271,7 @@ class WP_Members {
 			'reg_empty_captcha'    => __( 'You must complete the CAPTCHA form.', 'wp-members' ),
 			'reg_invalid_captcha'  => __( 'CAPTCHA was not valid.', 'wp-members' ),
 			'reg_generic'          => __( 'There was an error processing the form.', 'wp-members' ),
+			'reg_captcha_err'      => __( 'There was an error with the CAPTCHA form.', 'wp-members' ),
 			
 			// Links.
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
