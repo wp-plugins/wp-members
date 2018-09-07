@@ -130,6 +130,7 @@ WP-Members 3.2.3.1 is a minor update for 3.2.3. See changelog.
 = 3.2.3.1 =
 
 * Login with username or email address was added in 3.2.3. HOWEVER, this was intended to be a "soft launch" and the login form label "Username" was not intended to be changed. This update changes the label back to "Username" until translations can catch up and other testing has been completed. The functionality remains for login with username or email, so feel free to filter the label.
+* Implemented change in the native WP registration form processing to allow values of "0" to be interpreted as string literals. Previously could be interpreted as boolean when being saved.
 
 = 3.2.3 =
 
