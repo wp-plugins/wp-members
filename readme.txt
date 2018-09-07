@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.2.3
+Stable tag: 3.2.3.1
 License: GPLv2
 
 The WP-Members membership plugin turns your WordPress site into a membership site. Restrict premium content, create custom registration fields, and more.
@@ -104,7 +104,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.3 is an update for 3.2.0. See changelog.
+WP-Members 3.2.3.1 is a minor update for 3.2.3. See changelog.
 
 == Screenshots ==
 
@@ -126,6 +126,10 @@ WP-Members 3.2.3 is an update for 3.2.0. See changelog.
 
 
 == Changelog ==
+
+= 3.2.3.1 =
+
+* Login with username or email address was added in 3.2.3. HOWEVER, this was intended to be a "soft launch" and the login form label "Username" was not intended to be changed. This update changes the label back to "Username" until translations can catch up and other testing has been completed. The functionality remains for login with username or email, so feel free to filter the label.
 
 = 3.2.3 =
 
