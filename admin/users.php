@@ -198,6 +198,7 @@ function wpmem_users_page_load() {
 		foreach ( $users as $user ) {
 			$sanitized_users[] = filter_var( $user, FILTER_VALIDATE_INT );
 		}
+		include_once( WPMEM_PATH . 'admin/user-export.php' );
 		wpmem_export_users( array( 'export'=>'selected' ), $sanitized_users );
 		return;
 		break;
