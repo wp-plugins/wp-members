@@ -189,4 +189,99 @@ function wpmem_set_as_logged_in( $user_id ) {
 	global $wpmem;
 	$wpmem->user->set_as_logged_in( $user_id );
 }
+
+if ( ! function_exists( 'wpmem_login' ) ):
+/**
+ * Logs in the user.
+ *
+ * Logs in the the user using wp_signon (since 2.5.2). If login is
+ * successful, it will set a cookie using wp_set_auth_cookie (since 2.7.7),
+ * then it redirects and exits; otherwise "loginfailed" is returned.
+ *
+ * @since 0.1.0
+ * @since 2.5.2 Now uses wp_signon().
+ * @since 2.7.7 Sets cookie using wp_set_auth_cookie().
+ * @since 3.0.0 Removed wp_set_auth_cookie(), this already happens in wp_signon().
+ * @since 3.1.7 Now a wrapper for login() in WP_Members_Users Class.
+ * @since 3.2.4 Moved to user API (could be deprecated).
+ *
+ * @global object $wpmem
+ * @return string Returns "loginfailed" if the login fails.
+ */
+function wpmem_login() {
+	global $wpmem;
+	return $wpmem->user->login();
+} // End of login function.
+endif;
+
+if ( ! function_exists( 'wpmem_logout' ) ):
+/**
+ * Logs the user out then redirects.
+ *
+ * @since 2.0.0
+ * @since 3.1.6 Added wp_destroy_current_session(), removed nocache_headers().
+ * @since 3.1.7 Now a wrapper for logout() in WP_Members_Users Class.
+ * @since 3.2.4 Moved to user API (could be deprecated).
+ *
+ * @global object $wpmem
+ * @param  string $redirect_to The URL to redirect to at logout.
+ */
+function wpmem_logout( $redirect_to = false ) {
+	global $wpmem;
+	$wpmem->user->logout( $redirect_to );
+}
+endif;
+
+if ( ! function_exists( 'wpmem_change_password' ) ):
+/**
+ * Handles user password change (not reset).
+ *
+ * @since 2.1.0
+ * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
+ * @since 3.2.4 Moved to user API (could be deprecated).
+ *
+ * @global int $user_ID The WordPress user ID.
+ *
+ * @return string The value for $wpmem->regchk
+ */
+function wpmem_change_password() {
+	global $wpmem;
+	return $wpmem->user->password_update( 'change' );
+}
+endif;
+
+if ( ! function_exists( 'wpmem_reset_password' ) ):
+/**
+ * Resets a forgotten password.
+ *
+ * @since 2.1.0
+ * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
+ * @since 3.2.4 Moved to user API (could be deprecated).
+ *
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @return string The value for $wpmem->regchk
+ */
+function wpmem_reset_password() {
+	global $wpmem;
+	return $wpmem->user->password_update( 'reset' );
+}
+endif;
+
+/**
+ * Handles retrieving a forgotten username.
+ *
+ * @since 3.0.8
+ * @since 3.1.6 Dependencies now loaded by object.
+ * @since 3.1.8 Now a wrapper for $wpmem->retrieve_username() in WP_Members_Users Class.
+ * @since 3.2.4 Moved to user API (could be deprecated).
+ *
+ * @global object $wpmem The WP-Members object class.
+ *
+ * @return string $regchk The regchk value.
+ */
+function wpmem_retrieve_username() {
+	global $wpmem;
+	return $wpmem->user->retrieve_username();
+}
 // End of file.
