@@ -63,8 +63,8 @@ function wpmem_a_build_options() {
 	// Build an array of post types
 	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 	$post_arr = array(
-		'post' => 'Posts',
-		'page' => 'Pages',
+		'post' => __( 'Posts' ),
+		'page' => __( 'Pages' ),
 	);
 	if ( $post_types ) {
 		foreach ( $post_types  as $post_type ) { 
@@ -205,7 +205,7 @@ function wpmem_a_build_options() {
 								<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
 								<?php $captcha = array( __( 'None', 'wp-members' ) . '|0' );
 								if ( 1 == $wpmem->captcha ) {
-									$wpmem->captcha = 3; // @todo reCAPTCHA v1 is fully obsolete. Change it to v2.
+									$wpmem->captcha = 3; // reCAPTCHA v1 is fully obsolete. Change it to v2.
 								}
 								$captcha[] = __( 'reCAPTCHA', 'wp-members' ) . '|3';
 								$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
