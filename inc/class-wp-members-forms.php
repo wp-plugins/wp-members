@@ -205,11 +205,13 @@ class WP_Members_Forms {
 	 * Create form label.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.4 Added $id
 	 *
 	 * @param array  $args {
 	 *     @type string $meta_key
-	 *     @type string $label_text
+	 *     @type string $label
 	 *     @type string $type
+	 *     @type string $id       (optional)
 	 *     @type string $class    (optional)
 	 *     @type string $required (optional)
 	 *     @type string $req_mark (optional)
@@ -223,6 +225,7 @@ class WP_Members_Forms {
 		$label      = $args['label'];
 		$type       = $args['type'];
 		$class      = ( isset( $args['class']    ) ) ? $args['class']    : false;
+		$id         = ( isset( $args['id']       ) ) ? $args['id']       : false;
 		$required   = ( isset( $args['required'] ) ) ? $args['required'] : false;
 		$req_mark   = ( isset( $args['req_mark'] ) ) ? $args['req_mark'] : false;
 		
@@ -231,8 +234,10 @@ class WP_Members_Forms {
 		if ( ! $class ) {
 			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
 		}
+		
+		$id = ( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
 
-		$label = '<label for="' . esc_attr( $meta_key ) . '" class="' . $this->sanitize_class( $class ) . '">' . __( $label, 'wp-members' );
+		$label = '<label for="' . esc_attr( $meta_key ) . '"' . $id . ' class="' . $this->sanitize_class( $class ) . '">' . __( $label, 'wp-members' );
 		$label = ( $required ) ? $label . $req_mark : $label;
 		$label = $label . '</label>';
 		

@@ -122,6 +122,7 @@ function wpmem_form_field( $name, $type=null, $value=null, $valtochk=null, $clas
  *     @type string $meta_key
  *     @type string $label
  *     @type string $type
+ *     @type string $id         (optional)
  *     @type string $class      (optional)
  *     @type string $required   (optional)
  *     @type string $req_mark   (optional)
