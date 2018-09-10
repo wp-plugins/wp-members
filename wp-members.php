@@ -153,7 +153,7 @@ function wpmem_install() {
 	/**
 	 * Load the install file.
 	 */
-	require_once( WPMEM_PATH . 'wp-members-install.php' );
+	require_once( WPMEM_PATH . 'inc/install.php' );
 
 	// Multisite requires different install process.
 	if ( is_multisite() ) {
@@ -211,7 +211,7 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
 	/**
 	 * Load the install file.
 	 */
-	require_once( WPMEM_PATH . 'wp-members-install.php' );
+	require_once( WPMEM_PATH . 'inc/install.php' );
 
 	// Switch to the new blog.
 	switch_to_blog( $blog_id );
