@@ -215,3 +215,29 @@ function wpmem_load_dropins() {
 	global $wpmem;
 	$wpmem->load_dropins();
 }
+
+/**
+ * Display a localized date based on the WP date format setting.
+ *
+ * @since 3.2.4
+ *
+ * @param mixed $date
+ * @return date $date
+ */
+function wpmem_format_date( $date ) {
+	$args = array(
+		'date_format' => get_option( 'date_format' ),
+		'localize'    => true,
+		'date'        => $date,
+	);
+	/**
+	 * Filter the date display and format settings.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @param arrag $args
+	 */
+	$args = apply_filters( 'wpmem_format_date_args', $args );
+	$date = ( true === $args['localize'] ) ? date_i18n( $args['date_format'], strtotime( $args['date'] ) ) : date( $args['date_format'], strtotime( $args['date'] ) );
+	return $date;
+}
