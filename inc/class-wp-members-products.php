@@ -49,6 +49,19 @@ class WP_Members_Products {
 			}
 		}
 	}
+	
+	/**
+	 * Gets products assigned to a post.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @param  integer $post_id
+	 * @return array   $products
+	 */
+	function get_post_products( $post_id ) {
+		$products = get_post_meta( $post_id, $this->post_meta, true );
+		return $products;
+	}
 
 	/**
 	 * Sets up custom access restriction by product.
@@ -68,7 +81,7 @@ class WP_Members_Products {
 		if ( is_user_logged_in() && wpmem_is_blocked() ) {
 
 			// Get the post access products.
-			$post_products = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
+			$post_products = $this->get_post_products( $post->ID );
 			// If the post is restricted to a product.
 			if ( $post_products ) {
 				if ( wpmem_user_has_access( $post_products ) ) {

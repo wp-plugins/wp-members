@@ -31,6 +31,16 @@ class WP_Members_Products_Admin {
 			add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
 			add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
 			add_action( 'admin_footer',                 array( $this, 'enqueue_select2' ) );
+			add_filter( 'manage_users_columns',         array( $this, 'user_columns' ) );
+			add_filter( 'manage_users_custom_column',   array( $this, 'user_columns_content' ), 10, 3 );
+			add_filter( 'manage_posts_columns',         array( $this, 'post_columns' ) );
+			add_action( 'manage_posts_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
+			add_filter( 'manage_pages_columns',         array( $this, 'post_columns' ) );
+			add_action( 'manage_pages_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
+			foreach( $wpmem->post_types as $key => $val ) {
+				add_filter( 'manage_' . $key . '_posts_columns',       array( $this, 'post_columns' ) );
+				add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
+			}
 		}
 	}
 
@@ -230,7 +240,7 @@ class WP_Members_Products_Admin {
 	 */
 	function add_product_to_post( $post, $block ) {
 		global $wpmem;
-		$product  = get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
+		$product  = $wpmem->membership->get_post_products( $post->ID ); //get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
 		$product  = ( $product ) ? $product : array();
 		$values[] = __( 'None', 'wp-members' ) . '|';
 		foreach ( $wpmem->membership->products as $key => $value ) {
@@ -295,4 +305,82 @@ class WP_Members_Products_Admin {
 		}
 	}
 	
+	/**
+	 * Add membership product column to post table.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @global object $wpmem
+	 * @param  array  $columns
+	 * @return array  $columns
+	 */
+	function post_columns( $columns ){
+		global $wpmem;
+		$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'post';
+		if ( $post_type == 'page' || $post_type == 'post' || array_key_exists( $post_type, $wpmem->post_types ) ) {
+			$product = array( 'wpmem_product' => __( 'Membership Product', 'wp-members' ) );
+			$columns = wpmem_array_insert( $columns, $product, 'wpmem_block', 'before' );
+		}
+		return $columns;	
+	}
+	
+	/**
+	 * Membership product column data.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @global object $wpmem
+	 * @param  string $column_name
+	 * @param  int    $post_id
+	 */
+	function post_columns_content( $column_name, $post_id ) {
+		if ( 'wpmem_product' == $column_name ) {
+			global $wpmem;
+			$post_products = $wpmem->membership->get_post_products( $post_id );
+			if ( $post_products ) {
+				foreach ( $post_products as $post_product ) {
+					$display[] = $wpmem->membership->products[ $post_product ];
+				}
+				echo implode( ", ", $display );
+			}
+		}
+	}
+	
+	/**
+	 * Add membership product column to post table.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @param  array $columns
+	 * @return array $columns
+	 */
+	function user_columns( $columns ){
+		$columns['wpmem_product'] = __( 'Membership Product', 'wp-members' );
+		return $columns;	
+	}
+	
+	/**
+	 * Membership product column data.
+	 *
+	 * @since 3.2.4
+	 *
+	 * @global object $wpmem
+	 * @param  string $column_name
+	 * @param  int    $post_id
+	 * @return array  $display
+	 */
+	function user_columns_content( $val, $column_name, $user_id ) {
+		if ( 'wpmem_product' == $column_name ) {
+			global $wpmem;
+			$display = array();
+			$user_products = $wpmem->user->get_user_products( $user_id );
+			if ( $user_products ) {
+				foreach ( $user_products as $meta => $value ) {
+					$display[] = $wpmem->membership->products[ $meta ];
+				}
+			}
+			return implode( ", ", $display );
+		}
+		return $val;
+	}
 }
