@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.2.3.1
+Stable tag: 3.2.4
 License: GPLv2
 
 The WP-Members membership plugin turns your WordPress site into a membership site. Restrict premium content, create custom registration fields, and more.
@@ -104,7 +104,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.3.1 is a minor update for 3.2.3. See changelog.
+WP-Members 3.2.4 is a feature update from 3.2. See changelog.
 
 == Screenshots ==
 
@@ -127,10 +127,15 @@ WP-Members 3.2.3.1 is a minor update for 3.2.3. See changelog.
 
 == Changelog ==
 
-= 3.2.3.1 =
 
-* Login with username or email address was added in 3.2.3. HOWEVER, this was intended to be a "soft launch" and the login form label "Username" was not intended to be changed. This update changes the label back to "Username" until translations can catch up and other testing has been completed. The functionality remains for login with username or email, so feel free to filter the label.
-* Implemented change in the native WP registration form processing to allow values of "0" to be interpreted as string literals. Previously could be interpreted as boolean when being saved.
+= 3.2.4 =
+
+* Added id attribute for form labels.
+* Added wpmem_format_date() API function.
+* Added label tags to multipe checkbox and radio group items.
+* Added assigned product(s) column to users and posts screens.
+* Relocated install file to /inc/ directory.
+* Moved methods out of core.php, deprecated file.
 
 = 3.2.3 =
 
@@ -151,6 +156,7 @@ WP-Members 3.2.3.1 is a minor update for 3.2.3. See changelog.
 * Deprecated wpmem_check_activated() and wpmem_use_ssl().
 * Removed obsolete functions wpmem_enqueue_style(), wpmem_convert_tag(), wpmem_no_reset(), and wpmem_user_profile_multipart(). 
 * Applied wpmem_force_ssl() to stylesheet in case it needs to load securely (even if the setting is saved as http://).
+* Implemented change in the native WP registration form processing to allow values of "0" to be interpreted as string literals. Previously could be interpreted as boolean when being saved.
 
 = 3.2.2 =
 
