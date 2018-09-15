@@ -34,6 +34,7 @@ class WP_Members_Forms {
 	 * @since 3.1.6 Added $placeholder.
 	 * @since 3.1.7 Added number type & $min, $max, $title and $pattern attributes.
 	 * @since 3.2.0 Added $id argument.
+	 * @since 3.2.4 Added radio group and multiple checkbox individual item labels.
 	 *
 	 * @param array  $args {
 	 *     @type string  $id
@@ -162,18 +163,21 @@ class WP_Members_Forms {
 		case "multicheckbox":
 			$class = ( 'textbox' == $class ) ? "checkbox" : $class;
 			$str = '';
+			$num = 1;
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
 				$chk = ( isset( $pieces[2] ) && '' == $compare ) ? $pieces[1] : '';
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
+					$id_value = esc_attr( $id . '[' . $pieces[1] . ']' );
+					$label = wpmem_form_label( array( 'meta_key'=>$id_value, 'label'=>esc_html( __( $pieces[0], 'wp-members' ) ), 'type'=>'radio', 'id'=>$id_value ) );
 					$str = $str . $this->create_form_field( array(
-						'id'      => $id . '[' . $pieces[1] . ']',
+						'id'      => $id_value,
 						'name'    => $name . '[]',
 						'type'    => 'checkbox',
 						'value'   => $pieces[1],
 						'compare' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
-					) ) . "&nbsp;" . esc_html( $pieces[0] ) . "<br />\n";
+					) ) . "&nbsp;" . $label . "<br />\n";
 				} else {
 					$str = $str . '<span class="div_multicheckbox_separator">' . esc_html( $pieces[0] ) . "</span><br />\n";
 				}
@@ -186,13 +190,14 @@ class WP_Members_Forms {
 			$num = 1;
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
-				$id = $this->sanitize_class( $id . '_' . $num );
+				$id_num = $id . '_' . $num;
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
-					$str = $str . "<input type=\"radio\" name=\"$name\" id=\"$id\" value=\"" . esc_attr( $pieces[1] ) . '"' . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> " . esc_html( __( $pieces[0], 'wp-members' ) ) . "<br />\n";
+					$label = wpmem_form_label( array( 'meta_key'=>esc_attr( $id_num ), 'label'=>esc_html( __( $pieces[0], 'wp-members' ) ), 'type'=>'radio', 'id'=>esc_attr( "label_" . $id_num ) ) );
+					$str = $str . "<input type=\"radio\" name=\"$name\" id=\"" . esc_attr( $id_num ) . "\" value=\"" . esc_attr( $pieces[1] ) . '"' . checked( $pieces[1], $compare, false ) . ( ( $required ) ? " required " : " " ) . "> $label<br />\n";
+					$num++;
 				} else {
 					$str = $str . '<span class="div_radio_separator">' . esc_html( __( $pieces[0], 'wp-members' ) ) . "</span><br />\n";
 				}
-				$num++;
 			}
 			break;		
 	
