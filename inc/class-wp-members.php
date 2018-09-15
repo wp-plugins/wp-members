@@ -1389,7 +1389,10 @@ class WP_Members {
 		global $wpmem;
 		$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
 		?><script type="text/javascript">
-			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo $logout; ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
+			var $j = jQuery.noConflict();
+			$j(document).ready(function(){
+				$j('.wpmem_loginout').html('<a class="login_button" href="<?php echo $logout; ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
+			});
 		</script><?php
 	}
 		
