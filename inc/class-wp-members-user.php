@@ -503,13 +503,13 @@ class WP_Members_User {
 		foreach ( $product as $prod ) {
 			if ( isset( $this->access[ $prod ] ) ) {
 				// Is this an expiration product?
-				if ( isset( $wpmem->membership->product_detail[ $prod ]['expires'][0] ) && ! is_bool( $this->access[ $prod ] ) ) {
+				if ( isset( $wpmem->membership->products[ $prod ]['expires'][0] ) && ! is_bool( $this->access[ $prod ] ) ) {
 					if ( $this->is_current( $this->access[ $prod ] ) ) {
 						$access = true;
 						break;
 					}
-				} elseif ( '' != $wpmem->membership->product_detail[ $prod ]['role'] ) {
-					if ( $this->access[ $prod ] && wpmem_user_has_role( $wpmem->membership->product_detail[ $prod ]['role'] ) ) {
+				} elseif ( '' != $wpmem->membership->products[ $prod ]['role'] ) {
+					if ( $this->access[ $prod ] && wpmem_user_has_role( $wpmem->membership->products[ $prod ]['role'] ) ) {
 						$access = true;
 						break;
 					}
@@ -573,10 +573,10 @@ class WP_Members_User {
 		}
 
 		// Convert date to add.
-		$expires = ( isset( $wpmem->membership->product_detail[ $product ]['expires'] ) ) ? $wpmem->membership->product_detail[ $product ]['expires'] : false;
+		$expires = ( isset( $wpmem->membership->products[ $product ]['expires'] ) ) ? $wpmem->membership->products[ $product ]['expires'] : false;
 		
 		if ( is_array( $expires ) ) {
-			$add_date = explode( "|", $wpmem->membership->product_detail[ $product ]['expires'][0] );
+			$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
 			$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
 			$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
 		} else {

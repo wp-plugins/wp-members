@@ -18,11 +18,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WP_Members_Products {
 
-	public $post_meta = '_wpmem_products';
-	public $post_stem = '_wpmem_products_';
-	public $products = array();
-	public $product_detail = array();
+	/**
+	 * Product post type.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 * @var    string
+	 */
+	public $post_type = 'wpmem_product';
 	
+	/**
+	 * Product meta key.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    string
+	 */
+	public $post_meta = '_wpmem_products';
+
+	/**
+	 * Product meta key stem.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    string
+	 */
+	public $post_stem = '_wpmem_products_';
+
+	/**
+	 * Product details.
+	 *
+	 * @since  3.2.0
+	 * @access public
+	 * @var    array
+	 */
+	public $products = array();
+
+	/**
+	 * Product meta keyed by ID.
+	 *
+	 * @since  3.2.4
+	 * @access public
+	 * @var    array
+	 */
+	public $product_by_id = array();
+	
+	/**
+	 * Class constructor.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpmem
+	 */
 	function __construct() {
 		
 		$this->load_products();
@@ -30,21 +77,25 @@ class WP_Members_Products {
 		add_filter( 'wpmem_securify', array( $this, 'product_access' ) );
 	}
 	
+	/**
+	 * Loads product settings.
+	 *
+	 * @since 3.2.0
+	 */
 	function load_products() {
 		global $wpdb;
 		$sql    = "SELECT ID, post_title, post_name FROM " . $wpdb->prefix . "posts WHERE post_type = 'wpmem_product' AND post_status = 'publish';";
 		$result = $wpdb->get_results( $sql );
 		foreach ( $result as $plan ) {
-			$this->products[ $plan->post_name ] = $plan->post_title;
-			
-			$this->product_detail[ $plan->post_name ]['title'] = $plan->post_title;
+			$this->product_by_id[ $plan->ID ] = $plan->post_name;
+			$this->products[ $plan->post_name ]['title'] = $plan->post_title;			
 			$post_meta = get_post_meta( $plan->ID );
 			foreach ( $post_meta as $key => $meta ) {
 				if ( false !== strpos( $key, 'wpmem_product' ) ) {
 					if ( $key == 'wpmem_product_expires' ) {
 						$meta[0] = unserialize( $meta[0] );
 					}
-					$this->product_detail[ $plan->post_name ][ str_replace( 'wpmem_product_', '', $key ) ] = $meta[0];
+					$this->products[ $plan->post_name ][ str_replace( 'wpmem_product_', '', $key ) ] = $meta[0];
 				}
 			}
 		}
@@ -168,7 +219,7 @@ class WP_Members_Products {
 			'show_in_rest'          => false,
 			//'register_meta_box_cb'  => '', // callback for meta box
 		);
-		register_post_type( 'wpmem_product', $args );
+		register_post_type( $this->post_type, $args );
 	}
 	
 }

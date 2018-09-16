@@ -244,7 +244,7 @@ class WP_Members_Products_Admin {
 		$product  = ( $product ) ? $product : array();
 		$values[] = __( 'None', 'wp-members' ) . '|';
 		foreach ( $wpmem->membership->products as $key => $value ) {
-			$values[] = $value . '|' . $key;
+			$values[] = $value['title'] . '|' . $key;
 		}
 		echo wpmem_form_label( array( 
 			'meta_key'=>$wpmem->membership->post_meta,
@@ -278,7 +278,7 @@ class WP_Members_Products_Admin {
 		} else {
 			update_post_meta( $post->ID, $wpmem->membership->post_meta, $products );
 		}
-		foreach ( $wpmem->membership->products as $key => $name ) {
+		foreach ( $wpmem->membership->products as $key => $value ) {
 			if ( in_array( $key, $products ) ) {
 				update_post_meta( $post->ID, $wpmem->membership->post_stem . $key, 1 );
 			} else {
@@ -339,7 +339,7 @@ class WP_Members_Products_Admin {
 			$post_products = $wpmem->membership->get_post_products( $post_id );
 			if ( $post_products ) {
 				foreach ( $post_products as $post_product ) {
-					$display[] = $wpmem->membership->products[ $post_product ];
+					$display[] = $wpmem->membership->products[ $post_product ]['title'];
 				}
 				echo implode( ", ", $display );
 			}
@@ -376,7 +376,7 @@ class WP_Members_Products_Admin {
 			$user_products = $wpmem->user->get_user_products( $user_id );
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
-					$display[] = $wpmem->membership->products[ $meta ];
+					$display[] = $wpmem->membership->products[ $meta ]['title'];
 				}
 			}
 			return implode( ", ", $display );
