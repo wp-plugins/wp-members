@@ -318,7 +318,7 @@ class WP_Members_Products_Admin {
 		global $wpmem;
 		$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'post';
 		if ( $post_type == 'page' || $post_type == 'post' || array_key_exists( $post_type, $wpmem->post_types ) ) {
-			$product = array( 'wpmem_product' => __( 'Membership Product', 'wp-members' ) );
+			$product = array( 'wpmem_product' => __( 'Required Membership', 'wp-members' ) );
 			$columns = wpmem_array_insert( $columns, $product, 'wpmem_block', 'before' );
 		}
 		return $columns;	
@@ -338,8 +338,10 @@ class WP_Members_Products_Admin {
 			global $wpmem;
 			$post_products = $wpmem->membership->get_post_products( $post_id );
 			if ( $post_products ) {
-				foreach ( $post_products as $post_product ) {
-					$display[] = $wpmem->membership->products[ $post_product ]['title'];
+				foreach ( $post_products as $meta ) {
+					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
+						$display[] = $wpmem->membership->products[ $meta ]['title'];
+					}
 				}
 				echo implode( ", ", $display );
 			}
@@ -355,7 +357,7 @@ class WP_Members_Products_Admin {
 	 * @return array $columns
 	 */
 	function user_columns( $columns ){
-		$columns['wpmem_product'] = __( 'Membership Product', 'wp-members' );
+		$columns['wpmem_product'] = __( 'Membership', 'wp-members' );
 		return $columns;	
 	}
 	
@@ -376,7 +378,9 @@ class WP_Members_Products_Admin {
 			$user_products = $wpmem->user->get_user_products( $user_id );
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
-					$display[] = $wpmem->membership->products[ $meta ]['title'];
+					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
+						$display[] = $wpmem->membership->products[ $meta ]['title'];
+					}
 				}
 			}
 			return implode( ", ", $display );

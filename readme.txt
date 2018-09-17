@@ -136,6 +136,8 @@ WP-Members 3.2.4 is a feature update from 3.2. See changelog.
 * Added assigned product(s) column to users and posts screens.
 * Relocated install file to /inc/ directory.
 * Moved methods out of core.php, deprecated file.
+* Updates to membership product object structure.
+
 
 = 3.2.3 =
 
