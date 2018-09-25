@@ -63,7 +63,7 @@ function wpmem_a_build_about_tab() { ?>
 				<p>If you want to make the most out of WP-Members, subscribing to Priority Support is a great way to do that. You'll not only get priority email support, but also a member-only forum  
 			and access to the member's only site with a code library of tutorials and customizations. You can also subscribe to the WP-Members Pro Bundle to get everything Priority Support has to offer
 			PLUS all of the premium extensions as well.<br /><br />
-			<a href="https://rkt.bz/join"><strong>Check out the Premium Support options here</strong></a>.</p>
+			<a href="https://rkt.bz/join"><strong>Check out the Premium Support options here</strong></a>.<br /><strong>NEW!! <a href="https://rkt.bz/121">One-on-one Consulting Now Available</a>!</strong></p>
 			<h2>Premium Extensions</h2>
 				<table>
 					<tr>

@@ -153,7 +153,7 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * @since 3.2.3
  *
  * @global object $wpmem
- * @param  string $product
+ * @param  string $product The meta key of the product.
  * @param  int    $user_id
  * @return bool   $result
  */
