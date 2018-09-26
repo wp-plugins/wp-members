@@ -1194,3 +1194,40 @@ function wpmem_check_activated( $user, $username, $password ) {
 	return $user;
 }
 endif;
+
+/**
+ * Activates a user.
+ *
+ * If registration is moderated, sets the activated flag 
+ * in the usermeta. Flag prevents login when $wpmem->mod_reg
+ * is true (1). Function is fired from bulk user edit or
+ * user profile update.
+ *
+ * @since 2.4
+ * @since 3.1.6 Dependencies now loaded by object.
+ * @deprecated 3.2.4 Use wpmem_activate_user().
+ *
+ * @param int   $user_id
+ * @param bool  $chk_pass
+ * @uses  $wpdb WordPress Database object.
+ */
+function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
+	wpmem_write_log( "wpmem_a_activate_user() is deprecated as of WP-Members 3.2.4. Use wpmem_activate_user instead" );
+	wpmem_activate_user( $user_id, $chk_pass );
+}
+
+/**
+ * Deactivates a user.
+ *
+ * Reverses the active flag from the activation process
+ * preventing login when registration is moderated.
+ *
+ * @since 2.7.1
+ * @depreacted 3.2.4 Use wpmem_deactivate_user().
+ *
+ * @param int $user_id
+ */
+function wpmem_a_deactivate_user( $user_id ) {
+	wpmem_write_log( "wpmem_a_deactivate_user() is deprecated as of WP-Members 3.2.4. Use wpmem_deactivate_user instead" );
+	wpmem_deactivate_user( $user_id );
+}
