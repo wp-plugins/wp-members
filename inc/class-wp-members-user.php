@@ -68,6 +68,8 @@ class WP_Members_User {
 	 */
 	function login() {
 		
+		global $wpmem;
+		
 		if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
 			$user_name = sanitize_user( $_POST['log'] );
 			$user = get_user_by( 'login', $user_name );
@@ -80,6 +82,7 @@ class WP_Members_User {
 		$user = wp_signon( array(), is_ssl() );
 
 		if ( is_wp_error( $user ) ) {
+			$wpmem->error = $user->get_error_message();
 			return "loginfailed";
 		} else {
 			$redirect_to = wpmem_get( 'redirect_to', false );

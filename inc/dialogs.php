@@ -51,7 +51,7 @@ function wpmem_inc_loginfailed() {
 		'heading'        => $wpmem->get_text( 'login_failed_heading' ),
 		'heading_after'  => '</h2>',
 		'p_before'       => '<p>',
-		'message'        => $wpmem->get_text( 'login_failed' ),
+		'message'        => $wpmem->get_text( 'login_failed' ), // @todo $wpmem->error
 		'p_after'        => '</p>',
 		'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . $wpmem->get_text( 'login_failed_link' ) . '</a>',
 	);
