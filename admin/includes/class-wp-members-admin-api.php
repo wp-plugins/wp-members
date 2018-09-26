@@ -125,7 +125,7 @@ class WP_Members_Admin_API {
 		add_action( 'show_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
 		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
 		add_action( 'profile_update',             array( 'WP_Members_User_Profile', 'update' ) );
-		if ( current_user_can( 'edit_users' ) ) {
+		if ( current_user_can( 'list_users' ) ) {
 			add_action( 'admin_footer-users.php',     'wpmem_bulk_user_action' );
 			add_action( 'load-users.php',             'wpmem_users_page_load' );
 			add_action( 'admin_notices',              'wpmem_users_admin_notices' );
