@@ -16,12 +16,13 @@
 /**
  * Returns the wp_mail from address (if set).
  *
- * @since 3.2.3
+ * @since 2.7
+ * @since 3.1 Converted to use email var in object.
  *
  * @global object $wpmem
  * @return string $wpmem_mail_from|$email
  */
-function wpmem_email_from() {
+function wpmem_mail_from() {
 	global $wpmem;
 	return $wpmem->email->from;
 }
@@ -29,12 +30,13 @@ function wpmem_email_from() {
 /**
  * Returns the wp_mail from name (if set).
  *
- * @since 3.2.3
+ * @since 2.7
+ * @since 3.1 Converted to use email var in object.
  *
  * @global object $wpmem
  * @return string $wpmem_mail_from_name|$name
  */
-function wpmem_email_from_name() {
+function wpmem_mail_from_name() {
 	global $wpmem;
 	return $wpmem->email->from_name;
 }
