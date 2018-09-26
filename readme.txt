@@ -104,7 +104,7 @@ Premium priority support is available at the plugin's site [RocketGeek.com](http
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.4 is a feature update from 3.2. See changelog.
+WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 
 == Screenshots ==
 
@@ -127,17 +127,21 @@ WP-Members 3.2.4 is a feature update from 3.2. See changelog.
 
 == Changelog ==
 
-
 = 3.2.4 =
 
+* Added deactivate users both bulk and single in Users > All Users.
 * Added id attribute for form labels.
 * Added wpmem_format_date() API function.
 * Added label tags to multipe checkbox and radio group items.
 * Added assigned product(s) column to users and posts screens.
+* Updated membership product object structure.
+* Updated users bulk action jquery to use noconflict().
+* Updated load priority to run later for jquery loginout script.
+* Removed query_vars filter.
+* Depreacted wpmem_a_activate_user(), use wpmem_activate_user() instead.
+* Deprecated wpmem_a_deactivate_user(), use wpmem_deactivate_user() instead.
 * Relocated install file to /inc/ directory.
 * Moved methods out of core.php, deprecated file.
-* Updates to membership product object structure.
-
 
 = 3.2.3 =
 

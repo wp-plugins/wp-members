@@ -21,8 +21,8 @@
  * - wpmem_users_views
  * - wpmem_add_user_column
  * - wpmem_add_user_column_content
- * - wpmem_a_activate_user
- * - wpmem_a_deactivate_user
+ * - wpmem_activate_user
+ * - wpmem_deactivate_user
  * - wpmem_a_pre_user_query
  * - wpmem_set_new_user_non_active
  * - wpmem_set_activated_user
@@ -76,14 +76,18 @@ function wpmem_insert_activate_link( $actions, $user_object ) {
 		$var = get_user_meta( $user_object->ID, 'active', true );
 
 		if ( $var != 1 ) {
-			$url = add_query_arg( array( 'action' => 'activate-single', 'user' => $user_object->ID ), "users.php" );
-			$url = wp_nonce_url( $url, 'activate-user' );
-			$actions['activate'] = '<a href="' . $url . '">' . __( 'Activate', 'wp-members' ) . '</a>';
+			$action = 'activate';
+			$term   = __( 'Activate', 'wp-members' );
+		} elseif ( 1 == $var ) {
+			$action = 'deactivate';
+			$term   = __( 'Deactivate', 'wp-members' );
 		}
+		$url = add_query_arg( array( 'action' => $action . '-single', 'user' => $user_object->ID ), "users.php" );
+		$url = wp_nonce_url( $url, 'activate-user' );
+		$actions[ $action ] = '<a href="' . $url . '">' . $term . '</a>';
 	}
 	return $actions;
 }
-
 
 /**
  * Function to handle bulk actions at page load.
@@ -128,6 +132,7 @@ function wpmem_users_page_load() {
 	switch ( $action ) {
 
 	case 'activate':
+	case 'deactivate':
 
 		// Validate nonce.
 		check_admin_referer( 'bulk-users' );
@@ -142,12 +147,15 @@ function wpmem_users_page_load() {
 			foreach ( $users as $user ) {
 				$user = filter_var( $user, FILTER_VALIDATE_INT );
 				// Check to see if the user is already activated, if not, activate.
-				if ( ! get_user_meta( $user, 'active', true ) ) {
-					wpmem_a_activate_user( $user, $chk_pass );
-					$x++;
+				if ( 'activate' == $action && 1 != get_user_meta( $user, 'active', true ) ) {
+					wpmem_activate_user( $user, $chk_pass );
+				} elseif( 'deactivate' == $action ) {
+					wpmem_deactivate_user( $user );
 				}
+				
+				$x++;
 			}
-			$msg = urlencode( sprintf( __( '%s users activated', 'wp-members' ), $x ) );
+			$msg = ( 'activate' == $action ) ? urlencode( sprintf( __( '%s users activated', 'wp-members' ), $x ) ) : urlencode( sprintf( __( '%s users deactivated', 'wp-members' ), $x ) );
 		
 		} else {
 			$msg = urlencode( __( 'No users selected', 'wp-members' ) );
@@ -158,6 +166,7 @@ function wpmem_users_page_load() {
 		break;
 
 	case 'activate-single':
+	case 'deactivate-single':
 
 		// Validate nonce.
 		check_admin_referer( 'activate-user' );
@@ -166,21 +175,19 @@ function wpmem_users_page_load() {
 		$users = $_REQUEST['user'];
 
 		// Check to see if the user is already activated, if not, activate.
-		if ( ! get_user_meta( $users, 'active', true ) ) {
-
-			wpmem_a_activate_user( $users, $chk_pass );
-
-			// Get the user data.
+		if ( 'activate-single' == $action && 1 != get_user_meta( $users, 'active', true ) ) {
+			wpmem_activate_user( $users, $chk_pass );
 			$user_info = get_userdata( $users );
-
-			// Set the return message.
 			$msg = urlencode( sprintf( __( "%s activated", 'wp-members' ), $user_info->user_login ) );
-
+		
+		} elseif ( 'deactivate-single' == $action ) {
+			wpmem_deactivate_user( $users );
+			$user_info = get_userdata( $users );
+			$msg = urlencode( sprintf( __( "%s deactivated", 'wp-members' ), $user_info->user_login ) );
+			
 		} else {
-
 			// Set the return message.
 			$msg = urlencode( __( "That user is already active", 'wp-members' ) );
-
 		}
 		$sendback = add_query_arg( array( 'activated' => $msg ), $sendback );
 		break;
@@ -215,7 +222,6 @@ function wpmem_users_page_load() {
 
 }
 
-
 /**
  * Function to echo admin update message.
  *
@@ -233,7 +239,6 @@ function wpmem_users_admin_notices() {
 		echo "<div class=\"updated\"><p>{$user_action_msg}</p></div>";
 	}
 }
-
 
 /**
  * Function to add user views to the top list.
@@ -334,7 +339,6 @@ function wpmem_users_views( $views ) {
 	return $views;
 }
 
-
 /**
  * Function to add custom user columns to the user table.
  *
@@ -365,7 +369,6 @@ function wpmem_add_user_column( $columns ) {
 
 	return $columns;
 } 
-
 
 /**
  * Function to add the user content to the custom column.
@@ -419,7 +422,6 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 	return $value;
 }
 
-
 /**
  * Activates a user.
  *
@@ -430,12 +432,13 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
  *
  * @since 2.4
  * @since 3.1.6 Dependencies now loaded by object.
+ * @since 3.2.4 Renamed from wpmem_a_activate_user().
  *
  * @param int   $user_id
  * @param bool  $chk_pass
  * @uses  $wpdb WordPress Database object.
  */
-function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
+function wpmem_activate_user( $user_id, $chk_pass = false ) {
 
 	global $wpmem;
 
@@ -478,7 +481,6 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 	return;
 }
 
-
 /**
  * Deactivates a user.
  *
@@ -486,10 +488,11 @@ function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
  * preventing login when registration is moderated.
  *
  * @since 2.7.1
+ * @since 3.2.4 Renamed from wpmem_a_deactivate_user().
  *
  * @param int $user_id
  */
-function wpmem_a_deactivate_user( $user_id ) {
+function wpmem_deactivate_user( $user_id ) {
 	update_user_meta( $user_id, 'active', 0 );
 
 	/**
@@ -501,7 +504,6 @@ function wpmem_a_deactivate_user( $user_id ) {
 	 */
 	do_action( 'wpmem_user_deactivated', $user_id );
 }
-
 
 /**
  * Adjusts user query based on custom views.
@@ -553,7 +555,6 @@ function wpmem_a_pre_user_query( $user_search ) {
 	$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query, $user_search->query_where );
 }
 
-
 /**
  * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user.
  * http://codex.wordpress.org/Function_Reference/wp_update_user
@@ -566,7 +567,6 @@ function wpmem_set_new_user_non_active( $fields ) {
 	return;
 }
 
-
 /**
  * Use wpmem_user_activated to set the user_status field to 0 using wp_update_user.
  *
@@ -578,7 +578,6 @@ function wpmem_set_activated_user( $user_id ) {
 	return;
 }
 
-
 /**
  * Use wpmem_user_deactivated to set the user_status field to 2 using wp_update_user.
  *
@@ -589,7 +588,6 @@ function wpmem_set_deactivated_user( $user_id ) {
 	wpmem_set_user_status( $user_id, 2 );
 	return;
 }
-
 
 /**
  * Updates the user_status value in the wp_users table.
