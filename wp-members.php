@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  https://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="https://rocketgeek.com/plugins/wp-members/users-guide/">the online Users Guide</a>. A <a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.2.4
+Version:     3.2.5.dev
 Author:      Chad Butler
 Author URI:  http://butlerblog.com/
 Text Domain: wp-members
@@ -66,14 +66,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Initialize constants.
-define( 'WPMEM_VERSION',    '3.2.4' );
+define( 'WPMEM_VERSION',    '3.2.5.dev' );
 define( 'WPMEM_DB_VERSION', '2.1.4' );
-define( 'WPMEM_DEBUG', false );
 define( 'WPMEM_DIR',  plugin_dir_url ( __FILE__ ) );
 define( 'WPMEM_PATH', plugin_dir_path( __FILE__ ) );
-
-// Localization.
-add_action( 'init', 'wpmem_load_textdomain' ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
 
 // Initialize the plugin.
 add_action( 'after_setup_theme', 'wpmem_init', 10 );
@@ -221,69 +217,6 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
 
 	// Switch back to the current blog.
 	restore_current_blog();
-}
-
-
-/**
- * Loads translation files.
- *
- * @since 3.0.0
- */
-function wpmem_load_textdomain() {
-	
-	// @see: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
-	
-	// Plugin textdomain.
-	$domain = 'wp-members';
-	
-	// Wordpress locale.
-	/** This filter is documented in wp-includes/l10n.php */
-	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-	/**
-	 * Filter translation file.
-	 *
-	 * If the translate.wordpress.org language pack is available, it will
-	 * be /wp-content/languages/plugins/wp-members-{locale}.mo by default.
-	 * You can filter this if you want to load a language pack from a
-	 * different location (or different file name).
-	 *
-	 * @since 3.0.0
-	 * @since 3.2.0 Added locale as a parameter.
-	 *
-	 * @param string $file   The translation file to load.
-	 * @param string $locale The current locale.
-	 */
-	$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo', $locale );
-
-	$loaded = load_textdomain( $domain, $file );
-	if ( $loaded ) {
-		return $loaded;
-	} else {
-		
-		/*
-		 * If there is no wordpress.org language pack or the filtered
-		 * language file does not load, $loaded will be false and will
-		 * end up here to attempt to load one of the legacy language
-		 * packs. Note that the legacy language files are no longer
-		 * actively maintained and may not contain all strings.
-		 * The directory that the file will load from can be changed
-		 * using the wpmem_localization_dir filter.
-		 */
-		
-		/**
-		 * Filter translation directory.
-		 *
-		 * @since 3.0.3
-		 * @since 3.2.0 Added locale as a parameter.
-		 *
-		 * @param string $dir    The translation directory.
-		 * @param string $locale The current locale.
-		 */
-		$dir = apply_filters( 'wpmem_localization_dir', dirname( plugin_basename( __FILE__ ) ) . '/lang/', $locale );
-		load_plugin_textdomain( $domain, FALSE, $dir );
-	}
-	return;
 }
 
 // End of file.

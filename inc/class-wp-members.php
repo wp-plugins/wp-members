@@ -323,6 +323,7 @@ class WP_Members {
 		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
+		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_password' ), 9, 2 );
 		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10 );
@@ -1624,6 +1625,69 @@ class WP_Members {
 				break;
 		}
 		return $tag;
+	}
+
+	/**
+	 * Loads translation files.
+	 *
+	 * @since 3.0.0
+	 * @since 3.2.5 Moved to main object, dropped wpmem_ stem.
+	 */
+	function load_textdomain() {
+
+		// @see: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
+
+		// Plugin textdomain.
+		$domain = 'wp-members';
+
+		// Wordpress locale.
+		/** This filter is documented in wp-includes/l10n.php */
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+		/**
+		 * Filter translation file.
+		 *
+		 * If the translate.wordpress.org language pack is available, it will
+		 * be /wp-content/languages/plugins/wp-members-{locale}.mo by default.
+		 * You can filter this if you want to load a language pack from a
+		 * different location (or different file name).
+		 *
+		 * @since 3.0.0
+		 * @since 3.2.0 Added locale as a parameter.
+		 *
+		 * @param string $file   The translation file to load.
+		 * @param string $locale The current locale.
+		 */
+		$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo', $locale );
+
+		$loaded = load_textdomain( $domain, $file );
+		if ( $loaded ) {
+			return $loaded;
+		} else {
+
+			/*
+			 * If there is no wordpress.org language pack or the filtered
+			 * language file does not load, $loaded will be false and will
+			 * end up here to attempt to load one of the legacy language
+			 * packs. Note that the legacy language files are no longer
+			 * actively maintained and may not contain all strings.
+			 * The directory that the file will load from can be changed
+			 * using the wpmem_localization_dir filter.
+			 */
+
+			/**
+			 * Filter translation directory.
+			 *
+			 * @since 3.0.3
+			 * @since 3.2.0 Added locale as a parameter.
+			 *
+			 * @param string $dir    The translation directory.
+			 * @param string $locale The current locale.
+			 */
+			$dir = apply_filters( 'wpmem_localization_dir', dirname( plugin_basename( __FILE__ ) ) . '/lang/', $locale );
+			load_plugin_textdomain( $domain, FALSE, $dir );
+		}
+		return;
 	}
 
 } // End of WP_Members class.
