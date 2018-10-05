@@ -55,7 +55,7 @@ function wpmem_do_install() {
 		wpmem_install_fields();
 		wpmem_install_dialogs();
 		wpmem_append_email();
-		update_option( 'wpmembers_style', plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css', '', 'yes' );
+		update_option( 'wpmembers_style', WPMEM_DIR . 'css/generic-no-float.css', '', 'yes' );
 
 	} else {
 		
@@ -505,7 +505,7 @@ function wpmem_install_settings() {
 			'login'    => '',
 		),
 		'cssurl'    => '',
-		'style'     => plugin_dir_url ( __FILE__ ) . 'css/generic-no-float.css',
+		'style'     => WPMEM_DIR . 'css/generic-no-float.css',
 		'attrib'    => 0,
 		'post_types' => array(),
 		'form_tags'  => array( 'default' => 'Registration Default' ),
