@@ -241,3 +241,35 @@ function wpmem_format_date( $date ) {
 	$date = ( true === $args['localize'] ) ? date_i18n( $args['date_format'], strtotime( $args['date'] ) ) : date( $args['date_format'], strtotime( $args['date'] ) );
 	return $date;
 }
+
+/**
+ * Call a shortcode function by tag name.
+ *
+ * Use this function for directly calling a shortcode without using do_shortcode.
+ * do_shortcode() runs an extensive regex that goes through every shortcode in
+ * the WP global $shortcode_tags. That's a lot of processing wasted if all you
+ * want to do is run a specific shortcode/function. Yes, you could run the callback
+ * directly, but what if that callback is in a class instance method? This utlitiy
+ * allows you to run a shortcode function directly, regardless of whether it is
+ * a direct function or in a class. It comes from an article by J.D. Grimes on this
+ * subject and I've provided a link to that article.
+ *
+ * @author J.D. Grimes
+ * @link https://codesymphony.co/dont-do_shortcode/
+ *
+ * @param string $tag     The shortcode whose function to call.
+ * @param array  $atts    The attributes to pass to the shortcode function. Optional.
+ * @param array  $content The shortcode's content. Default is null (none).
+ *
+ * @return string|bool False on failure, the result of the shortcode on success.
+ */
+function wpmem_do_shortcode( $tag, array $atts = array(), $content = null ) {
+ 
+	global $shortcode_tags;
+
+	if ( ! isset( $shortcode_tags[ $tag ] ) ) {
+		return false;
+	}
+
+	return call_user_func( $shortcode_tags[ $tag ], $atts, $content, $tag );
+}
