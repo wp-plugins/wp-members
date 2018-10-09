@@ -39,6 +39,9 @@ class WP_Members_User_Profile {
 		/**
 		 * Filter the heading for additional profile fields.
 		 *
+		 * Filter is applied for the admin user edit ("wpmem_admin_profile_heading")
+		 * and the user profile edit ("wpmem_user_profile_heading").
+		 *
 		 * @since 2.8.2 Admin Profile
 		 * @since 2.9.1 Dashboard Profile
 		 * @since 3.1.9 Merged admin/dashboard profile
@@ -60,6 +63,9 @@ class WP_Members_User_Profile {
 
 			/**
 			 * Fires at the beginning of generating the WP-Members fields in the user profile.
+			 *
+			 * Action fires for the admin user edit ("wpmem_admin_before_profile")
+		 	 * and the user profile edit ("wpmem_user_before_profile").
 			 *
 			 * @since 2.9.3 Created for admin profile.
 			 * @since 3.1.9 Added to dashboard profile.
@@ -148,7 +154,10 @@ class WP_Members_User_Profile {
 			}
 
 			/**
-			 * Filter for rows
+			 * Filter for rows.
+			 *
+			 * Filter is applied for the admin user edit ("wpmem_register_form_rows_admin")
+		 	 * and the user profile edit ("wpmem_register_form_rows_user").
 			 *
 			 * @since 3.1.0
 			 * @since 3.1.6 Deprecated $order.
@@ -182,6 +191,9 @@ class WP_Members_User_Profile {
 
 				/**
 				 * Filter the profile field.
+				 *
+				 * Filter is applied for the admin user edit ("wpmem_admin_profile_field")
+				 * and the user profile edit ("wpmem_user_profile_field").
 				 * 
 				 * @since 2.8.2
 				 * @since 3.1.1 Added $user_id and $row
@@ -195,6 +207,9 @@ class WP_Members_User_Profile {
 
 			/**
 			 * Fires after generating the WP-Members fields in the user profile.
+			 *
+			 * Action fires for the admin user edit ("wpmem_admin_after_profile")
+			 * and the user profile edit ("wpmem_user_after_profile").
 			 *
 			 * @since 2.9.3
 			 *
@@ -253,6 +268,9 @@ class WP_Members_User_Profile {
 		/**
 		 * Fires before the user profile is updated.
 		 *
+		 * Action fires for the admin user edit ("wpmem_admin_pre_user_update")
+		 * and the user profile edit ("wpmem_user_pre_user_update").
+		 *
 		 * @since 2.9.2 Added for admin profile update.
 		 * @since 3.1.9 Added for user profile update.
 		 *
@@ -295,6 +313,9 @@ class WP_Members_User_Profile {
 
 		/**
 		 * Filter the submitted field values for backend profile update.
+		 *
+		 * Filters is applied for the admin user edit ("wpmem_admin_profile_update")
+		 * and the user profile edit ("wpmem_user_profile_update").
 		 *
 		 * @since 2.8.2 Added for Admin profile update.
 		 * @since 3.1.9 Added for User profile update.
@@ -357,6 +378,9 @@ class WP_Members_User_Profile {
 
 		/**
 		 * Fires after the user profile is updated.
+		 *
+		 * Action fires for the admin user edit ("wpmem_admin_after_user_update")
+		 * and the user profile edit ("wpmem_user_after_user_update").
 		 *
 		 * @since 2.9.2
 		 *
