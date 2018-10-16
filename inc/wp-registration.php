@@ -310,10 +310,6 @@ function wpmem_do_wp_newuser_form() {
  * @since 3.1.8 Added $process argument.
  */
 function wpmem_wp_register_form( $process = 'wp' ) {
-	/**
-	 * Load native WP registration functions.
-	 */
-	require_once( WPMEM_PATH . 'inc/wp-registration.php' );
 	wpmem_do_wp_register_form( $process );
 }
 
