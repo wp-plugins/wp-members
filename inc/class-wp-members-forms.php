@@ -60,7 +60,7 @@ class WP_Members_Forms {
 		$id          = ( isset( $args['id'] ) ) ? esc_attr( $args['id'] ) : esc_attr( $args['name'] );
 		$name        = esc_attr( $args['name'] );
 		$type        = esc_attr( $args['type'] );
-		$value       = maybe_unserialize( $args['value'] );
+		$value       = ( isset( $args['value']       ) ) ? maybe_unserialize( $args['value'] ) : '';
 		$compare     = ( isset( $args['compare']     ) ) ? $args['compare']     : '';
 		$class       = ( isset( $args['class']       ) ) ? $args['class']       : 'textbox';
 		$required    = ( isset( $args['required']    ) ) ? $args['required']    : false;
@@ -703,9 +703,10 @@ class WP_Members_Forms {
 		
 		// Handle legacy use.
 		if ( is_array( $mixed ) ) {
-			$tag         = $mixed['tag'];
-			$heading     = $mixed['heading'];
-			$redirect_to = $mixed['redirect_to'];
+			$id          = ( isset( $mixed['id']          ) ) ? $mixed['id']          : '';
+			$tag         = ( isset( $mixed['tag']         ) ) ? $mixed['tag']         : 'new';
+			$heading     = ( isset( $mixed['heading']     ) ) ? $mixed['heading']     : '';
+			$redirect_to = ( isset( $mixed['redirect_to'] ) ) ? $mixed['redirect_to'] : '';
 		} else {
 			$tag = $mixed;
 		}
@@ -763,11 +764,13 @@ class WP_Members_Forms {
 		 * includes default tags, labels, text, and small items including various booleans.
 		 *
 		 * @since 2.9.0
+		 * @since 3.2.5 Added $id
 		 *
 		 * @param array        An array of arguments to merge with defaults. Default null.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
+		 * @param string $id   An id for the form (optional).
 		 */
-		$args = apply_filters( 'wpmem_register_form_args', '', $tag );
+		$args = apply_filters( 'wpmem_register_form_args', '', $tag, $id );
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
