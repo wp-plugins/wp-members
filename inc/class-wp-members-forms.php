@@ -690,6 +690,7 @@ class WP_Members_Forms {
 	 *
 	 * @since 2.5.1
 	 * @since 3.1.7 Moved to forms object class as register_form().
+	 * @since 3.2.5 use_nonce now obsolete (nonce is added automatically).
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
@@ -749,7 +750,6 @@ class WP_Members_Forms {
 			// Other.
 			'post_to'          => get_permalink(),
 			'strip_breaks'     => true,
-			'use_nonce'        => false,
 			'wrap_inputs'      => true,
 			'n'                => "\n",
 			't'                => "\t",
@@ -1196,7 +1196,7 @@ class WP_Members_Forms {
 		$form = $form . wpmem_inc_attribution();
 
 		// Apply nonce.
-		$form = ( defined( 'WPMEM_USE_NONCE' ) || $args['use_nonce'] ) ? wp_nonce_field( 'wpmem-validate-submit', 'wpmem-form-submit' ) . $args['n'] . $form : $form;
+		$form = wp_nonce_field( 'wpmem_reg_nonce' ) . $args['n'] . $form;
 
 		// Apply form wrapper.
 		$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
