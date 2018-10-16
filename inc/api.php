@@ -209,27 +209,6 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
 }
 
 /**
- * Creates a membership number.
- *
- * @since 3.1.1
- * @since 3.2.0 Changed "lead" to "pad".
- *
- * @param  array  $args {
- *     @type string $option    The wp_options name for the counter setting (required).
- *     @type string $meta_key  The field's meta key (required).
- *     @type int    $start     Number to start with (optional, default 0).
- *     @type int    $increment Number to increment by (optional, default 1).
- *     @type int    $digits    Number of digits for the number (optional).
- *     @type boolen $pad       Pad leading zeros (optional, default true).
- * }
- * @return string $membersip_number
- */
-function wpmem_create_membership_number( $args ) {
-	global $wpmem;
-	return $wpmem->api->generate_membership_number( $args );
-}
-
-/**
  * Returns or displays the user's login status.
  *
  * @since 2.0.0

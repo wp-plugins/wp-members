@@ -76,8 +76,8 @@ function wpmem_register_form( $args ) {
  * @param string|array  $args {
  *     @type string  $name        (required) The field meta key.
  *     @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
- *     @type string  $value       (required) The field's value (can be a null value).
- *     @type string  $compare     (required) Compare value.
+ *     @type string  $value       (optional) The field's value (can be a null value).
+ *     @type string  $compare     (optional) Compare value.
  *     @type string  $class       (optional) Class identifier for the field.
  *     @type boolean $required    (optional) If a value is required default: true).
  *     @type string  $delimiter   (optional) The field delimiter (pipe or comma, default: | ).
