@@ -1415,6 +1415,14 @@ class WP_Members {
 			'transport'  => 'refresh',
 		) );
 
+		// Add settings for output description
+		$wp_customize->add_setting( 'show_form_message_dialog', array(
+			'default'    => '1',
+			'type'       => 'theme_mod', //'option'
+			'capability' => 'edit_theme_options',
+			'transport'  => 'refresh',
+		) );
+
 		// Add control and output for select field
 		$wp_customize->add_control( 'show_form_logged_out', array(
 			'label'      => __( 'Show forms as logged out', 'wp-members' ),
@@ -1422,6 +1430,15 @@ class WP_Members {
 			'settings'   => 'show_logged_out_state',
 			'type'       => 'checkbox',
 			'std'        => '1'
+		) );
+		
+		// Add control for showing dialog
+		$wp_customize->add_control( 'show_form_dialog', array(
+			'label'      => __( 'Show form message dialog', 'wp-members' ),
+			'section'    => 'wp_members',
+			'settings'   => 'show_form_message_dialog',
+			'type'       => 'checkbox',
+			'std'        => '0'
 		) );
 	}
 

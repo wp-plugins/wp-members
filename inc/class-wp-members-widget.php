@@ -290,9 +290,15 @@ class widget_wpmemwidget extends WP_Widget {
 			$form = apply_filters( 'wpmem_sidebar_form', $form );
 
 			$do_error_msg = '';
+			$error_msg = $args['error_before'] . $args['error_msg'] . $args['error_after'];
+			
 			if ( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 				$do_error_msg = true;
-				$error_msg = $args['error_before'] . $args['error_msg'] . $args['error_after'];
+			} elseif( is_customize_preview() && get_theme_mod( 'show_form_message_dialog', false ) ) {
+				$do_error_msg = true;
+			}
+			
+			if ( $do_error_msg ) {
 				/**
 				 * Filter the sidebar login failed message.
 				 *
@@ -301,8 +307,8 @@ class widget_wpmemwidget extends WP_Widget {
 				 * @param string $error_msg The error message.
 				 */
 				$error_msg = apply_filters( 'wpmem_login_failed_sb', $error_msg );
+				$form = $error_msg . $form;
 			}
-			$form = ( $do_error_msg ) ? $error_msg . $form : $form;
 
 			echo $form;
 
