@@ -205,7 +205,7 @@ class WP_Members_Products_Admin {
 		
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['wpmem_product_nonce'] ) || ! wp_verify_nonce( $_POST['wpmem_product_nonce'], '_wpmem_product_nonce' ) ) return;
-		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		if ( ! current_user_can( 'edit_posts', $post_id ) ) return;
 		
 		$post = get_post( $post_id );
 
