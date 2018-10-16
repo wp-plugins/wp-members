@@ -221,15 +221,17 @@ function wpmem_load_dropins() {
  *
  * @since 3.2.4
  *
- * @param mixed $date
+ * @param mixed $args
  * @return date $date
  */
-function wpmem_format_date( $date ) {
-	$args = array(
-		'date_format' => get_option( 'date_format' ),
-		'localize'    => true,
-		'date'        => $date,
-	);
+function wpmem_format_date( $args ) {
+	if ( ! is_array( $args ) ) {
+		$args = array(
+			'date_format' => get_option( 'date_format' ),
+			'localize'    => true,
+			'date'        => $args,
+		);
+	}
 	/**
 	 * Filter the date display and format settings.
 	 *
