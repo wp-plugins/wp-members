@@ -46,13 +46,30 @@ function wpmem_mail_from_name() {
  *
  * @since 3.2.3
  *
- * @global object $wpmem                The WP_Members object.
- * @param  mixed  $args                 Settings arguments or The User's ID.
- * @param  string $password             Password from the registration process.
- * @param  string $toggle               Toggle indicating the email being sent (newreg|newmod|appmod|repass|getuser).
- * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
- * @param  array  $fields               Array of the registration data (defaults to null).
- * @param  array  $custom               Array of custom email information (defaults to null).
+ * @global object $wpmem         The WP_Members object.
+ * @param  mixed  $args {
+ *     Settings arguments or The User's ID.
+ *
+ *     @type int    $user_id
+ *     @type string $password
+ *     @type string $tag
+ *     @type array  $wpmem_fields
+ *     @type array  $fields
+ *     @type array  $custom
+ * }
+ * @param  string $password      Password from the registration process.
+ * @param  string $tag           Indicates the email being sent (newreg|newmod|appmod|repass|getuser).
+ * @param  array  $wpmem_fields  Array of the WP-Members fields (defaults to null).
+ * @param  array  $fields        Array of the registration data (defaults to null).
+ * @param  array  $custom {
+ *     Array of custom email information (defaults to null).
+ *
+ *     @type string $subj The email subject.
+ *     @type string $body The email message body.
+ *     @type string $tag  The email tag.
+ * }
+ *
+ * @todo Will probably change the WP_Members_Email::to_user() arguments to just accept the array.
  */
 function wpmem_email_to_user( $args, $password = null, $tag = null, $wpmem_fields = null, $field_data = null, $custom = null ) {
 	global $wpmem;
@@ -66,7 +83,7 @@ function wpmem_email_to_user( $args, $password = null, $tag = null, $wpmem_field
 	} else {
 		$user_id = $args;
 	}
-	$wpmem->email->to_user( $user_id, $password, $toggle, $wpmem_fields, $field_data, $custom );
+	$wpmem->email->to_user( $user_id, $password, $tag, $wpmem_fields, $field_data, $custom );
 	return;
 }
 
