@@ -55,7 +55,13 @@ function wpmem_mail_from_name() {
  *     @type string $tag
  *     @type array  $wpmem_fields
  *     @type array  $fields
- *     @type array  $custom
+ *     @type array  $custom {
+ *          Settings for custom email if used (optional).
+ *
+ *          @type string $subj The email subject.
+ *          @type string $body The email message body.
+ *          @type string $tag  The email tag.
+ *      }
  * }
  * @param  string $password      Password from the registration process.
  * @param  string $tag           Indicates the email being sent (newreg|newmod|appmod|repass|getuser).
