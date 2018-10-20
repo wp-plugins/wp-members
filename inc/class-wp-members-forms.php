@@ -891,7 +891,8 @@ class WP_Members_Forms {
 						'name'     => $meta_key, 
 						'type'     => $field['type'], 
 						'value'    => $field['checked_value'], 
-						'compare'  => $val 
+						'compare'  => $val,
+						'required' => $field['required'],
 					) );
 					$input = ( $field['required'] ) ? $input . $args['req_mark'] : $input;
 
