@@ -83,7 +83,6 @@ class WP_Members_Admin_API {
 		include_once( WPMEM_PATH . 'admin/dialogs.php' );
 		include_once( WPMEM_PATH . 'admin/post.php' );
 		include_once( WPMEM_PATH . 'admin/includes/api.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
 		include_once( WPMEM_PATH . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
 			include_once( WPMEM_PATH . 'admin/tab-options.php' );

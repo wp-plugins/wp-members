@@ -454,13 +454,14 @@ class WP_Members {
 		}
 		
 		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-email.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
 		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
+		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
 		require_once( WPMEM_PATH . 'inc/api.php' );
 		require_once( WPMEM_PATH . 'inc/api-email.php' );
 		require_once( WPMEM_PATH . 'inc/api-forms.php' );
