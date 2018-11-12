@@ -594,10 +594,12 @@ class WP_Members_Forms {
 				 *
 				 * @since 2.8.0
 				 * @since 3.1.7 Combined all to a single process.
+				 * @since 3.2.5 Added $tag parameter.
 				 *
 				 * @param string The raw link.
+				 * @param string $tag forgot|reg|pwdreset.
 				 */
-				$link = apply_filters( "wpmem_{$tag}_link", $value['link'] );
+				$link = apply_filters( "wpmem_{$tag}_link", $value['link'], $tag );
 				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . esc_url( $link ) . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';
 				$link_str = $args['link_before'];
 				$link_str.= ( '' != $args['link_span_before'] ) ? sprintf( $args['link_span_before'], $key ) : '';
@@ -607,11 +609,13 @@ class WP_Members_Forms {
 				 * @since 2.9.0
 				 * @since 3.0.9 Added $link parameter.
 				 * @since 3.1.7 Combined all to a single process.
+				 * @since 3.2.5 Added $tag parameter.
 				 *
 				 * @param string $str  The link HTML.
 				 * @param string $link The link.
+				 * @param string $tag  forgot|reg|pwdreset.
 				 */
-				$link_str.= apply_filters( "wpmem_{$tag}_link_str", $str, $link );
+				$link_str.= apply_filters( "wpmem_{$tag}_link_str", $str, $link, $tag );
 				$link_str.= ( '' != $args['link_span_after'] ) ? $args['link_span_after'] : '';
 				$link_str.= $args['link_after'] . $args['n'];
 				/*
