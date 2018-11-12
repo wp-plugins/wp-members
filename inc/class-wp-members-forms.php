@@ -624,14 +624,18 @@ class WP_Members_Forms {
 				 * page, then do not add the register link, otherwise add the link.
 				 */
 				if ( 'register' == $key ) {
-					if ( isset( $wpmem->user_pages['login'] ) && $wpmem->user_pages['login'] != '' ) {
-						$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url( true, false ) != wpmem_login_url() ) ? $form : $form . $link_str;
+					if ( ! isset( $wpmem->user_pages['register'] ) || '' == $wpmem->user_pages['register'] ) {
+						$form = $form;
 					} else {
-						global $post;
-						if ( has_shortcode( $post->post_content, 'wpmem_profile' ) ) {
-							$form = $form;
+						if ( isset( $wpmem->user_pages['login'] ) && '' != $wpmem->user_pages['login'] ) {
+							$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && wpmem_current_url( true, false ) != wpmem_login_url() ) ? $form : $form . $link_str;
 						} else {
-							$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && ! has_shortcode( $post->post_content, 'wpmem_form' ) ) ? $form : $form . $link_str;
+							global $post;
+							if ( has_shortcode( $post->post_content, 'wpmem_profile' ) ) {
+								$form = $form;
+							} else {
+								$form = ( 1 == $wpmem->show_reg[ get_post_type( get_the_ID() ) ] && ! has_shortcode( $post->post_content, 'wpmem_form' ) ) ? $form : $form . $link_str;
+							}
 						}
 					}
 				} else {
