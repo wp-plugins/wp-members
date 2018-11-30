@@ -32,7 +32,7 @@ class WP_Members_Shortcodes {
 		 */
 		do_action( 'wpmem_load_shortcodes' );
 		
-		add_shortcode( 'wp-members',       'wpmem_shortcode'              );
+		add_shortcode( 'wp-members',       'wpmem_shortcode'              ); // This shortcode is obsolete, and the associated function is deprecated.
 		add_shortcode( 'wpmem_field',      array( $this, 'fields'       ) );
 		add_shortcode( 'wpmem_logged_in',  array( $this, 'logged_in'    ) );
 		add_shortcode( 'wpmem_logged_out', array( $this, 'logged_out'   ) );
@@ -283,7 +283,8 @@ class WP_Members_Shortcodes {
 				
 				// If there is a product attribute.
 				if ( isset( $atts['product'] ) ) {
-					if ( wpmem_user_has_access( 'product' ) ) {
+					// @todo What if attribute is comma separated/multiple?
+					if ( wpmem_user_has_access( $atts['product'] ) ) {
 						$do_return = true;
 					}
 				}
