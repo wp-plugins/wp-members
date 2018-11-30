@@ -557,19 +557,19 @@ class WP_Members_Shortcodes {
 			$fields = wpmem_fields();
 			$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
-			$result = $user_info->{$field};
+			$user_info_field = ( isset( $field ) ) ? $user_info->{$field} : '';
 
 			// Handle select and radio groups (have single selections).
 			if ( 'select' == $field_type || 'radio' == $field_type ) {
-				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : $fields[ $field ]['options'][ $user_info->{$field} ];
+				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : $fields[ $field ]['options'][ $user_info_field ];
 			}
 
 			// Handle multiple select and multiple checkbox (have multiple selections).
 			if ( 'multiselect' == $field_type || 'multicheckbox' == $field_type ) {
 				if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
-					$result = $user_info->{$field};
+					$result = $user_info_field;
 				} else {
-					$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info->{$field} );
+					$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info_field );
 					$result = ''; $x = 1;
 					foreach ( $saved_vals as $value ) {
 						$result.= ( $x > 1 ) ? ', ' : ''; $x++;
@@ -581,18 +581,18 @@ class WP_Members_Shortcodes {
 			// Handle file/image fields.
 			if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
 				if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
-					$result = $user_info->{$field};
+					$result = $user_info_field;
 				} else {
 					if ( 'file' == $field_type ) {
-						$attachment_url = wp_get_attachment_url( $user_info->{$field} );
-						$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info->{$field} ) . '</a>' : '';
+						$attachment_url = wp_get_attachment_url( $user_info_field );
+						$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info_field ) . '</a>' : '';
 					} else {
 						$size = 'thumbnail';
 						if ( isset( $atts['size'] ) ) {
 							$sizes = array( 'thumbnail', 'medium', 'large', 'full' );
 							$size  = ( ! in_array( $atts['size'], $sizes ) ) ? explode( ",", $atts['size'] ) : $atts['size'];
 						}
-						$image = wp_get_attachment_image_src( $user_info->{$field}, $size );
+						$image = wp_get_attachment_image_src( $user_info_field, $size );
 						$result = ( $image ) ? '<img src="' . esc_url( $image[0] ) . '" width="' . esc_attr( $image[1] ) . '" height="' . esc_attr( $image[2] ) . '" />' : '';
 					}
 				}
@@ -601,17 +601,17 @@ class WP_Members_Shortcodes {
 
 			// Handle line breaks for textarea fields
 			if ( isset( $field_type ) && 'textarea' == $field_type ) {
-				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info->{$field} : nl2br( $user_info->{$field} );
+				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : nl2br( $user_info_field );
 			}
 
 			// Handle date fields.
 			if ( isset( $field_type ) && 'date' == $field_type ) {
 				if ( isset( $atts['format'] ) ) {
 					// Formats date: https://secure.php.net/manual/en/function.date.php
-					$result = ( '' != $user_info->{$field} ) ? date( $atts['format'], strtotime( $user_info->{$field} ) ) : '';
+					$result = ( '' != $user_info_field ) ? date( $atts['format'], strtotime( $user_info_field ) ) : '';
 				} else {
 					// Formats date to whatever the WP setting is.
-					$result = ( '' != $user_info->{$field} ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info->{$field} ) ) : '';
+					$result = ( '' != $user_info_field ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info_field ) ) : '';
 				}
 			}
 
