@@ -274,8 +274,10 @@ class widget_wpmemwidget extends WP_Widget {
 
 			$form = '<form name="form" method="post" action="' . $post_to . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
-			// Add status message.
-			$form = $args['status_msg'] . $args['n'] . $form;
+			// Add status message, if one exists.
+			if ( '' == $args['status_msg'] ) {
+				$args['status_msg'] . $args['n'] . $form;
+			}
 
 			// Strip breaks.
 			$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
