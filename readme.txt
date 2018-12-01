@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 3.2.4
+Stable tag: 3.2.5
 License: GPLv2
 
 The WP-Members membership plugin turns your WordPress site into a membership site. Restrict premium content, create custom registration fields, and more.
@@ -127,6 +127,25 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 
 == Changelog ==
 
+= 3.2.5 =
+
+* Moved textdomain to load in main class file.
+* New wpmem_do_shortcode() utility function in API.
+* Added message dialog to display in Customizer.
+* Makes a nonce a default for the registration form (reduces possibility of spam registrations).
+* $value is now optional in form field creation.
+* Added id parameter to wpmem_register_form_args filter.
+* Updates to wpmem_form_date().
+* Added HTML5 "required" attribute to TOS checkbox.
+* Added $tag parameter to wpmem_{$tag}_link and wpmem_{$tag}_link_str filters.
+* Revised export function, added wpmem_export_fields filter.
+* Updated check product access to handle product as an array.
+* Fix to [wpmem_logged_in] shortcode to pass product attribute.
+* Fix to [wpmem_field] shortcode, checks if field is set to avoid undefined index error.
+* Added redirect_to attribute to logout link.
+* Totally removed possibility of using reCAPTCHA v1 which is totally obsolete.
+* Removed widget "status message" for logged out state (people know they aren't logged in when they see the login form).
+
 = 3.2.4 =
 
 * Added deactivate users both bulk and single in Users > All Users.
@@ -135,13 +154,13 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Added label tags to multipe checkbox and radio group items.
 * Added assigned product(s) column to users and posts screens.
 * Updated membership product object structure.
-* Updated users bulk action jquery to use noconflict().
 * Updated load priority to run later for jquery loginout script.
 * Removed query_vars filter.
 * Depreacted wpmem_a_activate_user(), use wpmem_activate_user() instead.
 * Deprecated wpmem_a_deactivate_user(), use wpmem_deactivate_user() instead.
 * Relocated install file to /inc/ directory.
 * Moved methods out of core.php, deprecated file.
+* Fixed issue with default stylesheet setting caused by moving install file.
 
 = 3.2.3 =
 

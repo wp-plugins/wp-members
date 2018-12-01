@@ -490,6 +490,10 @@ class WP_Members_User {
 	 * Validates user access to content.
 	 *
 	 * @since 3.2.0
+	 * @todo Currently checks in this order: expiration, role, "other". If expiration product,
+	 *       and the user is current, then access is granted. This doesn't consider if the 
+	 *       user is current but does not have a required role (if BOTH an expiration and role
+	 *       product). Maybe add role checking to the expiration block if both exist.
 	 *
 	 * @global object $wpmem
 	 * @param  mixed  $product
