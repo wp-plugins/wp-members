@@ -1492,6 +1492,7 @@ class WP_Members {
 	 *
 	 * @since 2.6
 	 * @since 3.2.3 Moved to WP_Members class.
+	 * @since 3.2.5 Check if post object exists.
 	 *
 	 * @global object $post  The post object.
 	 * @global object $wpmem The WP_Members object.
@@ -1502,6 +1503,16 @@ class WP_Members {
 	function do_excerpt( $content ) {
 
 		global $post, $more, $wpmem;
+		
+		if ( is_object( $post ) ) {
+			$has_post  = true;
+			$post_id   = $post->ID;
+			$post_type = $post->post_type;
+		} else {
+			$has_post  = false;
+			$post_id   = false;
+			$post_type = false;
+		}
 
 		$autoex = ( isset( $wpmem->autoex[ $post->post_type ] ) && 1 == $wpmem->autoex[ $post->post_type ]['enabled'] ) ? $wpmem->autoex[ $post->post_type ] : false;
 
@@ -1509,7 +1520,7 @@ class WP_Members {
 		$has_more_link = ( stristr( $content, 'class="more-link"' ) ) ? true : false;
 
 		// If auto_ex is on.
-		if ( $autoex ) {
+		if ( $has_post && $autoex ) {
 
 			// Build an excerpt if one does not exist.
 			if ( ! $has_more_link ) {
@@ -1582,7 +1593,6 @@ class WP_Members {
 						$content = $content . $args['more_link'];
 					}
 				}
-
 			}
 		}
 
@@ -1591,12 +1601,13 @@ class WP_Members {
 		 *
 		 * @since 2.8.1
 		 * @since 3.0.9 Added post ID and post type parameters.
+		 * @since 3.2.5 Post ID and post type may be false if there is no post object.
 		 * 
-		 * @param string $content         The content excerpt.
-		 * @param string $post->ID        The post ID.
-		 * @param string $post->post_type The content's post type.
+		 * @param string $content   The content excerpt.
+		 * @param string $post_id   The post ID.
+		 * @param string $post_type The content's post type.
 		 */
-		$content = apply_filters( 'wpmem_auto_excerpt', $content, $post->ID, $post->post_type );
+		$content = apply_filters( 'wpmem_auto_excerpt', $content, $post_id, $post_type );
 
 		// Return the excerpt.
 		return $content;

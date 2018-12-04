@@ -145,6 +145,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Added redirect_to attribute to logout link.
 * Totally removed possibility of using reCAPTCHA v1 which is totally obsolete.
 * Removed widget "status message" for logged out state (people know they aren't logged in when they see the login form).
+* Improved do_excerpt() to check if post object exists.
 
 = 3.2.4 =
 
