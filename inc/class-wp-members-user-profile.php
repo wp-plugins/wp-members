@@ -57,7 +57,9 @@ class WP_Members_User_Profile {
 			$exclude = wpmem_get_excluded_meta( $display . '-profile' );
 		
 			// If tos is an active field, this is the dashboard profile, and user has current field value.
-			if ( isset( $wpmem_fields['tos'] ) && get_user_meta( $user_ID, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) {
+			if ( isset( $wpmem_fields['tos'] ) 
+				&& 'user' == $display
+				&& ( get_user_meta( $user_ID, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) ) {
 				unset( $wpmem_fields['tos'] );
 			}
 
@@ -83,7 +85,7 @@ class WP_Members_User_Profile {
 
 				// Determine which fields to show in the additional fields area.
 				$show = ( ! $field['native'] && ! in_array( $meta, $exclude ) ) ? true : false;
-				$show = ( 'tos' == $meta && $field['register'] ) ? null : $show;
+				//$show = ( 'tos' == $meta && $field['register'] ) ? null : $show;
 
 				if ( $show ) {
 
@@ -261,7 +263,9 @@ class WP_Members_User_Profile {
 		}
 
 		// If tos is an active field, this is the dashboard profile, and user has current field value.
-		if ( isset( $wpmem_fields['tos'] ) && get_user_meta( $user_id, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) {
+		if ( isset( $wpmem_fields['tos'] ) 
+			&& 'user' == $display 
+			&& get_user_meta( $user_id, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) {
 			unset( $wpmem_fields['tos'] );
 		}
 
