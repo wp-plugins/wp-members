@@ -512,11 +512,24 @@ class WP_Members_Email {
 	 * @since 3.2.0
 	 */
 	function send( $to ) {
-		$send_to = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
+		$args['to'] = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
+		$args['subject'] = $this->settings['subj'];
+		$args['message'] = $this->settings['body'];
+		$args['headers'] = $this->settings['headers'];
+		// @todo Add attachments to arguments and email send (and probably in the original function).
+		/**
+		 * Filter email send arguments.
+		 *
+		 * @since 3.2.5
+		 *
+		 * @param array  $send_args
+		 * @param string $to
+		 * @param array  $this->settings
+		 */
+		$args = apply_filters( 'wpmem_email_send_args', $args, $to, $this->settings );
 		// Apply WP's "from" and "from name" email filters.
 		add_filter( 'wp_mail_from',      array( $this, 'from'      ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'from_name' ) );
-		// Send the message.
-		wp_mail( $send_to, stripslashes( $this->settings['subj'] ), stripslashes( $this->settings['body'] ), $this->settings['headers'] );
+		wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'] );
 	}
 }
