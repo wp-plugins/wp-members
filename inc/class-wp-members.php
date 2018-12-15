@@ -1197,13 +1197,14 @@ class WP_Members {
 		);
 		
 		/*
-		 * Strings to be added in a future version, included so they will
-		 * be in the translation template ahead of time.
-		 * @todo Remove this once these strings have been officially included.
+		 * Strings to be added or removed in future versions, included so they will
+		 * be in the translation template.
+		 * @todo Check whether any of these should be removed.
 		 */
 		$benign_strings = array(
 			__( 'No fields selected for deletion', 'wp-members' ),
 			__( 'Username or Email', 'wp-members' ),
+			__( 'You are not logged in.', 'wp-members' ), // Technically removed 3.5
 		);
 	
 		$defaults = array(
@@ -1288,8 +1289,8 @@ class WP_Members {
 			'sb_status'            => __( 'You are logged in as %s', 'wp-members' ),
 			'sb_logout'            => __( 'click here to log out', 'wp-members' ),
 			'sb_login_failed'      => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
-			'sb_not_logged_in'     => __( 'You are not logged in.', 'wp-members' ),
-			'sb_login_username'    => __( 'Username', 'wp-members' ),
+			'sb_not_logged_in'     => '',
+			'sb_login_username'    => __( 'Username or Email', 'wp-members' ),
 			'sb_login_password'    => __( 'Password', 'wp-members' ),
 			'sb_login_button'      => __( 'log in', 'wp-members' ),
 			'sb_login_forgot'      => __( 'Forgot?', 'wp-members' ),

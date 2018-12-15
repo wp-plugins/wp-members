@@ -146,6 +146,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Fixed user profile (admin/user) issue with tos field not displaying.
 * Added wpmem_email_send_args filter.
 * Added wpmem_is_user() API function.
+* Removed "you are not logged in" from sidebar widget.
 
 = 3.2.4 =
 
