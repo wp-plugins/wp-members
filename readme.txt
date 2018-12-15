@@ -147,6 +147,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Added wpmem_email_send_args filter.
 * Added wpmem_is_user() API function.
 * Removed "you are not logged in" from sidebar widget.
+* Improved autoexcerpt to check if post object is set before continuing.
 
 = 3.2.4 =
 
