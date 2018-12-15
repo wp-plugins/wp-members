@@ -14,6 +14,19 @@
  */
 
 /**
+ * Checks if a user exists.
+ *
+ * @since 3.2.5
+ *
+ * @param $user_id
+ * @return boolean
+ */
+function wpmem_is_user( $user_id ) {
+	$user = get_userdata( $user_id );
+	return ( $user ) ? true : false;
+}
+
+/**
  * Checks if user has a particular role.
  *
  * Utility function to check if a given user has a specific role. Users can

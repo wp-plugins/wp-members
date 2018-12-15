@@ -145,6 +145,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Improved do_excerpt() to check if post object exists.
 * Fixed user profile (admin/user) issue with tos field not displaying.
 * Added wpmem_email_send_args filter.
+* Added wpmem_is_user() API function.
 
 = 3.2.4 =
 
