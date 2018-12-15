@@ -558,6 +558,7 @@ class WP_Members_Shortcodes {
 			$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
 			$user_info_field = ( isset( $field ) ) ? $user_info->{$field} : '';
+			$result = false;
 
 			// Handle select and radio groups (have single selections).
 			if ( 'select' == $field_type || 'radio' == $field_type ) {
@@ -614,6 +615,9 @@ class WP_Members_Shortcodes {
 					$result = ( '' != $user_info_field ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info_field ) ) : '';
 				}
 			}
+			
+			// Handle all other fields.
+			$result = ( ! $result ) ? $user_info_field : '';
 
 			// Remove underscores from value if requested (default: on).
 			if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
