@@ -156,7 +156,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Updated membership product object structure.
 * Updated load priority to run later for jquery loginout script.
 * Removed query_vars filter.
-* Depreacted wpmem_a_activate_user(), use wpmem_activate_user() instead.
+* Deprecated wpmem_a_activate_user(), use wpmem_activate_user() instead.
 * Deprecated wpmem_a_deactivate_user(), use wpmem_deactivate_user() instead.
 * Relocated install file to /inc/ directory.
 * Moved methods out of core.php, deprecated file.

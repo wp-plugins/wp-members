@@ -218,14 +218,17 @@ function wpmem_block_meta() {
 		<?php
 		$original_value = ''; $original_label = '';
 		foreach ( $post_meta_settings as $key => $value ) {
-			$original_value = ( $post_meta_value == $key ) ? $key                  : $original_value;
+			$original_value = ( $post_meta_value == $key ) ? $key           : $original_value;
 			$original_label = ( $post_meta_value == $key ) ? $value['text'] : $original_label;
 			echo '<input type="radio" id="wpmem_block_status_' . $key . '" name="wpmem_block" value="' . $key . '" ' . checked( $post_meta_value, $key, false ) . ' /><label>' . $value['text'] . '</label><br />';
 		}
 		echo '<input type="hidden" id="wpmem_block_original_value" name="wpmem_block_original_value" value="' . $original_value . '" />';
 		echo '<input type="hidden" id="wpmem_block_original_label" name="wpmem_block_original_label" value="' . $original_label . '" />';
 		?>
-		<p><a href="#" class="hide-if-no-js button" id="wpmem_ok_block_status"><?php echo _e( 'OK' ); ?></a> <!--<a href="#" class="hide-if-no-js" id="wpmem_cancel_block_status"><?php _e( 'Cancel' ); ?></a>--></p>
+		<p>
+			<a href="#" class="hide-if-no-js button" id="wpmem_ok_block_status"><?php echo _e( 'Ok' ); ?></a>
+			<!--<a href="#" class="hide-if-no-js" id="wpmem_cancel_block_status"><?php _e( 'Cancel' ); ?></a>--><?php // @todo Cannot use this until js is updated to set the radio group back to the original value (otherwise it's confusing for the user). ?>
+		</p>
 		</div>
 	</p>
 	<?php
@@ -366,7 +369,6 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
  * @global object $wpmem_shortcode The WP_Members_TinyMCE_Buttons object.
  */
 function wpmem_load_tinymce() {
-	// @todo For now, only load if WP version is high enough.
 	if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
 		global $wpmem_shortcode;
 		include( WPMEM_PATH . 'admin/includes/class-wp-members-tinymce-buttons.php' );

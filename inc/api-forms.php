@@ -153,7 +153,7 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 		$wpmem->load_fields( $form );
 	}
 	
-	// @todo Convert tag.
+	// @todo Review for removal.
 	$tag = $wpmem->convert_tag( $tag );
 	
 	/**

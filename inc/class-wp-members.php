@@ -930,16 +930,13 @@ class WP_Members {
 	function get_hidden_posts() {
 		global $wpmem;
 		$hidden = array();
-		// @todo This should really be either a transient, or an array of
-		// post IDs should be updated anytime a post is saved/updated.
 		if ( ! is_admin() && ( ! is_user_logged_in() ) ) {
 			$hidden = $this->hidden_posts();
 		}
-
-		// @todo Separate query here to check. If the user IS logged in, check what posts they DON'T have access to.
+		// @todo Possibly separate query here to check. If the user IS logged in, check what posts they DON'T have access to.
 		if ( ! is_admin() && is_user_logged_in() && 1 == $wpmem->enable_products ) {
 			// Get user product access.
-			// @todo This should certainly be a transient stored in the user object.
+			// @todo This maybe should be a transient stored in the user object.
 			foreach ( $wpmem->membership->products as $key => $value ) {
 				if ( ! isset( $wpmem->user->access[ $key ] ) || ! $wpmem->user->is_current( $wpmem->user->access[ $key ] ) ) {
 					$hidden_posts = $this->hidden_posts();

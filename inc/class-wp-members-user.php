@@ -100,6 +100,7 @@ class WP_Members_User {
 			 * can be used to override a default in login_redirect.
 			 *
 			 * @since 2.7.7
+			 * @since 2.9.2 Added $user_id
 			 *
 			 * @param string $redirect_to The url to direct to.
 			 * @param int    $user->ID    The user's primary key ID.

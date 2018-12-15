@@ -450,7 +450,7 @@ class WP_Members_Admin_API {
 	 *
 	 * @since 3.1.2
 	 *
-	 * @todo Work on multi-form project for 3.1.2
+	 * @todo Work on multi-form project, no current milestone.
 	 */
 	function get_form( $form = 'default' ) {
 		/*

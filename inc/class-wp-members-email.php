@@ -365,19 +365,24 @@ class WP_Members_Email {
 		 * @param array $this->settings P
 		 *     An array containing email body, subject, user id, and additional settings.
 		 *
-		 *     @type integer user_id
-		 *     @type string  user_login
-		 *     @type string  user_email
-		 *     @type string  blogname
-		 *     @type string  user_ip
-		 *     @type string  reg_link
-		 *     @type string  act_link
-		 *     @type string  exp_type
-		 *     @type string  exp_date
-		 *     @type boolean do_shortcodes
-		 *     @type boolean add_footer
-		 *     @type boolean footer
-		 *     @type boolean disable
+		 *     @type string  $subj
+		 *     @type string  $body
+		 *     @type integer $user_id
+		 *     @type string  $user_login
+		 *     @type string  $user_email
+		 *     @type string  $blogname
+		 *     @type string  $user_ip
+		 *     @type string  $reg_link
+		 *     @type string  $act_link
+		 *     @type string  $exp_type
+		 *     @type string  $exp_date
+		 *     @type boolean $do_shortcodes
+		 *     @type boolean $add_footer
+		 *     @type boolean $footer
+		 *     @type boolean $disable
+		 *     @type array   $field_arr
+		 *     @type string  $headers
+		 *     @type string  $admin_email
 		 * }
 		 * @param array $wpmem_fields   An array of the WP-Members fields.
 		 * @param array $field_data     An array of the posted registration data.
