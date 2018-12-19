@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 3.2.4.2
+Stable tag: 3.2.5
 License: GPLv2
 
 == Description ==
@@ -126,28 +126,26 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 
 = 3.2.5 =
 
-* Moved textdomain to load in main class file.
-* New wpmem_do_shortcode() utility function in API.
+* Fix user profile (admin/user) issue with tos field not displaying.
+* Fix [wpmem_logged_in] shortcode to pass product attribute.
+* Fix [wpmem_field] shortcode, checks if field is set to avoid undefined index error.
+* Fix do_excerpt() if post object is not set as an object.
 * Added message dialog to display in Customizer.
-* Makes a nonce a default for the registration form (reduces possibility of spam registrations).
-* $value is now optional in form field creation.
-* Added id parameter to wpmem_register_form_args filter.
-* Updates to wpmem_form_date().
 * Added HTML5 "required" attribute to TOS checkbox.
-* Added $tag parameter to wpmem_{$tag}_link and wpmem_{$tag}_link_str filters.
-* Revised export function, added wpmem_export_fields filter.
-* Updated check product access to handle product as an array.
-* Fix to [wpmem_logged_in] shortcode to pass product attribute.
-* Fix to [wpmem_field] shortcode, checks if field is set to avoid undefined index error.
 * Added redirect_to attribute to logout link.
-* Totally removed possibility of using reCAPTCHA v1 which is totally obsolete.
-* Removed widget "status message" for logged out state (people know they aren't logged in when they see the login form).
-* Improved do_excerpt() to check if post object exists.
-* Fixed user profile (admin/user) issue with tos field not displaying.
+* Added $tag parameter to wpmem_{$tag}_link and wpmem_{$tag}_link_str filters.
+* Added id parameter to wpmem_register_form_args filter.
 * Added wpmem_email_send_args filter.
-* Added wpmem_is_user() API function.
-* Removed "you are not logged in" from sidebar widget.
-* Improved autoexcerpt to check if post object is set before continuing.
+* Added wpmem_is_user() function to API.
+* Added wpmem_do_shortcode() utility function in API.
+* Added wpmem_export_fields filter to user export function.
+* Updated wpmem_form_date() API function.
+* Updated check product access to handle product as an array.
+* Updated to make a nonce a default for the registration form (reduces possibility of spam registrations).
+* Updated form field creation, $value is now optional.
+* Moved textdomain to load in main class file.
+* Removed possibility of using reCAPTCHA v1 which is totally obsolete.
+* Removed widget status message ("you are not logged in") for logged out state.
 
 = 3.2.4 =
 
