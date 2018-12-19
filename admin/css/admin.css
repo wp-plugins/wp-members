@@ -36,6 +36,8 @@
 #updatesettings label {
 	float:left;
 	width: 166px;
+	clear: both;
+	display: block;
 }
 
 #addfieldform .add-field-indent,
