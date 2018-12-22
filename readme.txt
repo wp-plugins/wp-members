@@ -139,6 +139,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Added wpmem_is_user() function to API.
 * Added wpmem_do_shortcode() utility function in API.
 * Added wpmem_export_fields filter to user export function.
+* Added label attribute to field shortcode.
 * Updated wpmem_form_date() API function.
 * Updated check product access to handle product as an array.
 * Updated to make a nonce a default for the registration form (reduces possibility of spam registrations).

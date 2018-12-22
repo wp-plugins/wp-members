@@ -520,6 +520,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.1.5 Added display attribute, meta key as a direct attribute, and image/file display.
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::fields().
 	 * @since 3.2.0 Added clickable attribute.
+	 * @since 3.2.5 Added label attribute.
 	 *
 	 * @global object $wpmem   The WP_Members object.
 	 * @param  array  $atts {
@@ -531,7 +532,8 @@ class WP_Members_Shortcodes {
 	 *     @type string $underscores
 	 *     @type string $display
 	 *     @type string $size
-	 *     @type string $clickable default:false
+	 *     @type string $clickable   default:false
+	 *     @type string $label       default:false
 	 * }
 	 * @param  string $content Any content passed with the shortcode (default:null).
 	 * @param  string $tag     The shortcode tag (wpmem_form).
@@ -627,7 +629,12 @@ class WP_Members_Shortcodes {
 			$content = ( $content ) ? $result . $content : $result;
 			
 			// Make it clickable?
-			$content = ( isset( $atts['clickable'] ) && ( true === $atts['clickable'] || 'true' == $atts['clickable'] ) ) ? make_clickable( $content ) : $content;
+			$content = ( isset( $atts['clickable'] ) && ( true == $atts['clickable'] || 'true' == $atts['clickable'] ) ) ? make_clickable( $content ) : $content;
+		
+			// Display field label?
+			$content = ( isset( $atts['label'] ) && ( true == $atts['label'] ) ) ? $fields[ $field ]['label'] . ": " . $content : $content;
+			
+			$content = apply_filters( 'wpmem_field_shortcode', $content, $atts );
 
 			return do_shortcode( $content );
 		}
