@@ -64,7 +64,7 @@ function wpmem_a_build_captcha_options() {
 
 	$wpmem_captcha = get_option( 'wpmembers_captcha' );
 	$url           = home_url();
-	$help_link     = __( sprintf( 'See the %sUsers Guide on CAPTCHA%s.', '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">', '</a>' ), 'wp-members' );	
+	$help_link     = sprintf( __( 'See the %sUsers Guide on CAPTCHA%s.', 'wp-members' ), '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/registration/using-captcha/" target="_blank">', '</a>' );	
 	?>
 	<div class="metabox-holder has-right-sidebar">
 
