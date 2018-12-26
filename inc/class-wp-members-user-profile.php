@@ -538,4 +538,66 @@ class WP_Members_User_Profile {
 		</tr>
 		<?php	
 	}
+
+	/**
+	 * Add jquery ui tabs to user profile.
+	 *
+	 * @since 3.2.5
+	 *
+	 * @param int $user_id
+	 */
+	static function _profile_tabs( $user_id ) { 
+
+		/**
+		 * Add tabs to user profile tabs.
+		 *
+		 * @since 3.2.5
+		 *
+		 * @param array {
+		 *    @type string $tab     (required)
+		 *    @type string $content (optional)
+		 * }
+		 */
+		$tabs = apply_filters( 'wpmem_user_profile_tabs', array() ); 
+
+		if ( ! empty( $tabs ) ) { ?>
+			<script>
+				jQuery(document).ready(function($){
+				   $("#wpmem_user_profile_tabs").tabs();
+				});
+			</script>
+			<?php
+			echo '<div id="wpmem_user_profile_tabs">';
+			echo '<ul>';
+			foreach ( $tabs as $key => $value ) {
+				echo '<li><a href="#wpmem_user_profile_tabs-' . ( $key ) . '">' . $value['tab'] . '</a></li>';
+			}
+			echo '</ul>';
+			foreach ( $tabs as $key => $value ) {
+				echo '<div id="wpmem_user_profile_tabs-' . ( $key ) . '">';
+				echo ( isset( $value['content'] ) ) ? $value['content'] : '';
+				do_action( 'wpmem_user_profile_tabs_content', $key );
+				echo '</div>';
+			}
+			echo '</div>';
+		}
+	}
+	
+	/**
+	 * Loads scripts for profile tabs.
+	 *
+	 * @since 3.2.5
+	 *
+	 * @global object $current_screen
+	 */
+	static function _profile_tabs_scripts() {
+		global $current_screen, $wpmem;
+		if ( 'user-edit' == $current_screen->id ) {
+			wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
+			wp_enqueue_script( 'jquery-ui-tabs' );// enqueue jQuery UI Tabs
+
+			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+			wp_enqueue_style( 'jquery-ui' ); 
+		}
+	}
 }

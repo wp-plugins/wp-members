@@ -84,3 +84,29 @@
 #_wpmem_products {
 	width: 100%;
 }
+
+/** User Profile Tabs **/
+#wpmem_user_profile_tabs { 
+	padding: 0px; 
+	background: none; 
+	border-width: 0px; 
+} 
+#wpmem_user_profile_tabs .ui-tabs-nav { 
+	padding-left: 0px; 
+	background: transparent; 
+	border-width: 0px 0px 1px 0px; 
+	-moz-border-radius: 0px; 
+	-webkit-border-radius: 0px; 
+	border-radius: 0px; 
+} 
+#wpmem_user_profile_tabs .ui-tabs-panel { 
+	background: #fff; 
+	border-width: 0px 1px 1px 1px; 
+}
+#wpmem_user_profile_tabs .ui-state-active {
+	border: 1px solid #006799; 
+	background: #008ec2;
+}
+#wpmem_user_profile_tabs .ui-state-active a {
+	color: #fff;
+}
