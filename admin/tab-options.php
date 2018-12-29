@@ -81,7 +81,8 @@ function wpmem_a_build_options() {
 			<div class="postbox">
 				<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 				<div class="inside">
-					<strong><i><?php echo $help_link; ?></i></strong>
+					<p><strong><i><?php echo $help_link; ?></i></strong></p>
+					<p><button id="opener">Get Settings Information</button></p>
 				</div>
 			</div>
 			<?php wpmem_a_rss_box(); ?>
@@ -301,6 +302,62 @@ function wpmem_a_build_options() {
 			</div><!-- #post-body-content -->
 		</div><!-- #post-body -->
 	</div><!-- .metabox-holder -->
+<script>
+jQuery(document).ready(function($){
+	$( function() {
+		$( "#dialog-message" ).dialog({
+			autoOpen: false,
+			modal: true,
+			buttons: {
+				<?php _e( 'Close', 'wp-members' ); ?>: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		$( "#opener" ).on( "click", function() {
+			$( "#dialog-message" ).dialog( "open" );
+		});
+	} );
+	$("#select_all").click(function(){
+		$("textarea").select();
+		document.execCommand('copy');
+	});
+	$(window).resize(function() {
+		$("#dialog-message").dialog("option", "position", {my: "center", at: "center", of: window});
+	});
+});
+</script>
+<div id="dialog-message" title="<?php _e( 'WP-Members Settings', 'wp-members' ); ?>">
+<h3><span><?php _e( 'WP-Members Settings', 'wp-members' ); ?></span></h3>
+<p><?php _e( 'The following is your WP-Members settings information if needed for support.', 'wp-members' ); ?></p>
+<pre>
+<textarea cols=80 rows=10 align=left wrap=soft style="width:100%;" id="supportinfo" wrap="soft"><?php
+global $wp_version, $wpdb, $wpmem;
+echo "WP Version: " . $wp_version . "\r\n";
+echo "PHP Version: " . phpversion() . "\r\n";
+echo "MySQL Version: " . $wpdb->db_version() . "\r\n";
+wpmem_fields();
+print_r( $wpmem );
+
+echo '***************** Plugin Info *******************' . "\r\n";
+$all_plugins    = get_plugins();
+$active_plugins = get_option( 'active_plugins' );
+$active_display = ''; $inactive_display = '';
+foreach ( $all_plugins as $key => $value ) {
+if ( in_array( $key, $active_plugins ) ) {
+	$active_display.= $key . " | " . $value['Name'] . " | Version: " . $value['Version'] . "\r\n";
+} else {
+	$inactive_display.= $key . " | " . $value['Name'] . " | Version: " . $value['Version'] . "\r\n";
+}
+}
+echo "*************** Active Plugins **************** \r\n";
+echo $active_display;
+echo "*************** Inactive Plugins **************** \r\n";
+echo $inactive_display;
+?></textarea>
+</pre>
+<button id="select_all" class="ui-button-text"><?php _e( 'Click to Copy', 'wp-members' ); ?></button>
+	</div>
 	<?php
 }
 
