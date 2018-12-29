@@ -124,7 +124,6 @@ class WP_Members_Admin_API {
 		add_action( 'show_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
 		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
 		add_action( 'profile_update',             array( 'WP_Members_User_Profile', 'update' ) );
-		add_action( 'admin_enqueue_scripts',      array( 'WP_Members_User_Profile', '_profile_tabs_scripts' ) );
 		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
 
 		if ( current_user_can( 'list_users' ) ) {
@@ -509,11 +508,12 @@ class WP_Members_Admin_API {
 	 * @since 3.2.0 Moved into admin object, renamed dashboard_enqueue_scripts().
 	 * @since 3.2.1 Load js for post.php hook.
 	 *
+	 * @global object $current_screen
 	 * @global object $wpmem
 	 * @param  string $hook The admin screen hook being loaded.
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
-		global $wpmem;
+		global $current_screen, $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
 			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
 		} 
@@ -525,6 +525,20 @@ class WP_Members_Admin_API {
 			wp_register_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 			wp_enqueue_style( 'select2css' );
 			wp_enqueue_script( 'select2' );
+		}
+		if ( 'user-edit' == $current_screen->id ) {
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'jquery-ui-core' ); // enqueue jQuery UI Core
+			wp_enqueue_script( 'jquery-ui-tabs' ); // enqueue jQuery UI Tabs
+
+			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+			wp_enqueue_style( 'jquery-ui' ); 
+		}
+		if ( 'settings_page_wpmem-settings' == $hook ) {
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
+			wp_enqueue_script( 'jquery-ui-dialog' );
+			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
 		}
 	}
 

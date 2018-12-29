@@ -563,7 +563,7 @@ class WP_Members_User_Profile {
 		if ( ! empty( $tabs ) ) { ?>
 			<script>
 				jQuery(document).ready(function($){
-				   $("#wpmem_user_profile_tabs").tabs();
+					$("#wpmem_user_profile_tabs").tabs();
 				});
 			</script>
 			<?php
@@ -580,24 +580,6 @@ class WP_Members_User_Profile {
 				echo '</div>';
 			}
 			echo '</div>';
-		}
-	}
-	
-	/**
-	 * Loads scripts for profile tabs.
-	 *
-	 * @since 3.2.5
-	 *
-	 * @global object $current_screen
-	 */
-	static function _profile_tabs_scripts() {
-		global $current_screen, $wpmem;
-		if ( 'user-edit' == $current_screen->id ) {
-			wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
-			wp_enqueue_script( 'jquery-ui-tabs' );// enqueue jQuery UI Tabs
-
-			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
-			wp_enqueue_style( 'jquery-ui' ); 
 		}
 	}
 }
