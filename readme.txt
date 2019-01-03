@@ -101,7 +101,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
+WP-Members 3.2.5 is primarily a feature update, with some fixes. See changelog for details.
 
 == Screenshots ==
 
