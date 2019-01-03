@@ -130,6 +130,7 @@ WP-Members 3.2.4 is primarily a feature update, with some fixes. See changelog.
 * Fix [wpmem_logged_in] shortcode to pass product attribute.
 * Fix [wpmem_field] shortcode, checks if field is set to avoid undefined index error.
 * Fix do_excerpt() if post object is not set as an object.
+* Fix logic for displaying hidden posts based on product access.
 * Added message dialog to display in Customizer.
 * Added HTML5 "required" attribute to TOS checkbox.
 * Added redirect_to attribute to logout link.

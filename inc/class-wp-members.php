@@ -924,26 +924,25 @@ class WP_Members {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global object $wpmem
 	 * @return array  $hidden
 	 */
 	function get_hidden_posts() {
-		global $wpmem;
 		$hidden = array();
 		if ( ! is_admin() && ( ! is_user_logged_in() ) ) {
 			$hidden = $this->hidden_posts();
 		}
 		// @todo Possibly separate query here to check. If the user IS logged in, check what posts they DON'T have access to.
-		if ( ! is_admin() && is_user_logged_in() && 1 == $wpmem->enable_products ) {
+		if ( ! is_admin() && is_user_logged_in() && 1 == $this->enable_products ) { 
 			// Get user product access.
 			// @todo This maybe should be a transient stored in the user object.
-			foreach ( $wpmem->membership->products as $key => $value ) {
-				if ( ! isset( $wpmem->user->access[ $key ] ) || ! $wpmem->user->is_current( $wpmem->user->access[ $key ] ) ) {
-					$hidden_posts = $this->hidden_posts();
-					$hidden_posts = ( is_array( $hidden_posts ) ) ? $hidden_posts : array();
-					foreach ( $hidden_posts as $post_id ) {
-						if ( 1 == get_post_meta( $post_id, $wpmem->membership->post_stem . $key, true ) ) {
-							$hidden[] = $post_id;
+			$hidden = $this->hidden_posts();
+			$hidden = ( is_array( $hidden ) ) ? $hidden : array();
+			foreach ( $this->membership->products as $key => $value ) {
+				if ( isset( $this->user->access[ $key ] ) && ( true === $this->user->access[ $key ] || $this->user->is_current( $this->user->access[ $key ] ) ) ) {
+					foreach ( $hidden as $post_id ) {
+						if ( 1 == get_post_meta( $post_id, $this->membership->post_stem . $key, true ) ) {
+							$hidden_key = array_search( $post_id, $hidden );
+    						unset( $hidden[ $hidden_key ] );	
 						}
 					}
 				}
