@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 3.2.5
+Stable tag: 3.2.5.1
 License: GPLv2
 
 == Description ==
@@ -123,6 +123,11 @@ WP-Members 3.2.5 is primarily a feature update, with some fixes. See changelog f
 
 
 == Changelog ==
+
+= 3.2.5.1 =
+
+* Fixes bug in 3.2.5 with the [wpmem_field] shortcode not displaying correctly.
+* Reintroduces WPMEM_DEBUG constant (which is used in outside extensions).
 
 = 3.2.5 =
 

@@ -553,13 +553,13 @@ class WP_Members_Shortcodes {
 		$user_info = get_userdata( $the_ID );
 
 		// If there is userdata.
-		if ( $user_info ) {
+		if ( $user_info && isset( $user_info->{$field} ) ) {
 
 			global $wpmem;
 			$fields = wpmem_fields();
 			$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
-			$user_info_field = ( isset( $field ) ) ? $user_info->{$field} : '';
+			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
 
 			// Handle select and radio groups (have single selections).
@@ -619,7 +619,7 @@ class WP_Members_Shortcodes {
 			}
 			
 			// Handle all other fields.
-			$result = ( ! $result ) ? $user_info_field : '';
+			$result = ( ! $result ) ? $user_info_field : $result;
 
 			// Remove underscores from value if requested (default: on).
 			if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
@@ -633,12 +633,18 @@ class WP_Members_Shortcodes {
 		
 			// Display field label?
 			$content = ( isset( $atts['label'] ) && ( true == $atts['label'] ) ) ? $fields[ $field ]['label'] . ": " . $content : $content;
-			
-			$content = apply_filters( 'wpmem_field_shortcode', $content, $atts );
-
-			return do_shortcode( $content );
 		}
-		return;
+		/**
+		 * Filters the field shortcode before returning value.
+		 *
+		 * @since 3.2.5
+		 *
+		 * @param string $content
+		 * @param array  $atts
+		 */
+		$content = apply_filters( 'wpmem_field_shortcode', $content, $atts );
+
+		return do_shortcode( $content );
 	}
 
 	/**
