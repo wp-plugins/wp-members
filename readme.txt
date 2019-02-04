@@ -126,6 +126,7 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 
 = 3.2.6 =
 
+* Added "all" argument to wpmem_user_data() to retrieve either all user meta or WP-Members fields only.
 * Added wpmem_admin_after_profile_table and wpmem_user_after_profile_table actions.
 
 = 3.2.5 =

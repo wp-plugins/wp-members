@@ -416,20 +416,31 @@ class WP_Members_User {
 	 * in an array keyed by WP-Members field meta keys.
 	 *
 	 * @since 3.2.0
+	 * @since 3.2.6 Added option for "all" fields (default:false).
 	 *
-	 * @param  mixed $user_id
-	 * @return array $user_fields 
+	 * @param  string $user_id optional (defaults to current user)
+	 * @param  string $all     optional (default to false)
+	 * @return array  $user_fields 
 	 */
-	function user_data( $user_id = false ) {
-		$fields = wpmem_fields();
+	function user_data( $user_id = false, $all = false ) {
 		$user_id = ( $user_id ) ? $user_id : get_current_user_id();
-		$user_data = get_userdata( $user_id );
-		$excludes = array( 'first_name', 'last_name', 'description', 'nickname' );
-		foreach ( $fields as $meta => $field ) {
-			if ( $field['native'] == 1 && ! in_array( $meta, $excludes ) ) {
-				$user_fields[ $meta ] = $user_data->data->$meta;
-			} else {
-				$user_fields[ $meta ] = get_user_meta( $user_id, $meta, true );
+		if ( true == $all ) {
+			$user_info = get_user_meta( $user_id ); 
+			foreach( $user_info as $key => $value ) {
+				$formatted = maybe_unserialize( $value[0] );
+				$user_fields[ $key ] = $formatted;
+			}
+		} else {
+			$fields = wpmem_fields();
+			$user_data = get_userdata( $user_id );
+			$excludes = array( 'first_name', 'last_name', 'description', 'nickname' );
+			foreach ( $fields as $meta => $field ) {
+				$meta = ( 'username' == $meta ) ? 'user_login' : $meta;
+				if ( $field['native'] == 1 && ! in_array( $meta, $excludes ) ) {
+					$user_fields[ $meta ] = $user_data->data->{$meta};
+				} else {
+					$user_fields[ $meta ] = get_user_meta( $user_id, $meta, true );
+				}
 			}
 		}
 		return $user_fields;

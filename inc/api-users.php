@@ -118,11 +118,12 @@ function wpmem_is_user_activated( $user_id = false ) {
  *
  * @global object  $wpmem
  * @param  integer $user_id
+ * @param  bool    $all
  * @return array   $user_fields
  */
-function wpmem_user_data( $user_id = false ) {
+function wpmem_user_data( $user_id = false, $all = false ) {
 	global $wpmem;
-	return $wpmem->user_fields( $user_id );
+	return $wpmem->user->user_data( $user_id, $all );
 }
 
 /**
