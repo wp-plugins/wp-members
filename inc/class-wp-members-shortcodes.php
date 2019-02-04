@@ -561,65 +561,71 @@ class WP_Members_Shortcodes {
 
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
-
-			// Handle select and radio groups (have single selections).
-			if ( 'select' == $field_type || 'radio' == $field_type ) {
-				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : $fields[ $field ]['options'][ $user_info_field ];
-			}
-
-			// Handle multiple select and multiple checkbox (have multiple selections).
-			if ( 'multiselect' == $field_type || 'multicheckbox' == $field_type ) {
-				if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
-					$result = $user_info_field;
-				} else {
-					$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info_field );
-					$result = ''; $x = 1;
-					foreach ( $saved_vals as $value ) {
-						$result.= ( $x > 1 ) ? ', ' : ''; $x++;
-						$result.= $fields[ $field ]['options'][ $value ];
-					}
-				}
-			}
-
-			// Handle file/image fields.
-			if ( isset( $field_type ) && ( 'file' == $field_type || 'image' == $field_type ) ) {
-				if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
-					$result = $user_info_field;
-				} else {
-					if ( 'file' == $field_type ) {
-						$attachment_url = wp_get_attachment_url( $user_info_field );
-						$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info_field ) . '</a>' : '';
-					} else {
-						$size = 'thumbnail';
-						if ( isset( $atts['size'] ) ) {
-							$sizes = array( 'thumbnail', 'medium', 'large', 'full' );
-							$size  = ( ! in_array( $atts['size'], $sizes ) ) ? explode( ",", $atts['size'] ) : $atts['size'];
-						}
-						$image = wp_get_attachment_image_src( $user_info_field, $size );
-						$result = ( $image ) ? '<img src="' . esc_url( $image[0] ) . '" width="' . esc_attr( $image[1] ) . '" height="' . esc_attr( $image[2] ) . '" />' : '';
-					}
-				}
-				return do_shortcode( $result );
-			}
-
-			// Handle line breaks for textarea fields
-			if ( isset( $field_type ) && 'textarea' == $field_type ) {
-				$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : nl2br( $user_info_field );
-			}
-
-			// Handle date fields.
-			if ( isset( $field_type ) && 'date' == $field_type ) {
-				if ( isset( $atts['format'] ) ) {
-					// Formats date: https://secure.php.net/manual/en/function.date.php
-					$result = ( '' != $user_info_field ) ? date( $atts['format'], strtotime( $user_info_field ) ) : '';
-				} else {
-					// Formats date to whatever the WP setting is.
-					$result = ( '' != $user_info_field ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info_field ) ) : '';
-				}
-			}
 			
-			// Handle all other fields.
-			$result = ( ! $result ) ? $user_info_field : $result;
+			// Handle each field type.
+			switch ( $field_type ) {
+					
+				// Select and radio groups have single selections.
+				case 'select':
+				case 'radio':
+					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : $fields[ $field ]['options'][ $user_info_field ];
+					break;
+					
+				// Multiple select and multiple checkbox have multiple selections.
+				case 'multiselect':
+				case 'multicheckbox':
+					if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
+						$result = $user_info_field;
+					} else {
+						$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info_field );
+						$result = ''; $x = 1;
+						foreach ( $saved_vals as $value ) {
+							$result.= ( $x > 1 ) ? ', ' : ''; $x++;
+							$result.= $fields[ $field ]['options'][ $value ];
+						}
+					}
+					break;
+					
+				case 'file':
+				case 'image':
+					if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
+						$result = $user_info_field;
+					} else {
+						if ( 'file' == $field_type ) {
+							$attachment_url = wp_get_attachment_url( $user_info_field );
+							$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info_field ) . '</a>' : '';
+						} else {
+							$size = 'thumbnail';
+							if ( isset( $atts['size'] ) ) {
+								$sizes = array( 'thumbnail', 'medium', 'large', 'full' );
+								$size  = ( ! in_array( $atts['size'], $sizes ) ) ? explode( ",", $atts['size'] ) : $atts['size'];
+							}
+							$image = wp_get_attachment_image_src( $user_info_field, $size );
+							$result = ( $image ) ? '<img src="' . esc_url( $image[0] ) . '" width="' . esc_attr( $image[1] ) . '" height="' . esc_attr( $image[2] ) . '" />' : '';
+						}
+					}
+					break;
+					
+				case 'textarea':
+					// Handle line breaks for textarea fields
+					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : nl2br( $user_info_field );
+					break;
+					
+				case 'date':
+					if ( isset( $atts['format'] ) ) {
+						// Formats date: https://secure.php.net/manual/en/function.date.php
+						$result = ( '' != $user_info_field ) ? date( $atts['format'], strtotime( $user_info_field ) ) : '';
+					} else {
+						// Formats date to whatever the WP setting is.
+						$result = ( '' != $user_info_field ) ? date_i18n( get_option( 'date_format' ), strtotime( $user_info_field ) ) : '';
+					}
+					break;
+					
+				// Handle all other fields.
+				default:
+					$result = ( ! $result ) ? $user_info_field : $result;					
+					break;
+			}
 
 			// Remove underscores from value if requested (default: on).
 			if ( isset( $atts['underscores'] ) && 'off' == $atts['underscores'] && $user_info ) {
@@ -634,6 +640,7 @@ class WP_Members_Shortcodes {
 			// Display field label?
 			$content = ( isset( $atts['label'] ) && ( true == $atts['label'] ) ) ? $fields[ $field ]['label'] . ": " . $content : $content;
 		}
+		
 		/**
 		 * Filters the field shortcode before returning value.
 		 *
