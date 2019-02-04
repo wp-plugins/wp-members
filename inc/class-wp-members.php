@@ -942,7 +942,7 @@ class WP_Members {
 					foreach ( $hidden as $post_id ) {
 						if ( 1 == get_post_meta( $post_id, $this->membership->post_stem . $key, true ) ) {
 							$hidden_key = array_search( $post_id, $hidden );
-    						unset( $hidden[ $hidden_key ] );	
+							unset( $hidden[ $hidden_key ] );	
 						}
 					}
 				}
