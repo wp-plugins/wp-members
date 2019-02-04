@@ -588,11 +588,13 @@ class WP_Members_User {
 	 * set to "true" (which does not expire).
 	 *
 	 * @since 3.2.0
+	 * @since 3.2.6 Added $date to set a specific expiration date.
 	 *
 	 * @param string $product
 	 * @param int    $user_id
+	 * @param string $set_date
 	 */
-	function set_user_product( $product, $user_id = false ) {
+	function set_user_product( $product, $user_id = false, $set_date = false ) {
 
 		global $wpmem;
 		
@@ -609,7 +611,11 @@ class WP_Members_User {
 		if ( is_array( $expires ) ) {
 			$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
 			$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
-			$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
+			if ( $set_date ) {
+				$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $set_date ) );
+			} else {
+				$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
+			}
 		} else {
 			$user_products[ $product ] = true;
 		}

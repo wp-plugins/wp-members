@@ -164,15 +164,17 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * Sets product access for a user.
  *
  * @since 3.2.3
+ * @since 3.2.6 Added $date to set a specific expiration date.
  *
  * @global object $wpmem
  * @param  string $product The meta key of the product.
  * @param  int    $user_id
+ * @param  string $date
  * @return bool   $result
  */
-function wpmem_set_user_product( $product, $user_id = false ) {
+function wpmem_set_user_product( $product, $user_id = false, $date = false ) {
 	global $wpmem;
-	return $wpmem->user->set_user_product( $product, $user_id );
+	return $wpmem->user->set_user_product( $product, $user_id, $date );
 }
 
 /**
