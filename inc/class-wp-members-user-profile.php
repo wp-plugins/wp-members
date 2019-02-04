@@ -222,6 +222,19 @@ class WP_Members_User_Profile {
 
 		</table><?php
 		
+		/**
+		 * Fires after the user profile table.
+		 *
+		 * Action fires for the admin user edit ("wpmem_admin_after_profile_table")
+		 * and the user profile edit ("wpmem_user_after_profile_table").
+		 *
+		 * @since 3.2.6
+		 *
+		 * @param int   $user_id      The user's ID.
+		 * @param array $wpmem_fields The WP-Members fields.
+		 */
+		do_action( 'wpmem_' . $display . '_after_profile_table', $user_id, $wpmem_fields );
+		
 	}
 	
 	/**

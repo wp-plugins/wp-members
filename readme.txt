@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 3.2.5.1
+Stable tag: 3.2.6
 License: GPLv2
 
 == Description ==
@@ -101,7 +101,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.5 is primarily a feature update, with some fixes. See changelog for details.
+WP-Members 3.2.6 is a security release with some additional updates. See changelog for details.
 
 == Screenshots ==
 
@@ -124,10 +124,9 @@ WP-Members 3.2.5 is primarily a feature update, with some fixes. See changelog f
 
 == Changelog ==
 
-= 3.2.5.1 =
+= 3.2.6 =
 
-* Fixes bug in 3.2.5 with the [wpmem_field] shortcode not displaying correctly.
-* Reintroduces WPMEM_DEBUG constant (which is used in outside extensions).
+* Added wpmem_admin_after_profile_table and wpmem_user_after_profile_table actions.
 
 = 3.2.5 =
 
