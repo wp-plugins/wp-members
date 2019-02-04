@@ -572,12 +572,15 @@ class WP_Members_User {
 	 * Loads anything the user has access to.
 	 *
 	 * @since 3.2.0
+	 * @since 3.2.6 Updated to return empty array if no products exist for this user.
 	 *
-	 * @param int $user_id
+	 * @param  int   $user_id
+	 * @return array $products
 	 */
 	function get_user_products( $user_id = false ) {
-		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		return get_user_meta( $user_id, '_wpmem_products', true );
+		$user_id  = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		$products = get_user_meta( $user_id, '_wpmem_products', true );
+		return ( $products ) ? $products : array();
 	}
 	
 	/**
