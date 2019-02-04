@@ -280,6 +280,8 @@ class WP_Members_User {
 		 * @param string $args['pass1']    The user's new plain text password.
 		 */
 		$is_error = apply_filters( 'wpmem_pwd_change_error', $is_error, $user_ID, $args['pass1'] );
+		// User must be logged in.
+		$is_error = ( ! is_user_logged_in() ) ? "loggedin" : $is_error;
 		if ( $is_error ) {
 			return $is_error;
 		}

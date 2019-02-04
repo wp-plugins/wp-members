@@ -126,6 +126,7 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 
 = 3.2.6 =
 
+* Password change function only can be fired if user is logged in.
 * Added "all" argument to wpmem_user_data() to retrieve either all user meta or WP-Members fields only.
 * Added $date argument to wpmem_set_user_product(). Allows specific date to be set using API.
 * Added wpmem_admin_after_profile_table and wpmem_user_after_profile_table actions.

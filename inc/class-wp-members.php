@@ -325,10 +325,13 @@ class WP_Members {
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
 		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
-		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_password' ), 9, 2 );
-		add_action( 'wpmem_pwd_change',      array( $this->user, 'set_as_logged_in' ), 10 );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
 		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
+
+		if ( is_user_logged_in() ) {
+			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_password' ), 9, 2 );
+			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
+		}
 		
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
