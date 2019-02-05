@@ -283,7 +283,7 @@ class WP_Members_User {
 		// User must be logged in.
 		$is_error = ( ! is_user_logged_in() ) ? "loggedin" : $is_error;
 		// Verify nonce.
-		$is_error = ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpmem_login_nonce' ) ) ? "reg_generic" : $is_error;	
+		$is_error = ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpmem_login_nonce' ) ) ? "reg_generic" : $is_error;
 		if ( $is_error ) {
 			return $is_error;
 		}
@@ -324,6 +324,9 @@ class WP_Members_User {
 
 		} else {
 
+			if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpmem_login_nonce' ) ) {
+				return "reg_generic";
+			}
 			if ( username_exists( $arr['user'] ) ) {
 				$user = get_user_by( 'login', $arr['user'] );
 				if ( strtolower( $user->user_email ) !== strtolower( $arr['email'] ) || ( ( $wpmem->mod_reg == 1 ) && ( get_user_meta( $user->ID, 'active', true ) != 1 ) ) ) {

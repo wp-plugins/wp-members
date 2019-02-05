@@ -380,6 +380,7 @@ class WP_Members_Forms {
 	 * @since 2.5.1
 	 * @since 3.1.7 Moved to forms object class as login_form().
 	 * @since 3.1.7 Added WP action login_form.
+	 * @since 3.2.6 Added nonce to the short form.
 	 *
 	 * @param  string $page 
 	 * @param  array  $arr {
