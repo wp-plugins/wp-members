@@ -649,6 +649,9 @@ class WP_Members_Forms {
 
 		// Apply fieldset wrapper.
 		$form = $args['fieldset_before'] . $args['n'] . $form . $args['fieldset_after'] . $args['n'];
+		
+		// Apply nonce.
+		$form = wp_nonce_field( 'wpmem_login_nonce' ) . $args['n'] . $form;
 
 		// Apply form wrapper.
 		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';

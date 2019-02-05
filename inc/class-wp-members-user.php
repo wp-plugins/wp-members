@@ -282,6 +282,8 @@ class WP_Members_User {
 		$is_error = apply_filters( 'wpmem_pwd_change_error', $is_error, $user_ID, $args['pass1'] );
 		// User must be logged in.
 		$is_error = ( ! is_user_logged_in() ) ? "loggedin" : $is_error;
+		// Verify nonce.
+		$is_error = ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpmem_login_nonce' ) ) ? "reg_generic" : $is_error;	
 		if ( $is_error ) {
 			return $is_error;
 		}

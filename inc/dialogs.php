@@ -416,23 +416,16 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 	
 		switch ( $wpmem_regchk ) {
 
-		case "pwdchangempty":
-			$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( 'pwdchangempty' ) );
-			$content = $content . wpmem_inc_changepassword();
-			break;
+			case "pwdchangesuccess":
+				$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+				break;
 
-		case "pwdchangerr":
-			$content = wpmem_inc_regmessage( $wpmem_regchk );
-			$content = $content . wpmem_inc_changepassword();
-			break;
-
-		case "pwdchangesuccess":
-			$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
-			break;
-
-		default:
-			$content = $content . wpmem_inc_changepassword();
-			break;
+			default:
+				if ( isset( $wpmem_regchk ) || '' != $wpmem_regchk ) {
+					$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+				}
+				$content = $content . wpmem_inc_changepassword();
+				break;
 		}
 
 	} else {
