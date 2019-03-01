@@ -153,6 +153,7 @@ class WP_Members_User {
 	 * User registration functions.
 	 *
 	 * @since 3.1.7
+	 * @since 3.2.6 Added handler for membership field type.
 	 *
 	 * @global object $wpmem
 	 * @param  int    $user_id
@@ -170,7 +171,12 @@ class WP_Members_User {
 			// If the field is not excluded, update accordingly.
 			if ( ! in_array( $meta_key, $wpmem->excluded_meta ) && ! in_array( $meta_key, $new_user_fields_meta ) ) {
 				if ( $field['register'] && 'user_email' != $meta_key ) {
-					update_user_meta( $user_id, $meta_key, $this->post_data[ $meta_key ] );
+					// Assign memberships, if applicable.
+					if ( 'membership' == $field['type'] && 1 == $wpmem->enable_products ) {
+						wpmem_set_user_product( $this->post_data[ $meta_key ], $user_id );
+					} else {
+						update_user_meta( $user_id, $meta_key, $this->post_data[ $meta_key ] );
+					}
 				}
 			}
 		}

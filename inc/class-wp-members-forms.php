@@ -137,10 +137,17 @@ class WP_Members_Forms {
 	
 		case "select":
 		case "multiselect":
+		case "membership":
 			$class = ( 'textbox' == $class && 'multiselect' != $type ) ? "dropdown"    : $class;
 			$class = ( 'textbox' == $class && 'multiselect' == $type ) ? "multiselect" : $class;
 			$pname = ( 'multiselect' == $type ) ? $name . "[]" : $name;
 			$str = "<select name=\"$pname\" id=\"$id\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
+			if ( 'membership' == $type ) {
+				$value = array( 'Choose membership|' );
+				foreach( $wpmem->membership->products as $membership_key => $membership_value ) {
+					$value[] = $membership_value['title'] . '|' . $membership_key;
+				}
+			}
 			foreach ( $value as $option ) {
 				$pieces = explode( '|', $option );
 				if ( 'multiselect' == $type ) {

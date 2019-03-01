@@ -223,6 +223,9 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 						<option value="number"><?php        _e( 'number',            'wp-members' ); ?></option>
 						<option value="date"><?php          _e( 'date',              'wp-members' ); ?></option>
 						<option value="hidden"><?php        _e( 'hidden',            'wp-members' ); ?></option>
+					<?php if ( $wpmem->enable_products ) { ?>
+						<option value="membership"><?php    _e( 'membership',        'wp-members' ); ?></option>
+					<?php } ?>
 					</select>
 				<?php } ?>
 			</li>
