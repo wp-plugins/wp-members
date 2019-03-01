@@ -842,8 +842,8 @@ class WP_Members_Forms {
 					) );
 				}
 
-				// Label for all but TOS.
-				if ( 'tos' != $meta_key ) {
+				// Label for all but TOS and hidden fields.
+				if ( 'tos' != $meta_key && 'hidden' != $field['type'] ) {
 
 					$class = ( $field['type'] == 'password' || $field['type'] == 'email' || $field['type'] == 'url' ) ? 'text' : $field['type'];
 					
@@ -946,7 +946,7 @@ class WP_Members_Forms {
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
 					$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 
-				} else {
+				} elseif ( 'hidden' != $field['type'] ) {
 
 					// For checkboxes.
 					if ( 'checkbox' == $field['type'] ) { 
@@ -1014,7 +1014,7 @@ class WP_Members_Forms {
 			}
 
 			// If the row is set to display, add the row to the form array.
-			if ( $field['register'] ) {
+			if ( $field['register'] && 'hidden' != $field['type'] ) {
 
 				$values = '';
 				if ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
@@ -1495,7 +1495,7 @@ class WP_Members_Forms {
 				'name'   => $wpmem->get_text( 'pwdreset_email' ), 
 				'type'   => 'text', 
 				'tag'    => 'email', 
-				'class'  => 'password',
+				'class'  => 'text',
 				'div'    => 'div_text',
 			),
 		);
