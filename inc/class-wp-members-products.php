@@ -50,7 +50,23 @@ class WP_Members_Products {
 	 *
 	 * @since  3.2.0
 	 * @access public
-	 * @var    array
+	 * @var    array {
+	 *     Array of membership product information.
+	 *
+	 *     @type array $product_slug {
+	 *         Array of membership product settings.
+	 *
+	 *         @type string $title   The product title (user view).
+	 *         @type string $role    User role, if a role is required.
+	 *         @type string $name    The product slug.
+	 *         @type string $default
+	 *         @type array  $expires {
+	 *              If the membership has expiration periods.
+	 *
+	 *              $type string number|period Number of periods|Period (year/month/week/day).
+	 *         }
+	 *     }
+	 * }
 	 */
 	public $products = array();
 
@@ -59,7 +75,11 @@ class WP_Members_Products {
 	 *
 	 * @since  3.2.4
 	 * @access public
-	 * @var    array
+	 * @var    array {
+	 *     Array of membership products keyed by CPT ID.
+	 *
+	 *     @type string $ID The membership product slug.
+	 * }
 	 */
 	public $product_by_id = array();
 	
@@ -68,7 +88,7 @@ class WP_Members_Products {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global object $wpmem
+	 * @global object $wpmem The WP_Members object class.
 	 */
 	function __construct() {
 		
@@ -81,10 +101,14 @@ class WP_Members_Products {
 	 * Loads product settings.
 	 *
 	 * @since 3.2.0
+	 *
+	 * @global object $wpdb The WPDB object class.
 	 */
 	function load_products() {
 		global $wpdb;
-		$sql    = "SELECT ID, post_title, post_name FROM " . $wpdb->prefix . "posts WHERE post_type = 'wpmem_product' AND post_status = 'publish';";
+		$sql = "SELECT ID, post_title, post_name FROM " 
+			. $wpdb->prefix 
+			. "posts WHERE post_type = 'wpmem_product' AND post_status = 'publish';";
 		$result = $wpdb->get_results( $sql );
 		foreach ( $result as $plan ) {
 			$this->product_by_id[ $plan->ID ] = $plan->post_name;
@@ -107,7 +131,11 @@ class WP_Members_Products {
 	 * @since 3.2.4
 	 *
 	 * @param  integer $post_id
-	 * @return array   $products
+	 * @return array   $products {
+	 *     Membership product slugs the post is restricted to.
+	 *
+	 *     @type string $slug
+	 * }
 	 */
 	function get_post_products( $post_id ) {
 		$products = get_post_meta( $post_id, $this->post_meta, true );
@@ -120,8 +148,8 @@ class WP_Members_Products {
 	 * @since 3.2.0
 	 * @since 3.2.2 Merged check_product_access() logic for better messaging.
 	 *
-	 * @global object $post
-	 * @global object $wpmem
+	 * @global object $post    The WordPress Post object.
+	 * @global object $wpmem   The WP_Members object class.
 	 * @param  string $content
 	 * @return string $content
 	 */
@@ -153,7 +181,11 @@ class WP_Members_Products {
 			 * @since 3.2.3
 			 *
 			 * @param string                The message.
-			 * @param array  $post_products Post products array.
+			 * @param array  $post_products {
+			 *     Membership product slugs the post is restricted to.
+			 *
+			 *     @type string $slug
+			 * }
 			 */
 			$content = ( $access ) ? $content : apply_filters( 'wpmem_product_restricted_msg', $wpmem->get_text( 'product_restricted' ), $post_products );
 			
@@ -170,6 +202,8 @@ class WP_Members_Products {
 	 * Register Membership Plans Custom Post Type
 	 *
 	 * @since 3.2.0
+	 *
+	 * @global object $wpmem The WP_Members object class.
 	 */
 	function add_cpt() {
 		
