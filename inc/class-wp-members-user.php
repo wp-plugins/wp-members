@@ -404,6 +404,7 @@ class WP_Members_User {
 	 * Handle user file uploads for registration and profile update.
 	 *
 	 * @since 3.1.8
+	 * @since 3.2.6 Add file's post ID to $this->post_data.
 	 *
 	 * @param string $user_id
 	 * @param array  $fields
@@ -417,6 +418,8 @@ class WP_Members_User {
 					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $user_id );
 					// Save the attachment ID as user meta.
 					update_user_meta( $user_id, $meta_key, $file_post_id );
+					// Add attachement ID to post data array.
+					$this->post_data[ $meta_key ] = $file_post_id;
 				}
 			}
 		}

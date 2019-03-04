@@ -137,6 +137,7 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 * Added membership field type for allowing selection of a membership at registration.
 * Login form updated from "Username" to "Username or Email".
 * Added $arr parameter to wpmem_login_form_rows filter.
+* Added file's post ID to post_data array.
 
 = 3.2.5 =
 
