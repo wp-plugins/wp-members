@@ -523,11 +523,13 @@ class WP_Members_Forms {
 		 * parts of a row without needing to parse through a string of HTML.
 		 *
 		 * @since 2.9.0
+		 * @since 3.2.6 Added $arr parameter so all settings are passed.
 		 *
 		 * @param array  $rows          An array containing the form rows.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param array  $arr           An array containing all of the form settings.
 		 */
-		$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'] );
+		$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'], $arr );
 
 		// Put the rows from the array into $form.
 		$form = '';
