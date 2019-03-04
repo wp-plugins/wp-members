@@ -38,6 +38,15 @@ class WP_Members_Admin_User_Search {
 	 * @var array
 	 */
 	public $keys = array();
+	
+	/**
+	 * Table name.
+	 *
+	 * @since 3.2.6
+	 * @access private
+	 * @var string
+	 */
+	private $table = "wpmembers_user_search_keys";
 
 	/**
 	 * Constructor function.
@@ -94,13 +103,13 @@ class WP_Members_Admin_User_Search {
 			}
 
 			// Use a permanent table because you cannot reference MySQL temporary tables more than once per query.
-			$mktable = "{$wpdb->prefix}wpmembers_user_search_keys";
+			$mktable = $wpdb->prefix . $this->table;
 
-			// Create the table to store the meta keys.
-			$wpdb->query( $sql = "CREATE TABLE IF NOT EXISTS {$mktable} (meta_key VARCHAR(255) NOT NULL);" );
+			// If the table does not exist, create the table to store the meta keys.
+			$wpdb->query( "CREATE TABLE IF NOT EXISTS {$mktable} (meta_key VARCHAR(255) NOT NULL);" );
 
 			// Empty the table to ensure that we have an accurate set of meta keys.
-			$wpdb->query( $sql = "TRUNCATE TABLE {$mktable};" );
+			$wpdb->query( "TRUNCATE TABLE {$mktable};" );
 
 			// Insert the meta keys into the table.
 			$prepare_values_array = array_fill( 0, count( $meta_keys ), '(%s)' );
