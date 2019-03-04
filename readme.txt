@@ -133,7 +133,9 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 * Added wpmem_admin_after_profile_table and wpmem_user_after_profile_table actions.
 * get_user_products() returns empty array if no products (previously boolean).
 * Rebuild of [wpmem_field] logic for field type. Combined multiple conditions into a single switch.
+* Update password reset form - password field should be "text" class.
 * Added membership field type for allowing selection of a membership at registration.
+* Login form updated from "Username" to "Username or Email".
 
 = 3.2.5 =
 

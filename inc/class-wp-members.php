@@ -1205,7 +1205,6 @@ class WP_Members {
 		 */
 		$benign_strings = array(
 			__( 'No fields selected for deletion', 'wp-members' ),
-			__( 'Username or Email', 'wp-members' ),
 			__( 'You are not logged in.', 'wp-members' ), // Technically removed 3.5
 		);
 	
@@ -1213,7 +1212,7 @@ class WP_Members {
 			
 			// Login form.
 			'login_heading'        => __( 'Existing Users Log In', 'wp-members' ),
-			'login_username'       => __( 'Username', 'wp-members' ),
+			'login_username'       => __( 'Username or Email', 'wp-members' ),
 			'login_password'       => __( 'Password', 'wp-members' ),
 			'login_button'         => __( 'Log In', 'wp-members' ),
 			'remember_me'          => __( 'Remember Me', 'wp-members' ),
