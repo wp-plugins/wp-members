@@ -169,7 +169,7 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * @global object $wpmem
  * @param  string $product The meta key of the product.
  * @param  int    $user_id
- * @param  string $date
+ * @param  string $date    Expiration date (optional) format: MySQL timestamp
  * @return bool   $result
  */
 function wpmem_set_user_product( $product, $user_id = false, $date = false ) {

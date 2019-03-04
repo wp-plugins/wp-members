@@ -1299,14 +1299,19 @@ class WP_Members {
 			
 			// Default Dialogs.
 			'restricted_msg'       => __( "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.", 'wp-members' ),
+			'success'              => __( "Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you.", 'wp-members' ),
+			
+			// @todo Under consideration for removal from the Dialogs tab.
 			'user'                 => __( "Sorry, that username is taken, please try another.", 'wp-members' ),
 			'email'                => __( "Sorry, that email address already has an account.<br />Please try another.", 'wp-members' ),
-			'success'              => __( "Congratulations! Your registration was successful.<br /><br />You may now log in using the password that was emailed to you.", 'wp-members' ),
 			'editsuccess'          => __( "Your information was updated!", 'wp-members' ),
+			
+			// @todo These are defaults and are under consideration for removal from the dialogs tab, possibly as we change the password reset to a link based process.
 			'pwdchangerr'          => __( "Passwords did not match.<br /><br />Please try again.", 'wp-members' ),
 			'pwdchangesuccess'     => __( "Password successfully changed!", 'wp-members' ),
 			'pwdreseterr'          => __( "Either the username or email address do not exist in our records.", 'wp-members' ),
 			'pwdresetsuccess'      => __( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
+			
 			'product_restricted'   => __( "Sorry, you do not have access to this content.", 'wp-members' ),
 		
 		); // End of $defaults array.

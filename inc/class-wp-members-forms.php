@@ -36,7 +36,8 @@ class WP_Members_Forms {
 	 * @since 3.2.0 Added $id argument.
 	 * @since 3.2.4 Added radio group and multiple checkbox individual item labels.
 	 *
-	 * @param array  $args {
+	 * @global object $wpmem The WP_Members object class.
+	 * @param  array  $args {
 	 *     @type string  $id
 	 *     @type string  $name
 	 *     @type string  $type
@@ -57,6 +58,9 @@ class WP_Members_Forms {
 	 */
 	function create_form_field( $args ) {
 		
+		global $wpmem;
+		
+		// Set defaults for most possible $args.
 		$id          = ( isset( $args['id'] ) ) ? esc_attr( $args['id'] ) : esc_attr( $args['name'] );
 		$name        = esc_attr( $args['name'] );
 		$type        = esc_attr( $args['type'] );
@@ -69,8 +73,15 @@ class WP_Members_Forms {
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
 	
+		// Handle field creation by type.
 		switch ( $type ) { 
 
+		/*
+		 * Field types text|url|email|number|date are all handled essentially the 
+		 * same. The primary differences are CSS class (with a default fallback
+		 * of 'textbox'), how values are escaped, and the application of min|max
+		 * values for number fields.
+		 */
 		case "text":
 		case "url":
 		case "email":
@@ -84,10 +95,8 @@ class WP_Members_Forms {
 				case 'email':
 					$value = esc_attr( wp_unslash( $value ) );
 					break;
-				//case 'number':
-					//$value = esc_attr( $value );
 				default:
-					$value = stripslashes( esc_attr( $value ) );
+					$value = stripslashes( esc_attr( $value ) ); // @todo Could email and default be combined? Both seem to unslash and esc_attr().
 					break;
 			}
 			$required    = ( $required    ) ? ' required' : '';
