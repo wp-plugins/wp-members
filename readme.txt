@@ -128,6 +128,7 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 = 3.2.6.1 =
 
 * Update to evaluate required fields as not null (instead of false).
+* Added wpmem_tos_link_tag filter.
 = 3.2.6 =
 
 * Added nonce to short form (long form was added in 3.2.5).

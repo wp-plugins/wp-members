@@ -929,11 +929,22 @@ class WP_Members_Forms {
 					// Determine if TOS is a WP page or not.
 					$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
 					if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
-						$link = do_shortcode( $tos_content );
-						$tos_pop = '<a href="' . esc_url( $link ) . '" target="_blank">';
-					} else { 
-						$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WPMEM_DIR . "/wp-members-tos.php','mywindow');\">";
+						$tos_link_url = do_shortcode( $tos_content );
+						$tos_link_tag = '<a href="' . esc_url( $tos_link_url ) . '" target="_blank">';
+					} else {
+						$tos_link_url = WPMEM_DIR . "/wp-members-tos.php";
+						$tos_link_tag = "<a href=\"#\" onClick=\"window.open('" . $tos_link_url . "','mywindow');\">";
 					}
+					
+					/**
+					 * Filter the TOS link.
+					 *
+					 * @since 3.2.6
+					 *
+					 * @param string $tos_link_tag
+					 * @param string $tos_link_url
+					 */
+					$tos_link_tag = apply_filters( 'wpmem_tos_link_tag', $tos_link_tag, $tos_link_url );
 
 					/**
 					 * Filter the TOS link text.
@@ -958,7 +969,7 @@ class WP_Members_Forms {
 						$tos_link_text = '%s' . $tos_link_text . '%s';
 					}
 					
-					$input .= ' ' . sprintf( $tos_link_text, $tos_pop, '</a>' );
+					$input .= ' ' . sprintf( $tos_link_text, $tos_link_tag, '</a>' );
 
 					// In previous versions, the div class would end up being the same as the row before.
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
