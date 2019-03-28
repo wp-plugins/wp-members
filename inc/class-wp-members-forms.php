@@ -1201,8 +1201,11 @@ class WP_Members_Forms {
 
 		// Create buttons and wrapper.
 		$button_text = ( $tag == 'edit' ) ? $args['submit_update'] : $args['submit_register'];
-		$buttons = ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" /> ' . $args['n'] : '';
-		$buttons.= '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+		$button_html = array(
+			'reset' =>  ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" /> ' : '',
+			'submit' => '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />',
+		);
+		$buttons = $button_html['reset'] . $args['n'] . $button_html['submit'] . $args['n'];
 
 		/**
 		 * Filter the HTML for form buttons.
@@ -1210,11 +1213,13 @@ class WP_Members_Forms {
 		 * The string passed through the filter includes the buttons, as well as the HTML wrapper elements.
 		 *
 		 * @since 2.9.0
+		 * @since 3.2.6 Added $button_html parameter
 		 *
-		 * @param string $buttons The generated HTML of the form buttons.
-		 * @param string $tag     Toggle new registration or profile update. new|edit.
+		 * @param string $buttons     The generated HTML of the form buttons.
+		 * @param string $tag         Toggle new registration or profile update. new|edit.
+		 * @param array  $button_html The individual button html.
 		 */
-		$buttons = apply_filters( 'wpmem_register_form_buttons', $buttons, $tag );
+		$buttons = apply_filters( 'wpmem_register_form_buttons', $buttons, $tag, $button_html );
 
 		// Add the buttons to the form.
 		$form.= $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'];
