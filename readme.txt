@@ -4,6 +4,7 @@ Tags: access, authentication, content, login, member, membership, password, prot
 Requires at least: 4.0
 Tested up to: 5.0
 Stable tag: 3.2.6
+Stable tag: 3.2.6.1
 License: GPLv2
 
 == Description ==
@@ -124,6 +125,9 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 
 == Changelog ==
 
+= 3.2.6.1 =
+
+* Update to evaluate required fields as not null (instead of false).
 = 3.2.6 =
 
 * Added nonce to short form (long form was added in 3.2.5).

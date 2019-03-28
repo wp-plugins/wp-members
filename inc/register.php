@@ -140,7 +140,7 @@ function wpmem_registration( $tag ) {
 				}
 			} else {
 				// If the required field is any other field type.
-				if ( ! $wpmem->user->post_data[ $meta_key ] ) {
+				if ( null == $wpmem->user->post_data[ $meta_key ] ) {
 					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 				}
 			}
