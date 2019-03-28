@@ -67,7 +67,18 @@ class WP_Members_Menus {
 		$theme_loc = $args['theme_location'] . '_wpmem_loggedin';
 		$menu_locs = get_nav_menu_locations();
 
-		$serve_menu = apply_filters( 'wpmem_lim_serve_menu', true );
+		/**
+		 * Filter the served menu.
+		 *
+		 * @since 3.2.6
+		 * @todo Determine what extra parameters to pass and how (then document them).
+		 *
+		 * @param array  boolean
+		 * @param string $theme_loc
+		 * @param        $menu_locs
+		 * @param array  $args
+		 */
+		$serve_menu = apply_filters( 'wpmem_serve_menu', true, $theme_loc, $menu_locs, $args );
 
 		if ( is_user_logged_in( $menu_locs ) 
 		  && ! empty( $args['theme_location'] )
