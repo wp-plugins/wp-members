@@ -422,8 +422,8 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 				break;
 
 			default:
-				if ( isset( $wpmem_regchk ) || '' != $wpmem_regchk ) {
-					$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+				if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
+					$content .= wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 				}
 				$content = $content . wpmem_inc_changepassword();
 				break;
@@ -446,7 +446,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 					break;
 
 				default:
-					if ( isset( $wpmem_regchk ) || '' != $wpmem_regchk ) {
+					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
 						$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 					}
 					$content = $content . wpmem_inc_resetpassword();

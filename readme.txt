@@ -130,6 +130,7 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 * Added wpmem_tos_link_tag filter.
 * Added $button_html parameter to wpmem_register_form_buttons filter.
 * Added wpmem_serve_menu filter.
+* Fixed display issue with password shortcode which caused message dialog to display in default state.
 
 = 3.2.6 =
 
