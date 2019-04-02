@@ -48,7 +48,7 @@ function wpmem_registration( $tag ) {
 	global $user_ID, $wpmem, $wpmem_themsg, $userdata; 
 	
 	// Check the nonce.
-	if ( empty( $_POST ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpmem_reg_nonce' ) ) {
+	if ( empty( $_POST ) || ! wp_verify_nonce( $_REQUEST[ '_wpmem_' . $tag . '_nonce' ], 'wpmem_longform_nonce' ) ) {
 		$wpmem_themsg = __( 'There was an error processing the form.', 'wp-members' );
 		return;
 	}

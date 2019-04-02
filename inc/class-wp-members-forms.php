@@ -670,7 +670,7 @@ class WP_Members_Forms {
 		$form = $args['fieldset_before'] . $args['n'] . $form . $args['fieldset_after'] . $args['n'];
 		
 		// Apply nonce.
-		$form = wp_nonce_field( 'wpmem_login_nonce', '_wpnonce', true, false ) . $args['n'] . $form;
+		$form = wp_nonce_field( 'wpmem_shortform_nonce', '_wpmem_' . $arr['action'] . '_nonce', true, false ) . $args['n'] . $form;
 
 		// Apply form wrapper.
 		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
@@ -1245,8 +1245,9 @@ class WP_Members_Forms {
 		// Apply attribution if enabled.
 		$form = $form . wpmem_inc_attribution();
 
-		// Apply nonce.
-		$form = wp_nonce_field( 'wpmem_reg_nonce', '_wpnonce', true, false ) . $args['n'] . $form;
+		// Apply nonce. Nonce uses $tag value of the form processor, NOT the form builder.
+		$nonce = ( $tag == 'edit' ) ? 'update' : 'register';
+		$form  = wp_nonce_field( 'wpmem_longform_nonce', '_wpmem_' . $nonce . '_nonce', true, false ) . $args['n'] . $form;
 
 		// Apply form wrapper.
 		$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
