@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.1
-Stable tag: 3.2.6.1
+Stable tag: 3.2.7
 License: GPLv2
 
 == Description ==
@@ -101,7 +101,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.6 is a security release with some additional updates. See changelog for details.
+WP-Members 3.2.7 is a feature update release. See changelog for details.
 
 == Screenshots ==
 
@@ -124,17 +124,19 @@ WP-Members 3.2.6 is a security release with some additional updates. See changel
 
 == Changelog ==
 
-= 3.2.6.1 =
+= 3.2.7 =
+
+* Fix console error from nonce by implementing different nonce names.
+* Updated packaged POT file for legacy lanaguage files. Updated legacy language files to use new POT.
+* Full removal of legacy language files that are available as language packs from https://translate.wordpress.org/projects/wp-plugins/wp-members/
+* Added jQuery UI stylesheet (fixes issue with main options tab settings modal).
+
+= 3.2.6 =
 
 * Update to evaluate required fields as not null (instead of false).
 * Added wpmem_tos_link_tag filter.
 * Added $button_html parameter to wpmem_register_form_buttons filter.
 * Added wpmem_serve_menu filter.
-* Fixed display issue with password shortcode which caused message dialog to display in default state.
-* Fixed console error with short form nonce.
-
-= 3.2.6 =
-
 * Added nonce to short form (long form was added in 3.2.5).
 * Password change function only can be fired if user is logged in.
 * Added "all" argument to wpmem_user_data() to retrieve either all user meta or WP-Members fields only.
