@@ -1320,11 +1320,23 @@ class WP_Members {
 		 * Filter default terms.
 		 *
 		 * @since 3.1.0
+		 * @deprecated 3.2.7 Use wpmem_default_text instead.
 		 */
 		$text = apply_filters( 'wpmem_default_text_strings', '' );
 		
 		// Merge filtered $terms with $defaults.
 		$text = wp_parse_args( $text, $defaults );
+		
+		/**
+		 * Filter the default terms.
+		 *
+		 * Replaces 'wpmem_default_text_strings' so that multiple filters could
+		 * be run. This allows for custom filters when also running the Text
+		 * String Editor extension.
+		 *
+		 * @since 3.2.7
+		 */
+		$text = apply_filters( 'wpmem_default_text', $text );
 		
 		// Return the requested text string.
 		return $text[ $str ];

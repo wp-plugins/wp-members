@@ -130,6 +130,8 @@ WP-Members 3.2.7 is a feature update release. See changelog for details.
 * Updated packaged POT file for legacy lanaguage files. Updated legacy language files to use new POT.
 * Full removal of legacy language files that are available as language packs from https://translate.wordpress.org/projects/wp-plugins/wp-members/
 * Added jQuery UI stylesheet (fixes issue with main options tab settings modal).
+* Added wpmem_default_text filter.
+* Deprecated wpmem_default_text_strings filter, use wpmem_default_text instead.
 
 = 3.2.6 =
 
