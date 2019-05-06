@@ -100,9 +100,9 @@ class WP_Members_Forms {
 					break;
 			}
 			$required    = ( $required    ) ? ' required' : '';
-			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
+			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( __( $placeholder, 'wp-members' ) ) . '"' : '';
 			$pattern     = ( $pattern     ) ? ' pattern="' . esc_attr( $pattern ) . '"' : '';
-			$title       = ( $title       ) ? ' title="' . esc_attr( $title ) . '"' : '';
+			$title       = ( $title       ) ? ' title="' . esc_attr( __( $title, 'wp-members' ) ) . '"' : '';
 			$min         = ( isset( $args['min'] ) && $args['min'] != '' ) ? ' min="' . esc_attr( $args['min'] ) . '"' : '';
 			$max         = ( isset( $args['max'] ) && $args['max'] != '' ) ? ' max="' . esc_attr( $args['max'] ). '"' : '';
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" value=\"$value\" class=\"$class\"$placeholder$title$pattern$min$max" . ( ( $required ) ? " required " : "" ) . " />";
@@ -110,9 +110,9 @@ class WP_Members_Forms {
 		
 		case "password":
 			$class = $this->sanitize_class( $class );
-			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
+			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( __( $placeholder, 'wp-members' ) ) . '"' : '';
 			$pattern     = ( $pattern     ) ? ' pattern="' . esc_attr( $pattern ) . '"' : '';
-			$title       = ( $title       ) ? ' title="' . esc_attr( $title ) . '"' : '';
+			$title       = ( $title       ) ? ' title="' . esc_attr( __( $title, 'wp-members' ) ) . '"' : '';
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" class=\"$class\"$placeholder$title$pattern" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 		
@@ -130,7 +130,7 @@ class WP_Members_Forms {
 		case "textarea":
 			$value = esc_textarea( stripslashes( $value ) ); // stripslashes( esc_textarea( $value ) );
 			$class = ( 'textbox' == $class ) ? "textarea" : $this->sanitize_class( $class );
-			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( $placeholder ) . '"' : '';
+			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( __( $placeholder, 'wp-members' ) ) . '"' : '';
 			$rows  = ( isset( $args['rows'] ) && $args['rows'] ) ? esc_attr( $args['rows'] ) : '5';
 			$cols  = ( isset( $args['cols'] ) && $args['cols'] ) ? esc_attr( $args['cols'] ) : '20';
 			$str = "<textarea cols=\"$cols\" rows=\"$rows\" name=\"$name\" id=\"$id\" class=\"$class\"$placeholder" . ( ( $required ) ? " required " : "" ) . ">$value</textarea>";
@@ -141,7 +141,7 @@ class WP_Members_Forms {
 			break;
 	
 		case "option":
-			$str = "<option value=\"" . esc_attr( $value ) . "\" " . selected( $value, $compare, false ) . " >$name</option>";
+			$str = "<option value=\"" . esc_attr( $value ) . "\" " . selected( $value, $compare, false ) . " >" . __( $name, 'wp-members' ) . "</option>";
 			break;
 	
 		case "select":
@@ -171,7 +171,7 @@ class WP_Members_Forms {
 				} else {
 					$chk = 'not selected';
 				}
-				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $chk, false ) . ">" . __( $pieces[0], 'wp-members' ) . "</option>\n";
+				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $chk, false ) . ">" . esc_attr( __( $pieces[0], 'wp-members' ) ) . "</option>\n";
 			}
 			$str = $str . "</select>";
 			break;
@@ -195,7 +195,7 @@ class WP_Members_Forms {
 						'compare' => ( in_array( $pieces[1], $values ) ) ? $pieces[1] : $chk,
 					) ) . "&nbsp;" . $label . "<br />\n";
 				} else {
-					$str = $str . '<span class="div_multicheckbox_separator">' . esc_html( $pieces[0] ) . "</span><br />\n";
+					$str = $str . '<span class="div_multicheckbox_separator">' . esc_html( __( $pieces[0], 'wp-members' ) ) . "</span><br />\n";
 				}
 			}
 			break;
