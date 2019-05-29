@@ -96,7 +96,7 @@ class WP_Members_Shortcodes {
 		$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
 		$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
 		
-		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'show_logged_out_state', false ) : false;
+		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
 		
 		/*
 		 * The [wpmem_form] shortcode requires additional tags (login, register, etc) that
@@ -120,7 +120,7 @@ class WP_Members_Shortcodes {
 						 * If the user is not logged in, return an error message if a login
 						 * error state exists, or return the login form.
 						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
+						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
 					}
 					break;
 
@@ -131,11 +131,11 @@ class WP_Members_Shortcodes {
 						 * or the default bullet links if no nested content.
 						 */
 						$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'register' );
-					} elseif ( is_customize_preview() && get_theme_mod( 'show_form_message_dialog', false ) ) {
+					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
 						$content  = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
 						$content .= wpmem_inc_registration( 'new', '', $redirect_to );
-					}else {
+					} else {
 						if ( $wpmem->regchk == 'loginfailed' ) {
 							$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
 							break;
