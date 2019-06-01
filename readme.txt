@@ -134,6 +134,7 @@ WP-Members 3.2.7 is a feature update release. See changelog for details.
 * Deprecated wpmem_default_text_strings filter, use wpmem_default_text instead.
 * Added translation capability to field placeholders and title attributes.
 * Updated Customizer setting slug to avoid namespace collisions (added "wpmem_" stem).
+* Updated instances of wp_redirect() to use wp_safe_redirect()
 
 = 3.2.6 =
 

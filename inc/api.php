@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function wpmem_redirect_to_login( $redirect_to = false ) {
 	if ( ! is_user_logged_in() ) {
 		$redirect_to = ( $redirect_to ) ? $redirect_to : wpmem_current_url();
-		wp_redirect( wpmem_login_url( $redirect_to ) );
+		wp_safe_redirect( wpmem_login_url( $redirect_to ) );
 		exit();
 	}
 	return;

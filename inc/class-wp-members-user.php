@@ -145,7 +145,7 @@ class WP_Members_User {
 		/** This action is defined in /wp-includes/pluggable.php. */
 		do_action( 'wp_logout' );
 
-		wp_redirect( $redirect_to );
+		wp_safe_redirect( $redirect_to );
 		exit();
 	}
 	
@@ -236,7 +236,7 @@ class WP_Members_User {
 		$redirect_to = wpmem_get( 'redirect_to', false );
 		if ( $redirect_to ) {
 			$nonce_url = wp_nonce_url( $redirect_to, 'register_redirect', 'reg_nonce' );
-			wp_redirect( $nonce_url );
+			wp_safe_redirect( $nonce_url );
 			exit();
 		}
 	}

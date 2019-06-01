@@ -216,8 +216,8 @@ function wpmem_users_page_load() {
 
 	}
 
-	// If we did not return already, we need to wp_redirect.
-	wp_redirect( $sendback );
+	// If we did not return already, we need to wp_safe_redirect.
+	wp_safe_redirect( $sendback );
 	exit();
 
 }

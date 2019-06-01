@@ -643,7 +643,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			case 'delete':
 	
 				// Do whatever you want
-				wp_redirect( esc_url( add_query_arg() ) );
+				wp_safe_redirect( esc_url( add_query_arg() ) );
 				break;
 	
 			default:
