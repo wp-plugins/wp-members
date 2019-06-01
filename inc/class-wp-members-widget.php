@@ -80,7 +80,7 @@ class widget_wpmemwidget extends WP_Widget {
 
 		$redirect_to = ( array_key_exists( 'redirect_to', $instance ) ) ? $instance['redirect_to'] : '';
 		$title       = ( array_key_exists( 'title',       $instance ) ) ? $instance['title']       : __( 'Login Status', 'wp-members' );
-		$customizer  = ( is_customize_preview() ) ? get_theme_mod( 'show_logged_out_state', false ) : false;
+		$customizer  = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
 		
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -296,7 +296,7 @@ class widget_wpmemwidget extends WP_Widget {
 			
 			if ( isset( $_POST['slog'] ) && $wpmem_regchk == 'loginfailed' ) {
 				$do_error_msg = true;
-			} elseif( is_customize_preview() && get_theme_mod( 'show_form_message_dialog', false ) ) {
+			} elseif( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 				$do_error_msg = true;
 			}
 			
