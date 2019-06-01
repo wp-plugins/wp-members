@@ -101,7 +101,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.7 is a feature update release. See changelog for details.
+WP-Members 3.2.6 is a fix release. See changelog for details.
 
 == Screenshots ==
 
@@ -135,6 +135,7 @@ WP-Members 3.2.7 is a feature update release. See changelog for details.
 * Added translation capability to field placeholders and title attributes.
 * Updated Customizer setting slug to avoid namespace collisions (added "wpmem_" stem).
 * Updated instances of wp_redirect() to use wp_safe_redirect()
+* Updated install for multisite to use wp_insert_site (wpmu_new_blog deprecated in WP 5.1).
 
 = 3.2.6 =
 

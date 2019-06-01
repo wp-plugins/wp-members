@@ -190,20 +190,16 @@ function wpmem_downgrade() {
 }
 
 
-add_action( 'wpmu_new_blog', 'wpmem_mu_new_site', 10, 6 );
+add_action( 'wp_insert_site', 'wpmem_mu_new_site' );
 /**
  * Install default plugin options for a newly added blog in multisite.
  *
  * @since 2.9.3
+ * @since 3.2.7 Updated to wp_insert_site (wpmu_new_blog is deprecated).
  *
- * @param $blog_id
- * @param $user_id
- * @param $domain
- * @param $path
- * @param $site_id
- * @param $meta
+ * @param $new_site
  */
-function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+function wpmem_mu_new_site( $new_site ) {
 
 	/**
 	 * Load the install file.
@@ -211,7 +207,7 @@ function wpmem_mu_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta 
 	require_once( WPMEM_PATH . 'inc/install.php' );
 
 	// Switch to the new blog.
-	switch_to_blog( $blog_id );
+	switch_to_blog( $new_site->id );
 
 	// Run the WP-Members install.
 	wpmem_do_install();
