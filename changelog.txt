@@ -1,4 +1,78 @@
-﻿= 3.1.6 =
+﻿= 3.1.9 =
+
+* Security enhancements.
+* Improved user search in Users > All Users.
+* Fully deprecated obsolete reCAPTCHA v1. If v1 is selected as a setting, it will be automatically changed to v2. (v1 users check your API keys for compatibility.)
+* Removed obsolete comments_template.php.
+* Set image field to display "medium" image in dashboard/admin user profile. Admin profile image display links to media editor.
+* Added default format to date field shortcode to date format set in WP settings.
+* Added format attribute to date field shortcode for custom date formatting.
+* Added User ID as an optional column for the Users > All Users screen.
+* Deprecated wpmem_user_profile(), wpmem_profile_update(), wpmem_user_profile_multipart(), wpmem_admin_fields(), wpmem_admin_update().
+* Rebuild of dashboard profile functions incorporated into new user profile object class.
+* Fields tab bulk action now checks for both page and tab (rather than just tab) to prevent namespace collisions.
+* Removed $requested_redirect_to argument from login_redirect filter hook.
+* Removed height property of button_div for generic stylesheets.
+* Fixed user edit shortcode to display updated user data without page refresh.
+* Fixed password change so that login state is maintained after password update.
+* Fix for multiple checkbox and multiple select field types if "comma" was selected as the delimiter (previously, this would break the field settings array option assembly).
+* Improvements on field manager add/edit field screen.
+* Improvements to multiple checkbox and radio groups: better handling of non-value selections and span wrapper for group separators.
+
+= 3.1.8 =
+
+* Added new native registration handling to accommodate WooCommerce 3.0.
+* Added support for user file upload on admin/dashboard profile.
+* Added meta_key/meta_value attribute to [wpmem_logged_in] shortcode.
+* Added wpmem_user_has_meta() API function.
+* Updated post editor shortcode button javascript to include new(er) shortcodes.
+* Fixed WP-Members user profile shortcode to only display logged in content (by shortcode) if the wpmem_a 'action' is not set (i.e. logged in content only displays if page is in "member links" state).
+* Fixed register link in login form to prevent link from displaying if login form is displayed along with the registration form (standard configuration).
+* Improved multisite support, including revisions to load all admin dependencies for administrator role, not just super admin. Dependency load role requirement is filterable.
+* Improved line break stripping process in form builder to allow for line breaks in textarea fields.
+* Improved field shortcode for textarea fields to display line breaks.
+* Deprecated old wpmem_do_sc_pages() function, updated wpmem_sc_user_profile().
+* Removed $_SERVER['REQUEST_URI'] from all admin tab form action attributes. Replaced with new wpmem_admin_form_post_url() API function.
+* Fields Tab: ground-up rebuild to utilize WP_List_Table and jquery sorting UI.
+* Fields Tab: improved field add/edit screen: return link at bottom of page, display current field upon successful form submission, success message include return link.
+* Fields Tab: added support for HTML5 field types: number, date.
+* Fields Tab: added support for HTML5 field attributes: placeholder, pattern (regex), title, min, max.
+* Corrects an issue with user profile display/update of textarea fields that are not the WP default bio field.
+* Added display=raw attribute handling to textarea fields to allow display without converting line breaks to HTML br tags.
+* Fixes issue with User Profile form heading not using the get_text() value.
+* Improves logic for displaying register link in login form if login page is not set.
+
+= 3.1.7 =
+
+* API updates: added wpmem_is_user_activated().
+* API updates: wpmem_is_reg_page() added default of current page ID.
+* API updates: wpmem_current_url() added check for query string.
+* API updates: Added wpmem_fields filter to wpmem_fields().
+* API updates: Added wpmem_current_post_id() and wpmem_form_label() functions.
+* API updates: Added new [wpmem_avatar], [wpmem_login_link], and [wpmem_register_link] shortcodes.
+* API updates: Added filter option in user export to decode html entities in user fields.
+* API updates: Added wpmem_get_action action hook when wpmem_a is loaded.
+* All admin dependencies and actions/filters loaded in admin api object.
+* Corrected issue in forms function were RS Captcha had empty div wrapper variable.
+* Removed deprecated functions wpmem_load_admin_js(), wpmem_test_shortcode(), and wpmem_generatePassword().
+* Moved remaining deprecated functions to new inc/deprecated.php.
+* Added successful registration message on page if nonce validates (for reg redirects).
+* Added User object class, handling login, logout, register.
+* Added buffering to login form and widget to allow do_login action results to be displayed (such as 3rd party login captcha).
+* Added support for WP's login_redirect filter (loads before wpmem_login_redirect).
+* Added a div wrapper for post restricted message.
+* Added initial form support for HTML5 number input, & min, max, title, and pattern attributes (placeholder support was added in 3.1.6).
+* Updated wpmem_admin_update() to exit if there is no user ID.
+* Updated admin notification email to translate field labels.
+* Updated login form links and filters to a single process (was one for each).
+* Updated WP Registration finalize process.
+* Moved form building functions to forms object class.
+* Deprecated wpmem_register_fields_arr filter (Use wpmem_fields instead).
+* Removing the wpautop() function is now optional rather than default.
+* Fixed load fields error checking, install function now correctly returns defaults.
+* Changed password reset and password change to use wp_set_password() for improved performance with caching.
+
+= 3.1.6 =
 
 * Fixed [wpmem_field] display handling for multiple select and multiple checkbox field types.
 * Updates to always load fields from wpmem_fields() API function.
