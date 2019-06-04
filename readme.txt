@@ -136,6 +136,7 @@ WP-Members 3.2.7 is a fix release. See changelog for details.
 * Updated Customizer setting slug to avoid namespace collisions (added "wpmem_" stem).
 * Updated instances of wp_redirect() to use wp_safe_redirect().
 * Updated install for multisite to use wp_insert_site (wpmu_new_blog deprecated in WP 5.1).
+* Added user screen filter to show activated users.
 
 = 3.2.6 =
 

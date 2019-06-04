@@ -284,6 +284,7 @@ function wpmem_users_views( $views ) {
 			$count_metas['expired'] = 'expired';
 		}
 		if ( $wpmem->mod_reg == 1 ) {
+			$count_metas['active'] = 'active';
 			$count_metas['notactive'] = 'active';
 			$count_metas['deactivated'] = 'deactivated';
 		}
@@ -292,6 +293,9 @@ function wpmem_users_views( $views ) {
 		// Handle various counts.
 		$user_counts = array();
 		foreach ( $count_metas as $key => $meta_key ) {
+			if ( 'active' == $key ) {
+				$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key='$meta_key' AND meta_value=1" );
+			}
 			if ( 'notactive' == $key || 'notexported' == $key ) {
 				$users_with_meta = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key='$meta_key' AND meta_value=1" );
 				$count = $users - $users_with_meta;
@@ -318,6 +322,7 @@ function wpmem_users_views( $views ) {
 		$arr['expired']      = __( 'Expired',       'wp-members' );
 	}
 	if ( $wpmem->mod_reg == 1 ) {
+		$arr['active']       = __( 'Activated',     'wp-members' );
 		$arr['notactive']    = __( 'Not Activated', 'wp-members' );
 		$arr['deactivated']  = __( 'Deactivated',   'wp-members' );
 	}
@@ -522,12 +527,16 @@ function wpmem_a_pre_user_query( $user_search ) {
 	$show = sanitize_text_field( wpmem_get( 'show', '', 'get' ) );
 	switch ( $show ) {
 
+		case 'active':
 		case 'notactive':
 		case 'notexported':
 		case 'deactivated':
 			$key = ( 'notactive' == $show || 'deactivated' == $show  ) ? 'active' : 'exported';
 			$in  = ( 'deactivated' == $show ) ? 'IN' : 'NOT IN';
 			$val = ( 'deactivated' == $show ) ? '0'  : '1';
+			if ( 'active' == $show ) {
+				$key = 'active'; $in = 'IN';
+			}
 			$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID " . esc_sql( $in ) . " (
 			 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
 				WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( $key ) . "\"
