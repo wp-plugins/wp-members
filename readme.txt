@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.1
-Stable tag: 3.2.7
+Tested up to: 5.2
+Stable tag: 3.2.8
 License: GPLv2
 
 == Description ==
@@ -101,7 +101,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 == Upgrade Notice ==
 
 WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.7 is a fix release. See changelog for details.
+WP-Members 3.2.8 is a security release. See changelog for details.
 
 == Screenshots ==
 
@@ -123,6 +123,10 @@ WP-Members 3.2.7 is a fix release. See changelog for details.
 
 
 == Changelog ==
+
+= 3.2.8 =
+
+* Fixed potential security issues to prevent CSRF (Cross Site Request Forgery).
 
 = 3.2.7 =
 

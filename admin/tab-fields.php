@@ -105,9 +105,8 @@ function wpmem_a_render_fields_tab() {
 	$add_meta      = sanitize_text_field( wpmem_get( 'add_field', false ) );
 	
 	if ( 'delete' == $delete_action ) {
+		
 		$delete_fields = wpmem_get( 'delete' ); ?>
-		
-		
 		
 		<?php if ( empty( $delete_fields ) ) { ?>
 			<p><?php _e( 'No fields selected for deletion', 'wp-members' ); ?></p>
@@ -118,7 +117,7 @@ function wpmem_a_render_fields_tab() {
 				echo esc_html( $wpmem->fields[ $meta ]['label'] ) . ' (meta key: ' . $meta . ')<br />';
 			} ?>
 			<form name="<?php echo esc_attr( $delete_action ); ?>" id="<?php echo esc_attr( $delete_action ); ?>" method="post" action="<?php echo esc_url( wpmem_admin_form_post_url() ); ?>">
-				<?php // wp_nonce_field( 'wpmem-delete-fields' ); ?>
+				<?php wp_nonce_field( 'wpmem-confirm-delete' ); ?>
 				<input type="hidden" name="delete_fields" value="<?php echo esc_attr( implode( ",", $delete_fields ) ); ?>" />
 				<input type="hidden" name="dodelete" value="delete_confirmed" />
 				<?php submit_button( 'Delete Fields' ); ?>
@@ -127,7 +126,8 @@ function wpmem_a_render_fields_tab() {
 	} else {
 		
 		if ( 'delete_confirmed' == wpmem_get( 'dodelete' ) ) {
-			// validate wpmem-delete-fields nonce
+			
+			check_admin_referer( 'wpmem-confirm-delete' );
 
 			$delete_fields = sanitize_text_field( wpmem_get( 'delete_fields', array() ) );
 			$delete_fields = explode( ",", $delete_fields );
@@ -184,7 +184,7 @@ function wpmem_a_render_fields_tab_field_edit( $mode, $wpmem_fields, $meta_key )
 	} ?>
     <h3 class="title"><?php ( $mode == 'edit' ) ? _e( 'Edit Field', 'wp-members' ) : _e( 'Add a Field', 'wp-members' ); ?></h3>
     <form name="<?php echo $form_action; ?>" id="<?php echo $form_action; ?>" method="post" action="<?php echo wpmem_admin_form_post_url( $form_submit ); ?>">
-		<?php wp_nonce_field( 'wpmem-add-fields' ); ?>
+		<?php wp_nonce_field( 'wpmem_add_field' ); ?>
 		<ul>
 			<li>
 				<label><?php _e( 'Field Label', 'wp-members' ); ?> <?php echo $span_required; ?></label>
@@ -704,7 +704,7 @@ function wpmem_admin_fields_update() {
 		if ( 'save' == $action ) {
 
 			// Check nonce.
-			//check_admin_referer( 'wpmem-update-fields' );
+			check_admin_referer( 'bulk-settings_page_wpmem-settings' );
 			
 			// Update user table fields.
 			$arr = ( isset( $_POST['ut_fields'] ) ) ? $_POST['ut_fields'] : array();
@@ -740,20 +740,20 @@ function wpmem_admin_fields_update() {
 			
 		} elseif ( 'delete' == $action ) {
 			
+			// Check nonce.
+			check_admin_referer( 'bulk-settings_page_wpmem-settings' );
+			
 			$delete_action = 'delete';
 
-		} elseif ( 'add_field' == wpmem_get( 'wpmem_admin_a' ) || 'edit_field' == wpmem_get( 'wpmem_admin_a' ) ) {
+		} elseif ( ( 'add_field' == wpmem_get( 'wpmem_admin_a' ) || 'edit_field' == wpmem_get( 'wpmem_admin_a' ) ) && check_admin_referer( 'wpmem_add_field' ) ) {
 			
 			// Set action.
 			$action = sanitize_text_field( wpmem_get( 'wpmem_admin_a' ) );
 
-			// Check nonce.
-			//check_admin_referer( 'wpmem-add-fields' );
-
 			global $add_field_err_msg;
 
 			$add_field_err_msg = false;
-			$add_name = sanitize_text_field( wpmem_get( 'add_name' ) );
+			$add_name   = sanitize_text_field( wpmem_get( 'add_name' ) );
 			$add_option = sanitize_text_field( wpmem_get( 'add_option' ) );
 
 			// Error check that field label and option name are included and unique.
