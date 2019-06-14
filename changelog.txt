@@ -103,9 +103,9 @@
 = 3.1.5 =
 
 * Addressed some security issues to prevent XSS vulnerabilities.
-* Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.  See: http://rkt.bz/xC
-* Updated [wpmem_field] shortcode to accept [wpmem_field meta_key] instead of [wpmem_field field="meta_key"] (although the latter will still work).  See http://rkt.bz/ae
-* Updated [wpmem_loginout] shortcode with some improvements to function code and link text attributes.  See: http://rkt.bz/29
+* Updated [wpmem_show_count] shortcode to include count of total blog users and users by role.  See: https://rocketgeek.com/plugins/wp-members/docs/shortcodes/other-shortcodes/
+* Updated [wpmem_field] shortcode to accept [wpmem_field meta_key] instead of [wpmem_field field="meta_key"] (although the latter will still work).  See https://rocketgeek.com/plugins/wp-members/docs/shortcodes/field-shortcodes/
+* Updated [wpmem_loginout] shortcode with some improvements to function code and link text attributes.  See: https://rocketgeek.com/plugins/wp-members/docs/shortcodes/other-shortcodes/
 * Updated auto excerpt for improved functionality, uses wp_trim_words(), deprecated add_ellipsis, strip_tags, close_tags, parse_shortcodes, strip_shortcodes for filter (these were never documented so it is unlikely that anyone uses them).
 * Updated hidden field type, now allows adding hidden fields to the registration form.
 * Compartmentalized installation of initial settings.
@@ -243,7 +243,7 @@ This package contains several fixes, some new filters, new field types and other
 * Changes in core to use fields from WP_Members class (preparing for new form field process).
 * Reviews and updates to code standards and inline documentation.
 * Fix for password reset (typo in object name checking for moderated registration)
-* Fix for PayPal extension (http://rkt.bz/r3); added logic to avoid errors if the PayPal extension is disabled but the main option setting remained turned on.
+* Fix for PayPal extension (https://rocketgeek.com/plugins/wp-members-paypal-subscriptions/); added logic to avoid errors if the PayPal extension is disabled but the main option setting remained turned on.
 
 = 3.0.6 =
 
@@ -265,7 +265,7 @@ This package contains several fixes, some new filters, new field types and other
 
 = 3.0.4 =
 
-* Reintroduced the global action variable $wpmem_a for backward compatibility with certain add-ons, most notably the WP-Members MailChimp extension ( see http://rkt.bz/3b ). Users of this extension should upgrade.  This variable had been replaced with the new WP-Members object class introduced in 3.0. However, users of older extensions and those that may have customziations with logic may be using this variable, so rather than force updating and upgrading, it is being added back in.
+* Reintroduced the global action variable $wpmem_a for backward compatibility with certain add-ons, most notably the WP-Members MailChimp extension ( see https://rocketgeek.com/plugins/wp-members-mailchimp-integration/ ). Users of this extension should upgrade.  This variable had been replaced with the new WP-Members object class introduced in 3.0. However, users of older extensions and those that may have customziations with logic may be using this variable, so rather than force updating and upgrading, it is being added back in.
 * Change to the priority of functions hooked to the the_content filter. Lowering the priority should better integrate the plugin with various builder plugins and other processes that currently filter the_content after WP-Members since the content will now be filtered later in the process. This also should improve situations where in the past the on-the-fly texturization shortcode for the WP-Members forms might remain unparsed.
 
 = 3.0.3 =
