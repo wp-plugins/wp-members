@@ -516,23 +516,27 @@ class WP_Members_Admin_API {
 	function dashboard_enqueue_scripts( $hook ) {
 		global $current_screen, $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
-			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
-			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
+			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', $wpmem->version );
 		}
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
-			wp_register_style( 'select2css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css', false, '4.0.5', 'all' );
-			wp_register_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
-			wp_enqueue_style( 'select2css' );
-			wp_enqueue_script( 'select2' );
+			if ( ! wp_script_is( 'select2', 'registered' ) ) {
+				wp_register_style( 'select2css', WPMEM_DIR . 'css/select2.min.css', false, '4.0.5', 'all' );
+				wp_register_script( 'select2',   WPMEM_DIR . 'js/select2.min.js', array( 'jquery' ), '4.0.5', true );
+				wp_enqueue_style( 'select2css' );
+				wp_enqueue_script( 'select2' );
+			}
 		}
 		if ( 'user-edit' == $current_screen->id ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-core' ); // enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-tabs' ); // enqueue jQuery UI Tabs
 
-			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+			if ( ! wp_script_is( 'jquery-ui', 'enqueued' ) ) {
+				wp_register_style( 'jquery-ui', WPMEM_DIR . 'css/jquery-ui.min.css' );
+			}
 			wp_enqueue_style( 'jquery-ui' ); 
 		}
 		if ( 'settings_page_wpmem-settings' == $hook ) {
