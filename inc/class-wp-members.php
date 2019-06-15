@@ -297,6 +297,15 @@ class WP_Members {
 		if ( $this->dropins ) {
 			$this->load_dropins();
 		}
+		
+		// Check for anything that we should stop execution for (currently just the default tos).
+		if ( 'display' == wpmem_get( 'tos', false, 'get' ) ) {
+
+			// If themes are not loaded, we don't need them.
+			$user_themes = ( ! defined( 'WP_USE_THEMES'  ) ) ? define( 'WP_USE_THEMES',  false  ) : '';
+			$this->load_default_tos();
+			die();
+		}
 	}
 	
 	/**
@@ -1729,6 +1738,21 @@ class WP_Members {
 			load_plugin_textdomain( $domain, FALSE, $dir );
 		}
 		return;
+	}
+	
+	/**
+	 * Load default tos template.
+	 *
+	 * @since 3.2.9
+	 */
+	function load_default_tos() {
+		// Check for custom template or load default.
+		$custom_template = get_stylesheet_directory() . '/wp-members/templates/tos.php';
+		if ( file_exists( $custom_template ) ) {
+			require_once( $custom_template );
+		} else {
+			require_once( WPMEM_PATH . 'inc/template_tos.php' );
+		}
 	}
 
 } // End of WP_Members class.

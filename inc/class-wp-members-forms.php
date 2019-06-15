@@ -932,7 +932,7 @@ class WP_Members_Forms {
 						$tos_link_url = do_shortcode( $tos_content );
 						$tos_link_tag = '<a href="' . esc_url( $tos_link_url ) . '" target="_blank">';
 					} else {
-						$tos_link_url = WPMEM_DIR . "/wp-members-tos.php";
+						$tos_link_url = add_query_arg( 'tos', 'display' );//WPMEM_DIR . "/wp-members-tos.php";
 						$tos_link_tag = "<a href=\"#\" onClick=\"window.open('" . $tos_link_url . "','mywindow');\">";
 					}
 					
