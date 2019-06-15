@@ -544,7 +544,9 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			
-			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+			if ( ! wp_script_is( 'jquery-ui', 'enqueued' ) ) {
+				wp_register_style( 'jquery-ui', WPMEM_DIR . 'css/jquery-ui.min.css' );
+			}
 			wp_enqueue_style( 'jquery-ui' ); 
 			 
 		}
