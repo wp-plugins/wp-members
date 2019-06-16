@@ -172,7 +172,7 @@ function wpmem_users_page_load() {
 		check_admin_referer( 'activate-user' );
 
 		// Get the users.
-		$users = $_REQUEST['user'];
+		$users = filter_var( $_REQUEST['user'], FILTER_VALIDATE_INT );
 
 		// Check to see if the user is already activated, if not, activate.
 		if ( 'activate-single' == $action && 1 != get_user_meta( $users, 'active', true ) ) {
