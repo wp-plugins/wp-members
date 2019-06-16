@@ -377,6 +377,8 @@ class WP_Members_User_Profile {
 				// Update products.
 				if ( isset( $_POST['_wpmem_membership_product'] ) ) {
 					foreach ( $_POST['_wpmem_membership_product'] as $product_key => $product_value ) {
+						// Sanitize.
+						$product_key = sanitize_text_field( $product_key );
 						// Enable or Disable?
 						if ( 'enable' == $product_value ) {
 							// Does product require a role?
