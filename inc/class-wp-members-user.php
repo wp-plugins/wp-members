@@ -251,11 +251,17 @@ class WP_Members_User {
 	 */
 	function password_update( $action ) {
 		if ( isset( $_POST['formsubmit'] ) ) {
-			$params = ( 'reset' == $action ) ? array( 'user', 'email' ) : array( 'pass1', 'pass2' );
-			$args = array( 
-				$params[0] => wpmem_get( $params[0], false ), 
-				$params[1] => wpmem_get( $params[1], false ),
-			);
+			if ( 'reset' == $action ) {
+				$args = array(
+					'user'  => sanitize_user(  wpmem_get( 'user', false ) ),
+					'email' => sanitize_email( wpmem_get( 'email', false ) ),
+				);
+			} else {
+				$args = array(
+					'pass1' => wpmem_get( 'pass1', false ),
+					'pass2' => wpmem_get( 'pass2', false ),
+				);
+			}
 			return ( 'reset' == $action ) ? $this->password_reset( $args ) : $this->password_change( $args );
 		}
 		return;
