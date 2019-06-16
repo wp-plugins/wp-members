@@ -362,12 +362,12 @@ echo $field['values'][ $row ]; echo ( $row == count( $field['values'] )- 1  ) ? 
 } }
 				} else {
 					if (version_compare(PHP_VERSION, '5.3.0') >= 0) { ?>
-<---- Select One ---->|,
+---- Select One ----|,
 Choice One|choice_one,
 "1,000|one_thousand",
 "1,000-10,000|1,000-10,000",
 Last Row|last_row<?php } else { ?>
-<---- Select One ---->|,
+---- Select One ----|,
 Choice One|choice_one,
 Choice 2|choice_two,
 Last Row|last_row<?php } } ?></textarea>
@@ -824,7 +824,7 @@ function wpmem_admin_fields_update() {
 				|| $type == 'multicheckbox' 
 			) {
 				// Get the values.
-				$str = stripslashes( $_POST['add_dropdown_value'] );
+				$str = stripslashes( sanitize_textarea_field( $_POST['add_dropdown_value'] ) );
 				// Remove linebreaks.
 				$str = trim( str_replace( array("\r", "\r\n", "\n"), '', $str ) );
 				// Create array.
