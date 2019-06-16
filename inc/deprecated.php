@@ -71,7 +71,7 @@ if ( ! function_exists( 'wpmem_shortcode' ) ):
 function wpmem_shortcode( $attr, $content = null, $tag = 'wp-members' ) {
 	
 	$error = "wpmem_shortcode() is deprecated as of WP-Members 3.1.2. The [wp-members] shortcode tag should be replaced. ";
-	$error.= 'See replacement shortcodes: http://rkt.bz/logsc ';
+	$error.= 'See replacement shortcodes: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/';
 	$error.= "post ID: " . get_the_ID() . " ";
 	$error.= "page url: " . wpmem_current_url();
 	wpmem_write_log( $error );
