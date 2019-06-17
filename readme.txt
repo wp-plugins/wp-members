@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 3.2.8
+Stable tag: 3.2.8.1
 License: GPLv2
 
 == Description ==
@@ -124,11 +124,11 @@ WP-Members 3.2.8 is a security release. See changelog for details.
 
 == Changelog ==
 
-= 3.3.0 =
+= 3.2.8.1 =
 
-* Removed tinymce button for shortcodes as no longer necessary with gutenberg.
-* Added wpmem_activate_user() and wpmem_deactivate_user() to user API.
-* Removed WPMEM_VERSION constant, replaced with $wpmem->version.
+* Include jQuery UI CSS and Select2 library locally.
+* Updated default TOS to a template file.
+* Added additional data sanitization.
 
 = 3.2.8 =
 
