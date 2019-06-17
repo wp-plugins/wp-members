@@ -525,7 +525,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 			break;
 
 		case "usernamesuccess":
-			$email = ( isset( $_POST['user_email'] ) ) ? $_POST['user_email'] : '';
+			$email = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
 			$msg = sprintf( $wpmem->get_text( 'usernamesuccess' ), $email );
 			$content = $content . wpmem_inc_regmessage( 'usernamesuccess', $msg );
 			$wpmem->regchk = ''; // Clear regchk.
