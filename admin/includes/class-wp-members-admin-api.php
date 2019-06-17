@@ -116,7 +116,7 @@ class WP_Members_Admin_API {
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_options_tab', 1 );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_dialogs_tab', 10 );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_emails_tab', 15 );
-		add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
+		//add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.
 		
@@ -533,6 +533,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-core' ); // enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-tabs' ); // enqueue jQuery UI Tabs
+			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 
 			if ( ! wp_script_is( 'jquery-ui', 'enqueued' ) ) {
 				wp_register_style( 'jquery-ui', WPMEM_DIR . 'admin/css/jquery-ui.min.css' );

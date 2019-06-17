@@ -385,7 +385,12 @@ class WP_Members_User_Profile {
 							if ( false !== $wpmem->membership->products[ $product_key ]['role'] ) {
 								wpmem_update_user_role( $user_id, $wpmem->membership->products[ $product_key ]['role'], 'add' );
 							}
-							$wpmem->user->set_user_product( $product_key, $user_id );
+							// Do we need to set a specific date?
+							if ( isset( $_POST[ '_wpmem_membership_product_expiration_' . $product_key ] ) ) {
+								wpmem_set_user_product( $product_key, $user_id, sanitize_text_field( $_POST[ '_wpmem_membership_product_expiration_' . $product_key ] ) );
+							} else {
+								wpmem_set_user_product( $product_key, $user_id );
+							}
 						}
 						if ( 'disable' == $product_value ) {
 							$wpmem->user->remove_user_product( $product_key, $user_id );
@@ -537,19 +542,40 @@ class WP_Members_User_Profile {
 					<option value="disable">' . __( 'Disable', 'wp-members' ) . '</option>
 				</select></td><td style="padding:0px 0px;">' . $value['title'] . '</td>
 				<td style="padding:0px 0px;">';
+				
+				// If user has date, display that; otherwise placeholder
+				$date_value  = (   isset( $user_products[ $key ] ) ) ? $user_products[ $key ] : "";
+				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Date', 'wp-members' ) . '" ' : '';
+				$product_date_field = ' <input type="text" name="_wpmem_membership_product_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . '/>';
+
 				if ( isset( $user_products[ $key ] ) ) {
 					echo '<span id="wpmem_product_enabled" class="dashicons dashicons-yes"></span>';
 					if ( $user_products[ $key ] !== true ) {
-						echo __( 'Expires:', 'wp-members' ) . ' ' . $user_products[ $key ];
+						echo __( 'Expires:', 'wp-members' );
+						echo $product_date_field;
 					} else {
 						_e( 'Enabled', 'wp-members' );
 					}
 				} else {
-					echo "&nbsp;";
-				}
+					if ( isset( $value['expires'] ) && ! empty( $value['expires'] ) ) {
+						echo '<span id="wpmem_product_enabled" class="dashicons"></span>';
+						echo __( 'Expires:', 'wp-members' );
+						echo $product_date_field;
+					} else {
+						echo "&nbsp;";
+					}
+				}				
 				echo '</td></tr>';
 			}
-				?></table></td>
+		
+				?></table>
+			<script>
+			jQuery(function() {
+				jQuery( ".wpmem_datepicker" ).datepicker({
+					dateFormat : "mm/dd/yy"
+				});
+			});
+			</script></td>
 		</tr>
 		<?php	
 	}
