@@ -116,7 +116,7 @@ class WP_Members_Admin_API {
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_options_tab', 1 );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_dialogs_tab', 10 );
 		add_action( 'wpmem_admin_do_tab',            'wpmem_a_emails_tab', 15 );
-		//add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
+		// add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.
 		

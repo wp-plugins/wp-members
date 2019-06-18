@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 3.2.8.1
+Stable tag: 3.2.9
 License: GPLv2
 
 == Description ==
@@ -124,14 +124,20 @@ WP-Members 3.2.8 is a security release. See changelog for details.
 
 == Changelog ==
 
-= 3.2.8.1 =
+= 3.2.9 =
+
+* Load jQuery UI and Select2 libraries locally (if they have not already been enqueued).
+* Use (local) template file for default tos field link (can be customized and saved in theme folder).
+* Added new sanitization functions to API: wpmem_sanitize_class() and wpmem_sanitize_array().
+* Review and cleanup of form data sanitization.
+* Improved file/image field upload file type validation.
+* Added "membership" attribute to [wpmem_logged_in] shortcode (same as "product" attribute, they are interchangeable).
+
+= 3.2.8 =
 
 * Include jQuery UI CSS and Select2 library locally.
 * Updated default TOS to a template file.
 * Added additional data sanitization.
-
-= 3.2.8 =
-
 * Fixed potential security issues to prevent CSRF (Cross Site Request Forgery).
 
 = 3.2.7 =
