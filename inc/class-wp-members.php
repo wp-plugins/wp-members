@@ -1282,6 +1282,7 @@ class WP_Members {
 			'reg_invalid_captcha'  => __( 'CAPTCHA was not valid.', 'wp-members' ),
 			'reg_generic'          => __( 'There was an error processing the form.', 'wp-members' ),
 			'reg_captcha_err'      => __( 'There was an error with the CAPTCHA form.', 'wp-members' ),
+			'reg_file_type'        => __( 'Sorry, you can only upload the following file types for the %s field: %s.', 'wp-members' ),
 			
 			// Links.
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
@@ -1743,7 +1744,7 @@ class WP_Members {
 	/**
 	 * Load default tos template.
 	 *
-	 * @since 3.2.9
+	 * @since 3.2.8
 	 */
 	function load_default_tos() {
 		// Check for custom template or load default.

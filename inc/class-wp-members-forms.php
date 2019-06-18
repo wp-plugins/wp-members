@@ -974,7 +974,7 @@ class WP_Members_Forms {
 				// Does the tos field.
 				if ( 'tos' == $meta_key ) {
 
-					$val = sanitize_text_field( wpmem_get( $meta_key, '' ) ); 
+				//	$val = sanitize_text_field( wpmem_get( $meta_key, '' ) ); 
 
 					// Should be checked by default? and only if form hasn't been submitted.
 					$val   = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
@@ -1043,7 +1043,9 @@ class WP_Members_Forms {
 						$valtochk = $val;
 						$val = $field['checked_value']; 
 						// if it should it be checked by default (& only if form not submitted), then override above...
-						if ( $field['checked_default'] && ( ! $_POST && $tag != 'edit' ) ) { $val = $valtochk = $field['checked_value']; }
+						if ( $field['checked_default'] && ( ! $_POST && $tag != 'edit' ) ) { 
+							$val = $valtochk = $field['checked_value'];
+						}
 					}
 
 					// For dropdown select.
@@ -1052,7 +1054,9 @@ class WP_Members_Forms {
 						$val = $field['values'];
 					}
 
-					if ( ! isset( $valtochk ) ) { $valtochk = ''; }
+					if ( ! isset( $valtochk ) ) {
+						$valtochk = '';
+					}
 
 					if ( 'edit' == $tag && ( 'file' == $field['type'] || 'image' == $field['type'] ) ) {
 
