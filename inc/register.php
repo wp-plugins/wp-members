@@ -84,10 +84,10 @@ function wpmem_registration( $tag ) {
 					case 'multiselect':
 					case 'multicheckbox':
 						$delimiter = ( isset( $field['delimiter'] ) ) ? $field['delimiter'] : '|';
-						$wpmem->user->post_data[ $meta_key ] = ( isset( $_POST[ $meta_key ] ) ) ? implode( $delimiter, $_POST[ $meta_key ] ) : '';
+						$wpmem->user->post_data[ $meta_key ] = ( isset( $_POST[ $meta_key ] ) ) ? implode( $delimiter, wpmem_sanitize_array( $_POST[ $meta_key ] ) ) : '';
 						break;
 					case 'textarea':
-						$wpmem->user->post_data[ $meta_key ] = $_POST[ $meta_key ];
+						$wpmem->user->post_data[ $meta_key ] = sanitize_textarea_field( $_POST[ $meta_key ] );
 						break;
 					default:
 						$wpmem->user->post_data[ $meta_key ] = sanitize_text_field( $_POST[ $meta_key ] );

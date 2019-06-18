@@ -333,8 +333,7 @@ class WP_Members_Forms {
 	function sanitize_field( $data, $type ) {
 		
 		switch ( $type ) {
-			case 'select':
-			case 'radio':
+
 			case 'multiselect':
 			case 'multicheckbox':
 				$sanitized_data = $this->sanitize_array( $data );
@@ -344,8 +343,6 @@ class WP_Members_Forms {
 				$sanitized_data = sanitize_textarea_field( $data );
 				break;
 
-			case 'text':
-			case 'checkbox':
 			default:
 				$sanitized_data = sanitize_text_field( $data );
 				break;	
@@ -965,9 +962,9 @@ class WP_Members_Forms {
 
 				} else {
 					if ( 'file' == $field['type'] ) {
-						$val = ( isset( $_FILES[ $meta_key ]['name'] ) ) ? $_FILES[ $meta_key ]['name'] : '' ;
+						$val = ( isset( $_FILES[ $meta_key ]['name'] ) ) ? sanitize_file_name( $_FILES[ $meta_key ]['name'] ) : '' ;
 					} else {
-						$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+						$val = ( isset( $_POST[ $meta_key ] ) ) ? $this->sanitize_field( $_POST[ $meta_key ], $field['type'] ) : '';
 					}
 				}
 

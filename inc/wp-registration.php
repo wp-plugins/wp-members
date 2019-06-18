@@ -123,7 +123,7 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 					switch ( $field['type'] ) {
 
 					case( 'select' ):
-						$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+						$val = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 						$input = wpmem_create_formfield( $meta_key, $field['type'], $field['values'], $val );
 						break;
 
@@ -137,7 +137,7 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 					case( 'multicheckbox' ):
 					case( 'radio' ):	
 						$row_before = '<p class="' . $field['type'] . '">';
-						$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : ''; // @todo Should this be escaped?
+						$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 						$formfield_args = array( 
 							'name'     => $meta_key,
 							'type'     => $field['type'],
@@ -241,7 +241,7 @@ function wpmem_do_wp_newuser_form() {
 			switch ( $field['type'] ) {
 
 			case( 'select' ):
-				$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+				$val = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 				echo wpmem_create_formfield( $meta_key, $field['type'], $field['values'], $val );
 				break;
 
@@ -252,7 +252,7 @@ function wpmem_do_wp_newuser_form() {
 				break;
 
 			case( 'checkbox' ):
-				$val = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+				$val = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 				$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
 				echo wpmem_create_formfield( $meta_key, $field['type'], $field['checked_value'], $val );
 				break;
@@ -260,7 +260,7 @@ function wpmem_do_wp_newuser_form() {
 			case( 'multiselect' ):
 			case( 'multicheckbox' ):
 			case( 'radio' ):
-				$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? $_POST[ $meta_key ] : '';
+				$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 				$formfield_args = array( 
 					'name'     => $meta_key,
 					'type'     => $field['type'],
