@@ -166,3 +166,39 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 	 */
 	return apply_filters( 'wpmem_fields', $wpmem->fields, $tag );
 }
+
+/**
+ * Sanitizes classes passed to the WP-Members form building functions.
+ *
+ * This generally uses just sanitize_html_class() but allows for 
+ * whitespace so multiple classes can be passed (such as "regular-text code").
+ * This is an API wrapper for WP_Members_Forms::sanitize_class().
+ *
+ * @since 3.2.9
+ *
+ * @global  object $wpmem
+ *
+ * @param	string $class
+ * @return	string sanitized_class
+ */
+function wpmem_sanitize_class( $class ) {
+	global $wpmem;
+	return $wpmem->forms->sanitize_class( $class );
+}
+
+/**
+ * Sanitizes the text in an array.
+ *
+ * This is an API wrapper for WP_Members_Forms::sanitize_array().
+ *
+ * @since 3.2.9
+ *
+ * @global  object $wpmem
+ *
+ * @param  array $data
+ * @return array $data
+ */
+function wpmem_sanitize_array( $data ) {
+	global $wpmem;
+	return $wpmem->forms->sanitize_array( $data );
+}

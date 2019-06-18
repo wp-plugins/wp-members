@@ -293,6 +293,57 @@ class WP_Members_Forms {
 			return $sanitized_class;
 		}
 	}
+	
+	/**
+	 * Sanitizes the text in an array.
+	 *
+	 * @since 3.2.9
+	 *
+	 * @param  array $data
+	 * @return array $data
+	 */
+	function sanitize_array( $data ) {
+		if ( is_array( $data ) ) {
+			foreach( $data as $key => $val ) {
+				$data[ $key ] = sanitize_text_field( $val );
+			}
+		}
+		return $data;
+	}
+	
+	/**
+	 * Sanitizes field based on field type.
+	 *
+	 * @since 3.2.9
+	 *
+	 * @param  string $data
+	 * @param  string $type
+	 * @return string $sanitized_data
+	 */
+	function sanitize_field( $data, $type ) {
+		
+		switch ( $type ) {
+			case 'select':
+			case 'radio':
+			case 'multiselect':
+			case 'multicheckbox':
+				$sanitized_data = $this->sanitize_array( $data );
+				break;
+
+			case 'textarea':
+				$sanitized_data = sanitize_textarea_field( $data );
+				break;
+
+			case 'text':
+			case 'checkbox':
+			default:
+				$sanitized_data = sanitize_text_field( $data );
+				break;	
+		}
+		
+		return $sanitized_data;
+	}
+	
 	/**
 	 * Uploads file from the user.
 	 *
