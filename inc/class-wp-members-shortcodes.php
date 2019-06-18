@@ -215,6 +215,8 @@ class WP_Members_Shortcodes {
 	 *     @type string $sub
 	 *     @type string $meta_key
 	 *     @type string $meta_value
+	 *     @type string $product
+	 *     @type string $membership
 	 * }
 	 * @param  string $content
 	 * @param  string $tag
@@ -282,9 +284,10 @@ class WP_Members_Shortcodes {
 				}
 				
 				// If there is a product attribute.
-				if ( isset( $atts['product'] ) ) {
+				if ( isset( $atts['product'] ) || isset( $atts['membership'] ) ) {
 					// @todo What if attribute is comma separated/multiple?
-					if ( wpmem_user_has_access( $atts['product'] ) ) {
+					$membership = ( isset( $atts['membership'] ) ) ? $atts['membership'] : $atts['product'];
+					if ( wpmem_user_has_access( $membership ) ) {
 						$do_return = true;
 					}
 				}
