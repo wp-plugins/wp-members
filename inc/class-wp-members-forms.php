@@ -72,6 +72,7 @@ class WP_Members_Forms {
 		$placeholder = ( isset( $args['placeholder'] ) ) ? $args['placeholder'] : false;
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
+		$file_types  = ( isset( $args['file_types']  ) ) ? $args['file_types']      : false;
 	
 		// Handle field creation by type.
 		switch ( $type ) { 
@@ -118,8 +119,17 @@ class WP_Members_Forms {
 		
 		case "image":
 		case "file":
-			$class = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"$value\" class=\"$class\"" . ( ( $required ) ? " required " : "" ) . " />";
+			if ( $file_types ) {
+				$file_types = explode( '|', $file_types );
+				foreach( $file_types as $file_type ) {
+					$array[] = "." . $file_type;
+				}
+				$accept = ' accept="' . implode( ",", $array ) . '"';
+			} else {
+				$accept = '';
+			}
+			$class  = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
+			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "checkbox":
@@ -1055,14 +1065,15 @@ class WP_Members_Forms {
 						}
 						$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 						$input.= wpmem_form_field( array(
-							'name'    => $meta_key, 
-							'type'    => $field['type'], 
-							'value'   => $val, 
-							'compare' => $valtochk,
+							'name'       => $meta_key, 
+							'type'       => $field['type'], 
+							'value'      => $val, 
+							'compare'    => $valtochk,
+							'file_types' => $field['file_types'],
 						) );
 
 					} else {
-
+					
 						// For all other input types.
 						$formfield_args = array( 
 							'name'     => $meta_key, // ( 'username' == $meta_key ) ? 'user_login' : $meta_key,
@@ -1078,6 +1089,7 @@ class WP_Members_Forms {
 							'max'         => ( isset( $field['max']         ) ) ? $field['max']         : false,
 							'rows'        => ( isset( $field['rows']        ) ) ? $field['rows']        : false,
 							'cols'        => ( isset( $field['cols']        ) ) ? $field['cols']        : false,
+							'file_types'  => ( isset( $field['file_types']  ) ) ? $field['file_types']  : false,
 						);
 						if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
 							$formfield_args['delimiter'] = $field['delimiter'];
