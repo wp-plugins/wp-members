@@ -131,7 +131,9 @@ WP-Members 3.2.8 is a security release. See changelog for details.
 * Added new sanitization functions to API: wpmem_sanitize_class() and wpmem_sanitize_array().
 * Review and cleanup of form data sanitization.
 * Improved file/image field upload file type validation.
+* Fixed issue with loading legacy translation files.
 * Added "membership" attribute to [wpmem_logged_in] shortcode (same as "product" attribute, they are interchangeable).
+* Added datepicker for setting user expiration (when membership products are used).
 
 = 3.2.8 =
 

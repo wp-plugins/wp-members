@@ -1735,7 +1735,7 @@ class WP_Members {
 			 * @param string $dir    The translation directory.
 			 * @param string $locale The current locale.
 			 */
-			$dir = apply_filters( 'wpmem_localization_dir', dirname( plugin_basename( __FILE__ ) ) . '/lang/', $locale );
+			$dir = apply_filters( 'wpmem_localization_dir', basename( WPMEM_PATH ) . '/lang/', $locale );
 			load_plugin_textdomain( $domain, FALSE, $dir );
 		}
 		return;

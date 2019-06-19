@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP-Members v3.2.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-members\n"
 "POT-Creation-Date: 2019-04-02 08:55-0400\n"
-"PO-Revision-Date: 2019-04-02 09:55-0400\n"
+"PO-Revision-Date: 2019-06-19 08:52-0400\n"
 "Last-Translator: \n"
 "Language-Team: Venusian <martian36@naver.com>\n"
 "Language: ko_KR\n"
@@ -1441,7 +1441,7 @@ msgstr "로그인"
 
 #: inc/api.php:305
 msgid "log out"
-msgstr ""
+msgstr "로그아웃"
 
 #: inc/class-wp-members-forms.php:961 inc/class-wp-members.php:1247
 #: inc/wp-registration.php:77
@@ -1555,11 +1555,11 @@ msgstr ""
 #: inc/class-wp-members-shortcodes.php:745 inc/class-wp-members.php:1249
 #: inc/class-wp-members.php:1298 inc/wp-registration.php:366
 msgid "Register"
-msgstr ""
+msgstr "회원가입"
 
 #: inc/class-wp-members-shortcodes.php:748 inc/class-wp-members.php:1217
 msgid "Log In"
-msgstr ""
+msgstr "로그인"
 
 # @ wp-members
 #: inc/class-wp-members-user-profile.php:38 inc/deprecated.php:315
@@ -1677,7 +1677,7 @@ msgstr ""
 
 #: inc/class-wp-members.php:1193
 msgid "Confirm Email"
-msgstr ""
+msgstr "이메일 확인"
 
 #: inc/class-wp-members.php:1194
 msgid "Website"
@@ -1690,11 +1690,11 @@ msgstr "자기 소개"
 #: inc/class-wp-members.php:1196 inc/class-wp-members.php:1216
 #: inc/class-wp-members.php:1295
 msgid "Password"
-msgstr ""
+msgstr "비밀번호"
 
 #: inc/class-wp-members.php:1197
 msgid "Confirm Password"
-msgstr ""
+msgstr "비밀번호 확인"
 
 # @ wp-members
 #: inc/class-wp-members.php:1208
@@ -1708,11 +1708,11 @@ msgstr "기존 사용자 로그인"
 
 #: inc/class-wp-members.php:1215 inc/class-wp-members.php:1294
 msgid "Username or Email"
-msgstr ""
+msgstr "아이디 또는 이메일 "
 
 #: inc/class-wp-members.php:1218
 msgid "Remember Me"
-msgstr ""
+msgstr "기억하기"
 
 # @ wp-members
 #: inc/class-wp-members.php:1219
@@ -1745,7 +1745,7 @@ msgstr ""
 
 #: inc/class-wp-members.php:1227
 msgid "Confirm new password"
-msgstr ""
+msgstr "새 비밀번호 확인"
 
 # @ wp-members
 #: inc/class-wp-members.php:1228
@@ -1763,7 +1763,7 @@ msgstr ""
 
 #: inc/class-wp-members.php:1235
 msgid "Forgot username?"
-msgstr ""
+msgstr "사용자 이름을 잊으셨나요?"
 
 #: inc/class-wp-members.php:1236
 msgid "Click here"
@@ -1923,7 +1923,7 @@ msgstr "로그아웃 하려면 클릭"
 
 #: inc/class-wp-members.php:1287
 msgid "Log Out"
-msgstr ""
+msgstr "로그아웃"
 
 # @ wp-members
 #: inc/class-wp-members.php:1291
