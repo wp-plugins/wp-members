@@ -548,6 +548,7 @@ class WP_Members_Forms {
 		 * includes default tags, labels, text, and small items including various booleans.
 		 *
 		 * @since 2.9.0
+		 * @deprecated 3.3.0 Use wpmem_login_form_settings instead.
 		 *
 		 * @param array                 An array of arguments to merge with defaults. Default null.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -556,6 +557,18 @@ class WP_Members_Forms {
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
+		
+		/**
+		 * Filter the form settings.
+		 *
+		 * This is a replacement for the wpmem_login_form_args filter.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array                 An array of arguments to merge with defaults. Default null.
+		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 */ 
+		$args = apply_filters( 'wpmem_login_form_settings', $args, $arr['action'] );
 
 		// Build the input rows.
 		foreach ( $arr['inputs'] as $input ) {
