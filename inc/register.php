@@ -148,10 +148,13 @@ function wpmem_registration( $tag ) {
 		
 		// Validate file field type.
 		if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
-			$file_types = explode( '|', $field['file_types'] );
-			$msg_types  = implode( ', ', $file_types );
-			if ( ! in_array( $_FILES[ $meta_key ]['type'], $file_types ) ) {
-				$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_file_type' ), __( $field['label'], 'wp-members' ), str_replace( '|', ',', $msg_types ) );
+			$allowed_file_types = explode( '|', $field['file_types'] );
+			$msg_types  = implode( ', ', $allowed_file_types );
+			if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
+				$extension = pathinfo( $_FILES[ $meta_key ]['name'], PATHINFO_EXTENSION );
+				if ( ! in_array( $extension, $allowed_file_types ) ) {
+					$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_file_type' ), __( $field['label'], 'wp-members' ), str_replace( '|', ',', $msg_types ) );
+				}
 			}
 		}
 	}
