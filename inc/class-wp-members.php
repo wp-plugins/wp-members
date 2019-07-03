@@ -1085,10 +1085,11 @@ class WP_Members {
 	 *
 	 * @since 3.0.0
 	 * @since 3.1.5 Added $form argument.
+	 * @since 3.3.0 Added $tag argument.
 	 *
 	 * @param string $form The form being generated.
 	 */
-	function load_fields( $form = 'default' ) {
+	function load_fields( $tag = 'new', $form = 'default' ) {
 		
 		// Get stored fields settings.
 		$fields = get_option( 'wpmembers_fields' );
@@ -1096,7 +1097,7 @@ class WP_Members {
 		// Validate fields settings.
 		if ( ! isset( $fields ) || empty( $fields ) ) {
 			// Update settings.
-			$fields = array( array( 10, 'Email', 'user_email', 'email', 'y', 'y', 'y' ) );
+			$fields = array( array( 10, 'Email', 'user_email', 'email', 'y', 'y', 'y', 'profile'=>true ) );
 		}
 		
 		// Add new field array keys
@@ -1115,7 +1116,7 @@ class WP_Members {
 			$this->fields[ $meta_key ]['type']     = $val[3];
 			$this->fields[ $meta_key ]['register'] = ( 'y' == $val[4] ) ? true : false;
 			$this->fields[ $meta_key ]['required'] = ( 'y' == $val[5] ) ? true : false;
-			$this->fields[ $meta_key ]['profile']  = '';
+			$this->fields[ $meta_key ]['profile']  = ( isset( $val['profile'] ) ) ? $val['profile'] : true ;
 			$this->fields[ $meta_key ]['native']   = ( 'y' == $val[6] ) ? true : false;
 			
 			// Certain field types have additional properties.

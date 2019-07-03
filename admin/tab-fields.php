@@ -431,6 +431,12 @@ function wpmem_a_render_fields_tab_field_table() {
 		
 		// @todo - transitional until new array keys
 		if ( is_numeric( $key ) ) {
+			// Adjust for profile @todo - temporary until new array keys.
+			if ( isset( $field['profile'] ) ) {
+				$profile = ( true === $field['profile'] ) ? 'y' : 'n';
+			} else {
+				$profile = $field[4];
+			}
 			
 			$meta = $field[2];
 			$ut_checked = ( ( $wpmem_ut_fields ) && ( in_array( $field[1], $wpmem_ut_fields ) ) ) ? $field[1] : '';
@@ -442,7 +448,7 @@ function wpmem_a_render_fields_tab_field_table() {
 				'type'     => $field[3],
 				'display'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
 				'req'      => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
-				//'profile'  => ( $meta != 'user_email' ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', true, $field[6] ) : '',
+				'profile'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', 'y', $profile ) : '',
 				'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
 				'usearch'  => ( ! in_array( $meta, $wpmem_us_fields_skip ) ) ? wpmem_create_formfield( 'us_fields[' . $meta . ']', 'checkbox', $field[1], $us_checked ) : '',
 				'edit'     => wpmem_fields_edit_link( $meta ),
@@ -546,9 +552,9 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			'label'    => __( 'Display Label', 'wp-members' ),
 			'meta'     => __( 'Meta Key',      'wp-members' ),
 			'type'     => __( 'Field Type',    'wp-members' ),
-			'display'  => __( 'Display?',      'wp-members' ),
-			'req'      => __( 'Required?',     'wp-members' ),
-			//'profile'  => __( 'Profile Only',  'wp-members' ),
+			'display'  => __( 'Registration',  'wp-members' ),
+			'req'      => __( 'Required',      'wp-members' ),
+			'profile'  => __( 'Profile',       'wp-members' ),
 			'userscrn' => __( 'Users Screen',  'wp-members' ),
 			'usearch'  => __( 'Users Search',  'wp-members' ),
 			'edit'     => __( 'Edit',          'wp-members' ),
@@ -728,9 +734,11 @@ function wpmem_admin_fields_update() {
 				if ( 'username' == $meta_key || 'user_email' == $meta_key ) {
 					$wpmem_fields[ $key ][4] = 'y';
 					$wpmem_fields[ $key ][5] = 'y';
+					$wpmem_fields[ $key ]['profile'] = ( 'username' == $meta_key ) ? false : true;
 				} else {
 					$wpmem_fields[ $key ][4] = ( wpmem_get( $meta_key . "_display"  ) ) ? 'y' : '';
 					$wpmem_fields[ $key ][5] = ( wpmem_get( $meta_key . "_required" ) ) ? 'y' : '';
+					$wpmem_fields[ $key ]['profile'] = ( wpmem_get( $meta_key . '_profile' ) ) ? true : false;
 				}
 			}
 			update_option( 'wpmembers_fields', $wpmem_fields );

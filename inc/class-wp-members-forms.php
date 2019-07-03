@@ -917,7 +917,7 @@ class WP_Members_Forms {
 			$val = ''; $label = ''; $input = ''; $field_before = ''; $field_after = '';
 
 			// If the field is set to display and we aren't skipping, construct the row.
-			if ( $field['register'] ) {
+			if ( ( 'new' == $tag && $field['register'] ) || ( 'edit' == $tag && $field['profile'] ) ) {
 				
 				// Handle hidden fields
 				if ( 'hidden' == $field['type'] ) {
@@ -1120,27 +1120,30 @@ class WP_Members_Forms {
 			}
 
 			// If the row is set to display, add the row to the form array.
-			if ( $field['register'] && 'hidden' != $field['type'] ) {
+			if ( ( 'new' == $tag && $field['register'] ) || ( 'edit' == $tag && $field['profile'] ) ) {
+			//if ( $field['register'] && 'hidden' != $field['type'] ) {
+				if ( 'hidden' != $field['type'] ) {
 
-				$values = '';
-				if ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
-					$values = $val;
-					$val = $valtochk;
+					$values = '';
+					if ( 'multicheckbox' == $field['type'] || 'select' == $field['type'] || 'multiselect' == $field['type'] || 'radio' == $field['type'] ) {
+						$values = $val;
+						$val = $valtochk;
+					}
+
+					$rows[ $meta_key ] = array(
+						'meta'         => $meta_key,
+						'type'         => $field['type'],
+						'value'        => $val,
+						'values'       => $values,
+						'label_text'   => __( $field['label'], 'wp-members' ),
+						'row_before'   => $args['row_before'],
+						'label'        => $label,
+						'field_before' => $field_before,
+						'field'        => $input,
+						'field_after'  => $field_after,
+						'row_after'    => $args['row_after'],
+					);
 				}
-
-				$rows[ $meta_key ] = array(
-					'meta'         => $meta_key,
-					'type'         => $field['type'],
-					'value'        => $val,
-					'values'       => $values,
-					'label_text'   => __( $field['label'], 'wp-members' ),
-					'row_before'   => $args['row_before'],
-					'label'        => $label,
-					'field_before' => $field_before,
-					'field'        => $input,
-					'field_after'  => $field_after,
-					'row_after'    => $args['row_after'],
-				);
 			}
 		}
 
@@ -1506,12 +1509,8 @@ class WP_Members_Forms {
 		 * @param array $args An array of arguments to use. Default null.
 		 */
 		$args = apply_filters( 'wpmem_inc_login_args', '' );
-
 		$arr  = wp_parse_args( $args, $defaults );
-
-		$str  = ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
-
-		return $str;
+		return ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
 	}
 
 	/**
@@ -1571,12 +1570,8 @@ class WP_Members_Forms {
 		 * @param array $args An array of arguments to use. Default null.
 		 */
 		$args = apply_filters( 'wpmem_inc_changepassword_args', '' );
-
 		$arr  = wp_parse_args( $args, $defaults );
-
-		$str  = wpmem_login_form( 'page', $arr );
-
-		return $str;
+		return wpmem_login_form( 'page', $arr );
 	}
 	
 	/**
@@ -1636,12 +1631,9 @@ class WP_Members_Forms {
 		 * @param array $args An array of arguments to use. Default null.
 		 */
 		$args = apply_filters( 'wpmem_inc_resetpassword_args', '' );
-
 		$arr  = wp_parse_args( $args, $defaults );
+		return wpmem_login_form( 'page', $arr );
 
-		$str  = wpmem_login_form( 'page', $arr );
-
-		return $str;
 	}
 	
 	/**
@@ -1694,12 +1686,8 @@ class WP_Members_Forms {
 		 * @param array $args An array of arguments to use. Default null.
 		 */
 		$args = apply_filters( 'wpmem_inc_forgotusername_args', '' );
-
 		$arr  = wp_parse_args( $args, $defaults );
-
-		$str  = wpmem_login_form( 'page', $arr );
-
-		return $str;
+		return wpmem_login_form( 'page', $arr );
 	}
 
 
