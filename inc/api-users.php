@@ -72,6 +72,7 @@ function wpmem_user_has_role( $role, $user_id = false ) {
  * Checks if a user has a given meta value.
  *
  * @since 3.1.8
+ * @since 3.3.0 Added wpmem_user_has_meta filter.
  *
  * @global object  $wpmem     WP_Members object.
  * @param  string  $meta      Meta key being checked.
@@ -81,15 +82,24 @@ function wpmem_user_has_role( $role, $user_id = false ) {
  */
 function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
 	global $wpmem;
-	$user_id = ( $user_id ) ? $user_id : get_current_user_id();
-	$has_meta = false;
+	$user_id    = ( $user_id ) ? $user_id : get_current_user_id();
+	$has_meta   = false;
 	$user_value = get_user_meta( $user_id, $meta, true );
 	if ( $value ) {
 		$has_meta = ( $user_value == $value ) ? true : $has_meta;
 	} else {
 		$has_meta = ( $value ) ? true : $has_meta;
 	}
-	return $has_meta;
+	/**
+	 * Filter the user has meta value.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param bool   $has_meta
+	 * @param int    $user_id
+	 * @param string $user_value
+	 */
+	return apply_filters( 'wpmem_user_has_meta', $has_meta, $user_id, $user_value );
 }
 
 /**
