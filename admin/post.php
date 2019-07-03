@@ -360,22 +360,6 @@ function wpmem_post_columns_content( $column_name, $post_ID ) {
 	}
 }
 
-
-/**
- * Adds shortcode dropdown to post editor tinymce.
- *
- * @since 3.0
- *
- * @global object $wpmem_shortcode The WP_Members_TinyMCE_Buttons object.
- */
-function wpmem_load_tinymce() {
-	if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
-		global $wpmem_shortcode;
-		include( WPMEM_PATH . 'admin/includes/class-wp-members-tinymce-buttons.php' );
-		$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
-	}
-}
-
 /**
  * Sets custom block status for a post.
  *
