@@ -159,14 +159,18 @@ function wpmem_a_warning_msg( $msg ) {
  * Assemble the side meta box.
  *
  * @since 2.8.0
+ *
+ * @global object $wpmem
  */
 function wpmem_a_meta_box() {
 
+	global $wpmem;
+	
 	?><div class="postbox">
 		<h3><span>WP-Members Information</span></h3>
 		<div class="inside">
 
-			<p><strong><?php _e('Version:', 'wp-members'); echo "&nbsp;".WPMEM_VERSION; ?></strong><br />
+			<p><strong><?php _e( 'Version:', 'wp-members' ); echo "&nbsp;" . $wpmem->version; ?></strong><br />
 				<a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/"><?php _e( 'Quick Start Guide', 'wp-members' ); ?></a><br />
 				<a href="https://rocketgeek.com/plugins/wp-members/users-guide/"><?php _e( 'Online User Guide', 'wp-members' ); ?></a><br />
 				<a href="https://rocketgeek.com/plugins/wp-members/users-guide/faqs/"><?php _e( 'FAQs', 'wp-members' ); ?></a>

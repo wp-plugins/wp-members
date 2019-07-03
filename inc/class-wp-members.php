@@ -37,6 +37,43 @@ class WP_Members {
 	public $db_version = WPMEM_DB_VERSION;
 	
 	/**
+	 * Plugin path.
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
+	public $path;
+	
+	/**
+	 * Plugin __FILE__.
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
+	public $name;
+	
+	/**
+	 * Plugin slug.
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
+	public $slug;
+	
+	/**
+	 * Plugin URL.
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
+	public $url;
+	
+	
+	/**
 	 * Content block settings.
 	 *
 	 * @since  3.0.0
@@ -1510,7 +1547,7 @@ class WP_Members {
 	 */
 	function enqueue_style() {
 		global $wpmem;
-		wp_enqueue_style ( 'wp-members', wpmem_force_ssl( $wpmem->cssurl ), '', WPMEM_VERSION );
+		wp_enqueue_style ( 'wp-members', wpmem_force_ssl( $wpmem->cssurl ), '', $wpmem->version );
 	}
 
 	/**

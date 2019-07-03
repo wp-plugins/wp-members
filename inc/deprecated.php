@@ -879,11 +879,12 @@ function wpmem_reg_securify( $content ) {
  * @param str $hook The admin screen hook being loaded.
  */
 function wpmem_dashboard_enqueue_scripts( $hook ) {
+	global $wpmem;
 	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', WPMEM_VERSION );
+		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', $wpmem->version );
 	}
 	if ( $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', WPMEM_VERSION );
+		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', $wpmem->version );
 	}
 }
 
