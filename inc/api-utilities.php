@@ -276,3 +276,24 @@ function wpmem_do_shortcode( $tag, array $atts = array(), $content = null ) {
 
 	return call_user_func( $shortcode_tags[ $tag ], $atts, $content, $tag );
 }
+
+/**
+ * Checks if a password is part of registration.
+ *
+ * Used for moderated registration to determine if a user sets their
+ * own password at registration. If so, password is not set during
+ * user activation.
+ *
+ * @since 3.3.0
+ */
+function wpmem_check_pass() {
+	$chk_pass = false;
+	$wpmem_fields = wpmem_fields();
+	foreach ( $wpmem_fields as $field ) {
+		if ( $field['type'] == 'password' && $field['register'] ) {
+			$chk_pass = true;
+			break;
+		}
+	}
+	return $chk_pass;
+}
