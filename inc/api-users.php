@@ -330,4 +330,91 @@ function wpmem_create_membership_number( $args ) {
 	global $wpmem;
 	return $wpmem->api->generate_membership_number( $args );
 }
+
+/**
+ * Activates a user.
+ *
+ * If registration is moderated, sets the activated flag 
+ * in the usermeta. Flag prevents login when $wpmem->mod_reg
+ * is true (1). Function is fired from bulk user edit or
+ * user profile update.
+ *
+ * @uses  $wpdb WordPress Database object.
+ *
+ * @since 2.4
+ * @since 3.1.6 Dependencies now loaded by object.
+ * @since 3.2.4 Renamed from wpmem_a_activate_user().
+ * @since 3.3.0 Moved to user API.
+ *
+ * @param int   $user_id
+ */
+function wpmem_activate_user( $user_id ) {
+
+	global $wpmem;
+
+	// Define new_pass.
+	$new_pass = '';
+
+	// If passwords are user defined skip this.
+	if ( ! wpmem_check_pass() ) {
+		// Generates a password to send the user.
+		$new_pass = wp_generate_password();
+		$new_hash = wp_hash_password( $new_pass );
+
+		// Update the user with the new password.
+		global $wpdb;
+		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+	}
+
+	// @todo this should be taken out, use the wpmem_user_activated hook instead.
+	// If subscriptions can expire, and the user has no expiration date, set one.
+	if ( $wpmem->use_exp == 1 && ! get_user_meta( $user_id, 'expires', true ) ) {
+		if ( function_exists( 'wpmem_set_exp' ) ) {
+			wpmem_set_exp( $user_id );
+		}
+	}
+
+	// Generate and send user approved email to user.
+	$wpmem->email->to_user( $user_id, $new_pass, 2 );
+
+	// Set the active flag in usermeta.
+	update_user_meta( $user_id, 'active', 1 );
+
+	/**
+	 * Fires after the user activation process is complete.
+	 *
+	 * @since 2.8.2
+	 *
+	 * @param int $user_id The user's ID.
+	 */
+	do_action( 'wpmem_user_activated', $user_id );
+
+	return;
+}
+
+/**
+ * Deactivates a user.
+ *
+ * Reverses the active flag from the activation process
+ * preventing login when registration is moderated.
+ *
+ * @since 2.7.1
+ * @since 3.2.4 Renamed from wpmem_a_deactivate_user().
+ * @since 3.3.0 Moved to user API.
+ *
+ * @param int $user_id
+ */
+function wpmem_deactivate_user( $user_id ) {
+	update_user_meta( $user_id, 'active', 0 );
+
+	/**
+	 * Fires after the user deactivation process is complete.
+	 *
+	 * @since 2.9.9
+	 *
+	 * @param int $user_id The user's ID.
+	 */
+	do_action( 'wpmem_user_deactivated', $user_id );
+}
+
 // End of file.

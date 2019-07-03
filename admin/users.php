@@ -117,18 +117,6 @@ function wpmem_users_page_load() {
 	$action = $wp_list_table->current_action();
 	$sendback = '';
 
-	if ( $action == 'activate' || 'activate-single' ) {
-		// Find out if we need to set passwords.
-		$chk_pass = false;
-		$wpmem_fields = wpmem_fields();
-		foreach ( $wpmem_fields as $field ) {
-			if ( $field['type'] == 'password' && $field['register'] ) {
-				$chk_pass = true;
-				break;
-			}
-		}
-	}
-
 	switch ( $action ) {
 
 	case 'activate':
@@ -148,7 +136,7 @@ function wpmem_users_page_load() {
 				$user = filter_var( $user, FILTER_VALIDATE_INT );
 				// Check to see if the user is already activated, if not, activate.
 				if ( 'activate' == $action && 1 != get_user_meta( $user, 'active', true ) ) {
-					wpmem_activate_user( $user, $chk_pass );
+					wpmem_activate_user( $user );
 				} elseif( 'deactivate' == $action ) {
 					wpmem_deactivate_user( $user );
 				}
@@ -176,7 +164,7 @@ function wpmem_users_page_load() {
 
 		// Check to see if the user is already activated, if not, activate.
 		if ( 'activate-single' == $action && 1 != get_user_meta( $users, 'active', true ) ) {
-			wpmem_activate_user( $users, $chk_pass );
+			wpmem_activate_user( $userss );
 			$user_info = get_userdata( $users );
 			$msg = urlencode( sprintf( __( "%s activated", 'wp-members' ), $user_info->user_login ) );
 		
@@ -425,89 +413,6 @@ function wpmem_add_user_column_content( $value, $column_name, $user_id ) {
 	}
 
 	return $value;
-}
-
-/**
- * Activates a user.
- *
- * If registration is moderated, sets the activated flag 
- * in the usermeta. Flag prevents login when $wpmem->mod_reg
- * is true (1). Function is fired from bulk user edit or
- * user profile update.
- *
- * @since 2.4
- * @since 3.1.6 Dependencies now loaded by object.
- * @since 3.2.4 Renamed from wpmem_a_activate_user().
- *
- * @param int   $user_id
- * @param bool  $chk_pass
- * @uses  $wpdb WordPress Database object.
- */
-function wpmem_activate_user( $user_id, $chk_pass = false ) {
-
-	global $wpmem;
-
-	// Define new_pass.
-	$new_pass = '';
-
-	// If passwords are user defined skip this.
-	if ( ! $chk_pass ) {
-		// Generates a password to send the user.
-		$new_pass = wp_generate_password();
-		$new_hash = wp_hash_password( $new_pass );
-
-		// Update the user with the new password.
-		global $wpdb;
-		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
-	}
-
-	// If subscriptions can expire, and the user has no expiration date, set one.
-	if ( $wpmem->use_exp == 1 && ! get_user_meta( $user_id, 'expires', true ) ) {
-		if ( function_exists( 'wpmem_set_exp' ) ) {
-			wpmem_set_exp( $user_id );
-		}
-	}
-
-	// Generate and send user approved email to user.
-	$wpmem->email->to_user( $user_id, $new_pass, 2 );
-
-	// Set the active flag in usermeta.
-	update_user_meta( $user_id, 'active', 1 );
-
-	/**
-	 * Fires after the user activation process is complete.
-	 *
-	 * @since 2.8.2
-	 *
-	 * @param int $user_id The user's ID.
-	 */
-	do_action( 'wpmem_user_activated', $user_id );
-
-	return;
-}
-
-/**
- * Deactivates a user.
- *
- * Reverses the active flag from the activation process
- * preventing login when registration is moderated.
- *
- * @since 2.7.1
- * @since 3.2.4 Renamed from wpmem_a_deactivate_user().
- *
- * @param int $user_id
- */
-function wpmem_deactivate_user( $user_id ) {
-	update_user_meta( $user_id, 'active', 0 );
-
-	/**
-	 * Fires after the user deactivation process is complete.
-	 *
-	 * @since 2.9.9
-	 *
-	 * @param int $user_id The user's ID.
-	 */
-	do_action( 'wpmem_user_deactivated', $user_id );
 }
 
 /**
