@@ -32,7 +32,6 @@ class WP_Members_Shortcodes {
 		 */
 		do_action( 'wpmem_load_shortcodes' );
 		
-		add_shortcode( 'wp-members',       'wpmem_shortcode'              ); // This shortcode is obsolete, and the associated function is deprecated.
 		add_shortcode( 'wpmem_field',      array( $this, 'fields'       ) );
 		add_shortcode( 'wpmem_logged_in',  array( $this, 'logged_in'    ) );
 		add_shortcode( 'wpmem_logged_out', array( $this, 'logged_out'   ) );
