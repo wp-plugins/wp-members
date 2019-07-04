@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 3.2.9
+Stable tag: 3.2.9.2
 License: GPLv2
 
 == Description ==
@@ -100,8 +100,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.2.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
-WP-Members 3.2.8 is a security release. See changelog for details.
+WP-Members 3.3.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
 
 == Screenshots ==
 
@@ -123,6 +122,22 @@ WP-Members 3.2.8 is a security release. See changelog for details.
 
 
 == Changelog ==
+
+= 3.3.0 =
+
+* Removed [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
+* Deprecated wpmem_login_form_args filter, use wpmem_login_form_settings instead.
+* Removed tinymce button for shortcodes as no longer necessary with gutenberg.
+
+* Added support for selecting fields to display on the registration form or the profile form.
+* Added wpmem_activate_user() and wpmem_deactivate_user() to user API.
+* Added wpmem_user_sets_password() API function.
+* Added wpmem_user_has_meta filter.
+
+* Replaced WPMEM_VERSION constant with $wpmem->version.
+* Replaced WPMEM_PATH constant with $wpmem->path.
+* Replaced WPMEM_URL constant with $wpmem->url.
+* Updated registration function to hook to user_register, IMPORTANT: this changes the order in which the user meta fields are saved, and also changes when the email is sent. Email is now hooked to user_register, but can be unloaded if necessary.
 
 = 3.2.9 =
 
