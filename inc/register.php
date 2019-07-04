@@ -232,7 +232,7 @@ function wpmem_registration( $tag ) {
 	
 					// Everything else goes into wp_usermeta.
 					default:
-						if ( $field['register'] ) {
+						if ( ( 'register' == $tag && true == $field['register'] ) || ( 'update' == $tag && true == $field['profile'] ) ) {
 							update_user_meta( $wpmem->user->post_data['ID'], $meta_key, $wpmem->user->post_data[ $meta_key ] );
 						}
 						break;

@@ -192,7 +192,7 @@ class WP_Members_User {
 
 		// Build the $this->post_data array from $_POST data.
 		foreach ( $wpmem->fields as $meta_key => $field ) {
-			if ( $field['register'] ) {
+			if ( ( 'register' == $tag && true == $field['register'] ) || ( 'update' == $tag && true == $field['profile'] ) ) {
 				if ( 'password' != $meta_key && 'confirm_password' != $meta_key && 'username' != $meta_key ) {
 					if ( isset( $_POST[ $meta_key ] ) ) {
 						switch ( $field['type'] ) {
@@ -248,7 +248,7 @@ class WP_Members_User {
 		// Check for required fields, reverse the array for logical error message order.
 		foreach ( array_reverse( $wpmem->fields ) as $meta_key => $field ) {
 			// Validation if the field is required.
-			if ( $field['required'] ) {
+			if ( true == $field['required'] ) {
 				if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
 					// If this is a new registration.
 					if ( 'register' == $tag ) {
@@ -259,8 +259,10 @@ class WP_Members_User {
 					}
 				} else {
 					// If the required field is any other field type.
-					if ( null == $this->post_data[ $meta_key ] ) {
-						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
+					if ( ( 'register' == $tag && true == $field['register'] ) || ( 'update' == $tag && true == $field['profile'] ) ) {
+						if ( null == $this->post_data[ $meta_key ] ) {
+							$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
+						}
 					}
 				}
 			}
