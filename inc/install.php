@@ -55,7 +55,7 @@ function wpmem_do_install() {
 		wpmem_install_fields();
 		wpmem_install_dialogs();
 		wpmem_append_email();
-		update_option( 'wpmembers_style', WPMEM_DIR . 'css/generic-no-float.css', '', 'yes' );
+		//update_option( 'wpmembers_style', 'generic-no-float.css', '', 'yes' );
 
 	} else {
 		
@@ -140,6 +140,9 @@ function wpmem_upgrade_settings() {
 			unset( $wpmem_settings['email'] );
 		}
 		
+		// @since 3.2.7 Upgrade stylesheet setting.
+		$wpmem_settings['select_stlye'] = wpmem_upgrade_style_setting( $wpmem_settings );
+		
 		// Version number should be updated no matter what.
 		$wpmem_settings['version']    = WPMEM_VERSION;
 		$wpmem_settings['db_version'] = WPMEM_DB_VERSION;
@@ -181,9 +184,9 @@ function wpmem_upgrade_settings() {
 				'register' => get_option( 'wpmembers_regurl' ),
 				'login'    => get_option( 'wpmembers_logurl' ),
 			),
-			'cssurl'     => get_option( 'wpmembers_cssurl' ),
-			'style'      => get_option( 'wpmembers_style'  ),
-			'attrib'     => get_option( 'wpmembers_attrib' ),
+			'cssurl'          => get_option( 'wpmembers_cssurl' ),
+			'select_style'    => get_option( 'wpmembers_style'  ),
+			'attrib'          => get_option( 'wpmembers_attrib' ),
 			'clone_menus'     => 0,
 			'enable_products' => 0,
 		);
@@ -493,22 +496,22 @@ function wpmem_install_settings() {
 		),
 		'enable_products' => 0,
 		'clone_menus'     => 0,
-		'notify'    => 0,
-		'mod_reg'   => 0,
-		'captcha'   => 0,
-		'use_exp'   => 0,
-		'use_trial' => 0,
-		'warnings'  => 0,
-		'user_pages' => array(
+		'notify'          => 0,
+		'mod_reg'         => 0,
+		'captcha'         => 0,
+		'use_exp'         => 0,
+		'use_trial'       => 0,
+		'warnings'        => 0,
+		'user_pages'      => array(
 			'profile'  => '',
 			'register' => '',
 			'login'    => '',
 		),
-		'cssurl'    => '',
-		'style'     => WPMEM_DIR . 'css/generic-no-float.css',
-		'attrib'    => 0,
-		'post_types' => array(),
-		'form_tags'  => array( 'default' => 'Registration Default' ),
+		'cssurl'          => '',
+		'select_style'    => 'generic-no-float.css',
+		'attrib'          => 0,
+		'post_types'      => array(),
+		'form_tags'       => array( 'default' => 'Registration Default' ),
 	);
 	
 	// Using update_option to allow for forced update.
@@ -601,6 +604,41 @@ function wpmem_upgrade_fields() {
 		$username_array = array( 0, 'Choose a Username', 'username', 'text', 'y', 'y', 'y' );
 		array_unshift( $fields, $username_array );
 		update_option( 'wpmembers_fields', $fields, '', 'yes' );
+	}
+}
+
+/**
+ * Upgrades the stylesheet setting from pre-3.0.
+ *
+ * This is a basic fix for users who have a WP-Members packaged stylesheet saved
+ * with the full URL. I believe 90% or more users simply use the default stylesheet
+ * so this should handle most updates.
+ *
+ * @since 3.2.7
+ *
+ * @param array $settings
+ */
+function wpmem_upgrade_style_setting( $settings ) {
+	
+	if ( isset( $settings['style'] ) ) {
+		if ( 'use_custom' == $settings['style'] ) {
+			return $settings['style'];
+		} else {
+			if ( strpos( $settings['style'], WPMEM_DIR ) ) {
+				return str_replace( WPMEM_DIR . 'css/', '', $settings['style'] );
+			} else {
+				return 'use_custom';
+			}
+		}
+	} else {
+		$maybe_style = get_option( 'wpmembers_style' );
+		if ( $maybe_style ) {
+			// Does stylesheet setting point to the WP-Members /css/ directory?
+			if ( strpos( $style, WPMEM_DIR ) ) {
+				return str_replace( WPMEM_DIR . 'css/', '', $settings['cssurl'] );
+			}
+
+		}
 	}
 }
 // End of file.

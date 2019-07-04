@@ -263,6 +263,15 @@ class WP_Members {
 	public $error;
 	
 	/**
+	 * Container for stylesheet setting.
+	 *
+	 * @since  3.2.7
+	 * @access public
+	 * @var    string
+	 */
+	public $select_style;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
@@ -309,7 +318,8 @@ class WP_Members {
 		}
 		
 		$this->load_user_pages();
-		$this->cssurl     = ( isset( $this->style ) && $this->style == 'use_custom' ) ? $this->cssurl : $this->style; // Set the stylesheet.
+		$this->set_style();
+		
 		$this->forms      = new WP_Members_Forms;         // Load forms.
 		$this->api        = new WP_Members_API;           // Load api.
 		$this->user       = new WP_Members_User( $this ); // Load user functions.
@@ -1216,6 +1226,15 @@ class WP_Members {
 				$this->user_pages[ $key ] = get_page_link( $val );
 			}
 		}
+	}
+	
+	/**
+	 * Sets the stylesheet URL.
+	 *
+	 * @since 3.3.0
+	 */
+	function set_style() {
+		$this->cssurl = ( 'use_custom' == $this->select_style ) ? $this->cssurl : $this->url . 'css/' . $this->select_style; // Set the stylesheet.
 	}
 	
 	/**

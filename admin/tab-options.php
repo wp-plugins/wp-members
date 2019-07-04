@@ -253,7 +253,7 @@ function wpmem_a_build_options() {
 							  <li>
 								<label><?php _e( 'Stylesheet' ); ?>:</label>
 								<select name="wpmem_settings_style" id="wpmem_stylesheet_select">
-								<?php wpmem_admin_style_list( $wpmem->style ); ?>
+								<?php wpmem_admin_style_list( $wpmem->select_style ); ?>
 								</select>
 							  </li>
 							  <?php $wpmem_cssurl = $wpmem->cssurl;
@@ -495,9 +495,9 @@ function wpmem_update_options() {
 			'register' => ( $regurl ) ? $regurl : '',
 			'login'    => ( $logurl ) ? $logurl : '',
 		),
-		'cssurl'    => ( $cssurl ) ? $cssurl : '',
-		'style'     => $wpmem_settings_style,
-		'attrib'    => filter_var( wpmem_get( 'attribution', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+		'cssurl'       => ( $cssurl ) ? $cssurl : '',
+		'select_style' => $wpmem_settings_style,
+		'attrib'       => filter_var( wpmem_get( 'attribution', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 	);
 
 	// Build an array of post types
@@ -589,13 +589,13 @@ function wpmem_admin_new_settings( $new ) {
 function wpmem_admin_style_list( $style ) {
 
 	$list = array(
-		'No Float'                   => WPMEM_DIR . 'css/generic-no-float.css',
-		'Rigid'                      => WPMEM_DIR . 'css/generic-rigid.css',
-		'Twenty Sixteen - no float'  => WPMEM_DIR . 'css/wp-members-2016-no-float.css',
-		'Twenty Fifteen'             => WPMEM_DIR . 'css/wp-members-2015.css',
-		'Twenty Fifteen - no float'  => WPMEM_DIR . 'css/wp-members-2015-no-float.css',
-		'Twenty Fourteen'            => WPMEM_DIR . 'css/wp-members-2014.css',
-		'Twenty Fourteen - no float' => WPMEM_DIR . 'css/wp-members-2014-no-float.css',
+		'No Float'                   => 'generic-no-float.css',
+		'Rigid'                      => 'generic-rigid.css',
+		'Twenty Sixteen - no float'  => 'wp-members-2016-no-float.css',
+		'Twenty Fifteen'             => 'wp-members-2015.css',
+		'Twenty Fifteen - no float'  => 'wp-members-2015-no-float.css',
+		'Twenty Fourteen'            => 'wp-members-2014.css',
+		'Twenty Fourteen - no float' => 'wp-members-2014-no-float.css',
 		//'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
 		//'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
 		//'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
@@ -607,10 +607,11 @@ function wpmem_admin_style_list( $style ) {
 	 * Filters the list of stylesheets in the plugin options dropdown.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 3.3.0 There is no way to manage custom values in the dropdown with the new setting rules.
 	 *
 	 * @param array $list An array of stylesheets that can be applied to the plugin's forms.
 	 */
-	$list = apply_filters( 'wpmem_admin_style_list', $list );
+	//$list = apply_filters( 'wpmem_admin_style_list', $list );
 
 	$selected = false;
 	foreach ( $list as $name => $location ) {
