@@ -1753,17 +1753,6 @@ class WP_Members {
 		if ( $loaded ) {
 			return $loaded;
 		} else {
-
-			/*
-			 * If there is no wordpress.org language pack or the filtered
-			 * language file does not load, $loaded will be false and will
-			 * end up here to attempt to load one of the legacy language
-			 * packs. Note that the legacy language files are no longer
-			 * actively maintained and may not contain all strings.
-			 * The directory that the file will load from can be changed
-			 * using the wpmem_localization_dir filter.
-			 */
-
 			/**
 			 * Filter translation directory.
 			 *

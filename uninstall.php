@@ -27,7 +27,7 @@ if( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 // Uninstall process removes WP-Members settings from the WordPress database (_options table).
 if ( WP_UNINSTALL_PLUGIN ) {
 
-	if( is_multisite() ) {
+	if ( is_multisite() ) {
 
 		global $wpdb;
 		$blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
