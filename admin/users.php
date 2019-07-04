@@ -107,7 +107,7 @@ function wpmem_users_page_load() {
 
 	// If exporting all users, do it, then exit.
 	if ( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
-		include_once( WPMEM_PATH . 'admin/user-export.php' );
+		include_once( $wpmem->path . 'admin/user-export.php' );
 		$today = date( "m-d-y" ); 
 		wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ), '' );
 		exit();
@@ -193,7 +193,7 @@ function wpmem_users_page_load() {
 		foreach ( $users as $user ) {
 			$sanitized_users[] = filter_var( $user, FILTER_VALIDATE_INT );
 		}
-		include_once( WPMEM_PATH . 'admin/user-export.php' );
+		include_once( $wpmem->path . 'admin/user-export.php' );
 		wpmem_export_users( array( 'export'=>'selected' ), $sanitized_users );
 		return;
 		break;
@@ -357,7 +357,7 @@ function wpmem_add_user_column( $columns ) {
 	
 	// Makes WP-Members columns sortable.
 	// @todo - finish debugging class or add sortable functions to users.php.
-	// require_once( WPMEM_PATH . 'admin/includes/class-wp-members-sortable-user-columns.php' );
+	// require_once( $wpmem->path . 'admin/includes/class-wp-members-sortable-user-columns.php' );
 	// new WP_Members_Sortable_User_Columns( $wpmem_user_columns );
 
 	return $columns;

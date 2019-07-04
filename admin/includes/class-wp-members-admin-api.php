@@ -74,24 +74,28 @@ class WP_Members_Admin_API {
 	 * @since 3.1.1 Added tab-about.php.
 	 * @since 3.1.7 Loads all admin dependent files.
 	 * @since 3.2.9 Removed tab-about.php until we can re-do it.
+	 *
+	 * @global object $wpmem
 	 */
 	function load_dependencies() {
 		
-		include_once( WPMEM_PATH . 'admin/admin.php' );
-		include_once( WPMEM_PATH . 'admin/users.php' );
-		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-user-search.php' );
-		include_once( WPMEM_PATH . 'admin/includes/class-wp-members-products-admin.php' );
-		include_once( WPMEM_PATH . 'admin/dialogs.php' );
-		include_once( WPMEM_PATH . 'admin/post.php' );
-		include_once( WPMEM_PATH . 'admin/includes/api.php' );
-		include_once( WPMEM_PATH . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
+		global $wpmem;
+		
+		include_once( $wpmem->path . 'admin/admin.php' );
+		include_once( $wpmem->path . 'admin/users.php' );
+		include_once( $wpmem->path . 'admin/includes/class-wp-members-user-search.php' );
+		include_once( $wpmem->path . 'admin/includes/class-wp-members-products-admin.php' );
+		include_once( $wpmem->path . 'admin/dialogs.php' );
+		include_once( $wpmem->path . 'admin/post.php' );
+		include_once( $wpmem->path . 'admin/includes/api.php' );
+		include_once( $wpmem->path . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
-			include_once( WPMEM_PATH . 'admin/tab-options.php' );
-			include_once( WPMEM_PATH . 'admin/tab-emails.php' );
-			include_once( WPMEM_PATH . 'admin/tab-captcha.php' );
-			// include_once( WPMEM_PATH . 'admin/tab-about.php' );
-			include_once( WPMEM_PATH . 'admin/tab-dialogs.php' );
-			include_once( WPMEM_PATH . 'admin/tab-dropins.php' );
+			include_once( $wpmem->path . 'admin/tab-options.php' );
+			include_once( $wpmem->path . 'admin/tab-emails.php' );
+			include_once( $wpmem->path . 'admin/tab-captcha.php' );
+			// include_once( $wpmem->path . 'admin/tab-about.php' );
+			include_once( $wpmem->path . 'admin/tab-dialogs.php' );
+			include_once( $wpmem->path . 'admin/tab-dropins.php' );
 		}
 	}
 
@@ -514,15 +518,15 @@ class WP_Members_Admin_API {
 	function dashboard_enqueue_scripts( $hook ) {
 		global $current_screen, $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
-			wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', $wpmem->version );
+			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'admin/css/admin.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
-			wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', $wpmem->version );
+			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'admin/js/admin.js', '', $wpmem->version );
 		}
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
 			if ( ! wp_script_is( 'select2', 'enqueued' ) ) {
-				wp_register_style( 'select2-style', WPMEM_DIR . 'admin/css/select2.min.css', false, '4.0.5', 'all' );
-				wp_register_script( 'select2',   WPMEM_DIR . 'admin/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
+				wp_register_style( 'select2-style', $wpmem->url . 'admin/css/select2.min.css', false, '4.0.5', 'all' );
+				wp_register_script( 'select2',   $wpmem->url . 'admin/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 				wp_enqueue_style( 'select2-style' );
 				wp_enqueue_script( 'select2' );
 			}
@@ -534,7 +538,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', WPMEM_DIR . 'admin/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'admin/css/jquery-ui.min.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 		}
@@ -544,7 +548,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', WPMEM_DIR . 'admin/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'admin/css/jquery-ui.min.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 			 
@@ -557,14 +561,17 @@ class WP_Members_Admin_API {
 	 * @since 2.4.0
 	 * @since 3.2.0 Moved to admin API class, renamed from wpmem_admin_plugin_links().
 	 *
+	 * @global object $wpmem
+	 *
 	 * @param  array  $links
 	 * @param  string $file
 	 * @return array  $links
 	 */
 	function plugin_links( $links, $file ) {
+		global $wpmem;
 		static $wpmem_plugin;
 		if ( ! $wpmem_plugin ) {
-			$wpmem_plugin = plugin_basename( WPMEM_PATH . '/wp-members.php' );
+			$wpmem_plugin = plugin_basename( $wpmem->path . '/wp-members.php' );
 		}
 		if ( $file == $wpmem_plugin ) {
 			$settings_link = '<a href="' . add_query_arg( 'page', 'wpmem-settings', 'options-general.php' ) . '">' . __( 'Settings', 'wp-members' ) . '</a>';

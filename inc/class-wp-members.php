@@ -270,6 +270,12 @@ class WP_Members {
 	 */
 	function __construct() {
 		
+		// Constants.
+		$this->path = plugin_dir_path( __DIR__ );
+		$this->name = $this->path . 'wp-members.php';
+		$this->slug = substr( basename( $this->name ), 0, -4 );
+		$this->url  = plugin_dir_url ( __DIR__ );
+		
 		// Load dependent files.
 		$this->load_dependencies();
 	
@@ -291,7 +297,7 @@ class WP_Members {
 			/**
 			 * Load installation routine.
 			 */
-			require_once( WPMEM_PATH . 'inc/install.php' );
+			require_once( $this->path . 'inc/install.php' );
 			// Update settings.
 			/** This filter is documented in /inc/class-wp-members.php */
 			$settings = apply_filters( 'wpmem_settings', wpmem_do_install() );
@@ -502,30 +508,30 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		require_once( WPMEM_PATH . 'inc/class-wp-members-api.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-email.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-forms.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-menus.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-products.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-shortcodes.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-user.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-user-profile.php' );
-		require_once( WPMEM_PATH . 'inc/class-wp-members-widget.php' );
-		require_once( WPMEM_PATH . 'inc/api.php' );
-		require_once( WPMEM_PATH . 'inc/api-email.php' );
-		require_once( WPMEM_PATH . 'inc/api-forms.php' );
-		require_once( WPMEM_PATH . 'inc/api-users.php' );
-		require_once( WPMEM_PATH . 'inc/api-utilities.php' );
-		require_once( WPMEM_PATH . 'inc/forms.php' );
-		require_once( WPMEM_PATH . 'inc/dialogs.php' );
-		require_once( WPMEM_PATH . 'inc/wp-registration.php' );
-		require_once( WPMEM_PATH . 'inc/deprecated.php' );
-		//require_once( WPMEM_PATH . 'inc/core.php' ); // @deprectated 3.2.4
-		//require_once( WPMEM_PATH . 'inc/utilities.php' ); // @deprecated 3.2.3
-		//require_once( WPMEM_PATH . 'inc/sidebar.php' ); // @deprecated 3.2.0
-		//require_once( WPMEM_PATH . 'inc/shortcodes.php' ); // @deprecated 3.2.0
-		//require_once( WPMEM_PATH . 'inc/email.php' ); // @deprecated 3.2.0
-		//require_once( WPMEM_PATH . 'inc/users.php' ); // @deprecated 3.1.9
+		require_once( $this->path . 'inc/class-wp-members-api.php' );
+		require_once( $this->path . 'inc/class-wp-members-email.php' );
+		require_once( $this->path . 'inc/class-wp-members-forms.php' );
+		require_once( $this->path . 'inc/class-wp-members-menus.php' );
+		require_once( $this->path . 'inc/class-wp-members-products.php' );
+		require_once( $this->path . 'inc/class-wp-members-shortcodes.php' );
+		require_once( $this->path . 'inc/class-wp-members-user.php' );
+		require_once( $this->path . 'inc/class-wp-members-user-profile.php' );
+		require_once( $this->path . 'inc/class-wp-members-widget.php' );
+		require_once( $this->path . 'inc/api.php' );
+		require_once( $this->path . 'inc/api-email.php' );
+		require_once( $this->path . 'inc/api-forms.php' );
+		require_once( $this->path . 'inc/api-users.php' );
+		require_once( $this->path . 'inc/api-utilities.php' );
+		require_once( $this->path . 'inc/forms.php' );
+		require_once( $this->path . 'inc/dialogs.php' );
+		require_once( $this->path . 'inc/wp-registration.php' );
+		require_once( $this->path . 'inc/deprecated.php' );
+		//require_once( $this->path . 'inc/core.php' ); // @deprectated 3.2.4
+		//require_once( $this->path . 'inc/utilities.php' ); // @deprecated 3.2.3
+		//require_once( $this->path . 'inc/sidebar.php' ); // @deprecated 3.2.0
+		//require_once( $this->path . 'inc/shortcodes.php' ); // @deprecated 3.2.0
+		//require_once( $this->path . 'inc/email.php' ); // @deprecated 3.2.0
+		//require_once( $this->path . 'inc/users.php' ); // @deprecated 3.1.9
 
 	}
 
@@ -628,7 +634,7 @@ class WP_Members {
 			
 			case 'register':
 			case 'update':
-				require_once( WPMEM_PATH . 'inc/register.php' );
+				require_once( $this->path . 'inc/register.php' );
 				$regchk = wpmem_registration( $action  );
 				break;
 
@@ -1403,7 +1409,7 @@ class WP_Members {
 			 *
 			 * @since 3.1.0
 			 */	
-			include_once( WPMEM_PATH . 'admin/includes/class-wp-members-admin-api.php' );
+			include_once( $this->path . 'admin/includes/class-wp-members-admin-api.php' );
 			$this->admin = new WP_Members_Admin_API;
 		}
 	}
@@ -1762,7 +1768,7 @@ class WP_Members {
 			 * @param string $dir    The translation directory.
 			 * @param string $locale The current locale.
 			 */
-			$dir = apply_filters( 'wpmem_localization_dir', basename( WPMEM_PATH ) . '/lang/', $locale );
+			$dir = apply_filters( 'wpmem_localization_dir', basename( $this->path ) . '/lang/', $locale );
 			load_plugin_textdomain( $domain, FALSE, $dir );
 		}
 		return;
@@ -1779,7 +1785,7 @@ class WP_Members {
 		if ( file_exists( $custom_template ) ) {
 			require_once( $custom_template );
 		} else {
-			require_once( WPMEM_PATH . 'inc/template_tos.php' );
+			require_once( $this->path . 'inc/template_tos.php' );
 		}
 	}
 

@@ -166,7 +166,7 @@ function wpmem_do_sc_pages( $atts, $content, $tag ) {
 	$hide_register = ( isset( $atts['register'] ) && 'hide' == $atts['register'] ) ? true : false;
 
 	global $wpmem, $wpmem_themsg, $post;
-	include_once( WPMEM_PATH . 'inc/dialogs.php' );
+	include_once( $wpmem->path . 'inc/dialogs.php' );
 
 	$content = '';
 
@@ -881,10 +881,10 @@ function wpmem_reg_securify( $content ) {
 function wpmem_dashboard_enqueue_scripts( $hook ) {
 	global $wpmem;
 	if ( $hook == 'edit.php' || $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_style( 'wpmem-admin', WPMEM_DIR . 'admin/css/admin.css', '', $wpmem->version );
+		wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'admin/css/admin.css', '', $wpmem->version );
 	}
 	if ( $hook == 'settings_page_wpmem-settings' ) {
-		wp_enqueue_script( 'wpmem-admin', WPMEM_DIR . 'admin/js/admin.js', '', $wpmem->version );
+		wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'admin/js/admin.js', '', $wpmem->version );
 	}
 }
 

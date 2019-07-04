@@ -67,7 +67,7 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 							$link = do_shortcode( $tos_content );
 							$tos_pop = '<a href="' . esc_url( $link ) . '" target="_blank">';
 						} else { 
-							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . WPMEM_DIR . "/wp-members-tos.php','mywindow');\">";
+							$tos_pop = "<a href=\"#\" onClick=\"window.open('" . $wpmem->url . "/wp-members-tos.php','mywindow');\">";
 						}
 						/** This filter is documented in wp-members/inc/register.php */
 						$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), 'new' );
@@ -399,10 +399,13 @@ function wpmem_wp_reg_finalize( $user_id ) {
  * Loads the stylesheet for backend registration.
  *
  * @since 2.8.7
+ *
+ * @global object $wpmem
  */
 function wpmem_wplogin_stylesheet() {
+	global $wpmem;
 	// @todo Should this enqueue styles?
-	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . WPMEM_DIR . 'css/wp-login.css" type="text/css" media="all" />';
+	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . $wpmem->url . 'css/wp-login.css" type="text/css" media="all" />';
 }
 
 // End of file.
