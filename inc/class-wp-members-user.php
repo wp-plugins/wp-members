@@ -43,7 +43,8 @@ class WP_Members_User {
 	 * @param object $settings The WP_Members Object
 	 */
 	function __construct( $settings ) {
-		add_action( 'user_register', array( $this, 'register_finalize' ), 9 ); // @todo This need rigorous testing, especially front end processing such as WC.
+		add_action( 'user_register', array( $this, 'register_finalize' ), 8 ); // @todo This needs rigorous testing, especially front end processing such as WC.
+		add_action( 'user_register', array( $this, 'register_email' ), 9 );    // @todo This needs rigorous testing for integration with WC or WP native.
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 	
 		// Load anything the user as access to.
@@ -393,6 +394,14 @@ class WP_Members_User {
 			$this->upload_user_files( $user_id, $wpmem->fields );
 		}
 
+	}
+	
+	/**
+	 * Sends emails on registration.
+	 *
+	 * @since 3.3.0
+	 */
+	function register_email( $user_id ) {
 		// Send a notification email to the user.
 		$wpmem->email->to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
 
