@@ -19,17 +19,13 @@
  * - wpmem_register_url
  * - wpmem_profile_url
  * - wpmem_current_url
+ * - wpmem_current_post_id
  * - wpmem_gettext
  * - wpmem_use_custom_dialog
- * - wpmem_create_membership_number
  * - wpmem_login_status
  * - wpmem_get
  * - wpmem_is_reg_page
  * - wpmem_loginout
- * - wpmem_is_user_activated
- * - wpmem_current_post_id
- * - wpmem_user_data
- * - wpmem_update_user_role
  * - wpmem_display_message
  */
 
@@ -63,13 +59,29 @@ function wpmem_redirect_to_login( $redirect_to = false ) {
  * Checks if content is blocked (replaces wpmem_block()).
  *
  * @since 3.1.1
+ * @since 3.3.0 Added $post_id
  *
- * @global object $wpmem The WP-Members object class.
- * @return bool   $block True if content is blocked, false otherwise.
+ * @global object $wpmem   The WP-Members object class.
+ * @param  int    $post_id 
+ * @return bool   $block   True if content is blocked, false otherwise.
  */
-function wpmem_is_blocked() {
+function wpmem_is_blocked( $post_id = false ) {
 	global $wpmem;
-	return $wpmem->is_blocked();
+	return $wpmem->is_blocked( $post_id );
+}
+
+/** 
+ * Returns the block setting for a post.
+ *
+ * @since 3.3.0
+ *
+ * @global object $wpmem
+ *
+ * @param  int    $post_id
+ * @return int    $block_value
+ */
+function wpmem_get_block_setting( $post_id ) {
+	return get_post_meta( $post_id, '_wpmem_block', true );
 }
 
 /**

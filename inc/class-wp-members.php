@@ -681,18 +681,26 @@ class WP_Members {
 	 * was moved to the WP_Members class in 3.0.
 	 *
 	 * @since 3.0.0
+	 * @since 3.3.0 Added $post_id
 	 *
-	 * @global object $post  The WordPress Post object.
-	 * @return bool   $block true|false
+	 * @global object $post The WordPress Post object.
+	 *
+	 * @param  int    $post_id
+	 * @return bool   $block   true|false
 	 */
-	function is_blocked() {
+	function is_blocked( $post_id = false ) {
 	
 		global $post;
 		
-		if ( $post ) {
+		if ( $post || $post_id ) {
+			
+			if ( $post_id && ! $post ) {
+				$post = get_post( $post_id );
+			}
 
+			$meta = wpmem_get_block_setting( $post_id );
+			
 			// Backward compatibility for old block/unblock meta.
-			$meta = get_post_meta( $post->ID, '_wpmem_block', true );
 			if ( ! $meta ) {
 				// Check for old meta.
 				$old_block   = get_post_meta( $post->ID, 'block',   true );
@@ -705,7 +713,7 @@ class WP_Members {
 				'post_id'    => $post->ID,
 				'post_type'  => $post->post_type,
 				'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
-				'block_meta' => $meta, // @todo get_post_meta( $post->ID, '_wpmem_block', true ),
+				'block_meta' => $meta,
 				'block_type' => ( isset( $this->block[ $post->post_type ] ) ) ? $this->block[ $post->post_type ] : 0,
 			);
 	
@@ -714,6 +722,7 @@ class WP_Members {
 			 *
 			 * @since 2.9.8
 			 * @since 3.0.0 Moved to is_blocked() in WP_Members object.
+			 * @deprecated 3.3.0 Use wpmem_block_settings instead.
 			 *
 			 * @param array $args     Null.
 			 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
@@ -722,6 +731,15 @@ class WP_Members {
 	
 			// Merge $args with defaults.
 			$args = ( wp_parse_args( $args, $defaults ) );
+			
+			/**
+			 * Filter the block settings.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param array $args
+			 */
+			$args = apply_filters( 'wpmem_block_settings', $args );
 	
 			if ( is_single() || is_page() ) {
 				switch( $args['block_type'] ) {
@@ -750,7 +768,15 @@ class WP_Members {
 		 * @since 2.7.5
 		 *
 		 * @param bool  $args['block']
-		 * @param array $args
+		 * @param array $args {
+		 *     An array of arguments used in the function.
+		 *
+		 *     @type string $post_id
+		 *     @type string $post_type
+		 *     @type string $block
+		 *     @type string $block_meta 
+		 *     @tyep string $block_type
+		 * }
 		 */
 		return apply_filters( 'wpmem_block', $args['block'], $args );
 	}
