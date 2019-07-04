@@ -356,7 +356,7 @@ function wpmem_activate_user( $user_id ) {
 	$new_pass = '';
 
 	// If passwords are user defined skip this.
-	if ( ! wpmem_check_pass() ) {
+	if ( ! wpmem_user_sets_password() ) {
 		// Generates a password to send the user.
 		$new_pass = wp_generate_password();
 		$new_hash = wp_hash_password( $new_pass );

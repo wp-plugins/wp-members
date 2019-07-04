@@ -286,7 +286,7 @@ function wpmem_do_shortcode( $tag, array $atts = array(), $content = null ) {
  *
  * @since 3.3.0
  */
-function wpmem_check_pass() {
+function wpmem_user_sets_password() {
 	$chk_pass = false;
 	$wpmem_fields = wpmem_fields();
 	foreach ( $wpmem_fields as $field ) {
