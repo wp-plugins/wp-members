@@ -121,7 +121,7 @@ function wpmem_a_build_captcha_options() {
 								</tr>
 							<?php 
 							// if reCAPTCHA v2 is enabled...	
-							} elseif ( $wpmem->captcha == 3 ) {
+							} elseif ( 3 == $wpmem->captcha || 4 == $wpmem->captcha ) {
 								$show_update_button = true; 
 								$private_key = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['private'] : '';
 								$public_key  = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['public']  : '';
@@ -130,8 +130,8 @@ function wpmem_a_build_captcha_options() {
 									<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th>
 									<td>
 										<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "site" and a "secret" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
-										<?php _e( 'Site Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $public_key; ?>" /><br />
-										<?php _e( 'Secret Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $private_key; ?>" />
+										<p><label><?php _e( 'Site Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_publickey" size="60" value="<?php echo $public_key; ?>" /></p>
+										<p><label><?php _e( 'Secret Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_privatekey" size="60" value="<?php echo $private_key; ?>" /></p>
 									 </td>
 								</tr>
 							<?php 
@@ -220,6 +220,7 @@ function wpmem_a_build_captcha_options() {
 										$captcha_type = 'really_simple';
 										break;
 									case 3:
+									case 4:
 										$captcha_type = 'recaptcha2';
 										break;
 								} ?>

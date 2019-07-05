@@ -208,7 +208,8 @@ function wpmem_a_build_options() {
 								if ( 1 == $wpmem->captcha ) {
 									$wpmem->captcha = 3; // reCAPTCHA v1 is fully obsolete. Change it to v2.
 								}
-								$captcha[] = __( 'reCAPTCHA', 'wp-members' ) . '|3';
+								$captcha[] = __( 'reCAPTCHA v2', 'wp-members' ) . '|3';
+								$captcha[] = __( 'reCAPTCHA v3', 'wp-members' ) . '|4';
 								$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
 								echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 							  </li>

@@ -1219,15 +1219,35 @@ class WP_Members_Forms {
 		}
 
 		// Do recaptcha if enabled.
-		if ( ( $wpmem->captcha == 1 || $wpmem->captcha == 3 ) && $tag != 'edit' ) { // don't show on edit page!
+		if ( ( 1 == $wpmem->captcha || 3 == $wpmem->captcha || 4 == $wpmem->captcha ) && $tag != 'edit' ) { // don't show on edit page!
 
 			// Get the captcha options.
-			$wpmem_captcha = get_option( 'wpmembers_captcha' ); 
+			$wpmem_captcha = get_option( 'wpmembers_captcha' );
+			
+			if ( 4 == $wpmem->captcha ) {
+				
+				$row = '<script src="https://www.google.com/recaptcha/api.js?render=' . $wpmem_captcha['recaptcha']['public'] . '"></script>';
+				$row.= "<script>
+							grecaptcha.ready(function () {
+								grecaptcha.execute('" . $wpmem_captcha['recaptcha']['public'] . "', { action: 'contact' }).then(function (token) {
+									var recaptchaResponse = document.getElementById('recaptchaResponse');
+									recaptchaResponse.value = token;
+								});
+							});
+						</script>";
+				$row.= '<input type="hidden" name="recaptcha_response" id="recaptchaResponse">';
+				
+			} else {
 
-			// Start with a clean row.
-			$row = '';
-			$row = '<div class="clear"></div>';
-			$row.= '<div class="captcha">' . wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] ) . '</div>';
+				// Start with a clean row.
+				$row = '';
+				$row = '<div class="clear"></div>';
+				$row.= '<div class="captcha">';
+
+				$row.= wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] );
+
+				$row.= '</div>';
+			}
 
 			// Add the captcha row to the form.
 			/**

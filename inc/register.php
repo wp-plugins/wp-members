@@ -341,7 +341,7 @@ function wpmem_register_handle_captcha() {
 		$wpmem->captcha = 3;
 	} 
 	
-	if ( $wpmem->captcha == 2 ) {
+	if ( 2 == $wpmem->captcha ) {
 		if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
 			// Validate Really Simple Captcha.
 			$wpmem_captcha = new ReallySimpleCaptcha();
@@ -360,7 +360,7 @@ function wpmem_register_handle_captcha() {
 				return "empty";
 			}
 		}
-	} elseif ( $wpmem->captcha == 3 && $wpmem_captcha['recaptcha'] ) {
+	} elseif ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
 		// Get the captcha response.
 		if ( isset( $_POST['g-recaptcha-response'] ) ) {
 			$captcha = $_POST['g-recaptcha-response'];
@@ -382,7 +382,7 @@ function wpmem_register_handle_captcha() {
 		$response = json_decode( $response, true );
 		
 		// If captcha validation was unsuccessful.
-		if ( $response['success'] == false ) {
+		if ( false == $response['success'] ) {
 			$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
 			if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
 				$wpmem_themsg.= '<br /><br />';
@@ -392,6 +392,21 @@ function wpmem_register_handle_captcha() {
 			}
 			return "empty";
 		}
+	} elseif ( 4 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'] ) ) {
+
+			// Make and decode POST request:
+			$recaptcha = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $wpmem_captcha['recaptcha']['private'] . '&response=' . $_POST['recaptcha_response'] );
+			$recaptcha = json_decode( $recaptcha );
+
+			// Take action based on the score returned:
+			if ( $recaptcha->score >= 0.5 ) {
+				// Verified - send email
+			} else {
+				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+			}
+			return "empty";
+		}		
 	}	
 	
 	return "passed_captcha";
