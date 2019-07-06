@@ -1157,7 +1157,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  * @since 2.9.7 Major overhaul, added wpmem_email_filter filter.
  * @since 3.1.0 Can filter in custom shortcodes with wpmem_email_shortcodes.
  * @since 3.1.1 Added $custom argument for custom emails.
- * @deprecated 3.2.0 Use WP_Members_Email::to_user() instead.
+ * @deprecated 3.2.0 Use wpmem_email_to_user() instead.
  *
  * @global object $wpmem                The WP_Members object.
  * @global string $wpmem_mail_from      The email from address.

@@ -406,7 +406,7 @@ class WP_Members_User {
 	function register_email_to_user( $user_id ) {
 		global $wpmem;
 		// Send a notification email to the user.
-		$wpmem->email->to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
+		wpmem_email_to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
 	}
 	
 	/**
@@ -549,7 +549,7 @@ class WP_Members_User {
 					// Update the users password.
 					wp_set_password( $new_pass, $user->ID );
 					// Send it in an email.
-					$wpmem->email->to_user( $user->ID, $new_pass, 3 );
+					wpmem_email_to_user( $user->ID, $new_pass, 3 );
 					/**
 					 * Fires after password reset.
 					 *
@@ -593,7 +593,7 @@ class WP_Members_User {
 			$user  = ( isset( $_POST['user_email'] ) ) ? get_user_by( 'email', $email ) : false;
 			if ( $user ) {
 				// Send it in an email.
-				$wpmem->email->to_user( $user->ID, '', 4 );
+				wpmem_email_to_user( $user->ID, '', 4 );
 				/**
 				 * Fires after retrieving username.
 				 *
