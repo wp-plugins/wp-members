@@ -95,13 +95,14 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  * Returns various dialogs and error messages.
  *
  * @since 1.8
+ * @since 3.3.0 Changed 'toggles' to 'tags'
  *
  * @global object $wpmem
- * @param  string $toggle Error message toggle to look for specific error messages.
- * @param  string $msg    A message that has no toggle that is passed directly to the function.
- * @return string $str    The final HTML for the message.
+ * @param  string $tag Error message tag to look for specific error messages.
+ * @param  string $msg A message that has no tag that is passed directly to the function.
+ * @return string $str The final HTML for the message.
  */
-function wpmem_inc_regmessage( $toggle, $msg = '' ) {
+function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	
 	global $wpmem;
 
@@ -111,7 +112,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 		'div_after'  => '</div>', 
 		'p_before'   => '<p>',
 		'p_after'    => '</p>',
-		'toggles'    => array(
+		'tags'       => array(
 			'user',
 			'email',
 			'success',
@@ -127,6 +128,7 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 * Filter the message arguments.
 	 *
 	 * @since 2.9.0
+	 * @deprecated 3.3.0 Use wpmem_msg_settings instead.
 	 *
 	 * @param array An array of arguments to merge with defaults.
 	 */
@@ -135,9 +137,9 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	// Get dialogs set in the db.
 	$dialogs = get_option( 'wpmembers_dialogs' );
 
-	if ( array_key_exists( $toggle, $dialogs ) ) {
-		$msg = $wpmem->get_text( $toggle );
-		$msg = ( $dialogs[ $toggle ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $toggle ] ), 'wp-members' );
+	if ( array_key_exists( $tag, $dialogs ) ) {
+		$msg = $wpmem->get_text( $tag );
+		$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
 	}
 	$defaults['msg'] = $msg;
 	
@@ -146,14 +148,32 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 *
 	 * @since 2.9.2
 	 * @since 3.1.1 added $dialogs parameter.
+	 * @deprecated 3.3.0 Use wpmem_msg_settings instead.
 	 *
 	 * @param array  $defaults An array of the defaults.
-	 * @param string $toggle   The toggle that we are on, if any.
+	 * @param string $tag      The tag that we are on, if any.
+	 * @param array  $dialogs
 	 */
-	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $toggle, $dialogs );
+	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $tag, $dialogs );
 	
 	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
+	
+	// Backwards compatibility for 'toggles'.
+	if ( isset( $args['toggles'] ) ) {
+		$args['tags'] = $args['toggles'];
+	}
+	
+	/**
+	 * Filter the message settings.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param array  $defaults An array of the defaults.
+	 * @param string $tag      The tag that we are on, if any.
+	 * @param array  $dialogs
+	 */
+	$args = apply_filters( 'wpmem_msg_settings', $defaults, $tag, $dialogs );
 	
 	$str = $args['div_before'] . $args['p_before'] . stripslashes( $args['msg'] ) . $args['p_after'] . $args['div_after'];
 
@@ -161,12 +181,12 @@ function wpmem_inc_regmessage( $toggle, $msg = '' ) {
 	 * Filter the message.
 	 *
 	 * @since 2.7.4
-	 * @since 3.1.0 Added $toggle.
+	 * @since 3.1.0 Added tag.
 	 *
-	 * @param string $str    The message.
-	 * @param string $toggle The toggle of the message being displayed.
+	 * @param string $str The message.
+	 * @param string $tag The tag of the message being displayed.
 	 */
-	return apply_filters( 'wpmem_msg_dialog', $str, $toggle );
+	return apply_filters( 'wpmem_msg_dialog', $str, $tag );
 
 }
 endif;
