@@ -322,10 +322,10 @@ class WP_Members {
 		
 		$this->forms      = new WP_Members_Forms;         // Load forms.
 		$this->api        = new WP_Members_API;           // Load api.
-		$this->user       = new WP_Members_User( $this ); // Load user functions.
 		$this->shortcodes = new WP_Members_Shortcodes();  // Load shortcodes.
 		$this->membership = new WP_Members_Products();    // Load membership plans
 		$this->email      = new WP_Members_Email;         // Load email functions
+		$this->user       = new WP_Members_User( $this ); // Load user functions.
 		$this->menus      = ( $this->clone_menus ) ? new WP_Members_Menus() : null; // Load clone menus.
 		
 		/**
@@ -353,7 +353,6 @@ class WP_Members {
 		
 		// Check for anything that we should stop execution for (currently just the default tos).
 		if ( 'display' == wpmem_get( 'tos', false, 'get' ) ) {
-
 			// If themes are not loaded, we don't need them.
 			$user_themes = ( ! defined( 'WP_USE_THEMES'  ) ) ? define( 'WP_USE_THEMES',  false  ) : '';
 			$this->load_default_tos();
