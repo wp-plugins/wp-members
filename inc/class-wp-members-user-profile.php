@@ -572,7 +572,7 @@ class WP_Members_User_Profile {
 			<script>
 			jQuery(function() {
 				jQuery( ".wpmem_datepicker" ).datepicker({
-					dateFormat : "mm/dd/yy"
+					dateFormat : "yy-mm-dd"
 				});
 			});
 			</script></td>
