@@ -43,8 +43,9 @@ class WP_Members_User {
 	 * @param object $settings The WP_Members Object
 	 */
 	function __construct( $settings ) {
-		add_action( 'user_register', array( $this, 'register_finalize' ), 8 ); // @todo This needs rigorous testing, especially front end processing such as WC.
-		add_action( 'user_register', array( $this, 'register_email' ), 9 );    // @todo This needs rigorous testing for integration with WC or WP native.
+		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
+		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.
+		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 7 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 	
 		// Load anything the user as access to.
@@ -393,20 +394,45 @@ class WP_Members_User {
 		if ( ! empty( $_FILES ) ) {
 			$this->upload_user_files( $user_id, $wpmem->fields );
 		}
-
+		
+		/**
+		 * Fires after user insertion but before email.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 */
+		do_action( 'wpmem_post_register_data', $wpmem->user->post_data );
 	}
 	
 	/**
 	 * Sends emails on registration.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @global object $wpmem
+	 *
+	 * @param int $user_id
 	 */
-	function register_email( $user_id ) {
+	function register_email_to_user( $user_id ) {
+		global $wpmem;
 		// Send a notification email to the user.
 		$wpmem->email->to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
-
+	}
+	
+	/**
+	 * Sends admin notifiction on registration.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global object $wpmem
+	 *
+	 * @param int $user_id
+	 */
+	function register_email_to_admin( $user_id ) {
+		global $wpmem;
 		// Notify admin of new reg, if needed.
-		if ( $wpmem->notify == 1 ) { 
+		if ( 1 == $wpmem->notify ) { 
 			$wpmem->email->notify_admin( $user_id, $wpmem->fields, $this->post_data );
 		}
 	}
