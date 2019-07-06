@@ -394,8 +394,8 @@ function wpmem_register_handle_captcha() {
 				// Verified - send email
 			} else {
 				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+				return "empty";
 			}
-			return "empty";
 		}		
 	}	
 	
