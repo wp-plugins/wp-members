@@ -377,7 +377,7 @@ class WP_Members_User {
 				}
 			}
 		}
-
+		
 		// Capture IP address of user at registration.
 		update_user_meta( $user_id, 'wpmem_reg_ip', $this->post_data['wpmem_reg_ip'] );
 
@@ -388,15 +388,6 @@ class WP_Members_User {
 		if ( ! empty( $_FILES ) ) {
 			$this->upload_user_files( $user_id, $wpmem->fields );
 		}
-		
-		/**
-		 * Fires after user insertion but before email.
-		 *
-		 * @since 2.7.2
-		 *
-		 * @param array $wpmem->user->post_data The user's submitted registration data.
-		 */
-		do_action( 'wpmem_post_register_data', $wpmem->user->post_data );
 	}
 	
 	/**

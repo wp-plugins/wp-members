@@ -110,7 +110,16 @@ function wpmem_registration( $tag ) {
 		}
 
 		// Inserts to wp_users table.
-		$user_id = wp_insert_user( $new_user_fields );
+		$wpmem->user->post_data['ID'] = wp_insert_user( $new_user_fields );
+
+		/**
+		 * Fires after user insertion but before email.
+		 *
+		 * @since 2.7.2
+		 *
+		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 */
+		do_action( 'wpmem_post_register_data', $wpmem->user->post_data );
 
 		/**
 		 * Fires after registration is complete.
