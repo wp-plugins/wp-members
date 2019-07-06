@@ -134,6 +134,7 @@ class WP_Members_Products_Admin {
 	 */
 	function details_html( $post ) {
 		
+		$product_default = $this->get_meta( 'wpmem_product_default' );
 		$product_expires = $this->get_meta( 'wpmem_product_expires' );
 		$product_role    = $this->get_meta( 'wpmem_product_role'    );
 	
@@ -147,6 +148,10 @@ class WP_Members_Products_Admin {
 			<p>
 				<label for="wpmem_product_name"><?php _e( 'Name (slug)', 'wp-members' ); ?></label>
 				<input type="text" name="wpmem_product_name" id="wpmem_product_name" value="<?php echo esc_attr( $post->post_name ); ?>">
+			</p>
+			<p>
+				<input type="checkbox" name="wpmem_product_default" id="wpmem_product_default" value="1" <?php echo ( 1 == $product_default ) ? 'checked' : ''; ?>>
+				<label for="wpmem_product_default"><?php _e( 'Assign as default at registration?', 'wp-members' ); ?></label>
 			</p>
 			<p>
 				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $product_role ) ? 'checked' : ''; ?>>
@@ -213,18 +218,21 @@ class WP_Members_Products_Admin {
 		$product_name = ( $product_name ) ? $product_name : $post->post_name;
 		update_post_meta( $post_id, 'wpmem_product_name', esc_attr( $product_name ) );
 		
-		$role_required = wpmem_get( 'wpmem_product_role_required', false );
+		$product_default = wpmem_get( 'wpmem_product_default', false );
+		update_post_meta( $post_id, 'wpmem_product_default', ( ( $product_default ) ? true : false ) );
+		
+		$role_required = sanitize_text_field( wpmem_get( 'wpmem_product_role_required', false ) );
 		if ( ! $role_required ) {
 			update_post_meta( $post_id, 'wpmem_product_role', false );
 		} else {
-			update_post_meta( $post_id, 'wpmem_product_role', wpmem_get( 'wpmem_product_role' ) );
+			update_post_meta( $post_id, 'wpmem_product_role', sanitize_text_field( wpmem_get( 'wpmem_product_role' ) ) );
 		}
 		
 		$expires = wpmem_get( 'wpmem_product_expires', false );
 		if ( ! $expires ) {
 			update_post_meta( $post_id, 'wpmem_product_expires', false );
 		} else {
-			$expires_array = array( wpmem_get( 'wpmem_product_number_of_periods' ) . "|" . wpmem_get( 'wpmem_product_time_period' ) );
+			$expires_array = array( wpmem_get( 'wpmem_product_number_of_periods' ) . "|" . sanitize_text_field( wpmem_get( 'wpmem_product_time_period' ) ) );
 			update_post_meta( $post_id, 'wpmem_product_expires', $expires_array );
 		}
 	}

@@ -131,6 +131,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Deprecated wpmem_msg_args and wpmem_msg_dialog_arr filters, use wpmem_msg_settings instead.
 * Removed tinymce button for shortcodes as no longer necessary with gutenberg.
 
+* Added default membership product(s) at registration.
 * Added support for selecting fields to display on the registration form or the profile form.
 * Added wpmem_activate_user() and wpmem_deactivate_user() to user API.
 * Added wpmem_user_sets_password() API function.

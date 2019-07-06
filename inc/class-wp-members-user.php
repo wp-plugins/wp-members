@@ -45,13 +45,17 @@ class WP_Members_User {
 	function __construct( $settings ) {
 		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
 		add_action( 'user_register', array( $this, 'set_user_exp'            ), 6 );
-		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 7 ); // @todo This needs rigorous testing for integration with WC or WP native.
-		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 8 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
+		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.
+		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 	
 		// Load anything the user as access to.
 		if ( 1 == $settings->enable_products ) {
-			$this->access = $this->get_user_products();
+			add_action( 'user_register', array( $this, 'set_default_product' ), 6 );
+			
+			if ( is_user_logged_in() ) {
+				$this->access = $this->get_user_products( false, $settings );
+			}
 		}
 	}
 	
@@ -966,6 +970,34 @@ class WP_Members_User {
 			if ( function_exists( 'wpmem_set_exp' ) ) {
 				wpmem_set_exp( $user_id );
 			}
+		}
+	}
+	
+	/**
+	 * Sets default membership product access (if applicable).
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global object $wpmem
+	 *
+	 * @param int $user_id
+	 */
+	function set_default_product( $user_id ) {
+		
+		global $wpmem;
+		
+		// Get any default membership products.
+		$args = array(
+			'numberposts' => -1,
+			'post_type'   => $wpmem->membership->post_type,
+			'meta_key'   => 'wpmem_product_default',
+			'meta_value' => 1, 
+		);
+		$default_memberships = get_posts( $args );
+
+		// Assign any default memberships to user.
+		foreach ( $default_memberships as $membership ) {
+			wpmem_set_user_product( $membership->post_name, $user_id );
 		}
 	}
 
