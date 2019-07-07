@@ -143,6 +143,33 @@ class WP_Members_Products {
 	}
 
 	/**
+	 * Gets default membership products.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return array $defaults
+	 */
+	function get_default_products() {
+		// Get any default membership products.
+		$args = array(
+			'numberposts' => -1,
+			'post_type'   => $this->post_type,
+			'meta_key'    => 'wpmem_product_default',
+			'meta_value'  => 1,
+			'fields'      => array( 'post_name' ),
+		);
+		$default_products = get_posts( $args );
+		if ( $default_products ) {
+			foreach ( $default_products as $product ) {
+				$defaults[] = $product->post_name;
+			}
+		} else {
+			$defaults = false;
+		}
+		return $defaults;
+	}
+
+	/**
 	 * Sets up custom access restriction by product.
 	 *
 	 * @since 3.2.0

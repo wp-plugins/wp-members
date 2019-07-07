@@ -42,6 +42,8 @@ class WP_Members_Products_Admin {
 				add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
 			}
 		}
+		
+		$this->default_products = $wpmem->membership->get_default_products();
 	}
 
 	/**
@@ -57,6 +59,9 @@ class WP_Members_Products_Admin {
 		$columns['slug']         = __( 'Slug', 'wp-members' );
 		$columns['role']         = __( 'Role', 'wp-members' );
 		$columns['expires']      = __( 'Expires', 'wp-members' );
+		if ( $this->default_products ) {
+			$columns['default_products'] = __( 'Default', 'wp-members' );
+		}
 		$columns['last_updated'] = __( 'Last updated', 'wp-members' );
 		return $columns;
 	}
@@ -83,6 +88,9 @@ class WP_Members_Products_Admin {
 				$expires = $this->get_meta( 'wpmem_product_expires' );
 				$period = ( false !== $expires ) ? explode( "|", $expires[0] ) : __( 'Does not expire', 'wp-members' );
 				echo ( is_array( $period ) ) ? $period[0] . ' ' . $period[1] : $period;
+				break;
+			case 'default_products':
+				echo ( in_array( $post->post_name, $this->default_products ) ) ? __( 'Yes', 'wp-members' ) : '';
 				break;
 			case 'last_updated':
 				echo date_i18n( get_option( 'date_format' ), strtotime( $post->post_modified ) );
@@ -216,12 +224,12 @@ class WP_Members_Products_Admin {
 
 		$product_name = wpmem_get( 'wpmem_product_name', false );
 		$product_name = ( $product_name ) ? $product_name : $post->post_name;
-		update_post_meta( $post_id, 'wpmem_product_name', esc_attr( $product_name ) );
+		update_post_meta( $post_id, 'wpmem_product_name', sanitize_text_field( $product_name ) );
 		
 		$product_default = wpmem_get( 'wpmem_product_default', false );
 		update_post_meta( $post_id, 'wpmem_product_default', ( ( $product_default ) ? true : false ) );
 		
-		$role_required = sanitize_text_field( wpmem_get( 'wpmem_product_role_required', false ) );
+		$role_required = wpmem_get( 'wpmem_product_role_required', false );
 		if ( ! $role_required ) {
 			update_post_meta( $post_id, 'wpmem_product_role', false );
 		} else {
@@ -232,7 +240,7 @@ class WP_Members_Products_Admin {
 		if ( ! $expires ) {
 			update_post_meta( $post_id, 'wpmem_product_expires', false );
 		} else {
-			$expires_array = array( wpmem_get( 'wpmem_product_number_of_periods' ) . "|" . sanitize_text_field( wpmem_get( 'wpmem_product_time_period' ) ) );
+			$expires_array = array( sanitize_text_field( wpmem_get( 'wpmem_product_number_of_periods' ) ) . "|" . sanitize_text_field( wpmem_get( 'wpmem_product_time_period' ) ) );
 			update_post_meta( $post_id, 'wpmem_product_expires', $expires_array );
 		}
 	}
