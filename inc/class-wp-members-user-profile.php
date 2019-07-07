@@ -386,8 +386,8 @@ class WP_Members_User_Profile {
 								wpmem_update_user_role( $user_id, $wpmem->membership->products[ $product_key ]['role'], 'add' );
 							}
 							// Do we need to set a specific date?
-							if ( isset( $_POST[ '_wpmem_membership_product_expiration_' . $product_key ] ) ) {
-								wpmem_set_user_product( $product_key, $user_id, sanitize_text_field( $_POST[ '_wpmem_membership_product_expiration_' . $product_key ] ) );
+							if ( isset( $_POST[ '_wpmem_membership_expiration_' . $product_key ] ) ) {
+								wpmem_set_user_product( $product_key, $user_id, sanitize_text_field( $_POST[ '_wpmem_membership_expiration_' . $product_key ] ) );
 							} else {
 								wpmem_set_user_product( $product_key, $user_id );
 							}
@@ -544,9 +544,9 @@ class WP_Members_User_Profile {
 				<td style="padding:0px 0px;">';
 				
 				// If user has date, display that; otherwise placeholder
-				$date_value  = (   isset( $user_products[ $key ] ) ) ? $user_products[ $key ] : "";
+				$date_value  = ( isset( $user_products[ $key ] ) && 1 != $user_products[ $key ] && 0 != $user_products[ $key ] && '' != $user_products[ $key ] ) ? date( 'Y-m-d', $user_products[ $key ] ) : "";
 				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Date', 'wp-members' ) . '" ' : '';
-				$product_date_field = ' <input type="text" name="_wpmem_membership_product_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . '/>';
+				$product_date_field = ' <input type="text" name="_wpmem_membership_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . ' />';
 
 				if ( isset( $user_products[ $key ] ) ) {
 					echo '<span id="wpmem_product_enabled" class="dashicons dashicons-yes"></span>';

@@ -64,6 +64,7 @@ function wpmem_do_install() {
 		wpmem_upgrade_captcha();
 		wpmem_append_email();
 		wpmem_upgrade_fields();
+		wpmem_upgrade_product_expiration();
 		
 	}
 	
@@ -638,6 +639,33 @@ function wpmem_upgrade_style_setting( $settings ) {
 				return str_replace( WPMEM_DIR . 'css/', '', $settings['cssurl'] );
 			}
 
+		}
+	}
+}
+
+function wpmem_upgrade_product_expiration() {
+	$users = get_users( array( 'fields'=>'ID' ) );
+	foreach ( $users as $user_id ) {
+		$products = get_user_meta( $user_id, '_wpmem_products', true );
+		
+		// If the user has legacy products, update to new single meta.
+		if ( $products ) {
+			// Update each product meta.
+			foreach ( $products as $key => $product ) {
+				// If it's an expiration product, 
+				if ( ! is_bool( $product ) ) {
+					if ( DateTime::createFromFormat( 'Y-m-d H:i:s', $product ) !== FALSE ) {
+						$value = strtotime( $product );
+					}
+				} else {
+					$value = $product;
+				}
+
+				// Save new meta
+				if ( $key ) {
+					update_user_meta( $user_id, '_wpmem_products_' . $key, $value );
+				}
+			}
 		}
 	}
 }

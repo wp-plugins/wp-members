@@ -799,14 +799,25 @@ class WP_Members_User {
 	 *
 	 * @since 3.2.0
 	 * @since 3.2.6 Updated to return empty array if no products exist for this user.
+	 * @since 3.3.0 Updated to use individual meta for product access.
 	 *
-	 * @param  int   $user_id
-	 * @return array $products
+	 * @global object $wpmem
+	 *
+	 * @param  int    $user_id
+	 * @return array  $products
 	 */
-	function get_user_products( $user_id = false ) {
-		$user_id  = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		$products = get_user_meta( $user_id, '_wpmem_products', true );
-		return ( $products ) ? $products : array();
+	function get_user_products( $user_id = false, $obj = false ) {
+		global $wpmem;
+		$product_array = ( $obj ) ? $obj->membership->products : $wpmem->membership->products;
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		foreach ( $product_array as $product_meta => $product ) {
+			$user_product = get_user_meta( $user_id, '_wpmem_products_' . $product_meta, true );
+			if ( $user_product ) {
+				$products[ $product_meta ] = $user_product;
+			}
+			$user_product = '';
+		}
+		return ( isset( $products ) ) ? $products : array();
 	}
 	
 	/**
@@ -818,6 +829,7 @@ class WP_Members_User {
 	 *
 	 * @since 3.2.0
 	 * @since 3.2.6 Added $date to set a specific expiration date.
+	 * @since 3.3.0 Updated to new single meta, keeps legacy array for rollback.
 	 *
 	 * @param string $product
 	 * @param int    $user_id
@@ -828,36 +840,52 @@ class WP_Members_User {
 		global $wpmem;
 		
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		$user_products = $this->get_user_products( $user_id );
 		
-		if ( ! $user_products ) {
-			$user_products = array();
-		}
+		// Get legacy user product array @todo This will eventually be removed.
+		$user_products = get_user_meta( $user_id, '_wpmem_products', true );
+		$user_products = ( $user_products ) ? $user_products : array();
+		
+		// New single meta format. @todo This remains when legacy array is removed.
+		$user_product = get_user_meta( $user_id, '_wpmem_products_' . $product, true );
 
 		// Convert date to add.
 		$expires = ( isset( $wpmem->membership->products[ $product ]['expires'] ) ) ? $wpmem->membership->products[ $product ]['expires'] : false;
 		
+		// If membership is an expiration product.
 		if ( is_array( $expires ) ) {
 			$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
 			$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
 			if ( $set_date ) {
+				// @todo Legacy verion
 				$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $set_date ) );
+				// @todo New version
+				$user_product = strtotime( $set_date );
 			} else {
+				// @todo Legacy verion
 				$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
+				// @todo New version
+				$user_product = ( $user_product ) ? strtotime( $add, strtotime( $user_products[ $product ] ) ) : strtotime( $add );
 			}
 		} else {
+			// @todo Legacy verion
 			$user_products[ $product ] = true;
+			// @todo New version
+			$user_product = true;
 		}
-		//echo '<pre>'; print_r( $user_products ); echo "</pre>";
 		
 		// Update product setting.
-		return update_user_meta( $user_id, '_wpmem_products', $user_products );
+		// @todo Legacy version
+		update_user_meta( $user_id, '_wpmem_products', $user_products );
+		
+		// @todo Return new version.
+		return update_user_meta( $user_id, '_wpmem_products_' . $product, $user_product );
 	}
 	
 	/**
 	 * Removes a product from a user.
 	 *
 	 * @since 3.2.0
+	 * @since 3.3.0 Updated for new single meta, keeps legacy array for rollback.
 	 *
 	 * @param string $product
 	 * @param int    $user_id
@@ -865,12 +893,17 @@ class WP_Members_User {
 	function remove_user_product( $product, $user_id = false ) {
 		global $wpmem;
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
-		$user_products = $this->get_user_products( $user_id );
+		
+		// @todo Legacy version.
+		$user_products = get_user_meta( $user_id, '_wpmem_products', true );
+		$user_products = ( $user_products ) ? $user_products : array();
 		if ( $user_products ) {
 			unset( $user_products[ $product ] );
 			update_user_meta( $user_id, '_wpmem_products', $user_products );
 		}
-		return;
+		
+		// @todo New version.
+		return delete_user_meta( $user_id, '_wpmem_products_' . $product );
 	}
 	
 	/**

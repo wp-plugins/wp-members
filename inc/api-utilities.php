@@ -225,12 +225,17 @@ function wpmem_load_dropins() {
  */
 function wpmem_format_date( $args ) {
 	if ( ! is_array( $args ) ) {
-		$args = array(
-			'date_format' => get_option( 'date_format' ),
-			'localize'    => true,
-			'date'        => $args,
-		);
+		$args = array( 'date' => $args );
 	}
+	
+	$defaults = array( 
+		'date_format' => get_option( 'date_format' ),
+		'localize'    => true,
+		'timestamp'   => false,
+	);
+	
+	$args = wp_parse_args( $args, $deafults );
+	
 	/**
 	 * Filter the date display and format settings.
 	 *
@@ -239,7 +244,8 @@ function wpmem_format_date( $args ) {
 	 * @param arrag $args
 	 */
 	$args = apply_filters( 'wpmem_format_date_args', $args );
-	$date = ( true === $args['localize'] ) ? date_i18n( $args['date_format'], strtotime( $args['date'] ) ) : date( $args['date_format'], strtotime( $args['date'] ) );
+	$date = ( true === $args['timestamp'] ) ? $args['date'] : strtotime( $args['date'] );
+	$date = ( true === $args['localize']  ) ? date_i18n( $args['date_format'], $date ) : date( $args['date_format'], $date );
 	return $date;
 }
 
