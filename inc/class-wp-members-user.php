@@ -978,16 +978,19 @@ class WP_Members_User {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @global object $wpmem
+	 *
 	 * @param int $user_id
 	 */
 	function set_default_product( $user_id ) {
+		global $wpmem;
 		
 		// Get default memberships.
 		$default_products = $wpmem->membership->get_default_products();
 		
 		// Assign any default memberships to user.
 		foreach ( $default_products as $product ) {
-			wpmem_set_user_product( $product->post_name, $user_id );
+			wpmem_set_user_product( $product, $user_id );
 		}
 	}
 
