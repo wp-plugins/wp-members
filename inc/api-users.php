@@ -417,4 +417,21 @@ function wpmem_deactivate_user( $user_id ) {
 	do_action( 'wpmem_user_deactivated', $user_id );
 }
 
+/**
+ * Updates the user_status value in the wp_users table.
+ *
+ * @since Unknown
+ * @since 3.3.0 Moved to User API.
+ *
+ * @global object $wpdb
+ *
+ * @param int    $user_id
+ * @param string $status
+ */
+function wpmem_set_user_status( $user_id, $status ) {
+	global $wpdb;
+	$wpdb->update( $wpdb->users, array( 'user_status' => $status ), array( 'ID' => $user_id ) );
+	return;
+}
+
 // End of file.

@@ -82,7 +82,7 @@ class WP_Members_Admin_API {
 		global $wpmem;
 		
 		include_once( $wpmem->path . 'admin/admin.php' );
-		include_once( $wpmem->path . 'admin/users.php' );
+		include_once( $wpmem->path . 'admin/includes/class-wp-members-admin-users.php' );
 		include_once( $wpmem->path . 'admin/includes/class-wp-members-user-search.php' );
 		include_once( $wpmem->path . 'admin/includes/class-wp-members-products-admin.php' );
 		include_once( $wpmem->path . 'admin/dialogs.php' );
@@ -132,16 +132,16 @@ class WP_Members_Admin_API {
 		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
 
 		if ( current_user_can( 'list_users' ) ) {
-			add_action( 'admin_footer-users.php',     'wpmem_bulk_user_action' );
-			add_action( 'load-users.php',             'wpmem_users_page_load' );
-			add_action( 'admin_notices',              'wpmem_users_admin_notices' );
-			add_filter( 'views_users',                'wpmem_users_views' );
-			add_filter( 'manage_users_columns',       'wpmem_add_user_column' );
-			add_filter( 'manage_users_custom_column', 'wpmem_add_user_column_content', 10, 3 );
-			add_action( 'wpmem_post_register_data',   'wpmem_set_new_user_non_active' );
-			add_action( 'wpmem_user_activated',       'wpmem_set_activated_user' );
-			add_action( 'wpmem_user_deactivated',     'wpmem_set_deactivated_user' );
-			add_filter( 'user_row_actions',           'wpmem_insert_activate_link', 10, 2 );
+			add_action( 'admin_footer-users.php',     array( 'WP_Members_Admin_Users', 'bulk_user_action' ) );
+			add_action( 'load-users.php',             array( 'WP_Members_Admin_Users', 'page_load' ) );
+			add_action( 'admin_notices',              array( 'WP_Members_Admin_Users', 'admin_notices' ) );
+			add_filter( 'views_users',                array( 'WP_Members_Admin_Users', 'views' ) );
+			add_filter( 'manage_users_columns',       array( 'WP_Members_Admin_Users', 'add_user_column' ) );
+			add_filter( 'manage_users_custom_column', array( 'WP_Members_Admin_Users', 'add_user_column_content' ), 10, 3 );
+			add_action( 'wpmem_post_register_data',   array( 'WP_Members_Admin_Users', 'set_new_user_non_active' ) );
+			add_action( 'wpmem_user_activated',       array( 'WP_Members_Admin_Users', 'set_activated_user' ) );
+			add_action( 'wpmem_user_deactivated',     array( 'WP_Members_Admin_Users', 'set_deactivated_user' ) );
+			add_filter( 'user_row_actions',           array( 'WP_Members_Admin_Users', 'insert_activate_link' ), 10, 2 );
 			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_activate'   ), 7 );
 			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_expiration' ), 8 );
 			add_action( 'wpmem_admin_after_profile',  array( 'WP_Members_User_Profile', '_show_ip'         ), 9 );
