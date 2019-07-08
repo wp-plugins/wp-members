@@ -914,7 +914,8 @@ class WP_Members_User {
 	 * @param date $date
 	 */
 	function is_current( $date ) {
-		return ( time() < strtotime( $date ) ) ? true : false;
+		$date = ( is_numeric( $date ) ) ? $date : strtotime( $date );
+		return ( time() < $date ) ? true : false;
 	}
 	
 	/**
