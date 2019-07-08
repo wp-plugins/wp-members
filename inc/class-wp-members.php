@@ -697,7 +697,7 @@ class WP_Members {
 				$post = get_post( $post_id );
 			}
 
-			$meta = wpmem_get_block_setting( $post_id );
+			$meta = wpmem_get_block_setting( $post->ID );
 			
 			// Backward compatibility for old block/unblock meta.
 			if ( ! $meta ) {
