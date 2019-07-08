@@ -145,6 +145,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Replaced WPMEM_PATH constant with $wpmem->path.
 * Replaced WPMEM_URL constant with $wpmem->url.
 * Updated registration function to hook to user_register, IMPORTANT: this changes the order in which the user meta fields are saved, and also changes when the email is sent. Email is now hooked to user_register, but can be unloaded if necessary.
+* Updated membership product meta and date format, IMPORTANT: this changes the way the user product access information is stored (going from an array of all memberships to individual meta for each) as well as the format (dates are now unix timestamp). There is an update script that will run during upgrade to handle this. For now, the legacy format is also maintained (so consider this if customzizing any processing) so that rollback is possible.
 
 = 3.2.9 =
 
