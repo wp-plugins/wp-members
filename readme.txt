@@ -137,6 +137,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Added wpmem_user_sets_password() API function.
 * Added wpmem_get_block_setting() API function.
 * Added wpmem_set_user_status() API function.
+* Added wpmem_export_users() as API function (function already existed, but the original has been moved to an object class, and the function has been included in the API).
 * Added wpmem_user_has_meta filter.
 * Added wpmem_login_form_settings filter.
 * Added wpmem_block_settings filter.

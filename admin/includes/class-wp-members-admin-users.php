@@ -86,7 +86,6 @@ class WP_Members_Admin_Users {
 
 		// If exporting all users, do it, then exit.
 		if ( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
-			include_once( $wpmem->path . 'admin/user-export.php' );
 			$today = date( "m-d-y" ); 
 			wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ), '' );
 			exit();
@@ -172,7 +171,6 @@ class WP_Members_Admin_Users {
 			foreach ( $users as $user ) {
 				$sanitized_users[] = filter_var( $user, FILTER_VALIDATE_INT );
 			}
-			include_once( $wpmem->path . 'admin/user-export.php' );
 			wpmem_export_users( array( 'export'=>'selected' ), $sanitized_users );
 			return;
 			break;
