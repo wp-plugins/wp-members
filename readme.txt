@@ -149,6 +149,9 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Replaced admin user file with object class for handling Users > All users screen and user activation.
 * Updated registration function to hook to user_register, IMPORTANT: this changes the order in which the user meta fields are saved, and also changes when the email is sent. Email is now hooked to user_register, but can be unloaded if necessary.
 * Updated membership product meta and date format, IMPORTANT: this changes the way the user product access information is stored (going from an array of all memberships to individual meta for each) as well as the format (dates are now unix timestamp). There is an update script that will run during upgrade to handle this. For now, the legacy format is also maintained (so consider this if customzizing any processing) so that rollback is possible.
+* Major menus change - if you use the $wpmem->menus object directly, this is now $wpmem->menus_clone (setting $wpmem->clone_menus remains the same).
+  wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
+  object and that will take the place of the cloned menu options.
 
 = 3.2.9 =
 

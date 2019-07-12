@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class WP_Members_Menus {
+class WP_Members_Clone_Menus {
 
 	function __construct() {
 		add_action( 'init',                      array( $this, 'register_menus' ), 99 );
@@ -31,10 +31,11 @@ class WP_Members_Menus {
 		 * Filter cloned menus settings.
 		 *
 		 * @since 3.2.0
+		 * @since 3.3.0 Changed to stem "wpmem_clone_"
 		 *
 		 * @param array $settings
 		 */
-		$settings = apply_filters( 'wpmem_menu_settings', array( 'slug' => '_wpmem_loggedin', 'menu' => '(Logged In)' ) );
+		$settings = apply_filters( 'wpmem_clone_menu_settings', array( 'slug' => '_wpmem_loggedin', 'menu' => '(Logged In)' ) );
 
 		$menus = get_registered_nav_menus();
 		$wpmem_menus = array();
@@ -46,10 +47,11 @@ class WP_Members_Menus {
 		 * Filter the cloned menus.
 		 *
 		 * @since 3.2.0
+		 * @since 3.3.0 Changed to stem "wpmem_clone_"
 		 *
 		 * @param array $wpmem_menus
 		 */
-		$wpmem_menus = apply_filters( 'wpmem_menus', $wpmem_menus );
+		$wpmem_menus = apply_filters( 'wpmem_clone_menus', $wpmem_menus );
 
 		register_nav_menus( $wpmem_menus );
 	}

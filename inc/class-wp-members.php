@@ -320,13 +320,14 @@ class WP_Members {
 		$this->load_user_pages();
 		$this->set_style();
 		
-		$this->forms      = new WP_Members_Forms;         // Load forms.
-		$this->api        = new WP_Members_API;           // Load api.
-		$this->shortcodes = new WP_Members_Shortcodes();  // Load shortcodes.
-		$this->membership = new WP_Members_Products();    // Load membership plans
-		$this->email      = new WP_Members_Email;         // Load email functions
-		$this->user       = new WP_Members_User( $this ); // Load user functions.
-		$this->menus      = ( $this->clone_menus ) ? new WP_Members_Menus() : null; // Load clone menus.
+		$this->forms       = new WP_Members_Forms;         // Load forms.
+		$this->api         = new WP_Members_API;           // Load api.
+		$this->shortcodes  = new WP_Members_Shortcodes();  // Load shortcodes.
+		$this->membership  = new WP_Members_Products();    // Load membership plans
+		$this->email       = new WP_Members_Email;         // Load email functions
+		$this->user        = new WP_Members_User( $this ); // Load user functions.
+		$this->menus       = new WP_Members_Menus();
+		$this->menus_clone = ( $this->clone_menus ) ? new WP_Members_Clone_Menus() : null; // Load clone menus.
 		
 		/**
 		 * Fires after main settings are loaded.
@@ -517,10 +518,10 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
+		// Legacy folder
 		require_once( $this->path . 'inc/class-wp-members-api.php' );
 		require_once( $this->path . 'inc/class-wp-members-email.php' );
 		require_once( $this->path . 'inc/class-wp-members-forms.php' );
-		require_once( $this->path . 'inc/class-wp-members-menus.php' );
 		require_once( $this->path . 'inc/class-wp-members-products.php' );
 		require_once( $this->path . 'inc/class-wp-members-shortcodes.php' );
 		require_once( $this->path . 'inc/class-wp-members-user.php' );
@@ -541,6 +542,10 @@ class WP_Members {
 		//require_once( $this->path . 'inc/shortcodes.php' ); // @deprecated 3.2.0
 		//require_once( $this->path . 'inc/email.php' ); // @deprecated 3.2.0
 		//require_once( $this->path . 'inc/users.php' ); // @deprecated 3.1.9
+		
+		// New folder
+		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
+		require_once( $this->path . 'includes/class-wp-members-menus.php' );
 
 	}
 
