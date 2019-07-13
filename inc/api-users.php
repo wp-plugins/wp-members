@@ -73,31 +73,53 @@ function wpmem_user_has_role( $role, $user_id = false ) {
  *
  * @since 3.1.8
  * @since 3.3.0 Added wpmem_user_has_meta filter.
+ * @since 3.3.0 Added array check for multi-value fields (multicheckbox and multiselect).
  *
  * @global object  $wpmem     WP_Members object.
+ *
  * @param  string  $meta      Meta key being checked.
  * @param  string  $value     Value the meta key should have (optional).
  * @param  int     $user_id   ID of the user being checked (optional).
  * @return boolean $has_meta  True if user has the meta value, otherwise false.
  */
 function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
+
 	global $wpmem;
-	$user_id    = ( $user_id ) ? $user_id : get_current_user_id();
+	
+	// Get the user ID.
+	$user_id = ( $user_id ) ? $user_id : get_current_user_id();
+	
+	// Get field type.
+	$fields = wpmem_fields();
+	$multi  = ( 'multicheckbox' == $fields[ $meta ]['type'] || 'multiselect' == $fields[ $meta ]['type'] ) ? true : false;
+	
+	// Get meta.
 	$has_meta   = false;
 	$user_value = get_user_meta( $user_id, $meta, true );
+	
+	// Check meta.
 	if ( $value ) {
-		$has_meta = ( $user_value == $value ) ? true : $has_meta;
+		if ( $multi ) {
+			// Check array of values.
+			$user_value = explode( $fields[ $meta ]['delimiter'], $user_value );
+			$has_meta = ( in_array( $value, $user_value ) ) ? true : $has_meta;
+		} else {
+			// Straight comparison.
+			$has_meta = ( $user_value == $value ) ? true : $has_meta;
+		}
 	} else {
-		$has_meta = ( $value ) ? true : $has_meta;
+		// Check if the user has any meta value (regardless of actual value).
+		$has_meta = ( $user_value ) ? true : $has_meta;
 	}
+	
 	/**
-	 * Filter the user has meta value.
+	 * Filter the user has meta result.
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param bool   $has_meta
-	 * @param int    $user_id
-	 * @param string $user_value
+	 * @param bool   $has_meta   True if the user has the value, otherwise false.
+	 * @param int    $user_id    The user ID being checked.
+	 * @param string $user_value The user's stored meta value (false if none).
 	 */
 	return apply_filters( 'wpmem_user_has_meta', $has_meta, $user_id, $user_value );
 }
