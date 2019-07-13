@@ -4,7 +4,7 @@
  *
  * @package WP-Members
  * @subpackage WP_Members Admin Users Object Class
- * @since 3.2.5
+ * @since 3.3.0
  */
 
 // Exit if accessed directly.

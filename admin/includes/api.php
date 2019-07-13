@@ -133,6 +133,6 @@ function wpmem_wp_reserved_terms() {
  */
 function wpmem_export_users( $args, $users = null ) {
 	global $wpmem;
-	include_once( $wpmem->path . 'admin/class-wp-members-export.php' );
+	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
 	WP_Members_Export::export_users( $args, $users );
 }

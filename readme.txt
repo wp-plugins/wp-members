@@ -143,11 +143,13 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Added wpmem_block_settings filter.
 * Added wpmem_msg_settings filter.
 * Added wpmem_sc_product_access_denied filter.
+* Added admin user class for handling Users > All users screen and user activation.
+* Added user export class
 
 * Replaced WPMEM_VERSION constant with $wpmem->version.
 * Replaced WPMEM_PATH constant with $wpmem->path.
 * Replaced WPMEM_URL constant with $wpmem->url.
-* Replaced admin user file with object class for handling Users > All users screen and user activation.
+
 * Updated registration function to hook to user_register, IMPORTANT: this changes the order in which the user meta fields are saved, and also changes when the email is sent. Email is now hooked to user_register, but can be unloaded if necessary.
 * Updated membership product meta and date format, IMPORTANT: this changes the way the user product access information is stored (going from an array of all memberships to individual meta for each) as well as the format (dates are now unix timestamp). There is an update script that will run during upgrade to handle this. For now, the legacy format is also maintained (so consider this if customzizing any processing) so that rollback is possible.
 * Updated wpmem_user_has_meta() to include a check by array when the field is multiple checkbox or multiple select.
