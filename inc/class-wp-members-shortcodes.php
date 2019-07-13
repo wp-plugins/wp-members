@@ -288,6 +288,22 @@ class WP_Members_Shortcodes {
 					$membership = ( isset( $atts['membership'] ) ) ? $atts['membership'] : $atts['product'];
 					if ( wpmem_user_has_access( $membership ) ) {
 						$do_return = true;
+					} elseif ( true == $atts['msg'] ) {
+						$do_return = true;
+						$settings = array(
+							'wrapper_before' => '<div class="access_failed">',
+							'msg'            => __( 'Sorry, your account does not currently have access to %s content', 'wp-members' ),
+							'wrapper_after'  => '</div>',
+						);
+						/**
+						 * Filter the access failed message.
+						 *
+						 * @since 3.3.0
+						 *
+						 * @param array $settings.
+						 */
+						$settings = apply_filters( 'wpmem_sc_product_access_denied', $settings );
+						$content  = $settings['wrapper_before'] . $settings['msg'] . $settings['wrapper_after'];
 					}
 				}
 
