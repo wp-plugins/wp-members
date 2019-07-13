@@ -510,6 +510,7 @@ class WP_Members_Admin_API {
 	 * @since 3.1.7
 	 * @since 3.2.0 Moved into admin object, renamed dashboard_enqueue_scripts().
 	 * @since 3.2.1 Load js for post.php hook.
+	 * @since 3.3.0 Everything loads from /assets/ folder.
 	 *
 	 * @global object $current_screen
 	 * @global object $wpmem
@@ -518,27 +519,27 @@ class WP_Members_Admin_API {
 	function dashboard_enqueue_scripts( $hook ) {
 		global $current_screen, $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
-			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'admin/css/admin.css', '', $wpmem->version );
+			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
-			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'admin/js/admin.js', '', $wpmem->version );
+			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin.js', '', $wpmem->version );
 		}
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
 			if ( ! wp_script_is( 'select2', 'enqueued' ) ) {
-				wp_register_style( 'select2-style', $wpmem->url . 'admin/css/select2.min.css', false, '4.0.5', 'all' );
-				wp_register_script( 'select2',   $wpmem->url . 'admin/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
+				wp_register_style( 'select2-style', $wpmem->url . 'assets/css/select2.min.css', false, '4.0.5', 'all' );
+				wp_register_script( 'select2',   $wpmem->url . 'assets/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 				wp_enqueue_style( 'select2-style' );
 				wp_enqueue_script( 'select2' );
 			}
 		}
-		if ( 'user-edit' == $current_screen->id ) {
+		if ( 'user-edit' == $current_screen->id || 'profile' == $current_screen->id ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-core' ); // enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-tabs' ); // enqueue jQuery UI Tabs
 			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', $wpmem->url . 'admin/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui.min.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 		}
@@ -548,7 +549,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', $wpmem->url . 'admin/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui.min.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 			 
