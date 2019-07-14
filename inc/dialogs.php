@@ -274,6 +274,8 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 		break;
 
 	case 'register':
+			
+		$url = ( isset( $wpmem->user_pages['profile'] ) && '' != $wpmem->user_pages['profile'] ) ? $wpmem->user_pages['profile'] : get_option( 'home' );
 		
 		$arr = array(
 			'before_wrapper' => '<p>' . sprintf( $wpmem->get_text( 'register_status' ), $user_login ) . '</p>',
@@ -281,7 +283,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
 				'<li><a href="' . esc_url( $logout ) . '">' . $wpmem->get_text( 'register_logout' ) . '</a></li>',
-				'<li><a href="' . esc_url( get_option('home') ) . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
+				'<li><a href="' . esc_url( $url ) . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
 		);

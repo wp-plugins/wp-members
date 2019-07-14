@@ -155,6 +155,8 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Updated wpmem_user_has_meta() to include a check by array when the field is multiple checkbox or multiple select.
 * Updated [wpmem_logged_in] shortcode to include an msg attribute to display a message if the user does not have access to a specified product (product must be passed as attribute).
 
+* Updated register page shortcode [wpmem_form register] logged in state - if a profile page is set, second link links to profile rather than "begin using the site".
+
 * Major menus change - if you use the $wpmem->menus object directly, this is now $wpmem->menus_clone (setting $wpmem->clone_menus remains the same).
   wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
   object and that will take the place of the cloned menu options.

@@ -1275,11 +1275,15 @@ class WP_Members {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @global object $wpmem
+	 *
 	 * @param  string $str
 	 * @return string $text
 	 */	
 	function get_text( $str ) {
-
+		
+		global $wpmem;
+		
 		// Default Form Fields.
 		$default_form_fields = array(
 			'first_name'       => __( 'First Name', 'wp-members' ),
@@ -1381,8 +1385,8 @@ class WP_Members {
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
 			'profile_password'     => __( 'Change Password', 'wp-members' ),
 			'register_status'      => __( 'You are logged in as %s', 'wp-members' ),
-			'register_logout'      => __( 'Click to log out.', 'wp-members' ),
-			'register_continue'    => __( 'Begin using the site.', 'wp-members' ),
+			'register_logout'      => __( 'Log out', 'wp-members' ),
+			'register_continue'    => ( isset( $wpmem->user_pages['profile'] ) && '' != $wpmem->user_pages['profile'] ) ? __( 'Edit profile', 'wp-members' ) : __( 'Begin using the site.', 'wp-members' ),
 			'login_welcome'        => __( 'You are logged in as %s', 'wp-members' ),
 			'login_logout'         => __( 'Click to log out', 'wp-members' ),
 			'status_welcome'       => __( 'You are logged in as %s', 'wp-members' ),
