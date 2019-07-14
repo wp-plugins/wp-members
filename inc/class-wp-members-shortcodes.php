@@ -291,8 +291,8 @@ class WP_Members_Shortcodes {
 					} elseif ( true == $atts['msg'] ) {
 						$do_return = true;
 						$settings = array(
-							'wrapper_before' => '<div class="access_failed">',
-							'msg'            => __( 'Sorry, your account does not currently have access to %s content', 'wp-members' ),
+							'wrapper_before' => '<div class="product_access_failed">',
+							'msg'            => sprintf( __( 'Sorry, your account does not currently have access to %s content', 'wp-members' ), $wpmem->membership->products[ $membership ] ),
 							'wrapper_after'  => '</div>',
 						);
 						/**
