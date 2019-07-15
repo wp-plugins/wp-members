@@ -1233,3 +1233,59 @@ function wpmem_a_deactivate_user( $user_id ) {
 	wpmem_write_log( "wpmem_a_deactivate_user() is deprecated as of WP-Members 3.2.4. Use wpmem_deactivate_user instead" );
 	wpmem_deactivate_user( $user_id );
 }
+
+if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
+/**
+ * Change Password Dialog.
+ *
+ * Loads the form for changing password.
+ *
+ * @since 2.0.0
+ * @since 3.2.0 Now a wrapper for $wpmem->forms->do_changepassword_form()
+ * @deprecated 3.3.0 Use wpmem_change_password_form() instead.
+ *
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html for the change password form.
+ */
+function wpmem_inc_changepassword() {
+	wpmem_write_log( "wpmem_inc_changepassword() is deprecated as of WP-Members 3.3.0. Use wpmem_inc_changepassword() instead" );
+	return wpmem_changepassword_form();
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
+/**
+ * Reset Password Dialog.
+ *
+ * Loads the form for resetting password.
+ *
+ * @since 2.1.0
+ * @since 3.2.0 Now a wrapper for $wpmem->forms->do_resetpassword_form()
+ * @deprecated 3.3.0 Use wpmem_reset_password_form() instead.
+ *
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html fo the reset password form.
+ */
+function wpmem_inc_resetpassword() { 
+	wpmem_write_log( "wpmem_inc_resetpassword() is deprecated as of WP-Members 3.3.0. Use wpmem_inc_resetpassword() instead" );
+	return wpmem_reset_password_form();
+}
+endif;
+
+/**
+ * Forgot Username Form.
+ *
+ * Loads the form for retrieving a username.
+ *
+ * @since 3.0.8
+ * @since 3.2.0 Moved to forms.php.
+ * @deprecated 3.3.0 Use wpmem_forgot_username_form() instead.
+ *
+ * @global object $wpmem The WP_Members object class.
+ * @return string $str   The generated html for the forgot username form.
+ */
+function wpmem_inc_forgotusername() {
+	wpmem_write_log( "wpmem_inc_forgotusername() is deprecated as of WP-Members 3.3.0. Use wpmem_forgot_username_form() instead" );
+	return wpmem_forgot_username_form();
+}

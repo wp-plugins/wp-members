@@ -53,45 +53,6 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 }
 endif;
 
-
-if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
-/**
- * Change Password Dialog.
- *
- * Loads the form for changing password.
- *
- * @since 2.0.0
- * @since 3.2.0 Now a wrapper for $wpmem->forms->do_changepassword_form()
- *
- * @global object $wpmem The WP_Members object.
- * @return string $str   The generated html for the change password form.
- */
-function wpmem_inc_changepassword() {
-	global $wpmem;
-	return $wpmem->forms->do_changepassword_form();
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
-/**
- * Reset Password Dialog.
- *
- * Loads the form for resetting password.
- *
- * @since 2.1.0
- * @since 3.2.0 Now a wrapper for $wpmem->forms->do_resetpassword_form()
- *
- * @global object $wpmem The WP_Members object.
- * @return string $str   The generated html fo the reset password form.
- */
-function wpmem_inc_resetpassword() { 
-	global $wpmem;
-	return $wpmem->forms->do_resetpassword_form();
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_login_form' ) ):
 /**
  * Login Form Dialog.
@@ -131,23 +92,6 @@ function wpmem_login_form( $page, $arr ) {
 	return $wpmem->forms->login_form( $args );
 }
 endif;
-
-/**
- * Forgot Username Form.
- *
- * Loads the form for retrieving a username.
- *
- * @since 3.0.8
- * @since 3.2.0 Moved to forms.php.
- *
- * @global object $wpmem The WP_Members object class.
- * @return string $str   The generated html for the forgot username form.
- */
-function wpmem_inc_forgotusername() {
-	global $wpmem;
-	return $wpmem->forms->do_forgotusername_form();
-}
-
 
 if ( ! function_exists( 'wpmem_inc_registration' ) ):
 /**

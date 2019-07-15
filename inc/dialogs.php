@@ -447,7 +447,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 				if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
 					$content .= wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 				}
-				$content = $content . wpmem_inc_changepassword();
+				$content = $content . wpmem_change_password_form();
 				break;
 		}
 
@@ -471,7 +471,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
 						$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 					}
-					$content = $content . wpmem_inc_resetpassword();
+					$content = $content . wpmem_reset_password_form();
 					break;
 			}
 		
@@ -542,7 +542,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 			$msg = $wpmem->get_text( 'usernamefailed' );
 			$content = $content
 				. wpmem_inc_regmessage( 'usernamefailed', $msg ) 
-				. wpmem_inc_forgotusername();
+				. wpmem_forgot_username_form();
 			$wpmem->regchk = ''; // Clear regchk.
 			break;
 
@@ -554,7 +554,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 			break;
 
 		default:
-			$content = $content . wpmem_inc_forgotusername();
+			$content = $content . wpmem_forgot_username_form();
 			break;
 		}
 		

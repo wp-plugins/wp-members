@@ -67,6 +67,45 @@ function wpmem_register_form( $args ) {
 }
 
 /**
+ * Change Password Form.
+ *
+ * @since 3.3.0 Replaces wpmem_inc_changepassword().
+ *
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html for the change password form.
+ */
+function wpmem_change_password_form() {
+	global $wpmem;
+	return $wpmem->forms->do_changepassword_form();
+}
+
+/**
+ * Reset Password Form.
+ *
+ * @since 3.3.0 Replaced wpmem_inc_resetpassword().
+ *
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html fo the reset password form.
+ */
+function wpmem_reset_password_form() { 
+	global $wpmem;
+	return $wpmem->forms->do_resetpassword_form();
+}
+
+/**
+ * Forgot Username Form.
+ *
+ * @since 3.3.0 Replaced wpmem_inc_forgotusername().
+ *
+ * @global object $wpmem The WP_Members object class.
+ * @return string $str   The generated html for the forgot username form.
+ */
+function wpmem_forgot_username_form() {
+	global $wpmem;
+	return $wpmem->forms->do_forgotusername_form();
+}
+
+/**
  * Wrapper for $wpmem->create_form_field().
  *
  * @since 3.1.2

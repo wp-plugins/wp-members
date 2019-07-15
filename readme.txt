@@ -1,4 +1,4 @@
-=== WP-Members Membership Plugin ===
+﻿=== WP-Members Membership Plugin ===
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
@@ -160,6 +160,11 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Major menus change - if you use the $wpmem->menus object directly, this is now $wpmem->menus_clone (setting $wpmem->clone_menus remains the same).
   wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
   object and that will take the place of the cloned menu options.
+  
+* The following functions are deprecated, replacements should no longer be considered "pluggable":
+  - wpmem_inc_changepassword()
+  - wpmem_inc_resetpassword()
+  - wpmem_inc_forgotusername()
   
 * New folder structure being implemented
   - All admin js & css load from /assets/ not /admin/
