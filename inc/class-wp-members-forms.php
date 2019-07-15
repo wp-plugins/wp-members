@@ -1149,7 +1149,10 @@ class WP_Members_Forms {
 
 		// If captcha is Really Simple CAPTCHA.
 		if ( $wpmem->captcha == 2 && $tag != 'edit' ) {
-			$row = wpmem_build_rs_captcha();
+			// Include captcha functions.
+			require_once( $wpmem->path . 'includes/class-wp-members-captcha.php' );
+			// Build the captcha.
+			$row = WP_Members_Captcha::rs_captcha();
 			$rows['captcha'] = array(
 				'meta'         => '', 
 				'type'         => 'text', 
@@ -1221,6 +1224,9 @@ class WP_Members_Forms {
 		// Do recaptcha if enabled.
 		if ( ( 1 == $wpmem->captcha || 3 == $wpmem->captcha || 4 == $wpmem->captcha ) && $tag != 'edit' ) { // don't show on edit page!
 
+			// Include captcha functions.
+			require_once( $wpmem->path . 'includes/class-wp-members-captcha.php' );
+			
 			// Get the captcha options.
 			$wpmem_captcha = get_option( 'wpmembers_captcha' );
 			
@@ -1244,7 +1250,7 @@ class WP_Members_Forms {
 				$row = '<div class="clear"></div>';
 				$row.= '<div class="captcha">';
 
-				$row.= wpmem_inc_recaptcha( $wpmem_captcha['recaptcha'] );
+				$row.= WP_Members_Captcha::recaptcha( $wpmem_captcha['recaptcha'] );
 
 				$row.= '</div>';
 			}

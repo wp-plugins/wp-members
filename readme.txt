@@ -165,6 +165,8 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
   - wpmem_inc_changepassword()
   - wpmem_inc_resetpassword()
   - wpmem_inc_forgotusername()
+  - wpmem_inc_recaptcha()
+  - wpmem_build_rs_captcha()
   
 * New folder structure being implemented
   - All admin js & css load from /assets/ not /admin/
