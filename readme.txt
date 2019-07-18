@@ -145,7 +145,8 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Added wpmem_msg_settings filter.
 * Added wpmem_sc_product_access_denied filter.
 * Added admin user class for handling Users > All users screen and user activation.
-* Added user export class
+* Added user export class.
+* Added "msg" attribute support for [wpmem_logged_in] when using the "membership" or "product" attributes.
 
 * Replaced WPMEM_VERSION constant with $wpmem->version.
 * Replaced WPMEM_PATH constant with $wpmem->path.
