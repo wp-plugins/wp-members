@@ -86,7 +86,7 @@ class WP_Members_Admin_API {
 		include_once( $wpmem->path . 'admin/includes/class-wp-members-user-search.php' );
 		include_once( $wpmem->path . 'admin/includes/class-wp-members-products-admin.php' );
 		include_once( $wpmem->path . 'admin/dialogs.php' );
-		include_once( $wpmem->path . 'admin/post.php' );
+		include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-posts.php' );
 		include_once( $wpmem->path . 'admin/includes/api.php' );
 		include_once( $wpmem->path . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
@@ -153,15 +153,15 @@ class WP_Members_Admin_API {
 		// If user has a role that can edit posts, add the block/unblock meta boxes and custom post/page columns.
 		if ( current_user_can( 'edit_posts' ) ) {
 			// Post actions and filters.
-			add_action( 'add_meta_boxes',             'wpmem_block_meta_add' );
-			add_action( 'save_post',                  'wpmem_block_meta_save' );
-			add_filter( 'manage_posts_columns',       'wpmem_post_columns' );
-			add_action( 'manage_posts_custom_column', 'wpmem_post_columns_content', 10, 2 );
-			add_filter( 'manage_pages_columns',       'wpmem_post_columns' );
-			add_action( 'manage_pages_custom_column', 'wpmem_post_columns_content', 10, 2 );
-			add_action( 'admin_footer-edit.php', 'wpmem_bulk_posts_action'   );
-			add_action( 'load-edit.php',         'wpmem_posts_page_load'     );
-			add_action( 'admin_notices',         'wpmem_posts_admin_notices' );
+			add_action( 'add_meta_boxes',             array( 'WP_Members_Admin_Posts', 'block_meta_add'  ) );
+			add_action( 'save_post',                  array( 'WP_Members_Admin_Posts', 'block_meta_save' ) );
+			add_filter( 'manage_posts_columns',       array( 'WP_Members_Admin_Posts', 'columns'     ) );
+			add_action( 'manage_posts_custom_column', array( 'WP_Members_Admin_Posts', 'columns_content' ), 10, 2 );
+			add_filter( 'manage_pages_columns',       array( 'WP_Members_Admin_Posts', 'columns'     ) );
+			add_action( 'manage_pages_custom_column', array( 'WP_Members_Admin_Posts', 'columns_content' ), 10, 2 );
+			add_action( 'admin_footer-edit.php',      array( 'WP_Members_Admin_Posts', 'bulk_action' ) );
+			add_action( 'load-edit.php',              array( 'WP_Members_Admin_Posts', 'page_load'   ) );
+			add_action( 'admin_notices',              array( 'WP_Members_Admin_Posts', 'notices'     ) );
 		}
 		
 		if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
