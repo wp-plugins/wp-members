@@ -259,20 +259,20 @@ class WP_Members_Admin_Users {
 			$user_counts = array();
 			foreach ( $count_metas as $key => $meta_key ) {
 				if ( 'active' == $key ) {
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key='$meta_key' AND meta_value=1" );
+					$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value=1", $meta_key ) );
 				}
 				if ( 'notactive' == $key || 'notexported' == $key ) {
-					$users_with_meta = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key='$meta_key' AND meta_value=1" );
+					$users_with_meta = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value=1", $meta_key ) );
 					$count = $users - $users_with_meta;
 				}
 				if ( 'deactivated' == $key ) {
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'active' AND meta_value = 0" );
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key = 'active' AND meta_value = 0" );
 				}
 				if ( 'trial' == $key || 'subscription' == $key || 'pending' == $key ) {
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'exp_type' AND meta_value = \"$key\"" );
+					$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key = 'exp_type' AND meta_value = \"%s\"", $key ) );
 				}
 				if ( 'expired' == $key ) {
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->usermeta WHERE meta_key = 'expires' AND STR_TO_DATE( meta_value, '%m/%d/%Y' ) < CURDATE() AND meta_value != '01/01/1970'" );
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key = 'expires' AND STR_TO_DATE( meta_value, '%m/%d/%Y' ) < CURDATE() AND meta_value != '01/01/1970'" );
 				}
 				$user_counts[ $key ] = $count;
 			}
