@@ -64,7 +64,7 @@ class WP_Members_Forms {
 		$id          = ( isset( $args['id'] ) ) ? esc_attr( $args['id'] ) : esc_attr( $args['name'] );
 		$name        = esc_attr( $args['name'] );
 		$type        = esc_attr( $args['type'] );
-		$value       = ( isset( $args['value']       ) ) ? maybe_unserialize( $args['value'] ) : '';
+		$value       = ( isset( $args['value']       ) ) ? $args['value']       : '';
 		$compare     = ( isset( $args['compare']     ) ) ? $args['compare']     : '';
 		$class       = ( isset( $args['class']       ) ) ? $args['class']       : 'textbox';
 		$required    = ( isset( $args['required']    ) ) ? $args['required']    : false;

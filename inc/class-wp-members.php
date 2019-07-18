@@ -1514,7 +1514,7 @@ class WP_Members {
 		global $wpmem;
 		$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
 		?><script type="text/javascript">
-			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo $logout; ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
+			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo esc_url( $logout ); ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
 		</script><?php
 	}
 		
@@ -1838,7 +1838,7 @@ class WP_Members {
 		if ( file_exists( $custom_template ) ) {
 			require_once( $custom_template );
 		} else {
-			require_once( $this->path . 'inc/template_tos.php' );
+			require_once( $this->path . 'templates/tos.php' );
 		}
 	}
 

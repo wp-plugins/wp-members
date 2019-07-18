@@ -82,18 +82,18 @@ class WP_Members_Products_Admin {
 				break;
 			case 'role':
 				$role = $this->get_meta( 'wpmem_product_role' );
-				echo ( $role ) ? $role : __( 'No role required', 'wp-members' );
+				echo ( $role ) ? esc_html( $role ) : __( 'No role required', 'wp-members' );
 				break;
 			case 'expires':
 				$expires = $this->get_meta( 'wpmem_product_expires' );
 				$period = ( false !== $expires ) ? explode( "|", $expires[0] ) : __( 'Does not expire', 'wp-members' );
-				echo ( is_array( $period ) ) ? $period[0] . ' ' . $period[1] : $period;
+				echo ( is_array( $period ) ) ? esc_html( $period[0] . ' ' . $period[1] ) : esc_html( $period );
 				break;
 			case 'default_products':
 				echo ( in_array( $post->post_name, $this->default_products ) ) ? __( 'Yes', 'wp-members' ) : '';
 				break;
 			case 'last_updated':
-				echo date_i18n( get_option( 'date_format' ), strtotime( $post->post_modified ) );
+				echo date_i18n( get_option( 'date_format' ), strtotime( esc_attr( $post->post_modified ) ) );
 				break;
 		}
 	}
@@ -176,7 +176,7 @@ class WP_Members_Products_Admin {
 				<span id="wpmem_product_expires_wrap">
 					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
 					<?php $period = explode( '|', $product_expires ); ?>
-					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo $period[0]; ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>" style="width:66px;height:28px;vertical-align:middle;">
+					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo esc_attr( $period[0] ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>" style="width:66px;height:28px;vertical-align:middle;">
 					<label for="wpmem_product_time_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
 					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period[1] ) ) ? $period[1] : '' ) ) ); ?>
 				</span>
