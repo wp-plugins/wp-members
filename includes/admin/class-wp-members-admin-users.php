@@ -409,22 +409,6 @@ class WP_Members_Admin_Users {
 		$show = sanitize_text_field( wpmem_get( 'show', '', 'get' ) );
 		switch ( $show ) {
 
-			case 'active':
-			case 'notactive':
-			case 'notexported':
-			case 'deactivated':
-				$key = ( 'notactive' == $show || 'deactivated' == $show  ) ? 'active' : 'exported';
-				$in  = ( 'deactivated' == $show ) ? 'IN' : 'NOT IN';
-				$val = ( 'deactivated' == $show ) ? '0'  : '1';
-				if ( 'active' == $show ) {
-					$key = 'active'; $in = 'IN';
-				}
-				$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID " . esc_sql( $in ) . " (
-				 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
-					WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( $key ) . "\"
-					AND {$wpdb->usermeta}.meta_value = \"" . esc_sql( $val ) . "\" )";
-				break;
-
 			case 'trial':
 			case 'subscription':
 			case 'pending':
@@ -440,6 +424,23 @@ class WP_Members_Admin_Users {
 					WHERE {$wpdb->usermeta}.meta_key = 'expires'
 					AND STR_TO_DATE( {$wpdb->usermeta}.meta_value, '%m/%d/%Y' ) < CURDATE()
 					AND {$wpdb->usermeta}.meta_value != '01/01/1970' )";
+				break;
+
+			case 'active':
+			case 'notactive':
+			case 'notexported':
+			case 'deactivated':
+			default:
+				$key = ( 'notactive' == $show || 'deactivated' == $show  ) ? 'active' : 'exported';
+				$in  = ( 'deactivated' == $show ) ? 'IN' : 'NOT IN';
+				$val = ( 'deactivated' == $show ) ? '0'  : '1';
+				if ( 'active' == $show ) {
+					$key = 'active'; $in = 'IN';
+				}
+				$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID " . esc_sql( $in ) . " (
+				 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+					WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( $key ) . "\"
+					AND {$wpdb->usermeta}.meta_value = \"" . esc_sql( $val ) . "\" )";
 				break;
 		}
 

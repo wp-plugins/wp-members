@@ -101,7 +101,7 @@ class WP_Members_Email {
 				$this->settings = get_option( 'wpmembers_email_' . $tag );
 				$this->settings['tag'] = $tag;
 				break;
-			case 5:
+			default: // case 5:
 				// This is a custom email.
 				$this->settings['subj'] = $custom['subj'];
 				$this->settings['body'] = $custom['body'];

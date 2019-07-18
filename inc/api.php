@@ -256,14 +256,15 @@ function wpmem_login_status( $echo = true ) {
  */
 function wpmem_get( $tag, $default = '', $type = 'post' ) {
 	switch ( $type ) {
-		case 'post':
-			return ( isset( $_POST[ $tag ] ) ) ? $_POST[ $tag ] : $default;
-			break;
 		case 'get':
 			return ( isset( $_GET[ $tag ] ) ) ? $_GET[ $tag ] : $default;
 			break;
 		case 'request':
 			return ( isset( $_REQUEST[ $tag ] ) ) ? $_REQUEST[ $tag ] : $default;
+			break;
+		case 'post':
+		default:
+			return ( isset( $_POST[ $tag ] ) ) ? $_POST[ $tag ] : $default;
 			break;
 	}
 }
