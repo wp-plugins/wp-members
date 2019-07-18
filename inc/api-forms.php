@@ -241,3 +241,19 @@ function wpmem_sanitize_array( $data ) {
 	global $wpmem;
 	return $wpmem->forms->sanitize_array( $data );
 }
+
+/**
+ * A multi use sanitization function.
+ *
+ * @since 3.3.0
+ *
+ * @global  object  $wpmem
+ *
+ * @param   string  $data
+ * @param   string  $type
+ * @return  string  $sanitized_data
+ */
+function wpmem_sanitize_field( $data, $type = 'text' ) {
+	global $wpmem;
+	return $wpmem->forms->sanitize_field( $data, $type );
+}
