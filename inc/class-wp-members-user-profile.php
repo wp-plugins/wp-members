@@ -451,11 +451,6 @@ class WP_Members_User_Profile {
 			$user_active_flag = get_user_meta( $user_id, 'active', true );
 			switch( $user_active_flag ) {
 
-				case '':
-					$label  = __( 'Activate this user?', 'wp-members' );
-					$action = 1;
-					break;
-
 				case 0:
 					$label  = __( 'Reactivate this user?', 'wp-members' );
 					$action = 1;
@@ -466,6 +461,10 @@ class WP_Members_User_Profile {
 					$action = 0;
 					break;
 
+				default:
+					$label  = __( 'Activate this user?', 'wp-members' );
+					$action = 1;
+					break;
 			} ?>
 			<tr>
 				<th><label><?php echo $label; ?></label></th>

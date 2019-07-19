@@ -262,8 +262,7 @@ function wpmem_get( $tag, $default = '', $type = 'post' ) {
 		case 'request':
 			return ( isset( $_REQUEST[ $tag ] ) ) ? $_REQUEST[ $tag ] : $default;
 			break;
-		case 'post':
-		default:
+		default: // case 'post':
 			return ( isset( $_POST[ $tag ] ) ) ? $_POST[ $tag ] : $default;
 			break;
 	}
