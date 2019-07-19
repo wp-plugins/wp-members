@@ -90,11 +90,11 @@ class WP_Members_Admin_API {
 		include_once( $wpmem->path . 'admin/includes/api.php' );
 		include_once( $wpmem->path . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
-			include_once( $wpmem->path . 'admin/tab-options.php' );
-			include_once( $wpmem->path . 'admin/tab-emails.php' );
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-options.php' );
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-emails.php'  );
 			include_once( $wpmem->path . 'admin/tab-captcha.php' );
 			// include_once( $wpmem->path . 'admin/tab-about.php' );
-			include_once( $wpmem->path . 'admin/tab-dialogs.php' );
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-dialogs.php' );
 			include_once( $wpmem->path . 'admin/tab-dropins.php' );
 		}
 	}
@@ -111,25 +111,25 @@ class WP_Members_Admin_API {
 		
 		global $wpmem;
 		
-		add_action( 'admin_enqueue_scripts',         array( $this, 'dashboard_enqueue_scripts' ) );
-		add_action( 'wp_ajax_wpmem_a_field_reorder', 'wpmem_a_do_field_reorder' );
-		add_action( 'user_new_form',                 'wpmem_admin_add_new_user' );
-		add_filter( 'plugin_action_links',           array( $this, 'plugin_links' ), 10, 2 );
+		add_action( 'admin_enqueue_scripts',          array( $this, 'dashboard_enqueue_scripts' ) );
+		add_action( 'wp_ajax_wpmem_a_field_reorder',  'wpmem_a_do_field_reorder' );
+		add_action( 'user_new_form',                  'wpmem_admin_add_new_user' );
+		add_filter( 'plugin_action_links',            array( $this, 'plugin_links' ), 10, 2 );
 		// add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
 		
-		add_action( 'wpmem_admin_do_tab',            'wpmem_a_options_tab', 1 );
-		add_action( 'wpmem_admin_do_tab',            'wpmem_a_dialogs_tab', 10 );
-		add_action( 'wpmem_admin_do_tab',            'wpmem_a_emails_tab', 15 );
+		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Options', 'do_tab' ), 1  );
+		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Dialogs', 'do_tab' ), 10 );
+		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Emails',  'do_tab' ), 15 );
 		// add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
 		
 		// If user has a role that cannot edit users, set profile actions for non-admins.
 		
 		// User actions and filters.
-		add_action( 'user_edit_form_tag',         array( 'WP_Members_User_Profile', 'add_multipart' ) );
-		add_action( 'show_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
-		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', 'profile' ) );
-		add_action( 'profile_update',             array( 'WP_Members_User_Profile', 'update' ) );
-		add_action( 'edit_user_profile',          array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
+		add_action( 'user_edit_form_tag',             array( 'WP_Members_User_Profile', 'add_multipart' ) );
+		add_action( 'show_user_profile',              array( 'WP_Members_User_Profile', 'profile' ) );
+		add_action( 'edit_user_profile',              array( 'WP_Members_User_Profile', 'profile' ) );
+		add_action( 'profile_update',                 array( 'WP_Members_User_Profile', 'update' ) );
+		add_action( 'edit_user_profile',              array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
 
 		if ( current_user_can( 'list_users' ) ) {
 			add_action( 'admin_footer-users.php',     array( 'WP_Members_Admin_Users', 'bulk_user_action' ) );

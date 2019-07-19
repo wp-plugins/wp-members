@@ -93,15 +93,15 @@ function wpmem_admin_action( $action ) {
 
 	case 'update_settings':
 	case 'update_cpts':
-		$did_update = ( 'update_cpts' == $action ) ? wpmem_update_cpts() : wpmem_update_options();
+		$did_update = WP_Members_Admin_Tab_Options::update( $action );
 		break;
 
 	case 'update_dialogs':
-		$did_update = wpmem_update_dialogs();
+		$did_update = WP_Members_Admin_Tab_Dialogs::update();
 		break;
 
 	case 'update_emails':
-		$did_update = wpmem_update_emails();
+		$did_update = WP_Members_Admin_Tab_Emails::update();
 		break;
 
 	case 'update_captcha':
