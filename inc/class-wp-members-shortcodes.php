@@ -660,7 +660,7 @@ class WP_Members_Shortcodes {
 			$content = ( isset( $atts['clickable'] ) && ( true == $atts['clickable'] || 'true' == $atts['clickable'] ) ) ? make_clickable( $content ) : $content;
 		
 			// Display field label?
-			$content = ( isset( $atts['label'] ) && ( true == $atts['label'] ) ) ? $fields[ $field ]['label'] . ": " . $content : $content;
+			$content = ( isset( $fields[ $field ] ) && isset( $atts['label'] ) && ( true == $atts['label'] ) ) ? $fields[ $field ]['label'] . ": " . $content : $content;
 		}
 		
 		/**
