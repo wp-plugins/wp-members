@@ -125,11 +125,45 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 
 = 3.3.0 =
 
-* Removed [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
+* REMOVED [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
+* REMOVED tinymce button for shortcodes as no longer necessary with gutenberg.
 * Deprecated wpmem_login_form_args filter, use wpmem_login_form_settings instead.
 * Deprecated wpmem_block_args filter, use wpmem_block_settings instead.
 * Deprecated wpmem_msg_args and wpmem_msg_dialog_arr filters, use wpmem_msg_settings instead.
-* Removed tinymce button for shortcodes as no longer necessary with gutenberg.
+* The following functions are deprecated, replacements should no longer be considered "pluggable":
+  - wpmem_inc_changepassword()
+  - wpmem_inc_resetpassword()
+  - wpmem_inc_forgotusername()
+  - wpmem_inc_recaptcha()
+  - wpmem_build_rs_captcha()
+  
+IMPORTANT UPDATES/CHANGES
+
+* Updated registration function to hook to user_register, IMPORTANT: this 
+  changes the order in which the user meta fields are saved, and also changes 
+  when the email is sent. Email is now hooked to user_register, but can be 
+  unloaded if necessary.
+* Updated membership product meta and date format, IMPORTANT: this changes the 
+  way the user product access information is stored (going from an array of 
+  all memberships to individual meta for each) as well as the format (dates 
+  are now unix timestamp). There is an update script that will run during 
+  upgrade to handle this. For now, the legacy format is also maintained (so 
+  consider this if customzizing any processing) so that rollback is possible.
+* Updated wpmem_user_has_meta() to include a check by array when the field is 
+  multiple checkbox or multiple select.
+* Updated [wpmem_logged_in] shortcode to include an msg attribute to display a 
+  message if the user does not have access to a specified product (product must
+  be passed as attribute).
+
+* Updated register page shortcode [wpmem_form register] logged in state - if a 
+  profile page is set, second link links to profile rather than "begin using 
+  the site".
+
+* Major menus change - if you use the $wpmem->menus object directly, this is 
+  now $wpmem->menus_clone (setting $wpmem->clone_menus remains the same).
+  wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and 
+  wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
+  object and that will take the place of the cloned menu options.
 
 * Added default membership product(s) at registration.
 * Added support for selecting fields to display on the registration form or the profile form.
@@ -147,31 +181,11 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Added admin user class for handling Users > All users screen and user activation.
 * Added user export class.
 * Added "msg" attribute support for [wpmem_logged_in] when using the "membership" or "product" attributes.
-
 * Replaced WPMEM_VERSION constant with $wpmem->version.
-* Replaced WPMEM_PATH constant with $wpmem->path.
+* Replaced WPMEM_PATH constant with $wpmem->path. WPMEM_PATH will still function for backward compatibility.
 * Replaced WPMEM_URL constant with $wpmem->url.
-
-* Updated registration function to hook to user_register, IMPORTANT: this changes the order in which the user meta fields are saved, and also changes when the email is sent. Email is now hooked to user_register, but can be unloaded if necessary.
-* Updated membership product meta and date format, IMPORTANT: this changes the way the user product access information is stored (going from an array of all memberships to individual meta for each) as well as the format (dates are now unix timestamp). There is an update script that will run during upgrade to handle this. For now, the legacy format is also maintained (so consider this if customzizing any processing) so that rollback is possible.
-* Updated wpmem_user_has_meta() to include a check by array when the field is multiple checkbox or multiple select.
-* Updated [wpmem_logged_in] shortcode to include an msg attribute to display a message if the user does not have access to a specified product (product must be passed as attribute).
-
-* Updated register page shortcode [wpmem_form register] logged in state - if a profile page is set, second link links to profile rather than "begin using the site".
-
-* Major menus change - if you use the $wpmem->menus object directly, this is now $wpmem->menus_clone (setting $wpmem->clone_menus remains the same).
-  wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
-  object and that will take the place of the cloned menu options.
-  
-* The following functions are deprecated, replacements should no longer be considered "pluggable":
-  - wpmem_inc_changepassword()
-  - wpmem_inc_resetpassword()
-  - wpmem_inc_forgotusername()
-  - wpmem_inc_recaptcha()
-  - wpmem_build_rs_captcha()
-  
 * New folder structure being implemented
-  - All admin js & css load from /assets/ not /admin/
+  - All admin js & css now load from /assets/ not /admin/
 
 = 3.2.9 =
 

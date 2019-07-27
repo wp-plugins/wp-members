@@ -532,6 +532,10 @@ class WP_Members_Shortcodes {
 	 * - underscores="true" strips underscores from the displayed value.
 	 * - display="raw" displays the stored value for dropdowns, radios, files.
 	 * - size(thumbnail|medium|large|full|w,h): image field only.
+	 * - clickable
+	 * - label
+	 *
+	 * Filter the end result with `wpmem_field_shortcode`.
 	 *
 	 * @since 3.1.2
 	 * @since 3.1.4 Changed to display value rather than stored value for dropdown/multicheck/radio.

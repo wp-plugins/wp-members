@@ -16,13 +16,8 @@
  *
  * Functions Included:
  * - wpmem_inc_login
- * - wpmem_inc_changepassword
- * - wpmem_inc_resetpassword
  * - wpmem_login_form
  * - wpmem_inc_registration
- * - wpmem_inc_recaptcha
- * - wpmem_inc_attribution
- * - wpmem_build_rs_captcha
  */
 
 // Exit if accessed directly.

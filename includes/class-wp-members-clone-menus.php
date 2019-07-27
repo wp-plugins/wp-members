@@ -1,10 +1,11 @@
 <?php
 /**
- * The WP_Members Menus Class.
+ * The WP_Members Clone Menus Class.
  *
  * @package WP-Members
- * @subpackage WP_Members Menus Object Class
+ * @subpackage WP_Members Clone Menus Object Class
  * @since 3.2.0
+ * @since 3.3.0 Renamed WP_Members_Clone_Menus
  */
 
 // Exit if accessed directly.

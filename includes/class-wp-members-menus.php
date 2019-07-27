@@ -1,5 +1,16 @@
 <?php
+/**
+ * The WP_Members Menus Class.
+ *
+ * @package WP-Members
+ * @subpackage WP_Members Menus Object Class
+ * @since 3.3.0
+ */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 class WP_Members_Menus {
 	
