@@ -160,10 +160,10 @@ function wpmem_do_wp_register_form( $process = 'wp' ) {
 						$class = ( $is_woo ) ? 'woocommerce-Input woocommerce-Input--text input-text' : 'input';
 						//$input = '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="' . $class . '" value="';
 						$input = wpmem_form_field( array( 
-								'name' => $meta_key, 
-								'type' => $field['type'], 
-								'value' => ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '',
-								'compare' => ( isset( $field['compare'] ) ) ? $field['compare'] : '',
+								'name'        => $meta_key, 
+								'type'        => $field['type'], 
+								'value'       => $wpmem->forms->sanitize_field( wpmem_get( $meta_key, '' ), $field['type'] ),
+								'compare'     => ( isset( $field['compare'] ) ) ? $field['compare'] : '',
 								'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
 							) );
 						//$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
