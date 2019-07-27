@@ -324,7 +324,15 @@ class WP_Members_Forms {
 	/**
 	 * Sanitizes field based on field type.
 	 *
+	 * Obviously, this isn't an all inclusive function of every WordPress
+	 * sanitization function. It is intended to handle sanitization of 
+	 * WP-Members form input and therefore includes the necessary methods
+	 * that would relate to the WP-Members custom field types and can thus
+	 * be used by looping through form data when the WP-Members fields are
+	 * handled and validated.
+	 *
 	 * @since 3.2.9
+	 * @since 3.3.0 Added email, file, and image.
 	 *
 	 * @param  string $data
 	 * @param  string $type
@@ -341,6 +349,15 @@ class WP_Members_Forms {
 
 			case 'textarea':
 				$sanitized_data = sanitize_textarea_field( $data );
+				break;
+
+			case 'email':
+				$sanitized_data = sanitize_email( $data );
+				break;
+
+			case 'file':
+			case 'image':
+				$sanitized_data = sanitize_file_name( $data );
 				break;
 
 			default:
