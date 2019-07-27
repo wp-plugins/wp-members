@@ -716,7 +716,7 @@ class WP_Members_Shortcodes {
 	 * @retrun string $content
 	 */
 	function tos( $atts, $content, $tag ) {
-		return do_shortcode( $atts['url'] ); 
+		return esc_url( $atts['url'] ); 
 	}
 
 	/**
