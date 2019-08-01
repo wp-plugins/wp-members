@@ -2,6 +2,12 @@
 /**
  * The WP_Members Menus Class.
  *
+ * Allows for handling of menu items based on user access. Limit menu itmes
+ * to logged in only, logged out only, or based on membership access.
+ *
+ * Modified from Nav Menu Roles by Kathy Darling (https://www.kathyisawesome.com/)
+ * https://wordpress.org/plugins/nav-menu-roles/
+ *
  * @package WP-Members
  * @subpackage WP_Members Menus Object Class
  * @since 3.3.0
@@ -13,17 +19,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WP_Members_Menus {
-	
+
+	/**
+	 * Meta for storing item settings.
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
 	public $post_meta   = "_wpmem_item_settings";
+
+	/**
+	 * Nonce name
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
 	public $nonce_name  = "wpmem_nav_menu_nonce";
+
+	/**
+	 * Nonce field
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
 	public $nonce_field = "wpmem_nav_menu_nonce";
 	
 	/**
-	* Nav_Menu_Roles Constructor.
-	* @access public
-	* @return Nav_Menu_Roles
-	* @since  1.0
-	*/
+	 * Initialize WP_Members_Menus.
+	 * 
+	 * @since  1.3.0
+	 */
 	public function __construct(){
 		$this->load_hooks();
 	}

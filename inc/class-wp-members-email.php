@@ -75,6 +75,7 @@ class WP_Members_Email {
 	 * @global object $wpmem                The WP_Members object.
 	 * @global string $wpmem_mail_from      The email from address.
 	 * @global string $wpmem_mail_from_name The email from name.
+	 *
 	 * @param  int    $user_ID              The User's ID.
 	 * @param  string $password             Password from the registration process.
 	 * @param  string $tag                  Tag indicating the email being sent (newreg|newmod|appmod|repass|getuser).
@@ -105,7 +106,7 @@ class WP_Members_Email {
 				// This is a custom email.
 				$this->settings['subj'] = $custom['subj'];
 				$this->settings['body'] = $custom['body'];
-				$this->settings['tag']  = $custom['tag'];
+				$this->settings['tag']  = ( isset( $custom['tag'] ) ) ? $custom['tag'] : '';
 				break;
 		}
 
@@ -268,6 +269,7 @@ class WP_Members_Email {
 	 * @global object $wpmem                The WP_Members object.
 	 * @global string $wpmem_mail_from      The email from address.
 	 * @global string $wpmem_mail_from_name The email from name.
+	 *
 	 * @param  int    $user_id              The User's ID.
 	 * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
 	 * @param  array  $field_data           Array of the registration data (defaults to null).
@@ -487,6 +489,7 @@ class WP_Members_Email {
 	 * @since 3.2.0 Moved to WP_Members_Email::from().
 	 *
 	 * @global object $wpmem
+	 *
 	 * @param  string $email
 	 * @return string $wpmem_mail_from|$email
 	 */
@@ -503,6 +506,7 @@ class WP_Members_Email {
 	 * @since 3.2.0 Moved to WP_Members_Email::from_name().
 	 *
 	 * @global object $wpmem
+	 *
 	 * @param  string $name
 	 * @return string $wpmem_mail_from_name|$name
 	 */
@@ -515,6 +519,8 @@ class WP_Members_Email {
 	 * Sends email.
 	 *
 	 * @since 3.2.0
+	 *
+	 * @param  string  $to
 	 */
 	function send( $to ) {
 		$args['to'] = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
