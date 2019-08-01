@@ -41,6 +41,11 @@ class WP_Members_Products_Admin {
 				add_filter( 'manage_' . $key . '_posts_columns',       array( $this, 'post_columns' ) );
 				add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
 			}
+			
+
+
+			add_filter( 'wpmem_user_profile_tabs',         array( $this, 'user_profile_tabs' ), 1 );
+			add_action( 'wpmem_user_profile_tabs_content', array( $this, 'user_profile_tab_content' ), 10 );
 		}
 		
 		$this->default_products = $wpmem->membership->get_default_products();
@@ -402,5 +407,87 @@ class WP_Members_Products_Admin {
 			return implode( ", ", $display );
 		}
 		return $val;
+	}
+
+	/**
+	 * Creates tab for user profile.
+	 *
+	 * @since 
+	 *
+	 * @param  array $tabs
+	 */
+	function user_profile_tabs( $tabs ) {
+		$tabs['memberships'] = array(
+			'tab' => __( 'Memberships', 'wp-members' ),
+		);
+		return $tabs;
+	}
+	
+	/**
+	 * Add user product access to user profile.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @global object $wpmem
+	 * @param  string $key
+	 */
+	public function user_profile_tab_content( $key ) { 
+		// If product enabled
+		if ( 'memberships' == $key ) {
+			global $wpmem;
+			$user_id = sanitize_text_field( wpmem_get( 'user_id', false, 'get' ) );
+			$user_products = $wpmem->user->get_user_products( $user_id );
+			echo '<h3>' . __( 'Product Access', 'wp-members' ) . '</h3>';
+			echo '<table>
+				<tr>
+					<th>' . __( 'Status',     'wp-members' ) . '</th>
+					<th>' . __( 'Membership', 'wp-members' ) . '</th>
+					<th>' . __( 'Enabled?',   'wp-members' ) . '</th>
+					<th>' . __( 'Expires',    'wp-members' ) . '</th>
+				</tr>'; ?>	
+			<?php
+			foreach ( $wpmem->membership->products as $key => $value ) {
+				$checked = ( $user_products && array_key_exists( $key, $user_products ) ) ? "checked" : "";
+				echo "<tr>";
+				echo '<td style="padding:5px 5px;">
+				<select name="_wpmem_membership_product[' . $key . ']">
+					<option value="">----</option>
+					<option value="enable">'  . __( 'Enable', 'wp-members'  ) . '</option>
+					<option value="disable">' . __( 'Disable', 'wp-members' ) . '</option>
+				</select></td><td style="padding:0px 0px;">' . $value['title'] . '</td>';
+
+				// If user has date, display that; otherwise placeholder
+				$date_value  = ( isset( $user_products[ $key ] ) && 1 != $user_products[ $key ] && 0 != $user_products[ $key ] && '' != $user_products[ $key ] ) ? date( 'Y-m-d', $user_products[ $key ] ) : "";
+				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Date', 'wp-members' ) . '" ' : '';
+				$product_date_field = ' <input type="text" name="_wpmem_membership_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . ' />';
+
+				if ( isset( $user_products[ $key ] ) ) {
+					echo '<td align="center"><span id="wpmem_product_enabled" class="dashicons dashicons-yes"></span></td>';
+					if ( $user_products[ $key ] !== true ) {
+						echo '<td>' . $product_date_field . '</td>';
+					} else {
+						echo '<td>' . __( 'Enabled', 'wp-members' ) . '</td>';
+					}
+				} else {
+					if ( isset( $value['expires'] ) && ! empty( $value['expires'] ) ) {
+						echo '<td><span id="wpmem_product_enabled" class="dashicons"></span></td>';
+						echo '<td>' . $product_date_field . '</td>';
+					} else {
+						echo '<td>&nbsp;</td>';
+					}
+				}				
+				echo '</tr>';
+			}
+
+				?></table>
+			<script>
+			jQuery(function() {
+				jQuery( ".wpmem_datepicker" ).datepicker({
+					dateFormat : "yy-mm-dd"
+				});
+			});
+			</script>
+			<?php
+		}
 	}
 }

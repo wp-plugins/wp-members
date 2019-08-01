@@ -517,69 +517,6 @@ class WP_Members_User_Profile {
 	}
 
 	/**
-	 * Add user product access to user profile.
-	 *
-	 * @since 3.2.0
-	 *
-	 * @global object $wpmem
-	 * @param  int    $user_id
-	 */
-	public static function _show_product( $user_id ) { 
-		// If product enabled
-		global $wpmem;
-		$user_products = $wpmem->user->get_user_products( $user_id ); ?>
-		<tr>
-			<th><label><?php _e( 'Product Access', 'wp-members' ); ?></label></th>
-			<td><table><?php
-			foreach ( $wpmem->membership->products as $key => $value ) {
-				$checked = ( $user_products && array_key_exists( $key, $user_products ) ) ? "checked" : "";
-				echo "<tr>";
-				echo '<td style="padding:5px 5px;">
-				<select name="_wpmem_membership_product[' . $key . ']">
-					<option value="">----</option>
-					<option value="enable">'  . __( 'Enable', 'wp-members'  ) . '</option>
-					<option value="disable">' . __( 'Disable', 'wp-members' ) . '</option>
-				</select></td><td style="padding:0px 0px;">' . $value['title'] . '</td>
-				<td style="padding:0px 0px;">';
-				
-				// If user has date, display that; otherwise placeholder
-				$date_value  = ( isset( $user_products[ $key ] ) && 1 != $user_products[ $key ] && 0 != $user_products[ $key ] && '' != $user_products[ $key ] ) ? date( 'Y-m-d', $user_products[ $key ] ) : "";
-				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Date', 'wp-members' ) . '" ' : '';
-				$product_date_field = ' <input type="text" name="_wpmem_membership_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . ' />';
-
-				if ( isset( $user_products[ $key ] ) ) {
-					echo '<span id="wpmem_product_enabled" class="dashicons dashicons-yes"></span>';
-					if ( $user_products[ $key ] !== true ) {
-						echo __( 'Expires:', 'wp-members' );
-						echo $product_date_field;
-					} else {
-						_e( 'Enabled', 'wp-members' );
-					}
-				} else {
-					if ( isset( $value['expires'] ) && ! empty( $value['expires'] ) ) {
-						echo '<span id="wpmem_product_enabled" class="dashicons"></span>';
-						echo __( 'Expires:', 'wp-members' );
-						echo $product_date_field;
-					} else {
-						echo "&nbsp;";
-					}
-				}				
-				echo '</td></tr>';
-			}
-		
-				?></table>
-			<script>
-			jQuery(function() {
-				jQuery( ".wpmem_datepicker" ).datepicker({
-					dateFormat : "yy-mm-dd"
-				});
-			});
-			</script></td>
-		</tr>
-		<?php	
-	}
-
-	/**
 	 * Add jquery ui tabs to user profile.
 	 *
 	 * @since 3.2.5
