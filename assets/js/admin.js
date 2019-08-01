@@ -26,7 +26,7 @@
 		cursor: 'move',
 		axis: 'y',
 		update: function() {
-			var order = $(this).sortable('serialize') + '&action=wpmem_a_field_reorder';
+			var order = $(this).sortable('serialize') + '&action=wpmem_do_field_reorder';
 			$.post(ajaxurl, order, function(response) {
 				alert(response);
 			});

@@ -88,7 +88,7 @@ class WP_Members_Admin_API {
 		include_once( $wpmem->path . 'admin/dialogs.php' );
 		include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-posts.php' );
 		include_once( $wpmem->path . 'admin/includes/api.php' );
-		include_once( $wpmem->path . 'admin/tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
+		include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-fields.php' ); // Fields tab is used for field reorder (which is ! wpmem-settings).
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-options.php' );
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-emails.php'  );
@@ -112,12 +112,14 @@ class WP_Members_Admin_API {
 		global $wpmem;
 		
 		add_action( 'admin_enqueue_scripts',          array( $this, 'dashboard_enqueue_scripts' ) );
-		add_action( 'wp_ajax_wpmem_a_field_reorder',  'wpmem_a_do_field_reorder' );
 		add_action( 'user_new_form',                  'wpmem_admin_add_new_user' );
 		add_filter( 'plugin_action_links',            array( $this, 'plugin_links' ), 10, 2 );
 		// add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
 		
-		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Options', 'do_tab' ), 1  );
+		add_action( 'wp_ajax_wpmem_a_field_reorder',  array( 'WP_Members_Admin_Tab_Fields', 'do_field_reorder' ) );
+		
+		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Options', 'do_tab' ),  1 );
+		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Fields',  'do_tab' ),  5 );
 		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Dialogs', 'do_tab' ), 10 );
 		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Emails',  'do_tab' ), 15 );
 		// add_action( 'wpmem_admin_do_tab',            'wpmem_a_about_tab', 999, 1 );
