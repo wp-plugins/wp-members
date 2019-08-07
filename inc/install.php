@@ -621,12 +621,14 @@ function wpmem_upgrade_fields() {
  */
 function wpmem_upgrade_style_setting( $settings ) {
 	
+	$wpmem_dir = plugin_dir_url ( __DIR__ );
+	
 	if ( isset( $settings['style'] ) ) {
 		if ( 'use_custom' == $settings['style'] ) {
 			return $settings['style'];
 		} else {
-			if ( strpos( $settings['style'], WPMEM_DIR ) ) {
-				return str_replace( WPMEM_DIR . 'css/', '', $settings['style'] );
+			if ( false !== strpos( $settings['style'], $wpmem_dir ) ) {
+				return str_replace( $wpmem_dir . 'css/', '', $settings['style'] );
 			} else {
 				return 'use_custom';
 			}
@@ -635,10 +637,9 @@ function wpmem_upgrade_style_setting( $settings ) {
 		$maybe_style = get_option( 'wpmembers_style' );
 		if ( $maybe_style ) {
 			// Does stylesheet setting point to the WP-Members /css/ directory?
-			if ( strpos( $style, WPMEM_DIR ) ) {
-				return str_replace( WPMEM_DIR . 'css/', '', $settings['cssurl'] );
+			if ( strpos( $maybe_style, $wpmem_dir ) ) {
+				return str_replace( $wpmem_dir . 'css/', '', $settings['cssurl'] );
 			}
-
 		}
 	}
 }
