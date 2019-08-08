@@ -303,3 +303,22 @@ function wpmem_user_sets_password() {
 	}
 	return $chk_pass;
 }
+
+/**
+ * Better unserialization than WP's maybe_unserialize().
+ *
+ * Sanitizes array output before returning. If the unserialized result is an
+ * array, then it runs the result through wpmem_sanitize_array(), which 
+ * sanitizes each individual array element.
+ *
+ * @since 3.3.0
+ *
+ * @param  mixed  $original
+ * @return mixed  $original
+ */
+function wpmem_maybe_unserialize( $original ) {
+	if ( is_serialized( $original ) ) { // don't attempt to unserialize data that wasn't serialized going in
+		$original = unserialize( $original );
+	}
+	return ( is_array( $original ) ) ? wpmem_sanitize_array( $original ) : $original;
+}
