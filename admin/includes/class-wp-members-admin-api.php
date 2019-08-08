@@ -96,6 +96,11 @@ class WP_Members_Admin_API {
 			// include_once( $wpmem->path . 'admin/tab-about.php' );
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-dialogs.php' );
 			include_once( $wpmem->path . 'admin/tab-dropins.php' );
+			
+			if ( ! class_exists( 'WP_List_Table' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+			}
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-fields-table.php' );
 		}
 	}
 
@@ -116,7 +121,7 @@ class WP_Members_Admin_API {
 		add_filter( 'plugin_action_links',            array( $this, 'plugin_links' ), 10, 2 );
 		// add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
 		
-		add_action( 'wp_ajax_wpmem_a_field_reorder',  array( 'WP_Members_Admin_Tab_Fields', 'do_field_reorder' ) );
+		add_action( 'wp_ajax_wpmem_do_field_reorder',  array( 'WP_Members_Admin_Tab_Fields', 'do_field_reorder' ) );
 		
 		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Options', 'do_tab' ),  1 );
 		add_action( 'wpmem_admin_do_tab',             array( 'WP_Members_Admin_Tab_Fields',  'do_tab' ),  5 );
@@ -170,6 +175,9 @@ class WP_Members_Admin_API {
 			add_action('wp_dashboard_setup', 'butlerblog_dashboard_widget');
 		}
 
+		add_action( 'wpmem_after_admin_init', array( 'WP_Members_Admin_Tab_Fields', 'update'          ) );
+		add_action( 'admin_print_styles',     array( 'WP_Members_Admin_Tab_Fields', 'enqueue_scripts' ) );
+		add_action( 'admin_footer',           array( 'WP_Members_Admin_Tab_Fields', 'bulk_actions'    ) );
 	} // End of load_hooks()
 
 	/**

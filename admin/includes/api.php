@@ -136,14 +136,3 @@ function wpmem_export_users( $args, $users = null ) {
 	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
 	WP_Members_Export::export_users( $args, $users );
 }
-
-/**
- * Reorders fields.
- *
- * @since 3.3.0
- */
-function wpmem_do_field_reorder() {
-	global $wpmem;
-	include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-tab-fields.php' );
-	WP_Members_Admin_Tab_Fields::field_reorder();
-}

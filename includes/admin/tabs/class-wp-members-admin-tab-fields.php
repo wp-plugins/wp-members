@@ -21,41 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WP_Members_Admin_Tab_Fields {
 
-
-	function __construct() {
-		$this->load_dependencies();
-		$this->load_hooks();
-	}
-	
-	function load_hooks() {
-		/**
-		 * Filters and Actions.
-		 */
-		
-		add_action( 'wpmem_after_admin_init', array( $this, 'update'          ) );
-		add_action( 'admin_print_styles',     array( $this, 'enqueue_scripts' ) );
-		add_action( 'admin_footer',           array( $this, 'bulk_actions'    ) );
-	}
-	
-	function load_dependencies() {
-		/**
-		 * Load WP_Members_Fields_Table object
-		 */
-		if ( ! class_exists( 'WP_List_Table' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-		}
-	}
-
-	/**
-	 * Calls the function to reorder fields.
-	 *
-	 * @since 2.8.0
-	 */
-	public static function do_field_reorder() {
-		// Reorder registration fields.
-		wpmem_do_field_reorder();
-	}
-
 	/**
 	 * Creates the fields tab.
 	 *
@@ -68,7 +33,7 @@ class WP_Members_Admin_Tab_Fields {
 	public static function do_tab( $tab ) {
 		if ( $tab == 'fields' ) {
 			// Render the fields tab.
-			$this->build_settings();
+			WP_Members_Admin_Tab_Fields::build_settings();
 			return;
 		}
 	}
@@ -91,7 +56,7 @@ class WP_Members_Admin_Tab_Fields {
 	 *
 	 * @param string $field_id The option name of the field to be edited
 	 */
-	function do_edit_link( $field_id ) {
+	public static function do_edit_link( $field_id ) {
 		$link_args = array(
 			'page'  => 'wpmem-settings',
 			'tab'   => 'fields',
@@ -113,7 +78,7 @@ class WP_Members_Admin_Tab_Fields {
 	 * @global string $did_update
 	 * @global string $delete_action
 	 */
-	function build_settings() {
+	public static function build_settings() {
 
 		global $wpmem, $did_update, $delete_action;
 		$wpmem_fields  = wpmem_fields();
@@ -162,9 +127,9 @@ class WP_Members_Admin_Tab_Fields {
 			<?php } 
 			if ( $edit_meta || $add_meta ) {
 				$mode = ( $edit_meta ) ? sanitize_text_field( wpmem_get( 'mode', false, 'get' ) ) : 'add';
-				$this->build_field_edit( $mode, $wpmem_fields, $edit_meta );
+				self::build_field_edit( $mode, $wpmem_fields, $edit_meta );
 			} else {
-				$this->build_field_table();
+				self::build_field_table();
 			} ?>
 			<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 			<div class="inside">
@@ -186,7 +151,7 @@ class WP_Members_Admin_Tab_Fields {
 	 * @param  array|null  $wpmem_fields The array of fields
 	 * @param  string|null $field        The field being edited
 	 */
-	function build_field_edit( $mode, $wpmem_fields, $meta_key ) {
+	public static function build_field_edit( $mode, $wpmem_fields, $meta_key ) {
 		global $wpmem;
 		$fields = wpmem_fields();
 		if ( $mode == 'edit' ) {
@@ -436,7 +401,7 @@ class WP_Members_Admin_Tab_Fields {
 	 *
 	 * @global object $wpmem
 	 */
-	function build_field_table() {
+	public static function build_field_table() {
 		global $wpmem; 
 
 		$wpmem_ut_fields_skip = array( 'username', 'user_email', 'confirm_email', 'password', 'confirm_password' );	
@@ -469,7 +434,7 @@ class WP_Members_Admin_Tab_Fields {
 					'profile'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', 'y', $profile ) : '',
 					'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
 					'usearch'  => ( ! in_array( $meta, $wpmem_us_fields_skip ) ) ? wpmem_create_formfield( 'us_fields[' . $meta . ']', 'checkbox', $field[1], $us_checked ) : '',
-					'edit'     => $this->do_edit_link( $meta ),
+					'edit'     => self::do_edit_link( $meta ),
 					'sort'     => '<span class="dashicons dashicons-sort" title="' . __( 'Drag and drop to reorder fields', 'wp-members' ) . '"></span>',
 				);
 			}
@@ -537,7 +502,7 @@ class WP_Members_Admin_Tab_Fields {
 	 * @since 3.3.0 Changed from wpmem_bulk_fields_actions() to bulk_actions().
 	 */ 
 
-	function bulk_actions() { 
+	public static function bulk_actions() { 
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) && 'fields' == wpmem_get( 'tab', false, 'get' ) ) {
 		?><script type="text/javascript">
 			(function($) {
@@ -564,7 +529,7 @@ class WP_Members_Admin_Tab_Fields {
 	 * @global string $did_update
 	 * @global string $add_field_err_msg  The add field error message
 	 */
-	function update() {
+	public static function update() {
 
 		global $wpmem, $did_update, $delete_action;
 
@@ -760,8 +725,9 @@ class WP_Members_Admin_Tab_Fields {
 	 *
 	 * @since 2.5.1
 	 * @since 3.1.8 Rebuilt for new List Table.
+	 * @since 3.3.0 Merged do_field_reorder() and field_reorder().
 	 */
-	public static function field_reorder() {
+	public static function do_field_reorder() {
 
 		// Start fresh.
 		$new_order = $wpmem_fields = $field = $key = $wpmem_new_fields = $id = $k = '';
