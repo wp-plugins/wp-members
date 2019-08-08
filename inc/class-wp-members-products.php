@@ -283,4 +283,26 @@ class WP_Members_Products {
 		register_post_type( $this->post_type, $args );
 	}
 	
+	/**
+	 * Get all posts tagged to a specified product.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global  stdClass  $wpdb
+	 *
+	 * @param   string    $product_meta
+	 * @return  array     $post_ids
+	 */
+	function get_all_posts( $product_meta ) {
+		global $wpdb;
+		$results = $wpdb->get_results( $wpdb->prepare( "
+			SELECT post_id 
+			FROM {$wpdb->postmeta} 
+			WHERE meta_key = %s
+			", $this->post_stem . $product_meta ), ARRAY_N );
+		foreach ( $results as $result ) {
+			$post_ids[] = $result[0];
+		}
+		return $post_ids;
+	}
 }

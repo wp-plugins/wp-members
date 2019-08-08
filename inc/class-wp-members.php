@@ -546,6 +546,7 @@ class WP_Members {
 		// New folder
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-menus.php' );
+		require_once( $this->path . 'includes/api/api-products.php' );
 
 	}
 
