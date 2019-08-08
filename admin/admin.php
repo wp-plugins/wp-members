@@ -41,8 +41,8 @@ function wpmem_admin() {
 	global $wpmem;
 
 	if ( $wpmem->captcha ) {
-		add_filter( 'wpmem_admin_tabs',   'wpmem_add_captcha_tab' );
-		add_action( 'wpmem_admin_do_tab', 'wpmem_a_captcha_tab', 1, 1 );
+		add_filter( 'wpmem_admin_tabs',   array( 'WP_Members_Admin_Tab_Captcha', 'add_tab' ) );
+		add_action( 'wpmem_admin_do_tab', array( 'WP_Members_Admin_Tab_Captcha', 'do_tab' ), 1, 1 );
 	}
 	if ( $wpmem->dropins ) {
 		add_filter( 'wpmem_admin_tabs',   'wpmem_add_dropins_tab'          );
@@ -105,7 +105,7 @@ function wpmem_admin_action( $action ) {
 		break;
 
 	case 'update_captcha':
-		$did_update = wpmem_update_captcha();
+		$did_update = WP_Members_Admin_Tab_Captcha::update();
 		break;
 	}
 

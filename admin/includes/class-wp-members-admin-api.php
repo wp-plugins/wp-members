@@ -92,7 +92,7 @@ class WP_Members_Admin_API {
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) ) {
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-options.php' );
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-emails.php'  );
-			include_once( $wpmem->path . 'admin/tab-captcha.php' );
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-captcha.php' );
 			// include_once( $wpmem->path . 'admin/tab-about.php' );
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-dialogs.php' );
 			include_once( $wpmem->path . 'admin/tab-dropins.php' );
