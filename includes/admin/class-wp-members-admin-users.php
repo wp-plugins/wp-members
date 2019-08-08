@@ -237,23 +237,16 @@ class WP_Members_Admin_Users {
 			$users = $wpdb->get_var( $sql );
 
 			// What needs to be counted?		
-			$count_metas = array();
-			if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-				$count_metas['pending'] = 'pending';
-			}
-			if ( $wpmem->use_trial == 1 ) {
-				$count_metas['trial'] = 'trial';
-			}
-			if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-				$count_metas['subscription'] = 'subscription';
-				$count_metas['expired'] = 'expired';
-			}
-			if ( $wpmem->mod_reg == 1 ) {
-				$count_metas['active'] = 'active';
-				$count_metas['notactive'] = 'active';
-				$count_metas['deactivated'] = 'deactivated';
-			}
-			$count_metas['notexported'] = 'exported';
+			$count_metas = array(
+				'pending'      => 'pending',      // Used for PayPal Extension
+				'trial'        => 'trial',        // Used for PayPal Extension
+				'subscription' => 'subscription', // Used for PayPal Extension
+				'expired'      => 'expired',      // Used for PayPal Extension
+				'active'       => 'active',
+				'notactive'    => 'active',
+				'deactivated'  => 'deactivated',
+				'notexported'  => 'exported',
+			);
 
 			// Handle various counts.
 			$user_counts = array();
@@ -279,31 +272,32 @@ class WP_Members_Admin_Users {
 			set_transient( 'wpmem_user_counts', $user_counts, $transient_expires );
 		}
 
-		$arr = array();
-		if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
-			$arr['pending']      = __( 'Pending',       'wp-members' );
-			$arr['trial']        = __( 'Trial',         'wp-members' );
-			$arr['subscription'] = __( 'Subscription',  'wp-members' );
-			$arr['expired']      = __( 'Expired',       'wp-members' );
+		if ( defined( 'WPMEM_EXP_MODULE' ) && 1 == $wpmem->use_exp ) {
+			$views['pending']      = __( 'Pending',       'wp-members' );
+			$views['trial']        = __( 'Trial',         'wp-members' );
+			$views['subscription'] = __( 'Subscription',  'wp-members' );
+			$views['expired']      = __( 'Expired',       'wp-members' );
 		}
-		if ( $wpmem->mod_reg == 1 ) {
-			$arr['active']       = __( 'Activated',     'wp-members' );
-			$arr['notactive']    = __( 'Not Activated', 'wp-members' );
-			$arr['deactivated']  = __( 'Deactivated',   'wp-members' );
+		if ( 1 == $wpmem->mod_reg ) {
+			$views['active']       = __( 'Activated',          'wp-members' );
+			$views['notactive']    = __( 'Pending Activation', 'wp-members' );
+			$views['deactivated']  = __( 'Deactivated',        'wp-members' );
 		}
-		$arr['notexported']      = __( 'Not Exported',  'wp-members' );
+		$views['notexported']      = __( 'Not Exported',  'wp-members' );
 		$show = sanitize_text_field( wpmem_get( 'show', false, 'get' ) );
-
-		foreach ( $arr as $key => $val ) {
-			$link = "users.php?action=show&amp;show=" . $key;
-			$curr = ( $show == $key ) ? ' class="current"' : '';
-			$views[$key] = sprintf(
+		
+		foreach ( $views as $key => $view ) {
+			if ( isset( $user_counts[ $key ] ) ) {
+				$link          = "users.php?action=show&amp;show=" . $key;
+				$current       = ( $show == $key ) ? ' class="current"' : '';
+				$views[ $key ] = sprintf(
 					'<a href="%s" %s>%s <span class="count">(%d)</span></a>',
 					esc_url( $link ),
-					$curr,
-					$val,
+					$current,
+					$view,
 					isset( $user_counts[ $key ] ) ? $user_counts[ $key ] : ''
-			   );
+				);
+			}
 		}
 
 		return $views;
