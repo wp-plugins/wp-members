@@ -54,14 +54,13 @@ class WP_Members_Admin_API {
 		// Load admin hooks.
 		$this->load_hooks();
 
-		// Load default tabs.
-		$tabs = $this->default_tabs();
-
-		// Load default emails.
-		$emails = $this->default_emails();
-		
-		// Load default dialogs.
-		$dialogs = $this->default_dialogs();
+		// The following is only needed if we are on the WP-Members settings screen.
+		$is_wpmem_admin = wpmem_get( 'page', false, 'get' );
+		if ( false !== $is_wpmem_admin && 'wpmem-settings' == $is_wpmem_admin ) {
+			$tabs    = $this->default_tabs();    // Load default tabs.
+			$emails  = $this->default_emails();  // Load default emails.
+			$dialogs = $this->default_dialogs(); // Load default dialogs.
+		}
 
 		global $wpmem;
 		$wpmem->membership->admin = new WP_Members_Products_Admin();
@@ -95,7 +94,7 @@ class WP_Members_Admin_API {
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-captcha.php' );
 			// include_once( $wpmem->path . 'admin/tab-about.php' );
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-dialogs.php' );
-			include_once( $wpmem->path . 'admin/tab-dropins.php' );
+			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-admin-tab-dropins.php' );
 			
 			if ( ! class_exists( 'WP_List_Table' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
