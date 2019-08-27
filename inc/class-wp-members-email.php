@@ -51,11 +51,11 @@ class WP_Members_Email {
 	public $settings;
 	
 	/**
-	 * Constructor
+	 * Load custom from address.
 	 *
-	 * @since 3.2.0
+	 * @since 3.3.0
 	 */
-	function __construct() {
+	function load_from() {
 		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
 		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
 	}
@@ -86,6 +86,9 @@ class WP_Members_Email {
 	function to_user( $user_id, $password, $tag, $wpmem_fields = null, $field_data = null, $custom = null ) {
 
 		global $wpmem;
+		
+		// Load from address.
+		$this->load_from();
 
 		// Handle backward compatibility for customizations that may call the email function directly.
 		$wpmem_fields = wpmem_fields();
@@ -129,6 +132,7 @@ class WP_Members_Email {
 		$this->settings['footer']        = get_option( 'wpmembers_email_footer' );
 		$this->settings['disable']       = false;
 		$this->settings['toggle']        = $this->settings['tag']; // Deprecated since 3.2.0, but remains in the array for legacy reasons.
+		$this->settings['reset_link']    = esc_url_raw( add_query_arg( array( 'a' => 'pwdreset', 'key' => $password, 'id' => $user_id ), wpmem_profile_url() ) );
 
 		// Apply filters (if set) for the sending email address.
 		$default_header = ( $this->from && $this->from_name ) ? 'From: "' . $this->from_name . '" <' . $this->from . '>' : '';
@@ -215,6 +219,7 @@ class WP_Members_Email {
 					'exp-date'     => $this->settings['exp_date'],
 					'login'        => $this->settings['wpmem_login'],
 					'register'     => $this->settings['wpmem_reg'],
+					'reset_link'   => $this->settings['reset_link'],
 				);
 
 				// Add custom field shortcodes.
@@ -277,6 +282,9 @@ class WP_Members_Email {
 	function notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
 
 		global $wpmem;
+
+		// Load from address.
+		$this->load_from();
 
 		// Handle backward compatibility for customizations that may call the email function directly.
 		$wpmem_fields = wpmem_fields( 'admin_notify' );
@@ -521,6 +529,7 @@ class WP_Members_Email {
 	 * @since 3.2.0
 	 *
 	 * @param  string  $to
+	 * @return bool    $result
 	 */
 	function send( $to ) {
 		$args['to'] = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
@@ -541,6 +550,7 @@ class WP_Members_Email {
 		// Apply WP's "from" and "from name" email filters.
 		add_filter( 'wp_mail_from',      array( $this, 'from'      ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'from_name' ) );
-		wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'] );
+		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'] );
+		return $result;
 	}
 }
