@@ -41,12 +41,12 @@ function wpmem_admin() {
 	global $wpmem;
 
 	if ( $wpmem->captcha ) {
-		add_filter( 'wpmem_admin_tabs',   array( 'WP_Members_Admin_Tab_Captcha', 'add_tab' ) );
+		add_filter( 'wpmem_admin_tabs',   array( 'WP_Members_Admin_Tab_Captcha', 'add_tab' )      );
 		add_action( 'wpmem_admin_do_tab', array( 'WP_Members_Admin_Tab_Captcha', 'do_tab' ), 1, 1 );
 	}
 	if ( $wpmem->dropins ) {
-		add_filter( 'wpmem_admin_tabs',   'wpmem_add_dropins_tab'          );
-		add_action( 'wpmem_admin_do_tab', 'wpmem_render_dropins_tab', 1, 1 );
+		add_filter( 'wpmem_admin_tabs',   array( 'WP_Members_Admin_Tab_Dropins', 'add_tab' )       );
+		add_action( 'wpmem_admin_do_tab', array( 'WP_Members_Admin_Tab_Dropins', 'do_tab'  ), 1, 1 );
 	} ?>
 
 	<div class="wrap">
