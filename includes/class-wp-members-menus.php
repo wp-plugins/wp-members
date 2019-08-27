@@ -153,7 +153,12 @@ class WP_Members_Menus {
 			$checked_products = ( isset( $restrictions['products'] ) && is_array( $restrictions['products'] ) ) ? $restrictions['products'] : false;
 			?>
 			<div class="field-wpmem_nav_menu wpmem_nav_menu_field description-wide" style="margin: 5px 0; <?php echo $hidden;?>">
-			<span class="description"><?php _e( "Restrict menu item to a membership product", 'wp-members' ); ?></span>
+			<?php if ( empty( $display_products ) ) { 
+				$add_product_url = esc_url( admin_url( 'post-new.php?post_type=wpmem_product' ) );	
+			?>
+			<span class="description"><?php echo sprintf( esc_html__( "%sAdd membership products%s to restrict menu to a membership", 'wp-members' ), '<a href="' . $add_product_url . '">', '</a>' ); ?></span>	
+			<?php } else { ?>
+			<span class="description"><?php echo esc_html__( "Restrict menu item to a membership product", 'wp-members' ); ?></span>
 			<br />
 			<?php
 
@@ -174,7 +179,8 @@ class WP_Members_Menus {
 				</label>
 				</div>
 
-			<?php } ?>
+			<?php } 
+			} ?>
 			</div>
 		<?php } ?>
 		<?php
