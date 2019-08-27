@@ -520,18 +520,18 @@ class WP_Members {
 		
 		// Legacy folder
 		require_once( $this->path . 'inc/class-wp-members-api.php' );
-		require_once( $this->path . 'inc/class-wp-members-email.php' );
+		require_once( $this->path . 'includes/class-wp-members-email.php' );
 		require_once( $this->path . 'inc/class-wp-members-forms.php' );
-		require_once( $this->path . 'inc/class-wp-members-products.php' );
-		require_once( $this->path . 'inc/class-wp-members-shortcodes.php' );
+		require_once( $this->path . 'includes/class-wp-members-products.php' );
+		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
 		require_once( $this->path . 'inc/class-wp-members-user.php' );
-		require_once( $this->path . 'inc/class-wp-members-user-profile.php' );
-		require_once( $this->path . 'inc/class-wp-members-widget.php' );
-		require_once( $this->path . 'inc/api.php' );
-		require_once( $this->path . 'inc/api-email.php' );
-		require_once( $this->path . 'inc/api-forms.php' );
+		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
+		require_once( $this->path . 'includes/class-wp-members-widget.php' );
+		require_once( $this->path . 'includes/api/api.php' );
+		require_once( $this->path . 'includes/api/api-email.php' );
+		require_once( $this->path . 'includes/api/api-forms.php' );
 		require_once( $this->path . 'inc/api-users.php' );
-		require_once( $this->path . 'inc/api-utilities.php' );
+		require_once( $this->path . 'includes/api/api-utilities.php' );
 		require_once( $this->path . 'inc/forms.php' );
 		require_once( $this->path . 'inc/dialogs.php' );
 		require_once( $this->path . 'inc/wp-registration.php' );

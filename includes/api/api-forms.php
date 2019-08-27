@@ -7,23 +7,25 @@
  * Copyright (c) 2006-2019  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
- * @package WP-Members
+ * @package    WP-Members
  * @subpackage WP-Members API Functions
- * @author Chad Butler 
- * @copyright 2006-2019
- *
- * Functions included:
- *
- * - wpmem_register_form
- * - wpmem_form_field
- * - wpmem_form_label
- * - wpmem_fields
+ * @author     Chad Butler 
+ * @copyright  2006-2019
  */
 
+if ( ! function_exists( 'wpmem_login_form' ) ):
 /**
  * Invokes a login form.
  *
- * @since 3.2.0
+ * Note: The original pluggable version of this function used a $page param
+ * and an array. This function should (1) no longer be considered pluggable
+ * and (2) should pass all arguments in the form if a single array. The previous
+ * methods are maintained for legacy reasons, but should be updated to apply
+ * to the current function documentation.
+ *
+ * @since 2.5.1
+ * @since 3.1.7 Now a wrapper for $wpmem->forms->login_form()
+ * @since 3.3.0 Added to API.
  *
  * @global object $wpmem
  * @param  array  $args {
@@ -34,12 +36,40 @@
  *     @type string form
  *     @type string redirect_to
  * }
- * @return string $html
+ * @param  array  $arr {
+ *     Maintained only for legacy reasons.
+ *     The elements needed to generate the form (login|reset password|forgotten password).
+ *
+ *     @type string $heading     Form heading text.
+ *     @type string $action      The form action (login|pwdchange|pwdreset).
+ *     @type string $button_text Form submit button text.
+ *     @type array  $inputs {
+ *         The form input values.
+ *
+ *         @type array {
+ *
+ *             @type string $name  The field label.
+ *             @type string $type  Input type.
+ *             @type string $tag   Input tag name.
+ *             @type string $class Input tag class.
+ *             @type string $div   Div wrapper class.
+ *         }
+ *     }
+ *     @type string $redirect_to Optional. URL to redirect to.
+ * }
+ * @return string $form  The HTML for the form as a string.
  */
-/*function wpmem_login_form( $args ) {
-  global $wpmem;
-  return $wpmem->forms->login_form( $args );
-}*/
+function wpmem_login_form( $args, $arr = false ) {
+	global $wpmem;
+	// Convert legacy values.
+	if ( ! is_array( $args ) && is_array( $arr ) ) {
+		$page = $args;
+		$args = $arr;
+		$args['page'] = $page;
+	}
+	return $wpmem->forms->login_form( $args );
+}
+endif;
 
 /**
  * Invokes a registration or user profile update form.
@@ -70,13 +100,16 @@ function wpmem_register_form( $args ) {
  * Change Password Form.
  *
  * @since 3.3.0 Replaces wpmem_inc_changepassword().
+ * @since 3.3.0 Added $action argument.
  *
- * @global object $wpmem The WP_Members object.
- * @return string $str   The generated html for the change password form.
+ * @global stdClass $wpmem   The WP_Members object.
+ *
+ * @param  string   $action  Determine if it is password change or reset.
+ * @return string   $str     The generated html for the change password form.
  */
-function wpmem_change_password_form() {
+function wpmem_change_password_form( $form = 'pwdchange' ) {
 	global $wpmem;
-	return $wpmem->forms->do_changepassword_form();
+	return $wpmem->forms->do_changepassword_form( $form );
 }
 
 /**
