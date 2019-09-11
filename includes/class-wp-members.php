@@ -561,7 +561,15 @@ class WP_Members {
 		do_action( 'wpmem_pre_admin_init' );
 
 		// Initilize the admin api.
-		$this->load_admin_api();
+		if ( is_admin() ) {
+			/**
+			 * Load the admin api class.
+			 *
+			 * @since 3.1.0
+			 */	
+			include_once( $this->path . 'includes/admin/class-wp-members-admin-api.php' );
+			$this->admin = new WP_Members_Admin_API;
+		}
 
 		/**
 		 * Fires after initialization of admin options.
@@ -1441,23 +1449,6 @@ class WP_Members {
 		return $text[ $str ];
 	
 	} // End of get_text().
-	
-	/**
-	 * Load the admin api.
-	 *
-	 * @since 3.1.0
-	 */
-	function load_admin_api() {
-		if ( is_admin() ) {
-			/**
-			 * Load the admin api class.
-			 *
-			 * @since 3.1.0
-			 */	
-			include_once( $this->path . 'admin/includes/class-wp-members-admin-api.php' );
-			$this->admin = new WP_Members_Admin_API;
-		}
-	}
 	
 	/**
 	 * Initializes the WP-Members widget.
