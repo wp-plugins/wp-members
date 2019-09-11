@@ -48,46 +48,6 @@ function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) 
 }
 endif;
 
-if ( ! function_exists( 'wpmem_login_form' ) ):
-/**
- * Login Form Dialog.
- *
- * Builds the form used for login, change password, and reset password.
- *
- * @since 2.5.1
- * @since 3.1.7 Now a wrapper for $wpmem->forms->login_form()
- *
- * @param  string $page 
- * @param  array  $arr {
- *     The elements needed to generate the form (login|reset password|forgotten password).
- *
- *     @type string $heading     Form heading text.
- *     @type string $action      The form action (login|pwdchange|pwdreset).
- *     @type string $button_text Form submit button text.
- *     @type array  $inputs {
- *         The form input values.
- *
- *         @type array {
- *
- *             @type string $name  The field label.
- *             @type string $type  Input type.
- *             @type string $tag   Input tag name.
- *             @type string $class Input tag class.
- *             @type string $div   Div wrapper class.
- *         }
- *     }
- *     @type string $redirect_to Optional. URL to redirect to.
- * }
- * @return string $form  The HTML for the form as a string.
- */
-function wpmem_login_form( $page, $arr ) {
-	global $wpmem;
-	$args = $arr;
-	$args['page'] = $page;
-	return $wpmem->forms->login_form( $args );
-}
-endif;
-
 if ( ! function_exists( 'wpmem_inc_registration' ) ):
 /**
  * Registration Form Dialog.
