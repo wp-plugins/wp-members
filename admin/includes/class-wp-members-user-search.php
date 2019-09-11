@@ -24,27 +24,27 @@ class WP_Members_Admin_User_Search {
 	/**
 	 * Container for tabs.
 	 *
-	 * @since 3.1.9
+	 * @since  3.1.9
 	 * @access public
-	 * @var array
+	 * @var    array
 	 */
 	public $tabs = array();
 	
 	/**
 	 * Container for user search meta keys.
 	 *
-	 * @since 3.1.9
+	 * @since  3.1.9
 	 * @access public
-	 * @var array
+	 * @var    array
 	 */
 	public $keys = array();
 	
 	/**
 	 * Table name.
 	 *
-	 * @since 3.2.6
+	 * @since  3.2.6
 	 * @access private
-	 * @var string
+	 * @var    string
 	 */
 	private $table = "wpmembers_user_search_keys";
 
@@ -72,7 +72,9 @@ class WP_Members_Admin_User_Search {
 	 *
 	 * @since 3.1.9
 	 *
-	 * @param string $user_query
+	 * @global stdClass $wpdb
+	 * 
+	 * @param  string   $user_query
 	 */
 	public function pre_user_query( $user_query ) {
 

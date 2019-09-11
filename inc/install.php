@@ -644,6 +644,13 @@ function wpmem_upgrade_style_setting( $settings ) {
 	}
 }
 
+/**
+ * Upgrades product expiration meta from a single meta array
+ * to individual meta for each product. Single meta array is
+ * still maintained for legacy reasons and rollback possiblity.
+ *
+ * @since 3.3.0
+ */
 function wpmem_upgrade_product_expiration() {
 	$users = get_users( array( 'fields'=>'ID' ) );
 	foreach ( $users as $user_id ) {
