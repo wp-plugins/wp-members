@@ -155,15 +155,16 @@ function wpmem_install() {
 
 		// If it is multisite, install options for each blog.
 		global $wpdb;
-		$blogs = $wpdb->get_results(
+		$blogs = $wpdb->get_results( $wpdb->prepare( 
 			"SELECT blog_id
 			FROM {$wpdb->blogs}
-			WHERE site_id = '{$wpdb->siteid}'
+			WHERE site_id = %d
 			AND spam = '0'
 			AND deleted = '0'
-			AND archived = '0'"
-		);
-		$original_blog_id = get_current_blog_id();   
+			AND archived = '0'",
+			$wpdb->siteid
+		) );
+		$original_blog_id = get_current_blog_id(); 
 		foreach ( $blogs as $blog_id ) {
 			switch_to_blog( $blog_id->blog_id );
 			wpmem_do_install();
