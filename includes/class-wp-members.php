@@ -1804,7 +1804,7 @@ class WP_Members {
 			 * @param string $dir    The translation directory.
 			 * @param string $locale The current locale.
 			 */
-			$dir = apply_filters( 'wpmem_localization_dir', basename( $this->path ) . '/lang/', $locale );
+			$dir = apply_filters( 'wpmem_localization_dir', basename( $this->path ) . '/i18n/languages/', $locale );
 			load_plugin_textdomain( $domain, FALSE, $dir );
 		}
 		return;
