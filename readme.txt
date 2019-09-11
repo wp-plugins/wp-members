@@ -183,6 +183,7 @@ IMPORTANT UPDATES/CHANGES
 * Added wpmem_block_settings filter.
 * Added wpmem_msg_settings filter.
 * Added wpmem_sc_product_access_denied filter.
+* Added wpmem_user_action.
 * Added admin user class for handling Users > All users screen and user activation.
 * Added user export class.
 * Added "msg" attribute support for [wpmem_logged_in] when using the "membership" or "product" attributes.
@@ -191,6 +192,11 @@ IMPORTANT UPDATES/CHANGES
 * Replaced WPMEM_URL constant with $wpmem->url.
 * New folder structure being implemented
   - All admin js & css now load from /assets/ not /admin/
+
+Other Improvements
+
+* Changed load for WP-Members Admin API so that emails, dialogs, and tabs only load on the WP-Members settings screens (where they are used).
+* Changed email "from" to only load if the WP-Members Email object is doing a send (user or admin). This saves an option load when not needed.
 
 = 3.2.9 =
 
