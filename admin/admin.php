@@ -124,4 +124,18 @@ function wpmem_admin_add_new_user() {
 	return;
 }
 
+/**
+ * Wrapper for WP_Members_Admin_Tab_Options::page_list()
+ *
+ * This function gets used by extensions outside of WP-Members, so it needs to stay (for now).
+ *
+ * @since 3.3.0
+ *
+ * @param  string  $val
+ * @param  boolean $show_custom_url
+ */
+function wpmem_admin_page_list( $val, $show_custom_url = true ) {
+	return WP_Members_Admin_Tab_Options::page_list( $val, $show_custom_url );
+}
+
 // End of File.
