@@ -177,14 +177,14 @@ class WP_Members_Admin_Tab_Options {
 								<ul>
 								<?php 
 								/** This filter is defined in class-wp-members.php */
-								$dropin_folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
+								$dropin_dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
 								$arr = array(
 									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products','wp-members'),'enable_products'),
 									array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 									array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 									array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
 									array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
-									//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_folder),'dropins'),
+									//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_dir),'dropins'),
 								);
 								for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
 								  <li>

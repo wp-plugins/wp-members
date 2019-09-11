@@ -130,10 +130,10 @@ class WP_Members_Admin_Tab_Dropins {
 	public static function check_dir() {
 
 		/** This filter is documented in inc/class-wp-members.php */
-		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
+		$dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
 		$check  = false;
-		if ( file_exists( $folder ) ) {
-			$file   = $folder . '.htaccess';
+		if ( file_exists( $dir ) ) {
+			$file   = $dir . '.htaccess';
 			if ( ! file_exists ( $file ) ) {
 				$check = self::create_htaccess( $file );
 			} else {
@@ -180,7 +180,7 @@ class WP_Members_Admin_Tab_Dropins {
 
 		// Get the dropin folder.
 		/** This filter is documented in inc/class-wp-members.php */
-		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
+		$folder = apply_filters( 'wpmem_dropin_folder', $wpmem->dropin_dir );
 
 		// Set file headers for dropins.
 		$headers = array(

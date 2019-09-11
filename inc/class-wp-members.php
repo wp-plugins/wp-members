@@ -272,6 +272,15 @@ class WP_Members {
 	public $select_style;
 	
 	/**
+	 * Container for dropin folder location
+	 *
+	 * @since  3.3.0
+	 * @access public
+	 * @var    string
+	 */
+	public $dropin_dir;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
@@ -441,20 +450,21 @@ class WP_Members {
 		do_action( 'wpmem_load_dropins' );
 		
 		/**
-		 * Filters the drop-in file folder.
+		 * Filters the drop-in file directory.
 		 *
 		 * @since 3.0.0
+		 * @since 3.3.0 Filter previously unpublished, changed hook name.
 		 *
-		 * @param string $folder The drop-in file folder.
+		 * @param string $wpmem->dropin_dir The drop-in file directory.
 		 */
-		$folder = apply_filters( 'wpmem_dropin_folder', WPMEM_DROPIN_DIR );
+		$dir = apply_filters( 'wpmem_dropin_dir', $this->dropin_dir );
 		
 		// Load any drop-ins.
 		$settings = get_option( 'wpmembers_dropins' );
 		$this->dropins_enabled = ( $settings ) ? $settings : array();
 		if ( ! empty( $this->dropins_enabled ) ) {
 			foreach ( $this->dropins_enabled as $filename ) {
-				$dropin = $folder . $filename;
+				$dropin = $dir . $filename;
 				if ( file_exists( $dropin ) ) {
 					include_once( $dropin );
 				}
