@@ -180,6 +180,13 @@ class WP_Members_Admin_Users {
 			break;
 
 		}
+		
+		/**
+		 * Doing user action.
+		 *
+		 * @since 3.3.0
+		 */
+		do_action( 'wpmem_user_action' );
 
 		// If we did not return already, we need to wp_safe_redirect.
 		wp_safe_redirect( $sendback );
