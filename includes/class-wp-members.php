@@ -513,39 +513,32 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		// Legacy folder		
-		require_once( $this->path . 'inc/class-wp-members-api.php' );
-		require_once( $this->path . 'inc/class-wp-members-forms.php' );
-		require_once( $this->path . 'inc/class-wp-members-user.php' );
-		require_once( $this->path . 'inc/api-users.php' );
-		require_once( $this->path . 'inc/dialogs.php' );
+		require_once( $this->path . 'includes/class-wp-members-api.php' );
+		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
+		require_once( $this->path . 'includes/class-wp-members-email.php' );
+		require_once( $this->path . 'includes/class-wp-members-forms.php' );
+		require_once( $this->path . 'includes/class-wp-members-menus.php' );
+		require_once( $this->path . 'includes/class-wp-members-products.php' );
+		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
+		require_once( $this->path . 'includes/class-wp-members-user.php' );
+		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
+		require_once( $this->path . 'includes/class-wp-members-widget.php' );	
+		require_once( $this->path . 'includes/api/api.php' );
+		require_once( $this->path . 'includes/api/api-email.php' );
+		require_once( $this->path . 'includes/api/api-forms.php' );
+		require_once( $this->path . 'includes/api/api-products.php' );
+		require_once( $this->path . 'includes/api/api-users.php' );
+		require_once( $this->path . 'includes/api/api-utilities.php' );
+		require_once( $this->path . 'includes/legacy/dialogs.php' );
+		require_once( $this->path . 'includes/legacy/forms.php' );
+		require_once( $this->path . 'includes/legacy/wp-registration.php' );
+		require_once( $this->path . 'includes/deprecated.php' );
 		//require_once( $this->path . 'inc/core.php' ); // @deprectated 3.2.4
 		//require_once( $this->path . 'inc/utilities.php' ); // @deprecated 3.2.3
 		//require_once( $this->path . 'inc/sidebar.php' ); // @deprecated 3.2.0
 		//require_once( $this->path . 'inc/shortcodes.php' ); // @deprecated 3.2.0
 		//require_once( $this->path . 'inc/email.php' ); // @deprecated 3.2.0
 		//require_once( $this->path . 'inc/users.php' ); // @deprecated 3.1.9
-		
-		// New folder
-		require_once( $this->path . 'includes/class-wp-members-email.php' );
-		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
-		require_once( $this->path . 'includes/class-wp-members-menus.php' );
-		require_once( $this->path . 'includes/class-wp-members-products.php' );
-		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
-		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
-		require_once( $this->path . 'includes/class-wp-members-widget.php' );
-			
-		require_once( $this->path . 'includes/api/api.php' );
-		require_once( $this->path . 'includes/api/api-email.php' );
-		require_once( $this->path . 'includes/api/api-forms.php' );
-		require_once( $this->path . 'includes/api/api-products.php' );
-		require_once( $this->path . 'includes/api/api-utilities.php' );
-		
-		require_once( $this->path . 'includes/legacy/forms.php' );
-		require_once( $this->path . 'includes/legacy/wp-registration.php' );
-
-		require_once( $this->path . 'includes/deprecated.php' );
-
 	}
 
 	/**
