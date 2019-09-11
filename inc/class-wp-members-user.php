@@ -873,6 +873,16 @@ class WP_Members_User {
 			$user_product = true;
 		}
 		
+		/**
+		 * Fires when a user product has been set.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param  int    $user_id
+		 * @param  string $product
+		 */
+		do_action( 'wpmem_user_product_set', $user_id, $product );
+		
 		// Update product setting.
 		// @todo Legacy version
 		update_user_meta( $user_id, '_wpmem_products', $user_products );
