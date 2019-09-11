@@ -1413,3 +1413,25 @@ function wpmem_build_rs_captcha() {
 		return;
 	}
 }
+
+/**
+ * Load constants deprecated in 3.3.0
+ *
+ * @since 3.3.0
+ */
+function wpmem_load_deprecated_constants() {
+	global $wpmem;
+	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']  ) : '';             // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem->block['page']  ) : '';             // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem->show_excerpt['post'] ) : '';       // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem->notify    ) : '';                  // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_MOD_REG'      ) ) ? define( 'WPMEM_MOD_REG',      $wpmem->mod_reg   ) : '';                  // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_CAPTCHA'      ) ) ? define( 'WPMEM_CAPTCHA',      $wpmem->captcha   ) : '';                  // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_NO_REG'       ) ) ? define( 'WPMEM_NO_REG',       ( -1 * $wpmem->show_reg['post'] ) ) : '';  // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_IGNORE_WARN'  ) ) ? define( 'WPMEM_IGNORE_WARN',  $wpmem->warnings  ) : '';                  // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  $wpmem->user_pages['profile']  ) : '';                 // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', $wpmem->user_pages['register'] ) : '';                 // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $wpmem->user_pages['login']    ) : '';                 // @todo Can deprecate? Probably 3.3
+	( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';
+	define( 'WPMEM_CSSURL', $wpmem->cssurl );
+}
