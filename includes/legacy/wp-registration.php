@@ -405,7 +405,7 @@ function wpmem_wp_reg_finalize( $user_id ) {
 function wpmem_wplogin_stylesheet() {
 	global $wpmem;
 	// @todo Should this enqueue styles?
-	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . $wpmem->url . 'css/wp-login.css" type="text/css" media="all" />';
+	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . $wpmem->url . 'assets/css/wp-login.css" type="text/css" media="all" />';
 }
 
 // End of file.
