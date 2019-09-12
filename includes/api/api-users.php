@@ -27,6 +27,24 @@ function wpmem_is_user( $user_id ) {
 }
 
 /**
+ * Returns the current user's current role.
+ *
+ * Note that users may have more than one role. This returns
+ * whatever the internal pointer is set to. Usually, this will
+ * be the first element in the array, but not always.
+ * @see: https://www.php.net/manual/en/function.current.php
+ *
+ * @since 3.3.0
+ *
+ * @param  int     $user_id
+ * @return mixed   If the user is set and has roles, the current user role, otherwise false.
+ */
+function wpmem_get_user_role( $user_id = false ) {
+	$user = ( $user_id ) ? get_userdata( $user_id ) : wp_get_current_user();
+	return ( $user ) ? current( $user->roles ) : false;
+}
+
+/**
  * Checks if user has a particular role.
  *
  * Utility function to check if a given user has a specific role. Users can

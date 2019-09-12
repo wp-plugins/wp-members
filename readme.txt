@@ -178,6 +178,7 @@ IMPORTANT UPDATES/CHANGES
 * Added wpmem_export_users() as API function (function already existed, but the original has been moved to an object class, and the function has been included in the API).
 * Added wpmem_sanitize_field() API function. This is a general utility that allows for different sanitization by type.
 * Added wpmem_maybe_unserialize() API function. If result is serialized, it unserializes to an array, if an array, it sanitizes using wpmem_sanitize_array().
+* Added wpmem_get_user_role() API function.
 * Added wpmem_user_has_meta filter.
 * Added wpmem_login_form_settings filter.
 * Added wpmem_block_settings filter.
