@@ -11,7 +11,6 @@ Domain Path: /i18n/languages/
 License:     GPLv2
 */
 
-
 /*  
 	Copyright (c) 2006-2019  Chad Butler
 
@@ -33,7 +32,6 @@ License:     GPLv2
 	You may also view the license here:
 	http://www.gnu.org/licenses/gpl.html
 */
-
 
 /*
 	A NOTE ABOUT LICENSE:
@@ -108,7 +106,7 @@ function wpmem_init() {
 	/**
 	 * Load the WP_Members class.
 	 */
-	require_once( WPMEM_PATH . 'inc/class-wp-members.php' );
+	require_once( 'includes/class-wp-members.php' );
 	
 	// Invoke the WP_Members class.
 	$wpmem = new WP_Members();
@@ -148,7 +146,7 @@ function wpmem_install() {
 	/**
 	 * Load the install file.
 	 */
-	require_once( WPMEM_PATH . 'includes/install.php' );
+	require_once( 'includes/install.php' );
 
 	// Multisite requires different install process.
 	if ( is_multisite() ) {
@@ -203,7 +201,7 @@ function wpmem_mu_new_site( $new_site ) {
 	/**
 	 * Load the install file.
 	 */
-	require_once( WPMEM_PATH . 'includes/install.php' );
+	require_once( 'includes/install.php' );
 
 	// Switch to the new blog.
 	switch_to_blog( $new_site->id );
