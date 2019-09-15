@@ -487,6 +487,7 @@ class WP_Members {
 	 * @since 3.3.0 Deprecated all but exp and trl constants.
 	 */
 	function load_constants() {
+		( ! defined( 'WPMEM_MOD_REG' ) ) ? define( 'WPMEM_MOD_REG',      $this->mod_reg   ) : '';
 		( ! defined( 'WPMEM_USE_EXP' ) ) ? define( 'WPMEM_USE_EXP', $this->use_exp   ) : '';
 		( ! defined( 'WPMEM_USE_TRL' ) ) ? define( 'WPMEM_USE_TRL', $this->use_trial ) : '';
 	}
