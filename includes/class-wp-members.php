@@ -391,7 +391,7 @@ class WP_Members {
 		add_action( 'admin_init',            array( $this, 'load_admin'  ) ); // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
 		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
-		add_action( 'login_enqueue_scripts', 'wpmem_wplogin_stylesheet' ); // styles the native registration
+		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style_wp_login' ) ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
 		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
@@ -531,8 +531,6 @@ class WP_Members {
 		require_once( $this->path . 'includes/api/api-users.php' );
 		require_once( $this->path . 'includes/api/api-utilities.php' );
 		require_once( $this->path . 'includes/legacy/dialogs.php' );
-		require_once( $this->path . 'includes/legacy/forms.php' );
-		require_once( $this->path . 'includes/legacy/wp-registration.php' );
 		require_once( $this->path . 'includes/deprecated.php' );
 		//require_once( $this->path . 'inc/core.php' ); // @deprectated 3.2.4
 		//require_once( $this->path . 'inc/utilities.php' ); // @deprecated 3.2.3
@@ -1591,9 +1589,21 @@ class WP_Members {
 	 */
 	function enqueue_style() {
 		global $wpmem;
-		wp_enqueue_style ( 'wp-members', wpmem_force_ssl( $wpmem->cssurl ), '', $wpmem->version );
+		wp_enqueue_style ( 'wp-members', wpmem_force_ssl( $wpmem->cssurl ), false, $wpmem->version );
 	}
 
+	/**
+	 * Loads the wp-login.php stylesheet.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global stdClass $wpmem
+	 */
+	function enqueue_style_wp_login() {
+		global $wpmem;
+		wp_enqueue_style( 'wpmem', $wpmem->url . 'assets/css/wp-login.css', false, $wpmem->version );
+	}
+	
 	/**
 	 * Creates an excerpt on the fly if there is no 'more' tag.
 	 *

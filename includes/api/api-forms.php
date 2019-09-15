@@ -149,6 +149,7 @@ function wpmem_forgot_username_form() {
  * @param   string    $process
  */
 function wpmem_wp_register_form( $process = 'wp' ) {
+	global $wpmem;
 	$wpmem->forms->wp_register_form( $process );
 }
 

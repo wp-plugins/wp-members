@@ -104,17 +104,4 @@ function wpmem_wp_reg_finalize( $user_id ) {
 	return;
 }
 
-/**
- * Loads the stylesheet for backend registration.
- *
- * @since 2.8.7
- *
- * @global object $wpmem
- */
-function wpmem_wplogin_stylesheet() {
-	global $wpmem;
-	// @todo Should this enqueue styles?
-	echo '<link rel="stylesheet" id="custom_wp_admin_css"  href="' . $wpmem->url . 'assets/css/wp-login.css" type="text/css" media="all" />';
-}
-
 // End of file.
