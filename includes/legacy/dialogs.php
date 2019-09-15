@@ -513,7 +513,7 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 	if ( $wpmem_a == "update") {
 		$content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg );
 	}
-	$content = $content . wpmem_inc_registration( 'edit', $heading );
+	$content = $content . wpmem_register_form( 'edit', $heading );
 	
 	return $content;
 }

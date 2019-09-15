@@ -832,12 +832,12 @@ class WP_Members {
 
 					case "success":
 						$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
-						$content = $content . wpmem_inc_login();
+						$content = $content . wpmem_login_form();
 						break;
 
 					default:
 						$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
-						$content = $content . wpmem_inc_registration();
+						$content = $content . wpmem_register_form();
 						break;
 					}
 
@@ -866,9 +866,9 @@ class WP_Members {
 
 					}
 
-					$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
+					$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_login_form() : $content . wpmem_login_form( 'page', '', 'hide' );
 
-					$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_inc_registration() : $content;
+					$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_register_form() : $content;
 				}
 
 			// Protects comments if expiration module is used and user is expired.
@@ -972,7 +972,7 @@ class WP_Members {
 		$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 		if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
 			$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
-			$content = $content . wpmem_inc_login();
+			$content = $content . wpmem_login_form();
 		}
 		return $content;
 	}

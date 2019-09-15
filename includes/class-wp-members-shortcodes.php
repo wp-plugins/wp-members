@@ -119,7 +119,7 @@ class WP_Members_Shortcodes {
 						 * If the user is not logged in, return an error message if a login
 						 * error state exists, or return the login form.
 						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
+						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_login_form( 'login', $redirect_to );
 					}
 					break;
 
@@ -133,10 +133,10 @@ class WP_Members_Shortcodes {
 					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
 						$content  = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-						$content .= wpmem_inc_registration( 'new', '', $redirect_to );
+						$content .= wpmem_register_form( 'new', '', $redirect_to );
 					} else {
 						if ( $wpmem->regchk == 'loginfailed' ) {
-							$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
+							$content = wpmem_inc_loginfailed() . wpmem_login_form( 'login', $redirect_to );
 							break;
 						}
 						// @todo Can this be moved into another function? Should $wpmem get an error message handler?
@@ -145,7 +145,7 @@ class WP_Members_Shortcodes {
 							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
 						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_inc_registration( 'new', '', $redirect_to );
+						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form( 'login', $redirect_to ) : wpmem_register_form( 'new', '', $redirect_to );
 					}
 					break;
 
@@ -162,11 +162,11 @@ class WP_Members_Shortcodes {
 					break;
 					
 				case in_array( 'customizer_login', $atts ):
-					$content = wpmem_inc_login( 'login', $redirect_to );
+					$content = wpmem_login_form( 'login', $redirect_to );
 					break;
 					
 				case in_array( 'customizer_register', $atts ):
-					$content = wpmem_inc_registration( 'new', '', $redirect_to );
+					$content = wpmem_register_form( 'new', '', $redirect_to );
 					break;
 
 			}
@@ -429,14 +429,14 @@ class WP_Members_Shortcodes {
 			switch( $wpmem->action ) {
 
 			case "edit":
-				$content = $content . wpmem_inc_registration( 'edit', $heading );
+				$content = $content . wpmem_register_form( 'edit', $heading );
 				break;
 
 			case "update":
 				// Determine if there are any errors/empty fields.
 				if ( $wpmem->regchk == "updaterr" || $wpmem->regchk == "email" ) {
 					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_registration( 'edit', $heading );
+					$content = $content . wpmem_register_form( 'edit', $heading );
 				} else {
 					//Case "editsuccess".
 					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
@@ -466,12 +466,12 @@ class WP_Members_Shortcodes {
 
 				case "success":
 					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_login();
+					$content = $content . wpmem_login_form();
 					break;
 
 				default:
 					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_registration();
+					$content = $content . wpmem_register_form();
 					break;
 				}
 
@@ -485,8 +485,8 @@ class WP_Members_Shortcodes {
 
 			} else {
 
-				$content = $content . wpmem_inc_login( 'members' );
-				$content = ( ! $hide_register ) ? $content . wpmem_inc_registration() : $content;
+				$content = $content . wpmem_login_form( 'members' );
+				$content = ( ! $hide_register ) ? $content . wpmem_register_form() : $content;
 			}
 		}
 
