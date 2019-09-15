@@ -390,7 +390,6 @@ class WP_Members {
 		add_action( 'widgets_init',          array( $this, 'widget_init' ) );  // initializes the widget
 		add_action( 'admin_init',            array( $this, 'load_admin'  ) ); // check user role to load correct dashboard
 		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
-		add_action( 'user_register',         'wpmem_wp_reg_finalize' );    // handles wp native registration
 		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style_wp_login' ) ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
@@ -404,12 +403,14 @@ class WP_Members {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
 		}
 		
+		add_filter( 'register_form',             'wpmem_wp_register_form' );                             // adds fields to the default wp registration
+		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
+		add_action( 'user_register',             array( $this->user, 'wp_register_finalize' ) );         // handles wp native registration
+		add_filter( 'registration_errors',       array( $this->user, 'wp_register_validate' ), 10, 3 );  // native registration validation
+		
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
 		add_filter( 'allow_password_reset',      array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
-		add_filter( 'register_form',             'wpmem_wp_register_form' );                   // adds fields to the default wp registration
-		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
-		add_filter( 'registration_errors',       'wpmem_wp_reg_validate', 10, 3 );             // native registration validation
 		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
 		add_filter( 'wpmem_securify',            array( $this, 'reg_securify' ) );             // adds success message on login form if redirected
 		//add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 );           // adds custom query vars
