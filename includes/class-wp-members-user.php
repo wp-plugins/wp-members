@@ -323,7 +323,7 @@ class WP_Members_User {
 
 			// Process CAPTCHA.
 			if ( 0 != $wpmem->captcha ) {
-				$check_captcha = wpmem_register_handle_captcha();
+				$check_captcha = $wpmem->captcha->validate();
 				if ( 'passed_captcha' != $check_captcha ) {
 					return $check_captcha;
 				}

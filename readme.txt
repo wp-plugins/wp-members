@@ -143,6 +143,9 @@ IMPORTANT UPDATES/CHANGES
   changes the order in which the user meta fields are saved, and also changes 
   when the email is sent. Email is now hooked to user_register, but can be 
   unloaded if necessary.
+* Major overhaul of registration and login form, validation, and processing
+  functions. Moved things into appropriate object classes (user, forms) and
+  deprecated legacy functions and files (register.php, forms.php).
 * Updated membership product meta and date format, IMPORTANT: this changes the 
   way the user product access information is stored (going from an array of 
   all memberships to individual meta for each) as well as the format (dates 

@@ -1435,3 +1435,127 @@ function wpmem_load_deprecated_constants() {
 	( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';
 	define( 'WPMEM_CSSURL', $wpmem->cssurl );
 }
+
+if ( ! function_exists( 'wpmem_registration' ) ):
+/**
+ * Register function.
+ *
+ * Handles registering new users and updating existing users.
+ *
+ * @since 2.2.1
+ * @since 2.7.2 Added pre/post process actions.
+ * @since 2.8.2 Added validation and data filters.
+ * @since 2.9.3 Added validation for multisite.
+ * @since 3.0.0 Moved from wp-members-register.php to /inc/register.php.
+ * @deprecated 3.3.0 Use wpmem_user_register() instead.
+ *
+ * @global int    $user_ID
+ * @global object $wpmem
+ * @global string $wpmem_themsg
+ * @global array  $userdata
+ *
+ * @param  string $tag           Identifies 'register' or 'update'.
+ * @return string $wpmem_themsg|success|editsuccess
+ */
+function wpmem_registration( $tag ) {
+	return wpmem_user_register( $tag );
+} // End registration function.
+endif;
+
+if ( ! function_exists( 'wpmem_get_captcha_err' ) ):
+/**
+ * Generate reCAPTCHA error messages.
+ *
+ * @since 2.4
+ * @deprecated 3.3.0 No replacement exists.
+ *
+ * @param  string $wpmem_captcha_err The response from the reCAPTCHA API.
+ * @return string $wpmem_captcha_err The appropriate error message.
+ */
+function wpmem_get_captcha_err( $wpmem_captcha_err ) {
+
+	switch ( $wpmem_captcha_err ) {
+
+	case "invalid-site-public-key":
+		$wpmem_captcha_err = __( 'We were unable to validate the public key.', 'wp-members' );
+		break;
+
+	case "invalid-site-public-key":
+		$wpmem_captcha_err = __( 'We were unable to validate the private key.', 'wp-members' );
+		break;
+
+	case "invalid-request-cookie":
+		$wpmem_captcha_err = __( 'The challenge parameter of the verify script was incorrect.', 'wp-members' );
+		break;
+
+	case "incorrect-captcha-sol":
+		$wpmem_captcha_err = __( 'The CAPTCHA solution was incorrect.', 'wp-members' );
+		break;
+
+	case "verify-params-incorrect":
+		$wpmem_captcha_err = __( 'The parameters to verify were incorrect', 'wp-members' );
+		break;
+
+	case "invalid-referrer":
+		$wpmem_captcha_err = __( 'reCAPTCHA API keys are tied to a specific domain name for security reasons.', 'wp-members' );
+		break;
+
+	case "recaptcha-not-reachable":
+		$wpmem_captcha_err = __( 'The reCAPTCHA server was not reached.  Please try to resubmit.', 'wp-members' );
+		break;
+
+	case 'really-simple':
+		$wpmem_captcha_err = __( 'You have entered an incorrect code value. Please try again.', 'wp-members' );
+		break;
+	}
+
+	return $wpmem_captcha_err;
+}
+endif;
+
+if ( ! function_exists( 'wpmem_inc_login' ) ):
+/**
+ * Login Dialog.
+ *
+ * Loads the login form for user login.
+ *
+ * @since 1.8
+ * @since 3.1.4 Global $wpmem_regchk no longer needed.
+ * @since 3.2.0 Now a wrapper for $wpmem->forms->do_login_form().
+ * @deprecated 3.3.0 Use wpmem_login_form() instead.
+ *
+ * @global object $post         The WordPress Post object.
+ * @global object $wpmem        The WP_Members object.
+ * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
+ * @param  string $redirect_to  Redirect URL. Default: null.
+ * @param  string $show         If the form is being displayed in place of blocked content. Default: show.
+ * @return string $str          The generated html for the login form.
+ */
+function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
+	global $wpmem;
+	return $wpmem->forms->do_login_form( $page, $redirect_to, $show );
+}
+endif;
+
+if ( ! function_exists( 'wpmem_inc_registration' ) ):
+/**
+ * Registration Form Dialog.
+ *
+ * Outputs the form for new user registration and existing user edits.
+ *
+ * @since 2.5.1
+ * @since 3.1.7 Now a wrapper for $wpmem->forms->register_form()
+ * @since 3.2.0 Preparing for deprecation, use wpmem_register_form() instead.
+ * @deprecated 3.3.0 Use wpmem_register_form() instead.
+ *
+ * @global object $wpmem        The WP_Members object.
+ * @param  string $tag          (optional) Toggles between new registration ('new') and user profile edit ('edit').
+ * @param  string $heading      (optional) The heading text for the form, null (default) for new registration.
+ * @return string $form         The HTML for the entire form as a string.
+ */
+function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = null ) {
+	global $wpmem;
+	$args = array( 'tag' => $tag, 'heading' => $heading, 'redirect_to' => $redirect_to );
+	return $wpmem->forms->register_form( $args );
+} // End wpmem_inc_registration.
+endif;
