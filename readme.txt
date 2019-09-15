@@ -136,6 +136,25 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
   - wpmem_inc_forgotusername()
   - wpmem_inc_recaptcha()
   - wpmem_build_rs_captcha()
+* The following functions are obsolete and have been removed:
+  - wpmem_shortcode() (deprecated 3.1.2)
+  - wpmem_do_sc_pages() (deprecated 3.1.8 Use wpmem_sc_user_profile() or wpmem_sc_forms() instead.)
+  - wpmem_admin_fields() (deprecated 3.1.9)
+  - wpmem_admin_update() (deprecated 3.1.9)
+  - wpmem_user_profile() (deprecated 3.1.9)
+  - wpmem_profile_update() (deprecated 3.1.9)
+  - wpmem_dashboard_enqueue_scripts() (deprecated 3.2.0 Use $wpmem->admin->dashboard_enqueue_script() instead.)
+  - wpmem_sc_forms() (deprecated 3.2.0 Use WP_Members_Shortcodes::forms() instead.)
+  - wpmem_sc_logged_in() (deprecated 3.2.0 Use WP_Members_Shortcodes::forms() instead.)
+  - wpmem_sc_logged_out() (deprecated 3.2.0 Use WP_Members_Shortcodes::logged_out() instead.)
+  - wpmem_sc_user_profile (deprecated 3.2.0 Use WP_Members_Shortcodes::profile() instead.)
+  - wpmem_sc_user_count() (3.2.0 Use WP_Members_Shortcodes::user_count() instead.)
+  - wpmem_sc_loginout 3.2.0() (deprecated Use WP_Members_Shortcodes::loginout() instead.)
+  - wpmem_sc_fields() (deprecated 3.2.0 Use WP_Members_Shortcodes::fields() instead.)
+  - wpmem_sc_logout() (deprecated 3.2.0 Use WP_Members_Shortcodes::logout() instead.)
+  - wpmem_sc_tos() (deprecated 3.2.0 Use WP_Members_Shortcodes::tos() instead.)
+  - wpmem_sc_avatar() (deprecated 3.2.0 Use WP_Members_Shortcodes::avatar() instead.)
+  - wpmem_sc_link() (deprecated 3.2.0 Use WP_Members_Shortcodes::login_link() instead.)
   
 IMPORTANT UPDATES/CHANGES
 
