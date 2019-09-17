@@ -66,13 +66,32 @@ class WP_Members_Export {
 		}
 		$export_fields['user_registered'] = __( 'Registered', 'wp-members' );
 		$export_fields['wpmem_reg_ip']    = __( 'IP', 'wp-members' );
-
+		if ( 1 == $wpmem->enable_products ) {
+			foreach( $wpmem->membership->products as $product_key => $product ) {
+				$export_fields[ $wpmem->membership->post_stem . $product_key ] = $wpmem->membership->products[ $product_key ]['title'];
+			}
+		}
+		
 		/**
 		 * Filter the export fields.
 		 *
 		 * @since 3.2.5
 		 *
-		 * @param array $export_fields
+		 * @param array $export_fields {
+		 *     The array of export fields is keyed as 'heading value' => 'meta_key'.
+		 *     The array will include all fields in the Fields tab, plus the following:
+		 *
+		 *     @type int    $ID               ID from wp_users
+		 *     @type string $username         user_login from wp_users
+		 *     @type string $user_nicename    user_nicename
+		 *     @type string $user_url         user_url
+		 *     @type string $display_name     display_name
+		 *     @type int    $active           Whether the user is active/deactivated.
+		 *     @type string $exp_type         If the PayPal extension is installed pending|subscrption (optional)
+		 *     @type string $expires          If the PayPal extension is installed MM/DD/YYYY (optional)
+		 *     @type string $user_registered  user_registered
+		 *     @type string $user_ip          The IP of the user when they registered.
+		 }
 		 */
 		$export_fields = apply_filters( 'wpmem_export_fields', $export_fields );
 
@@ -141,6 +160,10 @@ class WP_Members_Export {
 						break;
 					case 'wpmem_reg_ip':
 						$row['wpmem_reg_ip'] = get_user_meta( $user, 'wpmem_reg_ip', true );
+						break;
+					case ( $wpmem->membership->post_stem === substr( $meta, 0, strlen( $wpmem->membership->post_stem ) ) ):
+						$product = str_replace( $wpmem->membership->post_stem, '', $meta );
+						$row[ $meta ] = ( isset( $wpmem->user->access[ $product ] ) ) ? $wpmem->user->access[ $product ] : '';
 						break;
 					default:
 						if ( in_array( $meta, $wp_user_fields ) ) {

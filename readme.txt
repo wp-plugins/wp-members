@@ -192,6 +192,7 @@ IMPORTANT UPDATES/CHANGES
   object and that will take the place of the cloned menu options.
 
 * Added default membership product(s) at registration.
+* Added membership product(s) for user export.
 * Added support for selecting fields to display on the registration form or the profile form.
 * Added wpmem_activate_user() and wpmem_deactivate_user() to user API.
 * Added wpmem_user_sets_password() API function.
