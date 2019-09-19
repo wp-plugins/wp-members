@@ -38,16 +38,36 @@ class WP_Members_Export {
 			'export_fields'  => wpmem_fields(),
 			'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 			'entity_decode'  => false,
+			'date_format'    => 'Y-m-d',
 		);
 
 		/**
 		 * Filter the default export arguments.
 		 *
 		 * @since 2.9.7
+		 * @deprecated 3.3.0 Use wpmem_export_defaults instead.
 		 *
 		 * @param array $args An array of arguments to merge with defaults. Default null.
 		 */
 		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
+		
+		/**
+		 * Filter the export defaults.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array $args {
+		 *     Array of defaults for export.
+		 *
+		 *     @type  string  $export
+		 *     @type  string  $filename
+		 *     @type  array   $export_fields
+		 *     @type  array   $exclude_fields
+		 *     @type  boolean $entity_decode
+		 *     @type  string  $date_format
+		 * }
+		 */
+		$args = apply_filters( 'wpmem_export_defaults', $args );
 
 		// Prepare fields, add additional "special" fields.
 		$export_fields = array(
@@ -58,7 +78,7 @@ class WP_Members_Export {
 			$export_fields[ $meta_key ] = $value['label'];
 		}
 		if ( 1 == $wpmem->mod_reg ) {
-			$export_fields['active'] = __( 'Activated?', 'wp-members');
+			$export_fields['active'] = __( 'Activated?', 'wp-members' );
 		}
 		if ( defined( 'WPMEM_EXP_MODULE' ) && 1 == $wpmem->use_exp ) {
 			$export_fields['exp_type'] = __( 'Subscription', 'wp-members' );
@@ -163,7 +183,12 @@ class WP_Members_Export {
 						break;
 					case ( $wpmem->membership->post_stem === substr( $meta, 0, strlen( $wpmem->membership->post_stem ) ) ):
 						$product = str_replace( $wpmem->membership->post_stem, '', $meta );
-						$row[ $meta ] = ( isset( $wpmem->user->access[ $product ] ) ) ? $wpmem->user->access[ $product ] : '';
+						$row[ $meta ] = get_user_meta( $user, $meta, true );
+						// If value is a date and false is not the format_date option...
+						if ( false !== $args['date_format'] && '' != $row[ $meta ] && $row[ $meta ] > 2 ) {
+							$date_format = ( 'wp' == $args['date_format'] ) ? get_option('date_format') : $args['date_format'];
+							$row[ $meta ] = date( $date_format, $row[ $meta ] );
+						}
 						break;
 					default:
 						if ( in_array( $meta, $wp_user_fields ) ) {
