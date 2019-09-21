@@ -300,26 +300,28 @@ class WP_Members_Admin_Tab_Options {
 			</div><!-- #post-body -->
 		</div><!-- .metabox-holder -->
 	<script>
-	jQuery(document).ready(static function($){
-		$( static function() {
-			$( "#dialog-message" ).dialog({
+	jQuery(document).ready(function($){
+		$(function() {
+			$("#dialog-message" ).dialog({
 				autoOpen: false,
 				modal: true,
+				height: "auto",
+				width: 600,
 				buttons: {
-					<?php _e( 'Close', 'wp-members' ); ?>: static function() {
+					"<?php _e( 'Close', 'wp-members' ); ?>": function() {
 						$( this ).dialog( "close" );
 					}
 				}
 			});
-			$( "#opener" ).on( "click", static function() {
+			$( "#opener" ).on( "click", function() {
 				$( "#dialog-message" ).dialog( "open" );
 			});
 		} );
-		$("#select_all").click(static function(){
+		$("#select_all").click(function(){
 			$("textarea").select();
 			document.execCommand('copy');
 		});
-		$(window).resize(static function() {
+		$(window).resize(function() {
 			$("#dialog-message").dialog("option", "position", {my: "center", at: "center", of: window});
 		});
 	});
@@ -328,7 +330,7 @@ class WP_Members_Admin_Tab_Options {
 	<h3><span><?php _e( 'WP-Members Settings', 'wp-members' ); ?></span></h3>
 	<p><?php _e( 'The following is your WP-Members settings information if needed for support.', 'wp-members' ); ?></p>
 	<pre>
-	<textarea cols=80 rows=10 align=left wrap=soft style="width:100%;" id="supportinfo" wrap="soft"><?php
+	<textarea cols=80 rows=10 align=left wrap=soft style="width:80%;" id="supportinfo" wrap="soft"><?php
 	global $wp_version, $wpdb, $wpmem;
 	echo "WP Version: " . $wp_version . "\r\n";
 	echo "PHP Version: " . phpversion() . "\r\n";
