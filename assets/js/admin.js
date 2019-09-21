@@ -19,24 +19,26 @@
   *
   * @since 3.1.2
   */
- jQuery(document).ready(function($) {
-	$("#the-list").sortable({
-		items: '.list_item',
-		opacity: 0.6,
-		cursor: 'move',
-		axis: 'y',
-		update: function() {
-			var order = $(this).sortable('serialize') + '&action=wpmem_do_field_reorder';
-			$.post(ajaxurl, order, function(response) {
-				alert(response);
-			});
-			$('.list_item').each(function(i) { 
-				$(this).data('id', i + 1); // updates the data object
-				$(this).attr('list_item', i + 1); // updates the attribute
-			});
-		}
+(function($) {
+	$(document).ready(function($) {
+		$("#the-list").sortable({
+			items: '.list_item',
+			opacity: 0.6,
+			cursor: 'move',
+			axis: 'y',
+			update: function() {
+				var order = $(this).sortable('serialize') + '&action=wpmem_do_field_reorder';
+				$.post(ajaxurl, order, function(response) {
+					alert(response);
+				});
+				$('.list_item').each(function(i) { 
+					$(this).data('id', i + 1); // updates the data object
+					$(this).attr('list_item', i + 1); // updates the attribute
+				});
+			}
+		});
 	});
-});
+})(jQuery);
 
 
 /**
@@ -117,7 +119,7 @@
 				|| $("#wpmem_field_type_select").val() == 'url'
 				|| $("#wpmem_field_type_select").val() == 'number' 
 				|| $("#wpmem_field_type_select").val() == 'date'
-			    || $("#wpmem_field_type_select").val() == 'textarea' )
+				|| $("#wpmem_field_type_select").val() == 'textarea' )
 				$("#wpmem_placeholder").show();
 			else
 				$("#wpmem_placeholder").hide();
