@@ -958,6 +958,12 @@ class WP_Members_User {
 			$user_product = true;
 		}
 		
+		// Update product setting.
+		// @todo Legacy version
+		update_user_meta( $user_id, '_wpmem_products', $user_products );
+		// New, individual version.
+		update_user_meta( $user_id, '_wpmem_products_' . $product, $user_product );
+		
 		/**
 		 * Fires when a user product has been set.
 		 *
@@ -967,13 +973,7 @@ class WP_Members_User {
 		 * @param  string $product
 		 */
 		do_action( 'wpmem_user_product_set', $user_id, $product );
-		
-		// Update product setting.
-		// @todo Legacy version
-		update_user_meta( $user_id, '_wpmem_products', $user_products );
-		
-		// @todo Return new version.
-		return update_user_meta( $user_id, '_wpmem_products_' . $product, $user_product );
+ 
 	}
 	
 	/**
