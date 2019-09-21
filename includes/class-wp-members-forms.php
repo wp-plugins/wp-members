@@ -565,7 +565,7 @@ class WP_Members_Forms {
 		 * includes default tags, labels, text, and small items including various booleans.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.3.0 Use wpmem_login_form_settings instead.
+		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
 		 *
 		 * @param array                 An array of arguments to merge with defaults. Default null.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -585,7 +585,7 @@ class WP_Members_Forms {
 		 * @param array                 An array of arguments to merge with defaults. Default null.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */ 
-		$args = apply_filters( 'wpmem_login_form_settings', $args, $arr['action'] );
+		$args = apply_filters( 'wpmem_login_form_defaults', $args, $arr['action'] );
 
 		// Build the input rows.
 		foreach ( $arr['inputs'] as $input ) {
@@ -883,6 +883,7 @@ class WP_Members_Forms {
 		 *
 		 * @since 2.9.0
 		 * @since 3.2.5 Added $id
+		 * @deprecated 3.3.0 Use wpmem_register_form_defaults instead.
 		 *
 		 * @param array        An array of arguments to merge with defaults. Default null.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
@@ -892,6 +893,20 @@ class WP_Members_Forms {
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
+		
+		/**
+		 * Filter the default form arguments.
+		 *
+		 * This filter accepts an array of various elements to replace the form defaults. This
+		 * includes default tags, labels, text, and small items including various booleans.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array  $arg  An array of arguments to merge with defaults. Default null.
+		 * @param string $tag  Toggle new registration or profile update. new|edit.
+		 * @param string $id   An id for the form (optional).
+		 */
+		$args = apply_filters( 'wpmem_register_form_defaults', $args, $tag, $id );
 		
 		// Get fields.
 		$wpmem_fields = wpmem_fields( $tag );
@@ -1548,6 +1563,7 @@ class WP_Members_Forms {
 		 * Filter the arguments to override login form defaults.
 		 *
 		 * @since 2.9.0
+		 * @deprectated 3.3.0 Use wpmem_inc_login_defaults instead.
 		 *
 		 * @param array $args An array of arguments to use. Default null.
 		 */

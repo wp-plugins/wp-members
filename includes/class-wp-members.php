@@ -726,7 +726,7 @@ class WP_Members {
 			 *
 			 * @since 2.9.8
 			 * @since 3.0.0 Moved to is_blocked() in WP_Members object.
-			 * @deprecated 3.3.0 Use wpmem_block_settings instead.
+			 * @deprecated 3.3.0 Use wpmem_block_defaults instead.
 			 *
 			 * @param array $args     Null.
 			 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
@@ -743,7 +743,7 @@ class WP_Members {
 			 *
 			 * @param array $args
 			 */
-			$args = apply_filters( 'wpmem_block_settings', $args );
+			$args = apply_filters( 'wpmem_block_defaults', $args );
 	
 			if ( is_single() || is_page() ) {
 				switch( $args['block_type'] ) {

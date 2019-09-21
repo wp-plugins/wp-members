@@ -148,7 +148,7 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	 *
 	 * @since 2.9.2
 	 * @since 3.1.1 added $dialogs parameter.
-	 * @deprecated 3.3.0 Use wpmem_msg_settings instead.
+	 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
 	 *
 	 * @param array  $defaults An array of the defaults.
 	 * @param string $tag      The tag that we are on, if any.
@@ -173,7 +173,7 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	 * @param string $tag      The tag that we are on, if any.
 	 * @param array  $dialogs
 	 */
-	$args = apply_filters( 'wpmem_msg_settings', $defaults, $tag, $dialogs );
+	$args = apply_filters( 'wpmem_msg_defaults', $defaults, $tag, $dialogs );
 	
 	$str = $args['div_before'] . $args['p_before'] . stripslashes( $args['msg'] ) . $args['p_after'] . $args['div_after'];
 
