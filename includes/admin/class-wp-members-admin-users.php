@@ -306,6 +306,18 @@ class WP_Members_Admin_Users {
 				);
 			}
 		}
+		
+		/**
+		 * Filters all views before returning to the WP 'views_users' filter.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array $views {
+		 *
+		 *     @type string The HTML for the view.
+		 * }
+		 */
+		$views = apply_filters( 'wpmem_views_users', $views );
 
 		return $views;
 	}
