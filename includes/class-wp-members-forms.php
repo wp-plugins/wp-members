@@ -826,6 +826,7 @@ class WP_Members_Forms {
 			$heading     = ( isset( $mixed['heading']     ) ) ? $mixed['heading']     : '';
 			$redirect_to = ( isset( $mixed['redirect_to'] ) ) ? $mixed['redirect_to'] : '';
 		} else {
+			$id  = 'default';
 			$tag = $mixed;
 		}
 
@@ -1546,6 +1547,7 @@ class WP_Members_Forms {
 		 * Filter the array of login form fields.
 		 *
 		 * @since 2.9.0
+		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
 		 *
 		 * @param array $default_inputs An array matching the elements used by default.
 		 */
@@ -1563,190 +1565,35 @@ class WP_Members_Forms {
 		 * Filter the arguments to override login form defaults.
 		 *
 		 * @since 2.9.0
-		 * @deprectated 3.3.0 Use wpmem_inc_login_defaults instead.
+		 * @deprectated 3.3.0 Use wpmem_login_form_defaults instead.
 		 *
 		 * @param array $args An array of arguments to use. Default null.
 		 */
 		$args = apply_filters( 'wpmem_inc_login_args', '' );
 		$arr  = wp_parse_args( $args, $defaults );
+		
+		/**
+		 * Filter the arguments to override login form defaults.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array $args {
+		 *     @type string $heading
+		 *     @type string $action
+		 *     @type string $button_text
+		 *     @type string $redirect_to
+		 *     @type array  $inputs {
+		 *          @type string $name
+		 *          @type string $type
+		 *          @type string $tag
+		 *          @type string $class
+		 *          @type string $div
+		 *     }
+		 * }
+		 */
+		$arr = apply_filters( 'wpmem_login_form_defaults', $arr );
+		
 		return ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
-	}
-
-	/**
-	 * Change Password Dialog.
-	 *
-	 * Loads the form for changing password.
-	 *
-	 * @since 2.0.0
-	 * @since 3.2.0 Moved to forms class, renamed do_changepassword_form().
-	 *
-	 * @global object $wpmem The WP_Members object.
-	 * @return string $str   The generated html for the change password form.
-	 */
-	function do_changepassword_form() {
-
-		global $wpmem;
-
-		// create the default inputs
-		$default_inputs = array(
-			array(
-				'name'   => $wpmem->get_text( 'pwdchg_password1' ), 
-				'type'   => 'password',
-				'tag'    => 'pass1',
-				'class'  => 'password',
-				'div'    => 'div_text',
-			),
-			array( 
-				'name'   => $wpmem->get_text( 'pwdchg_password2' ), 
-				'type'   => 'password', 
-				'tag'    => 'pass2',
-				'class'  => 'password',
-				'div'    => 'div_text',
-			),
-		);
-
-		/**
-		 * Filter the array of change password form fields.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array $default_inputs An array matching the elements used by default.
-		 */	
-		$default_inputs = apply_filters( 'wpmem_inc_changepassword_inputs', $default_inputs );
-
-		$defaults = array(
-			'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
-			'action'       => 'pwdchange', 
-			'button_text'  => $wpmem->get_text( 'pwdchg_button' ), 
-			'inputs'       => $default_inputs,
-		);
-
-		/**
-		 * Filter the arguments to override change password form defaults.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array $args An array of arguments to use. Default null.
-		 */
-		$args = apply_filters( 'wpmem_inc_changepassword_args', '' );
-		$arr  = wp_parse_args( $args, $defaults );
-		return wpmem_login_form( 'page', $arr );
-	}
-	
-	/**
-	 * Reset Password Dialog.
-	 *
-	 * Loads the form for resetting password.
-	 *
-	 * @since 2.1.0
-	 * @since 3.2.0 Moved to forms class, renamed do_resetpassword_form().
-	 *
-	 * @global object $wpmem The WP_Members object.
-	 * @return string $str   The generated html fo the reset password form.
-	 */
-	function do_resetpassword_form() { 
-
-		global $wpmem;
-
-		// Create the default inputs.
-		$default_inputs = array(
-			array(
-				'name'   => $wpmem->get_text( 'pwdreset_username' ), 
-				'type'   => 'text',
-				'tag'    => 'user', 
-				'class'  => 'username',
-				'div'    => 'div_text',
-			),
-			array( 
-				'name'   => $wpmem->get_text( 'pwdreset_email' ), 
-				'type'   => 'text', 
-				'tag'    => 'email', 
-				'class'  => 'text',
-				'div'    => 'div_text',
-			),
-		);
-
-		/**
-		 * Filter the array of reset password form fields.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array $default_inputs An array matching the elements used by default.
-		 */	
-		$default_inputs = apply_filters( 'wpmem_inc_resetpassword_inputs', $default_inputs );
-
-		$defaults = array(
-			'heading'      => $wpmem->get_text( 'pwdreset_heading' ),
-			'action'       => 'pwdreset', 
-			'button_text'  => $wpmem->get_text( 'pwdreset_button' ), 
-			'inputs'       => $default_inputs,
-		);
-
-		/**
-		 * Filter the arguments to override reset password form defaults.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array $args An array of arguments to use. Default null.
-		 */
-		$args = apply_filters( 'wpmem_inc_resetpassword_args', '' );
-		$arr  = wp_parse_args( $args, $defaults );
-		return wpmem_login_form( 'page', $arr );
-
-	}
-	
-	/**
-	 * Forgot Username Form.
-	 *
-	 * Loads the form for retrieving a username.
-	 *
-	 * @since 3.0.8
-	 * @since 3.2.0 Moved to forms class, renamed do_forgotusername_form().
-	 *
-	 * @global object $wpmem The WP_Members object class.
-	 * @return string $str   The generated html for the forgot username form.
-	 */
-	function do_forgotusername_form() {
-		
-		global $wpmem;
-		
-		// create the default inputs
-		$default_inputs = array(
-			array(
-				'name'   => $wpmem->get_text( 'username_email' ), 
-				'type'   => 'text',
-				'tag'    => 'user_email',
-				'class'  => 'username',
-				'div'    => 'div_text',
-			),
-		);
-
-		/**
-		 * Filter the array of forgot username form fields.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array $default_inputs An array matching the elements used by default.
-		 */	
-		$default_inputs = apply_filters( 'wpmem_inc_forgotusername_inputs', $default_inputs );
-
-		$defaults = array(
-			'heading'      => $wpmem->get_text( 'username_heading' ), 
-			'action'       => 'getusername', 
-			'button_text'  => $wpmem->get_text( 'username_button' ),
-			'inputs'       => $default_inputs,
-		);
-
-		/**
-		 * Filter the arguments to override change password form defaults.
-		 *
-		 * @since 
-		 *
-		 * @param array $args An array of arguments to use. Default null.
-		 */
-		$args = apply_filters( 'wpmem_inc_forgotusername_args', '' );
-		$arr  = wp_parse_args( $args, $defaults );
-		return wpmem_login_form( 'page', $arr );
 	}
 
 	/**
@@ -2055,4 +1902,188 @@ class WP_Members_Forms {
 		return ( 1 == $wpmem->attrib ) ? $str : '';
 	}
 
+	/**
+	 * Settings for building Short Form (login).
+	 *
+	 * Replaces individual legacy functions and filters for
+	 * the short forms, combined into a single method.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global  stdClass  $post
+	 * @global  stdClass  $wpmem
+	 *
+	 * @param   string    $form  login|changepassword|resetpassword|forgotusername
+	 * @return  string    $form
+	 */
+	function do_shortform( $form, $page = "page", $redirect_to = null, $show = 'show' ) {
+		
+		global $post, $wpmem;
+
+		$msg = '';
+
+		if ( $page == "page" ) {
+			$msg = $this->add_restricted_msg();
+		} 
+
+		$input_arrays = array(
+			'login' => array(
+				array(
+					'name'   => $wpmem->get_text( 'login_username' ), 
+					'type'   => 'text', 
+					'tag'    => 'log',
+					'class'  => 'username',
+					'div'    => 'div_text',
+				),
+				array( 
+					'name'   => $wpmem->get_text( 'login_password' ), 
+					'type'   => 'password', 
+					'tag'    => 'pwd', 
+					'class'  => 'password',
+					'div'    => 'div_text',
+				),
+			),
+			'changepassword' => array(
+				array(
+					'name'   => $wpmem->get_text( 'pwdchg_password1' ), 
+					'type'   => 'password',
+					'tag'    => 'pass1',
+					'class'  => 'password',
+					'div'    => 'div_text',
+				),
+				array( 
+					'name'   => $wpmem->get_text( 'pwdchg_password2' ), 
+					'type'   => 'password', 
+					'tag'    => 'pass2',
+					'class'  => 'password',
+					'div'    => 'div_text',
+				),
+			),
+			'resetpassword' => array(
+				array(
+					'name'   => $wpmem->get_text( 'pwdreset_username' ), 
+					'type'   => 'text',
+					'tag'    => 'user', 
+					'class'  => 'username',
+					'div'    => 'div_text',
+				),
+				array( 
+					'name'   => $wpmem->get_text( 'pwdreset_email' ), 
+					'type'   => 'text', 
+					'tag'    => 'email', 
+					'class'  => 'text',
+					'div'    => 'div_text',
+				),
+			),
+			'forgotusername' => array(
+				array(
+					'name'   => $wpmem->get_text( 'username_email' ), 
+					'type'   => 'text',
+					'tag'    => 'user_email',
+					'class'  => 'username',
+					'div'    => 'div_text',
+				),
+			),
+		);
+		
+		/**
+		 * Filter the array of change password form fields.
+		 *
+		 * @since 2.9.0
+		 * @deprecated 3.3.0 Use wpmem_{$form}_form_defaults instead.
+		 *
+		 * @param array $default_inputs An array matching the elements used by default.
+		 */	
+		$default_inputs = apply_filters( 'wpmem_inc_' . $form . '_inputs', $input_arrays[ $form ] );
+
+		$form_arrays = array(
+			'login' => array( 
+				'heading'      => $wpmem->get_text( 'login_heading' ), 
+				'action'       => 'login', 
+				'button_text'  => $wpmem->get_text( 'login_button' ),
+				'inputs'       => $default_inputs,
+				'redirect_to'  => $redirect_to,
+			),
+			'changepassword' => array(
+				'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
+				'action'       => 'pwdchange', 
+				'button_text'  => $wpmem->get_text( 'pwdchg_button' ), 
+				'inputs'       => $default_inputs,
+			),
+			'resetpassword' => array(
+				'heading'      => $wpmem->get_text( 'pwdreset_heading' ),
+				'action'       => 'pwdreset', 
+				'button_text'  => $wpmem->get_text( 'pwdreset_button' ), 
+				'inputs'       => $default_inputs,
+			),
+			'forgotusername' => array(
+				'heading'      => $wpmem->get_text( 'username_heading' ), 
+				'action'       => 'getusername', 
+				'button_text'  => $wpmem->get_text( 'username_button' ),
+				'inputs'       => $default_inputs,
+			),
+		);
+		
+		/**
+		 * Filter the arguments to override form defaults.
+		 *
+		 * @since 2.9.0
+		 * @deprecated 3.3.0 Use wpmem_inc_{$form}_defaults instead.
+		 *
+		 * @param array $args An array of arguments to use. Default null. (login|changepassword|resetpassword|forgotusername)
+		 */
+		$args = apply_filters( 'wpmem_inc_' . $form . '_args', '' );
+		$arr  = wp_parse_args( $args, $form_arrays[ $form ] );
+		
+		/**
+		 * Filter the arguments to override change password form defaults.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array $args An array of arguments to use. Default null. (login|changepassword|resetpassword|forgotusername)
+		 */
+		$arr = apply_filters( 'wpmem_' . $form . '_form_defaults', $arr );
+		
+		return ( $show == 'show' ) ? $msg . $this->login_form( $page, $arr ) : $msg;
+	}
+
+	/**
+	 * Applies the post restricted message above the short form.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @global stdClass $wpmem
+	 *
+	 * @return string $str The generated message.
+	 */
+	private function add_restricted_msg() {
+
+		global $wpmem;
+
+		if ( $wpmem->regchk != "success" ) {
+
+			$dialogs = get_option( 'wpmembers_dialogs' );
+
+			// This shown above blocked content.
+			$msg = $wpmem->get_text( 'restricted_msg' );
+			$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
+			$str = '<div id="wpmem_restricted_msg"><p>' . $msg . '</p></div>';
+
+			/**
+			 * Filter the post restricted message.
+			 *
+			 * @since 2.7.3
+			 * @since 3.2.0 Added raw message string and HTML as separate params.
+			 *
+			 * @param string $str The post restricted message with HTML.
+			 * @param string $msg The raw message string.
+			 * @param string      The 'before' HTML wrapper.
+			 * @param string      The 'after' HTML wrapper.
+			 */
+			$str = apply_filters( 'wpmem_restricted_msg', $str, $msg, '<div id="wpmem_restricted_msg"><p>', '</p></div>' );
+		}
+		
+		return $str;
+	}
+	
 } // End of WP_Members_Forms class.

@@ -91,7 +91,7 @@ endif;
  * }
  * @return string $html
  */
-function wpmem_register_form( $args ) {
+function wpmem_register_form( $args = 'new' ) {
   global $wpmem;
   return $wpmem->forms->register_form( $args );
 }
@@ -107,9 +107,9 @@ function wpmem_register_form( $args ) {
  * @param  string   $action  Determine if it is password change or reset.
  * @return string   $str     The generated html for the change password form.
  */
-function wpmem_change_password_form( $form = 'pwdchange' ) {
+function wpmem_change_password_form() {
 	global $wpmem;
-	return $wpmem->forms->do_changepassword_form( $form );
+	return $wpmem->forms->do_shortform( 'changepassword' );
 }
 
 /**
@@ -122,7 +122,7 @@ function wpmem_change_password_form( $form = 'pwdchange' ) {
  */
 function wpmem_reset_password_form() { 
 	global $wpmem;
-	return $wpmem->forms->do_resetpassword_form();
+	return $wpmem->forms->do_shortform( 'resetpassword' );
 }
 
 /**
@@ -135,7 +135,7 @@ function wpmem_reset_password_form() {
  */
 function wpmem_forgot_username_form() {
 	global $wpmem;
-	return $wpmem->forms->do_forgotusername_form();
+	return $wpmem->forms->do_shortform( 'forgotusername' );
 }
 
 /**
