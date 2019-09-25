@@ -809,83 +809,80 @@ class WP_Members {
 
 		$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
-		if ( ( ! has_shortcode( $content, 'wp-members' ) ) ) {
+		if ( $this->regchk == "captcha" ) {
+			global $wpmem_captcha_err;
+			$wpmem_themsg = $wpmem->get_text( 'reg_captcha_err' )  . '<br /><br />' . $wpmem_captcha_err;
+		}
 
-			if ( $this->regchk == "captcha" ) {
-				global $wpmem_captcha_err;
-				$wpmem_themsg = $wpmem->get_text( 'reg_captcha_err' )  . '<br /><br />' . $wpmem_captcha_err;
-			}
+		// Block/unblock Posts.
+		if ( ! is_user_logged_in() && $this->is_blocked() == true ) {
 
-			// Block/unblock Posts.
-			if ( ! is_user_logged_in() && $this->is_blocked() == true ) {
-				
-				//Show the login and registration forms.
-				if ( $this->regchk ) {
-					
-					// Empty content in any of these scenarios.
-					$content = '';
+			//Show the login and registration forms.
+			if ( $this->regchk ) {
 
-					switch ( $this->regchk ) {
+				// Empty content in any of these scenarios.
+				$content = '';
 
-					case "loginfailed":
-						$content = wpmem_inc_loginfailed();
-						break;
+				switch ( $this->regchk ) {
 
-					case "success":
-						$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
-						$content = $content . wpmem_inc_login();
-						break;
+				case "loginfailed":
+					$content = wpmem_inc_loginfailed();
+					break;
 
-					default:
-						$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
-						$content = $content . wpmem_register_form();
-						break;
+				case "success":
+					$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
+					$content = $content . wpmem_inc_login();
+					break;
+
+				default:
+					$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
+					$content = $content . wpmem_register_form();
+					break;
+				}
+
+			} else {
+
+				// Toggle shows excerpt above login/reg on posts/pages.
+				global $wp_query;
+				if ( isset( $wp_query->query_vars['page'] ) && $wp_query->query_vars['page'] > 1 ) {
+
+						// Shuts down excerpts on multipage posts if not on first page.
+						$content = '';
+
+				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
+
+					if ( ! stristr( $content, '<span id="more' ) ) {
+						$content = wpmem_do_excerpt( $content );
+					} else {
+						$len = strpos( $content, '<span id="more' );
+						$content = substr( $content, 0, $len );
 					}
 
 				} else {
 
-					// Toggle shows excerpt above login/reg on posts/pages.
-					global $wp_query;
-					if ( isset( $wp_query->query_vars['page'] ) && $wp_query->query_vars['page'] > 1 ) {
+					// Empty all content.
+					$content = '';
 
-							// Shuts down excerpts on multipage posts if not on first page.
-							$content = '';
-
-					} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
-
-						if ( ! stristr( $content, '<span id="more' ) ) {
-							$content = wpmem_do_excerpt( $content );
-						} else {
-							$len = strpos( $content, '<span id="more' );
-							$content = substr( $content, 0, $len );
-						}
-
-					} else {
-
-						// Empty all content.
-						$content = '';
-
-					}
-
-					$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
-
-					$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_register_form() : $content;
 				}
 
-			// Protects comments if expiration module is used and user is expired.
-			} elseif ( is_user_logged_in() && $this->is_blocked() == true ){
+				$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
 
-				if ( $this->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) {
-					/**
-					 * Filters the user expired message used by the PayPal extension.
-					 *
-					 * @since 3.2.0
-					 *
-					 * @param string $message
-					 * @param string $content
-					 */
-					$content = apply_filters( 'wpmem_do_expmessage', wpmem_do_expmessage( $content ), $content );
-				}
+				$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_register_form() : $content;
+			}
+
+		// Protects comments if expiration module is used and user is expired.
+		} elseif ( is_user_logged_in() && $this->is_blocked() == true ){
+
+			if ( $this->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) {
+				/**
+				 * Filters the user expired message used by the PayPal extension.
+				 *
+				 * @since 3.2.0
+				 *
+				 * @param string $message
+				 * @param string $content
+				 */
+				$content = apply_filters( 'wpmem_do_expmessage', wpmem_do_expmessage( $content ), $content );
 			}
 		}
 
