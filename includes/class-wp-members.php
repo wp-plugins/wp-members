@@ -533,12 +533,6 @@ class WP_Members {
 		require_once( $this->path . 'includes/api/api-utilities.php' );
 		require_once( $this->path . 'includes/legacy/dialogs.php' );
 		require_once( $this->path . 'includes/deprecated.php' );
-		//require_once( $this->path . 'inc/core.php' ); // @deprectated 3.2.4
-		//require_once( $this->path . 'inc/utilities.php' ); // @deprecated 3.2.3
-		//require_once( $this->path . 'inc/sidebar.php' ); // @deprecated 3.2.0
-		//require_once( $this->path . 'inc/shortcodes.php' ); // @deprecated 3.2.0
-		//require_once( $this->path . 'inc/email.php' ); // @deprecated 3.2.0
-		//require_once( $this->path . 'inc/users.php' ); // @deprecated 3.1.9
 	}
 
 	/**
@@ -648,7 +642,6 @@ class WP_Members {
 			
 			case 'register':
 			case 'update':
-				require_once( $this->path . 'inc/register.php' );
 				$regchk = wpmem_registration( $action  );
 				break;
 
