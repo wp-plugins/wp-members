@@ -1498,31 +1498,8 @@ class WP_Members_Forms {
 
 		$str = '';
 
-		if ( $page == "page" ) {
-
-			 if ( $wpmem->regchk != "success" ) {
-
-				$dialogs = get_option( 'wpmembers_dialogs' );
-
-				// This shown above blocked content.
-				$msg = $wpmem->get_text( 'restricted_msg' );
-				$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
-				$str = '<div id="wpmem_restricted_msg"><p>' . $msg . '</p></div>';
-
-				/**
-				 * Filter the post restricted message.
-				 *
-				 * @since 2.7.3
-				 * @since 3.2.0 Added raw message string and HTML as separate params.
-				 *
-				 * @param string $str The post restricted message with HTML.
-				 * @param string $msg The raw message string.
-				 * @param string      The 'before' HTML wrapper.
-				 * @param string      The 'after' HTML wrapper.
-				 */
-				$str = apply_filters( 'wpmem_restricted_msg', $str, $msg, '<div id="wpmem_restricted_msg"><p>', '</p></div>' );
-
-			} 	
+		if ( 'page' == $page ) {
+			$msg = $this->add_restricted_msg();
 		} 
 
 		// Create the default inputs.
@@ -1565,7 +1542,7 @@ class WP_Members_Forms {
 		 * Filter the arguments to override login form defaults.
 		 *
 		 * @since 2.9.0
-		 * @deprectated 3.3.0 Use wpmem_login_form_defaults instead.
+		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
 		 *
 		 * @param array $args An array of arguments to use. Default null.
 		 */
