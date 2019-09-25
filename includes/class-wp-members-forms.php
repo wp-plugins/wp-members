@@ -1496,7 +1496,7 @@ class WP_Members_Forms {
 
 		global $post, $wpmem;
 
-		$str = '';
+		$msg = '';
 
 		if ( 'page' == $page ) {
 			$msg = $this->add_restricted_msg();
@@ -1570,7 +1570,7 @@ class WP_Members_Forms {
 		 */
 		$arr = apply_filters( 'wpmem_login_form_defaults', $arr );
 		
-		return ( $show == 'show' ) ? $str . wpmem_login_form( $page, $arr ) : $str;
+		return ( $show == 'show' ) ? $msg . wpmem_login_form( $page, $arr ) : $msg;
 	}
 
 	/**
