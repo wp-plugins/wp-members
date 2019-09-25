@@ -188,6 +188,7 @@ class widget_wpmemwidget extends WP_Widget {
 			 * Filter arguments for the sidebar defaults.
 			 *
 			 * @since 2.9.0
+			 * @deprecated 3.3.0 Use wpmem_login_widget_args instead.
 			 *
 			 * @param array An array of the defaults to be changed.
 			 */
@@ -195,6 +196,15 @@ class widget_wpmemwidget extends WP_Widget {
 
 			// Merge $args with defaults.
 			$args = wp_parse_args( $args, $defaults );
+			
+			/**
+			 * Filter the defaults for the login widget.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param array And array of the defaults to be changed.
+			 */
+			$args = apply_filters( 'wpmem_login_widget_args', $args );
 
 			$form = '';
 

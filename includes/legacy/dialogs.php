@@ -128,7 +128,7 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	 * Filter the message arguments.
 	 *
 	 * @since 2.9.0
-	 * @deprecated 3.3.0 Use wpmem_msg_settings instead.
+	 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
 	 *
 	 * @param array An array of arguments to merge with defaults.
 	 */

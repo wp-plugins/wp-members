@@ -565,27 +565,15 @@ class WP_Members_Forms {
 		 * includes default tags, labels, text, and small items including various booleans.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
+		 * @since 3.3.0 Passes $defaults as an argument.
 		 *
-		 * @param array                 An array of arguments to merge with defaults. Default null.
+		 * @param array  $args          An array of arguments to merge with defaults.
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$args = apply_filters( 'wpmem_login_form_args', '', $arr['action'] );
+		$args = apply_filters( 'wpmem_login_form_args', $defaults, $arr['action'] );
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
-		
-		/**
-		 * Filter the form settings.
-		 *
-		 * This is a replacement for the wpmem_login_form_args filter.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param array                 An array of arguments to merge with defaults. Default null.
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
-		 */ 
-		$args = apply_filters( 'wpmem_login_form_defaults', $args, $arr['action'] );
 
 		// Build the input rows.
 		foreach ( $arr['inputs'] as $input ) {
@@ -884,30 +872,16 @@ class WP_Members_Forms {
 		 *
 		 * @since 2.9.0
 		 * @since 3.2.5 Added $id
-		 * @deprecated 3.3.0 Use wpmem_register_form_defaults instead.
+		 * @since 3.3.0 Passes $defaults as an argument.
 		 *
 		 * @param array        An array of arguments to merge with defaults. Default null.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
 		 * @param string $id   An id for the form (optional).
 		 */
-		$args = apply_filters( 'wpmem_register_form_args', '', $tag, $id );
+		$args = apply_filters( 'wpmem_register_form_args', $defaults, $tag, $id );
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
-		
-		/**
-		 * Filter the default form arguments.
-		 *
-		 * This filter accepts an array of various elements to replace the form defaults. This
-		 * includes default tags, labels, text, and small items including various booleans.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param array  $arg  An array of arguments to merge with defaults. Default null.
-		 * @param string $tag  Toggle new registration or profile update. new|edit.
-		 * @param string $id   An id for the form (optional).
-		 */
-		$args = apply_filters( 'wpmem_register_form_defaults', $args, $tag, $id );
 		
 		// Get fields.
 		$wpmem_fields = wpmem_fields( $tag );
@@ -1621,7 +1595,7 @@ class WP_Members_Forms {
 							} else { 
 								$tos_pop = "<a href=\"#\" onClick=\"window.open('" . $wpmem->url . "/wp-members-tos.php','mywindow');\">";
 							}
-							/** This filter is documented in wp-members/inc/register.php */
+							/** This filter is documented in includes/class-wp-members-forms.php */
 							$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), 'new' );
 
 							// If filtered value is not the default label, use that, otherwise use label.

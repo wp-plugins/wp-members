@@ -45,16 +45,6 @@ class WP_Members_Export {
 		 * Filter the default export arguments.
 		 *
 		 * @since 2.9.7
-		 * @deprecated 3.3.0 Use wpmem_export_defaults instead.
-		 *
-		 * @param array $args An array of arguments to merge with defaults. Default null.
-		 */
-		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
-		
-		/**
-		 * Filter the export defaults.
-		 *
-		 * @since 3.3.0
 		 *
 		 * @param array $args {
 		 *     Array of defaults for export.
@@ -67,7 +57,7 @@ class WP_Members_Export {
 		 *     @type  string  $date_format
 		 * }
 		 */
-		$args = apply_filters( 'wpmem_export_defaults', $args );
+		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
 
 		// Prepare fields, add additional "special" fields.
 		$export_fields = array(

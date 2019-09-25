@@ -726,24 +726,15 @@ class WP_Members {
 			 *
 			 * @since 2.9.8
 			 * @since 3.0.0 Moved to is_blocked() in WP_Members object.
-			 * @deprecated 3.3.0 Use wpmem_block_defaults instead.
+			 * @since 3.3.0 Passes $defaults, second argument deprecated.
 			 *
-			 * @param array $args     Null.
-			 * @param array $defaults Although you are not filtering the defaults, knowing what they are can assist developing more powerful functions.
+			 * @param array $args     $defaults.
+			 * @param array $defaults Deprecated 3.3.0.
 			 */
-			$args = apply_filters( 'wpmem_block_args', '', $defaults );
+			$args = apply_filters( 'wpmem_block_args', $defaults, $defaults );
 	
 			// Merge $args with defaults.
 			$args = ( wp_parse_args( $args, $defaults ) );
-			
-			/**
-			 * Filter the block settings.
-			 *
-			 * @since 3.3.0
-			 *
-			 * @param array $args
-			 */
-			$args = apply_filters( 'wpmem_block_defaults', $args );
 	
 			if ( is_single() || is_page() ) {
 				switch( $args['block_type'] ) {

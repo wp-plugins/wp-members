@@ -127,9 +127,10 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 
 * REMOVED [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
 * REMOVED tinymce button for shortcodes as no longer necessary with gutenberg.
-* Deprecated wpmem_login_form_args filter, use wpmem_login_form_settings instead.
-* Deprecated wpmem_block_args filter, use wpmem_block_settings instead.
-* Deprecated wpmem_msg_args and wpmem_msg_dialog_arr filters, use wpmem_msg_settings instead.
+* Deprecated wpmem_inc_login_args filter, use wpmem_login_form_defaults instead.
+* Deprecated wpmem_inc_{$form}_inputs and wpmem_inc_{$form}_args filters, use wpmem_{$form}_form_defaults instead. (changepassword|resetpassword|forgotusername)
+* Deprecated wpmem_sb_login_args filter, use wpmem_login_widget_args instead.
+* Deprecated wpmem_msg_args and wpmem_msg_dialog_arr filters, use wpmem_msg_defaults instead.
 * The following functions are deprecated, replacements should no longer be considered "pluggable":
   - wpmem_inc_changepassword()
   - wpmem_inc_resetpassword()
