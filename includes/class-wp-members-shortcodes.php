@@ -202,6 +202,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_in().
 	 * @since 3.2.0 Added attributes for meta key/value pairs.
 	 * @since 3.2.3 Added product attribute.
+	 * @since 3.3.0 Added compare attribute for meta key/value compare (=|!=).
 	 *
 	 * @global object $wpmem The WP_Members object.
 	 *
@@ -277,9 +278,17 @@ class WP_Members_Shortcodes {
 				// If there is a meta key attribute.
 				if ( isset( $atts['meta_key'] ) ) {
 					$value = ( isset( $atts['meta_value'] ) ) ? $atts['meta_value'] : false;
-					if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
-						$do_return = true;
+					if ( ! isset( $atts['compare'] ) || "=" == $atts['compare'] ) {
+						if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
+							$do_return = true;
+						}
 					}
+					if ( isset( $atts['compare'] ) && "!=" == $atts['compare'] ) {
+						if ( ! wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
+							$do_return = true;
+						}						
+					}
+					$do_return = false;
 				}
 				
 				// If there is a product attribute.

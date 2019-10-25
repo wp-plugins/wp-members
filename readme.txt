@@ -166,20 +166,29 @@ IMPORTANT UPDATES/CHANGES
   changes the order in which the user meta fields are saved, and also changes 
   when the email is sent. Email is now hooked to user_register, but can be 
   unloaded if necessary.
+  
 * Major overhaul of registration and login form, validation, and processing
   functions. Moved things into appropriate object classes (user, forms) and
   deprecated legacy functions and files (register.php, forms.php).
+  
 * Updated membership product meta and date format, IMPORTANT: this changes the 
   way the user product access information is stored (going from an array of 
   all memberships to individual meta for each) as well as the format (dates 
   are now unix timestamp). There is an update script that will run during 
   upgrade to handle this. For now, the legacy format is also maintained (so 
   consider this if customzizing any processing) so that rollback is possible.
+
 * Updated wpmem_user_has_meta() to include a check by array when the field is 
   multiple checkbox or multiple select.
+
 * Updated [wpmem_logged_in] shortcode to include an msg attribute to display a 
   message if the user does not have access to a specified product (product must
   be passed as attribute).
+  
+* Updated [wpmem_logged_in] shortcode to include a compare attribute. Possible
+  values for "compare" are "=" and "!=" to restrict if the has a meta value or
+  the meta value is "not equal to" respectively. Passing only meta_key/meta_value
+  will still assume an "=" comparison.
 
 * Updated register page shortcode [wpmem_form register] logged in state - if a 
   profile page is set, second link links to profile rather than "begin using 
