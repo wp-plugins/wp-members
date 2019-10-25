@@ -714,4 +714,33 @@ function wpmem_user_register( $tag ) {
 	}
 } // End registration function.
 
+/**
+ * Get user IP address.
+ *
+ * From Pippin.
+ * @link https://gist.github.com/pippinsplugins/9641841
+ *
+ * @since 3.3.0
+ *
+ * @return string $ip.
+ */
+function wpmem_get_user_ip() {
+	if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+		//check ip from share internet
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		//to check ip is pass from proxy
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	/**
+	 * Filter the IP result.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $ip
+	 */
+	return apply_filters( 'wpmem_get_ip', $ip );
+}
 // End of file.
