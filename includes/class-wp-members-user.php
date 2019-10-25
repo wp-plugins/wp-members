@@ -43,11 +43,14 @@ class WP_Members_User {
 	 * @param object $settings The WP_Members Object
 	 */
 	function __construct( $settings ) {
+		add_action( 'user_register', array( $this, 'set_reg_type'            ), 1 );
 		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
 		add_action( 'user_register', array( $this, 'set_user_exp'            ), 6 );
 		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.
 		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
+		
+		add_filter( 'registration_errors',       array( $this, 'wp_register_validate' ), 10, 3 );  // native registration validation
 	
 		// Load anything the user as access to.
 		if ( 1 == $settings->enable_products ) {
@@ -155,7 +158,23 @@ class WP_Members_User {
 		wp_safe_redirect( $redirect_to );
 		exit();
 	}
-	
+
+	/**
+	 * Sets the registration type.
+	 *
+	 * @since 3.3.0
+	 */
+	function set_reg_type() {
+		// Is this a WP-Members registration?
+		$this->reg_type['is_wpmem']   = ( 'register' == wpmem_get( 'a' ) ) ? true : false;
+		// Is this WP's native registration? Checks the native submit button.
+		$this->reg_type['is_native']  = ( __( 'Register' ) == wpmem_get( 'wp-submit' ) ) ? true : false;
+		// Is this a Users > Add New process? Checks the post action.
+		$this->reg_type['is_add_new'] = ( 'createuser' == wpmem_get( 'action' ) ) ? true : false;
+		// Is this a WooCommerce checkout registration? Checks for WC fields.
+		$this->reg_type['is_woo']     = ( wpmem_get( 'woocommerce_checkout_place_order' ) || wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
+	}
+
 	/**
 	 * Validate user registration.
 	 *
@@ -335,7 +354,7 @@ class WP_Members_User {
 			// Add for _data hooks
 			$this->post_data['user_registered'] = current_time( 'mysql', 1 );
 			$this->post_data['user_role']       = get_option( 'default_role' );
-			$this->post_data['wpmem_reg_ip']    = $_SERVER['REMOTE_ADDR'];
+			$this->post_data['wpmem_reg_ip']    = wpmem_get_user_ip();
 			$this->post_data['wpmem_reg_url']   = esc_url_raw( wpmem_get( 'wpmem_reg_page', wpmem_get( 'redirect_to', false, 'request' ), 'request' ) );
 
 			/*
@@ -398,61 +417,39 @@ class WP_Members_User {
 	function register_finalize( $user_id ) {
 		
 		global $wpmem;
-		
-		// Put user ID into post_data array.
-		$this->post_data['ID'] = $user_id;
-		
-		// Set remaining fields to wp_usermeta table.
-		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
-		foreach ( $wpmem->fields as $meta_key => $field ) {
-			// If the field is not excluded, update accordingly.
-			if ( ! in_array( $meta_key, $wpmem->excluded_meta ) && ! in_array( $meta_key, $new_user_fields_meta ) ) {
-				if ( $field['register'] && 'user_email' != $meta_key ) {
-					// Assign memberships, if applicable.
-					if ( 'membership' == $field['type'] && 1 == $wpmem->enable_products ) {
-						wpmem_set_user_product( $this->post_data[ $meta_key ], $user_id );
-					} else {
-						update_user_meta( $user_id, $meta_key, $this->post_data[ $meta_key ] );
+
+		// If this is WP-Members registration.
+		if ( $this->reg_type['is_wpmem'] ) {
+			// Put user ID into post_data array.
+			$this->post_data['ID'] = $user_id;
+
+			// Set remaining fields to wp_usermeta table.
+			$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
+			foreach ( $wpmem->fields as $meta_key => $field ) {
+				// If the field is not excluded, update accordingly.
+				if ( ! in_array( $meta_key, wpmem_get_excluded_meta( 'register' ) ) && ! in_array( $meta_key, $new_user_fields_meta ) ) {
+					if ( $field['register'] && 'user_email' != $meta_key ) {
+						// Assign memberships, if applicable.
+						if ( 'membership' == $field['type'] && 1 == $wpmem->enable_products ) {
+							wpmem_set_user_product( $this->post_data[ $meta_key ], $user_id );
+						} else {
+							update_user_meta( $user_id, $meta_key, $this->post_data[ $meta_key ] );
+						}
 					}
 				}
 			}
+
+			// Store the registration url.
+			update_user_meta( $user_id, 'wpmem_reg_url', $this->post_data['wpmem_reg_url'] );
+
+			// Handle file uploads, if any.
+			if ( ! empty( $_FILES ) ) {
+				$this->upload_user_files( $user_id, $wpmem->fields );
+			}
 		}
-		
-		// Capture IP address of user at registration.
-		update_user_meta( $user_id, 'wpmem_reg_ip', $this->post_data['wpmem_reg_ip'] );
-
-		// Store the registration url.
-		update_user_meta( $user_id, 'wpmem_reg_url', $this->post_data['wpmem_reg_url'] );
-
-		// Handle file uploads, if any.
-		if ( ! empty( $_FILES ) ) {
-			$this->upload_user_files( $user_id, $wpmem->fields );
-		}
-	}
-
-	/**
-	 * Inserts registration data from the native WP registration.
-	 *
-	 * @since 2.8.3
-	 * @since 3.1.1 Added new 3.1 field types and activate user support.
-	 * @since 3.3.0 Ported from wpmem_wp_reg_finalize() in wp-register.php.
-	 *
-	 * @todo Compartmentalize file upload along with main register function.
-	 *
-	 * @global object $wpmem The WP-Members object class.
-	 * @param int $user_id The WP user ID.
-	 */
-	function wp_register_finalize( $user_id ) {
-
-		global $wpmem;
-		// Is this WP's native registration? Checks the native submit button.
-		$is_native  = ( __( 'Register' ) == wpmem_get( 'wp-submit' ) ) ? true : false;
-		// Is this a Users > Add New process? Checks the post action.
-		$is_add_new = ( 'createuser' == wpmem_get( 'action' ) ) ? true : false;
-		// Is this a WooCommerce checkout registration? Checks for WC fields.
-		$is_woo     = ( wpmem_get( 'woocommerce_checkout_place_order' ) || wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
-
-		if ( $is_native || $is_add_new || $is_woo ) {
+	
+		// If this is native WP (wp-login.php), Users > Add New, or WooCommerce registration.
+		if ( $this->reg_type['is_native'] || $this->reg_type['is_add_new'] || $this->reg_type['is_woo'] ) {
 			// Get any excluded meta fields.
 			$exclude = wpmem_get_excluded_meta( 'wp-register' );
 			foreach ( wpmem_fields( 'wp_finalize' ) as $meta_key => $field ) {
@@ -466,17 +463,20 @@ class WP_Members_User {
 				}
 			}
 		}
-
+		
 		// If this is Users > Add New.
-		if ( is_admin() && $is_add_new ) {
+		if ( is_admin() && $this->reg_type['is_add_new'] ) {
 			// If moderated registration and activate is checked, set active flags.
 			if ( 1 == $wpmem->mod_reg && isset( $_POST['activate_user'] ) ) {
 				update_user_meta( $user_id, 'active', 1 );
 				wpmem_set_user_status( $user_id, 0 );
 			}
 		}
+		
+		// Capture IP address of all users at registration.
+		$user_ip = ( $this->reg_type['is_wpmem'] ) ? $this->post_data['wpmem_reg_ip'] : wpmem_get_user_ip();
+		update_user_meta( $user_id, 'wpmem_reg_ip', $user_ip );
 
-		return;
 	}
 	
 	/**
