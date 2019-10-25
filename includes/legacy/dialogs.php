@@ -136,6 +136,8 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 
 	// Get dialogs set in the db.
 	$dialogs = get_option( 'wpmembers_dialogs' );
+	/** This filter is documented in /includes/class-wp-members-admin-api.php */
+	$dialogs = apply_filters( 'wpmem_dialogs', get_option( 'wpmembers_dialogs' ) );
 
 	if ( array_key_exists( $tag, $dialogs ) ) {
 		$msg = $wpmem->get_text( $tag );

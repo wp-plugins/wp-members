@@ -210,6 +210,7 @@ IMPORTANT UPDATES/CHANGES
 * Added wpmem_msg_settings filter.
 * Added wpmem_sc_product_access_denied filter.
 * Added wpmem_views_users filter.
+* Added wpmem_dialogs filter.
 * Added wpmem_user_action.
 * Added admin user class for handling Users > All users screen and user activation.
 * Added user export class.
