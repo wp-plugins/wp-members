@@ -125,6 +125,8 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 
 = 3.3.0 =
 
+* @todo Need to resolve duplicate wpmem_login_form_defaults. (maybe took care of itself with backing out of _args deprecation)
+
 * REMOVED [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
 * REMOVED tinymce button for shortcodes as no longer necessary with gutenberg.
 * Deprecated wpmem_inc_login_args filter, use wpmem_login_form_defaults instead.
@@ -137,7 +139,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
   - wpmem_inc_forgotusername()
   - wpmem_inc_recaptcha()
   - wpmem_build_rs_captcha()
-* The following functions are obsolete and have been removed:
+* The following functions and filters are obsolete and have been removed:
   - wpmem_shortcode() (deprecated 3.1.2)
   - wpmem_do_sc_pages() (deprecated 3.1.8 Use wpmem_sc_user_profile() or wpmem_sc_forms() instead.)
   - wpmem_admin_fields() (deprecated 3.1.9)
@@ -156,6 +158,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
   - wpmem_sc_tos() (deprecated 3.2.0 Use WP_Members_Shortcodes::tos() instead.)
   - wpmem_sc_avatar() (deprecated 3.2.0 Use WP_Members_Shortcodes::avatar() instead.)
   - wpmem_sc_link() (deprecated 3.2.0 Use WP_Members_Shortcodes::login_link() instead.)
+  - wpmem_register_fields_arr (obsolete 3.1.7, use wpmem_fields instead.)
   
 IMPORTANT UPDATES/CHANGES
 

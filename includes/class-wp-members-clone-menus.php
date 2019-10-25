@@ -76,10 +76,10 @@ class WP_Members_Clone_Menus {
 		 * @since 3.2.6
 		 * @todo Determine what extra parameters to pass and how (then document them).
 		 *
-		 * @param array  boolean
-		 * @param string $theme_loc
-		 * @param        $menu_locs
-		 * @param array  $args
+		 * @param boolean
+		 * @param string  $theme_loc
+		 * @param         $menu_locs
+		 * @param array   $args
 		 */
 		$serve_menu = apply_filters( 'wpmem_serve_menu', true, $theme_loc, $menu_locs, $args );
 

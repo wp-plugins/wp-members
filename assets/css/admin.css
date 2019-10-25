@@ -62,6 +62,13 @@
 
 #wpmem_block input {
 	vertical-align: -webkit-baseline-middle;
+	margin: 0 0 8px 0;
+}
+#wpmem_block label {
+	margin: 0 0 0 8px;
+}
+#wpmem_ok_block_status {
+	margin: 5px 0 0 0;
 }
 #wpmem_post_block_status {
 	font-weight: 600;
