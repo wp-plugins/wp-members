@@ -39,7 +39,8 @@ function wpmem_a_do_warnings( $did_update ) {
 
 	global $wpmem;
 
-	$wpmem_dialogs = get_option( 'wpmembers_dialogs' );
+	/** This filter is documented in /includes/class-wp-members-admin-api.php */
+	$dialogs = apply_filters( 'wpmem_dialogs', get_option( 'wpmembers_dialogs' ) ); 
 
 	if ( $did_update != false ) {?>
 		<div id="message" class="updated fade"><p><strong><?php echo $did_update; ?></strong></p></div><?php

@@ -205,10 +205,9 @@ class WP_Members_User {
 		// Add the user email to the $this->post_data array for _data hooks.
 		$this->post_data['user_email'] = sanitize_email( wpmem_get( 'user_email' ) );
 
-		/** This filter defined in inc/class-wp-members-forms.php */
-		/** @deprecated 3.1.7 Use wpmem_fields instead. */
-		$wpmem->fields = apply_filters( 'wpmem_register_fields_arr', wpmem_fields( $tag ), $tag );
-
+		// Make sure fields are loaded.
+		wpmem_fields();
+		
 		// If this is an update, and tos is a field, and the user has the correct saved value, remove tos.
 		if ( 'update' == $tag && isset( $wpmem->fields['tos'] ) ) {
 			if ( get_user_meta( $user_ID, 'tos', true ) == $wpmem->fields['tos']['checked_value'] ) {
@@ -490,8 +489,11 @@ class WP_Members_User {
 	 */
 	function register_email_to_user( $user_id ) {
 		global $wpmem;
-		// Send a notification email to the user.
-		wpmem_email_to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
+		if ( $this->reg_type['is_wpmem'] ) {
+			// @todo Work out a better method for this so that it is optional and can be turned on/off for native reg
+			// Send a notification email to the user.
+			wpmem_email_to_user( $user_id, $this->post_data['password'], $wpmem->mod_reg, $wpmem->fields, $this->post_data );
+		}
 	}
 	
 	/**
@@ -505,9 +507,12 @@ class WP_Members_User {
 	 */
 	function register_email_to_admin( $user_id ) {
 		global $wpmem;
-		// Notify admin of new reg, if needed.
-		if ( 1 == $wpmem->notify ) { 
-			$wpmem->email->notify_admin( $user_id, $wpmem->fields, $this->post_data );
+		if ( $this->reg_type['is_wpmem'] ) {
+			// @todo Work out a better method for this so that it is optional and can be turned on/off for native reg
+			// Notify admin of new reg, if needed.
+			if ( 1 == $wpmem->notify ) { 
+				$wpmem->email->notify_admin( $user_id, $wpmem->fields, $this->post_data );
+			}
 		}
 	}
 	

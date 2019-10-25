@@ -196,7 +196,7 @@ class WP_Members_Captcha {
 			$privatekey = $wpmem_captcha['recaptcha']['private'];
 
 			// Validate the captcha.
-			$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR'] );
+			$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . wpmem_get_user_ip() );
 
 			// Decode the json response.
 			$response = json_decode( $response, true );

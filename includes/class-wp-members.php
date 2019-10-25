@@ -405,8 +405,6 @@ class WP_Members {
 		
 		add_filter( 'register_form',             'wpmem_wp_register_form' );                             // adds fields to the default wp registration
 		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
-		add_action( 'user_register',             array( $this->user, 'wp_register_finalize' ) );         // handles wp native registration
-		add_filter( 'registration_errors',       array( $this->user, 'wp_register_validate' ), 10, 3 );  // native registration validation
 		
 		// Add filters.
 		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
@@ -642,7 +640,7 @@ class WP_Members {
 			
 			case 'register':
 			case 'update':
-				$regchk = wpmem_registration( $action  );
+				$regchk = wpmem_user_register( $action  );
 				break;
 
 			default:
