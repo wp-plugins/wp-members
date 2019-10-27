@@ -87,6 +87,24 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 }
 
 /**
+ * Gets user meta.
+ *
+ * It may seem like WP already has this feature. And it does. But most user meta
+ * are single, and WP's get_user_meta() defaults to "false" for the $single
+ * argument. This function provides a shorthand that assumes a string value for
+ * the meta result and drops the $single argument.
+ *
+ * @since 3.3.0
+ *
+ * @param  int    $user_id
+ * @param  string $meta_key
+ * @return string $result
+ */
+function wpmem_get_user_meta( $user_id, $meta_key ) {
+	return get_user_meta( $user_id, $meta_key, true );
+}
+
+/**
  * Checks if a user has a given meta value.
  *
  * @since 3.1.8

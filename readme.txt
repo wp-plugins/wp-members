@@ -216,6 +216,7 @@ IMPORTANT UPDATES/CHANGES
 * Added wpmem_maybe_unserialize() API function. If result is serialized, it unserializes to an array, if an array, it sanitizes using wpmem_sanitize_array().
 * Added wpmem_get_user_role() API function.
 * Added wpmem_get_user_ip() API function.
+* Added wpmem_get_user_meta() API function.
 * Added wpmem_user_has_meta filter.
 * Added wpmem_login_form_settings filter.
 * Added wpmem_block_settings filter.
