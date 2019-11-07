@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 3.2.9.2
+Stable tag: 3.2.9.3
 License: GPLv2
 
 == Description ==
@@ -163,6 +163,14 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
   
 IMPORTANT UPDATES/CHANGES
 
+* Major filesystem changes. The directory structure has changed and several files
+  moved/renamed/made obsolete. If you have ANY WP-Members customization that directly
+  includes a file, that step is probably obsolete. The plugin has loaded most of the
+  include files automatically since at least version 3.2, so this step has not been
+  necessary for quite some time. However, this set of changes is more significant.
+  (If you do not have code snippets using file includes from WP-Members, this most 
+  likely will not affect you.)
+
 * Updated registration function to hook to user_register, IMPORTANT: this 
   changes the order in which the user meta fields are saved, and also changes 
   when the email is sent. Email is now hooked to user_register, but can be 
@@ -205,6 +213,7 @@ IMPORTANT UPDATES/CHANGES
   wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
   object and that will take the place of the cloned menu options.
 
+* Added reCAPTCHA v3 support.
 * Added default membership product(s) at registration.
 * Added membership product(s) for user export.
 * Added support for selecting fields to display on the registration form or the profile form.
