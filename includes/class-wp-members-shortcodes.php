@@ -133,7 +133,7 @@ class WP_Members_Shortcodes {
 					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
 						$content  = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-						$content .= wpmem_register_form( 'new', '', $redirect_to );
+						$content .= wpmem_register_form( 'new', $redirect_to );
 					} else {
 						if ( $wpmem->regchk == 'loginfailed' ) {
 							$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
@@ -145,7 +145,7 @@ class WP_Members_Shortcodes {
 							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
 						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( 'new', '', $redirect_to );
+						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( 'new', $redirect_to );
 					}
 					break;
 
@@ -166,7 +166,7 @@ class WP_Members_Shortcodes {
 					break;
 					
 				case in_array( 'customizer_register', $atts ):
-					$content = wpmem_register_form( 'new', '', $redirect_to );
+					$content = wpmem_register_form( 'new', $redirect_to );
 					break;
 
 			}
@@ -401,6 +401,7 @@ class WP_Members_Shortcodes {
 	 *     The shortcode attributes.
 	 *
 	 *     @type string $redirect_to
+	 *     @type string $register    "hide" removes registration form, any other value is false.
 	 * }
 	 * @param  string $content
 	 * @param  string $tag
@@ -427,26 +428,17 @@ class WP_Members_Shortcodes {
 
 		if ( is_user_logged_in() ) {
 
-			/**
-			 * Filter the default heading in User Profile edit mode.
-			 *
-			 * @since 2.7.5
-			 *
-			 * @param string The default edit mode heading.
-			 */
-			$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
-
 			switch( $wpmem->action ) {
 
 			case "edit":
-				$content = $content . wpmem_register_form( 'edit', $heading );
+				$content = $content . wpmem_register_form( 'edit' );
 				break;
 
 			case "update":
 				// Determine if there are any errors/empty fields.
 				if ( $wpmem->regchk == "updaterr" || $wpmem->regchk == "email" ) {
 					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_register_form( 'edit', $heading );
+					$content = $content . wpmem_register_form( 'edit' );
 				} else {
 					//Case "editsuccess".
 					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );

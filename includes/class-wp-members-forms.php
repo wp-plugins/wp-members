@@ -797,15 +797,15 @@ class WP_Members_Forms {
 	 * @since 2.5.1
 	 * @since 3.1.7 Moved to forms object class as register_form().
 	 * @since 3.2.5 use_nonce now obsolete (nonce is added automatically).
+	 * @since 3.3.0 $heading argument obsolete.
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
 	 * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
 	 * @param  mixed  $mixed        (optional) String toggles between new registration ('new') and user profile edit ('edit'), or array containing settings arguments.
-	 * @param  string $heading      (optional) The heading text for the form, null (default) for new registration.
 	 * @return string $form         The HTML for the entire form as a string.
 	 */
-	function register_form( $mixed = 'new', $heading = '', $redirect_to = null ) {
+	function register_form( $mixed = 'new', $redirect_to = null ) {
 		
 		// Handle legacy use.
 		if ( is_array( $mixed ) ) {
@@ -1341,15 +1341,27 @@ class WP_Members_Forms {
 		$form.= $args['req_label_before'] . $args['req_label'] . $args['req_label_after'];
 
 		// Apply the heading.
-		/**
-		 * Filter the registration form heading.
-		 *
-		 * @since 2.8.2
-		 *
-		 * @param string $str
-		 * @param string $tag Toggle new registration or profile update. new|edit.
-		 */
-		$heading = ( !$heading ) ? apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag ) : $heading;
+		if ( 'edit' == $tag ) {
+			/**
+			 * Filter the default heading in User Profile edit mode.
+			 *
+			 * @since 2.7.5
+			 * @since 3.3.0 Moved into main registration function (from profile shortcode).
+			 *
+			 * @param string The default edit mode heading.
+			 */
+			$heading = ( isset( $heading ) ) ? $headhing : apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );			
+		} else {
+			/**
+			 * Filter the registration form heading.
+			 *
+			 * @since 2.8.2
+			 *
+			 * @param string $str
+			 * @param string $tag Toggle new registration or profile update. new|edit.
+			 */
+			$heading = ( isset( $heading ) ) ? $headhing : apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag );
+		}
 		$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 
 		// Apply fieldset wrapper.

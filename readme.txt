@@ -134,6 +134,7 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 * Deprecated wpmem_sb_login_args filter, use wpmem_login_widget_args instead.
 * Deprecated wpmem_msg_args and wpmem_msg_dialog_arr filters, use wpmem_msg_defaults instead.
 * The following functions are deprecated, replacements should no longer be considered "pluggable":
+  - wpmem_inc_registration() Use wpmem_register_form() instead ($heading argument obsolete).
   - wpmem_inc_changepassword()
   - wpmem_inc_resetpassword()
   - wpmem_inc_forgotusername()
