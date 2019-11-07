@@ -56,11 +56,16 @@ class WP_Members_User_Profile {
 			// Get excluded meta.
 			$exclude = wpmem_get_excluded_meta( $display . '-profile' );
 		
-			// If tos is an active field, this is the dashboard profile, and user has current field value.
-			if ( isset( $wpmem_fields['tos'] ) 
-				&& 'user' == $display
-				&& ( get_user_meta( $user_ID, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) ) {
-				unset( $wpmem_fields['tos'] );
+			// If tos is an active field.
+			if ( isset( $wpmem_fields['tos'] ) ) {
+				if (  1 != $wpmem_fields['tos']['register'] ) {
+					unset( $wpmem_fields['tos'] );
+				}
+				// This is the dashboard profile, and user has current field value.
+				if ( 'user' == $display
+					&& ( get_user_meta( $user_ID, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) ) {
+					unset( $wpmem_fields['tos'] );
+				}
 			}
 
 			/**
