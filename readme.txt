@@ -233,12 +233,13 @@ IMPORTANT UPDATES/CHANGES
 * Replaced WPMEM_PATH constant with $wpmem->path. WPMEM_PATH will still function for backward compatibility.
 * Replaced WPMEM_URL constant with $wpmem->url.
 * New folder structure being implemented
-  - All admin js & css now load from /assets/ not /admin/
+  - All admin js & css now load from /assets/ not /admin/ !!!
 
 Other Improvements
 
 * Changed load for WP-Members Admin API so that emails, dialogs, and tabs only load on the WP-Members settings screens (where they are used).
 * Changed email "from" to only load if the WP-Members Email object is doing a send (user or admin). This saves an option load when not needed.
+* Fixed an issue where a PHP notice was thrown if one of the User Pages (login/register/profile) was deleted but the setting not updated. Fixes the PHP notice issue, but also adds an admin notice to indicate the page was deleted, but the setting not updated. (This also adds a new admin notice function/process that can be expanded on later.)
 
 = 3.2.9 =
 

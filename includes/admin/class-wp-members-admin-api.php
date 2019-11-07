@@ -177,7 +177,28 @@ class WP_Members_Admin_API {
 		add_action( 'wpmem_after_admin_init', array( 'WP_Members_Admin_Tab_Fields', 'update'          ) );
 		add_action( 'admin_print_styles',     array( 'WP_Members_Admin_Tab_Fields', 'enqueue_scripts' ) );
 		add_action( 'admin_footer',           array( 'WP_Members_Admin_Tab_Fields', 'bulk_actions'    ) );
+		
+		if ( current_user_can( 'manage_options' ) ) {
+			add_action( 'admin_notices', array( $this, 'do_admin_notices' ) );
+		}
 	} // End of load_hooks()
+
+	/**
+	 * Add admin notices.
+	 *
+	 * @since 3.3.0
+	 */
+	function do_admin_notices() {
+		global $wpmem; //echo '<pre>'; print_r( $wpmem ); exit();
+		if ( $wpmem->admin_notices ) {
+			foreach ( $wpmem->admin_notices as $key => $value ) {
+				echo '<div class="notice notice-' . $value['type'] . ' is-dismissible"> 
+					<p><strong>' . $value['notice'] . '</strong></p>
+				</div>';
+				
+			}
+		}
+	}
 
 	/**
 	 * Display admin tabs.

@@ -263,6 +263,15 @@ class WP_Members {
 	public $error;
 	
 	/**
+	 * Container for admin notices.
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 * @var array
+	 */
+	public $admin_notices;
+	
+	/**
 	 * Container for stylesheet setting.
 	 *
 	 * @since  3.2.7
@@ -1230,9 +1239,17 @@ class WP_Members {
 	 * @since 3.0.8
 	 */
 	function load_user_pages() {
-		foreach ( $this->user_pages as $key => $val ) {
+		foreach ( $this->user_pages as $key => $val ) { 
 			if ( is_numeric( $val ) ) {
-				$this->user_pages[ $key ] = get_page_link( $val );
+				if ( false !== get_post_status( $val ) ) {
+					$this->user_pages[ $key ] = get_page_link( $val );
+				} else {
+					$notice = sprintf( __( 'You have a linked page in the WP-Members page settings that corresponds to a post ID that no longer exists. Please %s review and update the %s page settings %s.', 'wp-members' ), '<a href="' . esc_url( get_admin_url() . '/options-general.php?page=wpmem-settings&tab=options' ) . '">', $key, '</a>' );
+					$this->admin_notices[] = array(
+						'type'=>'error',
+						'notice'=>$notice
+					); 
+				}
 			}
 		}
 	}
