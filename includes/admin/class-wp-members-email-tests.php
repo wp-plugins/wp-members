@@ -1,9 +1,9 @@
 <?php
 /**
- * The WP_Members Admin API Class.
+ * The WP_Members WP_Members_Email_Tests Class.
  *
  * @package WP-Members
- * @subpackage WP_Members Admin API Object Class
+ * @subpackage WP_Members WP_Members_Email_Tests Object Class
  * @since 3.1.0
  */
 
@@ -12,13 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class WP_Members_Admin_API {
+class WP_Members_Email_Tests {
+	
+	function __construct() {
+		$this->load_hooks();
+	}
 	
 	function load_hooks() {
-
 		// Actions and Filters. 
-		add_filter( 'wpmem_admin_tabs',    array( $this, 'email_test_tab'          ) );
-		add_action( 'wpmem_admin_do_tab',  array( $this, 'do_email_test_tab', 1, 1 ) );
+		add_filter( 'wpmem_admin_tabs',    array( $this, 'email_test_tab'    ) );
+		add_action( 'wpmem_admin_do_tab',  array( $this, 'do_email_test_tab' ) );
 		
 	}
 
@@ -31,7 +34,9 @@ class WP_Members_Admin_API {
 	 * @return array $tabs The array with the Email Test tab added.
 	 */
 	function email_test_tab( $tabs ) {
-		return array_merge( $tabs, array( 'emailtest' => 'Email Test' ) );
+		// Insert tab immediately following the main Email tab.
+		$email_test_tab = array( 'emailtest' => 'Email Tests' );
+		return wpmem_array_insert( $tabs, $email_test_tab, 'emails' );
 	}
 
 	/**
