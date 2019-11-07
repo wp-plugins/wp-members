@@ -509,7 +509,7 @@ function wpmem_install_settings() {
 			'login'    => '',
 		),
 		'cssurl'          => '',
-		'select_style'    => 'generic-no-float.css',
+		'select_style'    => 'generic-no-float',
 		'attrib'          => 0,
 		'post_types'      => array(),
 		'form_tags'       => array( 'default' => 'Registration Default' ),

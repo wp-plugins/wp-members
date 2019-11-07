@@ -212,6 +212,10 @@ IMPORTANT UPDATES/CHANGES
   wpmem_menu_settings and wpmem_menus are now wpmem_clone_menu_settings and 
   wpmem_clone_menus. New menu handing has been introduced in the $wpmem->menus
   object and that will take the place of the cloned menu options.
+  
+* Updated the way stylesheets are handled. Added wpmem_get_suffix() API function to
+  get the appropriate suffix for files (.min.css or .css) for both js and css. Also,
+  minified all CSS files that were not previously minified.
 
 * Added reCAPTCHA v3 support.
 * Added default membership product(s) at registration.

@@ -196,7 +196,7 @@ class WP_Members_Menus {
 	public function enqueue_scripts( $hook ) {
 		global $wpmem;
 		if ( $hook == 'nav-menus.php' ){
-			wp_enqueue_script( 'wp-members-menus', $wpmem->url . 'assets/js/wpmem-nav-menu.min.js', array( 'jquery' ), $wpmem->version, true );
+			wp_enqueue_script( 'wp-members-menus', $wpmem->url . 'assets/js/wpmem-nav-menu' . wpmem_get_suffix() . '.js', array( 'jquery' ), $wpmem->version, true );
 		}
 	}
 

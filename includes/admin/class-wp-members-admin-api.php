@@ -549,15 +549,15 @@ class WP_Members_Admin_API {
 	function dashboard_enqueue_scripts( $hook ) {
 		global $current_screen, $wpmem;
 		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
-			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin.css', '', $wpmem->version );
+			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin' . wpmem_get_suffix() . '.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
-			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin.js', '', $wpmem->version );
+			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin' . wpmem_get_suffix() . '.js', '', $wpmem->version );
 		}
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
 			if ( ! wp_script_is( 'select2', 'enqueued' ) ) {
-				wp_register_style( 'select2-style', $wpmem->url . 'assets/css/select2.min.css', false, '4.0.5', 'all' );
-				wp_register_script( 'select2',   $wpmem->url . 'assets/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
+				wp_register_style( 'select2-style', $wpmem->url . 'assets/css/select2' . wpmem_get_suffix() . '.css', false, '4.0.5', 'all' );
+				wp_register_script( 'select2',   $wpmem->url . 'assets/js/select2' . wpmem_get_suffix() . '.js', array( 'jquery' ), '4.0.5', true );
 				wp_enqueue_style( 'select2-style' );
 				wp_enqueue_script( 'select2' );
 			}
@@ -569,7 +569,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui' . wpmem_get_suffix() . '.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 		}
@@ -579,7 +579,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui.min.css' );
+				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui' . wpmem_get_suffix() . '.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 			 

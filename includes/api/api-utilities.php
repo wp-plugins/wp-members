@@ -322,3 +322,20 @@ function wpmem_maybe_unserialize( $original ) {
 	}
 	return ( is_array( $original ) ) ? wpmem_sanitize_array( $original ) : $original;
 }
+
+/**
+ * Determines whether to use a .min suffix for a script/style file.
+ *
+ * @since 3.3.0
+ *
+ * @param boolean $echo
+ */
+function wpmem_get_suffix( $echo = false ) {
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+	if ( true === $echo ) {
+		echo $suffix;
+		return;
+	} else {
+		return $suffix;
+	}
+}

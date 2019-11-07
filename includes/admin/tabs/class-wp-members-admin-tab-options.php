@@ -584,13 +584,13 @@ class WP_Members_Admin_Tab_Options {
 	static function style_list( $style ) {
 
 		$list = array(
-			'No Float'                   => 'generic-no-float.css',
-			'Rigid'                      => 'generic-rigid.css',
-			'Twenty Sixteen - no float'  => 'wp-members-2016-no-float.css',
-			'Twenty Fifteen'             => 'wp-members-2015.css',
-			'Twenty Fifteen - no float'  => 'wp-members-2015-no-float.css',
-			'Twenty Fourteen'            => 'wp-members-2014.css',
-			'Twenty Fourteen - no float' => 'wp-members-2014-no-float.css',
+			'No Float'                   => 'generic-no-float',
+			'Rigid'                      => 'generic-rigid',
+			'Twenty Sixteen - no float'  => 'wp-members-2016-no-float',
+			'Twenty Fifteen'             => 'wp-members-2015',
+			'Twenty Fifteen - no float'  => 'wp-members-2015-no-float',
+			'Twenty Fourteen'            => 'wp-members-2014',
+			'Twenty Fourteen - no float' => 'wp-members-2014-no-float',
 			//'Twenty Thirteen'            => WPMEM_DIR . 'css/wp-members-2013.css',
 			//'Twenty Twelve'              => WPMEM_DIR . 'css/wp-members-2012.css',
 			//'Twenty Eleven'              => WPMEM_DIR . 'css/wp-members-2011.css',
