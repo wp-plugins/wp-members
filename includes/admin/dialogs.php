@@ -75,7 +75,7 @@ function wpmem_a_do_warnings( $did_update ) {
 	}
 
 	// Holding registrations but haven't changed default successful registration message.
-	if ( $warnings_on && $wpmem->mod_reg == 1 && $wpmem_dialogs['success'] == $wpmem->get_text( 'success' ) ) {
+	if ( $warnings_on && $wpmem->mod_reg == 1 && $dialogs['success'] == $wpmem->get_text( 'success' ) ) {
 		wpmem_a_warning_msg( 'success' );
 		$warning_active = true;
 	}
