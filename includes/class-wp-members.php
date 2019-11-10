@@ -345,7 +345,9 @@ class WP_Members {
 		$this->email       = new WP_Members_Email;         // Load email functions
 		$this->user        = new WP_Members_User( $this ); // Load user functions.
 		$this->menus       = new WP_Members_Menus();
-		$this->menus_clone = ( $this->clone_menus ) ? new WP_Members_Clone_Menus() : null; // Load clone menus.
+		if ( $this->clone_menus ) {
+			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
+		}
 		
 		/**
 		 * Fires after main settings are loaded.
@@ -1260,7 +1262,7 @@ class WP_Members {
 	 * @since 3.3.0
 	 */
 	function set_style() {
-		$this->cssurl = ( 'use_custom' == $this->select_style ) ? $this->cssurl : $this->url . 'css/' . $this->select_style; // Set the stylesheet.
+		$this->cssurl = ( 'use_custom' == $this->select_style ) ? $this->cssurl : $this->url . 'assets/css/forms/' . $this->select_style . wpmem_get_suffix() . '.css'; // Set the stylesheet.
 	}
 	
 	/**
@@ -1598,7 +1600,7 @@ class WP_Members {
 	 */
 	function enqueue_style_wp_login() {
 		global $wpmem;
-		wp_enqueue_style( 'wpmem', $wpmem->url . 'assets/css/wp-login.css', false, $wpmem->version );
+		wp_enqueue_style( 'wp-members', $wpmem->url . 'assets/css/wp-login' . wpmem_get_suffix() . '.css', false, $wpmem->version );
 	}
 	
 	/**
