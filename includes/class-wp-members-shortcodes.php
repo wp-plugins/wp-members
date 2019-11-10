@@ -44,6 +44,7 @@ class WP_Members_Shortcodes {
 		add_shortcode( 'wpmem_avatar',     array( $this, 'avatar'       ) );
 		add_shortcode( 'wpmem_login_link', array( $this, 'login_link'   ) );
 		add_shortcode( 'wpmem_reg_link',   array( $this, 'login_link'   ) );
+		add_shortcode( 'wpmem_form_nonce', array( $this, 'form_nonce'   ) );
 		
 		/**
 		 * Fires after shortcodes load.
@@ -762,7 +763,7 @@ class WP_Members_Shortcodes {
 	 * }
 	 * @param  string $content
 	 * @param  string $tag
-	 * @retrun string $content
+	 * @return string $content
 	 */
 	function login_link( $atts, $content, $tag ) {
 		if ( 'wpmem_reg_link' == $tag ) {
@@ -776,6 +777,28 @@ class WP_Members_Shortcodes {
 		return do_shortcode( $content );
 	}
 	
+	/**
+	 * Generate a nonce for a WP-Members form.
+	 *
+	 * For situations where a hardcoded form may exist, this shortcode
+	 * can output the appropriate nonce.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param  array  $atts {
+	 *     The shortcode attributes.
+	 *
+	 *     $form string The form to generate the nonce for (register|update|login) 
+	 * }
+	 * $param  string $content
+	 * @param  string $tag
+	 * @return string $content
+	 */
+	function form_nonce( $atts, $content, $tag ) {
+		$nonce = ( isset( $atts['form'] ) ) ? $atts['form'] : 'register';
+		$content = wpmem_form_nonce( $nonce, false );
+		return do_shortcode( $content );
+	}
 }
 
 // End of file.

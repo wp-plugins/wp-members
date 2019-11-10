@@ -331,3 +331,17 @@ function wpmem_sanitize_field( $data, $type = 'text' ) {
 	global $wpmem;
 	return $wpmem->forms->sanitize_field( $data, $type );
 }
+
+/**
+ * Generate a form nonce.
+ *
+ * @since 3.3.0
+ *
+ * @param   string    $nonce
+ * @param   boolean   $echo
+ * @return  string    The nonce.
+ */
+function wpmem_form_nonce( $nonce, $echo = false ) {
+	$form = ( 'update' == $nonce || 'register' == $nonce ) ? 'longform' : 'shortform';
+	return wp_nonce_field( 'wpmem_' . $form . '_nonce', '_wpmem_' . $nonce . '_nonce', true, $echo );
+}
