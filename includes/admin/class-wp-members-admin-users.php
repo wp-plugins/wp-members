@@ -456,8 +456,12 @@ class WP_Members_Admin_Users {
 					AND {$wpdb->usermeta}.meta_value = \"" . esc_sql( $val ) . "\" )";
 				break;
 		}
+		
+		$query_where = str_replace( 'WHERE 1=1', $replace_query, $user_search->query_where );
+		
+		$query_where = apply_filters( 'wpmem_query_where', $query_where );
 
-		$user_search->query_where = str_replace( 'WHERE 1=1', $replace_query, $user_search->query_where );
+		$user_search->query_where = $query_where;
 	}
 
 	/**
