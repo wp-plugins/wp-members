@@ -458,15 +458,15 @@ class WP_Members_Products_Admin {
 
 				// If user has date, display that; otherwise placeholder
 				$date_value  = ( isset( $user_products[ $key ] ) && 1 != $user_products[ $key ] && 0 != $user_products[ $key ] && '' != $user_products[ $key ] ) ? date( 'Y-m-d', $user_products[ $key ] ) : "";
-				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Date', 'wp-members' ) . '" ' : '';
+				$placeholder = ( ! isset( $user_products[ $key ] ) ) ? 'placeholder="' . __( 'Expiration date (optional)', 'wp-members' ) . '" ' : '';
 				$product_date_field = ' <input type="text" name="_wpmem_membership_expiration_' . $key . '" value="' . $date_value . '" class="wpmem_datepicker" ' . $placeholder . ' />';
 
 				if ( isset( $user_products[ $key ] ) ) {
 					echo '<td align="center"><span id="wpmem_product_enabled" class="dashicons dashicons-yes"></span></td>';
-					if ( $user_products[ $key ] !== true ) {
+					if ( $user_products[ $key ] != 1 ) {
 						echo '<td>' . $product_date_field . '</td>';
 					} else {
-						echo '<td>' . __( 'Enabled', 'wp-members' ) . '</td>';
+						echo '<td>&nbsp;</td>';
 					}
 				} else {
 					if ( isset( $value['expires'] ) && ! empty( $value['expires'] ) ) {

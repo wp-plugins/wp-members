@@ -231,6 +231,7 @@ IMPORTANT UPDATES/CHANGES
 * Added wpmem_get_user_role() API function.
 * Added wpmem_get_user_ip() API function.
 * Added wpmem_get_user_meta() API function.
+* Added wpmem_get_user_products() API function.
 * Added wpmem_user_has_meta filter.
 * Added wpmem_login_form_settings filter.
 * Added wpmem_block_settings filter.
@@ -253,6 +254,7 @@ Other Improvements
 * Changed load for WP-Members Admin API so that emails, dialogs, and tabs only load on the WP-Members settings screens (where they are used).
 * Changed email "from" to only load if the WP-Members Email object is doing a send (user or admin). This saves an option load when not needed.
 * Fixed an issue where a PHP notice was thrown if one of the User Pages (login/register/profile) was deleted but the setting not updated. Fixes the PHP notice issue, but also adds an admin notice to indicate the page was deleted, but the setting not updated. (This also adds a new admin notice function/process that can be expanded on later.)
+* Fixed an issue with wpmem_user_has_access() that prevented proper results when used to check a specific user ID (other than the current user).
 
 = 3.2.9 =
 

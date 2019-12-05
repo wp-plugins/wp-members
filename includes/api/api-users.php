@@ -260,6 +260,19 @@ function wpmem_remove_user_product( $product, $user_id = false ) {
 	return;
 }
 
+/** 
+ * Gets memberships a user has.
+ *
+ * @since 3.3.0
+ *
+ * @global stdClass $wpmem
+ * @param  int      $user_id
+ */
+function wpmem_get_user_products( $user_id = false ) {
+	global $wpmem;
+	return ( $user_id ) ? $wpmem->user->get_user_products( $user_id ) : $wpmem->user->access;
+}
+
 /**
  * Sets a user as logged in.
  *

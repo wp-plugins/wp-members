@@ -830,13 +830,16 @@ class WP_Members_User {
 	 */
 	function has_access( $product, $user_id = false ) {
 		global $wpmem;
-		if ( ! is_user_logged_in() ) {
+		if ( false === $user_id && ! is_user_logged_in() ) {
 			return false;
 		}
 		
 		// Product must be an array.
 		$product_array = ( ! is_array( $product ) ) ? array( $product ) : $product;
 		
+		// Load user memberships array.
+		$memberships = ( false == $user_id ) ? $this->access : wpmem_get_user_products( $user_id );
+
 		// Current user or requested user.
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		
@@ -846,23 +849,28 @@ class WP_Members_User {
 		foreach ( $product_array as $prod ) {
 			$expiration_product = false;
 			$role_product = false;
-			if ( isset( $this->access[ $prod ] ) ) {
+			if ( isset( $memberships[ $prod ] ) ) {
 				// Is this an expiration product?
-				if ( isset( $wpmem->membership->products[ $prod ]['expires'][0] ) && ! is_bool( $this->access[ $prod ] ) ) {
-					$expiration_product = true;
-					if ( $this->is_current( $this->access[ $prod ] ) ) {
+				if ( isset( $wpmem->membership->products[ $prod ]['expires'][0] ) && ! is_bool( $memberships[ $prod ] ) ) {
+					$expiration_product = true;  
+					if ( $this->is_current( $memberships[ $prod ] ) ) {
 						$access = true;
 						break;
 					}
 				}
+				// Is this a role product?
 				if ( '' != $wpmem->membership->products[ $prod ]['role'] ) {
 					$role_product = true;
-					if ( $this->access[ $prod ] && wpmem_user_has_role( $wpmem->membership->products[ $prod ]['role'] ) ) {
+					if ( $memberships[ $prod ] && wpmem_user_has_role( $wpmem->membership->products[ $prod ]['role'] ) ) {
+						if ( $expiration_product && ! $this->is_current( $memberships[ $prod ] ) ) {
+							$access = false;
+							break;
+						}
 						$access = true;
 						break;
 					}
 				}
-				if ( ! $expiration_product && ! $role_product && $this->access[ $prod ] ) {
+				if ( ! $expiration_product && ! $role_product && $memberships[ $prod ] ) {
 					$access = true;
 					break;
 				}
