@@ -141,8 +141,8 @@ function wpmem_upgrade_settings() {
 			unset( $wpmem_settings['email'] );
 		}
 		
-		// @since 3.2.7 Upgrade stylesheet setting.
-		$wpmem_settings['select_stlye'] = wpmem_upgrade_style_setting( $wpmem_settings );
+		// @since 3.3.0 Upgrade stylesheet setting.
+		$wpmem_settings['select_style'] = wpmem_upgrade_style_setting( $wpmem_settings );
 		
 		// Version number should be updated no matter what.
 		$wpmem_settings['version']    = WPMEM_VERSION;
@@ -621,15 +621,41 @@ function wpmem_upgrade_fields() {
  */
 function wpmem_upgrade_style_setting( $settings ) {
 	
+	/*
+	 * IF $settings['style'] is "use_custom", then it's a custom value. Otherwise
+	 * it's the value in $settings['style'].
+	 *
+	 * We need to first check the simple - if it's use_custom - set the new value
+	 * to the custom value ($settings['cssurl']).
+	 *
+	 * Next, logically determine if it's a self-loaded custom value (unlikely),
+	 * or a WP-Members default.
+	 *
+	 * Lastly, as a fallback, set it to the default no-float sheet.
+	 */
+	
 	$wpmem_dir = plugin_dir_url ( __DIR__ );
 	
 	if ( isset( $settings['style'] ) ) {
 		if ( 'use_custom' == $settings['style'] ) {
 			return $settings['style'];
 		} else {
-			if ( false !== strpos( $settings['style'], $wpmem_dir ) ) {
-				return str_replace( $wpmem_dir . 'css/', '', $settings['style'] );
+			
+			// we don't care here if it's http:// or https://
+			$string = str_replace( array( 'http://', 'https://' ), array( '','' ), $settings['style'] );
+		
+			if ( ! strpos( $wpmem_dir, $string ) ) {
+
+				$pieces = explode( '/', $string );
+				$slug = str_replace( '.css', '', end( $pieces ) );
+				
+				// Is $css_slug one of the "official" slugs?
+				$haystack = array( 'generic-no-float', 'generic-rigid', 'wp-members-2016-no-float', 'wp-members-2015', 'wp-members-2015-no-float', 'wp-members-2014', 'wp-members-2014-no-float' );
+				if ( in_array( $slug, $haystack ) ) {
+					return $slug;
+				}
 			} else {
+				// Fallback to purposely load custom value for updating.
 				return 'use_custom';
 			}
 		}
@@ -638,10 +664,12 @@ function wpmem_upgrade_style_setting( $settings ) {
 		if ( $maybe_style ) {
 			// Does stylesheet setting point to the WP-Members /css/ directory?
 			if ( strpos( $maybe_style, $wpmem_dir ) ) {
-				return str_replace( $wpmem_dir . 'css/', '', $settings['cssurl'] );
+				return str_replace( array( $wpmem_dir . 'css/', '.css' ), array( '', '' ), $settings['style'] );
 			}
 		}
 	}
+	// Fallback default.
+	return 'generic-no-float';
 }
 
 /**
