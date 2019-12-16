@@ -236,8 +236,8 @@ class WP_Members_Products {
 		
 		global $wpmem;
 		
-		$singular = __( 'Product', 'license-wp' );
-		$plural   = __( 'Products', 'license-wp' );
+		$singular = __( 'Product', 'wp-members' );
+		$plural   = __( 'Products', 'wp-members' );
 
 		$labels = array(
 			'name'                  => $plural,
