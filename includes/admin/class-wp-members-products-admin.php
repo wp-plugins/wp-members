@@ -86,8 +86,16 @@ class WP_Members_Products_Admin {
 				echo $post->post_name;
 				break;
 			case 'role':
-				$role = $this->get_meta( 'wpmem_product_role' );
-				echo ( $role ) ? esc_html( $role ) : __( 'No role required', 'wp-members' );
+				$role_slug = $this->get_meta( 'wpmem_product_role' );
+				if ( $role_slug ) {
+					$wp_roles  = new WP_Roles;
+					$names     = $wp_roles->get_names();
+
+					$role      = $names[ $role_slug ] . ' (' . __( 'slug:', 'wp-members' ) . ' ' . $role_slug . ')';
+					echo esc_html( $role );
+				} else {
+					__( 'No role required', 'wp-members' );
+				}
 				break;
 			case 'expires':
 				$expires = $this->get_meta( 'wpmem_product_expires' );
@@ -164,11 +172,11 @@ class WP_Members_Products_Admin {
 			</p>
 			<p>
 				<input type="checkbox" name="wpmem_product_default" id="wpmem_product_default" value="1" <?php echo ( 1 == $product_default ) ? 'checked' : ''; ?>>
-				<label for="wpmem_product_default"><?php _e( 'Assign as default at registration?', 'wp-members' ); ?></label>
+				<label for="wpmem_product_default"><?php _e( 'Assign as default at registration? (optional)', 'wp-members' ); ?></label>
 			</p>
 			<p>
 				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $product_role ) ? 'checked' : ''; ?>>
-				<label for="wpmem_product_role_required"><?php _e( 'Role Required?', 'wp-members' ); ?></label>
+				<label for="wpmem_product_role_required"><?php _e( 'Role Required? (optional)', 'wp-members' ); ?></label>
 				<label for="wpmem_product_role"></label>
 				<select name="wpmem_product_role" id="wpmem_product_role">
 					<option value=""><?php _e( 'No Role', 'wp-members' ); ?></option>
@@ -177,7 +185,7 @@ class WP_Members_Products_Admin {
 			</p>
 			<p>
 				<input type="checkbox" name="wpmem_product_expires" id="wpmem_product_expires" value="expires" <?php echo ( false !== $product_expires ) ? 'checked' : ''; ?>>
-				<label for="wpmem_product_expires"><?php _e( 'Expires', 'wp-members' ); ?></label>
+				<label for="wpmem_product_expires"><?php _e( 'Expires (optional)', 'wp-members' ); ?></label>
 				<span id="wpmem_product_expires_wrap">
 					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
 					<?php $period = explode( '|', $product_expires ); ?>
