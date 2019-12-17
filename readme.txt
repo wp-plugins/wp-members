@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 3.2.9.3
+Stable tag: 3.3.0
 License: GPLv2
 
 == Description ==
@@ -215,7 +215,10 @@ IMPORTANT UPDATES/CHANGES
   
 * Updated the way stylesheets are handled. Added wpmem_get_suffix() API function to
   get the appropriate suffix for files (.min.css or .css) for both js and css. Also,
-  minified all CSS files that were not previously minified.
+  minified all CSS files that were not previously minified. Note: you can no longer
+  filter custom stylesheets into the plugin's dropdown selector (no one was using
+  this feature as far as I am aware anyway). You *can* still filter the stylesheet
+  being loaded as well as indicate the path of a custom stylesheet.
 
 * Added reCAPTCHA v3 support.
 * Added default membership product(s) at registration.

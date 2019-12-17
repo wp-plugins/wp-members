@@ -12,14 +12,6 @@
  * @package WP-Members
  * @author Chad Butler
  * @copyright 2006-2019
- *
- * Functions included:
- * - wpmem_do_install
- * - wpmem_upgrade_settings
- * - wpmem_upgrade_email
- * - wpmem_upgrade_dialogs
- * - wpmem_downgrade_dialogs
- * - wpmem_upgrade_captcha
  */
 
 // Exit if accessed directly.
@@ -48,7 +40,9 @@ function wpmem_do_install() {
 
 	$chk_force = false;
 
-	if ( ! get_option( 'wpmembers_settings' ) || $chk_force == true ) {
+	$existing_settings = get_option( 'wpmembers_settings' );
+	
+	if ( false === $existing_settings || $chk_force == true ) {
 
 		// New install.
 		$wpmem_settings = wpmem_install_settings();
@@ -61,11 +55,19 @@ function wpmem_do_install() {
 		
 		// Upgrade.
 		$wpmem_settings = wpmem_upgrade_settings();
-		wpmem_upgrade_captcha();
-		wpmem_append_email();
-		wpmem_upgrade_fields();
-		wpmem_upgrade_product_expiration();
 		
+		// Not 100% certain where we needed to add wpmem_append_email(), but it was likely before 3.1.0.
+		if ( version_compare( $existing_settings['version'], '3.1.1', '<' ) ) {
+			wpmem_upgrade_dialogs();
+			wpmem_upgrade_captcha();
+			wpmem_append_email();
+		}
+		
+		// Only run these if DB version is < 2.2.0
+		if ( version_compare( $existing_settings['db_version'], '2.2.0', '<' ) ) {			
+			wpmem_upgrade_fields();
+			wpmem_upgrade_product_expiration();
+		}
 	}
 	
 	return $wpmem_settings;
@@ -81,9 +83,6 @@ function wpmem_do_install() {
  * @return array $wpmem_newsettings
  */
 function wpmem_upgrade_settings() {
-	
-	// Update dialogs for 3.1.1
-	wpmem_upgrade_dialogs();
 
 	$wpmem_settings = get_option( 'wpmembers_settings' );
 
@@ -206,6 +205,7 @@ function wpmem_upgrade_settings() {
 		// Add new settings.
 		$wpmem_newsettings['post_types'] = array();
 		$wpmem_settings['form_tags'] = array( 'default' => 'Registration Default' );
+		$wpmem_settings['select_style'] = wpmem_upgrade_style_setting( $wpmem_settings );
 		
 		// Merge settings.
 		$wpmem_newsettings = array_merge( $wpmem_settings, $wpmem_newsettings ); 
@@ -215,7 +215,6 @@ function wpmem_upgrade_settings() {
 		return $wpmem_newsettings;
 	}
 }
-
 
 /**
  * Adds the fields for email messages.
@@ -377,7 +376,6 @@ username: [username]
 	return true;
 }
 
-
 /**
  * Checks the dialogs array for necessary changes.
  *
@@ -403,7 +401,6 @@ function wpmem_upgrade_dialogs() {
 	return;
 }
 
-
 /**
  * Downgrades dialogs array for pre-3.1.1 version rollback.
  *
@@ -426,7 +423,6 @@ function wpmem_downgrade_dialogs() {
 
 	return;
 }
-
 
 /**
  * Checks the captcha settings and updates accordingly.
@@ -704,5 +700,5 @@ function wpmem_upgrade_product_expiration() {
 			}
 		}
 	}
-}
+} 
 // End of file.
