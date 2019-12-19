@@ -526,6 +526,7 @@ class WP_Members {
 		
 		require_once( $this->path . 'includes/class-wp-members-api.php' );
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
+		require_once( $this->path . 'includes/class-wp-members-captcha.php' );
 		require_once( $this->path . 'includes/class-wp-members-email.php' );
 		require_once( $this->path . 'includes/class-wp-members-forms.php' );
 		require_once( $this->path . 'includes/class-wp-members-menus.php' );

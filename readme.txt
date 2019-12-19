@@ -123,6 +123,12 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 
 == Changelog ==
 
+= 3.3.0.1 = 
+
+* Fixes issue when updating where the stylesheet selector indicates "use_custom" but the actual URL is to a default stylesheet. The problem can be corrected manually, but this fix applies the custom URL to the new standard setting for the defaults.
+* Fixes bug where any stylesheet other than the default reverts to the default ("no float"). This was due to the database version being wiped when settings were updated. This fix correctly applies the database version when updating settings.
+* Fixes bug when captcha is used (unknown validate() function). The validate() function should have been declared and used as a static method. This fix declares validate() as static and then uses it as such.
+
 = 3.3.0 =
 
 * @todo Need to resolve duplicate wpmem_login_form_defaults. (maybe took care of itself with backing out of _args deprecation)
