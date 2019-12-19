@@ -634,6 +634,16 @@ function wpmem_upgrade_style_setting( $settings ) {
 	
 	if ( isset( $settings['style'] ) ) {
 		if ( 'use_custom' == $settings['style'] ) {
+
+			// Check to see if the custom value is a default stylesheet.
+			$chk_path_for = '/wp-content/plugins/wp-members/css/';
+			if ( strpos( $settings['cssurl'], $chk_path_for ) ) {
+				$strpos = strpos( $settings['cssurl'], $chk_path_for );
+				$substr = substr( $settings['cssurl'], $strpos );
+				$style  = str_replace( array( $chk_path_for, '.css' ), array( '','' ), $substr );
+				return $style;
+			}
+			
 			return $settings['style'];
 		} else {
 			
