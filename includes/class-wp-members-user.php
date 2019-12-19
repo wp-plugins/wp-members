@@ -341,7 +341,7 @@ class WP_Members_User {
 
 			// Process CAPTCHA.
 			if ( 0 != $wpmem->captcha ) {
-				$check_captcha = $wpmem->captcha->validate();
+				$check_captcha = WP_Members_Captcha::validate();
 				if ( 'passed_captcha' != $check_captcha ) {
 					return $check_captcha;
 				}

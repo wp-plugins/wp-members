@@ -144,7 +144,7 @@ class WP_Members_Captcha {
 	 * @global $wpmem_themsg
 	 * @return $string
 	 */
-	function validate() {
+	static function validate() {
 
 		global $wpmem, $wpmem_themsg;
 
