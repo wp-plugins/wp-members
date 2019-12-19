@@ -475,6 +475,7 @@ class WP_Members_Admin_Tab_Options {
 
 			$wpmem_newsettings = array(
 				'version' => $wpmem->version,
+				'db_version' => $wpmem->db_version,
 				'enable_products' => filter_var( wpmem_get( 'wpmem_settings_products', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'clone_menus' => filter_var( wpmem_get( 'wpmem_settings_menus', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'notify'    => filter_var( wpmem_get( 'wpmem_settings_notify', 0 ), FILTER_SANITIZE_NUMBER_INT ),
