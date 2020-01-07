@@ -278,7 +278,7 @@ class WP_Members_Shortcodes {
 
 				// If there is a meta key attribute.
 				if ( isset( $atts['meta_key'] ) ) {
-					$compare = $atts['compare'];
+					$do_return = false;
 					$value = ( isset( $atts['meta_value'] ) ) ? $atts['meta_value'] : false;
 					if ( ! isset( $atts['compare'] ) || "=" == $atts['compare'] ) {
 						if ( wpmem_user_has_meta( $atts['meta_key'], $value ) ) {
@@ -290,7 +290,6 @@ class WP_Members_Shortcodes {
 							$do_return = true;
 						}						
 					}
-					$do_return = false;
 				}
 				
 				// If there is a product attribute.

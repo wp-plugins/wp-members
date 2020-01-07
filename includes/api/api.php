@@ -344,4 +344,39 @@ function wpmem_display_message( $tag, $echo = true ) {
 	}
 }
 
+/**
+ * Wrapper function for adding custom dialogs.
+ *
+ * @since 3.1.1
+ * @since 3.3.0 Moved to main API.
+ *
+ * @param  array  $dialogs Dialog settings array.
+ * @param  string $tag     Slug for dialog to be added.
+ * @param  string $msg     The dialog message.
+ * @param  string $label   Label for admin panel.
+ * @return array  $dialogs Dialog settings array with prepped custom dialog added.
+ */
+function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
+	$msg = ( ! isset( $dialogs[ $tag ] ) ) ? $msg : $dialogs[ $tag ];
+	$dialogs[ $tag ] = array(
+		'name'  => $tag,
+		'label' => $label,
+		'value' => $msg,
+	);
+	return $dialogs;
+}
+
+/**
+ * Gets an array of hidden post IDs.
+ *
+ * @since 3.3.0.4
+ *
+ * @global stdClass $wpmem
+ * @return array
+ */
+function wpmem_get_hidden_posts() {
+	global $wpmem;
+	return $wpmem->get_hidden_posts();
+}
+
 // End of file.

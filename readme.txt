@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 3.3.0
+Stable tag: 3.3.0.4
 License: GPLv2
 
 == Description ==
@@ -100,7 +100,8 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.0.2 is a critical fix for registration/profile fields. See changelog for important details. Minimum WP version is 4.0.
+
 
 == Screenshots ==
 
@@ -123,11 +124,25 @@ WP-Members 3.3.0 is a major update. See changelog for important details. Minimum
 
 == Changelog ==
 
+= 3.3.0.4 =
+
+* Provides a workaround for a bug in the dialogs setting when custom dialogs are applied. This targets an issue specifically affecting users with the WP-Members Security extension installed.
+* Fixes a bug when products are enabled but no default is set. Allows for no default membership assigned at registration.
+
+= 3.3.0.3 =
+
+* Fixes a shortcode issue for the [wpmem_logged_in] shortcode when using the meta_key attribute. 3.3.0 added a "compare" attribute, and with this addition, it broke the original default use of the shortcode. This bug is fixed in the 3.3.0.3 release. 
+
+= 3.3.0.2 =
+
+* Fixes an issue with registration/profile form fields when used in the profile. It was intended to introduce separate selection of fields for registration and profile update in 3.3.0. However, there is an issue that causes profile fields to both (1) not correctly display and (2) if they do, they do not update correctly. All users who updated to 3.3.x should update to 3.3.0.2 to correct this.
+
 = 3.3.0.1 = 
 
 * Fixes issue when updating where the stylesheet selector indicates "use_custom" but the actual URL is to a default stylesheet. The problem can be corrected manually, but this fix applies the custom URL to the new standard setting for the defaults.
 * Fixes bug where any stylesheet other than the default reverts to the default ("no float"). This was due to the database version being wiped when settings were updated. This fix correctly applies the database version when updating settings.
 * Fixes bug when captcha is used (unknown validate() function). The validate() function should have been declared and used as a static method. This fix declares validate() as static and then uses it as such.
+* Fixes undefined string variable when successful registration is executed.
 
 = 3.3.0 =
 

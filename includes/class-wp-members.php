@@ -1153,7 +1153,7 @@ class WP_Members {
 			$this->fields[ $meta_key ]['type']     = $val[3];
 			$this->fields[ $meta_key ]['register'] = ( 'y' == $val[4] ) ? true : false;
 			$this->fields[ $meta_key ]['required'] = ( 'y' == $val[5] ) ? true : false;
-			$this->fields[ $meta_key ]['profile']  = ( isset( $val['profile'] ) ) ? $val['profile'] : true ;
+			$this->fields[ $meta_key ]['profile']  = ( 'y' == $val[4] ) ? true : false;// ( isset( $val['profile'] ) ) ? $val['profile'] : true ; // // @todo Wait for profile fix
 			$this->fields[ $meta_key ]['native']   = ( 'y' == $val[6] ) ? true : false;
 			
 			// Certain field types have additional properties.

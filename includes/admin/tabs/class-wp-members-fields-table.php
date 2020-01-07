@@ -57,9 +57,9 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			'label'    => __( 'Display Label', 'wp-members' ),
 			'meta'     => __( 'Meta Key',      'wp-members' ),
 			'type'     => __( 'Field Type',    'wp-members' ),
-			'display'  => __( 'Registration',  'wp-members' ),
+			'display'  => __( 'Display?', 'wp-members' ), // __( 'Registration',  'wp-members' ), @todo Wait until fix
 			'req'      => __( 'Required',      'wp-members' ),
-			'profile'  => __( 'Profile',       'wp-members' ),
+			//'profile'  => __( 'Profile',       'wp-members' ), @todo Wait until fix
 			'userscrn' => __( 'Users Screen',  'wp-members' ),
 			'usearch'  => __( 'Users Search',  'wp-members' ),
 			'edit'     => __( 'Edit',          'wp-members' ),

@@ -127,7 +127,7 @@ function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
 	
 	// Get field type.
 	$fields = wpmem_fields();
-	$multi  = ( 'multicheckbox' == $fields[ $meta ]['type'] || 'multiselect' == $fields[ $meta ]['type'] ) ? true : false;
+	$multi  = ( ( isset( $fields[ $meta ] ) ) &&  ( 'multicheckbox' == $fields[ $meta ]['type'] || 'multiselect' == $fields[ $meta ]['type'] ) ) ? true : false;
 	
 	// Get meta.
 	$has_meta   = false;

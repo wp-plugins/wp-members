@@ -45,27 +45,6 @@ function wpmem_add_custom_email( $tag, $heading, $subject_input, $message_input 
 }
 
 /**
- * Wrapper function for adding custom dialogs.
- *
- * @since 3.1.1
- *
- * @param  array  $dialogs Dialog settings array.
- * @param  string $tag     Slug for dialog to be added.
- * @param  string $msg     The dialog message.
- * @param  string $label   Label for admin panel.
- * @return array  $dialogs Dialog settings array with prepped custom dialog added.
- */
-function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
-	$msg = ( ! isset( $dialogs[ $tag ] ) ) ? $msg : $dialogs[ $tag ];
-	$dialogs[ $tag ] = array(
-		'name'  => $tag,
-		'label' => $label,
-		'value' => $msg,
-	);
-	return $dialogs;
-}
-
-/**
  * Checks the current tab being displayed in the admin panel.
  *
  * @since 3.1.4

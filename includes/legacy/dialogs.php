@@ -134,14 +134,17 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	 */
 	$args = apply_filters( 'wpmem_msg_args', '' );
 
-	// Get dialogs set in the db.
-	$dialogs = get_option( 'wpmembers_dialogs' );
 	/** This filter is documented in /includes/class-wp-members-admin-api.php */
 	$dialogs = apply_filters( 'wpmem_dialogs', get_option( 'wpmembers_dialogs' ) );
 
+	// @todo Temporary(?) workaround for custom dialogs as an array (WP-Members Security).
 	if ( array_key_exists( $tag, $dialogs ) ) {
-		$msg = $wpmem->get_text( $tag );
-		$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
+		if ( is_array( $dialogs[ $tag ] ) ) {
+			$msg = stripslashes( $dialogs[ $tag ]['value'] );
+		} else {
+			$msg = $wpmem->get_text( $tag );
+			$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
+		}
 	}
 	$defaults['msg'] = $msg;
 	
@@ -177,7 +180,10 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	 */
 	$args = apply_filters( 'wpmem_msg_defaults', $defaults, $tag, $dialogs );
 	
-	$str = $args['div_before'] . $args['p_before'] . stripslashes( $args['msg'] ) . $args['p_after'] . $args['div_after'];
+	// @todo Temporary(?) workaround for custom dialogs as an array (WP-Members Security).
+	$display_msg = ( is_array( $args['msg'] ) ) ? $args['msg']['value'] : $args['msg'];
+	
+	$str = $args['div_before'] . $args['p_before'] . stripslashes( $display_msg ) . $args['p_after'] . $args['div_after'];
 
 	/**
 	 * Filter the message.

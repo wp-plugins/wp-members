@@ -159,12 +159,11 @@ class WP_Members_Products {
 			'fields'      => array( 'post_name' ),
 		);
 		$default_products = get_posts( $args );
+		$defaults = array();
 		if ( $default_products ) {
 			foreach ( $default_products as $product ) {
 				$defaults[] = $product->post_name;
 			}
-		} else {
-			$defaults = false;
 		}
 		return $defaults;
 	}
