@@ -129,6 +129,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.0.2 is a critical fix for reg
 * Provides a workaround for a bug in the dialogs setting when custom dialogs are applied. This targets an issue specifically affecting users with the WP-Members Security extension installed.
 * Fixes a bug when products are enabled but no default is set. Allows for no default membership assigned at registration.
 * Fixes a bug that caused the post restricted message to display on the short form when it was in password reset and forgot username state.
+* Added wpmem_get_hidden_posts() API function to return an array of post IDs marked as hidden.
 
 = 3.3.0.3 =
 
