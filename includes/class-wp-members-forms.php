@@ -1891,7 +1891,7 @@ class WP_Members_Forms {
 
 		$msg = '';
 
-		if ( $page == "page" ) {
+		if ( "login" == $form && "page" == $page ) {
 			$msg = $this->add_restricted_msg();
 		} 
 
