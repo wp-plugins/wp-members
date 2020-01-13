@@ -951,18 +951,20 @@ class WP_Members_User {
 		
 		// If membership is an expiration product.
 		if ( is_array( $expires ) ) {
-			$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
-			$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
+			// If this is setting a specific date.
 			if ( $set_date ) {
 				// @todo Legacy verion
 				$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $set_date ) );
 				// @todo New version
 				$user_product = strtotime( $set_date );
 			} else {
+				// Either setting initial expiration based on set time period, or adding to the existing date (renewal/extending).
+				$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
+				$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
 				// @todo Legacy verion
 				$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
 				// @todo New version
-				$user_product = ( $user_product ) ? strtotime( $add, strtotime( $user_products[ $product ] ) ) : strtotime( $add );
+				$user_product = ( $user_product ) ? strtotime( $add, $user_product ) : strtotime( $add );
 			}
 		} else {
 			// @todo Legacy verion
@@ -1018,6 +1020,7 @@ class WP_Members_User {
 	 * Utility for expiration validation.
 	 *
 	 * @since 3.2.0
+	 * @since 3.3.0 Validates date or epoch time.
 	 *
 	 * @param date $date
 	 */
