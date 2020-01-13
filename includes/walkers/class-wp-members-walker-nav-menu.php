@@ -89,11 +89,11 @@ class WP_Members_Walker_Nav_Menu extends Walker_Nav_Menu {
 	    if ( ! empty( $item->_invalid ) ) {
 	        $classes[] = 'menu-item-invalid';
 	        /* translators: %s: title of menu item which is invalid */
-	        $title = sprintf( __( '%s (Invalid)' ), $item->title );
+	        $title = sprintf( esc_html__( '%s (Invalid)', 'wp-members' ), $item->title );
 	    } elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
 	        $classes[] = 'pending';
 	        /* translators: %s: title of menu item in draft status */
-	        $title = sprintf( __('%s (Pending)'), $item->title );
+	        $title = sprintf( esc_html__( '%s (Pending)', 'wp-members'), $item->title );
 	    }
 	
 	    $title = empty( $item->label ) ? $title : $item->label;
@@ -120,7 +120,7 @@ class WP_Members_Walker_Nav_Menu extends Walker_Nav_Menu {
 	                                ),
 	                                'move-menu_item'
 	                            );
-	                        ?>" class="item-move-up" aria-label="<?php esc_attr_e('Move up'); ?>">&#8593;</a>
+	                        ?>" class="item-move-up" aria-label="<?php esc_attr_e( 'Move up', 'wp-members' ); ?>">&#8593;</a>
 	                        |
 	                        <a href="<?php
 	                            echo wp_nonce_url(
@@ -133,11 +133,11 @@ class WP_Members_Walker_Nav_Menu extends Walker_Nav_Menu {
 	                                ),
 	                                'move-menu_item'
 	                            );
-	                        ?>" class="item-move-down"  aria-label="<?php esc_attr_e('Move down'); ?>">&#8595;</a>
+	                        ?>" class="item-move-down"  aria-label="<?php esc_attr_e( 'Move down', 'wp-members' ); ?>">&#8595;</a>
 	                    </span>
-	                    <a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e('Edit Menu Item'); ?>" href="<?php
+	                    <a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e( 'Edit Menu Item', 'wp-members' ); ?>" href="<?php
 	                        echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
-	                    ?>"><span class="screen-reader-text"><?php _e( 'Edit' ); ?></span></a>
+	                    ?>"><span class="screen-reader-text"><?php esc_html_e( 'Edit', 'wp-members' ); ?></span></a>
 	                </span>
 	            </div>
 	        </div>
@@ -190,35 +190,36 @@ class WP_Members_Walker_Nav_Menu extends Walker_Nav_Menu {
 	            </p>        
                 <?php 
                 // This is the added section
-                do_action( 'wp_nav_menu_item_fields', $item_id, $item, $depth, $args );
+            	// do_action( 'wpmem_nav_menu_item_options', $item_id, $item, $depth, $args );
+				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args );
                 // end added section 
                 ?>
 	            <div class="menu-item-actions description-wide submitbox">
 	                <?php if( 'custom' != $item->type && $original_title !== false ) : ?>
 	                    <p class="link-to-original">
-	                        <?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
+	                        <?php printf( esc_html__( 'Original: %s' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
 	                    </p>
 	                <?php endif; ?>
-	                <a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
+	                <a class="item-delete submitdelete deletion" id="delete-<?php echo esc_attr( $item_id ); ?>" href="<?php
 	                echo wp_nonce_url(
 	                    add_query_arg(
 	                        array(
 	                            'action' => 'delete-menu-item',
 	                            'menu-item' => $item_id,
 	                        ),
-	                        remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+	                        remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) )
 	                    ),
-	                    'delete-menu_item_' . $item_id
+	                    'delete-menu_item_' . esc_attr( $item_id )
 	                ); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) ) );
 	                    ?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel'); ?></a>
 	            </div>
 	
-	            <input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
-	            <input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
-	            <input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
-	            <input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_item_parent ); ?>" />
-	            <input class="menu-item-data-position" type="hidden" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
-	            <input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
+	            <input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo $item_id; ?>" />
+	            <input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
+	            <input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
+	            <input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->menu_item_parent ); ?>" />
+	            <input class="menu-item-data-position" type="hidden" name="menu-item-position[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
+	            <input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
 	        </div><!-- .menu-item-settings-->
 	        <ul class="menu-item-transport"></ul>
 	    <?php

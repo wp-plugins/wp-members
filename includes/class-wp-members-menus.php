@@ -65,9 +65,9 @@ class WP_Members_Menus {
 		add_filter( 'wp_edit_nav_menu_walker', array( $this, 'edit_nav_menu_walker' ) );
 		add_action( 'wp_update_nav_menu_item', array( $this, 'update_nav_menu_item' ), 10, 2 );
 		add_filter( 'wp_setup_nav_menu_item',  array( $this, 'setup_nav_menu_item'  ) );
-		add_action( 'wp_nav_menu_item_fields', array( $this, 'nav_menu_item_fields' ), 10, 4 );
 		add_action( 'admin_enqueue_scripts' ,  array( $this, 'enqueue_scripts'      ) );
 		
+		add_action( 'wp_nav_menu_item_custom_fields',    array( $this, 'nav_menu_item_fields' ), 5, 4 );
 		add_action( 'wpmem_nav_menu_logged_in_criteria', array( $this, 'add_product_criteria' ) );
 		
 		// Handles removing front end menu items.
