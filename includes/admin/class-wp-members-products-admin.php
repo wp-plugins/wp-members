@@ -42,8 +42,6 @@ class WP_Members_Products_Admin {
 				add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
 			}
 			
-
-
 			add_filter( 'wpmem_user_profile_tabs',         array( $this, 'user_profile_tabs' ), 1 );
 			add_action( 'wpmem_user_profile_tabs_content', array( $this, 'user_profile_tab_content' ), 10 );
 		}
@@ -166,10 +164,7 @@ class WP_Members_Products_Admin {
 		$show_exp_detail  = ( false !== $product_expires ) ? 'show' : 'hide'; ?>
 
 			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
-			<p>
-				<label for="wpmem_product_name"><?php _e( 'Name (slug)', 'wp-members' ); ?></label>
-				<input type="text" name="wpmem_product_name" id="wpmem_product_name" value="<?php echo esc_attr( $post->post_name ); ?>">
-			</p>
+			<p><?php _e( 'Name (slug)', 'wp-members' ); ?>: <?php echo esc_attr( $post->post_name ); ?></p>
 			<p>
 				<input type="checkbox" name="wpmem_product_default" id="wpmem_product_default" value="1" <?php echo ( 1 == $product_default ) ? 'checked' : ''; ?>>
 				<label for="wpmem_product_default"><?php _e( 'Assign as default at registration? (optional)', 'wp-members' ); ?></label>
@@ -436,14 +431,22 @@ class WP_Members_Products_Admin {
 	 *
 	 * @since 3.2.0
 	 *
+	 * @global string $pagenow
 	 * @global object $wpmem
 	 * @param  string $key
 	 */
 	public function user_profile_tab_content( $key ) { 
 		// If product enabled
 		if ( 'memberships' == $key ) {
-			global $wpmem;
-			$user_id = sanitize_text_field( wpmem_get( 'user_id', false, 'get' ) );
+			global $pagenow, $wpmem;
+			/*
+			 * If an admin is editing their provile, we need their ID,
+			 * otherwise, it's the user_id param from the URL. It's a 
+			 * little more complicated than it sounds since you can't just
+			 * check if the user is logged in, because the admin is always
+			 * logged in when checking profiles.
+			 */
+			$user_id = ( 'profile' == $pagenow && current_user_can( 'edit_users' ) ) ? get_current_user_id() : sanitize_text_field( wpmem_get( 'user_id', false, 'get' ) );
 			$user_products = $wpmem->user->get_user_products( $user_id );
 			echo '<h3>' . __( 'Product Access', 'wp-members' ) . '</h3>';
 			echo '<table>

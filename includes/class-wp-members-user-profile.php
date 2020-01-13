@@ -63,6 +63,7 @@ class WP_Members_User_Profile {
 				}
 				// This is the dashboard profile, and user has current field value.
 				if ( 'user' == $display
+					&& isset( $wpmem_fields['tos'] )
 					&& ( get_user_meta( $user_ID, 'tos', true ) == $wpmem_fields['tos']['checked_value'] ) ) {
 					unset( $wpmem_fields['tos'] );
 				}
@@ -456,12 +457,12 @@ class WP_Members_User_Profile {
 			$user_active_flag = get_user_meta( $user_id, 'active', true );
 			switch( $user_active_flag ) {
 
-				case 0:
+				case "0":
 					$label  = __( 'Reactivate this user?', 'wp-members' );
 					$action = 1;
 					break;
 
-				case 1:
+				case "1":
 					$label  = __( 'Deactivate this user?', 'wp-members' );
 					$action = 0;
 					break;
@@ -528,40 +529,43 @@ class WP_Members_User_Profile {
 	 *
 	 * @param int $user_id
 	 */
-	static function _profile_tabs( $user_id ) { 
+	static function _profile_tabs( $user_id ) {
+		
+		if ( current_user_can( 'edit_users' ) ) {
 
-		/**
-		 * Add tabs to user profile tabs.
-		 *
-		 * @since 3.2.5
-		 *
-		 * @param array {
-		 *    @type string $tab     (required)
-		 *    @type string $content (optional)
-		 * }
-		 */
-		$tabs = apply_filters( 'wpmem_user_profile_tabs', array() ); 
+			/**
+			 * Add tabs to user profile tabs.
+			 *
+			 * @since 3.2.5
+			 *
+			 * @param array {
+			 *    @type string $tab     (required)
+			 *    @type string $content (optional)
+			 * }
+			 */
+			$tabs = apply_filters( 'wpmem_user_profile_tabs', array() ); 
 
-		if ( ! empty( $tabs ) ) { ?>
-			<script>
-				jQuery(document).ready(function($){
-					$("#wpmem_user_profile_tabs").tabs();
-				});
-			</script>
-			<?php
-			echo '<div id="wpmem_user_profile_tabs">';
-			echo '<ul>';
-			foreach ( $tabs as $key => $value ) {
-				echo '<li><a href="#wpmem_user_profile_tabs-' . ( $key ) . '">' . $value['tab'] . '</a></li>';
-			}
-			echo '</ul>';
-			foreach ( $tabs as $key => $value ) {
-				echo '<div id="wpmem_user_profile_tabs-' . ( $key ) . '">';
-				echo ( isset( $value['content'] ) ) ? $value['content'] : '';
-				do_action( 'wpmem_user_profile_tabs_content', $key );
+			if ( ! empty( $tabs ) ) { ?>
+				<script>
+					jQuery(document).ready(function($){
+						$("#wpmem_user_profile_tabs").tabs();
+					});
+				</script>
+				<?php
+				echo '<div id="wpmem_user_profile_tabs">';
+				echo '<ul>';
+				foreach ( $tabs as $key => $value ) {
+					echo '<li><a href="#wpmem_user_profile_tabs-' . ( $key ) . '">' . $value['tab'] . '</a></li>';
+				}
+				echo '</ul>';
+				foreach ( $tabs as $key => $value ) {
+					echo '<div id="wpmem_user_profile_tabs-' . ( $key ) . '">';
+					echo ( isset( $value['content'] ) ) ? $value['content'] : '';
+					do_action( 'wpmem_user_profile_tabs_content', $key );
+					echo '</div>';
+				}
 				echo '</div>';
 			}
-			echo '</div>';
 		}
 	}
 }

@@ -136,6 +136,7 @@ class WP_Members_Admin_API {
 		add_action( 'edit_user_profile',              array( 'WP_Members_User_Profile', 'profile' ) );
 		add_action( 'profile_update',                 array( 'WP_Members_User_Profile', 'update' ) );
 		add_action( 'edit_user_profile',              array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
+		add_action( 'show_user_profile',              array( 'WP_Members_User_Profile', '_profile_tabs' ), 99 );
 
 		if ( current_user_can( 'list_users' ) ) {
 			add_action( 'admin_footer-users.php',     array( 'WP_Members_Admin_Users', 'bulk_user_action' ) );
