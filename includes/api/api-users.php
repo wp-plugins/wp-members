@@ -428,13 +428,8 @@ function wpmem_activate_user( $user_id ) {
 
 	// If passwords are user defined skip this.
 	if ( ! wpmem_user_sets_password() ) {
-		// Generates a password to send the user.
 		$new_pass = wp_generate_password();
-		$new_hash = wp_hash_password( $new_pass );
-
-		// Update the user with the new password.
-		global $wpdb;
-		$wpdb->update( $wpdb->users, array( 'user_pass' => $new_hash ), array( 'ID' => $user_id ), array( '%s' ), array( '%d' ) );
+		wp_set_password( $new_pass, $user_id );
 	}
 
 	// @todo this should be taken out, use the wpmem_user_activated hook instead.
