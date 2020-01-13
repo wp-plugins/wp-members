@@ -928,6 +928,7 @@ class WP_Members_User {
 	 * @since 3.2.0
 	 * @since 3.2.6 Added $date to set a specific expiration date.
 	 * @since 3.3.0 Updated to new single meta, keeps legacy array for rollback.
+	 * @since 3.3.1 Added no gap renewal option, @todo Needs some possible condensing.
 	 *
 	 * @param string $product
 	 * @param int    $user_id
@@ -948,7 +949,7 @@ class WP_Members_User {
 
 		// Convert date to add.
 		$expires = ( isset( $wpmem->membership->products[ $product ]['expires'] ) ) ? $wpmem->membership->products[ $product ]['expires'] : false;
-		
+	
 		// If membership is an expiration product.
 		if ( is_array( $expires ) ) {
 			// If this is setting a specific date.
@@ -959,26 +960,65 @@ class WP_Members_User {
 				$user_product = strtotime( $set_date );
 			} else {
 				// Either setting initial expiration based on set time period, or adding to the existing date (renewal/extending).
-				$add_date = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
-				$add = ( 1 < $add_date[0] ) ? $add_date[0] . " " . $add_date[1] . "s" : $add_date[0] . " " . $add_date[1];
-				// @todo Legacy verion
-				$user_products[ $product ] = ( isset( $user_products[ $product ] ) ) ? date( 'Y-m-d H:i:s', strtotime( $add, strtotime( $user_products[ $product ] ) ) ) : date( 'Y-m-d H:i:s', strtotime( $add ) );
-				// @todo New version
-				$user_product = ( $user_product ) ? strtotime( $add, $user_product ) : strtotime( $add );
+				$raw_add = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
+				$add_period = ( 1 < $raw_add[0] ) ? $raw_add[0] . " " . $raw_add[1] . "s" : $raw_add[0] . " " . $raw_add[1];
+				
+				// Legacy first.
+				if ( isset( $user_products[ $product ] ) ) {
+					if ( isset( $wpmem->membership->products[ $product ]['no_gap'] ) && 1 == $wpmem->membership->products[ $product ]['no_gap'] ) {
+						// Add to the user's existing date (no gap).
+						//$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $add_period ) );
+						$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $add_period, strtotime( $user_products[ $product ] ) ) );
+					} else {
+						// Add to the user either from end or now (whichever is later; i.e. allow gaps (default)).
+						if ( $this->has_access( $product, $user_id ) ) {
+							// if not expired, set from when they expire.
+							$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $add_period, strtotime( $user_products[ $product ] ) ) );
+						} else {
+							// if expired, set from today.
+							$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $add_period ) );
+						}
+					}
+					
+				} else {
+					// User doesn't have this membershp. Go ahead and add it.
+					$user_products[ $product ] = date( 'Y-m-d H:i:s', strtotime( $add_period ) );
+				}
+					
+				// New single meta version.
+				if ( $user_product ) {
+					if ( isset( $wpmem->membership->products[ $product ]['no_gap'] ) && 1 == $wpmem->membership->products[ $product ]['no_gap'] ) {
+						// Add to the user's existing date (no gap).
+						$user_product = strtotime( $add_period, $user_product );
+					} else {
+						// Add to the user either from end or now (whichever is later; i.e. allow gaps (default)).
+						if ( $this->has_access( $product, $user_id ) ) {
+							// if not expired, set from when they expire.
+							$user_product = strtotime( $add_period, $user_product );
+						} else {
+							// if expired, set from today.
+							$user_product = strtotime( $add_period );
+						}
+					}
+				} else {
+					// User doesn't have this membershp. Go ahead and add it.
+					$user_product = strtotime( $add_period );
+				}
+
 			}
 		} else {
 			// @todo Legacy verion
 			$user_products[ $product ] = true;
 			// @todo New version
 			$user_product = true;
-		}
+		}	
 		
 		// Update product setting.
 		// @todo Legacy version
 		update_user_meta( $user_id, '_wpmem_products', $user_products );
 		// New, individual version.
 		update_user_meta( $user_id, '_wpmem_products_' . $product, $user_product );
-		
+
 		/**
 		 * Fires when a user product has been set.
 		 *
