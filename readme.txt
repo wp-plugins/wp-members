@@ -126,7 +126,8 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 
 = 3.3.2 =
 
-* * Added back shortcode menu item previously removed in 3.3.0.
+* Added back shortcode menu item previously removed in 3.3.0.
+* Fixed issue with dropdown, mutliple select, and radio field types that allowed white space in resulting value.
 
 = 3.3.1 =
 

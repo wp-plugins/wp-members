@@ -168,7 +168,7 @@ class WP_Members_Forms {
 				}
 			}
 			foreach ( $value as $option ) {
-				$pieces = explode( '|', $option );
+				$pieces = array_map( 'trim', explode( '|', $option ) );
 				if ( 'multiselect' == $type ) {
 					$chk = '';
 					$values = ( empty( $compare ) ) ? array() : ( is_array( $compare ) ? $compare : explode( $delimiter, $compare ) );
