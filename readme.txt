@@ -124,6 +124,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 
 == Changelog ==
 
+= 3.3.2 =
+
+* * Added back shortcode menu item previously removed in 3.3.0.
+
 = 3.3.1 =
 
 * Update membership product expiration to allow for a "no gap" expiration (i.e. renewal begins from expiration date, optional) or default (renewal begins from today or expiration date, whichever is later).

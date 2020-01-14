@@ -388,4 +388,19 @@ class WP_Members_Admin_Posts {
 		}
 	}
 
+	/**
+	 * Adds shortcode dropdown to post editor tinymce.
+	 * 
+	 * @since 3.0
+	 * @since 3.3.2 Added to posts class as static
+	 *
+	 * @global object $wpmem_shortcode The WP_Members_TinyMCE_Buttons object.
+	 */
+	static function load_tinymce() {
+		if ( version_compare( get_bloginfo( 'version' ), '3.9', '>=' ) ) {
+			global $wpmem, $wpmem_shortcode;
+			include( $wpmem->path . 'includes/admin/class-wp-members-tinymce-buttons.php' );
+			$wpmem_shortcode = new WP_Members_TinyMCE_Buttons;
+		}
+	}
 }

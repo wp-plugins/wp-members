@@ -169,6 +169,8 @@ class WP_Members_Admin_API {
 			add_action( 'admin_footer-edit.php',      array( 'WP_Members_Admin_Posts', 'bulk_action' ) );
 			add_action( 'load-edit.php',              array( 'WP_Members_Admin_Posts', 'page_load'   ) );
 			add_action( 'admin_notices',              array( 'WP_Members_Admin_Posts', 'notices'     ) );
+			add_action( 'load-post.php',              array( 'WP_Members_Admin_Posts', 'load_tinymce' ) );
+			add_action( 'load-post-new.php',          array( 'WP_Members_Admin_Posts', 'load_tinymce' ) );
 		}
 		
 		if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
