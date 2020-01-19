@@ -88,7 +88,7 @@
 								text: "|"
 							},
 							{
-								text: "Optional User Profile Individual Components:"
+								text: "Individual Components (optional):"
 							},
 							{
 								text: "Password Reset/Change",

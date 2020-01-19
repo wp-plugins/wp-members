@@ -369,7 +369,7 @@ function wpmem_add_custom_dialog( $dialogs, $tag, $msg, $label ) {
 /**
  * Gets an array of hidden post IDs.
  *
- * @since 3.3.0.4
+ * @since 3.3.1
  *
  * @global stdClass $wpmem
  * @return array
