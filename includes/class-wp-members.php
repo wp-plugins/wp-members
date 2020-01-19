@@ -700,28 +700,26 @@ class WP_Members {
 		global $post;
 		
 		if ( $post || $post_id ) {
-			
-			if ( $post_id && ! $post ) {
-				$post = get_post( $post_id );
-			}
+		
+			$the_post = ( false === $post_id ) ? $post : get_post( $post_id );
 
-			$meta = wpmem_get_block_setting( $post->ID );
+			$meta = wpmem_get_block_setting( $the_post->ID );
 			
 			// Backward compatibility for old block/unblock meta.
 			if ( ! $meta ) {
 				// Check for old meta.
-				$old_block   = get_post_meta( $post->ID, 'block',   true );
-				$old_unblock = get_post_meta( $post->ID, 'unblock', true );
+				$old_block   = get_post_meta( $the_post->ID, 'block',   true );
+				$old_unblock = get_post_meta( $the_post->ID, 'unblock', true );
 				$meta = ( $old_block ) ? 1 : ( ( $old_unblock ) ? 0 : $meta );
 			}
 	
 			// Setup defaults.
 			$defaults = array(
-				'post_id'    => $post->ID,
-				'post_type'  => $post->post_type,
-				'block'      => ( isset( $this->block[ $post->post_type ] ) && $this->block[ $post->post_type ] == 1 ) ? true : false,
+				'post_id'    => $the_post->ID,
+				'post_type'  => $the_post->post_type,
+				'block'      => ( isset( $this->block[ $the_post->post_type ] ) && $this->block[ $the_post->post_type ] == 1 ) ? true : false,
 				'block_meta' => $meta,
-				'block_type' => ( isset( $this->block[ $post->post_type ] ) ) ? $this->block[ $post->post_type ] : 0,
+				'block_type' => ( isset( $this->block[ $the_post->post_type ] ) ) ? $this->block[ $the_post->post_type ] : 0,
 			);
 	
 			/**
@@ -910,22 +908,26 @@ class WP_Members {
 	 *
 	 * @since 2.9.9
 	 * @since 3.2.0 Moved wpmem_securify_comments() to main class, renamed.
+	 * @since 3.3.2 Added $post_id.
 	 *
-	 * @return bool $open true if current post is open for comments, otherwise false.
+	 * @param  bool $open    Whether the current post is open for comments.
+     * @param  int  $post_id The post ID.
+	 * @return bool $open    True if current post is open for comments, otherwise false.
 	 */
-	function do_securify_comments( $open ) {
+	function do_securify_comments( $open, $post_id ) {
 
-		$open = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? false : $open;
+		$open = ( ! is_user_logged_in() && wpmem_is_blocked( $post_id ) ) ? false : $open;
 
 		/**
 		 * Filters whether comments are open or not.
 		 *
 		 * @since 3.0.0
 		 * @since 3.2.0 Moved to main class.
+		 * @since 3.3.2 Added $post_id.
 		 *
 		 * @param bool $open true if current post is open for comments, otherwise false.
 		 */
-		$open = apply_filters( 'wpmem_securify_comments', $open );
+		$open = apply_filters( 'wpmem_securify_comments', $open, $post_id );
 
 		if ( ! $open ) {
 			/** This filter is documented in wp-includes/comment-template.php */
@@ -941,12 +943,12 @@ class WP_Members {
 	 * @since 3.0.1
 	 * @since 3.2.0 Moved wpmem_securify_comments_array() to main class, renamed.
 	 *
-	 * @global object $wpmem The WP-Members object class.
-	 *
+	 * @param  array $comments
+	 * @param  int   $post_id
 	 * @return array $comments The comments array.
 	 */
 	function do_securify_comments_array( $comments , $post_id ) {
-		$comments = ( ! is_user_logged_in() && wpmem_is_blocked() ) ? array() : $comments;
+		$comments = ( ! is_user_logged_in() && wpmem_is_blocked( $post_id ) ) ? array() : $comments;
 		return $comments;
 	}
 
