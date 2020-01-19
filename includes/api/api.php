@@ -379,4 +379,17 @@ function wpmem_get_hidden_posts() {
 	return $wpmem->get_hidden_posts();
 }
 
+/**
+ * Conditional if REST request.
+ *
+ * @since 3.3.2
+ *
+ * @global stdClass $wpmem
+ * @return boolean
+ */
+function wpmem_is_rest() {
+	global $wpmem;
+	return $wpmem->is_rest;
+}
+
 // End of file.

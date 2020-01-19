@@ -281,13 +281,22 @@ class WP_Members {
 	public $select_style;
 	
 	/**
-	 * Container for dropin folder location
+	 * Container for dropin folder location.
 	 *
 	 * @since  3.3.0
 	 * @access public
 	 * @var    string
 	 */
 	public $dropin_dir;
+	
+	/**
+	 * REST conditional.
+	 *
+	 * @since  3.3.2
+	 * @access public
+	 * @var    boolean
+	 */
+	public $is_rest = false;
 	
 	/**
 	 * Plugin initialization function.
@@ -971,6 +980,15 @@ class WP_Members {
 		return $content;
 	}
 
+	/**
+	 * Runs if the REST API is initialized.
+	 *
+	 * @since 3.3.2
+	 */
+	function rest_init() {
+		$this->is_rest = true;
+	}
+	
 	/**
 	 * Gets an array of hidden post IDs.
 	 *
