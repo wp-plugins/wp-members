@@ -406,36 +406,44 @@ class WP_Members {
 		do_action( 'wpmem_load_hooks' );
 
 		// Add actions.
-		add_action( 'template_redirect',     array( $this, 'get_action'  ) );
-		add_action( 'widgets_init',          array( $this, 'widget_init' ) );  // initializes the widget
+		
+		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
+		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
+		add_action( 'widgets_init',          array( $this, 'widget_init' ) ); // initializes the widget
 		add_action( 'admin_init',            array( $this, 'load_admin'  ) ); // check user role to load correct dashboard
-		add_action( 'admin_menu',            'wpmem_admin_options' );      // adds admin menu
+		add_action( 'rest_api_init',         array( $this, 'rest_init'   ) );
+		add_action( 'template_redirect',     array( $this, 'get_action'  ) );
 		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style_wp_login' ) ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
-		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
-		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
 		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
-
+		add_action( 'admin_menu',            'wpmem_admin_options' ); // adds admin menu
+		
 		if ( is_user_logged_in() ) {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_password' ), 9, 2 );
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
 		}
 		
-		add_filter( 'register_form',             'wpmem_wp_register_form' );                             // adds fields to the default wp registration
+		add_filter( 'register_form',             'wpmem_wp_register_form' ); // adds fields to the default wp registration
 		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
 		
 		// Add filters.
-		add_filter( 'the_content',               array( $this, 'do_securify' ), 99 );
-		add_filter( 'allow_password_reset',      array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
-		add_filter( 'comments_open',             array( $this, 'do_securify_comments' ), 99 ); // securifies the comments
-		add_filter( 'wpmem_securify',            array( $this, 'reg_securify' ) );             // adds success message on login form if redirected
-		//add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 );           // adds custom query vars
-		add_filter( 'get_pages',                 array( $this, 'filter_get_pages' ) );
-		add_filter( 'wp_get_nav_menu_items',     array( $this, 'filter_nav_menu_items' ), null, 3 );
-		add_filter( 'get_previous_post_where',   array( $this, 'filter_get_adjacent_post_where' ) );
-		add_filter( 'get_next_post_where',       array( $this, 'filter_get_adjacent_post_where' ) );
+		add_filter( 'the_content',             array( $this, 'do_securify' ), 99 );
+		add_filter( 'comments_open',           array( $this, 'do_securify_comments' ), 99, 2 ); // securifies the comments
+		add_filter( 'wpmem_securify',          array( $this, 'reg_securify' ) );             // adds success message on login form if redirected
+		add_filter( 'rest_prepare_post',       array( $this, 'do_securify_rest' ), 10, 3 );
+		add_filter( 'rest_prepare_page',       array( $this, 'do_securify_rest' ), 10, 3 );
+		foreach( $this->post_types as $post_type ) {
+			add_filter( "rest_prepare_{$post_type}", array( $this, 'do_securify_rest' ), 10, 3 );
+		}
+				   
+		//add_filter( 'query_vars',                array( $this, 'add_query_vars' ), 10, 2 ); // adds custom query vars
+		add_filter( 'get_pages',               array( $this, 'filter_get_pages' ) );
+		add_filter( 'wp_get_nav_menu_items',   array( $this, 'filter_nav_menu_items' ), null, 3 );
+		add_filter( 'get_previous_post_where', array( $this, 'filter_get_adjacent_post_where' ) );
+		add_filter( 'get_next_post_where',     array( $this, 'filter_get_adjacent_post_where' ) );
+		add_filter( 'allow_password_reset',    array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
 		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( $this->mod_reg == 1 ) { 
@@ -746,7 +754,7 @@ class WP_Members {
 			// Merge $args with defaults.
 			$args = ( wp_parse_args( $args, $defaults ) );
 	
-			if ( is_single() || is_page() ) {
+			if ( is_single() || is_page() || wpmem_is_rest() ) {	
 				switch( $args['block_type'] ) {
 					case 1: // If content is blocked by default.
 						$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
@@ -961,6 +969,51 @@ class WP_Members {
 		return $comments;
 	}
 
+	/**
+	 * Handles REST request.
+	 *
+	 * @since 3.3.2
+	 *
+	 * @param WP_REST_Response $response The response object.
+	 * @param WP_Post          $post     Post object.
+	 * @param WP_REST_Request  $request  Request object.
+	 * @return
+	 */
+	function do_securify_rest( $response, $post, $request ) {
+		
+		// Response for restricted content
+		$block_value = wpmem_is_blocked( $response->data['id'] );
+		if ( $block_value ) {
+			if ( isset( $response->data['content']['rendered'] ) ) {
+				/**
+				 * Filters restricted content message.
+				 *
+				 * @since 3.3.2
+				 *
+				 * @param string $message
+				 */
+				$response->data['content']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_content", __( "You must be logged in to view this content.", 'wp-members' ) );
+			}
+			if ( isset( $response->data['excerpt']['rendered'] ) ) {
+				/**
+				 * Filters restricted excerpt message.
+				 *
+				 * @since 3.3.2
+				 *
+				 * @param string $message
+				 */
+				$response->data['excerpt']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_excerpt", __( "You must be logged in to view this content.", 'wp-members' ) );
+			}
+		}
+		
+		// Response for hidden content.
+		if ( in_array( $post->ID, $this->hidden_posts() ) ) {
+			return new WP_REST_Response( __( 'The page you are looking for does not exist', 'wp-members' ), 404 );
+		}
+		
+		return $response;
+	}
+	
 	/**
 	 * Adds the successful registration message on the login page if reg_nonce validates.
 	 *
