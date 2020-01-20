@@ -127,7 +127,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 = 3.3.2 =
 
 * Added back shortcode menu item previously removed in 3.3.0.
+* Added new handling in wpmem_is_blocked() for validating rest api requests.
+* Added new wpmem_is_rest() function to the plugin's API, determines if the request is a rest request.
 * Fixed issue with dropdown, mutliple select, and radio field types that allowed white space in resulting value.
+* Fixed issue with register/profile update validation if email is removed via wpmem_fields filter hook.
 
 = 3.3.1 =
 

@@ -273,11 +273,14 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 	 * Filters the fields array.
 	 *
 	 * @since 3.1.7
+	 * @since 3.3.2 Change object var and return.
 	 *
 	 * @param  array  $wpmem->fields
 	 * @param  string $tag (optional)
 	 */
-	return apply_filters( 'wpmem_fields', $wpmem->fields, $tag );
+	$wpmem->fields = apply_filters( 'wpmem_fields', $wpmem->fields, $tag );
+	
+	return $wpmem->fields;
 }
 
 /**

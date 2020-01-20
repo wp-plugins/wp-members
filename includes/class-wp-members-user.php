@@ -197,16 +197,18 @@ class WP_Members_User {
 			return;
 		}
 
+		// Make sure fields are loaded.
+		wpmem_fields( $tag );
+
 		// Is this a registration or a user profile update?
 		if ( 'register' == $tag ) { 
 			$this->post_data['username'] = sanitize_user( wpmem_get( 'username' ) );
 		}
 
 		// Add the user email to the $this->post_data array for _data hooks.
-		$this->post_data['user_email'] = sanitize_email( wpmem_get( 'user_email' ) );
-
-		// Make sure fields are loaded.
-		wpmem_fields();
+		if ( isset( $wpmem->fields['user_email'] ) ) {
+			$this->post_data['user_email'] = sanitize_email( wpmem_get( 'user_email' ) );
+		}
 		
 		// If this is an update, and tos is a field, and the user has the correct saved value, remove tos.
 		if ( 'update' == $tag && isset( $wpmem->fields['tos'] ) ) {
