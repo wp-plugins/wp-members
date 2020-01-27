@@ -45,9 +45,10 @@ class WP_Members_User {
 	function __construct( $settings ) {
 		add_action( 'user_register', array( $this, 'set_reg_type'            ), 1 );
 		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
-		add_action( 'user_register', array( $this, 'set_user_exp'            ), 6 );
-		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.
-		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 6 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
+		add_action( 'user_register', array( $this, 'post_register_data'      ), 20 );
+		add_action( 'user_register', array( $this, 'set_user_exp'            ), 25 );
+		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.
+		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ) );
 		
 		add_filter( 'registration_errors',       array( $this, 'wp_register_validate' ), 10, 3 );  // native registration validation
@@ -478,6 +479,28 @@ class WP_Members_User {
 		$user_ip = ( $this->reg_type['is_wpmem'] ) ? $this->post_data['wpmem_reg_ip'] : wpmem_get_user_ip();
 		update_user_meta( $user_id, 'wpmem_reg_ip', $user_ip );
 
+	}
+	
+	/**
+	 * Fires wpmem_post_register_data action.
+	 *
+	 * @since 3.3.2
+	 *
+	 * @global stdClass $wpmem
+	 * @param  int      $user_id
+	 */
+	function post_register_data( $user_id ) {
+		global $wpmem;
+		$wpmem->user->post_data['ID'] = $user_id;
+		/**
+		 * Fires after user insertion but before email.
+		 *
+		 * @since 2.7.2
+		 * @since 3.3.2 Hooked to user_register.
+		 *
+		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 */
+		do_action( 'wpmem_post_register_data', $wpmem->user->post_data );
 	}
 	
 	/**
