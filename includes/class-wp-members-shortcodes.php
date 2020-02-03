@@ -62,6 +62,7 @@ class WP_Members_Shortcodes {
 	 * @since 3.1.3 Added forgot_username shortcode.
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::forms().
 	 * @since 3.2.0 Added id, exclude_fields, include_fields, and product attributes.
+	 * @since 3.3.2 Added WP default login form.
 	 *
 	 * @todo Complete support for id, exlude_fields, include_fields, and product attributes
 	 *       May require updates to core functions.
@@ -108,6 +109,10 @@ class WP_Members_Shortcodes {
 			// If $atts is an array, get the tag from the array so we know what form to render.
 			switch ( $atts ) {
 
+				case in_array( 'wp_login', $atts ):
+					$content = wpmem_wp_login_form( $atts );
+					break;
+					
 				case in_array( 'login', $atts ):		
 					if ( is_user_logged_in() && '1' != $customizer ) {
 						/*

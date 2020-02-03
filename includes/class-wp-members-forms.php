@@ -2057,4 +2057,13 @@ class WP_Members_Forms {
 		return $str;
 	}
 	
+	/**
+	 * Wrapper for handing the default WP login form.
+	 *
+	 * @since 3.3.2
+	 */
+	function wp_login_form( $args ) {
+		
+		return wp_login_form( $args );
+	}
 } // End of WP_Members_Forms class.

@@ -72,6 +72,19 @@ function wpmem_login_form( $args, $arr = false ) {
 endif;
 
 /**
+ * Use the WP login form.
+ *
+ * @since 3.3.2
+ *
+ * @global stdClass $wpmem
+ * @param  array    $args
+ */
+function wpmem_wp_login_form( $args ) {
+	global $wpmem;
+	return $wpmem->forms->wp_login_form( $args );
+}
+
+/**
  * Invokes a registration or user profile update form.
  *
  * @since 3.2.0
