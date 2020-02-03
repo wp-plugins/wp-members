@@ -317,8 +317,8 @@ class WP_Members_Admin_Users {
 		 *     @type string The HTML for the view.
 		 * }
 		 */
-		$views = apply_filters( 'wpmem_views_users', $views );
-
+		$views = apply_filters( 'wpmem_views_users', $views, $show );
+		
 		return $views;
 	}
 
@@ -459,7 +459,14 @@ class WP_Members_Admin_Users {
 		
 		$query_where = str_replace( 'WHERE 1=1', $replace_query, $user_search->query_where );
 		
-		$query_where = apply_filters( 'wpmem_query_where', $query_where );
+		/**
+		 * Filters the pre_user_query being applied.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param  string  $query_where
+		 */
+		$query_where = apply_filters( 'wpmem_query_where', $query_where, $show );
 
 		$user_search->query_where = $query_where;
 	}
