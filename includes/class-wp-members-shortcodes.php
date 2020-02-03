@@ -269,7 +269,7 @@ class WP_Members_Shortcodes {
 					if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {	
 						if ( ! wpmem_chk_exp() ) {
 							$do_return = true;
-						} elseif ( $atts['msg'] == true ) {
+						} elseif ( $atts['msg'] == "true" ) {
 							$do_return = true;
 							$content = wpmem_sc_expmessage();
 						}
