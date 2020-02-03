@@ -63,11 +63,23 @@ function wpmem_redirect_to_login( $redirect_to = false ) {
  *
  * @global object $wpmem   The WP-Members object class.
  * @param  int    $post_id 
- * @return bool   $block   True if content is blocked, false otherwise.
+ * @return bool   $block   True if content is blocked, otherwise false.
  */
 function wpmem_is_blocked( $post_id = false ) {
 	global $wpmem;
 	return $wpmem->is_blocked( $post_id );
+}
+
+/**
+ * Checks if specific post is marked as hidden.
+ *
+ * @since 3.3.2
+ *
+ * @param  int    $post_id 
+ * @return bool   $block   True if content is hidden, otherwise false.
+ */
+function wpmem_is_hidden( $post_id = false ) {
+	return ( 2 == get_post_meta( $post_id ) ) ? true : false;
 }
 
 /** 
