@@ -860,13 +860,8 @@ class WP_Members {
 
 				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
 
-					if ( ! stristr( $content, '<span id="more' ) ) {
-						$content = wpmem_do_excerpt( $content );
-					} else {
-						$len = strpos( $content, '<span id="more' );
-						$content = substr( $content, 0, $len );
-					}
-
+					$content = wpmem_do_excerpt( $content );
+					
 				} else {
 
 					// Empty all content.
@@ -1109,7 +1104,7 @@ class WP_Members {
 		}
 		return $hidden;
 	}
-	
+
 	/**
 	 * Hides posts based on settings and meta.
 	 *
@@ -1771,7 +1766,7 @@ class WP_Members {
 						$do_excerpt = true;
 					}
 
-					if ( $do_excerpt ) {
+					if ( true === $do_excerpt ) {
 						$content = wp_trim_words( $content, $args['length'], $args['more_link'] );
 						// Check if the more link was added (note: singular has no more_link):
 						if ( ! $is_singular && ! strpos( $content, $args['more_link'] ) ) {
@@ -1779,6 +1774,9 @@ class WP_Members {
 						}
 					}
 				}
+			} else {
+				$len = strpos( $content, '<span id="more' );
+				$content = substr( $content, 0, $len );
 			}
 		} else {
 			$post_id   = false;
