@@ -166,9 +166,9 @@ class WP_Members_Captcha {
 				// Validate Really Simple Captcha.
 				$wpmem_captcha = new ReallySimpleCaptcha();
 				// This variable holds the CAPTCHA image prefix, which corresponds to the correct answer.
-				$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? $_POST['captcha_prefix'] : '';
+				$wpmem_captcha_prefix = ( isset( $_POST['captcha_prefix'] ) ) ? sanitize_text_field( $_POST['captcha_prefix'] ) : '';
 				// This variable holds the CAPTCHA response, entered by the user.
-				$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? $_POST['captcha_code'] : '';
+				$wpmem_captcha_code = ( isset( $_POST['captcha_code'] ) ) ? sanitize_text_field( $_POST['captcha_code'] ) : '';
 				// Check CAPTCHA validity.
 				$wpmem_captcha_correct = ( $wpmem_captcha->check( $wpmem_captcha_prefix, $wpmem_captcha_code ) ) ? true : false;
 				// Clean up the tmp directory.
@@ -180,53 +180,65 @@ class WP_Members_Captcha {
 					return "empty";
 				}
 			}
-		} elseif ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
-			// Get the captcha response.
-			if ( isset( $_POST['g-recaptcha-response'] ) ) {
-				$captcha = $_POST['g-recaptcha-response'];
-			}
-
-			// If there is no captcha value, return error.
-			if ( ! $captcha ) {
-				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
-				return "empty";
-			}
-
-			// We need the private key for validation.
+		} else {
+			
+			// It is reCAPTCHA.
+			$recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify?';
+			
 			$privatekey = $wpmem_captcha['recaptcha']['private'];
+			
+			if ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] && isset( $_POST['g-recaptcha-response'] ) ) {
 
-			// Validate the captcha.
-			$response = wp_remote_fopen( "https://www.google.com/recaptcha/api/siteverify?secret=" . $privatekey . "&response=" . $captcha . "&remoteip=" . wpmem_get_user_ip() );
-
-			// Decode the json response.
-			$response = json_decode( $response, true );
-
-			// If captcha validation was unsuccessful.
-			if ( false == $response['success'] ) {
-				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
-				if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
-					$wpmem_themsg.= '<br /><br />';
-					foreach( $response['error-codes'] as $code ) {
-						$wpmem_themsg.= "Error code: " . $code . "<br />";
-					}
-				}
-				return "empty";
-			}
-		} elseif ( 4 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
-			if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'] ) ) {
-
-				// Make and decode POST request:
-				$recaptcha = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $wpmem_captcha['recaptcha']['private'] . '&response=' . $_POST['recaptcha_response'] );
-				$recaptcha = json_decode( $recaptcha );
-
-				// Take action based on the score returned:
-				if ( $recaptcha->score >= 0.5 ) {
-					// Verified - send email
-				} else {
-					$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+				// If there is no captcha value, return error.
+				if ( ! $captcha ) {
+					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
 					return "empty";
 				}
-			}		
+
+				// Build URL for captcha evaluation.
+				$url = $recaptcha_verify_url . http_build_query([
+					'secret' => $privatekey,
+					'response' => $_POST['g-recaptcha-response'],
+					'remoteip' => wpmem_get_user_ip(),
+				]);
+				
+				// Validate the captcha.
+				$response = wp_remote_fopen( $url );
+
+				// Decode the json response.
+				$response = json_decode( $response, true );
+
+				// If captcha validation was unsuccessful.
+				if ( false == $response['success'] ) {
+					$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+					if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
+						$wpmem_themsg.= '<br /><br />';
+						foreach( $response['error-codes'] as $code ) {
+							$wpmem_themsg.= "Error code: " . $code . "<br />";
+						}
+					}
+					return "empty";
+				}
+			} elseif ( 4 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
+				if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['recaptcha_response'] ) ) {
+
+					// Make and decode POST request:
+					$url = $recaptcha_verify_url . http_build_query([
+						'secret' => $privatekey,
+						'response' => $_POST['recaptcha_response'],
+					]);
+					$recaptcha = file_get_contents( $url );
+					$recaptcha = json_decode( $recaptcha );
+
+					// Take action based on the score returned:
+					if ( $recaptcha->score >= 0.5 ) {
+						// Verified - send email
+					} else {
+						$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+						return "empty";
+					}
+				}
+			}
 		}	
 
 		return "passed_captcha";
