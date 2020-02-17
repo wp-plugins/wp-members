@@ -134,6 +134,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 * Moved wpmem_post_register_data action to fire hooked to user_register at priority 20. Changed email actions to fire at priority 25. See release announcement for more detail of implications.
 * Code improvement to reCAPTCHA.
 * Code improvement to excerpt generation.
+* Code improvement to expiration date generation.
 
 = 3.3.1 =
 
