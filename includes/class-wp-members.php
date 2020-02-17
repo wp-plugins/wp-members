@@ -1082,21 +1082,29 @@ class WP_Members {
 	 */
 	function get_hidden_posts() {
 		$hidden = array();
-		if ( ! is_admin() && ( ! is_user_logged_in() ) ) {
-			$hidden = $this->hidden_posts();
+		
+		// Return empty array if this is the admin and user can edit posts.
+		if ( is_admin() && current_user_can( 'edit_posts' ) ) {
+			return $hidden;
 		}
-		// @todo Possibly separate query here to check. If the user IS logged in, check what posts they DON'T have access to.
-		if ( ! is_admin() && is_user_logged_in() && 1 == $this->enable_products ) {
-			// Get user product access.
-			// @todo This maybe should be a transient stored in the user object.
+		
+		// If the user is not logged in, return all hidden posts.
+		if ( ! is_user_logged_in() ) {
 			$hidden = $this->hidden_posts();
-			$hidden = ( is_array( $hidden ) ) ? $hidden : array();
-			foreach ( $this->membership->products as $key => $value ) {
-				if ( isset( $this->user->access[ $key ] ) && ( true == $this->user->access[ $key ] || $this->user->is_current( $this->user->access[ $key ] ) ) ) {
-					foreach ( $hidden as $post_id ) {
-						if ( 1 == get_post_meta( $post_id, $this->membership->post_stem . $key, true ) ) {
-							$hidden_key = array_search( $post_id, $hidden );
-							unset( $hidden[ $hidden_key ] );	
+		} else {
+			// If the user is logged in.
+			if ( 1 == $this->enable_products ) {
+				// Get user product access.
+				// @todo This maybe should be a transient stored in the user object.
+				$hidden = $this->hidden_posts();
+				$hidden = ( is_array( $hidden ) ) ? $hidden : array();
+				foreach ( $this->membership->products as $key => $value ) {
+					if ( isset( $this->user->access[ $key ] ) && ( true == $this->user->access[ $key ] || $this->user->is_current( $this->user->access[ $key ] ) ) ) {
+						foreach ( $hidden as $post_id ) {
+							if ( 1 == get_post_meta( $post_id, $this->membership->post_stem . $key, true ) ) {
+								$hidden_key = array_search( $post_id, $hidden );
+								unset( $hidden[ $hidden_key ] );	
+							}
 						}
 					}
 				}

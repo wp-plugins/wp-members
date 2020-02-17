@@ -136,6 +136,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 * Code improvement to reCAPTCHA.
 * Code improvement to excerpt generation.
 * Code improvement to expiration date generation.
+* Code improvement to hidden posts when using membership products.
 
 = 3.3.1 =
 
