@@ -1078,7 +1078,8 @@ class WP_Members {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @return array  $hidden
+	 * @global stdClass $wpdb
+	 * @return array    $hidden
 	 */
 	function get_hidden_posts() {
 		$hidden = array();
@@ -1087,7 +1088,7 @@ class WP_Members {
 		if ( is_admin() && current_user_can( 'edit_posts' ) ) {
 			return $hidden;
 		}
-		
+	
 		// If the user is not logged in, return all hidden posts.
 		if ( ! is_user_logged_in() ) {
 			$hidden = $this->hidden_posts();
@@ -1095,9 +1096,10 @@ class WP_Members {
 			// If the user is logged in.
 			if ( 1 == $this->enable_products ) {
 				// Get user product access.
-				// @todo This maybe should be a transient stored in the user object.
 				$hidden = $this->hidden_posts();
 				$hidden = ( is_array( $hidden ) ) ? $hidden : array();
+
+				// Remove posts with a product the user has access to.
 				foreach ( $this->membership->products as $key => $value ) {
 					if ( isset( $this->user->access[ $key ] ) && ( true == $this->user->access[ $key ] || $this->user->is_current( $this->user->access[ $key ] ) ) ) {
 						foreach ( $hidden as $post_id ) {
@@ -1106,6 +1108,15 @@ class WP_Members {
 								unset( $hidden[ $hidden_key ] );	
 							}
 						}
+					}
+				}
+
+				// Remove posts that don't have a product assignment (general login).
+				foreach( $hidden as $hidden_key ) {
+					$unattached = get_post_meta( $hidden_key, '_wpmem_products', true );												   
+					if ( false == $unattached ) {
+						$hidden_key = array_search( $hidden_key, $hidden );
+						unset( $hidden[ $hidden_key ] );
 					}
 				}
 			}
