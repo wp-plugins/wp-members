@@ -124,6 +124,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 
 == Changelog ==
 
+= 3.3.2.1 =
+
+* Fixes a bug that caused post excerpts to not be displayed if auto excerpt is not enabled.
+
 = 3.3.2 =
 
 * Added back shortcode menu item previously removed in 3.3.0.
@@ -133,11 +137,13 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 * Fixed issue with register/profile update validation if email is removed via wpmem_fields filter hook.
 * Fixed issue with prev/next post links to not show hidden posts if user is logged in but does not have a membership.
 * Fixed issue with hidden posts when membership products are used. Hidden posts not assigned a membership remained hidden.
+* Fixed issue with menus where logged in/logged out settings were not applied unless membership products were enabled.
 * Moved wpmem_post_register_data action to fire hooked to user_register at priority 20. Changed email actions to fire at priority 25. See release announcement for more detail of implications.
 * Code improvement to reCAPTCHA.
 * Code improvement to excerpt generation.
 * Code improvement to expiration date generation.
 * Code improvement to hidden posts when using membership products.
+* Code improvement changed user_register hook priority for post_register_data() to "9" to allow for custom meta fields to be available to any user_register function using the default priority (10) or later.
 
 = 3.3.1 =
 

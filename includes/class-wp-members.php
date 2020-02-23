@@ -860,8 +860,13 @@ class WP_Members {
 
 				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
 
-					$content = wpmem_do_excerpt( $content );
-					
+					$len = strpos( $content, '<span id="more' );
+					if ( false === $len ) {
+						$content = wpmem_do_excerpt( $content );
+					} else {
+						$content = substr( $content, 0, $len );
+					}
+
 				} else {
 
 					// Empty all content.
@@ -1795,9 +1800,6 @@ class WP_Members {
 						}
 					}
 				}
-			} else {
-				$len = strpos( $content, '<span id="more' );
-				$content = substr( $content, 0, $len );
 			}
 		} else {
 			$post_id   = false;
