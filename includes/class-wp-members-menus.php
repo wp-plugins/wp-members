@@ -283,7 +283,7 @@ class WP_Members_Menus {
 		global $wpmem;
 		$hide_children_of = array();
 
-		if ( 1 == $wpmem->enable_products && ! empty( $items ) ) {
+		if ( ! empty( $items ) ) {
 
 			// Iterate and remove set items.
 			foreach ( $items as $key => $item ) {
@@ -307,13 +307,17 @@ class WP_Members_Menus {
 							$visible = ( ! is_user_logged_in() ) ? true : false;
 							break;
 						default:
-							$visible = false;
-							if ( is_array( $item->restrictions ) && ! empty( $item->restrictions ) ) {
-								foreach ( $item->restrictions['products'] as $product ) {
-									if ( wpmem_user_has_access( $product ) ) {
-										$visible = true;
+							if ( 1 == $wpmem->enable_products ) {
+								$visible = false;
+								if ( is_array( $item->restrictions ) && ! empty( $item->restrictions ) ) {
+									foreach ( $item->restrictions['products'] as $product ) {
+										if ( wpmem_user_has_access( $product ) ) {
+											$visible = true;
+										}
 									}
 								}
+							} else {
+								$visible = true;
 							}
 							break;
 					}
