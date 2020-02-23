@@ -45,7 +45,7 @@ class WP_Members_User {
 	function __construct( $settings ) {
 		add_action( 'user_register', array( $this, 'set_reg_type'            ), 1 );
 		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
-		add_action( 'user_register', array( $this, 'post_register_data'      ), 20 );
+		add_action( 'user_register', array( $this, 'post_register_data'      ), 9 ); // Changed this to 9 so custom user meta is saved before the default (10) priority.
 		add_action( 'user_register', array( $this, 'set_user_exp'            ), 25 );
 		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.
 		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
