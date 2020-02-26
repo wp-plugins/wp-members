@@ -1940,7 +1940,7 @@ class WP_Members_Forms {
 					'name'   => $wpmem->get_text( 'pwdreset_email' ), 
 					'type'   => 'text', 
 					'tag'    => 'email', 
-					'class'  => 'text',
+					'class'  => 'textbox',
 					'div'    => 'div_text',
 				),
 			),
