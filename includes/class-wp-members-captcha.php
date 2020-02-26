@@ -187,7 +187,9 @@ class WP_Members_Captcha {
 			
 			$privatekey = $wpmem_captcha['recaptcha']['private'];
 			
-			if ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] && isset( $_POST['g-recaptcha-response'] ) ) {
+			if ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
+				
+				$captcha = wpmem_get( 'g-recaptcha-response', false );
 
 				// If there is no captcha value, return error.
 				if ( ! $captcha ) {
@@ -198,7 +200,7 @@ class WP_Members_Captcha {
 				// Build URL for captcha evaluation.
 				$url = $recaptcha_verify_url . http_build_query([
 					'secret' => $privatekey,
-					'response' => $_POST['g-recaptcha-response'],
+					'response' => $captcha,
 					'remoteip' => wpmem_get_user_ip(),
 				]);
 				
@@ -220,12 +222,13 @@ class WP_Members_Captcha {
 					return "empty";
 				}
 			} elseif ( 4 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
-				if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['recaptcha_response'] ) ) {
+				$captcha = wpmem_get( 'recaptcha_response', false );
+				if ( $_SERVER['REQUEST_METHOD'] === 'POST' && false !== $captcha ) {
 
 					// Make and decode POST request:
 					$url = $recaptcha_verify_url . http_build_query([
 						'secret' => $privatekey,
-						'response' => $_POST['recaptcha_response'],
+						'response' => $captcha,
 					]);
 					$recaptcha = file_get_contents( $url );
 					$recaptcha = json_decode( $recaptcha );
@@ -237,6 +240,8 @@ class WP_Members_Captcha {
 						$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
 						return "empty";
 					}
+				} else {
+					return "empty";
 				}
 			}
 		}	

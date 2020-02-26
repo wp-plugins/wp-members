@@ -1310,6 +1310,32 @@ class WP_Members {
 
 		if ( 'admin-profile' == $tag || 'user-profile' == $tag ) {
 			array_push( $excluded_fields, 'first_name', 'last_name', 'nickname', 'display_name', 'user_email', 'description', 'user_url' );
+			
+			// If WooCommerce is used, remove these meta - WC already adds them in their own section.
+			if ( class_exists( 'woocommerce' ) ) {
+				array_push( $excluded_fields,
+					'billing_first_name',
+					'billing_last_name',
+					'billing_company',
+					'billing_address_1',
+					'billing_address_2',
+					'billing_city',
+					'billing_postcode',
+					'billing_country',
+					'billing_state',
+					'billing_email',
+					'billing_phone',
+					'shipping_first_name',
+					'shipping_last_name',
+					'shipping_company',
+					'shipping_address_1',
+					'shipping_address_2',
+					'shipping_city',
+					'shipping_postcode',
+					'shipping_country',
+					'shipping_state'
+				);
+			}
 		}
 
 		/**
