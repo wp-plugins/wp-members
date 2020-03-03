@@ -213,7 +213,26 @@ class WP_Members_Products {
 			 *     @type string $slug
 			 * }
 			 */
-			$content = ( $access ) ? $content : apply_filters( 'wpmem_product_restricted_msg', $wpmem->get_text( 'product_restricted' ), $post_products );
+			$message = apply_filters( 'wpmem_product_restricted_msg', $wpmem->get_text( 'product_restricted' ), $post_products );
+			
+			/**
+			 * Filter the product restricted message HTML.
+			 *
+			 * @since 3.3.3
+			 *
+			 * @param array $product_restricted {
+			 *     $type string $wrapper_before
+			 *     $type string $message
+			 *     $type string $wrapper_after
+			 * }
+			 */
+			$product_restricted = apply_filters( 'wpmem_product_restricted', array(
+				'wrapper_before' => '<div class="wpmem_msg" align="center">',
+				'message'        => '<p>' . $message . '</p>',
+				'wrapper_after'  => '</div>',
+			) );
+			
+			$content = ( $access ) ? $content : $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
 			
 			// Handle comments.
 			if ( ! $access ) {

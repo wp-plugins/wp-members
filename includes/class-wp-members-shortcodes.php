@@ -314,10 +314,11 @@ class WP_Members_Shortcodes {
 						 * Filter the access failed message.
 						 *
 						 * @since 3.3.0
+						 * @since 3.3.3 Changed from 'wpmem_sc_product_access_denied'
 						 *
 						 * @param array $settings.
 						 */
-						$settings = apply_filters( 'wpmem_sc_product_access_denied', $settings );
+						$settings = apply_filters( 'wpmem_sc_product_restricted', $settings );
 						$content  = $settings['wrapper_before'] . $settings['msg'] . $settings['wrapper_after'];
 					}
 				}
