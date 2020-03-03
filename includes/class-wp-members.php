@@ -981,36 +981,37 @@ class WP_Members {
 	 */
 	function do_securify_rest( $response, $post, $request ) {
 		
-		// Response for restricted content
-		$block_value = wpmem_is_blocked( $response->data['id'] );
-		if ( $block_value ) {
-			if ( isset( $response->data['content']['rendered'] ) ) {
-				/**
-				 * Filters restricted content message.
-				 *
-				 * @since 3.3.2
-				 *
-				 * @param string $message
-				 */
-				$response->data['content']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_content", __( "You must be logged in to view this content.", 'wp-members' ) );
+		if ( ! is_user_logged_in() ) { // @todo This needs to be changed to check for whether the user has access (for internal requests).
+			// Response for restricted content
+			$block_value = wpmem_is_blocked( $response->data['id'] );
+			if ( $block_value ) {
+				if ( isset( $response->data['content']['rendered'] ) ) {
+					/**
+					 * Filters restricted content message.
+					 *
+					 * @since 3.3.2
+					 *
+					 * @param string $message
+					 */
+					$response->data['content']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_content", __( "You must be logged in to view this content.", 'wp-members' ) );
+				}
+				if ( isset( $response->data['excerpt']['rendered'] ) ) {
+					/**
+					 * Filters restricted excerpt message.
+					 *
+					 * @since 3.3.2
+					 *
+					 * @param string $message
+					 */
+					$response->data['excerpt']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_excerpt", __( "You must be logged in to view this content.", 'wp-members' ) );
+				}
 			}
-			if ( isset( $response->data['excerpt']['rendered'] ) ) {
-				/**
-				 * Filters restricted excerpt message.
-				 *
-				 * @since 3.3.2
-				 *
-				 * @param string $message
-				 */
-				$response->data['excerpt']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_excerpt", __( "You must be logged in to view this content.", 'wp-members' ) );
+
+			// Response for hidden content. @todo This needs to be changed to check for whether the user has access (for internal requests).
+			if ( ! is_admin() && in_array( $post->ID, $this->hidden_posts() ) ) {
+				return new WP_REST_Response( __( 'The page you are looking for does not exist', 'wp-members' ), 404 );
 			}
 		}
-		
-		// Response for hidden content.
-		if ( in_array( $post->ID, $this->hidden_posts() ) ) {
-			return new WP_REST_Response( __( 'The page you are looking for does not exist', 'wp-members' ), 404 );
-		}
-		
 		return $response;
 	}
 	
