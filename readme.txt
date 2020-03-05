@@ -129,6 +129,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is a fix release. See chang
 * If WooCommerce is active, any standard WC user meta fields are removed from the WP-Members additional fields in the User Profile Edit (since they already display in the WC field blocks).
 * When setting hidden posts, don't include posts from post types not set as handled by WP-Members. This prevents previously hidden posts from being included if the post type is no longer included for WP-Members.
 * Set a default product for publishing posts/pages.
+* Updated activation/deactivation processing so that a (admin) user cannot activate or deactivate themselves. Also, if a user has "edit_users" capability, they can log in without being activated.
 
 = 3.3.2 =
 
