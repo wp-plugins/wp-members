@@ -1064,6 +1064,7 @@ class WP_Members {
 	 * Updates the hidden post array transient.
 	 *
 	 * @since 3.2.0
+	 * @since 3.3.3 Don't include posts from post types not set as handled by WP-Members.
 	 *
 	 * @global object $wpdb
 	 * @return array  $hidden
@@ -1071,9 +1072,22 @@ class WP_Members {
 	function update_hidden_posts() {
 		global $wpdb;
 		$hidden  = array();
-		$results = $wpdb->get_results( "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2" );
+		$default_post_types = array( 'post'=>'Posts', 'page'=>'Page' );
+		$post_types = array_merge( $this->post_types, $default_post_types );
+		// $results = $wpdb->get_results( "SELECT post_id FROM " . $wpdb->prefix . "postmeta WHERE meta_key = '_wpmem_block' AND meta_value = 2" );
+		$results = $wpdb->get_results( 
+			"SELECT
+				p1.id,
+				p1.post_type,
+				m1.meta_key AS _wpmem_block
+			FROM " . $wpdb->prefix . "posts p1
+			JOIN " . $wpdb->prefix . "postmeta m1 ON (m1.post_id = p1.id AND m1.meta_key = '_wpmem_block') 
+			WHERE m1.meta_value = '2';"
+		);
 		foreach( $results as $result ) {
-			$hidden[] = $result->post_id;
+			if ( array_key_exists( $result->post_type, $post_types ) ) {
+				$hidden[] = $result->id;
+			}
 		}
 		set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
 		return $hidden;
