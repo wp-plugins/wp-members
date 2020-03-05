@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 License: GPLv2
 
 == Description ==
@@ -100,7 +100,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is a fix release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -124,9 +124,11 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.1 is a bug fix release. See c
 
 == Changelog ==
 
-= 3.3.2.1 =
+= 3.3.3 =
 
-* Fixes a bug that caused post excerpts to not be displayed if auto excerpt is not enabled.
+* If WooCommerce is active, any standard WC user meta fields are removed from the WP-Members additional fields in the User Profile Edit (since they already display in the WC field blocks).
+* When setting hidden posts, don't include posts from post types not set as handled by WP-Members. This prevents previously hidden posts from being included if the post type is no longer included for WP-Members.
+* Set a default product for publishing posts/pages.
 
 = 3.3.2 =
 

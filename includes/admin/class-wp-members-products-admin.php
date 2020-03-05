@@ -145,6 +145,28 @@ class WP_Members_Products_Admin {
 	}
 
 	/**
+	 * Gets an array of post types.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @return array $post_types
+	 */
+	function get_post_types() {
+		global $wpmem;
+		// @todo This comes from option tab. Should consider it being an api function.
+		$post_arr = array(
+			'post' => __( 'Posts' ),
+			'page' => __( 'Pages' ),
+		);
+		if ( ! empty( $wpmem->post_types ) ) {
+			foreach ( $wpmem->post_types as $key => $post_type ) {
+				$post_arr[ $key ] = $post_type;
+			}
+		}
+		return $post_arr;
+	}
+	
+	/**
 	 * Outputs HTML for CPT editor.
 	 *
 	 * @since 3.2.0
@@ -165,11 +187,26 @@ class WP_Members_Products_Admin {
 		$show_exp_detail  = ( false !== $product_expires ) ? 'show' : 'hide'; ?>
 
 			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
-			<p><?php _e( 'Name (slug)', 'wp-members' ); ?>: <?php echo esc_attr( $post->post_name ); ?></p>
+			<h3><?php _e( 'Name (slug)', 'wp-members' ); ?></h3>
+			<p><strong><?php echo esc_attr( $post->post_name ); ?></strong></p>
+			<h3><?php esc_html_e( 'Optional Defaults', 'wp-members' ); ?></h3>
 			<p>
-				<input type="checkbox" name="wpmem_product_default" id="wpmem_product_default" value="1" <?php echo ( 1 == $product_default ) ? 'checked' : ''; ?> />
+				<input type="checkbox" name="wpmem_product_default" id="wpmem_product_default" value="1" <?php echo ( 1 == $product_default  ) ? 'checked' : ''; ?> />
 				<label for="wpmem_product_default"><?php _e( 'Assign as default at registration? (optional)', 'wp-members' ); ?></label>
 			</p>
+			<p>
+			<?php
+		
+			foreach( $this->get_post_types() as $key => $post_type ) {
+				echo '<div>';
+				echo '<input type="checkbox" name="wpmem_product_set_default_' . $key . '" id="wpmem_product_set_default_' . $key . '" value ="1" '; echo ( 1 == $this->get_meta( "wpmem_product_set_default_" . $key ) ) ? 'checked' : ''; echo ' />';
+				echo '<label for="wpmem_product_set_default_' . $key . '">' . sprintf( esc_html__( 'Pre-selected by default for new %s', 'wp-members' ), $post_type ) . '</label>';
+				echo '</div>';
+			}
+		
+			?>
+			</p>
+			<h3><?php esc_html_e( 'Optional Properties', 'wp-members' ); ?></h3>
 			<p>
 				<input type="checkbox" name="wpmem_product_role_required" id="wpmem_product_role_required" value="role-required" <?php echo ( false !== $product_role ) ? 'checked' : ''; ?> />
 				<label for="wpmem_product_role_required"><?php _e( 'Role Required? (optional)', 'wp-members' ); ?></label>
@@ -185,7 +222,7 @@ class WP_Members_Products_Admin {
 				<span id="wpmem_product_expires_wrap">
 					<label for="wpmem_product_number_of_periods" style="display:none;"><?php _e( 'Number', 'wp-members' ); ?></label>
 					<?php $period = explode( '|', $product_expires ); ?>
-					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo esc_attr( $period[0] ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'membership_product' ); ?>" style="width:66px;height:28px;vertical-align:middle;">
+					<input type="text" name="wpmem_product_number_of_periods" id="wpmem_product_number_of_periods" value="<?php echo esc_attr( $period[0] ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'wp-members' ); ?>" style="width:66px;height:28px;vertical-align:middle;">
 					<label for="wpmem_product_time_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
 					<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_time_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period[1] ) ) ? $period[1] : '' ) ) ); ?>
 					<label><?php esc_html_e( 'Use "no gap" renewal', 'wp-members' ); ?></label>
@@ -262,25 +299,47 @@ class WP_Members_Products_Admin {
 				delete_post_meta( $post_id, 'wpmem_product_no_gap' );
 			}
 		}
+		foreach( $this->get_post_types() as $key => $post_type ) {
+			if ( false !== wpmem_get( 'wpmem_product_set_default_' . $key, false ) ) {
+				update_post_meta( $post_id, 'wpmem_product_set_default_' . $key, 1 );
+			} else {
+				delete_post_meta( $post_id, 'wpmem_product_set_default_' . $key );
+			}
+		}
 	}
 
 	/**
 	 * Add dropdown to post and page meta box for marking access by product..
 	 *
 	 * @since 3.2.0
+	 * @since 3.3.3 Added defaults.
 	 *
+	 * @global object $pagenow
 	 * @global object $wpmem
 	 * @param  object $post
 	 * @param  string $block
 	 */
 	function add_product_to_post( $post, $block ) {
-		global $wpmem;
+		global $pagenow, $wpmem;
+		
+		// For checking default memberships.
+		$is_new = ( 'post-new.php' == $pagenow ) ? true : false;
+		
 		$product  = $wpmem->membership->get_post_products( $post->ID ); //get_post_meta( $post->ID, $wpmem->membership->post_meta, true );
 		$product  = ( $product ) ? $product : array();
 		$values[] = __( 'None', 'wp-members' ) . '|';
+		
 		foreach ( $wpmem->membership->products as $key => $value ) {
+			
+			if ( $is_new ) {
+				if ( isset( $value[ 'set_default_' . $post->post_type ] ) && 1 == $value[ 'set_default_' . $post->post_type ] ) {
+					$product[] = $key;
+				}
+			}
+			
 			$values[] = $value['title'] . '|' . $key;
 		}
+		
 		echo wpmem_form_label( array( 
 			'meta_key'=>$wpmem->membership->post_meta,
 			'label'=>__( 'Limit access to:', 'wp-members' ),
