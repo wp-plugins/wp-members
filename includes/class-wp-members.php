@@ -358,6 +358,9 @@ class WP_Members {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
 		}
 		
+		// @todo Is this a temporary fix?
+		$this->email->load_from();
+		
 		/**
 		 * Fires after main settings are loaded.
 		 *
@@ -1310,6 +1313,7 @@ class WP_Members {
 	 * Get excluded meta fields.
 	 *
 	 * @since 3.0.0
+	 * @since 3.3.3 Update $tag to match wpmem_fields() tags.
 	 *
 	 * @param  string $tag A tag so we know where the function is being used.
 	 * @return array       The excluded fields.
@@ -1354,10 +1358,11 @@ class WP_Members {
 		}
 
 		/**
-		 * Filter the fields to be excluded when user is created/updated.
+		 * Filter excluded meta fields.
 		 *
 		 * @since 2.9.3
 		 * @since 3.0.0 Moved to new method in WP_Members Class.
+		 * @since 3.3.3 Update $tag to match wpmem_fields() tags.
 		 *
 		 * @param array       An array of the field meta names to exclude.
 		 * @param string $tag A tag so we know where the function is being used.
