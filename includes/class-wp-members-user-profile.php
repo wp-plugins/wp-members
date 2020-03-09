@@ -454,29 +454,32 @@ class WP_Members_User_Profile {
 		global $wpmem;
 		// See if reg is moderated, and if the user has been activated.
 		if ( $wpmem->mod_reg == 1 ) {
-			$user_active_flag = get_user_meta( $user_id, 'active', true );
-			switch( $user_active_flag ) {
+			// Make sure this isn't an admin looking at their own profile.
+			if ( current_user_can( 'edit_users' ) && $user_id != get_current_user_id() ) {
+				$user_active_flag = get_user_meta( $user_id, 'active', true );
+				switch( $user_active_flag ) {
 
-				case "0":
-					$label  = __( 'Reactivate this user?', 'wp-members' );
-					$action = 1;
-					break;
+					case "0":
+						$label  = __( 'Reactivate this user?', 'wp-members' );
+						$action = 1;
+						break;
 
-				case "1":
-					$label  = __( 'Deactivate this user?', 'wp-members' );
-					$action = 0;
-					break;
+					case "1":
+						$label  = __( 'Deactivate this user?', 'wp-members' );
+						$action = 0;
+						break;
 
-				default:
-					$label  = __( 'Activate this user?', 'wp-members' );
-					$action = 1;
-					break;
-			} ?>
-			<tr>
-				<th><label><?php echo $label; ?></label></th>
-				<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
-			</tr>
-		<?php }
+					default:
+						$label  = __( 'Activate this user?', 'wp-members' );
+						$action = 1;
+						break;
+				} ?>
+				<tr>
+					<th><label><?php echo $label; ?></label></th>
+					<td><input id="activate_user" type="checkbox" class="input" name="activate_user" value="<?php echo $action; ?>" /></td>
+				</tr>
+			<?php }
+		}
 	}
 
 	/**
