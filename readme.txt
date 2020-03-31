@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 3.3.2.2
 License: GPLv2
 
@@ -131,6 +131,8 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 * Set a default product for publishing posts/pages.
 * Updated activation/deactivation processing so that a (admin) user cannot activate or deactivate themselves. Also, if a user has "edit_users" capability, they can log in without being activated.
 * Load email "from" address with main settings rather than when email is sent. This corrects issues with Advanced Options extension, and also keeps the value loaded for use outside of WP-Members email function.
+* WP 5.4 adds the wp_nav_menu_item_custom_fields action, so now WP-Members only loads its custom walker if WP is 5.3 or lower.
+* Image file field type now shows an immediate preview when the "choose file" button is clicked and an image selected (both profile update and new registration).
 
 = 3.3.2 =
 
@@ -174,8 +176,6 @@ Including all 3.3.0.x patches:
 * Fixes undefined string variable when successful registration is executed. (3.3.0.1)
 
 = 3.3.0 =
-
-* @todo Need to resolve duplicate wpmem_login_form_defaults. (maybe took care of itself with backing out of _args deprecation)
 
 * REMOVED [wp-members] shortcode tag. THIS TAG IS OBSOLETE WILL NO LONGER FUNCTION. See: https://rocketgeek.com/shortcodes/list-of-replacement-shortcodes/
 * REMOVED tinymce button for shortcodes as no longer necessary with gutenberg.

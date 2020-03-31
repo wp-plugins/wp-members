@@ -129,7 +129,7 @@ class WP_Members_Forms {
 				$accept = '';
 			}
 			$class  = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . " />";
+			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ' onchange="loadFile(event, this.id)" />';
 			break;
 	
 		case "checkbox":
@@ -803,6 +803,7 @@ class WP_Members_Forms {
 	 * @since 3.1.7 Moved to forms object class as register_form().
 	 * @since 3.2.5 use_nonce now obsolete (nonce is added automatically).
 	 * @since 3.3.0 $heading argument obsolete.
+	 * @since 3.3.3 Image field type now shows the preview image when "choose file" is clicked.
 	 *
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
@@ -921,6 +922,7 @@ class WP_Members_Forms {
 		$wpmem_fields = apply_filters( 'wpmem_register_fields_arr', $wpmem_fields, $tag );
 
 		$hidden_rows = array();
+		$form_has_file = false;
 
 		// Loop through the remaining fields.
 		foreach ( $wpmem_fields as $meta_key => $field ) {
@@ -1081,16 +1083,24 @@ class WP_Members_Forms {
 						$valtochk = '';
 					}
 
-					if ( 'edit' == $tag && ( 'file' == $field['type'] || 'image' == $field['type'] ) ) {
-
+					if ( ( 'file' == $field['type'] || 'image' == $field['type'] ) ) {
+						
+						$form_has_file = true;
+						
 						$attachment_url = wp_get_attachment_url( $val );
 						$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
-						if ( 'file' == $field['type'] ) {
-							$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' . get_the_title( $val ) . '</a>' : $empty_file;
+						if ( 'edit' == $tag ) {
+							if ( 'file' == $field['type'] ) {
+								$input = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '" id="' . $meta_key . '_file">' . get_the_title( $val ) . '</a>' : $empty_file;
+							} else {
+								$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '" id="' . $meta_key . '_img" />' : $empty_file;
+							}
+							$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 						} else {
-							$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '">' : $empty_file;
+							if ( 'image' == $field['type'] ) {
+								$input = '<img src="" id="' . $meta_key . '_img" />';
+							}
 						}
-						$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
 						$input.= wpmem_form_field( array(
 							'name'       => $meta_key, 
 							'type'       => $field['type'], 
@@ -1396,6 +1406,20 @@ class WP_Members_Forms {
 		// Remove line breaks if enabled for easier filtering later.
 		$form = ( $args['strip_breaks'] ) ? $this->strip_breaks( $form, $rows ) : $form; //str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 
+		// If there is an image input type, include the following script.
+		$form = ( $form_has_file ) ? $form . '
+<script>
+	var loadFile = function(event, clicked_id) {
+		var reader = new FileReader();
+		var the_id = clicked_id + "_img";
+		reader.onload = function() {
+			var output = document.getElementById(the_id);
+			output.src = reader.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);
+	};
+</script>' : $form;
+		
 		/**
 		 * Filter the generated HTML of the entire form.
 		 *
