@@ -129,7 +129,7 @@ class WP_Members_Forms {
 				$accept = '';
 			}
 			$class  = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ' onchange="loadFile(event, this.id)" />';
+			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ( ( 'image' == $file_type ) ? ' onchange="loadFile(event, this.id)"' : '' ) . ' />';
 			break;
 	
 		case "checkbox":
