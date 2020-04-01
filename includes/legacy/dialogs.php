@@ -60,11 +60,12 @@ function wpmem_inc_loginfailed() {
 	 * Filter the login failed dialog arguments.
 	 *
 	 * @since 2.9.0
+	 * @since 3.3.3 Should pass defaults to filter.
 	 *
 	 * @param array An array of arguments to merge with defaults.
 	 */
-	$args = apply_filters( 'wpmem_login_failed_args', '' );
-	
+	$args = apply_filters( 'wpmem_login_failed_args', $defaults );
+
 	// Merge $args with defaults.
 	$args = wp_parse_args( $args, $defaults );
 	

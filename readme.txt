@@ -133,6 +133,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 * Load email "from" address with main settings rather than when email is sent. This corrects issues with Advanced Options extension, and also keeps the value loaded for use outside of WP-Members email function.
 * WP 5.4 adds the wp_nav_menu_item_custom_fields action, so now WP-Members only loads its custom walker if WP is 5.3 or lower.
 * Image file field type now shows an immediate preview when the "choose file" button is clicked and an image selected (both profile update and new registration).
+* wpmem_login_failed_args updated to pass $args (similar to other _args filters in the plugin, now parses defaults).
 
 = 3.3.2 =
 
