@@ -419,7 +419,7 @@ class WP_Members {
 		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style_wp_login' ) ); // styles the native registration
 		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
-		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ) );
+		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ), 20 );
 		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
 		add_action( 'admin_menu',            'wpmem_admin_options' ); // adds admin menu
 		
@@ -1158,7 +1158,17 @@ class WP_Members {
 	function do_hide_posts( $query ) {
 		$hidden_posts = $this->get_hidden_posts();
 		if ( ! empty( $hidden_posts ) ) {
-			$query->set( 'post__not_in', $hidden_posts );
+			// Add hidden posts to post__not_in while maintaining any existing exclusions.
+			$posts__not_in = array_merge( $query->query_vars['post__not_in'], $hidden_posts );
+			/**
+			 * Filter posts__not_in.
+			 *
+			 * @since 3.3.4
+			 *
+			 * @param array $posts__not_in
+			 */
+			$posts__not_in = apply_filters( 'wpmem_posts__not_in', $posts__not_in );
+			$query->set( 'post__not_in', $posts__not_in );
 		}
 		return $query;
 	}
