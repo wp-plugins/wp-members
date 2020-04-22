@@ -1166,16 +1166,16 @@ class WP_Members {
 		$hidden_posts = $this->get_hidden_posts();
 		if ( ! empty( $hidden_posts ) ) {
 			// Add hidden posts to post__not_in while maintaining any existing exclusions.
-			$posts__not_in = array_merge( $query->query_vars['post__not_in'], $hidden_posts );
+			$post__not_in = array_merge( $query->query_vars['post__not_in'], $hidden_posts );
 			/**
-			 * Filter posts__not_in.
+			 * Filter post__not_in.
 			 *
 			 * @since 3.3.4
 			 *
-			 * @param array $posts__not_in
+			 * @param array $post__not_in
 			 */
-			$posts__not_in = apply_filters( 'wpmem_posts__not_in', $posts__not_in );
-			$query->set( 'post__not_in', $posts__not_in );
+			$post__not_in = apply_filters( 'wpmem_post__not_in', $post__not_in );
+			$query->set( 'post__not_in', $post__not_in );
 		}
 		return $query;
 	}
