@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 3.3.2.2
+Stable tag: 3.3.3
 License: GPLv2
 
 == Description ==
@@ -123,6 +123,9 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 
 
 == Changelog ==
+
+= 3.3.4 =
+* Fixed logic in upload input type (image or file) to correct undefined variable ($file_type).
 
 = 3.3.3 =
 

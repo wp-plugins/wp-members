@@ -72,7 +72,7 @@ class WP_Members_Forms {
 		$placeholder = ( isset( $args['placeholder'] ) ) ? $args['placeholder'] : false;
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
-		$file_types  = ( isset( $args['file_types']  ) ) ? $args['file_types']      : false;
+		$file_types  = ( isset( $args['file_types']  ) ) ? $args['file_types']  : false;
 	
 		// Handle field creation by type.
 		switch ( $type ) { 
@@ -129,7 +129,7 @@ class WP_Members_Forms {
 				$accept = '';
 			}
 			$class  = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
-			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ( ( 'image' == $file_type ) ? ' onchange="loadFile(event, this.id)"' : '' ) . ' />';
+			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ( ( 'image' == $type ) ? ' onchange="loadFile(event, this.id)"' : '' ) . ' />';
 			break;
 	
 		case "checkbox":
