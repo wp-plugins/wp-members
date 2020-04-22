@@ -458,7 +458,11 @@ class WP_Members_Shortcodes {
 				break;
 
 			case "renew":
-				$content = wpmem_renew();
+				if ( function_exists( 'wpmem_renew' ) ) {
+					$content = wpmem_renew();
+				} else {
+					$content = '';
+				}
 				break;
 
 			default:

@@ -126,6 +126,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 
 = 3.3.4 =
 * Fixed logic in upload input type (image or file) to correct undefined variable ($file_type).
+* Added function_exists check for wpmem_renew() (a PayPal extension function used in the core plugin).
 
 = 3.3.3 =
 
