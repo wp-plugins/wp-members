@@ -190,8 +190,18 @@ class WP_Members_Walker_Nav_Menu extends Walker_Nav_Menu {
 	            </p>        
                 <?php 
                 // This is the added section
-            	// do_action( 'wpmem_nav_menu_item_options', $item_id, $item, $depth, $args );
-				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args );
+				/**
+				 * Fires just before the move buttons of a nav menu item in the menu editor.
+				 *
+				 * @since 3.3.0
+				 *
+				 * @param int      $item_id Menu item ID.
+				 * @param WP_Post  $item    Menu item data object.
+				 * @param int      $depth   Depth of menu item. Used for padding.
+				 * @param stdClass $args    An object of menu item arguments.
+				 * @param int      $id      Nav menu ID.
+				 */
+				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args, $id );
                 // end added section 
                 ?>
 	            <div class="menu-item-actions description-wide submitbox">
