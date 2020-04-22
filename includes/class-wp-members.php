@@ -1144,7 +1144,14 @@ class WP_Members {
 				}
 			}
 		}
-		return $hidden;
+		/**
+		 * Filter the hidden posts array.
+		 *
+		 * @since 3.3.4
+		 *
+		 * @param array $hidden
+		 */
+		return apply_filters( 'wpmem_hidden_posts', $hidden );
 	}
 
 	/**

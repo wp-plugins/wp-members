@@ -125,6 +125,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 == Changelog ==
 
 = 3.3.4 =
+
+* Updated pre_get_posts to merge post__not_in with any existing values. This will allow for better integration with other plugins (such as Search Exclude).
+* Updated pre_get_posts to fire later (20) in case another plugin is adding values to be excluded. This will prevent any hidden posts from being dropped by the other plugin's process.
+* Added wpmem_hidden_posts and wpmem_posts__not_in filters.
 * Fixed logic in upload input type (image or file) to correct undefined variable ($file_type).
 * Added function_exists check for wpmem_renew() (a PayPal extension function used in the core plugin).
 * Fixed function name typo for wpmem_a_extend_user() (a PayPal extension function used in the core plugin).
