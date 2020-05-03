@@ -16,6 +16,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WP_Members_Captcha {
+	
+	/**
+	 * Display a CAPTCHA.
+	 *
+	 * @since 3.3.4
+	 *
+	 * @param  string  $type  Type of captcha to display.
+	 * @param  array   $keys  Google reCAPTCHA keys (if used).
+	 */
+	static function show( $type, $keys = false ) {
+		if ( 'rs_captcha' == $type ) {
+			return self::rs_captcha();
+		} else {
+			return self::recaptcha( $keys );
+		}
+	}
 
 	/**
 	 * Create reCAPTCHA form.
@@ -130,38 +146,60 @@ class WP_Members_Captcha {
 						<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />'
 			);
 		} else {
-			return;
+			return "Really Simple CAPTCHA is not enabled";
 		}
 	}
 	
 	/**
-	 * Process registration captcha.
+	 * Process a captcha.
 	 *
 	 * @since 3.1.6
 	 * @since 3.3.0 Ported from wpmem_register_handle_captcha() in register.php.
+	 * @since 3.3.4 Added argument to specify which captcha type to validate.
 	 *
 	 * @global $wpmem
 	 * @global $wpmem_themsg
+	 * @param  $which_captcha
 	 * @return $string
 	 */
-	static function validate() {
+	static function validate( $which_captcha = false ) {
 
 		global $wpmem, $wpmem_themsg;
+		
+		if ( ! $which_captcha ) {
 
-		// Get the captcha settings (api keys).
-		$wpmem_captcha = get_option( 'wpmembers_captcha' );
+			// Get the captcha settings (api keys).
+			$wpmem_captcha = get_option( 'wpmembers_captcha' );
 
-		/*
-		 * @todo reCAPTCHA v1 is deprecated by Google. It is also no longer allowed
-		 * to be set for new installs of WP-Members.  It is NOT compatible with
-		 * PHP 7.1 and is therefore fully obsolete.
-		 */
-		// If captcha is on, check the captcha.
-		if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
-			$wpmem->captcha = 3;
-		} 
+			/*
+			 * @todo reCAPTCHA v1 is deprecated by Google. It is also no longer allowed
+			 * to be set for new installs of WP-Members.  It is NOT compatible with
+			 * PHP 7.1 and is therefore fully obsolete.
+			 */
+			// If captcha is on, check the captcha.
+			if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
+				$wpmem->captcha = 3;
+			}
+			
+			switch ( $wpmem->captcha ) {
+				case 1:
+				case 3:
+					$captcha = "recaptcha_v2";
+					break;
+				case 4:
+					$captcha = "recaptcha_v3";
+					break;
+				case 2:
+				default:
+					$captcha = "rs_captcha";
+					break;
+			}
+			
+		} else {
+			$captcha = $which_captcha;
+		}
 
-		if ( 2 == $wpmem->captcha ) {
+		if ( 'rs_captcha' == $captcha ) {
 			if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
 				// Validate Really Simple Captcha.
 				$wpmem_captcha = new ReallySimpleCaptcha();
@@ -187,7 +225,7 @@ class WP_Members_Captcha {
 			
 			$privatekey = $wpmem_captcha['recaptcha']['private'];
 			
-			if ( 3 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
+			if ( 'recaptcha_v2' == $captcha && $wpmem_captcha['recaptcha'] ) {
 				
 				$captcha = wpmem_get( 'g-recaptcha-response', false );
 
@@ -221,7 +259,7 @@ class WP_Members_Captcha {
 					}
 					return "empty";
 				}
-			} elseif ( 4 == $wpmem->captcha && $wpmem_captcha['recaptcha'] ) {
+			} elseif ( 'recaptcha_v3' == $captcha && $wpmem_captcha['recaptcha'] ) {
 				$captcha = wpmem_get( 'recaptcha_response', false );
 				if ( $_SERVER['REQUEST_METHOD'] === 'POST' && false !== $captcha ) {
 
@@ -246,6 +284,6 @@ class WP_Members_Captcha {
 			}
 		}	
 
-		return "passed_captcha";
+		return true;
 	}
 }
