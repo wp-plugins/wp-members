@@ -116,3 +116,10 @@
 #wpmem_user_profile_tabs .ui-state-active a {
 	color: #fff;
 }
+
+#wpmem_product_fixed_period_select input,
+#wpmem_product_no_gap,
+#wpmem_product_fixed_period {
+	margin-top: 10px;
+	margin-left: 24px;
+}
