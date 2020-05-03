@@ -1366,7 +1366,7 @@ class WP_Members_Forms {
 			 *
 			 * @param string The default edit mode heading.
 			 */
-			$heading = ( isset( $heading ) ) ? $headhing : apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );			
+			$heading = ( isset( $heading ) ) ? $heading : apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );			
 		} else {
 			/**
 			 * Filter the registration form heading.
@@ -1376,7 +1376,7 @@ class WP_Members_Forms {
 			 * @param string $str
 			 * @param string $tag Toggle new registration or profile update. new|edit.
 			 */
-			$heading = ( isset( $heading ) ) ? $headhing : apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag );
+			$heading = ( isset( $heading ) ) ? $heading : apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag );
 		}
 		$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 
