@@ -130,13 +130,6 @@ class WP_Members_Shortcodes {
 					break;
 
 				case in_array( 'register', $atts ):
-					
-					// Set up register form args.
-					$reg_form_args = array( 'tag' => 'new' );
-					if ( isset( $redirect_to ) ) {
-						$reg_form_args['redirect_to'] = $redirect_to;
-					}
-					
 					if ( is_user_logged_in()  && '1' != $customizer ) {
 						/*
 						 * If the user is logged in, return any nested content (if any)
@@ -146,7 +139,7 @@ class WP_Members_Shortcodes {
 					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
 						$content  = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
-						$content .= wpmem_register_form( $reg_form_args );
+						$content .= wpmem_register_form( 'new', $redirect_to );
 					} else {
 						if ( $wpmem->regchk == 'loginfailed' ) {
 							$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
@@ -158,7 +151,7 @@ class WP_Members_Shortcodes {
 							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
 						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
-						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( $reg_form_args );
+						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( 'new', $redirect_to );
 					}
 					break;
 
