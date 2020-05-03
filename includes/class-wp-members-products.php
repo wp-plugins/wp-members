@@ -94,7 +94,9 @@ class WP_Members_Products {
 		
 		$this->load_products();
 		
-		add_filter( 'wpmem_securify', array( $this, 'product_access' ) );
+		add_filter( 'wpmem_securify',               array( $this, 'product_access' ) );
+		add_filter( 'wpmem_product_restricted_msg', array( $this, 'access_message' ) );
+		add_filter( 'wpmem_restricted_msg',         array( $this, 'access_message' ) );
 	}
 	
 	/**
@@ -183,7 +185,7 @@ class WP_Members_Products {
 		
 		global $post, $wpmem;
 		// Is the user logged in and is this blocked content?
-		if ( is_user_logged_in() && wpmem_is_blocked() ) {
+		if ( ! is_admin() && is_user_logged_in() && wpmem_is_blocked() ) {  // @todo Should is_admin() check be run on securify in general?
 
 			// Get the post access products.
 			$post_products = $this->get_post_products( $post->ID );
@@ -219,18 +221,24 @@ class WP_Members_Products {
 			 * Filter the product restricted message HTML.
 			 *
 			 * @since 3.3.3
+			 * @since 3.3.4 Added $post_products
 			 *
-			 * @param array $product_restricted {
+			 * @param array  $product_restricted {
 			 *     $type string $wrapper_before
 			 *     $type string $message
 			 *     $type string $wrapper_after
 			 * }
+			 * @param array  $post_products {
+			 *     Membership product slugs the post is restricted to.
+			 *
+			 *     @type string $slug
+			 * }
 			 */
-			$product_restricted = apply_filters( 'wpmem_product_restricted', array(
+			$product_restricted = apply_filters( 'wpmem_product_restricted_args', array(
 				'wrapper_before' => '<div class="wpmem_msg" align="center">',
 				'message'        => '<p>' . $message . '</p>',
 				'wrapper_after'  => '</div>',
-			) );
+			), $post_products );
 			
 			$content = ( $access ) ? $content : $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
 			
@@ -241,6 +249,34 @@ class WP_Members_Products {
 		}
 		// Return unfiltered content for all other cases.
 		return $content;
+	}
+
+	/**
+	 * Filters the access message if the user does not have
+	 * access to this membership.
+	 *
+	 * @since 3.3.4
+	 *
+	 * @global stdClass $post
+	 * @param  string   $msg
+	 * @return string   $msg
+	 */
+	function access_message( $msg ) {
+		global $post;
+		$post_products = $this->get_post_products( $post->ID );
+		if ( $post_products ) {
+			foreach( $post_products as $post_product ) {
+				$membership_id = array_search( $post_product, $this->product_by_id );
+				$message = get_post_meta( $membership_id, 'wpmem_product_message', true );
+				if ( $message ) {
+					$product_message = ( isset( $product_message ) ) ? $product_message . '<p>' . $message . '</p>' : '<p>' . $message . '</p>';
+				}
+			}
+			if ( isset( $product_message ) ) {
+				$msg = $product_message;
+			}
+		}
+		return $msg;
 	}
 	
 	/**
