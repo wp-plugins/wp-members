@@ -375,7 +375,7 @@ class WP_Members_User_Profile {
 
 			if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {
 				if ( function_exists( 'wpmem_a_extenduser' ) ) {
-					wpmem_a_extend_user( $user_id );
+					wpmem_a_extenduser( $user_id );
 				}
 			}
 			
