@@ -172,8 +172,10 @@ class WP_Members_User {
 		$this->reg_type['is_native']  = ( __( 'Register' ) == wpmem_get( 'wp-submit' ) ) ? true : false;
 		// Is this a Users > Add New process? Checks the post action.
 		$this->reg_type['is_add_new'] = ( 'createuser' == wpmem_get( 'action' ) ) ? true : false;
-		// Is this a WooCommerce checkout registration? Checks for WC fields.
-		$this->reg_type['is_woo']     = ( wpmem_get( 'woocommerce_checkout_place_order' ) || wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
+		// Is this a WooCommerce my account registration? Checks for WC fields.
+		$this->reg_type['is_woo']     = ( wpmem_get( 'woocommerce-register-nonce' ) ) ? true : false;
+		// Is this a WooCommerce checkout?
+		$this->reg_type['is_woo_checkout'] = ( wpmem_get( 'woocommerce_checkout_place_order' ) ) ? true : false;
 	}
 
 	/**

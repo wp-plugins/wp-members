@@ -361,3 +361,159 @@ function wpmem_form_nonce( $nonce, $echo = false ) {
 	$form = ( 'update' == $nonce || 'register' == $nonce ) ? 'longform' : 'shortform';
 	return wp_nonce_field( 'wpmem_' . $form . '_nonce', '_wpmem_' . $nonce . '_nonce', true, $echo );
 }
+
+// @todo Experimental
+/**
+ * Create WP-Members fields set for woo checkout.
+ *
+ * @since 3.3.4
+ *
+ * @param array $checkout_fields
+ */
+function wpmem_woo_checkout_fields( $checkout_fields = false ) {
+	$woo_checkout = array( 
+		'billing_first_name',
+		'billing_last_name',
+		'billing_company',
+		'billing_country',
+		'billing_address_1',
+		'billing_address_2',
+		'billing_city',
+		'billing_state',
+		'billing_postcode',
+		'billing_phone',
+		'billing_email',
+		'account_username',
+		'account_password',
+	);
+	$fields = wpmem_fields();// echo '<pre>'; print_r( $fields ); echo '</pre>';
+	
+	if ( ! $checkout_fields ) {
+		$checkout_fields = WC()->checkout()->checkout_fields;
+	}
+
+	foreach ( $fields as $meta_key => $field ) {
+		
+		if ( 1 != $fields[ $meta_key ]['register'] ) {
+			unset( $fields[ $meta_key ] );
+		} else {
+			if ( isset( $checkout_fields['billing'][ $meta_key ] ) ) {
+				unset( $fields[ $meta_key ] );
+			}
+			if ( isset( $checkout_fields['shipping'][ $meta_key ] ) ) {
+				unset( $fields[ $meta_key ] );
+			}
+			if ( isset( $checkout_fields['account'][ $meta_key ] ) ) {
+				unset( $fields[ $meta_key ] );
+			}
+			if ( isset( $checkout_fields['order'][ $meta_key ] ) ) {
+				unset( $fields[ $meta_key ] );
+			}
+		}
+	}
+	unset( $fields['username'] );
+	unset( $fields['password'] );
+	unset( $fields['confirm_password'] );
+	unset( $fields['confirm_email'] );
+	unset( $fields['user_email'] );
+	unset( $fields['first_name'] );
+	unset( $fields['last_name'] );
+
+	return $fields;
+}
+
+/**
+ * Adds WP-Members custom fields to woo checkout.
+ *
+ * @since 3.3.4
+ *
+ * @param array $checkout_fields
+ */
+function wpmem_woo_checkout_form( $checkout_fields ) {
+	
+	$fields = wpmem_woo_checkout_fields( $checkout_fields );
+
+	foreach ( $fields as $meta_key => $field ) {
+		$checkout_fields['order'][ $meta_key ] = array(
+			'type'     => $fields[ $meta_key ]['type'],
+			'label'    => $fields[ $meta_key ]['label'],
+			'required' => $fields[ $meta_key ]['required'],
+		);
+		if ( isset( $fields[ $meta_key ]['placeholder'] ) ) {
+			$checkout_fields['order'][ $meta_key ]['placeholder'] = $fields[ $meta_key ]['placeholder'];
+		}
+	}
+	
+	return $checkout_fields;
+}
+
+/**
+ * Saves WP-Members custom fields for woo checkout.
+ *
+ * @since 3.3.4
+ *
+ * @param int $order_id
+ */
+function wpmem_woo_checkout_update_meta( $order_id ) {
+	
+	// Get user id from order.
+	$order = wc_get_order( $order_id );
+	$user_id = $order->get_user_id();
+	
+	$checkout_fields = WC()->checkout()->checkout_fields; //write_log( $checkout_fields );
+	$fields = wpmem_fields(); //write_log( $fields );
+	foreach ( $fields as $meta_key => $field ) { write_log( $meta_key );
+		if ( isset( $checkout_fields['order'][ $meta_key ] ) && isset( $_POST[ $meta_key ] ) ) { write_log( 'user ' . $user_id . ' meta_key: ' . $meta_key . 'post: ' . sanitize_text_field( $_POST[ $meta_key ] ) );
+			switch ( $fields[ $meta_key ]['type'] ) {
+				case 'checkbox':
+					update_user_meta( $user_id, $meta_key, $field['checked_value'] );
+					break;
+				case 'textarea':
+					update_user_meta( $user_id, $meta_key, sanitize_textarea_field( $_POST[ $meta_key ] ) );
+					break;
+				case 'multicheckbox':
+				case 'multiselect':
+					update_user_meta( $user_id, $meta_key, wpmem_sanitize_array( $_POST[ $meta_key ] ) );
+					break;
+				default:
+					update_user_meta( $user_id, $meta_key, sanitize_text_field( $_POST[ $meta_key ] ) );
+					break;
+			}
+		}
+	}
+}
+
+function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
+	
+	$wpmem_fields = wpmem_fields();
+ /*     @type string  $name        (required) The field meta key.
+ *     @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
+ *     @type string  $value       (optional) The field's value (can be a null value).
+ *     @type string  $compare     (optional) Compare value.
+ *     @type string  $class       (optional) Class identifier for the field.
+ *     @type boolean $required    (optional) If a value is required default: true).
+ *     @type string  $delimiter   (optional) The field delimiter (pipe or comma, default: | ).
+ *     @type string  $placeholder (optional) Defines the placeholder attribute.
+ *     @type string  $pattern     (optional) Adds a regex pattern to the field (HTML5).
+ *     @type string  $title       (optional) Defines the title attribute.
+ *     @type string  $min         (optional) Adds a min attribute (HTML5).
+ *     @type string  $max         (optional) Adds a max attribute (HTML5).
+ *     @type string  $rows        (optional) Adds rows attribute to textarea.
+ *     @type string  $cols        (optional) Adds cols attribute to textarea.
+ */
+	$field_args = array(
+		'name' => $key,
+		'type' => $wpmem_fields[ $key ]['type'],
+		'required' => $wpmem_fields[ $key ]['required'],
+		'delimiter' => $wpmem_fields[ $key ]['delimiter'],
+		'value' => $wpmem_fields[ $key ]['values'],
+	);
+
+	$field_html = wpmem_form_field( $field_args );
+	$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
+	$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
+		<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label']. $wpmem_fields[ $key ]['required'] . '</label>';
+	$field .= $field_html;
+	$field .= '</p>';
+    return $field;
+}

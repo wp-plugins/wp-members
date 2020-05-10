@@ -428,8 +428,16 @@ class WP_Members {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
 		}
 		
-		add_filter( 'register_form',             'wpmem_wp_register_form' ); // adds fields to the default wp registration
-		add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
+		add_filter( 'register_form',               'wpmem_wp_register_form' ); // adds fields to the default wp registration
+		add_action( 'woocommerce_register_form',   'wpmem_woo_register_form' );
+		add_filter( 'woocommerce_checkout_fields', 'wpmem_woo_checkout_form' );
+		add_action( 'woocommerce_checkout_update_order_meta', 'wpmem_woo_checkout_update_meta' );
+		//add_action( 'woocommerce_after_order_notes', 'wpmem_woo_checkout_form2' );
+		// Adds custom field types to use WP-Members field types on WooCommerce checkout.
+		//add_action( 'woocommerce_form_field_multiselect',   'wpmem_form_field_wc_multiselect',   10, 4 );
+		add_action( 'woocommerce_form_field_multicheckbox', 'wpmem_form_field_wc_custom_field_types', 10, 4 );
+		add_action( 'woocommerce_form_field_multiselect',   'wpmem_form_field_wc_custom_field_types', 10, 4 );
+		add_action( 'woocommerce_form_field_radio',         'wpmem_form_field_wc_custom_field_types', 10, 4 );
 		
 		// Add filters.
 		add_filter( 'the_content',             array( $this, 'do_securify' ), 99 );
