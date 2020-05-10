@@ -760,4 +760,27 @@ function wpmem_get_user_ip() {
 	 */
 	return apply_filters( 'wpmem_get_ip', $ip );
 }
+
+/**
+ * Export all or selected users
+ *
+ * @since 2.9.7
+ * @since 3.2.0 Updated to use fputcsv.
+ * @since 3.2.1 Added user data filters.
+ * @since 3.3.0 Call object class static method.
+ * @since 3.3.4 Moved into general API.
+ *
+ * @todo Move object class file to main /includes/
+ *
+ * @global object $wpmem
+ *
+ * @param array $args
+ * @param array $users
+ */
+function wpmem_export_users( $args, $users = null ) {
+	global $wpmem;
+	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
+	WP_Members_Export::export_users( $args, $users );
+}
+
 // End of file.

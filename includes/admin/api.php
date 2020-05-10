@@ -96,22 +96,3 @@ function wpmem_wp_reserved_terms() {
 	global $wpmem;
 	return $wpmem->admin->wp_reserved_terms();
 }
-
-/**
- * Export all or selected users
- *
- * @since 2.9.7
- * @since 3.2.0 Updated to use fputcsv.
- * @since 3.2.1 Added user data filters.
- * @since 3.3.0 Call object class static method.
- *
- * @global object $wpmem
- *
- * @param array $args
- * @param array $users
- */
-function wpmem_export_users( $args, $users = null ) {
-	global $wpmem;
-	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
-	WP_Members_Export::export_users( $args, $users );
-}
