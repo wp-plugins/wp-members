@@ -299,6 +299,17 @@ class WP_Members {
 	public $is_rest = false;
 	
 	/**
+	 * Temporary setting for password reset.
+	 * Will default to 0 until 3.4.0, then 1 until 3.5.0
+	 * at which point we'll remove the old process.
+	 *
+	 * @since 3.3.5
+	 * @access public
+	 * @var string
+	 */
+	public $pwd_reset_link = 0;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
@@ -356,6 +367,9 @@ class WP_Members {
 		$this->menus       = new WP_Members_Menus();
 		if ( $this->clone_menus ) {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
+		}
+		if ( 1 == $this->pwd_reset_link ) {
+			$this->pwd_reset = new WP_Members_Pwd_Reset;
 		}
 		
 		// @todo Is this a temporary fix?
@@ -559,6 +573,7 @@ class WP_Members {
 		require_once( $this->path . 'includes/class-wp-members-forms.php' );
 		require_once( $this->path . 'includes/class-wp-members-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-products.php' );
+		require_once( $this->path . 'includes/class-wp-members-pwd-reset.php' );
 		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
 		require_once( $this->path . 'includes/class-wp-members-user.php' );
 		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
