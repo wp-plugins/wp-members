@@ -460,10 +460,10 @@ function wpmem_woo_checkout_update_meta( $order_id ) {
 	$order = wc_get_order( $order_id );
 	$user_id = $order->get_user_id();
 	
-	$checkout_fields = WC()->checkout()->checkout_fields; //write_log( $checkout_fields );
-	$fields = wpmem_fields(); //write_log( $fields );
-	foreach ( $fields as $meta_key => $field ) { write_log( $meta_key );
-		if ( isset( $checkout_fields['order'][ $meta_key ] ) && isset( $_POST[ $meta_key ] ) ) { write_log( 'user ' . $user_id . ' meta_key: ' . $meta_key . 'post: ' . sanitize_text_field( $_POST[ $meta_key ] ) );
+	$checkout_fields = WC()->checkout()->checkout_fields;
+	$fields = wpmem_fields();
+	foreach ( $fields as $meta_key => $field ) {
+		if ( isset( $checkout_fields['order'][ $meta_key ] ) && isset( $_POST[ $meta_key ] ) ) {
 			switch ( $fields[ $meta_key ]['type'] ) {
 				case 'checkbox':
 					update_user_meta( $user_id, $meta_key, $field['checked_value'] );
