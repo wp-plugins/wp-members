@@ -484,36 +484,44 @@ function wpmem_woo_checkout_update_meta( $order_id ) {
 }
 
 function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
-	
-	$wpmem_fields = wpmem_fields();
- /*     @type string  $name        (required) The field meta key.
- *     @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
- *     @type string  $value       (optional) The field's value (can be a null value).
- *     @type string  $compare     (optional) Compare value.
- *     @type string  $class       (optional) Class identifier for the field.
- *     @type boolean $required    (optional) If a value is required default: true).
- *     @type string  $delimiter   (optional) The field delimiter (pipe or comma, default: | ).
- *     @type string  $placeholder (optional) Defines the placeholder attribute.
- *     @type string  $pattern     (optional) Adds a regex pattern to the field (HTML5).
- *     @type string  $title       (optional) Defines the title attribute.
- *     @type string  $min         (optional) Adds a min attribute (HTML5).
- *     @type string  $max         (optional) Adds a max attribute (HTML5).
- *     @type string  $rows        (optional) Adds rows attribute to textarea.
- *     @type string  $cols        (optional) Adds cols attribute to textarea.
- */
-	$field_args = array(
-		'name' => $key,
-		'type' => $wpmem_fields[ $key ]['type'],
-		'required' => $wpmem_fields[ $key ]['required'],
-		'delimiter' => $wpmem_fields[ $key ]['delimiter'],
-		'value' => $wpmem_fields[ $key ]['values'],
-	);
 
-	$field_html = wpmem_form_field( $field_args );
-	$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
-	$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
-		<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label']. $wpmem_fields[ $key ]['required'] . '</label>';
-	$field .= $field_html;
-	$field .= '</p>';
+	$wpmem_fields = wpmem_fields();
+	/**
+	 * @type string  $name        (required) The field meta key.
+	 * @type string  $type        (required) The field HTML type (url, email, image, file, checkbox, text, textarea, password, hidden, select, multiselect, multicheckbox, radio).
+	 * @type string  $value       (optional) The field's value (can be a null value).
+	 * @type string  $compare     (optional) Compare value.
+	 * @type string  $class       (optional) Class identifier for the field.
+	 * @type boolean $required    (optional) If a value is required default: true).
+	 * @type string  $delimiter   (optional) The field delimiter (pipe or comma, default: | ).
+	 * @type string  $placeholder (optional) Defines the placeholder attribute.
+	 * @type string  $pattern     (optional) Adds a regex pattern to the field (HTML5).
+	 * @type string  $title       (optional) Defines the title attribute.
+	 * @type string  $min         (optional) Adds a min attribute (HTML5).
+	 * @type string  $max         (optional) Adds a max attribute (HTML5).
+	 * @type string  $rows        (optional) Adds rows attribute to textarea.
+	 * @type string  $cols        (optional) Adds cols attribute to textarea.
+	 */
+
+	// Let's only mess with WP-Members fields (in case another checkout fields plugin is used).
+	if ( array_key_exists( $key, $wpmem_fields ) ) {
+		
+		$field_args = array(
+			'name' => $key,
+			'type' => $wpmem_fields[ $key ]['type'],
+			'required' => $wpmem_fields[ $key ]['required'],
+			'delimiter' => $wpmem_fields[ $key ]['delimiter'],
+			'value' => $wpmem_fields[ $key ]['values'],
+		);
+
+		$field_html = wpmem_form_field( $field_args );
+		$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
+		$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
+			<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label']. $wpmem_fields[ $key ]['required'] . '</label>';
+		$field .= $field_html;
+		$field .= '</p>';
+		
+	}
+	
     return $field;
 }
