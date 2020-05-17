@@ -1598,7 +1598,8 @@ class WP_Members {
 			'pwdreseterr'          => __( "Either the username or email address do not exist in our records.", 'wp-members' ),
 			'pwdresetsuccess'      => __( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
 			
-			'product_restricted'   => __( "Sorry, you do not have access to this content.", 'wp-members' ),
+			'product_restricted_single'    => __( "This content requires the following membership: ", 'wp-members' ),
+			'product_restricted_multiple'  => __( "This content requires one of the following memberships: ", 'wp-members' ),
 		
 		); // End of $defaults array.
 		

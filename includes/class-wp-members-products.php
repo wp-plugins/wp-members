@@ -201,8 +201,17 @@ class WP_Members_Products {
 				// Content that has no product restriction.
 				$access = true;
 			}
-			
-			// Handle content.
+		
+			// Handle default membership restricted message.
+			if ( 1 == count( $post_products ) ) {
+				$message = $wpmem->get_text( 'product_restricted_single' )
+					. "<br />" . $wpmem->membership->products[ $post_products[0] ]['title'];
+			} else {
+				$message = $wpmem->get_text( 'product_restricted_multiple' ) . "<br />";
+				foreach ( $post_products as $post_product ) {
+					$message .= $wpmem->membership->products[ $post_product ]['title'] . "<br />";
+				}
+			}
 			/**
 			 * Filter the product restricted message.
 			 *
@@ -215,7 +224,7 @@ class WP_Members_Products {
 			 *     @type string $slug
 			 * }
 			 */
-			$message = apply_filters( 'wpmem_product_restricted_msg', $wpmem->get_text( 'product_restricted' ), $post_products );
+			$message = apply_filters( 'wpmem_product_restricted_msg', $message, $post_products );
 			
 			/**
 			 * Filter the product restricted message HTML.
