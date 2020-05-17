@@ -74,7 +74,6 @@ class WP_Members_Clone_Menus {
 		 * Filter the served menu.
 		 *
 		 * @since 3.2.6
-		 * @todo Determine what extra parameters to pass and how (then document them).
 		 *
 		 * @param boolean
 		 * @param string  $theme_loc

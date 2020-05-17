@@ -65,7 +65,7 @@ class WP_Members_Menus {
 		
 		global $wp_version;
 		if ( version_compare( $wp_version, '5.4', '<' ) ) {
-			add_filter( 'wp_edit_nav_menu_walker', array( $this, 'edit_nav_menu_walker' ) ); // @todo No longer needed in WP 5.4?
+			add_filter( 'wp_edit_nav_menu_walker', array( $this, 'edit_nav_menu_walker' ) );
 		}
 		
 		add_action( 'wp_update_nav_menu_item', array( $this, 'update_nav_menu_item' ), 10, 2 );
