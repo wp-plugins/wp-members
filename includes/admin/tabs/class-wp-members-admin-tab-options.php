@@ -179,7 +179,7 @@ class WP_Members_Admin_Tab_Options {
 								/** This filter is defined in class-wp-members.php */
 								$dropin_dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
 								$arr = array(
-									array(__('Password Reset', 'wp-members'),'wpmem_settings_pwd_reset',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_reset_link'),
+									array(__('Activation', 'wp-members'),'wpmem_settings_pwd_reset',__('Send initial activation link and password reset link instead of new password. (Requires additional configuration)','wp-members'),'key_link'),
 									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products','wp-members'),'enable_products'),
 									array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 									array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
@@ -480,7 +480,7 @@ class WP_Members_Admin_Tab_Options {
 			$wpmem_newsettings = array(
 				'version' => $wpmem->version,
 				'db_version' => $wpmem->db_version,
-				'pwd_reset_link' => filter_var( wpmem_get( 'wpmem_settings_pwd_reset', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+				'key_link' => filter_var( wpmem_get( 'wpmem_settings_pwd_reset', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'enable_products' => filter_var( wpmem_get( 'wpmem_settings_products', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'clone_menus' => filter_var( wpmem_get( 'wpmem_settings_menus', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'notify'    => filter_var( wpmem_get( 'wpmem_settings_notify', 0 ), FILTER_SANITIZE_NUMBER_INT ),

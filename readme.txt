@@ -41,6 +41,11 @@ Get support along with all of the plugin's premium extensions in one [cost savin
 
 Premium support subscribers have access to priority email support, examples, tutorials, and code snippets that will help you extend and customize the base plugin using the plugin's framework. [Visit the site for more info](https://rocketgeek.com/plugins/wp-members/support-options/).
 
+= Free Extensions =
+
+* [Stop Spam Registrations](https://rocketgeek.com/product/stop-spam-registrations/) - Uses stopforumspam.com's API to block spam registrations.
+* [Send Test Emails](https://rocketgeek.com/product/send-test-emails/) - A utility to send test versions of the plugin's emails.
+
 = Premium Extensions =
 
 The plugin has several premium extensions for additional functionality. You can purchase any of them individually, or get them all for a significant discount in the Pro Bundle.
@@ -100,7 +105,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.4 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -126,7 +131,8 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.3 is an improvement release. 
 
 = 3.3.5 =
 
-* Added optional password reset link (instead of sending password). This option will become the default setting in 3.4.0.
+* Added optional new user activation link and password reset link (instead of sending password). This option will become the default setting in 3.4.0.
+* Updated the default product restricted message to display required membership(s). This eliminates the custom message string "product_restricted" and replaces with two new ones: product_restricted_single and product_restricted_multiple. (Note this only affects the default message if no custom membership message is established in the membership properties).
 
 = 3.3.4 =
 
