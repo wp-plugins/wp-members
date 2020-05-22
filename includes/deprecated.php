@@ -411,9 +411,10 @@ function wpmem_build_rs_captcha() {
  *
  * @since 3.3.0
  */
+add_action( 'wpmem_after_init', 'wpmem_load_deprecated_constants' );
 function wpmem_load_deprecated_constants() {
 	global $wpmem;
-	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']  ) : '';             // @todo Can deprecate? Probably 3.3
+/*	( ! defined( 'WPMEM_BLOCK_POSTS'  ) ) ? define( 'WPMEM_BLOCK_POSTS',  $wpmem->block['post']  ) : '';             // @todo Can deprecate? Probably 3.3
 	( ! defined( 'WPMEM_BLOCK_PAGES'  ) ) ? define( 'WPMEM_BLOCK_PAGES',  $wpmem->block['page']  ) : '';             // @todo Can deprecate? Probably 3.3
 	( ! defined( 'WPMEM_SHOW_EXCERPT' ) ) ? define( 'WPMEM_SHOW_EXCERPT', $wpmem->show_excerpt['post'] ) : '';       // @todo Can deprecate? Probably 3.3
 	( ! defined( 'WPMEM_NOTIFY_ADMIN' ) ) ? define( 'WPMEM_NOTIFY_ADMIN', $wpmem->notify    ) : '';                  // @todo Can deprecate? Probably 3.3
@@ -424,8 +425,8 @@ function wpmem_load_deprecated_constants() {
 	( ! defined( 'WPMEM_MSURL'  ) ) ? define( 'WPMEM_MSURL',  $wpmem->user_pages['profile']  ) : '';                 // @todo Can deprecate? Probably 3.3
 	( ! defined( 'WPMEM_REGURL' ) ) ? define( 'WPMEM_REGURL', $wpmem->user_pages['register'] ) : '';                 // @todo Can deprecate? Probably 3.3
 	( ! defined( 'WPMEM_LOGURL' ) ) ? define( 'WPMEM_LOGURL', $wpmem->user_pages['login']    ) : '';                 // @todo Can deprecate? Probably 3.3
-	( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';
-	define( 'WPMEM_CSSURL', $wpmem->cssurl );
+	( ! defined( 'WPMEM_DROPIN_DIR' ) ) ? define( 'WPMEM_DROPIN_DIR', WP_PLUGIN_DIR . '/wp-members-dropins/' ) : '';*/
+	( ! defined( 'WPMEM_CSSURL' ) ) ? define( 'WPMEM_CSSURL', $wpmem->cssurl ) : '';
 }
 
 if ( ! function_exists( 'wpmem_registration' ) ):
