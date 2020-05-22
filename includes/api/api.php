@@ -79,7 +79,7 @@ function wpmem_is_blocked( $post_id = false ) {
  * @return bool   $block   True if content is hidden, otherwise false.
  */
 function wpmem_is_hidden( $post_id = false ) {
-	return ( 2 == get_post_meta( $post_id ) ) ? true : false;
+	return ( 2 == get_post_meta( $post_id, '_wpmem_block', true ) ) ? true : false;
 }
 
 /** 
