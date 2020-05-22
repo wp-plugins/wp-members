@@ -387,6 +387,7 @@ class WP_Members_Forms {
 	
 		// Get WordPress file upload processing scripts.
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
 		
 		$file_return = wp_handle_upload( $file, array( 'test_form' => false ) );
 	
