@@ -564,6 +564,17 @@ class WP_Members_Admin_API {
 				wp_enqueue_style( 'select2-style' );
 				wp_enqueue_script( 'select2' );
 			}
+			
+			//if ( ( 'post-new.php' == $hook && isset( $_GET['post_type'] ) && 'wpmem_product' == $_GET['post_type'] ) ||  )
+			if ( 'wpmem_product' == get_post_type() ) {
+				wp_enqueue_script( 'jquery' );
+				wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
+				wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
+				if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
+					wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui' . wpmem_get_suffix() . '.css' );
+				}
+				wp_enqueue_style( 'jquery-ui-style' ); 
+			}
 		}
 		if ( 'user-edit' == $current_screen->id || 'profile' == $current_screen->id ) {
 			wp_enqueue_script( 'jquery' );
@@ -580,6 +591,7 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-core' );// enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-dialog' );
+			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 			
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
 				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui' . wpmem_get_suffix() . '.css' );
