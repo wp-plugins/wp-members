@@ -588,6 +588,10 @@ class WP_Members {
 		require_once( $this->path . 'includes/api/api-utilities.php' );
 		require_once( $this->path . 'includes/legacy/dialogs.php' );
 		require_once( $this->path . 'includes/deprecated.php' );
+		
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once( $this->path . 'includes/cli/class-wp-members-cli.php' );
+		}
 	}
 
 	/**
