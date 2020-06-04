@@ -322,23 +322,8 @@ function wpmem_is_reg_page( $check = false ) {
  * @return string  $link
  */
 function wpmem_loginout( $args = array(), $echo = false ) {
-	$defaults = array(
-		'login_redirect_to'  => ( isset( $args['login_redirect_to']  ) ) ? $args['login_redirect_to']  : wpmem_current_url(),
-		'logout_redirect_to' => ( isset( $args['logout_redirect_to'] ) ) ? $args['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
-		'login_text'         => ( isset( $args['login_text']         ) ) ? $args['login_text']         : __( 'log in',  'wp-members' ),
-		'logout_text'        => ( isset( $args['logout_text']        ) ) ? $args['logout_text']        : __( 'log out', 'wp-members' ),
-	);
-	$args     = wp_parse_args( $args, $defaults );
-	$redirect = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
-	$text     = ( is_user_logged_in() ) ? $args['logout_text']        : $args['login_text'];
-	if ( is_user_logged_in() ) {
-		/** This filter is defined in /inc/dialogs.php */
-		$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
-	} else {
-		$link = wpmem_login_url( $redirect );
-	}
-	$link = sprintf( '<a href="%s">%s</a>', $link, $text );
-	return $link;
+	global $wpmem;
+	return $wpmem->loginout_args( $args );
 }
 
 /**

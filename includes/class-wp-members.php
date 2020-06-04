@@ -2023,4 +2023,45 @@ class WP_Members {
 		}
 	}
 
+	/**
+	 * Builds defaults for login/out links/buttons.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array  $args
+	 * @return string $html
+	 */
+	function loginout_args( $args = array() ) {
+		$defaults = array(
+			'format'             => ( isset( $args['format']             ) ) ? $args['format']             : 'link',
+			'login_redirect_to'  => ( isset( $args['login_redirect_to']  ) ) ? $args['login_redirect_to']  : wpmem_current_url(),
+			'logout_redirect_to' => ( isset( $args['logout_redirect_to'] ) ) ? $args['logout_redirect_to'] : wpmem_current_url(), // @todo - This is not currently active.
+			'login_text'         => ( isset( $args['login_text']         ) ) ? $args['login_text']         : __( 'log in',  'wp-members' ),
+			'logout_text'        => ( isset( $args['logout_text']        ) ) ? $args['logout_text']        : __( 'log out', 'wp-members' ),
+			'class'              => ( isset( $args['class']              ) ) ? $args['class']              : 'wpmem_loginout_link',
+			'id'                 => ( isset( $args['id']                 ) ) ? $args['id']                 : 'wpmem_loginout_link',
+		);
+		$args     = wp_parse_args( $args, $defaults );
+		$redirect = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
+		$text     = ( is_user_logged_in() ) ? $args['logout_text']        : $args['login_text'];
+		if ( is_user_logged_in() ) {
+			/** This filter is defined in /inc/dialogs.php */
+			$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+		} else {
+			$link = wpmem_login_url( $redirect );
+		}
+		
+		if ( 'button' == $args['format'] ) {
+			if ( wpmem_current_url() != wpmem_login_url() || is_user_logged_in() ) {
+				$html = '<form action="' . $link . '" id="' . $args['id'] . '" class="' . $args['class'] . '">';
+				$html.= ( is_user_logged_in() ) ? '<input type="hidden" name="a" value="logout" />' : '';
+				$html.= '<input type="submit" value="' . $text . '" /></form>';
+			} else {
+				$html = '';
+			}		
+		} else {
+			$html = sprintf( '<a href="%s" id="%" class="%s">%s</a>', $link, $args['id'], $args['class'], $text );
+		}
+		return $html;
+	}
 } // End of WP_Members class.

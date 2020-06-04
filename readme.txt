@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 3.3.4.1
+Stable tag: 3.3.5
 License: GPLv2
 
 == Description ==
@@ -105,7 +105,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.4 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -133,6 +133,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.4 is an improvement release. 
 
 * Added optional new user activation link and password reset link (instead of sending password). This option will become the default setting in 3.4.0.
 * Updated the default product restricted message to display required membership(s). This eliminates the custom message string "product_restricted" and replaces with two new ones: product_restricted_single and product_restricted_multiple. (Note this only affects the default message if no custom membership message is established in the membership properties).
+* Added login/logout button to login/logout link api function wpmem_loginout() and shortcode [wpmem_loginout]. It will continue to display a hyperlink by default, but accepts arguments to display as a button. Also added ID and class options for link or button.
 
 = 3.3.4 =
 
