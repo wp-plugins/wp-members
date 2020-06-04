@@ -591,6 +591,7 @@ class WP_Members {
 		
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once( $this->path . 'includes/cli/class-wp-members-cli.php' );
+			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
 		}
 	}
 
