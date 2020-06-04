@@ -29,7 +29,7 @@ class WP_Members_Captcha {
 		if ( 'rs_captcha' == $type ) {
 			return self::rs_captcha();
 		} else {
-			return self::recaptcha( $keys );
+			return self::recaptcha();
 		}
 	}
 
@@ -37,11 +37,13 @@ class WP_Members_Captcha {
 	 * Create reCAPTCHA form.
 	 *
 	 * @since  3.3.0  Replaces wpmem_inc_recaptcha().
+	 * @since  3.3.5  Accepts no arguments.
 	 *
-	 * @param  array  $arr
 	 * @return string $str HTML for reCAPTCHA display.
 	 */
-	static function recaptcha( $arr ) {
+	static function recaptcha() {
+		
+		$wpmem_captcha = get_option( 'wpmembers_captcha' );
 
 		// Determine if reCAPTCHA should be another language.
 		$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
@@ -52,9 +54,20 @@ class WP_Members_Captcha {
 		$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
 
 		global $wpmem;
-		if ( $wpmem->captcha == 3 ) {
+		if ( 3 == $wpmem->captcha ) {
 			$str = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-			<div class="g-recaptcha" data-sitekey="' . $arr['public'] . '"></div>';
+			<div class="g-recaptcha" data-sitekey="' . $wpmem_captcha['recaptcha']['public'] . '"></div>';
+		} elseif ( 4 == $wpmem->captcha ) {
+			$str = '<script src="https://www.google.com/recaptcha/api.js?render=' . $wpmem_captcha['recaptcha']['public'] . '"></script>';
+			$str.= "<script>
+						grecaptcha.ready(function () {
+							grecaptcha.execute('" . $wpmem_captcha['recaptcha']['public'] . "', { action: 'contact' }).then(function (token) {
+								var recaptchaResponse = document.getElementById('recaptchaResponse');
+								recaptchaResponse.value = token;
+							});
+						});
+					</script>";
+			$str.= '<input type="hidden" name="recaptcha_response" id="recaptchaResponse">';
 		}
 
 		/**
@@ -166,10 +179,10 @@ class WP_Members_Captcha {
 
 		global $wpmem, $wpmem_themsg;
 		
+		// Get the captcha settings (api keys).
+		$wpmem_captcha = get_option( 'wpmembers_captcha' );
+		
 		if ( ! $which_captcha ) {
-
-			// Get the captcha settings (api keys).
-			$wpmem_captcha = get_option( 'wpmembers_captcha' );
 
 			/*
 			 * @todo reCAPTCHA v1 is deprecated by Google. It is also no longer allowed
@@ -215,7 +228,7 @@ class WP_Members_Captcha {
 				// If CAPTCHA validation fails (incorrect value entered in CAPTCHA field), return an error.
 				if ( ! $wpmem_captcha_correct ) {
 					$wpmem_themsg = __( 'You have entered an incorrect code value. Please try again.', 'wp-members' );
-					return "empty";
+					return false;
 				}
 			}
 		} else {
@@ -230,9 +243,9 @@ class WP_Members_Captcha {
 				$captcha = wpmem_get( 'g-recaptcha-response', false );
 
 				// If there is no captcha value, return error.
-				if ( ! $captcha ) {
+				if ( false === $captcha ) {
 					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
-					return "empty";
+					return false;
 				}
 
 				// Build URL for captcha evaluation.
@@ -257,10 +270,16 @@ class WP_Members_Captcha {
 							$wpmem_themsg.= "Error code: " . $code . "<br />";
 						}
 					}
-					return "empty";
+					return false;
 				}
 			} elseif ( 'recaptcha_v3' == $captcha && $wpmem_captcha['recaptcha'] ) {
 				$captcha = wpmem_get( 'recaptcha_response', false );
+	
+				if ( false === $captcha ) {
+					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+					return false;
+				}
+				
 				if ( $_SERVER['REQUEST_METHOD'] === 'POST' && false !== $captcha ) {
 
 					// Make and decode POST request:
@@ -276,10 +295,10 @@ class WP_Members_Captcha {
 						// Verified - send email
 					} else {
 						$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
-						return "empty";
+						return false;
 					}
 				} else {
-					return "empty";
+					return false;
 				}
 			}
 		}	

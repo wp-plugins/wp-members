@@ -1173,8 +1173,6 @@ class WP_Members_Forms {
 
 		// If captcha is Really Simple CAPTCHA.
 		if ( $wpmem->captcha == 2 && $tag != 'edit' ) {
-			// Include captcha functions.
-			require_once( $wpmem->path . 'includes/class-wp-members-captcha.php' );
 			// Build the captcha.
 			$row = WP_Members_Captcha::rs_captcha();
 			$rows['captcha'] = array(
@@ -1247,36 +1245,11 @@ class WP_Members_Forms {
 
 		// Do recaptcha if enabled.
 		if ( ( 1 == $wpmem->captcha || 3 == $wpmem->captcha || 4 == $wpmem->captcha ) && $tag != 'edit' ) { // don't show on edit page!
-
-			// Include captcha functions.
-			require_once( $wpmem->path . 'includes/class-wp-members-captcha.php' );
 			
-			// Get the captcha options.
-			$wpmem_captcha = get_option( 'wpmembers_captcha' );
+			$row = WP_Members_Captcha::recaptcha();
 			
-			if ( 4 == $wpmem->captcha ) {
-				
-				$row = '<script src="https://www.google.com/recaptcha/api.js?render=' . $wpmem_captcha['recaptcha']['public'] . '"></script>';
-				$row.= "<script>
-							grecaptcha.ready(function () {
-								grecaptcha.execute('" . $wpmem_captcha['recaptcha']['public'] . "', { action: 'contact' }).then(function (token) {
-									var recaptchaResponse = document.getElementById('recaptchaResponse');
-									recaptchaResponse.value = token;
-								});
-							});
-						</script>";
-				$row.= '<input type="hidden" name="recaptcha_response" id="recaptchaResponse">';
-				
-			} else {
-
-				// Start with a clean row.
-				$row = '';
-				$row = '<div class="clear"></div>';
-				$row.= '<div class="captcha">';
-
-				$row.= WP_Members_Captcha::recaptcha( $wpmem_captcha['recaptcha'] );
-
-				$row.= '</div>';
+			if ( 4 != $wpmem->captcha ) {
+				$row = '<div class="clear"></div><div class="captcha">' . $row . '</div>';
 			}
 
 			// Add the captcha row to the form.
