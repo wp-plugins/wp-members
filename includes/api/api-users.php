@@ -783,4 +783,67 @@ function wpmem_export_users( $args, $users = null ) {
 	WP_Members_Export::export_users( $args, $users );
 }
 
+/**
+ * Gets user ID based on request.
+ *
+ * @since 3.3.5
+ *
+ * @param  mixed  $user
+ * @return mixed 
+ */
+function wpmem_get_user_id( $user ) {
+	$user_obj = wpmem_get_user_obj( $user );
+	return ( is_object( $user_obj ) ) ? $user_obj->ID : false;
+}
+
+/**
+ * Gets user object based on request.
+ *
+ * @since 3.3.5
+ *
+ * @param  mixed  $user
+ * @return mixed 
+ */
+function wpmem_get_user_obj( $user ) {
+	if ( is_numeric( $user ) ) {
+		$user_obj = get_userdata( $user );
+		if ( $user_obj ) {
+			return $user_obj;
+		}
+	}
+	if ( strpos( $user, '@' ) ) {
+		$user_obj = get_user_by( 'email', $user );
+		if ( $user_obj ) {
+			return $user_obj;
+		}
+	}
+	if ( is_string( $user ) ) {
+		$user_obj = get_user_by( 'login', $user );
+		if ( $user_obj ) {
+			return $user_obj;
+		}
+	}
+	return false;
+}
+
+/**
+ * Get all users by a meta value.
+ *
+ * @since 3.5.0
+ *
+ * @param   string  $meta   The meta key to search fo.
+ * @param   string  $value  The meta value to search for (defaul:false).
+ * @return  array   $users  An array of user IDs who have the requested meta.
+ */
+function wpmem_get_users_by_meta( $meta, $value = false ) {
+	$args  = array( 'fields' => array( 'ID' ), 'meta_key' => $meta );
+	if ( false === $value ) {
+		$args['meta_value'] = '';
+		$args['meta_compare'] = '>';
+	} else {
+		$args['meta_value'] = $value;
+	}
+	return get_users( $args );
+}
+
 // End of file.
