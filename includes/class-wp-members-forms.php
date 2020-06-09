@@ -162,7 +162,7 @@ class WP_Members_Forms {
 			$pname = ( 'multiselect' == $type ) ? $name . "[]" : $name;
 			$str = "<select name=\"$pname\" id=\"$id\" class=\"$class\"" . ( ( 'multiselect' == $type ) ? " multiple " : "" ) . ( ( $required ) ? " required " : "" ) . ">\n";
 			if ( 'membership' == $type ) {
-				$value = array( 'Choose membership|' );
+				$value = array( __( 'Choose membership', 'wp-members' ) . '|' );
 				foreach( $wpmem->membership->products as $membership_key => $membership_value ) {
 					$value[] = $membership_value['title'] . '|' . $membership_key;
 				}
@@ -1805,6 +1805,7 @@ class WP_Members_Forms {
 				case( 'multiselect' ):
 				case( 'multicheckbox' ):
 				case( 'radio' ):
+				case( 'membership' );
 					$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 					$formfield_args = array( 
 						'name'     => $meta_key,

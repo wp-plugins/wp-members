@@ -1327,6 +1327,13 @@ class WP_Members {
 				case 'multiselect':
 				case 'multicheckbox':
 				case 'radio':
+				case 'membership':
+					if ( 'membership' == $val[3] ) {
+						$val[7] = array( __( 'Choose membership', 'wp-members' ) . '|' );
+						foreach( $this->membership->products as $membership_key => $membership_value ) {
+							$val[7][] = $membership_value['title'] . '|' . $membership_key;
+						}
+					}
 					// Correct a malformed value (if last value is empty due to a trailing comma).
 					if ( '' == end( $val[7] ) ) {
 						array_pop( $val[7] );
