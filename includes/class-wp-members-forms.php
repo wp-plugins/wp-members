@@ -1825,7 +1825,8 @@ class WP_Members_Forms {
 					break;
 
 				default:
-					echo '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="'; echo ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; echo '" size="25" />';
+					$value = ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '';
+					echo '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="' . $value . '" size="25" />';
 					break;
 				}
 
