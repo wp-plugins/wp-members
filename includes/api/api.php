@@ -377,6 +377,18 @@ function wpmem_get_hidden_posts() {
 }
 
 /**
+ * Updates the hiddent posts array.
+ *
+ * @since 3.3.5
+ *
+ * @global stdClass $wpmem
+ */
+function wpmem_update_hidden_posts() {
+	global $wpmem;
+	$wpmem->update_hidden_posts();
+}
+
+/**
  * Conditional if REST request.
  *
  * @since 3.3.2
