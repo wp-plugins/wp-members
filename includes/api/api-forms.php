@@ -517,11 +517,11 @@ function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
 		$field_html = wpmem_form_field( $field_args );
 		$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
 		$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
-			<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label']. $wpmem_fields[ $key ]['required'] . '</label>';
+			<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label'] . ( ( 1 == $wpmem_fields[ $key ]['required'] ) ? '&nbsp;<abbr class="required" title="required">*</abbr>' : '' ) . '</label>';
 		$field .= $field_html;
 		$field .= '</p>';
 		
 	}
 	
-    return $field;
+	return $field;
 }
