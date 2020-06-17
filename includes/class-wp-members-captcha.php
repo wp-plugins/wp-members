@@ -18,6 +18,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_Members_Captcha {
 	
 	/**
+	 * Gets which CAPTCHA is set.
+	 *
+	 * @since 3.3.5
+	 */
+	static function type() {
+		global $wpmem;
+		switch ( $wpmem->captcha ) {
+			case 1:
+			case 3:
+				return "recaptcha_v2";
+				break;
+			case 4:
+				return"recaptcha_v3";
+				break;
+			case 2:
+			default:
+				return "rs_captcha";
+				break;
+		}
+	}
+	
+	/**
 	 * Display a CAPTCHA.
 	 *
 	 * @since 3.3.4
@@ -57,7 +79,7 @@ class WP_Members_Captcha {
 		if ( 3 == $wpmem->captcha ) {
 			$str = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			<div class="g-recaptcha" data-sitekey="' . $wpmem_captcha['recaptcha']['public'] . '"></div>';
-		} elseif ( 4 == $wpmem->captcha ) {
+		} else {
 			$str = '<script src="https://www.google.com/recaptcha/api.js?render=' . $wpmem_captcha['recaptcha']['public'] . '"></script>';
 			$str.= "<script>
 						grecaptcha.ready(function () {
@@ -159,7 +181,7 @@ class WP_Members_Captcha {
 						<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />'
 			);
 		} else {
-			return "Really Simple CAPTCHA is not enabled";
+			return array( 'label' => '', 'label_text' => '', 'field' => "Really Simple CAPTCHA is not enabled" );
 		}
 	}
 	
@@ -182,35 +204,7 @@ class WP_Members_Captcha {
 		// Get the captcha settings (api keys).
 		$wpmem_captcha = get_option( 'wpmembers_captcha' );
 		
-		if ( ! $which_captcha ) {
-
-			/*
-			 * @todo reCAPTCHA v1 is deprecated by Google. It is also no longer allowed
-			 * to be set for new installs of WP-Members.  It is NOT compatible with
-			 * PHP 7.1 and is therefore fully obsolete.
-			 */
-			// If captcha is on, check the captcha.
-			if ( $wpmem->captcha == 1 && $wpmem_captcha['recaptcha'] ) { 
-				$wpmem->captcha = 3;
-			}
-			
-			switch ( $wpmem->captcha ) {
-				case 1:
-				case 3:
-					$captcha = "recaptcha_v2";
-					break;
-				case 4:
-					$captcha = "recaptcha_v3";
-					break;
-				case 2:
-				default:
-					$captcha = "rs_captcha";
-					break;
-			}
-			
-		} else {
-			$captcha = $which_captcha;
-		}
+		$captcha = ( ! $which_captcha ) ? self::type() : $which_captcha;
 
 		if ( 'rs_captcha' == $captcha ) {
 			if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
@@ -284,8 +278,8 @@ class WP_Members_Captcha {
 
 					// Make and decode POST request:
 					$url = $recaptcha_verify_url . http_build_query([
-						'secret' => $privatekey,
-						'response' => $captcha,
+						'secret'   => $privatekey,
+						'response' => $captcha, 
 					]);
 					$recaptcha = file_get_contents( $url );
 					$recaptcha = json_decode( $recaptcha );
