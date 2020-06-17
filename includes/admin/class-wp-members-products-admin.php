@@ -316,6 +316,13 @@ class WP_Members_Products_Admin {
 				});
 			})(jQuery);
 		</script><?php
+		
+		/**
+		 * Fires after membership product detail meta box.
+		 *
+		 * @since 3.3.5
+		 */
+		do_action( 'wpmem_membership_product_meta_after' );
 	}
 
 	/**
@@ -328,8 +335,20 @@ class WP_Members_Products_Admin {
 	function message_meta_box_detail( $post ) {
 		$product_message = get_post_meta( $post->ID, 'wpmem_product_message', true );
 		$message = ( $product_message ) ? $product_message : '';
+		/**
+		 * Fires before membership product message meta box.
+		 *
+		 * @since 3.3.5
+		 */
+		do_action( 'wpmem_membership_product_message_meta_before' );
 		echo '<label for="product_message">' . __( 'Restricted Message (displays when a user does not have access to a membership)', 'wp-members' ) . '</label>';
 		echo '<textarea name="product_message" id="product_message" rows="3" cols="50" id="" class="large-text code">' . $message . '</textarea>';
+		/**
+		 * Fires after membership product messate meta box.
+		 *
+		 * @since 3.3.5
+		 */
+		do_action( 'wpmem_membership_product_message_meta_after' );
 	}
 	
 	/**
