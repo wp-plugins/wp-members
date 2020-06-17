@@ -475,7 +475,11 @@ function wpmem_woo_checkout_update_meta( $order_id ) {
 					update_user_meta( $user_id, $meta_key, wpmem_sanitize_array( $_POST[ $meta_key ] ) );
 					break;
 				default:
-					update_user_meta( $user_id, $meta_key, sanitize_text_field( $_POST[ $meta_key ] ) );
+					if ( 'user_url' == $meta_key ) {
+						wp_update_user( array( 'ID' => $user_id, 'user_url' => sanitize_text_field( $_POST[ $meta_key ] ) ) );
+					} else {
+						update_user_meta( $user_id, $meta_key, sanitize_text_field( $_POST[ $meta_key ] ) );
+					}
 					break;
 			}
 		}
