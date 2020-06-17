@@ -698,7 +698,7 @@ class WP_Members_Forms {
 				 * @since 3.2.5 Added $tag parameter.
 				 *
 				 * @param string The raw link.
-				 * @param string $tag forgot|reg|pwdreset.
+				 * @param string $tag forgot|reg|pwdreset|username.
 				 */
 				$link = apply_filters( "wpmem_{$tag}_link", $value['link'], $tag );
 				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . esc_url( $link ) . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';

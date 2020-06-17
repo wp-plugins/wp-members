@@ -287,41 +287,14 @@ if ( ! function_exists( 'wpmem_inc_recaptcha' ) ):
  * Create reCAPTCHA form.
  *
  * @since  2.6.0
- * @deprecated 3.3.0 
+ * @deprecated 3.3.0 Use WP_Members_Captcha::show( 'captcha_v2' ) instead.
  *
  * @param  array  $arr
  * @return string $str HTML for reCAPTCHA display.
  */
 function wpmem_inc_recaptcha( $arr ) {
 	wpmem_write_log( "wpmem_inc_recaptcha() is deprecated as of WP-Members 3.3.0." );
-	// Determine if reCAPTCHA should be another language.
-	$allowed_langs = array( 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr' );
-	/** This filter is documented in wp-includes/l10n.php */
-	$locale = apply_filters( 'plugin_locale', get_locale(), 'wp-members' );
-	$compare_lang  = strtolower( substr( $locale, -2 ) );
-	$use_the_lang  = ( in_array( $compare_lang, $allowed_langs ) ) ? $compare_lang : false;
-	$lang = ( $use_the_lang  ) ? ' lang : \'' . $use_the_lang  . '\'' : '';	
-
-	// Determine if we need ssl.
-	$http = wpmem_use_ssl();
-
-	global $wpmem;
-	if ( $wpmem->captcha == 3 ) {
-		
-		$str = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-		<div class="g-recaptcha" data-sitekey="' . $arr['public'] . '"></div>';
-	}
-
-	/**
-	 * Filter the reCAPTCHA HTML.
-	 *
-	 * @since 2.7.4
-	 *
-	 * @param string $str A string of HTML for the reCAPTCHA.
- 	 */
-	$str = apply_filters( 'wpmem_recaptcha', $str );
-	
-	return $str;
+	return WP_Members_Captcha::recaptcha();
 }
 endif;
 
@@ -329,6 +302,7 @@ endif;
  * Create Really Simple CAPTCHA.
  *
  * @since 2.9.5
+ * @deprecated 3.3.0 Use WP_Members_Captcha::show( 'rs_captcha' ) instead.
  *
  * @global object $wpmem The WP_Members object.
  * @return array {
@@ -340,70 +314,8 @@ endif;
  * }
  */
 function wpmem_build_rs_captcha() {
-	
-	global $wpmem;
-
-	if ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) {
-		// setup defaults								
-		$defaults = array( 
-			'characters'   => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
-			'num_char'     => '4',
-			'dim_w'        => '72',
-			'dim_h'        => '30',
-			'font_color'   => '0,0,0',
-			'bg_color'     => '255,255,255',
-			'font_size'    => '12',
-			'kerning'      => '14',
-			'img_type'     => 'png',
-		);
-		$wpmem_captcha = get_option( 'wpmembers_captcha' );
-		
-		$args = ( isset( $wpmem_captcha['really_simple'] ) && is_array( $wpmem_captcha['really_simple'] ) ) ? $wpmem_captcha['really_simple'] : array();
-		$args = wp_parse_args( $args, $defaults );
-		
-		$img_size = array( $args['dim_w'], $args['dim_h'] );
-		$fg       = explode( ",", $args['font_color'] );
-		$bg       = explode( ",", $args['bg_color'] );
-		
-		$wpmem_captcha = new ReallySimpleCaptcha();
-		$wpmem_captcha->chars = $args['characters'];
-		$wpmem_captcha->char_length = $args['num_char'];
-		$wpmem_captcha->img_size = $img_size;
-		$wpmem_captcha->fg = $fg;
-		$wpmem_captcha->bg = $bg;
-		$wpmem_captcha->font_size = $args['font_size'];
-		$wpmem_captcha->font_char_width = $args['kerning'];
-		$wpmem_captcha->img_type = $args['img_type'];
-
-		$wpmem_captcha_word   = $wpmem_captcha->generate_random_word();
-		$wpmem_captcha_prefix = mt_rand();
-		$wpmem_captcha_image_name = $wpmem_captcha->generate_image( $wpmem_captcha_prefix, $wpmem_captcha_word );
-		
-		/**
-		 * Filters the default Really Simple Captcha folder location.
-		 *
-		 * @since 3.0
-		 *
-		 * @param string The default location of RS Captcha.
-		 */
-		$wpmem_captcha_image_url = apply_filters( 'wpmem_rs_captcha_folder', get_bloginfo('wpurl') . '/wp-content/plugins/really-simple-captcha/tmp/' );
-
-		$img_w = $wpmem_captcha->img_size[0];
-		$img_h = $wpmem_captcha->img_size[1];
-		$src   = $wpmem_captcha_image_url . $wpmem_captcha_image_name;
-		$size  = $wpmem_captcha->char_length;
-		$pre   = $wpmem_captcha_prefix;
-
-		return array( 
-			'label_text' => $wpmem->get_text( 'register_rscaptcha' ),
-			'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
-			'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" />
-					<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />
-					<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />'
-		);
-	} else {
-		return;
-	}
+	wpmem_write_log( "wpmem_build_rs_captcha() is deprecated as of WP-Members 3.3.0." );
+	return ( defined( 'REALLYSIMPLECAPTCHA_VERSION' ) ) ? WP_Members_Captcha::show( 'rs_captcha' ) : '';
 }
 
 /**
