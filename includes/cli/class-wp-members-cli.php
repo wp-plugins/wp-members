@@ -32,8 +32,20 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		}
 		
 		public function get_hidden_posts() {
-			$posts = implode( ", ", wpmem_get_hidden_posts() );
-			WP_CLI::line( 'hidden post IDs: ' . $posts );
+			
+			$hidden_posts = wpmem_get_hidden_posts();
+			foreach ( $hidden_posts as $post_id ) {
+				 $list[] = array(
+					 'id' => $post_id,
+					 'title' => get_the_title( $post_id ),
+					 'url' => get_permalink( $post_id ),
+				 );
+			}
+			
+			WP_CLI::line( 'WP-Members hidden posts:' );
+			$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'id', 'title', 'url' ) );
+			$formatter->display_items( $list );
+			
 		}
 		
 		public function set_post_status( $args, $assoc_args ) {
