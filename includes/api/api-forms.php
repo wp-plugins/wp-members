@@ -430,20 +430,19 @@ function wpmem_woo_checkout_fields( $checkout_fields = false ) {
  * @param array $checkout_fields
  */
 function wpmem_woo_checkout_form( $checkout_fields ) {
-	
+	global $wpmem;
 	$fields = wpmem_woo_checkout_fields( $checkout_fields );
 
 	foreach ( $fields as $meta_key => $field ) {
 		$checkout_fields['order'][ $meta_key ] = array(
 			'type'     => $fields[ $meta_key ]['type'],
-			'label'    => $fields[ $meta_key ]['label'],
+			'label'    => ( 'tos' == $meta_key ) ? $wpmem->forms->get_tos_link( $field, 'woo' ) : $fields[ $meta_key ]['label'],
 			'required' => $fields[ $meta_key ]['required'],
 		);
 		if ( isset( $fields[ $meta_key ]['placeholder'] ) ) {
 			$checkout_fields['order'][ $meta_key ]['placeholder'] = $fields[ $meta_key ]['placeholder'];
 		}
 	}
-	
 	return $checkout_fields;
 }
 

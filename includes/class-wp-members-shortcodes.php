@@ -724,6 +724,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.1.2
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::tos().
+	 * @since 3.2.5 Now can use page slug (without full url).
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -735,7 +736,8 @@ class WP_Members_Shortcodes {
 	 * @retrun string $content
 	 */
 	function tos( $atts, $content, $tag ) {
-		return esc_url( $atts['url'] ); 
+		$url = ( strpos( $atts['url'], 'http' ) ) ? $atts['url'] : home_url( $atts['url'] );
+		return esc_url( $url ); 
 	}
 
 	/**

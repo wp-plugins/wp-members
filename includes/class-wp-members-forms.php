@@ -1013,50 +1013,7 @@ class WP_Members_Forms {
 					) );
 					$input = ( $field['required'] ) ? $input . $args['req_mark'] : $input;
 
-					// Determine if TOS is a WP page or not.
-					$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-					if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
-						$tos_link_url = do_shortcode( $tos_content );
-						$tos_link_tag = '<a href="' . esc_url( $tos_link_url ) . '" target="_blank">';
-					} else {
-						$tos_link_url = add_query_arg( 'tos', 'display' );
-						$tos_link_tag = "<a href=\"#\" onClick=\"window.open('" . $tos_link_url . "','tos');\">";
-					}
-					
-					/**
-					 * Filter the TOS link.
-					 *
-					 * @since 3.2.6
-					 *
-					 * @param string $tos_link_tag
-					 * @param string $tos_link_url
-					 */
-					$tos_link_tag = apply_filters( 'wpmem_tos_link_tag', $tos_link_tag, $tos_link_url );
-
-					/**
-					 * Filter the TOS link text.
-					 *
-					 * @since 2.7.5
-					 *
-					 * @param string       The link text.
-					 * @param string $tag  Toggle new registration or profile update. new|edit.
-					 */
-					$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
-					
-					// If filtered value is not the default label, use that, otherwise use label.
-					// @note: if default changes, this check must change.
-					if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
-						if ( __( 'TOS', 'wp-members' ) != $field['label'] && __( 'Terms of Service', 'wp-members' ) != $field['label'] ) {
-							$tos_link_text = $field['label'];
-						}
-					}
-					
-					// If tos string does not contain link identifiers (%s), wrap the whole string.
-					if ( ! strpos( $tos_link_text, '%s' ) ) {
-						$tos_link_text = '%s' . $tos_link_text . '%s';
-					}
-					
-					$input .= ' ' . sprintf( $tos_link_text, $tos_link_tag, '</a>' );
+					$input .= ' ' . $this->get_tos_link( $field, $tag );
 
 					// In previous versions, the div class would end up being the same as the row before.
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
@@ -1604,31 +1561,7 @@ class WP_Members_Forms {
 					if ( 'checkbox' == $field['type'] ) {
 
 						if ( 'tos' == $meta_key ) {
-							$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
-							if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
-								$link = do_shortcode( $tos_content );
-								$tos_pop = '<a href="' . esc_url( $link ) . '" target="_blank">';
-							} else { 
-								$tos_pop = "<a href=\"#\" onClick=\"window.open('" . $wpmem->url . "/wp-members-tos.php','mywindow');\">";
-							}
-							/** This filter is documented in includes/class-wp-members-forms.php */
-							$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), 'new' );
-
-							// If filtered value is not the default label, use that, otherwise use label.
-							// @note: if default changes, this check must change.
-							if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
-								if ( __( 'TOS', 'wp-members' ) != $field['label'] && __( 'Terms of Service', 'wp-members' ) != $field['label'] ) {
-									$tos_link_text = $field['label'];
-								}
-							}
-
-							// If tos string does not contain link identifiers (%s), wrap the whole string.
-							if ( ! strpos( $tos_link_text, '%s' ) ) {
-								$tos_link_text = '%s' . $tos_link_text . '%s';
-							}
-
-							$tos_link_text = ' ' . sprintf( $tos_link_text, $tos_pop, '</a>' );
-
+							$tos_link_text = $this->get_tos_link( $field, 'woo' );
 						}
 
 						$label = ( 'tos' == $meta_key ) ? $tos_link_text : __( $field['label'], 'wp-members' );
@@ -2065,5 +1998,62 @@ class WP_Members_Forms {
 	function wp_login_form( $args ) {
 		
 		return wp_login_form( $args );
+	}
+	
+	/**
+	 * Generate TOS field with link.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array  $field
+	 * @param  string $tag
+	 * @return string
+	 */
+	function get_tos_link( $field, $tag = 'new' ) {
+		global $wpmem;
+		// Determine if TOS is a WP page or not.
+		$tos_content = stripslashes( get_option( 'wpmembers_tos' ) );
+		if ( has_shortcode( $tos_content, 'wpmem_tos' ) || has_shortcode( $tos_content, 'wp-members' ) ) {	
+			$tos_link_url = do_shortcode( $tos_content );
+			$tos_link_tag = '<a href="' . esc_url( $tos_link_url ) . '" target="_blank">';
+		} else {
+			$tos_link_url = add_query_arg( 'tos', 'display' );
+			$tos_link_tag = "<a href=\"#\" onClick=\"window.open('" . $tos_link_url . "','tos');\">";
+		}
+
+		/**
+		 * Filter the TOS link.
+		 *
+		 * @since 3.2.6
+		 *
+		 * @param string $tos_link_tag
+		 * @param string $tos_link_url
+		 */
+		$tos_link_tag = apply_filters( 'wpmem_tos_link_tag', $tos_link_tag, $tos_link_url );
+
+		/**
+		 * Filter the TOS link text.
+		 *
+		 * @since 2.7.5
+		 *
+		 * @param string       The link text.
+		 * @param string $tag  Toggle new registration or profile update. new|edit.
+		 */
+		$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
+
+		// If filtered value is not the default label, use that, otherwise use label.
+		// @note: if default changes, this check must change.
+		if ( __( 'Please indicate that you agree to the %s Terms of Service %s', 'wp-members' ) == $tos_link_text ) {
+			if ( __( 'TOS', 'wp-members' ) != $field['label'] && __( 'Terms of Service', 'wp-members' ) != $field['label'] ) {
+				$tos_link_text = $field['label'];
+			}
+		}
+
+		// If tos string does not contain link identifiers (%s), wrap the whole string.
+		if ( ! strpos( $tos_link_text, '%s' ) ) {
+			$tos_link_text = '%s' . $tos_link_text . '%s';
+		}
+		
+		return sprintf( $tos_link_text, $tos_link_tag, '</a>' );
 	}
 } // End of WP_Members_Forms class.
