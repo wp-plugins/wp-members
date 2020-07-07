@@ -43,6 +43,7 @@ class WP_Members_Admin_Users {
 	 * Function to add activate link to the user row action.
 	 *
 	 * @since 2.8.2
+	 * @since 3.3.5 Updated to use wpmem_is_user_activated().
 	 *
 	 * @param  array $actions
 	 * @param  $user_object
@@ -52,12 +53,12 @@ class WP_Members_Admin_Users {
 		global $wpmem;
 		if ( 1 == $wpmem->mod_reg && $user_object->ID != get_current_user_id() ) {
 
-			$var = get_user_meta( $user_object->ID, 'active', true );
+			$is_active = wpmem_is_user_activated( $user_object->ID );
 
-			if ( $var != 1 ) {
+			if ( false === $is_active ) {
 				$action = 'activate';
 				$term   = __( 'Activate', 'wp-members' );
-			} elseif ( 1 == $var ) {
+			} else {
 				$action = 'deactivate';
 				$term   = __( 'Deactivate', 'wp-members' );
 			}

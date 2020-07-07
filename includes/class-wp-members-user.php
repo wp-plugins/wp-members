@@ -1091,7 +1091,16 @@ class WP_Members_User {
 	function is_user_activated( $user_id = false ) {
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		$active  = get_user_meta( $user_id, 'active', true );
-		return ( $active != 1 ) ? false : true;
+		$is_activated = ( 1 == $active ) ? true : false;
+		/**
+		 * Filter whether the user is active or not.
+		 *
+		 * @since 3.3.5
+		 *
+		 * @param bool $is_activated
+		 * @param int  $user_id
+		 */
+		return apply_filters( 'wpmem_is_user_activated', $is_activated, $user_id ); 
 	}
 
 	/**
