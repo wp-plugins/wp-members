@@ -201,7 +201,7 @@ class WP_Members_Admin_Tab_Options {
 									<span class="description"><?php _e( 'Attribution is appreciated!  Display "powered by" link on register form?', 'wp-members' ); ?></span>
 								  </li>
 								  <li>
-									<label><?php _e( 'Enable CAPTCHA', 'wp-members' ); ?></label>
+									<label><?php _e( 'Enable CAPTCHA for Registration', 'wp-members' ); ?></label>
 									<?php $captcha = array( __( 'None', 'wp-members' ) . '|0' );
 									if ( 1 == $wpmem->captcha ) {
 										$wpmem->captcha = 3; // reCAPTCHA v1 is fully obsolete. Change it to v2.
