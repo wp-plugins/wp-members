@@ -140,6 +140,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 * Added user api functions wpmem_get_user_id(), wpmem_get_user_obj(), wpmem_get_users_by_meta().
 * Added action hooks to membership product admin screen.
 * Added wpmem_is_user_activated filter hook.
+* Added wpmem_get_users_by_meta(), wpmem_get_pending_users(), wpmem_get_activated_users(), and wpmem_get_deactivated_users().
 
 = 3.3.4 =
 
