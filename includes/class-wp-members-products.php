@@ -185,7 +185,7 @@ class WP_Members_Products {
 		
 		global $post, $wpmem;
 		// Is the user logged in and is this blocked content?
-		if ( ! is_admin() && is_user_logged_in() && wpmem_is_blocked() ) {  // @todo Should is_admin() check be run on securify in general?
+		if ( ! is_admin() && is_user_logged_in() && wpmem_is_blocked() && 1 == $wpmem->enable_products ) {  // @todo Should is_admin() check be run on securify in general?
 
 			// Get the post access products.
 			$post_products = $this->get_post_products( $post->ID );
