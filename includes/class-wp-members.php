@@ -297,6 +297,17 @@ class WP_Members {
 	 * @var    boolean
 	 */
 	public $is_rest = false;
+
+	/**
+	 * Temporary setting for activation link.
+	 * Will default to 0 until 3.4.0, then 1 until 3.5.0
+	 * at which point we'll remove the old process.
+	 *
+	 * @since 3.3.5
+	 * @access public
+	 * @var string
+	 */
+	public $act_link = 0;
 	
 	/**
 	 * Temporary setting for password reset.
@@ -307,7 +318,7 @@ class WP_Members {
 	 * @access public
 	 * @var string
 	 */
-	public $key_link = 0;
+	public $pwd_link = 0;
 	
 	/**
 	 * Plugin initialization function.
@@ -368,8 +379,10 @@ class WP_Members {
 		if ( $this->clone_menus ) {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
 		}
-		if ( 1 == $this->key_link ) {
+		if ( 1 == $this->pwd_link ) {
 			$this->pwd_reset  = new WP_Members_Pwd_Reset;
+		}
+		if ( 1 == $this->act_link ) {
 			$this->act_newreg = new WP_Members_Activation_Link;
 		}
 		
