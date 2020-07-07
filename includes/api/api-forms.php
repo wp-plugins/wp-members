@@ -474,6 +474,9 @@ function wpmem_woo_checkout_update_meta( $order_id ) {
 				case 'multiselect':
 					update_user_meta( $user_id, $meta_key, wpmem_sanitize_array( $_POST[ $meta_key ] ) );
 					break;
+				case 'membership':
+					wpmem_set_user_product( wpmem_sanitize_array( $_POST[ $meta_key ] ), $user_id );
+					break;
 				default:
 					if ( 'user_url' == $meta_key ) {
 						wp_update_user( array( 'ID' => $user_id, 'user_url' => sanitize_text_field( $_POST[ $meta_key ] ) ) );
