@@ -416,10 +416,12 @@ function wpmem_create_membership_number( $args ) {
  * @since 3.1.6 Dependencies now loaded by object.
  * @since 3.2.4 Renamed from wpmem_a_activate_user().
  * @since 3.3.0 Moved to user API.
+ * @since 3.3.5 Added $notify argument.
  *
  * @param int   $user_id
+ * @param bool  $notify  Send notification to user (optional, default: true).
  */
-function wpmem_activate_user( $user_id ) {
+function wpmem_activate_user( $user_id, $notify = true ) {
 
 	global $wpmem;
 
@@ -441,7 +443,9 @@ function wpmem_activate_user( $user_id ) {
 	}
 
 	// Generate and send user approved email to user.
-	wpmem_email_to_user( $user_id, $new_pass, 2 );
+	if ( true === $notify ) {
+		wpmem_email_to_user( $user_id, $new_pass, 2 );
+	}
 
 	// Set the active flag in usermeta.
 	update_user_meta( $user_id, 'active', 1 );
