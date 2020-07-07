@@ -159,17 +159,17 @@ class WP_Members_Admin_Tab_Options {
 								</ul>
 								<?php
 								if ( WPMEM_EXP_MODULE == true ) {
-									$arr = array( 
+									$rows = array( 
 										array(__('Time-based expiration','wp-members'),'wpmem_settings_time_exp',__('Allows for access to expire','wp-members'),'use_exp'),
 										array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period','wp-members'),'use_trial'),
 									); ?>
 								<h3><?php _e( 'Subscription Settings', 'wp-members' ); ?></h3>	
 								<ul><?php
-								for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
+								foreach ( $rows as $row ) { ?>
 								  <li>
-									<label><?php echo $arr[ $row ][0]; ?></label>
-									<?php echo wpmem_create_formfield( $arr[ $row ][1], 'checkbox', '1', $wpmem->{$arr[ $row ][3]} ); ?>&nbsp;&nbsp;
-									<?php if ( $arr[ $row ][2] ) { ?><span class="description"><?php echo $arr[ $row ][2]; ?></span><?php } ?>
+									<label><?php echo $row[0]; ?></label>
+									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
+									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } 
 								}?></ul>
@@ -178,8 +178,9 @@ class WP_Members_Admin_Tab_Options {
 								<?php 
 								/** This filter is defined in class-wp-members.php */
 								$dropin_dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
-								$arr = array(
-									array(__('Activation', 'wp-members'),'wpmem_settings_pwd_reset',__('Send initial activation link and password reset link instead of new password. (Requires additional configuration)','wp-members'),'key_link'),
+								$rows = array(
+									array(__('Activation Link', 'wp-members'),'wpmem_settings_act_link',__('Send activation link on new registrartion. (Requires additional configuration)','wp-members'),'act_link'),
+									array(__('Password Reset Link', 'wp-members'),'wpmem_settings_pwd_link',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_link'),
 									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products','wp-members'),'enable_products'),
 									array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 									array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
@@ -187,11 +188,11 @@ class WP_Members_Admin_Tab_Options {
 									array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
 									//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_dir),'dropins'),
 								);
-								for ( $row = 0; $row < count( $arr ); $row++ ) { ?>
+								foreach ( $rows as $row ) { ?>
 								  <li>
-									<label><?php echo $arr[ $row ][0]; ?></label>
-									<?php echo wpmem_create_formfield( $arr[ $row ][1], 'checkbox', '1', $wpmem->{$arr[$row][3]} ); ?>&nbsp;&nbsp;
-									<?php if ( $arr[$row][2] ) { ?><span class="description"><?php echo $arr[ $row ][2]; ?></span><?php } ?>
+									<label><?php echo $row[0]; ?></label>
+									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
+									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } ?>
 								  <li>
@@ -480,7 +481,8 @@ class WP_Members_Admin_Tab_Options {
 			$wpmem_newsettings = array(
 				'version' => $wpmem->version,
 				'db_version' => $wpmem->db_version,
-				'key_link' => filter_var( wpmem_get( 'wpmem_settings_pwd_reset', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+				'act_link' => filter_var( wpmem_get( 'wpmem_settings_act_link', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+				'pwd_link' => filter_var( wpmem_get( 'wpmem_settings_pwd_link', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'enable_products' => filter_var( wpmem_get( 'wpmem_settings_products', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'clone_menus' => filter_var( wpmem_get( 'wpmem_settings_menus', 0 ), FILTER_SANITIZE_NUMBER_INT ),
 				'notify'    => filter_var( wpmem_get( 'wpmem_settings_notify', 0 ), FILTER_SANITIZE_NUMBER_INT ),
