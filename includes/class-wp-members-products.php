@@ -118,8 +118,11 @@ class WP_Members_Products {
 			$post_meta = get_post_meta( $plan->ID );
 			foreach ( $post_meta as $key => $meta ) {
 				if ( false !== strpos( $key, 'wpmem_product' ) ) {
-					if ( $key == 'wpmem_product_expires' ) {
+					if ( 'wpmem_product_expires' == $key ) {
 						$meta[0] = unserialize( $meta[0] );
+					}
+					if ( 'wpmem_product_fixed_period' == $key ) {
+						$meta[0] = $this->explode_fixed_period( $meta[0] );
 					}
 					$this->products[ $plan->post_name ][ str_replace( 'wpmem_product_', '', $key ) ] = $meta[0];
 				}
@@ -205,11 +208,11 @@ class WP_Members_Products {
 			// Handle default membership restricted message.
 			if ( 1 == count( $post_products ) ) {
 				$message = $wpmem->get_text( 'product_restricted_single' )
-					. "<br />" . $wpmem->membership->products[ $post_products[0] ]['title'];
+					. "<br />" . $this->products[ $post_products[0] ]['title'];
 			} else {
 				$message = $wpmem->get_text( 'product_restricted_multiple' ) . "<br />";
 				foreach ( $post_products as $post_product ) {
-					$message .= $wpmem->membership->products[ $post_product ]['title'] . "<br />";
+					$message .= $this->products[ $post_product ]['title'] . "<br />";
 				}
 			}
 			/**
@@ -367,5 +370,129 @@ class WP_Members_Products {
 			$post_ids[] = $result[0];
 		}
 		return $post_ids;
+	}
+	
+	/**
+	 * Utility to explode fixed period.
+	 *
+	 * @since 3.3.5
+	 */
+	function explode_fixed_period( $array ) {
+		$period_parts = explode( "-", $array );
+		$period['start'] = ( $period_parts ) ? $period_parts[0] . '-' . $period_parts[1] : '';
+		$period['end']   = ( $period_parts ) ? $period_parts[2] . '-' . $period_parts[3] : '';
+		$period['grace']['num'] = ( $period_parts && isset( $period_parts[4] ) ) ? $period_parts[4] : '';
+		$period['grace']['per'] = ( $period_parts && isset( $period_parts[5] ) ) ? $period_parts[5] : '';
+		return $period;
+	}
+	
+	/**
+	 * Set an expiration date.
+	 *
+	 * @since 3.3.5
+	 */
+	function set_product_expiration( $product, $user_id, $set_date ) {
+		// If this is setting a specific date.
+		if ( $set_date ) {
+			$new_value = strtotime( $set_date );
+		} else {
+			// Either setting initial expiration based on set time period, or adding to the existing date (renewal/extending).
+			$raw_add = explode( "|", $this->products[ $product ]['expires'][0] );
+			$add_period = ( 1 < $raw_add[0] ) ? $raw_add[0] . " " . $raw_add[1] . "s" : $raw_add[0] . " " . $raw_add[1];
+
+			// New single meta version.
+			if ( $prev_value ) {
+				$renew = true;
+				if ( isset( $this->products[ $product ]['no_gap'] ) && 1 == $this->products[ $product ]['no_gap'] ) {
+					// Add to the user's existing date (no gap).
+					$new_value = strtotime( $add_period, $prev_value );					
+				} else {
+					// Add to the user either from end or now (whichever is later; i.e. allow gaps (default)).
+					if ( $this->has_access( $product, $user_id ) ) {
+						// if not expired, set from when they expire.
+						$new_value = strtotime( $add_period, $prev_value );
+					} else {
+						// if expired, set from today.
+						$new_value = strtotime( $add_period );
+					}
+				}
+			} else {
+				// User doesn't have this membershp. Go ahead and add it.
+				
+				// If we are using fixed period expiration, calculate the expiration date
+				if ( isset( $this->products[ $product ] ) && '' != $this->products[ $product ]['end'] ) {
+					// Calculate the fixed period expiration.
+					$new_value = $this->calculate_fixed_period ( $product );
+				} else {
+					// Just add to the existing expiration.
+					$new_value = strtotime( $add_period );
+				}
+			}
+		}
+		
+		/**
+		 * Filter the expiration date.
+		 *
+		 * @since 3.3.2
+		 *
+		 * @param int|boolean  $new_value  Unix timestamp of new expiration, true|false if not an expiry product.
+		 * @param int|boolean  $prev_value The user's current value (prior to updating).
+		 * @param boolean      $renew      Is this a renewal transaction?
+		 */
+		$new_value = apply_filters( 'wpmem_user_product_set_expiration', $new_value, $prev_value, $renew );
+		
+		return $new_value;
+	}
+	
+	/**
+	 * Calculate a fixed period expiration.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param string  $product
+	 * @return string $timestamp
+	 */
+	function calculate_fixed_period( $product ) {
+		// Use fixed period expiration.
+		$end = $this->products[ $product ]['fixed_period']['end'];
+
+		// Get the current year.
+		$current_year = date( 'Y' );
+
+		// Format period end date for current year.
+		$cur_date = DateTime::createFromFormat( 'd-m-Y', $end . '-' . $current_year ); //DateTime( $start_date );
+
+		// Where are we now?
+		$now  = new DateTime();
+
+		// If date is past, set next period.
+		if ( $cur_date < $now ) {
+			// Date is past.
+			$next_year = date( 'Y', strtotime( '+1 year' ) );
+			$next_date = DateTime::createFromFormat( 'd-m-Y', $end . '-' . $next_year );
+			$new_value = $next_date->format( 'U' );
+		} else {
+			// Date is not past.
+			// Are we using a grace period?
+			if ( isset( $this->products[ $product ]['fixed_period']['grace'] ) && $this->products[ $product ]['fixed_period']['grace']['num'] > 0 ) {
+				// Are we in the grace period?
+				$grace_period = "-" . $this->products[ $product ]['fixed_period']['grace']['num'] . " " . $this->products[ $product ]['fixed_period']['grace']['per'];
+				$grace_date   = DateTime::createFromFormat( 'U', strtotime( $grace_period, strtotime( $cur_date->format( 'd-m-Y' ) ) ) );
+				if ( $grace_date < $now ) {
+					// We are in grace period, set expiration as next year.
+					$next_year = date( 'Y', strtotime( '+1 year' ) );
+					$next_date = DateTime::createFromFormat( 'd-m-Y', $end . '-' . $next_year );
+					$new_value = $next_date->format( 'U' );
+				} else {
+					// Not in grace period, set the current year.
+					$new_value = $cur_date->format( 'U' );
+				}
+			} else {
+				// No grace period, and date is not past. Use current year.
+				$new_value = $cur_date->format( 'U' );
+			}
+		}
+		
+		return $new_value;
 	}
 }

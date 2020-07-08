@@ -193,7 +193,14 @@ class WP_Members_Products_Admin {
 		$periods = array( __( 'Period', 'wp-members' ) . '|', __( 'Day', 'wp-members' ) . '|day', __( 'Week', 'wp-members' ) . '|week', __( 'Month', 'wp-members' ) . '|month', __( 'Year', 'wp-members' ) . '|year' ); 
 		$show_role_detail = ( false !== $product_role    ) ? 'show' : 'hide';
 		$show_exp_detail  = ( false !== $product_expires ) ? 'show' : 'hide';
-		$show_exp_fixed   = ( false !== $product_fixed_period ) ? 'show' : 'hide'; ?>
+		$show_exp_fixed   = ( false !== $product_fixed_period ) ? 'show' : 'hide';
+
+		/**
+		 * Fires before membership product detail meta box.
+		 *
+		 * @since 3.3.5
+		 */
+		do_action( 'wpmem_membership_product_meta_before' ); ?>
 
 			<?php wp_nonce_field( '_wpmem_product_nonce', 'wpmem_product_nonce' ); ?>
 			<h3><?php _e( 'Name (slug)', 'wp-members' ); ?></h3>
@@ -243,12 +250,12 @@ class WP_Members_Products_Admin {
 						<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_fixed_period', 'type'=>'checkbox', 'value'=>'1', 'compare'=>( false != $product_fixed_period ) ? 1 : '' ) ); ?>
 						<label for="wpmem_product_fixed_period"><?php esc_html_e( 'Use a fixed period (such as Jan 1 - Dec 31, or Sept 1 - Aug 31)', 'wp-members' ); ?></label>
 					<br />
-					<span id="wpmem_product_fixed_period_select">
+					<div id="wpmem_product_fixed_period_select">
 						<style>.ui-datepicker-year {
 						  display: none;
 						}</style>
 						<?php
-						if ( isset( $product_fixed_period ) ) {
+						if ( false !== $product_fixed_period ) {
 							$period_parts = ( isset( $product_fixed_period ) ) ? explode( "-", $product_fixed_period ) : false;
 							$period_start = ( $period_parts ) ? $period_parts[0] . '-' . $period_parts[1] : '';
 							$period_end   = ( $period_parts ) ? $period_parts[2] . '-' . $period_parts[3] : '';
@@ -258,7 +265,9 @@ class WP_Members_Products_Admin {
 							$period_start = $period_end = $period_grace_num = $period_grace_per = '';
 						}
 						?>
-						<input type="text" class="datepicker" name="wpmem_product_fixed_period_start" value="<?php echo $period_start; ?>" placeholder="<?php esc_html_e( 'Period Start (dd-mm)', 'wp-members' ); ?>" />
+						<label for="wpmem_product_fixed_period_start"><?php esc_html_e( 'Period Start (dd-mm)', 'wp-members' ); ?></label><br />
+						<input type="text" class="datepicker" name="wpmem_product_fixed_period_start" value="<?php echo $period_start; ?>" placeholder="<?php esc_html_e( 'Period Start (dd-mm)', 'wp-members' ); ?>" /><br />
+						<label for="wpmem_product_fixed_period_end"><?php esc_html_e( 'Period End (dd-mm)', 'wp-members' ); ?></label><br />
 						<input type="text" class="datepicker" name="wpmem_product_fixed_period_end" value="<?php echo $period_end; ?>" placeholder="<?php esc_html_e( 'Period End (dd-mm)', 'wp-members' ); ?>" />
 						<script>
 						jQuery(function() {
@@ -270,18 +279,20 @@ class WP_Members_Products_Admin {
 							});
 						});
 						</script>
-						<br />
-						<label style="margin-left: 24px;"><?php esc_html_e( "Fixed period grace period", 'wp-members' ); ?></label>
+						<br /><br />
+						<span id="fixed_period_grace_period">
+							<label style="margin-left: 24px;"><?php esc_html_e( "Fixed period grace period", 'wp-members' ); ?></label>
 
-						<label for="wpmem_product_fixed_period_grace_number" style="display:none;"><?php esc_html_e( 'Number', 'wp-members' ); ?></label>
-						<?php $period = explode( '|', $product_expires ); ?>
-						<input type="text" name="wpmem_product_fixed_period_grace_number" id="wpmem_product_fixed_period_grace_number" value="<?php echo esc_attr( $period_grace_num ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'wp-members' ); ?>" style="width:66px;margin-left:3px;">
-						<label for="wpmem_product_fixed_period_grace_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
-						<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_fixed_period_grace_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period_grace_per ) ) ? $period_grace_per : '' ) ) ); ?>
+							<label for="wpmem_product_fixed_period_grace_number" style="display:none;"><?php esc_html_e( 'Number', 'wp-members' ); ?></label>
+							<?php $period = explode( '|', $product_expires ); ?>
+							<input type="text" name="wpmem_product_fixed_period_grace_number" id="wpmem_product_fixed_period_grace_number" value="<?php echo esc_attr( $period_grace_num ); ?>" class="small-text" placeholder="<?php _e( 'Number', 'wp-members' ); ?>" style="width:66px;margin-left:3px;margin-top:0px;">
+							<label for="wpmem_product_fixed_period_grace_period" style="display:none;"><?php _e( 'Period', 'wp-members' ); ?></label>
+							<?php echo wpmem_form_field( array( 'name'=>'wpmem_product_fixed_period_grace_period', 'type'=>'select', 'value'=>$periods, 'compare'=>( ( isset( $period_grace_per ) ) ? $period_grace_per : '' ) ) ); ?>
+						</span>
+						<br /><br />
+						<span id="wpmem_product_fixed_period_explanation" class="description" style="margin-left: 24px;"><?php esc_html_e( "Grace period is the point at which expiration date is for following time period. For example, if user who register August 1st would be part of the following year's Sept 1 - Aug 31 membership, set this at 1 Month. Leave blank for no grace period.", 'wp-members' ); ?></span>
 						<br />
-
-						<span id="wpmem_product_fixed_period_explanation" style="margin-left: 24px;"><?php esc_html_e( "Point at which expiration date is for following time period. For example, if user who register August 1st would be part of the following year's Sept 1 - Aug 31 membership, set this at 1 Month. Leave blank for no grace period.", 'wp-members' ); ?></span>
-					</span>
+					</div>
 				</span>
 			</p>
 		<script>

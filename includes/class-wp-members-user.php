@@ -959,7 +959,7 @@ class WP_Members_User {
 	 *
 	 * @param string $product
 	 * @param int    $user_id
-	 * @param string $set_date
+	 * @param string $set_date Formatted date should be MySQL timestamp, or simply YYYY-MM-DD.
 	 */
 	function set_user_product( $product, $user_id = false, $set_date = false ) {
 
@@ -977,49 +977,10 @@ class WP_Members_User {
 	
 		// If membership is an expiration product.
 		if ( is_array( $expiration_period ) ) {
-			// If this is setting a specific date.
-			if ( $set_date ) {
-				$new_value = strtotime( $set_date );
-			} else {
-				// Either setting initial expiration based on set time period, or adding to the existing date (renewal/extending).
-				$raw_add = explode( "|", $wpmem->membership->products[ $product ]['expires'][0] );
-				$add_period = ( 1 < $raw_add[0] ) ? $raw_add[0] . " " . $raw_add[1] . "s" : $raw_add[0] . " " . $raw_add[1];
-					
-				// New single meta version.
-				if ( $prev_value ) {
-					$renew = true;
-					if ( isset( $wpmem->membership->products[ $product ]['no_gap'] ) && 1 == $wpmem->membership->products[ $product ]['no_gap'] ) {
-						// Add to the user's existing date (no gap).
-						$new_value = strtotime( $add_period, $prev_value );
-					} else {
-						// Add to the user either from end or now (whichever is later; i.e. allow gaps (default)).
-						if ( $this->has_access( $product, $user_id ) ) {
-							// if not expired, set from when they expire.
-							$new_value = strtotime( $add_period, $prev_value );
-						} else {
-							// if expired, set from today.
-							$new_value = strtotime( $add_period );
-						}
-					}
-				} else {
-					// User doesn't have this membershp. Go ahead and add it.
-					$new_value = strtotime( $add_period );
-				}
-			}
+			$new_value = $wpmem->membership->set_product_expiration( $product, $user_id, $set_date );
 		} else {
 			$new_value = true;
-		}	
-		
-		/**
-		 * Filter the expiration date.
-		 *
-		 * @since 3.3.2
-		 *
-		 * @param int|boolean  $new_value  Unix timestamp of new expiration, true|false if not an expiry product.
-		 * @param int|boolean  $prev_value The user's current value (prior to updating).
-		 * @param boolean      $renew      Is this a renewal transaction?
-		 */
-		$new_value = apply_filters( 'wpmem_user_product_set_expiration', $new_value, $prev_value, $renew );
+		}
 		
 		// Update product setting.
 		update_user_meta( $user_id, '_wpmem_products_' . $product, $new_value );
