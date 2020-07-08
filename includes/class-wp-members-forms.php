@@ -1550,7 +1550,13 @@ class WP_Members_Forms {
 		if ( isset( $wpmem_fields ) && is_array( $wpmem_fields ) ) {
 
 			unset( $wpmem_fields['username'] );
-
+			
+			if ( $is_woo ) {
+				// Woo has its own setting for password fields.
+				unset( $wpmem_fields['password'] );
+				unset( $wpmem_fields['confirm_password'] );
+			}
+				
 			foreach ( $wpmem_fields as $meta_key => $field ) {
 
 				$req = ( $field['required'] ) ? ( ( $is_woo ) ? ' <span class="required">*</span>' : ' <span class="req">' . __( '(required)' ) . '</span>' ) : '';

@@ -529,5 +529,23 @@ function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
 		
 	}
 	
-	return $field;
+	return $field;  
+}
+
+function wpmem_woo_reg_validate( $username, $email, $errors ) {
+
+	$fields = wpmem_fields();
+	
+	unset( $fields['username'] );
+	unset( $fields['password'] );
+	unset( $fields['confirm_password'] );
+	unset( $fields['user_email'] );
+	
+	foreach ( $fields as $key => $field_args ) {
+		if ( 1 == $field_args['required'] && empty( $_POST[ $key ] ) ) {
+			$message = sprintf( __( '%s is a required field.', 'wp-members' ), '<strong>' . $field_args['label'] . '</strong>' );
+			$errors->add( $key, $message );
+		}
+	}
+	return $errors;
 }
