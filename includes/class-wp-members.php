@@ -321,6 +321,16 @@ class WP_Members {
 	public $pwd_link = 0;
 	
 	/**
+	 * Temporary settings for login errors.
+	 * Will default to 0 until 3.4.0.
+	 *
+	 * @since 3.3.5
+	 * @access public
+	 * @var string
+	 */
+	public $login_error = 0;
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
@@ -492,6 +502,11 @@ class WP_Members {
 			add_filter( 'authenticate', array( $this->user, 'check_activated' ), 99, 3 ); 
 		}
 
+		// Replace login error object.
+		if ( 1 == $this->login_error ) {
+			add_filter( 'wpmem_login_failed_args', array( $this, 'login_error' ) );
+			add_filter( 'lostpassword_url',        array( $this, 'lost_pwd_url' ), 10, 2 );
+		}
 		/**
 		 * Fires after action and filter hooks load.
 		 *
@@ -2087,5 +2102,29 @@ class WP_Members {
 			$html = sprintf( '<a href="%s" id="%" class="%s">%s</a>', $link, $args['id'], $args['class'], $text );
 		}
 		return $html;
+	}
+
+	/**
+	 * Filters the password URL to point to the WP-Members process.
+	 *
+	 * @since 3.3.5
+	 */
+	function lost_pwd_url( $lostpwd_url, $redirect ) {
+		return wpmem_profile_url( 'pwdreset' );
+	}
+	
+	/** 
+	 * Filters the login error message to display the WP login error.
+	 *
+	 * @since 3.3.5
+	 */
+	function login_error( $args = array() ) {
+		if ( $this->error ) {
+			$args['heading_before'] = '';
+			$args['heading'] = '';
+			$args['heading_after'] = '';
+			$args['message'] = $this->error;
+		}
+		return $args;		
 	}
 } // End of WP_Members class.
