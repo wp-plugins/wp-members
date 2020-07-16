@@ -10,6 +10,7 @@ class WP_Members_Activation_Link {
 	public $activation_key_meta  = '_wpmem_activation_key';
 	public $activation_key_exp   = '_wpmem_activation_exp';
 	public $activation_confirm   = '_wpmem_activation_confirm';
+	public $validated_meta       = '_wpmem_account_validated';
 	
 	/**
 	 * Options.
@@ -32,9 +33,10 @@ class WP_Members_Activation_Link {
 		$this->success_message = __( 'Thank you for activating your account.', 'wp-members' );
 		$this->expired_message = __( 'Activation key was expired or invalid',  'wp-members' );
 		
-		add_action( 'wpmem_after_init',   array( $this, 'default_to_mod'     ) );
+		//add_action( 'wpmem_after_init',   array( $this, 'default_to_mod'     ) );
 		add_action( 'user_register',      array( $this, 'generate_key'       ) );
 		add_action( 'template_redirect',  array( $this, 'validate_key'       ) );
+		add_filter( 'authenticate',       array( $this, 'check_activated'    ), 99, 3 );
 		add_filter( 'wpmem_email_filter', array( $this, 'add_key_to_email'   ), 10, 3 );
 		add_filter( 'the_content',        array( $this, 'activation_success' ), 100 );
 		
@@ -90,13 +92,16 @@ class WP_Members_Activation_Link {
 	 *
 	 * @since 3.3.5
 	 *
-	 * @param  array   $arr
-	 * @param  array   $wpmem_fields
-	 * @param  array   $field_data
+	 * @global stdClass $wpmem
+	 * @param  array    $arr
+	 * @param  array    $wpmem_fields
+	 * @param  array    $field_data
 	 * @return array
 	 */
 	public function add_key_to_email( $arr, $wpmem_fields, $field_data ) {
 
+		global $wpmem;
+		
 		/**
 		 * Filter the return url
 		 *
@@ -104,15 +109,22 @@ class WP_Members_Activation_Link {
 		 */
 		$url = apply_filters( 'wpmem_activation_link_return_url', trailingslashit( wpmem_profile_url() ) );
 
+		$key  = get_user_meta( $arr['user_id'], $this->activation_key_meta, true );
+		$exp  = get_user_meta( $arr['user_id'], $this->activation_key_exp,  true );
+		$link = add_query_arg( array( 'a'=>'activate', 'key'=>$key ), $url );
+		
 		// Only do this for new registrations.
-		if ( $arr['toggle'] == 'newmod' ) {
-			// Get the stored key.
-			$key = get_user_meta( $arr['user_id'], $this->activation_key_meta, true );
-			$exp = get_user_meta( $arr['user_id'], $this->activation_key_exp, true );
+		$email_type = ( 1 == $wpmem->mod_reg ) ? 'newmod' : 'newreg';
+		if ( $arr['toggle'] == $email_type ) {
+			// Does email body have the [act_link] shortcode?
+			if ( strpos( $arr['body'], '[act_link]' ) ) {
+				$arr['body'] = str_replace( '[act_link]', $link, $arr['body'] );
+			} else {
 			// Add text and link to the email body.
 			$arr['body'] = $arr['body'] . "\r\n"
 				. $this->email_text
-				. add_query_arg( array( 'a'=>'activate', 'key'=>$key ), $url );
+				. $link;
+			}
 		}
 
 		return $arr;
@@ -152,7 +164,7 @@ class WP_Members_Activation_Link {
 						delete_user_meta( $user->ID, $this->activation_key_meta );
 						delete_user_meta( $user->ID, $this->activation_key_exp );
 						update_user_meta( $user->ID, $this->activation_confirm, time() );
-						update_user_meta( $user->ID, 'active', '1' );
+						update_user_meta( $user->ID, $this->validated_meta, '1' );
 						
 						/**
 						 * Fires when a user has successfully validated their account.
@@ -200,17 +212,44 @@ class WP_Members_Activation_Link {
 
 		return $content;
 	}
+
+	/**
+	 * Checks if a user is activated during user authentication.
+	 *
+	 * @since 3.3.5 Moved from core to user object.
+	 *
+	 * @param  object $user     The WordPress User object.
+	 * @param  string $username The user's username (user_login).
+	 * @param  string $password The user's password.
+	 * @return object $user     The WordPress User object.
+	 */ 
+	function check_activated( $user, $username, $password ) {
+		// Password must be validated.
+		$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
+
+		if ( ! $pass ) { 
+			return $user;
+		}
+
+		// Activation flag must be validated.
+		if ( ! get_user_meta( $user->ID, $this->validated_meta, true ) ) {
+			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
+		}
+
+		// If the user is validated, return the $user object.
+		return $user;
+	}
 	
 	public function send_welcome( $user_id ) {
 		if ( $this->send_welcome ) {
-			wpmem_email_to_user( $user->ID, '', 2 );
+			wpmem_email_to_user( $user_id, '', 2 );
 		}
 	}
 	
 	public function notify_admin( $user_id ) {
 		if ( $this->send_notify ) {
 			// global $wpmem;
-			wpmem_notify_admin( $user->ID ); //, $wpmem->fields );
+			wpmem_notify_admin( $user_id ); //, $wpmem->fields );
 		}	
 	}
 }
