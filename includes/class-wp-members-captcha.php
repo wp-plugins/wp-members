@@ -30,7 +30,7 @@ class WP_Members_Captcha {
 				return "recaptcha_v2";
 				break;
 			case 4:
-				return"recaptcha_v3";
+				return "recaptcha_v3";
 				break;
 			case 2:
 			default:
@@ -118,7 +118,7 @@ class WP_Members_Captcha {
 	 *     @type string field      The input tag and the CAPTCHA image.
 	 * }
 	 */
-	static function rs_captcha() {
+	static function rs_captcha( $return = 'string' ) {
 
 		global $wpmem;
 
@@ -173,15 +173,33 @@ class WP_Members_Captcha {
 			$size  = $wpmem_captcha->char_length;
 			$pre   = $wpmem_captcha_prefix;
 
-			return array( 
+			/**
+			 * Filter the RS CAPTCHA HTML.
+			 *
+			 * @since 3.3.5
+			 *
+			 * @param array
+			 */
+			$rows = apply_filters( 'wpmem_rs_captcha_rows', array( 
 				'label_text' => $wpmem->get_text( 'register_rscaptcha' ),
+				'code_size'  => esc_attr( $size ),
+				'prefix'     => $pre,
+				'img_src'    => esc_url( $src ),
+				'img_w'      => esc_attr( $img_w ),
+				'img_h'      => esc_attr( $img_h ),
 				'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
-				'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" />
-						<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />
-						<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />'
-			);
+				'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" />',
+				'hidden'     => '<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />',
+				'img'        => '<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />',
+			) );
+			
+			if ( 'array' == $return ) {
+				return $rows;
+			} else {
+				return $rows['label'] . $rows['field'] . $rows['hidden'] . $rows['img'];
+			}
 		} else {
-			return array( 'label' => '', 'label_text' => '', 'field' => "Really Simple CAPTCHA is not enabled" );
+			return ( 'array' == $return ) ? array( 'label' => '', 'label_text' => '', 'field' => "Really Simple CAPTCHA is not enabled" ) : "Really Simple CAPTCHA is not enabled";
 		}
 	}
 	
