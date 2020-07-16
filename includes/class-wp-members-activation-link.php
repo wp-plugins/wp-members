@@ -10,7 +10,6 @@ class WP_Members_Activation_Link {
 	public $activation_key_meta  = '_wpmem_activation_key';
 	public $activation_key_exp   = '_wpmem_activation_exp';
 	public $activation_confirm   = '_wpmem_activation_confirm';
-	public $validated_meta       = '_wpmem_account_validated';
 	
 	/**
 	 * Options.
@@ -164,7 +163,6 @@ class WP_Members_Activation_Link {
 						delete_user_meta( $user->ID, $this->activation_key_meta );
 						delete_user_meta( $user->ID, $this->activation_key_exp );
 						update_user_meta( $user->ID, $this->activation_confirm, time() );
-						update_user_meta( $user->ID, $this->validated_meta, '1' );
 						
 						/**
 						 * Fires when a user has successfully validated their account.
@@ -232,8 +230,9 @@ class WP_Members_Activation_Link {
 		}
 
 		// Activation flag must be validated.
-		if ( ! get_user_meta( $user->ID, $this->validated_meta, true ) ) {
-			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not been activated.', 'wp-members' ) );
+		$validated = get_user_meta( $user->ID, $this->activation_confirm, true );
+		if ( false == $validated ) {
+			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not confirmed their account.', 'wp-members' ) );
 		}
 
 		// If the user is validated, return the $user object.
