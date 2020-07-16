@@ -143,7 +143,8 @@ class WP_Members_Products {
 	 * }
 	 */
 	function get_post_products( $post_id ) {
-		$products = get_post_meta( $post_id, $this->post_meta, true );
+		$meta_val = get_post_meta( $post_id, $this->post_meta, true );
+		$products = ( $meta_val ) ? explode(',', $meta_val ) : array();
 		return $products;
 	}
 
