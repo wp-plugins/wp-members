@@ -55,7 +55,14 @@ class WP_Members_Pwd_Reset {
 		return $key;
 	}
 
-	// utility for getting the user ID by the password_reset_key
+	/**
+	 * Utility for getting the user ID by the password_reset_key.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string $key
+	 * @return mixed  $user->ID/false
+	 */
 	function get_user_by_pwd_key( $key ) {
 		// Get the user account the key is for.
 		$users = get_users( array(
@@ -72,29 +79,64 @@ class WP_Members_Pwd_Reset {
 		return false;
 	}
 	
-	// Check if key is expired.
+	/**
+	 * Check if key is expired.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $key
+	 * @param  int     $user_id
+	 * @return boolean
+	 */
 	function key_is_valid( $key, $user_id ) {
 		$expires = get_user_meta( $user_id, $this->reset_key_exp, true );	
 		return ( time() < $expires ) ? true : false;
 	}
 
-	// Include the key in the email to user.
+	/**
+	 * Add reset key to the email.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array  $arr
+	 * @param  array  $wpmem_fields
+	 * @param  array  $field_data
+	 * @return array  $arr
+	 */
 	function add_reset_key_to_email( $arr, $wpmem_fields, $field_data ) {
-		// Only do this for new registrations.
+
 		if ( $arr['toggle'] == 'repass' ) {
+			
 			// Get the stored key.
 			$key = $this->generate_reset_key( $arr['user_id'] );
 			$query_args = array(
 				'a'   => $this->form_action,
 				'key' => $key,
 			);
-			// Add text and link to the email body.
-			$arr['body'] = $arr['body'] . "\r\n"
-				. add_query_arg( $query_args, trailingslashit( wpmem_profile_url() ) );
+			
+			// Generate reset link.
+			$link = add_query_arg( $query_args, trailingslashit( wpmem_profile_url() ) );
+			
+			// Does email body have the [reset_link] shortcode?
+			if ( strpos( $arr['body'], '[reset_link]' ) ) {
+				$arr['body'] = str_replace( '[reset_link]', $link, $arr['body'] );
+			} else {
+				// Add text and link to the email body.
+				$arr['body'] = $arr['body'] . "\r\n"
+					. $link;
+			}
 		}
 		return $arr;
 	}
 
+	/**
+	 * Display page content to user.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $content
+	 * @return string  $content
+	 */
 	function display_content( $content ) {
 		if ( ! is_user_logged_in() && in_the_loop() && $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
 			// Define variables
@@ -151,6 +193,14 @@ class WP_Members_Pwd_Reset {
 		return $content;
 	}
 
+	/**
+	 * Add hidden form field for form action.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $hidden_fields
+	 * @return string  $hidden_fields
+	 */
 	function add_hidden_form_field( $hidden_fields, $action ) {
 		if ( $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
 			$hidden_fields = str_replace( 'pwdchange', $this->form_action, $hidden_fields );
@@ -159,6 +209,11 @@ class WP_Members_Pwd_Reset {
 		return $hidden_fields;
 	}
 	
+	/**
+	 * Get the wpmem action variable.
+	 *
+	 * @since 3.3.5
+	 */
 	function get_wpmem_action() {
 		global $wpmem; 
 		if ( 'pwdreset' == $wpmem->action && isset( $_POST['formsubmit'] ) ) {
@@ -192,6 +247,13 @@ class WP_Members_Pwd_Reset {
 		return;
 	}
 
+	/**
+	 * Changes the wpmem_regchk value.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $regchk
+	 */
 	function change_regchk( $regchk, $action ) {
 		global $wpmem;
 		if ( 'pwdreset_link' == $action && 'pwdresetsuccess' == $wpmem->regchk ) {
@@ -205,6 +267,10 @@ class WP_Members_Pwd_Reset {
 	/**
 	 * Change a user's password()
 	 * (A custom version of $wpmem->user->password_change().)
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  int  $user_id
 	 */
 	function change_password( $user_id ) {
 		if ( isset( $_POST['formsubmit'] ) ) {
@@ -240,6 +306,13 @@ class WP_Members_Pwd_Reset {
 		return "pwdchangesuccess";
 	}
 
+	/**
+	 * Filter the reset password form.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array  $args
+	 */
 	function reset_password_form( $args ) {
 		global $wpmem;
 		$args['inputs'][0]['name'] = $wpmem->get_text( 'login_username' );
