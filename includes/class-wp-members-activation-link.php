@@ -11,34 +11,57 @@ class WP_Members_Activation_Link {
 	public $activation_key_exp   = '_wpmem_activation_exp';
 	public $activation_confirm   = '_wpmem_activation_confirm';
 	
-	function __construct() {
+	/**
+	 * Options.
+	 *
+	 * @since 3.3.5
+	 */
+	public $send_welcome = true;
+	public $show_success = true;
+	public $send_notify  = true;
+	public $auto_delete  = true;
+	
+	/**
+	 * Initialize activation link feature.
+	 *
+	 * @since 3.3.5
+	 */
+	public function __construct() {
 		
-		$this->send_welcome    = true;
-		$this->show_success    = true;
-		$this->send_notify     = true;
-		$this->auto_delete     = true;
-		
-		$this->email_text      = __( 'Click to activate your account: ', 'wp-members' );
+		$this->email_text      = __( 'Click to activate your account: ',       'wp-members' );
 		$this->success_message = __( 'Thank you for activating your account.', 'wp-members' );
-		$this->expired_message = __( 'Activation key was expired or invalid', 'wp-members' );
+		$this->expired_message = __( 'Activation key was expired or invalid',  'wp-members' );
 		
-		add_action( 'wpmem_after_init', array( $this, 'default_to_mod' ) );
-		add_action( 'user_register', array( $this, 'generate_key' ) );
-		add_filter( 'wpmem_email_filter', array( $this, 'add_key_to_email' ), 10, 3 );
-		add_action( 'template_redirect', array( $this, 'validate_key' ) );
-		add_filter( 'the_content', array( $this, 'activation_success' ), 100 );
+		add_action( 'wpmem_after_init',   array( $this, 'default_to_mod'     ) );
+		add_action( 'user_register',      array( $this, 'generate_key'       ) );
+		add_action( 'template_redirect',  array( $this, 'validate_key'       ) );
+		add_filter( 'wpmem_email_filter', array( $this, 'add_key_to_email'   ), 10, 3 );
+		add_filter( 'the_content',        array( $this, 'activation_success' ), 100 );
+		
+		add_action( 'wpmem_account_validation_success', array( $this, 'send_welcome' ) );
+		add_action( 'wpmem_account_validation_success', array( $this, 'notify_admin' ) );
 	}
 	
-	function default_to_mod() {
+	/**
+	 * Default the site to moderated registration.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @todo This may be temporary. Re-evaluate and see if we can/need to make something specific to this feature.
+	 */
+	public function default_to_mod() {
 		global $wpmem;
 		$wpmem->mod_reg = 1;
 	}
 	
 	/**
-	 * Create an activation key for the
-	 * user at registration.
+	 * Create an activation key for the user at registration.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param int $user_id
 	 */
-	function generate_key( $user_id ) {
+	public function generate_key( $user_id ) {
 
 		// Generate a random key.
 		$key = md5( wp_generate_password() );
@@ -48,17 +71,31 @@ class WP_Members_Activation_Link {
 		add_user_meta( $user_id, $this->activation_key_exp, time() + 21600 );
 	}
 	
-	// Check if key is expired.
-	function key_is_valid( $key, $user_id ) {
+	/**
+	 * Check if key is expired.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $key
+	 * @param  int     $user_id
+	 * @return boolean
+	 */
+	private function key_is_valid( $key, $user_id ) {
 		$expires = get_user_meta( $user_id, $this->activation_key_exp, true );	
 		return ( time() < $expires ) ? true : false;
 	}
 	
 	/**
-	 * Include the activation key in the new user
-	 * registration email as an activation link.
+	 * Include the activation key in the new user registration email as an activation link.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array   $arr
+	 * @param  array   $wpmem_fields
+	 * @param  array   $field_data
+	 * @return array
 	 */
-	function add_key_to_email( $arr, $wpmem_fields, $field_data ) {
+	public function add_key_to_email( $arr, $wpmem_fields, $field_data ) {
 
 		/**
 		 * Filter the return url
@@ -82,10 +119,11 @@ class WP_Members_Activation_Link {
 	}
 
 	/**
-	 * Check for an activation key and if one exists,
-	 * validate and log in user.
+	 * Check for an activation key and if one exists, validate and log in user.
+	 *
+	 * @since 3.3.5
 	 */
-	function validate_key() {
+	public function validate_key() {
 		
 		// Check for activation key.
 		$key = ( 'activate' == wpmem_get( 'a', false, 'get' ) ) ? wpmem_get( 'key', false, 'get' ) : false;
@@ -115,18 +153,18 @@ class WP_Members_Activation_Link {
 						delete_user_meta( $user->ID, $this->activation_key_exp );
 						update_user_meta( $user->ID, $this->activation_confirm, time() );
 						update_user_meta( $user->ID, 'active', '1' );
+						
+						/**
+						 * Fires when a user has successfully validated their account.
+						 *
+						 * @since 3.3.5
+						 *
+						 * @param int $user_id
+						 */
+						do_action( 'wpmem_account_validation_success', $user->ID );
 
-						if ( $this->send_welcome ) {
-							// Send a welcome email
-							wpmem_email_to_user( $user->ID, '', 2 );
-						}
-
-						if ( $this->send_notify ) {
-							// Send a welcome email
-							global $wpmem;
-							wpmem_notify_admin( $user->ID, $wpmem->fields );
-						}
 						break;
+						
 					} else {
 						$this->validated = false;
 						break;
@@ -139,7 +177,17 @@ class WP_Members_Activation_Link {
 		}
 	}
 
-	function activation_success( $content ) {
+	/**
+	 * Display messaging.
+	 *
+	 * Shows success if key validates, expired if it does not.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  string  $content
+	 * @return string  $content
+	 */
+	public function activation_success( $content ) {
 
 		if ( $this->show_success && 'activate' == wpmem_get( 'a', false, 'get' ) && isset( $this->validated ) ) {
 
@@ -151,5 +199,18 @@ class WP_Members_Activation_Link {
 		}
 
 		return $content;
+	}
+	
+	public function send_welcome( $user_id ) {
+		if ( $this->send_welcome ) {
+			wpmem_email_to_user( $user->ID, '', 2 );
+		}
+	}
+	
+	public function notify_admin( $user_id ) {
+		if ( $this->send_notify ) {
+			// global $wpmem;
+			wpmem_notify_admin( $user->ID ); //, $wpmem->fields );
+		}	
 	}
 }
