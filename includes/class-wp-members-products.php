@@ -143,8 +143,16 @@ class WP_Members_Products {
 	 * }
 	 */
 	function get_post_products( $post_id ) {
-		$meta_val = get_post_meta( $post_id, $this->post_meta, true );
-		$products = ( $meta_val ) ? explode(',', $meta_val ) : array();
+		$products = get_post_meta( $post_id, $this->post_meta, true );
+		/**
+		 * Filter product access by post ID.
+		 *
+		 * @since 3.3.5
+		 *
+		 * @param array $post_products
+		 * @param int   $post_id
+		 */
+		$products = apply_filters( 'wpmem_post_products', $products, $post_id );
 		return $products;
 	}
 
