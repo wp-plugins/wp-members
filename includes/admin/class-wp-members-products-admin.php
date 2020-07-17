@@ -583,8 +583,15 @@ class WP_Members_Products_Admin {
 	 * @param  array $columns
 	 * @return array $columns
 	 */
-	function user_columns( $columns ){
-		$columns['wpmem_product'] = __( 'Membership', 'wp-members' );
+	function user_columns( $columns ) {
+		/**
+		 * Filters the membership column name.
+		 *
+		 * @since 3.3.5
+		 *
+		 * @param string $column_name
+		 */
+		$columns['wpmem_product'] = apply_filters( 'wpmem_user_columns_membership_title', __( 'Membership', 'wp-members' ) );
 		return $columns;	
 	}
 	
@@ -606,11 +613,22 @@ class WP_Members_Products_Admin {
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
 					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
-						$display[] = $wpmem->membership->products[ $meta ]['title'];
+						$expires = ( $user_products[ $meta ] > 1 ) ? ' expires: ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
+						$display[] = $wpmem->membership->products[ $meta ]['title'] . $expires;
 					}
 				}
 			}
-			return implode( ", ", $display );
+			/**
+			 * Filter the membership column value (per user).
+			 *
+			 * @since 3.3.5
+			 *
+			 * @param string $display
+			 * @param array  $display_rows
+			 * @param int    $user_id
+			 * @param array  $user_products
+			 */
+			return apply_filters( 'wpmem_user_columns_membership_value', implode( "<br />", $display ), $display, $user_id, $user_products );
 		}
 		return $val;
 	}
