@@ -176,7 +176,7 @@ class WP_Members_Admin_Tab_Options {
 								<h3><?php _e( 'Feature Settings', 'wp-members' ); ?></h3>
 								<?php
 								$rows = array(
-									array(__('Activation Link', 'wp-members'),'wpmem_settings_act_link',__('Send activation link on new registrartion. (Requires additional configuration)','wp-members'),'act_link'),
+									array(__('Activation Link', 'wp-members'),'wpmem_settings_act_link',__('Send activation link on new registration. (Requires additional configuration)','wp-members'),'act_link'),
 									array(__('Password Reset Link', 'wp-members'),'wpmem_settings_pwd_link',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_link'),
 									array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
 								);
@@ -557,10 +557,11 @@ class WP_Members_Admin_Tab_Options {
 			 * out later.
 			 */
 			if ( isset( $_POST['wpmem_settings_moderate'] ) == 1 ) {
-				global $current_user;
-				wp_get_current_user();
-				$user_ID = $current_user->ID;
-				update_user_meta( $user_ID, 'active', 1 );
+				update_user_meta( get_current_user_id(), 'active', 1 );
+			}
+			
+			if ( isset( $_POST['wpmem_settings_act_link'] ) == 1 ) {
+				update_user_meta( get_current_user_id(), '_wpmem_activation_confirm', time() );
 			}
 
 			WP_Members_Admin_Tab_Options::save_settings( $wpmem_newsettings );

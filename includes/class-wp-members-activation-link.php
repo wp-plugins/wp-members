@@ -160,9 +160,7 @@ class WP_Members_Activation_Link {
 						wp_set_current_user( $user->ID );
 
 						// Delete activation_key meta and set active.
-						delete_user_meta( $user->ID, $this->activation_key_meta );
-						delete_user_meta( $user->ID, $this->activation_key_exp );
-						update_user_meta( $user->ID, $this->activation_confirm, time() );
+						$this->set_as_confirmed( $user->ID );
 						
 						/**
 						 * Fires when a user has successfully validated their account.
@@ -250,5 +248,11 @@ class WP_Members_Activation_Link {
 			// global $wpmem;
 			wpmem_notify_admin( $user_id ); //, $wpmem->fields );
 		}	
+	}
+	
+	public function set_as_confirmed( $user_id ) {
+		delete_user_meta( $user_id, $this->activation_key_meta );
+		delete_user_meta( $user_id, $this->activation_key_exp );
+		update_user_meta( $user_id, $this->activation_confirm, time() );
 	}
 }
