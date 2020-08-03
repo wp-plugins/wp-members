@@ -163,7 +163,7 @@ if ( ! function_exists( 'wpmem_inc_regemail' ) ):
  */
 function wpmem_inc_regemail( $user_id, $password, $toggle, $wpmem_fields = null, $field_data = null, $custom = null ) {
 	global $wpmem;
-	wpmem_write_log( "wpmem_inc_regemail() is deprecated since WP-Members 3.2.0. Use $ wpmem->email->to_user() instead" );
+	wpmem_write_log( "wpmem_inc_regemail() is deprecated since WP-Members 3.2.0. Use wpmem_email_to_user() instead" );
 	wpmem_email_to_user( $user_id, $password, $toggle, $wpmem_fields, $field_data, $custom );
 	return;
 }
