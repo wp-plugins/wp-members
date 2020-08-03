@@ -2091,13 +2091,9 @@ class WP_Members {
 		}
 		
 		if ( 'button' == $args['format'] ) {
-			if ( wpmem_current_url() != wpmem_login_url() || is_user_logged_in() ) {
-				$html = '<form action="' . $link . '" id="' . $args['id'] . '" class="' . $args['class'] . '">';
-				$html.= ( is_user_logged_in() ) ? '<input type="hidden" name="a" value="logout" />' : '';
-				$html.= '<input type="submit" value="' . $text . '" /></form>';
-			} else {
-				$html = '';
-			}		
+			$html = '<form action="' . $link . '" id="' . $args['id'] . '" class="' . $args['class'] . '">';
+			$html.= ( is_user_logged_in() ) ? '<input type="hidden" name="a" value="logout" />' : '';
+			$html.= '<input type="submit" value="' . $text . '" /></form>';
 		} else {
 			$html = sprintf( '<a href="%s" id="%" class="%s">%s</a>', $link, $args['id'], $args['class'], $text );
 		}

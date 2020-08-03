@@ -32,19 +32,20 @@ class WP_Members_Shortcodes {
 		 */
 		do_action( 'wpmem_load_shortcodes' );
 		
-		add_shortcode( 'wpmem_field',      array( $this, 'fields'       ) );
-		add_shortcode( 'wpmem_logged_in',  array( $this, 'logged_in'    ) );
-		add_shortcode( 'wpmem_logged_out', array( $this, 'logged_out'   ) );
-		add_shortcode( 'wpmem_logout',     array( $this, 'logout'       ) );
-		add_shortcode( 'wpmem_form',       array( $this, 'forms'        ) );
-		add_shortcode( 'wpmem_show_count', array( $this, 'user_count'   ) );
-		add_shortcode( 'wpmem_profile',    array( $this, 'user_profile' ) );
-		add_shortcode( 'wpmem_loginout',   array( $this, 'loginout'     ) );
-		add_shortcode( 'wpmem_tos',        array( $this, 'tos'          ) );
-		add_shortcode( 'wpmem_avatar',     array( $this, 'avatar'       ) );
-		add_shortcode( 'wpmem_login_link', array( $this, 'login_link'   ) );
-		add_shortcode( 'wpmem_reg_link',   array( $this, 'login_link'   ) );
-		add_shortcode( 'wpmem_form_nonce', array( $this, 'form_nonce'   ) );
+		add_shortcode( 'wpmem_field',        array( $this, 'fields'       ) );
+		add_shortcode( 'wpmem_logged_in',    array( $this, 'logged_in'    ) );
+		add_shortcode( 'wpmem_logged_out',   array( $this, 'logged_out'   ) );
+		add_shortcode( 'wpmem_logout',       array( $this, 'logout'       ) );
+		add_shortcode( 'wpmem_form',         array( $this, 'forms'        ) );
+		add_shortcode( 'wpmem_show_count',   array( $this, 'user_count'   ) );
+		add_shortcode( 'wpmem_profile',      array( $this, 'user_profile' ) );
+		add_shortcode( 'wpmem_loginout',     array( $this, 'loginout'     ) );
+		add_shortcode( 'wpmem_tos',          array( $this, 'tos'          ) );
+		add_shortcode( 'wpmem_avatar',       array( $this, 'avatar'       ) );
+		add_shortcode( 'wpmem_login_link',   array( $this, 'login_link'   ) );
+		add_shortcode( 'wpmem_login_button', array( $this, 'login_button' ) );
+		add_shortcode( 'wpmem_reg_link',     array( $this, 'login_link'   ) );
+		add_shortcode( 'wpmem_form_nonce',   array( $this, 'form_nonce'   ) );
 		
 		/**
 		 * Fires after shortcodes load.
@@ -798,6 +799,23 @@ class WP_Members_Shortcodes {
 			$link = wpmem_login_url( wpmem_current_url() );
 		}
 		$content = '<a href="' . $link . '">' . $text . '</a>';
+		return do_shortcode( $content );
+	}
+	
+	/**
+	 * Generages a login link formatted as a button.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param  array  $atts {
+	 *     The shortcode attributes.
+	 * }
+	 * @param  string $content
+	 * @param  string $tag
+	 * @return string $content
+	 */
+	function login_button( $atts, $content, $tag ) {
+		$content = wpmem_loginout( array( 'format'=>'button' ) );
 		return do_shortcode( $content );
 	}
 	

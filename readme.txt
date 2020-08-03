@@ -139,6 +139,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 * Added optional login error message to fully utilize the WP login error.  This option will become the default setting in 3.4.0.
 * Updated the default product restricted message to display required membership(s). This eliminates the custom message string "product_restricted" and replaces with two new ones: product_restricted_single and product_restricted_multiple. (Note this only affects the default message if no custom membership message is established in the membership properties).
 * Added login/logout button to login/logout link api function wpmem_loginout() and shortcode [wpmem_loginout]. It will continue to display a hyperlink by default, but accepts arguments to display as a button. Also added ID and class options for link or button.
+* Added [wpmem_login_button] to directly call the button format of [wpmem_loginout].
 * Captcha options now have a static function that can be used to directly call captcha and validation.
 * Fixed an issue where the Really Simple Captcha "not installed" error was returned as a string but evaluated as an array.
 * Fixed an issue that caused the "membership" field selector/type to display as a text input in Users > Add New instead of a dropdown/select.
