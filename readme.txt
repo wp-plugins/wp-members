@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: 3.3.5
 License: GPLv2
 
@@ -35,7 +35,11 @@ WP-Members allows you to restrict content as restricted or hidden, limiting acce
 
 A full Users Guide is [available here](https://rocketgeek.com/plugins/wp-members/docs/). The guide outlines the installation process, and also documents how to use all of the settings.
 
-Get support along with all of the plugin's premium extensions in one [cost saving Pro Bundle!](https://rocketgeek.com/product/wp-members-pro-bundle/)
+= Support =
+
+There is (freely available documentation on the plugin's support site)[https://rocketgeek.com/plugins/wp-members/docs/]. Your question may be answered there. If you need assistance configuring the plugin or have questions on how to implement or customize features, [premium support is available](https://rocketgeek.com/product/wp-members-plugin-support/).
+
+You can get priority support along with all of the plugin's premium extensions in one [cost saving Pro Bundle!](https://rocketgeek.com/product/wp-members-pro-bundle/)
 
 = Premium Support =
 
@@ -144,6 +148,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 * Added wpmem_is_user_activated filter hook.
 * wpmem_activate_user() now accepts a "notify" argument (defaults to true, set to false to not send a notification email).
 * Added wpmem_get_users_by_meta(), wpmem_get_pending_users(), wpmem_get_activated_users(), and wpmem_get_deactivated_users().
+* Added manage_options capability requirement for membership products custom post type.
 * Updated WooCommerce registration handling.
 
 = 3.3.4 =
