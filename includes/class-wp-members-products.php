@@ -311,6 +311,16 @@ class WP_Members_Products {
 		
 		global $wpmem;
 		
+		$args = array( 'capabilities' => 'manage_options', );
+		/**
+		 * Filter customizable elements of the membership custom post type.
+		 *
+		 * @since 3.3.5
+		 *
+		 * @param array
+		 */
+		$args = apply_filters( 'wpmem_membership_cpt_args', $args );
+		
 		$singular = __( 'Product', 'wp-members' );
 		$plural   = __( 'Products', 'wp-members' );
 
@@ -352,6 +362,14 @@ class WP_Members_Products {
 			'query_var'             => 'membership_product',
 			'rewrite'               => false,
 			'capability_type'       => 'page',
+			'capabilities'          => array(
+				'publish_posts' => $args['capabilities'],
+				'edit_posts'    => $args['capabilities'],
+				'delete_posts'  => $args['capabilities'],
+				'edit_post'     => $args['capabilities'],
+				'delete_post'   => $args['capabilities'],
+				'read_post'     => $args['capabilities'],
+			),
 			'show_in_rest'          => false,
 			//'register_meta_box_cb'  => '', // callback for meta box
 		);
