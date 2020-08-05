@@ -445,9 +445,9 @@ class WP_Members_Products {
 				}
 			} else {
 				// User doesn't have this membershp. Go ahead and add it.
-				
+		
 				// If we are using fixed period expiration, calculate the expiration date
-				if ( isset( $this->products[ $product ] ) && '' != $this->products[ $product ]['end'] ) {
+				if ( isset( $this->products[ $product ] ) && isset( $this->products[ $product ]['fixed_period'] ) ) {
 					// Calculate the fixed period expiration.
 					$new_value = $this->calculate_fixed_period ( $product );
 				} else {
