@@ -623,6 +623,7 @@ class WP_Members {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once( $this->path . 'includes/cli/class-wp-members-cli.php' );
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
+			require_once( $this->path . 'includes/cli/class-wp-members-cli-settings.php' );
 		}
 	}
 
@@ -645,16 +646,13 @@ class WP_Members {
 		 */
 		do_action( 'wpmem_pre_admin_init' );
 
-		// Initilize the admin api.
-		if ( is_admin() ) {
-			/**
-			 * Load the admin api class.
-			 *
-			 * @since 3.1.0
-			 */	
-			include_once( $this->path . 'includes/admin/class-wp-members-admin-api.php' );
-			$this->admin = new WP_Members_Admin_API;
-		}
+		/**
+		 * Load the admin api class.
+		 *
+		 * @since 3.1.0
+		 */	
+		include_once( $this->path . 'includes/admin/class-wp-members-admin-api.php' );
+		$this->admin = new WP_Members_Admin_API;
 
 		/**
 		 * Fires after initialization of admin options.

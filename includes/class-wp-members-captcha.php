@@ -22,9 +22,13 @@ class WP_Members_Captcha {
 	 *
 	 * @since 3.3.5
 	 */
-	static function type() {
+	static function type( $decode = false ) {
 		global $wpmem;
-		switch ( $wpmem->captcha ) {
+		$value = ( false !== $decode ) ? $decode : $wpmem->captcha;
+		switch ( $value ) {
+			case 0:
+				return "Disabled";
+				break;
 			case 1:
 			case 3:
 				return "recaptcha_v2";
