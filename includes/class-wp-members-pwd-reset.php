@@ -49,9 +49,20 @@ class WP_Members_Pwd_Reset {
 	 * @return  string  $key
 	 */
 	function generate_reset_key( $user_id ) {
+		
 		$key = md5( wp_generate_password() );
+		
+		/**
+		 * Filter the key expiration.
+		 *
+		 * @since 3.3.5
+		 *
+		 * @param string $key_expires
+		 */
+		$key_expires = apply_filters( 'wpmem_reset_key_exp', ( time() + 21600 ) );
+		
 		update_user_meta( $user_id, $this->reset_key_meta, $key );
-		update_user_meta( $user_id, $this->reset_key_exp, time() + 21600 );
+		update_user_meta( $user_id, $this->reset_key_exp, $key_expires );
 		return $key;
 	}
 
