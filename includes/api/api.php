@@ -401,4 +401,18 @@ function wpmem_is_rest() {
 	return $wpmem->is_rest;
 }
 
+/**
+ * Gets registration type.
+ *
+ * @since 3.3.5
+ *
+ * @global  stdClass  $wpmem
+ * @param   string    $type (wpmem|native|add_new|woo|woo_checkout)
+ * @return  boolean
+ */
+function wpmem_is_reg_type( $type ) {
+	global $wpmem;
+	return $wpmem->reg_type[ 'is_' . $type ];
+}
+
 // End of file.

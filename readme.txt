@@ -151,6 +151,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 * Added wpmem_get_users_by_meta(), wpmem_get_pending_users(), wpmem_get_activated_users(), and wpmem_get_deactivated_users().
 * Added manage_options capability requirement for membership products custom post type.
 * Updated WooCommerce registration handling.
+* Added wpmem_is_reg_type(). Can be used withing wpmem_post_register_data to determine which registration type is being triggered.
 
 = 3.3.4 =
 
