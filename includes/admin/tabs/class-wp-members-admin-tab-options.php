@@ -525,6 +525,11 @@ class WP_Members_Admin_Tab_Options {
 					$post_arr[] = $key;
 				}
 			}
+			
+			// If activation link is being enabled, make sure current admin is marked as activated.
+			if ( 1 == $wpmem_newsettings['act_link'] && 0 == $wpmem->act_link ) {
+				update_user_meta( get_current_user_id(), '_wpmem_user_confirmed', time() );
+			}
 
 			// Leave form tag settings alone.
 			if ( isset( $wpmem->form_tags ) ) {

@@ -393,7 +393,7 @@ class WP_Members {
 			$this->pwd_reset  = new WP_Members_Pwd_Reset;
 		}
 		if ( 1 == $this->act_link ) {
-			$this->act_newreg = new WP_Members_Activation_Link;
+			$this->act_newreg = new WP_Members_Validation_Link;
 		}
 		
 		// @todo Is this a temporary fix?
@@ -598,7 +598,6 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		require_once( $this->path . 'includes/class-wp-members-activation-link.php' );
 		require_once( $this->path . 'includes/class-wp-members-api.php' );
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-captcha.php' );
@@ -610,6 +609,7 @@ class WP_Members {
 		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
 		require_once( $this->path . 'includes/class-wp-members-user.php' );
 		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
+		require_once( $this->path . 'includes/class-wp-members-validation-link.php' );
 		require_once( $this->path . 'includes/class-wp-members-widget.php' );	
 		require_once( $this->path . 'includes/api/api.php' );
 		require_once( $this->path . 'includes/api/api-email.php' );
