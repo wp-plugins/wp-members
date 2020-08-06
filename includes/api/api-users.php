@@ -857,7 +857,7 @@ function wpmem_get_users_by_meta( $meta, $value = "EXISTS" ) {
 		}
 		return $users;
 	} else {
-		return false;
+		return array();
 	}
 }
 

@@ -5,15 +5,21 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	class WP_Members_CLI {
 
 		public function __construct() {}
-
-		public function user( $args, $assoc_args ) {
-			// is user by id, email, or login
-			$user = get_user_by( 'login', $args[0] );
-			$all  = ( $assoc_args['all'] ) ? true : false;
-			$this->display_user_detail( $user->ID, $all );
-		}
 		
+		/**
+		 * Gets status of a post.
+		 *
+		 * ## OPTIONS
+		 *
+		 * <post_ID>
+		 * : The post ID to check.
+		 *
+		 * @since 3.3.5
+		 */
 		public function post_status( $args, $assoc_args ) {
+			if ( false === get_post_status ( $args[0] ) ) {
+				WP_CLI::error( 'No post id ' . $args[0] . ' exists. Try wp post list' );
+			}
 			if ( true === wpmem_is_hidden( $args[0] ) ) {
 				$line = 'post ' . $args[0] . ' is hidden';
 			} else {
@@ -22,32 +28,69 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::line( $line );
 		}
 		
+		/**
+		 * Gets a post block status.
+		 *
+		 * ## OPTIONS
+		 *
+		 * <post_ID>
+		 * : The ID of the post to check.
+		 *
+		 * @since 3.3.5
+		 */
 		public function get_block_value( $args ) {
 			WP_CLI::line( 'post block setting: ' . wpmem_get_block_setting( $args[0] ) );
 		}
 		
+		/**
+		 * Refreshes the hidden post array.
+		 *
+		 * @since 3.3.5
+		 */
 		public function refresh_hidden_posts() {
 			wpmem_update_hidden_posts();
-			WP_CLI::line( 'hidden posts refreshed' );
+			WP_CLI::success( 'hidden posts refreshed' );
 		}
 		
+		/**
+		 * Gets a list of hidden posts.
+		 *
+		 * @since 3.3.5
+		 */
 		public function get_hidden_posts() {
 			
 			$hidden_posts = wpmem_get_hidden_posts();
-			foreach ( $hidden_posts as $post_id ) {
-				 $list[] = array(
-					 'id' => $post_id,
-					 'title' => get_the_title( $post_id ),
-					 'url' => get_permalink( $post_id ),
-				 );
+			
+			if ( empty( $hidden_posts ) ) {
+				WP_CLI::line( 'There are no hidden posts' );
+			} else {
+				foreach ( $hidden_posts as $post_id ) {
+					 $list[] = array(
+						 'id' => $post_id,
+						 'title' => get_the_title( $post_id ),
+						 'url' => get_permalink( $post_id ),
+					 );
+				}
+
+				WP_CLI::line( 'WP-Members hidden posts:' );
+				$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'id', 'title', 'url' ) );
+				$formatter->display_items( $list );
 			}
-			
-			WP_CLI::line( 'WP-Members hidden posts:' );
-			$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'id', 'title', 'url' ) );
-			$formatter->display_items( $list );
-			
 		}
 		
+		/**
+		 * Sets the block status of a post.
+		 *
+		 * ## OPTIONS
+		 *
+		 * <post_ID>
+		 * : The post ID to set.
+		 *
+		 * <unblock|unrestrict|hide|block|restrict>
+		 * : The status to set.
+		 *
+		 * @since 3.3.5
+		 */
 		public function set_post_status( $args, $assoc_args ) {
 			switch( $args[1] ) {
 				case 'unblock':
@@ -65,22 +108,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			}
 			update_post_meta( $args[0], '_wpmem_block', $val );
 			WP_CLI::line( 'Set post id ' . $args[0] . ' as ' . $line );
-		}
-
-		private function display_user_detail( $user_id, $all ) {
-			WP_CLI::line( __( 'User: %s', 'wp-members' ) );
-			
-			$values = wpmem_user_data( $user_id, $all );
-			foreach ( $values as $key => $meta ) {
-				 $list[] = array(
-					 'meta' => $key,
-					 'value' => $meta,
-				 );
-			}
-			
-			$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'meta', 'value' ) );
-
-			$formatter->display_items( $list );
 		}
 
 	}
