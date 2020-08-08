@@ -8,14 +8,18 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		 *
 		 * ## OPTIONS
 		 *
-		 * [--id=<user_id>]
+		 * --id=<user_id>
 		 * : The WP ID of the user to activate.
 		 *
 		 * @since 3.3.5
 		 */
 		public function activate( $args, $assoc_args ) {
-
-			$validation = $this->activate_validation( $assoc_args );
+			global $wpmem;
+			if ( 1 == $wpmem->mod_reg ) {
+				$validation = $this->validate_user_id( $assoc_args['id'] );
+			} else {
+				WP_CLI::error( __( 'Moderated registration is not enabled in WP-Members options.', 'wp-members' ) );
+			}
 
 			if ( true === $validation ) {
 
@@ -42,13 +46,19 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		 *
 		 * ## OPTIONS
 		 *
-		 * [--id=<user_id>]
+		 * --id=<user_id>
 		 * : The WP ID of the user to deactivate.
 		 *
 		 * @since 3.3.5
 		 */
 		public function deactivate( $args, $assoc_args ) {
-			$validation = $this->activate_validation( $assoc_args );
+			global $wpmem;
+			if ( 1 == $wpmem->mod_reg ) {
+				$validation = $this->validate_user_id( $assoc_args['id'] );
+			} else {
+				WP_CLI::error( __( 'Moderated registration is not enabled in WP-Members options.', 'wp-members' ) );
+			}
+			
 			if ( true === $validation ) {
 				wpmem_deactivate_user( $assoc_args['id'] );
 				WP_CLI::success( __( 'User deactivated.', 'wp-members' ) );
@@ -62,23 +72,20 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		 *
 		 * @since 3.3.5
 		 */
-		private function activate_validation( $assoc_args ) {
+		private function validate_user_id( $user_id ) {
 			global $wpmem;
-			if ( 1 == $wpmem->mod_reg ) {
-				$user_id = ( isset( $assoc_args['id'] ) ) ? $assoc_args['id'] : false;
+			
+			$user_id = ( isset( $user_id ) ) ? $user_id : false;
 
-				if ( $user_id ) {
-					// Is the user ID and actual user?
-					if ( wpmem_is_user( $user_id ) ) {
-						return true;
-					} else {
-						WP_CLI::error( __( 'Invalid user ID. Please specify a valid user.', 'wp-members' ) );
-					}
+			if ( $user_id ) {
+				// Is the user ID and actual user?
+				if ( wpmem_is_user( $user_id ) ) {
+					return true;
 				} else {
-					WP_CLI::error( __( 'No user id specified. Must specify user id as --id=123', 'wp-members' ) );
+					WP_CLI::error( __( 'Invalid user ID. Please specify a valid user. Try `wp user list`.', 'wp-members' ) );
 				}
 			} else {
-				WP_CLI::error( __( 'Moderated registration is not enabled in WP-Members options.', 'wp-members' ) );
+				WP_CLI::error( __( 'No user id specified. Must specify user id as --id=123', 'wp-members' ) );
 			}
 		}
 
@@ -205,6 +212,25 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'meta', 'value' ) );
 
 			$formatter->display_items( $list );
+		}
+		
+		/**
+		 * Manually set a user as confirmed.
+		 *
+		 * ## OPTIONS
+		 *
+		 * --id=<user_id>
+		 * : The WP ID of the user to activate.
+		 *
+		 * @since 3.3.5
+		 */
+		public function confirm( $args, $assoc_args ) {
+			global $wpmem;
+			$validation = $this->validate_user_id( $assoc_args['id'] );
+			if ( true === $validation ) {
+				wpmem_set_user_as_confirmed( $assoc_args['id'] );
+				WP_CLI::success( 'User confirmed' );
+			}
 		}
 	}
 }

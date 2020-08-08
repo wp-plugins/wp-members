@@ -27,7 +27,7 @@ class WP_Members_CLI_Settings {
 	 * @since 3.3.5
 	 */
 	public function content() {
-		$this->_list( array( 'content' ), array() );	
+		$this->list_settings( array( 'content' ), array() );	
 	}
 	
 	/**
@@ -36,7 +36,7 @@ class WP_Members_CLI_Settings {
 	 * @since 3.3.5
 	 */
 	public function options() {
-		$this->_list( array( 'options' ), array() );
+		$this->list_settings( array( 'options' ), array() );
 	}
 	
 	/**
@@ -47,7 +47,7 @@ class WP_Members_CLI_Settings {
 	 * @param  array  $args
 	 * @param  array  $assoc_args
 	 */
-	private function _list( $args, $assoc_args ) {
+	private function list_settings( $args, $assoc_args ) {
 		
 		global $wpmem;
 		
@@ -59,7 +59,7 @@ class WP_Members_CLI_Settings {
 		if ( 'content' == $args[0] ) {
 
 			// @todo Add custom post types, and look for admin where all possible post types are assembled.
-			$post_types = array( 'post', 'page' );
+			$post_types = array_merge( array( 'post', 'page' ), $wpmem->post_types );
 
 			foreach( $post_types as $post_type ) {
 				foreach ( $settings as $setting => $description ) {
@@ -89,6 +89,7 @@ class WP_Members_CLI_Settings {
 
 				$list[] = array( 'Setting' => '', 'Description' => '', 'Value' => '', 'Option' => '' );
 			}
+			
 		} else {
 			foreach ( $settings as $setting => $description ) {
 				if ( 'captcha' == $setting ) {
@@ -108,6 +109,63 @@ class WP_Members_CLI_Settings {
 	
 		$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'Description', 'Setting', 'Value', 'Option' ) );
 		$formatter->display_items( $list ); 
+	}
+
+	/**
+	 * List custom post types for WP-Members management.
+	 *
+	 * @since 3.3.5
+	 */
+	public function post_types() {
+		global $wpmem;
+		$post_types = $wpmem->admin->post_types();
+		foreach ( $post_types as $post_type ) {
+			$enabled = ( array_key_exists( $post_type, $wpmem->post_types ) ) ? "Enabled" : "Disabled";
+			$list[] = array(
+				'Post Type' => $post_type,
+				'Value' => $enabled,
+			);
+		}
+		WP_CLI::line( 'Custom post type settings for WP-Members:' );
+		$formatter = new \WP_CLI\Formatter( $assoc_args, array( 'Post Type', 'Value' ) );
+		$formatter->display_items( $list ); 
+	}
+	
+	/**
+	 * Manage post type.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--enable=<post_type>]
+	 * : enable the specified post type.
+	 *
+	 * [--disable=<post_type>]
+	 * : disable the specified post type.
+	 *
+	 * @since 3.3.5
+	 */
+	public function post_type( $args, $assoc_args ) {
+		global $wpmem;
+		if ( isset( $assoc_args['enable'] ) || isset( $assoc_args['disable'] ) ) {
+			$post_types = $wpmem->admin->post_types();
+			if ( ( isset( $assoc_args['enable'] ) && ! array_key_exists( $assoc_args['enable'], $post_types ) ) || ( isset( $assoc_args['disable'] ) && ! array_key_exists( $assoc_args['disable'], $post_types ) ) ) {
+				WP_CLI::error( 'Not an available post type. Try wp mem settings post_types' );
+			}
+			// Handle disable.
+			if ( isset( $assoc_args['disable'] ) ) {
+				unset( $wpmem->post_types[ $assoc_args['disable'] ] );
+				$this->update_option( 'post_types', $wpmem->post_types );
+				WP_CLI::success( 'Disabled ' . $assoc_args['disable'] . ' post type.' );
+			}
+			if ( isset( $assoc_args['enable'] ) ) {
+				$cpt_obj = get_post_type_object( $assoc_args['enable'] );	
+				$new_post_types = array_merge($wpmem->post_types, array( $cpt_obj->name => $cpt_obj->labels->name ) );
+				$this->update_option( 'post_types', $new_post_types );
+				WP_CLI::success( 'Enabled ' . $assoc_args['enable'] . ' post type.' );
+			}
+		} else {
+			WP_CLI::error( 'Must specify an option: --enable=<post_type> or --disable=<post_type>' );
+		}
 	}
 	
 	/**
@@ -172,25 +230,25 @@ class WP_Members_CLI_Settings {
 	 *
 	 * ## OPTIONS
 	 *
-	 * <list>
+	 * [<list>]
 	 * : Lists all page settings.
 	 *
-	 * <clear>
+	 * [<clear>]
 	 * : Clears page or pages specified.
 	 *
-	 * <set>
+	 * [<set>]
 	 * : Set a page ID for the user page.
 	 *
 	 * [--all]
 	 * : used with <clear> option, clears all pages.
 	 *
-	 * [--login=<ID>]
+	 * [--login[=<ID>]]
 	 * : Leave empty (--login) to clear, or set a page ID for the login page.
 	 *
-	 * [--register=<ID>]
+	 * [--register[=<ID>]]
 	 * : Leave empty (--register) to clear, or set a page ID for the registration page.
 	 *
-	 * [--profile=<ID>]
+	 * [--profile[=<ID>]]
 	 * : Leave empty (--profile) to clear, or set a page ID for the profile page.
 	 *
 	 * ## EXAMPLES
