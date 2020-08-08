@@ -866,17 +866,44 @@ function wpmem_get_users_by_meta( $meta, $value = "EXISTS" ) {
  *
  * @since 3.3.5
  *
+ * @return array $users An array of user IDs where meta key "active" does not exist.
  */
 function wpmem_get_pending_users() {
 	return wpmem_get_users_by_meta( 'active', false );
 }
 
+/**
+ * Gets a list of all activated users.
+ *
+ * @since 3.3.5
+ *
+ * @return array $users An array of user IDs who have the meta key active=1
+ */
 function wpmem_get_activated_users() {
 	return wpmem_get_users_by_meta( 'active', 1 );
 }
 
+/**
+ * Gets a list of all deactivated users.
+ *
+ * @since 3.3.5
+ *
+ * @return array $users An array of users IDs who have the meta key active=0
+ */
 function wpmem_get_deactivated_users() {
 	return wpmem_get_users_by_meta( 'active', 0 );
 }
 
+/**
+ * Sets a user as validated.
+ *
+ * @since 3.3.5
+ *
+ * @param  int     $user_id
+ * @return void
+ */
+function wpmem_set_user_as_confirmed( $user_id ) {
+	global $wpmem;
+	$wpmem->act_newreg->set_as_confirmed( $user_id );
+}
 // End of file.
