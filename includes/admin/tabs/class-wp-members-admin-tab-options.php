@@ -57,7 +57,7 @@ class WP_Members_Admin_Tab_Options {
 		$help_link   = sprintf( __( 'See the %sUsers Guide on plugin options%s.', 'wp-members' ), '<a href="https://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/options/" target="_blank">', '</a>' );	
 
 		// Build an array of post types
-		$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+		$post_types = $wpmem->admin->post_types();
 		$post_arr = array(
 			'post' => __( 'Posts' ),
 			'page' => __( 'Pages' ),
@@ -308,7 +308,7 @@ class WP_Members_Admin_Tab_Options {
 										<td colspan="2"><?php submit_button( __( 'Update Settings', 'wp-members' ) ); ?></td>
 									</tr>
 									<tr>
-										<td><?php _e( 'Please keep in mind that Custom Post Types are "custom" and therefore, not all of them will function exactly the same way. WP-Members will certainly work with any post type that operate like a post or a page; but you will need to review any custom post type added to determine that it functions the way you expect.', 'wp-members' ); ?></td>
+										<td colspan="2"><?php _e( 'Please keep in mind that Custom Post Types are "custom" and therefore, not all of them will function exactly the same way. WP-Members will certainly work with any post type that operate like a post or a page; but you will need to review any custom post type added to determine that it functions the way you expect.', 'wp-members' ); ?></td>
 									</tr>
 								</table>
 							</form>

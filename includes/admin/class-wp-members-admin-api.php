@@ -659,6 +659,10 @@ class WP_Members_Admin_API {
 				break;
 		}
 	}
+	
+	function post_types() {
+		return get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+	}
 } // End of WP_Members_Admin_API class.
 
 // End of file.
