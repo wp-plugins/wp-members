@@ -11,6 +11,9 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		 * --id=<user_id>
 		 * : The WP ID of the user to activate.
 		 *
+		 * [--notify=<boolean>]
+		 * : Whether to send notifcation to user (true if omitted).
+		 *
 		 * @since 3.3.5
 		 */
 		public function activate( $args, $assoc_args ) {
