@@ -135,7 +135,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 
 = 3.3.5 =
 
-* Added optional new user activation link and password reset link (instead of sending password). This option will become the default setting in 3.4.0.
+* Added optional new user validation link and password reset link (instead of sending password). This option will become the default setting in 3.4.0.
 * Added optional login error message to fully utilize the WP login error.  This option will become the default setting in 3.4.0.
 * Updated the default product restricted message to display required membership(s). This eliminates the custom message string "product_restricted" and replaces with two new ones: product_restricted_single and product_restricted_multiple. (Note this only affects the default message if no custom membership message is established in the membership properties).
 * Added login/logout button to login/logout link api function wpmem_loginout() and shortcode [wpmem_loginout]. It will continue to display a hyperlink by default, but accepts arguments to display as a button. Also added ID and class options for link or button.
@@ -152,6 +152,8 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 * Added manage_options capability requirement for membership products custom post type.
 * Updated WooCommerce registration handling.
 * Added wpmem_is_reg_type(). Can be used withing wpmem_post_register_data to determine which registration type is being triggered.
+* Added WP-CLI commands (see release announcement and documentation for more information on specific commands).
+* Added support for hCaptcha (https://www.hcaptcha.com/).
 
 = 3.3.4 =
 

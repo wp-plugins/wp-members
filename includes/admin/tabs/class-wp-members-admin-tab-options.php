@@ -223,6 +223,7 @@ class WP_Members_Admin_Tab_Options {
 									$captcha[] = __( 'reCAPTCHA v2', 'wp-members' ) . '|3';
 									$captcha[] = __( 'reCAPTCHA v3', 'wp-members' ) . '|4';
 									$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
+									$captcha[] = __( 'hCaptcha', 'wp-members' ) . '|5';
 									echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 								  </li>
 								<h3><?php _e( 'Pages' ); ?></h3>

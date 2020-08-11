@@ -1220,6 +1220,12 @@ class WP_Members_Forms {
 			 */
 			$form.= apply_filters( 'wpmem_register_captcha_row', $args['row_before'] . $row . $args['row_after'], $tag );
 		}
+		
+		if ( 5 == $wpmem->captcha && 'edit' != $tag ) {
+			$row = WP_Members_Captcha::hcaptcha();
+			/** This filter is documented in /includes/class-wp-members-forms.php */
+			$form.= apply_filters( 'wpmem_register_captcha_row', $args['row_before'] . $row . $args['row_after'], $tag );
+		}
 
 		// Create hidden fields.
 		$var         = ( $tag == 'edit' ) ? 'update' : 'register';

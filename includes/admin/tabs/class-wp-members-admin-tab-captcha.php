@@ -82,7 +82,7 @@ class WP_Members_Admin_Tab_Captcha {
 				<div id="post-body-content">
 					<div class="postbox">
 
-						<h3><?php _e( 'Manage reCAPTCHA Options', 'wp-members' ); ?></h3>
+						<h3><?php _e( 'Manage CAPTCHA Options', 'wp-members' ); ?></h3>
 						<div class="inside">
 							<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 							<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
@@ -136,6 +136,19 @@ class WP_Members_Admin_Tab_Captcha {
 										 </td>
 									</tr>
 								<?php 
+								} elseif ( 5 == $wpmem->captcha ) {
+									$show_update_button = true; 
+									$private_key = ( isset( $wpmem_captcha['hcaptcha'] ) ) ? $wpmem_captcha['hcaptcha']['secret']   : '';
+									$public_key  = ( isset( $wpmem_captcha['hcaptcha'] ) ) ? $wpmem_captcha['hcaptcha']['api_key']  : '';
+									?>
+									<tr valign="top">
+										<th scope="row"><?php _e( 'hCaptcha Keys', 'wp-members' ); ?></th>
+										<td>
+											<p><label><?php _e( 'API Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_publickey" size="60" value="<?php echo $public_key; ?>" /></p>
+											<p><label><?php _e( 'Secret Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_privatekey" size="60" value="<?php echo $private_key; ?>" /></p>
+										 </td>
+									</tr>
+								<?php
 								// If Really Simple CAPTCHA is enabled.
 								} elseif ( $wpmem->captcha == 2 ) {
 
@@ -224,6 +237,9 @@ class WP_Members_Admin_Tab_Captcha {
 										case 4:
 											$captcha_type = 'recaptcha2';
 											break;
+										case 5:
+											$captcha_type = 'hcaptcha';
+											break;
 									} ?>
 									<tr valign="top">
 										<th scope="row">&nbsp;</th>
@@ -278,6 +294,12 @@ class WP_Members_Admin_Tab_Captcha {
 			if ( $update_type == 'recaptcha' && isset( $_POST['wpmem_captcha_theme'] ) ) {
 				$new_settings['recaptcha']['theme'] = sanitize_text_field( $_POST['wpmem_captcha_theme'] );
 			}
+		}
+		
+		if ( 'hcaptcha' == $update_type ) {
+			$new_settings = $settings;
+			$new_settings['hcaptcha']['api_key'] = sanitize_text_field( $_POST['wpmem_captcha_publickey'] );
+			$new_settings['hcaptcha']['secret']  = sanitize_text_field( $_POST['wpmem_captcha_privatekey'] );
 		}
 
 		if ( $update_type == 'really_simple' ) {
