@@ -97,7 +97,7 @@ class WP_Members_Captcha {
 	 */
 	static function recaptcha( $key = false ) {
 		
-		if ( false == $keys ) {
+		if ( false == $key ) {
 			$opts = get_option( 'wpmembers_captcha' );
 			$key  = $opts['recaptcha']['public'];
 		}
