@@ -97,7 +97,7 @@ class WP_Members_Captcha {
 	 */
 	static function recaptcha( $key = false ) {
 		
-		if ( false === $keys ) {
+		if ( false == $keys ) {
 			$opts = get_option( 'wpmembers_captcha' );
 			$key  = $opts['recaptcha']['public'];
 		}
@@ -219,7 +219,7 @@ class WP_Members_Captcha {
 				'img_w'      => esc_attr( $img_w ),
 				'img_h'      => esc_attr( $img_h ),
 				'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
-				'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" />',
+				'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" class="textbox" required />',
 				'hidden'     => '<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />',
 				'img'        => '<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />',
 			) );
@@ -227,7 +227,7 @@ class WP_Members_Captcha {
 			if ( 'array' == $return ) {
 				return $rows;
 			} else {
-				$html = $rows['label'] . $rows['field'] . $rows['hidden'] . $rows['img'];
+				$html = $rows['label'] . $rows['img'] . $rows['hidden'] . $rows['field'];
 				/** This filter is defined in /includes/class-wp-members-captcha.php */
 				return apply_filters( 'wpmem_captcha', $html );
 			}
@@ -248,7 +248,7 @@ class WP_Members_Captcha {
 	 * @param  $which_captcha
 	 * @return $string
 	 */
-	static function validate( $which_captcha = false ) {
+	static function validate( $which_captcha = false, $secret = false ) {
 
 		global $wpmem, $wpmem_themsg;
 		
@@ -277,8 +277,11 @@ class WP_Members_Captcha {
 		} elseif ( 'hcaptcha' == $captcha ) {
 			
 			// Get the captcha settings (api keys).
-			$opts = get_option( 'wpmembers_captcha' );
-						
+			if ( ! $secret ) {
+				$opts = get_option( 'wpmembers_captcha' );
+				$secret = $opts['hcaptcha']['secret'];
+			}
+			
 			$captcha = wpmem_get( 'h-captcha-response', false );
 			
 			// If there is no captcha value, return error.
@@ -290,7 +293,7 @@ class WP_Members_Captcha {
 			// Validate the captcha.
 			$response = wp_remote_post( 'https://hcaptcha.com/siteverify',  array(
 				'body' => array( 
-				'secret'   => $opts['hcaptcha']['secret'],
+				'secret'   => $secret,
 				'response' => $captcha,
 			) ) );
 
@@ -310,11 +313,12 @@ class WP_Members_Captcha {
 			$recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify?';
 			
 			// Get the captcha settings (api keys).
-			$opts = get_option( 'wpmembers_captcha' );
+			if ( ! $secret ) {
+				$opts = get_option( 'wpmembers_captcha' );
+				$secret = $opts['recaptcha']['private'];
+			}
 			
-			$key = $opts['recaptcha']['private'];
-			
-			if ( 'recaptcha_v2' == $captcha && $opts['recaptcha'] ) {
+			if ( 'recaptcha_v2' == $captcha ) {
 				
 				$captcha = wpmem_get( 'g-recaptcha-response', false );
 
@@ -326,7 +330,7 @@ class WP_Members_Captcha {
 
 				// Build URL for captcha evaluation.
 				$url = $recaptcha_verify_url . http_build_query([
-					'secret' => $key,
+					'secret' => $secret,
 					'response' => $captcha,
 					'remoteip' => wpmem_get_user_ip(),
 				]);
@@ -348,7 +352,7 @@ class WP_Members_Captcha {
 					}
 					return false;
 				}
-			} elseif ( 'recaptcha_v3' == $captcha && $opts['recaptcha'] ) {
+			} elseif ( 'recaptcha_v3' == $captcha ) {
 				$captcha = wpmem_get( 'recaptcha_response', false );
 	
 				if ( false === $captcha ) {
@@ -360,7 +364,7 @@ class WP_Members_Captcha {
 
 					// Make and decode POST request:
 					$url = $recaptcha_verify_url . http_build_query([
-						'secret'   => $key,
+						'secret'   => $secret,
 						'response' => $captcha, 
 					]);
 					$recaptcha = file_get_contents( $url );

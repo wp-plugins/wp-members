@@ -1141,7 +1141,7 @@ class WP_Members_Forms {
 				'row_before'   => $args['row_before'],
 				'label'        => $row['label'],
 				'field_before' => ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '',
-				'field'        => $row['field'],
+				'field'        => $row['img'] . $row['hidden'] . $row['field'],
 				'field_after'  => ( $args['wrap_inputs'] ) ? '</div>' : '',
 				'row_after'    => $args['row_after'],
 			);
