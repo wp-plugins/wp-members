@@ -125,8 +125,8 @@ class WP_Members_Validation_Link {
 		$email_type = ( 1 == $wpmem->mod_reg ) ? 'newmod' : 'newreg';
 		if ( $arr['toggle'] == $email_type ) {
 			// Does email body have the [act_link] shortcode?
-			if ( strpos( $arr['body'], '[act_link]' ) ) {
-				$arr['body'] = str_replace( '[act_link]', $link, $arr['body'] );
+			if ( strpos( $arr['body'], '[confirm_link]' ) ) {
+				$arr['body'] = str_replace( '[confirm_link]', $link, $arr['body'] );
 			} else {
 			// Add text and link to the email body.
 			$arr['body'] = $arr['body'] . "\r\n"
