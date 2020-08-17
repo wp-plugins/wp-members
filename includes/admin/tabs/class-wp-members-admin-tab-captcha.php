@@ -60,7 +60,7 @@ class WP_Members_Admin_Tab_Captcha {
 	public static function build_settings() {
 
 		// Global settings.
-		global $wpmem;
+		global $wpmem, $updated_captcha_type;
 
 		$wpmem_captcha = get_option( 'wpmembers_captcha' );
 		$url           = home_url();
@@ -87,42 +87,28 @@ class WP_Members_Admin_Tab_Captcha {
 							<form name="updatecaptchaform" id="updatecaptchaform" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 							<?php wp_nonce_field( 'wpmem-update-captcha' ); ?>
 								<table class="form-table">
-								<?php // if reCAPTCHA is enabled...
-								if ( $wpmem->captcha == 1 ) {
-									$show_update_button = true; 
-									$private_key   = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['private'] : '';
-									$public_key    = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['public']  : '';
-									$captcha_theme = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['theme']   : '';
-									?>
+									<tr valign="top">
+										<th><?php _e( 'CAPTCHA Type', 'wp-members' ); ?></th>
+										<td><?php
+											if ( 1 == $wpmem->captcha ) {
+												$wpmem->captcha = 3; // reCAPTCHA v1 is fully obsolete. Change it to v2.
+											}
+											$captcha[] = __( 'reCAPTCHA v2', 'wp-members' ) . '|3';
+											$captcha[] = __( 'reCAPTCHA v3', 'wp-members' ) . '|4';
+											$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
+											$captcha[] = __( 'hCaptcha', 'wp-members' ) . '|5';
+											echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
+										</td>
+									</tr>
+									<?php if ( isset( $updated_captcha_type ) ) { ?>
 									<tr>
 										<td colspan="2">
-											<p><?php _e( 'reCAPTCHA is a free, accessible CAPTCHA service that helps to digitize books while blocking spam on your blog.', 'wp-members' ); ?></p>
-											<p><?php printf( __( 'reCAPTCHA asks commenters to retype two words scanned from a book to prove that they are a human. This verifies that they are not a spambot while also correcting the automatic scans of old books. So you get less spam, and the world gets accurately digitized books. Everybody wins! For details, visit the %s reCAPTCHA website%s', 'wp-members' ), '<a href="http://www.google.com/recaptcha/intro/index.html" target="_blank">', '</a>' ); ?>.</p>
-											<p>
+											<p><?php _e( 'CAPTCHA type was changed. Please verify and update the settings below for the new CAPTCHA type.', 'wp-members' ); ?></p>
 										</td>
 									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th>
-										<td>
-											<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "public" and a "private" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
-											<?php _e( 'Public Key', 'wp-members' ); ?>:&nbsp;&nbsp;<input type="text" name="wpmem_captcha_publickey" size="50" value="<?php echo $public_key; ?>" /><br />
-											<?php _e( 'Private Key', 'wp-members' ); ?>:&nbsp;<input type="text" name="wpmem_captcha_privatekey" size="50" value="<?php echo $private_key; ?>" />
-										 </td>
-									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e( 'Choose Theme', 'wp-members' ); ?></th>
-										<td>
-											<select name="wpmem_captcha_theme"><?php
-												echo wpmem_create_formfield( __( 'Red', 'wp-members' ), 'option', 'red', $captcha_theme ); 
-												echo wpmem_create_formfield( __( 'White', 'wp-members' ), 'option', 'white', $captcha_theme );
-												echo wpmem_create_formfield( __( 'Black Glass', 'wp-members' ), 'option', 'blackglass', $captcha_theme ); 
-												echo wpmem_create_formfield( __( 'Clean', 'wp-members' ), 'option', 'clean', $captcha_theme ); ?>
-											</select>
-										</td>
-									</tr>
-								<?php 
-								// if reCAPTCHA v2 is enabled...	
-								} elseif ( 3 == $wpmem->captcha || 4 == $wpmem->captcha ) {
+									<?php } ?>
+								<?php // if reCAPTCHA is enabled...
+								if ( 3 == $wpmem->captcha || 4 == $wpmem->captcha ) {
 									$show_update_button = true; 
 									$private_key = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['private'] : '';
 									$public_key  = ( isset( $wpmem_captcha['recaptcha'] ) ) ? $wpmem_captcha['recaptcha']['public']  : '';
@@ -130,7 +116,9 @@ class WP_Members_Admin_Tab_Captcha {
 									<tr valign="top">
 										<th scope="row"><?php _e( 'reCAPTCHA Keys', 'wp-members' ); ?></th>
 										<td>
-											<?php printf( __( 'reCAPTCHA requires an API key, consisting of a "site" and a "secret" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' ); ?>.<br />
+											<p><?php if ( '' == $wpmem_captcha['recaptcha']['private'] || '' == $wpmem_captcha['recaptcha']['public'] ) {
+												printf( __( 'reCAPTCHA requires an API key, consisting of a "site" and a "secret" key. You can sign up for a %s free reCAPTCHA key%s', 'wp-members' ), "<a href=\"https://www.google.com/recaptcha/admin#whyrecaptcha\" target=\"_blank\">", '</a>' );
+											} ?></p>
 											<p><label><?php _e( 'Site Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_publickey" size="60" value="<?php echo $public_key; ?>" /></p>
 											<p><label><?php _e( 'Secret Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_privatekey" size="60" value="<?php echo $private_key; ?>" /></p>
 										 </td>
@@ -144,6 +132,9 @@ class WP_Members_Admin_Tab_Captcha {
 									<tr valign="top">
 										<th scope="row"><?php _e( 'hCaptcha Keys', 'wp-members' ); ?></th>
 										<td>
+											<p><?php if ( '' == $wpmem_captcha['hcaptcha']['secret'] || '' == $wpmem_captcha['hcaptcha']['api_key'] ) {
+												printf( __( 'hCaptcha requires an API key. You can sign up for %s an hCaptcha API key here %s', 'wp-members' ), "<a href=\"https://hcaptcha.com/\" target=\"_blank\">", '</a>' );
+											} ?></p>
 											<p><label><?php _e( 'API Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_publickey" size="60" value="<?php echo $public_key; ?>" /></p>
 											<p><label><?php _e( 'Secret Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_privatekey" size="60" value="<?php echo $private_key; ?>" /></p>
 										 </td>
@@ -269,47 +260,48 @@ class WP_Members_Admin_Tab_Captcha {
 	 * @return string The captcha option update message.
 	 */
 	public static function update() {
-
+		
+		global $wpmem;
+		
 		// Check nonce.
 		check_admin_referer( 'wpmem-update-captcha' );
 
 		$settings     = get_option( 'wpmembers_captcha' );
 		$update_type  = sanitize_text_field( $_POST['wpmem_recaptcha_type'] );
-		$new_settings = array();
+		$which        = intval( wpmem_get( 'wpmem_settings_captcha', 0 ) );
 
 		// If there are no current settings.
 		if ( ! $settings ) {
 			$settings = array();
 		}
+		
+		if ( 0 != $which && $wpmem->captcha != $which ) {
+			// Changing captcha type.
+			global $updated_captcha_type;
+			$updated_captcha_type = true;
+			$wpmem->captcha = $which;
+			wpmem_update_option( 'wpmembers_settings', 'captcha', $which );
+		}
 
 		if ( $update_type == 'recaptcha' || $update_type == 'recaptcha2' ) {
-			if ( array_key_exists( 'really_simple', $settings ) ) {
-				// Updating recaptcha but need to maintain really_simple.
-				$new_settings['really_simple'] = $settings['really_simple'];
-			}
-			$new_settings['recaptcha'] = array(
+			$settings['recaptcha'] = array(
 				'public'  => sanitize_text_field( $_POST['wpmem_captcha_publickey'] ),
 				'private' => sanitize_text_field( $_POST['wpmem_captcha_privatekey'] ),
 			);
 			if ( $update_type == 'recaptcha' && isset( $_POST['wpmem_captcha_theme'] ) ) {
-				$new_settings['recaptcha']['theme'] = sanitize_text_field( $_POST['wpmem_captcha_theme'] );
+				$settings['recaptcha']['theme'] = sanitize_text_field( $_POST['wpmem_captcha_theme'] );
 			}
 		}
 		
 		if ( 'hcaptcha' == $update_type ) {
-			$new_settings = $settings;
-			$new_settings['hcaptcha']['api_key'] = sanitize_text_field( $_POST['wpmem_captcha_publickey'] );
-			$new_settings['hcaptcha']['secret']  = sanitize_text_field( $_POST['wpmem_captcha_privatekey'] );
+			$settings['hcaptcha']['api_key'] = sanitize_text_field( $_POST['wpmem_captcha_publickey'] );
+			$settings['hcaptcha']['secret']  = sanitize_text_field( $_POST['wpmem_captcha_privatekey'] );
 		}
 
 		if ( $update_type == 'really_simple' ) {
-			if ( array_key_exists( 'recaptcha', $settings ) ) {
-				// Updating really_simple but need to maintain recaptcha.
-				$new_settings['recaptcha'] = $settings['recaptcha'];
-			}
 			$font_color = sanitize_text_field( $_POST['font_color_r'] ) . ',' . sanitize_text_field( $_POST['font_color_g'] ) . ',' . sanitize_text_field( $_POST['font_color_b'] );
 			$bg_color   = sanitize_text_field( $_POST['bg_color_r'] )   . ',' . sanitize_text_field( $_POST['bg_color_g'] )   . ',' . sanitize_text_field( $_POST['bg_color_b']   );
-			$new_settings['really_simple'] = array(
+			$settings['really_simple'] = array(
 					'characters'   => sanitize_text_field( $_POST['characters'] ),
 					'num_char'     => sanitize_text_field( $_POST['num_char'] ),
 					'dim_w'        => sanitize_text_field( $_POST['dim_w'] ),
@@ -322,7 +314,7 @@ class WP_Members_Admin_Tab_Captcha {
 			);
 		}
 
-		update_option( 'wpmembers_captcha', $new_settings );
+		update_option( 'wpmembers_captcha', $settings );
 		return __( 'CAPTCHA was updated for WP-Members', 'wp-members' );
 	}
 }

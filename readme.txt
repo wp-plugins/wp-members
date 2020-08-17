@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.5
-Stable tag: 3.3.5
+Stable tag: 3.3.6
 License: GPLv2
 
 == Description ==
@@ -14,15 +14,13 @@ The WP-Members membership plugin turns your WordPress site into a membership sit
 
 You need a membership site, but you want to focus on your business, not mastering a plugin. WP-Members is simple to use, easy to set up, yet flexible in every way imaginable.
 
-The plugin restricts selected WordPress content to registered site members. WP-Members puts the registration process on the site front end so it is part of your content instead of the native WP login page. WP-Members requires no modifications to your theme while remaining scalable for users who want to customize the look and feel, or want to restrict only some content. It is a great tool for sites offering premium content to subscribers and is adaptable to a variety of applications.
-
 __Simple to install and configure - yet customizable and scalable!__
 
 = Features: =
 
 * Restrict or hide posts, pages, and custom post types
+* Limit menu items to logged in users
 * User login, registration, and profile integrated into your theme
-* Login widget
 * Create custom registration and profile fields
 * Notify admin of new user registrations
 * Hold new registrations for admin approval
@@ -37,7 +35,7 @@ A full Users Guide is [available here](https://rocketgeek.com/plugins/wp-members
 
 = Support =
 
-There is (freely available documentation on the plugin's support site)[https://rocketgeek.com/plugins/wp-members/docs/]. Your question may be answered there. If you need assistance configuring the plugin or have questions on how to implement or customize features, [premium support is available](https://rocketgeek.com/product/wp-members-plugin-support/).
+There is [freely available documentation on the plugin's support site](https://rocketgeek.com/plugins/wp-members/docs/). Your question may be answered there. If you need assistance configuring the plugin or have questions on how to implement or customize features, [premium support is available](https://rocketgeek.com/product/wp-members-plugin-support/).
 
 You can get priority support along with all of the plugin's premium extensions in one [cost saving Pro Bundle!](https://rocketgeek.com/product/wp-members-pro-bundle/)
 
@@ -109,7 +107,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -132,6 +130,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.5 is an improvement release. 
 
 
 == Changelog ==
+
+= 3.3.6 =
+
+* Improved admin tab for captcha settings. You can now change the captcha type from the captcha tab (previously, you could only do this from the main options tab).
 
 = 3.3.5 =
 
