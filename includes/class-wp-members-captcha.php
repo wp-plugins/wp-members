@@ -51,11 +51,15 @@ class WP_Members_Captcha {
 	 * Display a CAPTCHA.
 	 *
 	 * @since 3.3.4
+	 * @since 3.3.6 $type defaults to false, so captcha defaults to $wpmem setting.
 	 *
 	 * @param  string  $type  Type of captcha to display.
 	 * @param  array   $keys  Google reCAPTCHA keys (if used).
 	 */
-	static function show( $type, $key = false ) {
+	static function show( $type = false, $key = false ) {
+		if ( false === $type ) {
+			$type = self::type();
+		}
 		if ( 'rs_captcha' == $type ) {
 			return self::rs_captcha();
 		} elseif ( 'hcaptcha' == $type ) {
