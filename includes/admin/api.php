@@ -96,3 +96,24 @@ function wpmem_wp_reserved_terms() {
 	global $wpmem;
 	return $wpmem->admin->wp_reserved_terms();
 }
+
+/**
+ * Updates a single plugin option.
+ *
+ * @since 3.3.6
+ *
+ * @param  string  $option  Name of the option to update.
+ * @param  string  $key     Which key to update. Update a subkey as primary_key/subkey.
+ * @param  string  $value   New value.
+ * @return void
+ */
+function wpmem_update_option( $option, $key, $value ) {
+	$settings = get_option( $option );
+	if ( strpos( $key, '/' ) ) {
+		$keys = explode( '/', $key );
+		$settings[ $keys[0] ][ $keys[1] ] = $value;
+	} else {
+		$settings[ $key ] = $value;
+	}
+	update_option( $option, $settings );
+}
