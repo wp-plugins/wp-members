@@ -367,7 +367,7 @@ class WP_Members_User_Profile {
 				$wpmem_activate_user = ( isset( $_POST['activate_user'] ) == '' ) ? -1 : filter_var( $_POST['activate_user'], FILTER_SANITIZE_NUMBER_INT );
 
 				if ( $wpmem_activate_user == 1 ) {
-					wpmem_activate_user( $user_id, $chk_pass );
+					wpmem_activate_user( $user_id );
 				} elseif ( $wpmem_activate_user == 0 ) {
 					wpmem_deactivate_user( $user_id );
 				}

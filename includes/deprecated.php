@@ -207,7 +207,7 @@ endif;
  */
 function wpmem_a_activate_user( $user_id, $chk_pass = false ) {
 	wpmem_write_log( "wpmem_a_activate_user() is deprecated as of WP-Members 3.2.4. Use wpmem_activate_user instead" );
-	wpmem_activate_user( $user_id, $chk_pass );
+	wpmem_activate_user( $user_id );
 }
 
 /**
