@@ -436,8 +436,12 @@ class WP_Members_Products_Admin {
 		}
 
 		$product_message = wpmem_get( 'product_message', false );
-		if ( false !== $product_message && '' != $product_message ) {
-			update_post_meta( $post_id, 'wpmem_product_message', $product_message );
+		if ( false !== $product_message ) {
+			if ( '' != $product_message ) {
+				update_post_meta( $post_id, 'wpmem_product_message', $product_message );
+			} else {
+				delete_post_meta( $post_id, 'wpmem_product_message' );
+			}
 		}
 	}
 

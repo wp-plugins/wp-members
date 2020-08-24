@@ -202,73 +202,70 @@ class WP_Members_Products {
 			// Get the post access products.
 			$post_products = $this->get_post_products( $post->ID );
 			// If the post is restricted to a product.
-			if ( $post_products ) {
-				if ( wpmem_user_has_access( $post_products ) ) {
-					$access = true;
-				} else {
-					// The error message for invalid users.
-					$access = false;
-				}
+			if ( is_array( $post_products ) && ! empty( $post_products ) ) {
+				$access = ( wpmem_user_has_access( $post_products ) ) ? true : false;
 			} else {
-				// Content that has no product restriction.
 				$access = true;
 			}
 		
-			// Handle default membership restricted message.
-			if ( 1 == count( $post_products ) ) {
-				$message = $wpmem->get_text( 'product_restricted_single' )
-					. "<br />" . $this->products[ $post_products[0] ]['title'];
-			} else {
-				$message = $wpmem->get_text( 'product_restricted_multiple' ) . "<br />";
-				foreach ( $post_products as $post_product ) {
-					$message .= $this->products[ $post_product ]['title'] . "<br />";
+			// Only produce the product restricted message if access is false.
+			if ( false === $access ) {
+
+				// Singular message if post only has one membership, otherwise multiple.
+				if ( 1 == count( $post_products ) ) {
+					$message = $wpmem->get_text( 'product_restricted_single' )
+						. "<br />" . $this->products[ $post_products[0] ]['title'];
+				} else {
+					$message = $wpmem->get_text( 'product_restricted_multiple' ) . "<br />";
+					foreach ( $post_products as $post_product ) {
+						$message .= $this->products[ $post_product ]['title'] . "<br />";
+					}
 				}
-			}
-			/**
-			 * Filter the product restricted message.
-			 *
-			 * @since 3.2.3
-			 *
-			 * @param string                The message.
-			 * @param array  $post_products {
-			 *     Membership product slugs the post is restricted to.
-			 *
-			 *     @type string $slug
-			 * }
-			 */
-			$message = apply_filters( 'wpmem_product_restricted_msg', $message, $post_products );
+				/**
+				 * Filter the product restricted message.
+				 *
+				 * @since 3.2.3
+				 *
+				 * @param string                The message.
+				 * @param array  $post_products {
+				 *     Membership product slugs the post is restricted to.
+				 *
+				 *     @type string $slug
+				 * }
+				 */
+				$message = apply_filters( 'wpmem_product_restricted_msg', $message, $post_products );
+
+				/**
+				 * Filter the product restricted message HTML.
+				 *
+				 * @since 3.3.3
+				 * @since 3.3.4 Added $post_products
+				 *
+				 * @param array  $product_restricted {
+				 *     $type string $wrapper_before
+				 *     $type string $message
+				 *     $type string $wrapper_after
+				 * }
+				 * @param array  $post_products {
+				 *     Membership product slugs the post is restricted to.
+				 *
+				 *     @type string $slug
+				 * }
+				 */
+				$product_restricted = apply_filters( 'wpmem_product_restricted_args', array(
+					'wrapper_before' => '<div class="wpmem_msg" align="center">',
+					'message'        => '<p>' . $message . '</p>',
+					'wrapper_after'  => '</div>',
+				), $post_products );
+				
+				$content = $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
 			
-			/**
-			 * Filter the product restricted message HTML.
-			 *
-			 * @since 3.3.3
-			 * @since 3.3.4 Added $post_products
-			 *
-			 * @param array  $product_restricted {
-			 *     $type string $wrapper_before
-			 *     $type string $message
-			 *     $type string $wrapper_after
-			 * }
-			 * @param array  $post_products {
-			 *     Membership product slugs the post is restricted to.
-			 *
-			 *     @type string $slug
-			 * }
-			 */
-			$product_restricted = apply_filters( 'wpmem_product_restricted_args', array(
-				'wrapper_before' => '<div class="wpmem_msg" align="center">',
-				'message'        => '<p>' . $message . '</p>',
-				'wrapper_after'  => '</div>',
-			), $post_products );
-			
-			$content = ( $access ) ? $content : $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
-			
-			// Handle comments.
-			if ( ! $access ) {
+				// Handle comments.
 				add_filter( 'wpmem_securify_comments', '__return_false' );
 			}
+
 		}
-		// Return unfiltered content for all other cases.
+
 		return $content;
 	}
 
