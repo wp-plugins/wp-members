@@ -417,8 +417,15 @@ class WP_Members_Products {
 	 * Set an expiration date.
 	 *
 	 * @since 3.3.5
+	 *
+	 * @param  string  $product
+	 * @param  int     $user_id
+	 * @param  mixed   $set_date
+	 * @param  mixed   $pre_value
+	 * @param  boolean $renew
+	 * @return mixed   $new_value
 	 */
-	function set_product_expiration( $product, $user_id, $set_date ) {
+	function set_product_expiration( $product, $user_id, $set_date, $prev_value, $renew ) {
 		// If this is setting a specific date.
 		if ( $set_date ) {
 			$new_value = strtotime( $set_date );
@@ -427,9 +434,7 @@ class WP_Members_Products {
 			$raw_add = explode( "|", $this->products[ $product ]['expires'][0] );
 			$add_period = ( 1 < $raw_add[0] ) ? $raw_add[0] . " " . $raw_add[1] . "s" : $raw_add[0] . " " . $raw_add[1];
 
-			// New single meta version.
 			if ( $prev_value ) {
-				$renew = true;
 				if ( isset( $this->products[ $product ]['no_gap'] ) && 1 == $this->products[ $product ]['no_gap'] ) {
 					// Add to the user's existing date (no gap).
 					$new_value = strtotime( $add_period, $prev_value );					

@@ -973,11 +973,11 @@ class WP_Members_User {
 		// Convert date to add.
 		$expiration_period = ( isset( $wpmem->membership->products[ $product ]['expires'] ) ) ? $wpmem->membership->products[ $product ]['expires'] : false;
 		
-		$renew = false;
+		$renew = ( $prev_value ) ? true : false;
 	
 		// If membership is an expiration product.
 		if ( is_array( $expiration_period ) ) {
-			$new_value = $wpmem->membership->set_product_expiration( $product, $user_id, $set_date );
+			$new_value = $wpmem->membership->set_product_expiration( $product, $user_id, $set_date, $prev_value, $renew );
 		} else {
 			$new_value = true;
 		}
