@@ -243,13 +243,15 @@ class WP_Members_Admin_Tab_Fields {
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 			<?php } ?>
-			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date' ) ) ) ) ) { ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'date' ) ) ) ) ) { ?>
 			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_pattern">' : ''; ?>
 				<li>
 					<label><?php _e( 'Pattern', 'wp-members' ); ?></label>
 					<input type="text" name="add_pattern" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['pattern'] ) ? $field['pattern'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+			<?php } ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date' ) ) ) ) ) { ?>
 			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_title">' : ''; ?>
 				<li>
 					<label><?php _e( 'Title', 'wp-members' ); ?></label>

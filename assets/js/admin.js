@@ -127,7 +127,6 @@
 				|| $("#wpmem_field_type_select").val() == 'password' 
 				|| $("#wpmem_field_type_select").val() == 'email' 
 				|| $("#wpmem_field_type_select").val() == 'url'
-				|| $("#wpmem_field_type_select").val() == 'number' 
 				|| $("#wpmem_field_type_select").val() == 'date' ) {
 				$("#wpmem_pattern").show();
 				$("#wpmem_title").show();
