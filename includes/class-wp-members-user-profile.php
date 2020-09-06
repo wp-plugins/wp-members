@@ -151,12 +151,28 @@ class WP_Members_User_Profile {
 						) );
 					} else {
 						if ( 'select' == $field['type'] || 'radio' == $field['type'] ) {
-							$input = wpmem_create_formfield( $meta, $field['type'], $values, $valtochk );
+							$input = wpmem_form_field( $meta, $field['type'], $values, $valtochk );
 						} elseif( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
-							$input = $wpmem->forms->create_form_field( array( 'name'=>$meta, 'type'=>$field['type'], 'value'=>$values, 'compare'=>$valtochk, 'delimiter'=>$field['delimiter'] ) );
+							$input = wpmem_form_field( array( 'name'=>$meta, 'type'=>$field['type'], 'value'=>$values, 'compare'=>$valtochk, 'delimiter'=>$field['delimiter'] ) );
 						} else {
 							$field['type'] = ( 'hidden' == $field['type'] ) ? 'text' : $field['type'];
-							$input = wpmem_create_formfield( $meta, $field['type'], $val, $valtochk );
+							
+							$formfield_args = array( 
+								'name'     => $meta,
+								'type'     => $field['type'],
+								'value'    => $val,
+								'compare'  => $valtochk,
+								'required' => $field['required'],
+								'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
+								'pattern'     => ( isset( $field['pattern']     ) ) ? $field['pattern']     : false,
+								'title'       => ( isset( $field['title']       ) ) ? $field['title']       : false,
+								'min'         => ( isset( $field['min']         ) ) ? $field['min']         : false,
+								'max'         => ( isset( $field['max']         ) ) ? $field['max']         : false,
+								'rows'        => ( isset( $field['rows']        ) ) ? $field['rows']        : false,
+								'cols'        => ( isset( $field['cols']        ) ) ? $field['cols']        : false,
+							);	
+						
+							$input = wpmem_form_field( $formfield_args );
 						}
 					}
 
