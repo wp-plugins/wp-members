@@ -1129,7 +1129,7 @@ class WP_Members_Forms {
 		}
 
 		// If captcha is Really Simple CAPTCHA.
-		if ( $wpmem->captcha == 2 && $tag != 'edit' ) {
+		if ( 2 == $wpmem->captcha && 'edit' != $tag ) {
 			// Build the captcha.
 			$row = WP_Members_Captcha::rs_captcha( 'array' );
 			$rows['captcha'] = array(

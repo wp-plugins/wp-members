@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.5
-Stable tag: 3.3.6
+Stable tag: 3.3.5.2
 License: GPLv2
 
 == Description ==
@@ -138,6 +138,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is an improvement release. 
 * Fix issues with custom fields in admin/user dashboard profile. This involved a change to how fields were loaded for both display and validation (so that now it is a singular process).
 * Fix undefined has_access() (replaced with API function) when renewing a membership.
 * Fix issues with WooCommerce registration integration.
+* Fix issue of undefined array keys if Really Simple Captcha is selected, but the plugin is not enabled.
 
 = 3.3.5 =
 

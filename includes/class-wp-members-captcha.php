@@ -236,7 +236,7 @@ class WP_Members_Captcha {
 				return apply_filters( 'wpmem_captcha', $html );
 			}
 		} else {
-			return ( 'array' == $return ) ? array( 'label' => '', 'label_text' => '', 'field' => "Really Simple CAPTCHA is not enabled" ) : "Really Simple CAPTCHA is not enabled";
+			return ( 'array' == $return ) ? array( 'field' => "Really Simple CAPTCHA is not enabled", 'label' => '', 'label_text' => '', 'img' => '', 'hidden' => '' ) : "Really Simple CAPTCHA is not enabled";
 		}
 	}
 	
