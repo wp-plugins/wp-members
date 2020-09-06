@@ -386,7 +386,7 @@ function wpmem_woo_checkout_fields( $checkout_fields = false ) {
 		'account_username',
 		'account_password',
 	);
-	$fields = wpmem_fields();// echo '<pre>'; print_r( $fields ); echo '</pre>';
+	$fields = wpmem_fields();
 	
 	if ( ! $checkout_fields ) {
 		$checkout_fields = WC()->checkout()->checkout_fields;
@@ -409,6 +409,11 @@ function wpmem_woo_checkout_fields( $checkout_fields = false ) {
 			if ( isset( $checkout_fields['order'][ $meta_key ] ) ) {
 				unset( $fields[ $meta_key ] );
 			}
+		}
+		
+		// @todo For now, remove any unsupported field types.
+		if ( 'hidden' == $field['type'] || 'image' == $field['type'] || 'file' == $field['type'] || 'membership' == $field['type'] ) {
+			unset( $fields[ $meta_key ] );
 		}
 	}
 	unset( $fields['username'] );
@@ -433,15 +438,18 @@ function wpmem_woo_checkout_form( $checkout_fields ) {
 	global $wpmem;
 	$fields = wpmem_woo_checkout_fields( $checkout_fields );
 
+	$priority = 10;
 	foreach ( $fields as $meta_key => $field ) {
 		$checkout_fields['order'][ $meta_key ] = array(
 			'type'     => $fields[ $meta_key ]['type'],
 			'label'    => ( 'tos' == $meta_key ) ? $wpmem->forms->get_tos_link( $field, 'woo' ) : $fields[ $meta_key ]['label'],
-			'required' => $fields[ $meta_key ]['required'],
+			'required' =>  $fields[ $meta_key ]['required'],
+			'priority' => $priority,
 		);
 		if ( isset( $fields[ $meta_key ]['placeholder'] ) ) {
 			$checkout_fields['order'][ $meta_key ]['placeholder'] = $fields[ $meta_key ]['placeholder'];
 		}
+		$priority = $priority + 10;
 	}
 	return $checkout_fields;
 }
@@ -534,12 +542,14 @@ function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
 
 function wpmem_woo_reg_validate( $username, $email, $errors ) {
 
-	$fields = wpmem_fields();
+	$fields = wpmem_woo_checkout_fields();
 	
 	unset( $fields['username'] );
 	unset( $fields['password'] );
 	unset( $fields['confirm_password'] );
 	unset( $fields['user_email'] );
+	unset( $fields['first_name'] );
+	unset( $fields['last_name']  );
 	
 	foreach ( $fields as $key => $field_args ) {
 		if ( 1 == $field_args['required'] && empty( $_POST[ $key ] ) ) {

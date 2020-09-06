@@ -476,6 +476,7 @@ class WP_Members {
 		add_action( 'woocommerce_form_field_multicheckbox',    'wpmem_form_field_wc_custom_field_types', 10, 4 );
 		add_action( 'woocommerce_form_field_multiselect',      'wpmem_form_field_wc_custom_field_types', 10, 4 );
 		add_action( 'woocommerce_form_field_radio',            'wpmem_form_field_wc_custom_field_types', 10, 4 );
+		add_action( 'woocommerce_form_field_select',           'wpmem_form_field_wc_custom_field_types', 10, 4 );
 		if ( ! is_user_logged_in() ) {
 			add_filter( 'woocommerce_checkout_fields', 'wpmem_woo_checkout_form' );
 		}

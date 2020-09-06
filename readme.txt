@@ -137,6 +137,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is an improvement release. 
 * Removed "pattern" attribute from number field type. HTML5 does not support this attribute for this input type.
 * Fix issues with custom fields in admin/user dashboard profile. This involved a change to how fields were loaded for both display and validation (so that now it is a singular process).
 * Fix undefined has_access() (replaced with API function) when renewing a membership.
+* Fix issues with WooCommerce registration integration.
 
 = 3.3.5 =
 
