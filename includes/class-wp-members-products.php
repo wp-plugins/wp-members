@@ -437,7 +437,7 @@ class WP_Members_Products {
 					$new_value = strtotime( $add_period, $prev_value );					
 				} else {
 					// Add to the user either from end or now (whichever is later; i.e. allow gaps (default)).
-					if ( $this->has_access( $product, $user_id ) ) {
+					if ( wpmem_user_has_access( $product, $user_id ) ) {
 						// if not expired, set from when they expire.
 						$new_value = strtotime( $add_period, $prev_value );
 					} else {
