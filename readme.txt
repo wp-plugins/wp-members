@@ -135,6 +135,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is an improvement release. 
 
 * Improved admin tab for captcha settings. You can now change the captcha type from the captcha tab (previously, you could only do this from the main options tab).
 * Removed "pattern" attribute from number field type. HTML5 does not support this attribute for this input type.
+* Fix issues with custom fields in admin/user dashboard profile. This involved a change to how fields were loaded for both display and validation (so that now it is a singular process).
 
 = 3.3.5 =
 

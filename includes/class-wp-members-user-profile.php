@@ -15,6 +15,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_Members_User_Profile {
 	
 	/**
+	 * Remove "admin only" fields if dashboard user profile.
+	 *
+	 * @since 3.3.6
+	 *
+	 * @param  string  $tag
+	 * @return array   $fields
+	 */
+	static function wpmem_fields( $tag ) {
+		$fields = wpmem_fields( $tag );
+		if ( 'profile_dashboard' == $tag && false === current_user_can( 'edit_users' ) ) {
+			foreach( $fields as $key => $field ) {
+				if ( false == $field['profile'] ) {
+					unset( $fields[ $key ] );
+				}
+			}
+		}
+		return $fields;
+	}
+	
+	/**
 	 * Static function to display WP-Members fields on the admin/dashboard user profile.
 	 *
 	 * Function was created in 3.1.9 as a merge of wpmem_admin_fields()
@@ -52,7 +72,7 @@ class WP_Members_User_Profile {
 		<table class="form-table">
 			<?php
 			// Get fields.
-			$wpmem_fields = ( 'admin' == $display ) ? wpmem_fields( 'admin_profile' ) : wpmem_fields( 'dashboard_profile' );
+			$wpmem_fields = ( 'admin' == $display ) ? WP_Members_User_Profile::wpmem_fields( 'profile_admin' ) : WP_Members_User_Profile::wpmem_fields( 'profile_dashboard' );
 			// Get excluded meta.
 			$exclude = wpmem_get_excluded_meta( $display . '-profile' );
 		
@@ -270,7 +290,7 @@ class WP_Members_User_Profile {
 			}
 		}
 
-		$wpmem_fields = ( 'admin' == $display ) ? wpmem_fields( 'admin_profile_update' ) : wpmem_fields( 'dashboard_profile_update' );
+		$wpmem_fields = ( 'admin' == $display ) ? WP_Members_User_Profile::wpmem_fields( 'profile_admin' ) : WP_Members_User_Profile::wpmem_fields( 'profile_dashboard' );
 		
 		// Check for password field before exclusions, just in case we are activating a user (otherwise password is removed on user/admin profiles).
 		$chk_pass = ( array_key_exists( 'password', $wpmem_fields ) && true === $wpmem_fields['password']['register'] ) ? true : false;

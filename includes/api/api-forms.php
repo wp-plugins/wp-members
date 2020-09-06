@@ -161,7 +161,7 @@ function wpmem_forgot_username_form() {
  * @global  stdClass  $wpmem
  * @param   string    $process
  */
-function wpmem_wp_register_form( $process = 'wp' ) {
+function wpmem_wp_register_form( $process = 'register_wp' ) {
 	global $wpmem;
 	$wpmem->forms->wp_register_form( $process );
 }
