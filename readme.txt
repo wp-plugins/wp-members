@@ -139,6 +139,8 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is an improvement release. 
 * Fix undefined has_access() (replaced with API function) when renewing a membership.
 * Fix issues with WooCommerce registration integration.
 * Fix issue of undefined array keys if Really Simple Captcha is selected, but the plugin is not enabled.
+* Fix issue that caused users to not be properly set when moderated registration is used along with BuddyPress and users are created manually.
+* Fix issue in WP CLI wpmem settings command that caused error to be displayed when viewing content settings.
 
 = 3.3.5 =
 

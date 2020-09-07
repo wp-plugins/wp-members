@@ -68,7 +68,7 @@ class WP_Members_CLI_Settings {
 							'Setting' => $setting . ' ' . $post_type,
 							'Description' => $description . ' ' . $post_type,
 							'Value' =>  $wpmem->{$setting}[ $post_type ],
-							'Option' => ( 0 == $value ) ? 'Disabled' : 'Enabled',
+							'Option' => ( 0 == $wpmem->{$setting}[ $post_type ] ) ? 'Disabled' : 'Enabled',
 						);
 					} else {
 						$list[] = array(
