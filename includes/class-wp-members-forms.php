@@ -1437,6 +1437,7 @@ class WP_Members_Forms {
 	 * @since 1.8
 	 * @since 3.1.4 Global $wpmem_regchk no longer needed.
 	 * @since 3.2.0 Moved to forms class, renamed do_login_form().
+	 * @todo $show is deprecated, post restricted message ($msg) handled externally.
 	 *
 	 * @global object $post         The WordPress Post object.
 	 * @global object $wpmem        The WP_Members object.
