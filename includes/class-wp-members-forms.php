@@ -1032,7 +1032,7 @@ class WP_Members_Forms {
 					}
 
 					// For dropdown select.
-					if ( $field['type'] == 'select' || $field['type'] == 'radio' || $field['type'] == 'multiselect' || $field['type'] == 'multicheckbox' ) {
+					if ( 'select' == $field['type'] || 'radio' == $field['type'] || 'multiselect' == $field['type'] || 'multicheckbox' == $field['type'] || 'membership' == $field['type'] ) {
 						$valtochk = $val;
 						$val = $field['values'];
 					}
