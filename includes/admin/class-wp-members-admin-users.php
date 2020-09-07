@@ -481,6 +481,8 @@ class WP_Members_Admin_Users {
 	 * Use wpmem_post_register_data to set the user_status field to 2 using wp_update_user.
 	 * http://codex.wordpress.org/Function_Reference/wp_update_user
 	 *
+	 * @deprecated 3.3.6 No longer used.
+	 *
 	 * @uses  wpmem_set_user_status
 	 * @param $fields
 	 */

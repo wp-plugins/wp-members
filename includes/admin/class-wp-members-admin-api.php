@@ -145,7 +145,6 @@ class WP_Members_Admin_API {
 			add_filter( 'views_users',                array( 'WP_Members_Admin_Users', 'views' ) );
 			add_filter( 'manage_users_columns',       array( 'WP_Members_Admin_Users', 'add_user_column' ) );
 			add_filter( 'manage_users_custom_column', array( 'WP_Members_Admin_Users', 'add_user_column_content' ), 10, 3 );
-			add_action( 'wpmem_post_register_data',   array( 'WP_Members_Admin_Users', 'set_new_user_non_active' ) );
 			add_action( 'wpmem_user_activated',       array( 'WP_Members_Admin_Users', 'set_activated_user' ) );
 			add_action( 'wpmem_user_deactivated',     array( 'WP_Members_Admin_Users', 'set_deactivated_user' ) );
 			add_filter( 'user_row_actions',           array( 'WP_Members_Admin_Users', 'insert_activate_link' ), 10, 2 );
