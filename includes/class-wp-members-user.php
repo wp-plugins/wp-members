@@ -299,6 +299,9 @@ class WP_Members_User {
 
 			// Validate file field type.
 			if ( 'file' == $field['type'] || 'image' == $field['type'] ) {
+				if ( '' == $field['file_types'] ) {
+					$field['file_types'] = ( 'image' == $field['type'] ) ? 'gif|png|jpg|jpeg|bmp' : 'doc|docx|pdf|zip';
+				}
 				$allowed_file_types = explode( '|', $field['file_types'] );
 				$msg_types  = implode( ', ', $allowed_file_types );
 				if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
@@ -401,7 +404,9 @@ class WP_Members_User {
 				if ( ( $field['type'] != 'checkbox' && $field['type'] != 'multicheckbox' && $field['type'] != 'multiselect' && $field['type'] != 'radio' ) && ( ! $_POST[ $meta_key ] ) ) {
 					$is_error = true;
 				}
-				if ( $is_error ) { $errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) ) ); }
+				if ( $is_error ) {
+					$errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) ) ); 
+				}
 			}
 		}
 

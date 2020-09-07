@@ -529,7 +529,7 @@ function wpmem_set_user_status( $user_id, $status ) {
 function wpmem_user_register( $tag ) {
 
 	// Get the globals.
-	global $user_ID, $wpmem, $wpmem_themsg, $userdata; 
+	global $user_ID, $wpmem, $wpmem_themsg, $userdata;
 	
 	$wpmem->user->register_validate( $tag );
 
