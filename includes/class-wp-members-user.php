@@ -397,7 +397,7 @@ class WP_Members_User {
 
 		foreach ( wpmem_fields( 'register_wp' ) as $meta_key => $field ) {
 			$is_error = false;
-			if ( $field['required'] && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
+			if ( true == $field['required'] && true == $field['register'] && $meta_key != 'user_email' && ! in_array( $meta_key, $exclude ) ) {
 				if ( ( $field['type'] == 'checkbox' || $field['type'] == 'multicheckbox' || $field['type'] == 'multiselect' || $field['type'] == 'radio' ) && ( ! isset( $_POST[ $meta_key ] ) ) ) {
 					$is_error = true;
 				} 
