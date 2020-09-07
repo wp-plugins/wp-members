@@ -132,7 +132,7 @@ class WP_Members_Admin_Tab_Captcha {
 									<tr valign="top">
 										<th scope="row"><?php _e( 'hCaptcha Keys', 'wp-members' ); ?></th>
 										<td>
-											<p><?php if ( '' == $wpmem_captcha['hcaptcha']['secret'] || '' == $wpmem_captcha['hcaptcha']['api_key'] ) {
+											<p><?php if ( '' == $private_key || '' == $public_key ) {
 												printf( __( 'hCaptcha requires an API key. You can sign up for %s an hCaptcha API key here %s', 'wp-members' ), "<a href=\"https://hcaptcha.com/\" target=\"_blank\">", '</a>' );
 											} ?></p>
 											<p><label><?php _e( 'API Key', 'wp-members' ); ?>:</label><br /><input type="text" name="wpmem_captcha_publickey" size="60" value="<?php echo $public_key; ?>" /></p>
