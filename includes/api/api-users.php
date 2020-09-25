@@ -532,7 +532,12 @@ function wpmem_user_register( $tag ) {
 	global $user_ID, $wpmem, $wpmem_themsg, $userdata;
 	
 	$wpmem->user->register_validate( $tag );
-
+	
+	// @todo Added as a fix for legacy versions of security extension and any wpmem_pre_register_data action that might null $wpmem_themsg.
+	if ( $wpmem_themsg ) { 
+		return $wpmem_themsg;
+	}
+	
 	switch ( $tag ) {
 
 	case "register":
