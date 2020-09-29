@@ -25,46 +25,18 @@ class WP_Members_Export {
 	 * @param array $args
 	 * @param array $users
 	 */
-	static function export_users( $args, $users = null ) {
+	static function export_users( $args, $users = array() ) {
 
 		global $wpmem;
-
-		$today = date( "Y-m-d" );
-
-		// Setup defaults.
-		$defaults = array(
-			'export'         => 'all',
-			'filename'       => 'wp-members-user-export-' . $today . '.csv',
-			'export_fields'  => wpmem_fields(),
-			'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
-			'entity_decode'  => false,
-			'date_format'    => 'Y-m-d',
-		);
-
-		/**
-		 * Filter the default export arguments.
-		 *
-		 * @since 2.9.7
-		 *
-		 * @param array $args {
-		 *     Array of defaults for export.
-		 *
-		 *     @type  string  $export
-		 *     @type  string  $filename
-		 *     @type  array   $export_fields
-		 *     @type  array   $exclude_fields
-		 *     @type  boolean $entity_decode
-		 *     @type  string  $date_format
-		 * }
-		 */
-		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
-
+		
+		$wpmem_fields = wpmem_fields();
+		
 		// Prepare fields, add additional "special" fields.
 		$export_fields = array(
 			'ID'       => __( 'User ID', 'wp-members' ),
 			'username' => __( 'Username', 'wp-members' ),
 		);
-		foreach( $args['export_fields'] as $meta_key => $value ) {
+		foreach( $wpmem_fields as $meta_key => $value ) {
 			$export_fields[ $meta_key ] = $value['label'];
 		}
 		if ( 1 == $wpmem->mod_reg ) {
@@ -105,11 +77,41 @@ class WP_Members_Export {
 		 */
 		$export_fields = apply_filters( 'wpmem_export_fields', $export_fields );
 
+		$today = date( "Y-m-d" );
+
+		// Setup defaults.
+		$defaults = array(
+			'export'         => 'all',
+			'filename'       => 'wp-members-user-export-' . $today . '.csv',
+			'export_fields'  => $export_fields,
+			'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
+			'entity_decode'  => false,
+			'date_format'    => 'Y-m-d',
+		);
+
+		/**
+		 * Filter the default export arguments.
+		 *
+		 * @since 2.9.7
+		 *
+		 * @param array $args {
+		 *     Array of defaults for export.
+		 *
+		 *     @type  string  $export
+		 *     @type  string  $filename
+		 *     @type  array   $export_fields
+		 *     @type  array   $exclude_fields
+		 *     @type  boolean $entity_decode
+		 *     @type  string  $date_format
+		 * }
+		 */
+		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
+
 		// Output needs to be buffered, start the buffer.
 		ob_start();
 
 		// If exporting all, get all of the users.
-		$users = ( 'all' == $args['export'] ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
+		$export_users = ( 'all' == $args['export'] ) ? get_users( array( 'fields' => 'ID' ) ) : $users;
 
 		// Generate headers and a filename based on date of export.
 		header( "Content-Description: File Transfer" );
@@ -143,7 +145,7 @@ class WP_Members_Export {
 
 		// Loop through the array of users, assemble csv.
 		// $export_fields only includes fields to be exported at this point.
-		foreach ( $users as $user ) {
+		foreach ( $export_users as $user ) {
 
 			$user_info = get_userdata( $user );
 
