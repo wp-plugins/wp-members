@@ -322,15 +322,17 @@ function wpmem_sanitize_class( $class ) {
  * This is an API wrapper for WP_Members_Forms::sanitize_array().
  *
  * @since 3.2.9
+ * @since 3.3.7 Added optional $type
  *
  * @global  object $wpmem
  *
- * @param  array $data
- * @return array $data
+ * @param  array  $data
+ * @param  string $type The data type integer|int (default: false)
+ * @return array  $data
  */
-function wpmem_sanitize_array( $data ) {
+function wpmem_sanitize_array( $data, $type = false ) {
 	global $wpmem;
-	return $wpmem->forms->sanitize_array( $data );
+	return $wpmem->forms->sanitize_array( $data, $type );
 }
 
 /**

@@ -308,14 +308,16 @@ class WP_Members_Forms {
 	 * Sanitizes the text in an array.
 	 *
 	 * @since 3.2.9
+	 * @since 3.3.7 Added optional $type
 	 *
-	 * @param  array $data
-	 * @return array $data
+	 * @param  array  $data
+	 * @param  string $type The data type integer|int (default: false)
+	 * @return array  $data
 	 */
-	function sanitize_array( $data ) {
+	function sanitize_array( $data, $type = false ) {
 		if ( is_array( $data ) ) {
 			foreach( $data as $key => $val ) {
-				$data[ $key ] = sanitize_text_field( $val );
+				$data[ $key ] = ( 'integer' == $type || 'int' == $type ) ? intval( $val ) : sanitize_text_field( $val );
 			}
 		}
 		return $data;
