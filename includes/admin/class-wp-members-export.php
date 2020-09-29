@@ -29,7 +29,7 @@ class WP_Members_Export {
 
 		global $wpmem;
 
-		$today = date( "m-d-y" );
+		$today = date( "Y-m-d" );
 
 		// Setup defaults.
 		$defaults = array(

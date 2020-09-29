@@ -86,9 +86,9 @@ class WP_Members_Admin_Users {
 		}
 
 		// If exporting all users, do it, then exit.
-		if ( isset( $_REQUEST['export_all'] ) && $_REQUEST['export_all'] == __( 'Export All Users', 'wp-members' ) ) {
-			$today = date( "m-d-y" ); 
-			wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ), '' );
+		if ( __( 'Export All Users', 'wp-members' ) == wpmem_get( 'export_all', false ) ) {
+			$today = date( "Y-m-d" ); 
+			wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ) );
 			exit();
 		}
 
