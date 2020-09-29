@@ -786,7 +786,7 @@ function wpmem_get_user_ip() {
  * @param array $args
  * @param array $users
  */
-function wpmem_export_users( $args, $users = null ) {
+function wpmem_export_users( $args, $users = array() ) {
 	global $wpmem;
 	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
 	WP_Members_Export::export_users( $args, $users );

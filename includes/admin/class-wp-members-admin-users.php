@@ -172,12 +172,8 @@ class WP_Members_Admin_Users {
 
 		case 'export':
 
-			$users  = wpmem_get( 'users', false, 'request' );
-			$sanitized_users = array();
-			foreach ( $users as $user ) {
-				$sanitized_users[] = filter_var( $user, FILTER_VALIDATE_INT );
-			}
-			wpmem_export_users( array( 'export'=>'selected' ), $sanitized_users );
+			$users = wpmem_get( 'users', array(), 'request' );
+			wpmem_export_users( array( 'export'=>'selected' ), wpmem_sanitize_array( $users, 'integer' ) );
 			return;
 			break;
 
