@@ -29,6 +29,7 @@ class WP_Members_Admin_Users {
 			$j('<option>').val('deactivate').text('<?php _e( 'Deactivate', 'wp-members' )?>').appendTo("select[name='action']");
 		<?php } ?>
 			$j('<option>').val('export').text('<?php _e( 'Export', 'wp-members' )?>').appendTo("select[name='action']");
+			$j('<input id="export_all" name="export_all" class="button action" type="submit" value="<?php _e( 'Export All Users', 'wp-members' ); ?>" />').appendTo(".top .bulkactions");
 		<?php if( $wpmem->mod_reg == 1 ) { ?>
 			$j('<option>').val('activate').text('<?php _e( 'Activate', 'wp-members' )?>').appendTo("select[name='action2']");
 			$j('<option>').val('deactivate').text('<?php _e( 'Deactivate', 'wp-members' )?>').appendTo("select[name='action2']");
@@ -86,7 +87,7 @@ class WP_Members_Admin_Users {
 		}
 
 		// If exporting all users, do it, then exit.
-		if ( __( 'Export All Users', 'wp-members' ) == wpmem_get( 'export_all', false ) ) {
+		if ( wpmem_get( 'export_all', false, 'request' ) ) {
 			$today = date( "Y-m-d" ); 
 			wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ) );
 			exit();
