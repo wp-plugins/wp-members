@@ -339,3 +339,14 @@ function wpmem_get_suffix( $echo = false ) {
 		return $suffix;
 	}
 }
+
+/**
+ * Checks if WooCommerce is active.
+ *
+ * @since 3.3.7
+ *
+ * @return boolean
+ */
+function wpmem_is_woo_active() {
+	return ( class_exists( 'woocommerce' ) ) ? true : false;
+}
