@@ -362,6 +362,12 @@ class WP_Members_Forms {
 				$sanitized_data = sanitize_file_name( $data );
 				break;
 
+			case 'int':
+			case 'integer':
+			case 'number':
+				$sanitized_data = intval( $data );
+				break;
+
 			default:
 				$sanitized_data = sanitize_text_field( $data );
 				break;	

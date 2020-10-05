@@ -343,7 +343,7 @@ function wpmem_sanitize_array( $data, $type = false ) {
  * @global  object  $wpmem
  *
  * @param   string  $data
- * @param   string  $type
+ * @param   string  $type (multiselect|multicheckbox|textarea|email|file|image|int|integer|number)
  * @return  string  $sanitized_data
  */
 function wpmem_sanitize_field( $data, $type = 'text' ) {
