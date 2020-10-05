@@ -523,20 +523,30 @@ function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
 	// Let's only mess with WP-Members fields (in case another checkout fields plugin is used).
 	if ( array_key_exists( $key, $wpmem_fields ) ) {
 		
-		$field_args = array(
-			'name' => $key,
-			'type' => $wpmem_fields[ $key ]['type'],
-			'required' => $wpmem_fields[ $key ]['required'],
-			'delimiter' => $wpmem_fields[ $key ]['delimiter'],
-			'value' => $wpmem_fields[ $key ]['values'],
-		);
+		// If it is a checkbox.
+		if ( 'checkbox' == $wpmem_fields[ $key ]['type'] ) {
+			
+			if ( ! $_POST && $wpmem_fields[ $key ]['checked_default'] ) {
+				$field = str_replace( '<input type="checkbox"', '<input type="checkbox" checked ', $field );
+			}
 
-		$field_html = wpmem_form_field( $field_args );
-		$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
-		$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
-			<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label'] . ( ( 1 == $wpmem_fields[ $key ]['required'] ) ? '&nbsp;<abbr class="required" title="required">*</abbr>' : '' ) . '</label>';
-		$field .= $field_html;
-		$field .= '</p>';
+		} else {
+		
+			$field_args = array(
+				'name' => $key,
+				'type' => $wpmem_fields[ $key ]['type'],
+				'required' => $wpmem_fields[ $key ]['required'],
+				'delimiter' => $wpmem_fields[ $key ]['delimiter'],
+				'value' => $wpmem_fields[ $key ]['values'],
+			);
+
+			$field_html = wpmem_form_field( $field_args );
+			$field_html = str_replace( 'class="' . $wpmem_fields[ $key ]['type'] . '"', 'class="' . $wpmem_fields[ $key ]['type'] . '" style="display:initial;"', $field_html );
+			$field = '<p class="form-row ' . implode( ' ', $args['class'] ) .'" id="' . $key . '_field">
+				<label for="' . $key . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label'] . ( ( 1 == $wpmem_fields[ $key ]['required'] ) ? '&nbsp;<abbr class="required" title="required">*</abbr>' : '' ) . '</label>';
+			$field .= $field_html;
+			$field .= '</p>';
+		}
 		
 	}
 	
