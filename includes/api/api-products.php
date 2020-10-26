@@ -13,7 +13,30 @@
  * @copyright 2006-2020
  */
 
+/**
+ * Gets all posts by product key.
+ *
+ * @since Unknown
+ *
+ * @global  stdClass  $wpmem
+ * @param   string    $product_key
+ * @return  array
+ */
 function wpmem_get_product_post_list( $product_key ) {
 	global $wpmem;
 	return $wpmem->membership->get_all_posts( $product_key );
+}
+
+/**
+ * Gets the membership products for a given post.
+ *
+ * @since 3.3.7
+ *
+ * @global  stdClass  $wpmem
+ * @param   integer   $post_id
+ * @return  array
+ */
+function wpmem_get_post_products( $post_id ) {
+	global $wpmem;
+	return $wpmem->membership->get_post_products( $post_id );
 }

@@ -441,7 +441,15 @@ function wpmem_woo_checkout_form( $checkout_fields ) {
 	global $wpmem;
 	$fields = wpmem_woo_checkout_fields( $checkout_fields );
 
-	$priority = 10;
+	/**
+	 * Filters the initial WC priority of the WP-members added fields.
+	 *
+	 * @since 3.3.7
+	 *
+	 * @param int
+	 */
+	$priority = apply_filters( 'wpmem_wc_checkout_field_priority_seed', 10 );
+	
 	foreach ( $fields as $meta_key => $field ) {
 		$checkout_fields['order'][ $meta_key ] = array(
 			'type'     => $fields[ $meta_key ]['type'],
