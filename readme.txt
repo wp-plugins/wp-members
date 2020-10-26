@@ -107,7 +107,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is a bug fix release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.7 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -130,6 +130,18 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.6 is a bug fix release. See c
 
 
 == Changelog ==
+
+= 3.3.7 =
+
+* Added "Export All" button to top bulk menu (as previously only in lower)
+* Updated export default date format for filename to YYYY-MM-DD
+* Fixed bug in export if no users are selected
+* Updated wpmem_sanitize_array() to accept "type" argument to define data type to be sanitized (currently only accepts integer|int, default sanitizes as text).
+* Add WP-Members "checked by default" property to WooCommerce checkout registration checkbox fields.
+* Added new conditional API function - wpmem_is_woo_active() for checking if WooCommerce is active.
+* Added integer test/check to wpmem_sanitize_field(), now can sanitize multiselect, multicheckbox, textarea, email, file, image, and number fields.
+* Revised "activation link" feature to "Confirmation link".
+
 
 = 3.3.6 =
 
