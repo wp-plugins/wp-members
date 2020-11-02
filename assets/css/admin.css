@@ -124,3 +124,10 @@
 	margin-top: 10px;
 	margin-left: 24px;
 }
+
+#updatesettings a {
+	text-decoration:none;
+}
+updatesettings a:hover {
+	color: black;
+}
