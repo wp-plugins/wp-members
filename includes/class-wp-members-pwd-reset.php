@@ -104,6 +104,8 @@ class WP_Members_Pwd_Reset {
 			// Check for key.
 			$key        = sanitize_text_field( wpmem_get( 'key',   false, 'request' ) );
 			$user_login = sanitize_text_field( wpmem_get( 'login', false, 'request' ) );
+			$pass1      = wpmem_get( 'pass1', false );
+			$pass2      = wpmem_get( 'pass2', false );
 			
 			// Set an error container.
 			$errors = new WP_Error();
@@ -119,8 +121,13 @@ class WP_Members_Pwd_Reset {
 			// Validate
 			if ( 1 == wpmem_get( 'formsubmit' ) && false !== wpmem_get( 'a', false, $this->form_action ) ) {
 				
+				// Verify nonce.
+				if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdchange_nonce'], 'wpmem_shortform_nonce' ) ) {
+					$errors->add( 'reg_generic', $wpmem->get_text( 'reg_generic' ) );
+				}
+				
 				// Make sure submitted passwords match.
-				if ( wpmem_get( 'pass1' ) !== wpmem_get( 'pass2' ) ) {
+				if ( $pass1 !== $pass2 ) {
 					// Legacy WP-Members error.
 					$result = 'pwdchangerr';
 					$msg = wpmem_inc_regmessage( 'pwdchangerr' );
@@ -131,8 +138,8 @@ class WP_Members_Pwd_Reset {
 				/** This action is documented in wp-login.php */
 				// do_action( 'validate_password_reset', $errors, $user );
 
-				if ( ( ! $errors->has_errors() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {			
-					reset_password( $user, $_POST['pass1'] );
+				if ( ( ! $errors->has_errors() ) && isset( $pass1 ) && ! empty( $pass1 ) ) {			
+					reset_password( $user, $pass1 );
 					$msg = wpmem_inc_regmessage( 'pwdchangesuccess' ) . $wpmem->forms->do_login_form( 'pwdreset' );
 					$result = 'pwdchangesuccess';
 				}
@@ -225,52 +232,6 @@ class WP_Members_Pwd_Reset {
 			return 'pwdresetsuccess';
 		}
 		return $regchk;
-	}
-
-	/**
-	 * Change a user's password()
-	 * (A custom version of $wpmem->user->password_change().)
-	 *
-	 * @since 3.3.5
-	 * @deprecated 3.3.8
-	 *
-	 * @param  int  $user_id
-	 */
-	function change_password( $user_id ) {
-		if ( isset( $_POST['formsubmit'] ) ) {
-			$args = array(
-				'pass1' => wpmem_get( 'pass1', false ),
-				'pass2' => wpmem_get( 'pass2', false ),
-			);
-		}
-
-		$is_error = false;
-		// Check for both fields being empty.
-		$is_error = ( ! $args['pass1'] && ! $args['pass2'] ) ? "pwdchangempty" : $is_error;
-		// Make sure the fields match.
-		$is_error = ( $args['pass1'] != $args['pass2'] ) ? "pwdchangerr" : $is_error;
-		/**
-		 * Filters the password change error.
-		 *
-		 * @since 3.1.5
-		 * @since 3.1.7 Moved to user object.
-		 *
-		 * @param string $is_error
-		 * @param int    $user_id  The user's numeric ID.
-		 * @param string $args['pass1']    The user's new plain text password.
-		 */
-		$is_error = apply_filters( 'wpmem_pwd_change_error', $is_error, $user_id, $args['pass1'] );
-
-		// Verify nonce.
-		$is_error = ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdchange_nonce'], 'wpmem_shortform_nonce' ) ) ? "reg_generic" : $is_error;
-		if ( $is_error ) {
-			return $is_error;
-		}
-		//wp_set_password( $args['pass1'] , $user_id );
-		$user = get_user_by( 'ID', $user_id );
-		reset_password( $user, $args['pass1'] );
-		
-		return "pwdchangesuccess";
 	}
 
 	/**
