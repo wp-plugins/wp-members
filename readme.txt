@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.5
-Stable tag: 3.3.6
+Stable tag: 3.3.7
 License: GPLv2
 
 == Description ==
@@ -130,6 +130,10 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.7 is an improvement release. 
 
 
 == Changelog ==
+
+= 3.3.8 =
+
+* Revised password reset, now uses WP's user_activation_key instead of custom meta.
 
 = 3.3.7 =
 

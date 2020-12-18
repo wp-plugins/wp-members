@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * An object class for WP-Members Password Reset.
+ *
+ * @since 3.3.5
+ * @since 3.3.8 Rebuild processing to utilize WP native functions and user_activation_key.
+ */
 class WP_Members_Pwd_Reset {
 	
 	/**
@@ -16,8 +21,6 @@ class WP_Members_Pwd_Reset {
 	 *
 	 * @since 3.3.5
 	 */
-	public $reset_key_meta  = '_wpmem_password_reset_key';
-	public $reset_key_exp   = '_wpmem_password_reset_exp';
 	public $reset_key_nonce = "_wpmem_pwd_reset";
 	public $form_action     = 'set_password_from_key';
 	
@@ -41,70 +44,6 @@ class WP_Members_Pwd_Reset {
 	}
 
 	/**
-	 * Create a password reset key for the user.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param   int     $user_id
-	 * @return  string  $key
-	 */
-	function generate_reset_key( $user_id ) {
-		
-		$key = md5( wp_generate_password() );
-		
-		/**
-		 * Filter the key expiration.
-		 *
-		 * @since 3.3.5
-		 *
-		 * @param string $key_expires
-		 */
-		$key_expires = apply_filters( 'wpmem_reset_key_exp', ( time() + 21600 ) );
-		
-		update_user_meta( $user_id, $this->reset_key_meta, $key );
-		update_user_meta( $user_id, $this->reset_key_exp, $key_expires );
-		return $key;
-	}
-
-	/**
-	 * Utility for getting the user ID by the password_reset_key.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  string $key
-	 * @return mixed  $user->ID/false
-	 */
-	function get_user_by_pwd_key( $key ) {
-		// Get the user account the key is for.
-		$users = get_users( array(
-			'meta_key'    => $this->reset_key_meta,
-			'meta_value'  => $key,
-			'number'      => 1,
-			'count_total' => false
-		) );
-		if ( $users ) {
-			foreach( $users as $user ) {
-				return $user->ID;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Check if key is expired.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  string  $key
-	 * @param  int     $user_id
-	 * @return boolean
-	 */
-	function key_is_valid( $key, $user_id ) {
-		$expires = get_user_meta( $user_id, $this->reset_key_exp, true );	
-		return ( time() < $expires ) ? true : false;
-	}
-
-	/**
 	 * Add reset key to the email.
 	 *
 	 * @since 3.3.5
@@ -118,11 +57,14 @@ class WP_Members_Pwd_Reset {
 
 		if ( $arr['toggle'] == 'repass' ) {
 			
+			$user = get_user_by( 'ID', $arr['user_id'] );
+			
 			// Get the stored key.
-			$key = $this->generate_reset_key( $arr['user_id'] );
+			$key = get_password_reset_key( $user );
 			$query_args = array(
-				'a'   => $this->form_action,
-				'key' => $key,
+				'a'     => $this->form_action,
+				'key'   => $key,
+				'login' => $user->user_login,
 			);
 			
 			// Generate reset link.
@@ -149,58 +91,67 @@ class WP_Members_Pwd_Reset {
 	 * @return string  $content
 	 */
 	function display_content( $content ) {
+		
+		global $wpmem;
+		
 		if ( ! is_user_logged_in() && in_the_loop() && $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
 			// Define variables
-			$result = false; $user_id = false;
+			$result  = '';
+			$user_id = false;
+			$msg     = '';
+			$form    = '';
 			
-			// Check for key
-			$key = sanitize_text_field( wpmem_get( 'key', false, 'request' ) );
+			// Check for key.
+			$key        = sanitize_text_field( wpmem_get( 'key',   false, 'request' ) );
+			$user_login = sanitize_text_field( wpmem_get( 'login', false, 'request' ) );
 			
+			// Set an error container.
+			$errors = new WP_Error();
+			
+			// Check the reset key.
+			$user = check_password_reset_key( $key, $user_login );
+			
+			// Check if there's an error.
+			if ( ! is_wp_error( $user ) ) {
+				$user_id = $user->ID;
+			}
+		
 			// Validate
 			if ( 1 == wpmem_get( 'formsubmit' ) && false !== wpmem_get( 'a', false, $this->form_action ) ) {
-				// form was submitted, validate fields
-				$user_id = $this->get_user_by_pwd_key( $key );
-				if ( $user_id ) {
-					// Key was found, is it expired?
-					if ( true === $this->key_is_valid( $key, $user_id ) ) {
-						$result = $this->change_password( $user_id );
-					} else {
-						return $this->key_is_expired;
-					}
-				} else {
-					$result = 'submittedkeynotfound';
+				
+				// Make sure submitted passwords match.
+				if ( wpmem_get( 'pass1' ) !== wpmem_get( 'pass2' ) ) {
+					// Legacy WP-Members error.
+					$result = 'pwdchangerr';
+					$msg = wpmem_inc_regmessage( 'pwdchangerr' );
+					// WP Error.
+					$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+				}
+				
+				/** This action is documented in wp-login.php */
+				// do_action( 'validate_password_reset', $errors, $user );
+
+				if ( ( ! $errors->has_errors() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {			
+					reset_password( $user, $_POST['pass1'] );
+					$msg = wpmem_inc_regmessage( 'pwdchangesuccess' ) . $wpmem->forms->do_login_form( 'pwdreset' );
+					$result = 'pwdchangesuccess';
 				}
 			}
+			
 			if ( $result != 'pwdchangesuccess' ) {
 
-				if ( 'submittedkeynotfound' == $result ) {
+				if ( 'invalid_key' == $user->get_error_code() ) {
 					// If somehow the form was submitted but the key not found.
-					return $this->form_submitted_key_not_found;
+					$msg = wpmem_inc_regmessage( 'invalid_key', $this->form_submitted_key_not_found );
 				}
-
-				// If no key found on initial form load, or if no key was passed
-				if ( $key ) {
-					$user_id = $this->get_user_by_pwd_key( $key );
-					if ( ! $user_id ) {
-						return $this->form_load_key_not_found;
-					} else {
-						if ( false === $this->key_is_valid( $key, $user_id ) ) {
-							return $this->key_is_expired;
-						}
-					}
-				} else {
-					return $this->form_load_key_not_found;
-				}
-
-				$content = wpmem_change_password_form();
-			} else {
-				$content = wpmem_inc_regmessage( 'pwdchangesuccess' );
-				if ( $user_id ) {
-					delete_user_meta( $user_id, $this->reset_key_meta );
-					delete_user_meta( $user_id, $this->reset_key_exp  );
-				}
+				
+				$form = wpmem_change_password_form();
+				
 			}
+			
+			$content = $msg . $form;
 		}
+		
 		return $content;
 	}
 
@@ -215,7 +166,8 @@ class WP_Members_Pwd_Reset {
 	function add_hidden_form_field( $hidden_fields, $action ) {
 		if ( $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
 			$hidden_fields = str_replace( 'pwdchange', $this->form_action, $hidden_fields );
-			$hidden_fields.= wpmem_create_formfield( $this->reset_key_meta, 'hidden', wpmem_get( 'key', null, 'request' ) );
+			$hidden_fields.= wpmem_create_formfield( 'key',   'hidden', wpmem_get( 'key',   null, 'request' ) );
+			$hidden_fields.= wpmem_create_formfield( 'login', 'hidden', wpmem_get( 'login', null, 'request' ) );
 		}
 		return $hidden_fields;
 	}
@@ -280,6 +232,7 @@ class WP_Members_Pwd_Reset {
 	 * (A custom version of $wpmem->user->password_change().)
 	 *
 	 * @since 3.3.5
+	 * @deprecated 3.3.8
 	 *
 	 * @param  int  $user_id
 	 */
@@ -313,7 +266,10 @@ class WP_Members_Pwd_Reset {
 		if ( $is_error ) {
 			return $is_error;
 		}
-		wp_set_password( $args['pass1'] , $user_id );
+		//wp_set_password( $args['pass1'] , $user_id );
+		$user = get_user_by( 'ID', $user_id );
+		reset_password( $user, $args['pass1'] );
+		
 		return "pwdchangesuccess";
 	}
 
