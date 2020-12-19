@@ -107,7 +107,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.7 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -134,6 +134,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.7 is an improvement release. 
 = 3.3.8 =
 
 * Revised password reset, now uses WP's user_activation_key instead of custom meta.
+* Revised email validation on registration, now users WP's user_activation_key instead of custom meta.
 
 = 3.3.7 =
 

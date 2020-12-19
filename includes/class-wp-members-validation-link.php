@@ -1,5 +1,8 @@
 <?php
-
+/**
+ *
+ * 
+ */
 class WP_Members_Validation_Link {
 	
 	/**
@@ -33,7 +36,6 @@ class WP_Members_Validation_Link {
 		$this->expired_message = __( 'Validation key was expired or invalid',  'wp-members' );
 		
 		//add_action( 'wpmem_after_init',   array( $this, 'default_to_mod'   ) );
-		add_action( 'user_register',      array( $this, 'generate_key'       ) );
 		add_action( 'template_redirect',  array( $this, 'validate_key'       ) );
 		add_filter( 'authenticate',       array( $this, 'check_validated'    ), 99, 3 );
 		add_filter( 'wpmem_email_filter', array( $this, 'add_key_to_email'   ), 10, 3 );
@@ -53,46 +55,6 @@ class WP_Members_Validation_Link {
 	public function default_to_mod() {
 		global $wpmem;
 		$wpmem->mod_reg = 1;
-	}
-	
-	/**
-	 * Create a validation key for the user at registration.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param int $user_id
-	 */
-	public function generate_key( $user_id ) {
-
-		// Generate a random key.
-		$key = md5( wp_generate_password() );
-
-		/**
-		 * Filter the key expiration.
-		 *
-		 * @since 3.3.5
-		 *
-		 * @param string $key_expires
-		 */
-		$key_expires = apply_filters( 'wpmem_validation_key_exp', ( time() + 21600 ) );
-		
-		// Save this for the new user account.
-		add_user_meta( $user_id, $this->validation_key_meta, $key );
-		add_user_meta( $user_id, $this->validation_key_exp, $key_expires );
-	}
-	
-	/**
-	 * Check if key is expired.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  string  $key
-	 * @param  int     $user_id
-	 * @return boolean
-	 */
-	private function key_is_valid( $key, $user_id ) {
-		$expires = get_user_meta( $user_id, $this->validation_key_exp, true );	
-		return ( time() < $expires ) ? true : false;
 	}
 	
 	/**
@@ -117,9 +79,30 @@ class WP_Members_Validation_Link {
 		 */
 		$url = apply_filters( 'wpmem_validation_link_return_url', trailingslashit( wpmem_profile_url() ) );
 
-		$key  = get_user_meta( $arr['user_id'], $this->validation_key_meta, true );
-		$exp  = get_user_meta( $arr['user_id'], $this->validation_key_exp,  true );
-		$link = add_query_arg( array( 'a'=>'activate', 'key'=>$key ), $url );
+		$user = get_user_by( 'ID', $arr['user_id'] );
+		
+		/**
+		 * Gets the user based on the password key.
+		 *
+		 * WP filters/actions triggered:
+		 * - retrieve_password
+		 * - allow_password_reset
+		 * - retrieve_password_key
+		 *
+		 * @see: https://developer.wordpress.org/reference/functions/get_password_reset_key/
+		 * @param WP_User User to retrieve password reset key for.
+		 * @return string|WP_Error Password reset key on success. WP_Error on error.
+		 */
+		$key = get_password_reset_key( $user );
+		
+		$query_args = array(
+			'a'     => 'confirm',
+			'key'   => $key,
+			'login' => $user->user_login,
+		);
+		
+		// Generate confirm link.
+		$link = add_query_arg( $query_args, trailingslashit( $url ) );
 		
 		// Only do this for new registrations.
 		$email_type = ( 1 == $wpmem->mod_reg ) ? 'newmod' : 'newreg';
@@ -146,47 +129,72 @@ class WP_Members_Validation_Link {
 	public function validate_key() {
 		
 		// Check for validation key.
-		$key = ( 'activate' == wpmem_get( 'a', false, 'get' ) ) ? wpmem_get( 'key', false, 'get' ) : false;
+		$key   = ( 'confirm' == wpmem_get( 'a', false, 'get' ) ) ? wpmem_get( 'key',   false, 'get' ) : false;
+		$login = ( 'confirm' == wpmem_get( 'a', false, 'get' ) ) ? wpmem_get( 'login', false, 'get' ) : false;
+		
 		if ( false !== $key ) {
 
-			// Get the user account the key is for.
-			$users = get_users( array(
-				'meta_key'    => $this->validation_key_meta,
-				'meta_value'  => $key,
-				'number'      => 1,
-				'count_total' => false
-			) );
+			// Set an error container.
+			$errors = new WP_Error();
 
-			if ( $users ) {
-				foreach( $users as $user ) {
+			/**
+			 * Validate the key.
+			 *
+			 * WP_Error will be invalid_key or expired_key. Process triggers password_reset_expiration filter
+			 * filtering DAY_IN_SECONDS default. Filter password_reset_key_expired is also triggered filtering
+			 * the return value (which can be used to override the expired/invalid check based on user_id).
+			 *
+			 * WP filter/actions triggered:
+			 * - password_reset_expiration
+			 * - password_reset_key_expired
+			 *
+			 * @see https://developer.wordpress.org/reference/functions/check_password_reset_key/
+			 * @param string Hash to validate sending user's password.
+			 * @param string The user login.
+			 * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys (invalid_key|expired_key).
+			 */
+			$user = check_password_reset_key( $key, $login );
 
-					if ( true === $this->key_is_valid( $key, $user->ID ) ) {
+			if ( ! is_wp_error( $user ) ) {
 
-						$this->validated = true;
+				$this->validated = true;
 
-						// The provided validation key was valid, log in.
-						wp_set_auth_cookie( $user->ID, true );
-						wp_set_current_user( $user->ID );
+				/**
+				 * Sets the WP auth cookie.
+				 *
+				 * May trigger the following WP filter/actions:
+				 * - auth_cookie_expiration
+				 * - secure_auth_cookie
+				 * - secure_logged_in_cookie
+				 * - set_auth_cookie
+				 * - set_logged_in_cookie
+				 * - send_auth_cookies
+				 *
+				 * @see https://developer.wordpress.org/reference/functions/wp_set_auth_cookie/
+				 */
+				wp_set_auth_cookie( $user->ID, true );
+				
+				/**
+				 * Sets the user as logged in.
+				 *
+				 * May trigger the folloiwng WP filter/actions:
+				 * - set_current_user
+				 *
+				 * @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
+				 */
+				wp_set_current_user( $user->ID );
 
-						// Delete validation_key meta and set active.
-						$this->set_as_confirmed( $user->ID );
-						
-						/**
-						 * Fires when a user has successfully validated their account.
-						 *
-						 * @since 3.3.5
-						 *
-						 * @param int $user_id
-						 */
-						do_action( 'wpmem_account_validation_success', $user->ID );
+				// Delete validation_key meta and set active.
+				$this->clear_activation_key( $user->ID );
 
-						break;
-						
-					} else {
-						$this->validated = false;
-						break;
-					}
-				}
+				/**
+				 * Fires when a user has successfully validated their account.
+				 *
+				 * @since 3.3.5
+				 *
+				 * @param int $user_id
+				 */
+				do_action( 'wpmem_account_validation_success', $user->ID );
 
 			} else {
 				$this->validated = false;
@@ -206,13 +214,17 @@ class WP_Members_Validation_Link {
 	 */
 	public function validation_success( $content ) {
 
-		if ( $this->show_success && 'activate' == wpmem_get( 'a', false, 'get' ) && isset( $this->validated ) ) {
+		if ( $this->show_success && 'confirm' == wpmem_get( 'a', false, 'get' ) && isset( $this->validated ) ) {
 
 			if ( true === $this->validated ) {
-				$content = wpmem_inc_regmessage( '', $this->success_message ) . $content;
+				$msg = $this->success_message;
 			} elseif ( false === $this->validated ) {
-				$content = wpmem_inc_regmessage( '', $this->expired_message ) . $content;
+				$msg = $this->expired_message;
+			} else {
+				$msg = '';
 			}
+			
+			$content = wpmem_inc_regmessage( '', $msg ) . $content;
 		}
 
 		return $content;
@@ -220,6 +232,8 @@ class WP_Members_Validation_Link {
 
 	/**
 	 * Checks if a user is activated during user authentication.
+	 *
+	 * This prevents access via login if the user has not confirmed their email.
 	 *
 	 * @since 3.3.5 Moved from core to user object.
 	 *
@@ -259,9 +273,16 @@ class WP_Members_Validation_Link {
 		}	
 	}
 	
-	public function set_as_confirmed( $user_id ) {
-		delete_user_meta( $user_id, $this->validation_key_meta );
-		delete_user_meta( $user_id, $this->validation_key_exp );
-		update_user_meta( $user_id, $this->validation_confirm, time() );
+	/**
+	 * Clears user_activation_key.
+	 *
+	 * @since 3.3.8
+	 *
+	 * @param int $user_id
+	 */
+	public function clear_activation_key( $user_id ) {
+		global $wpdb;
+		$result = $wpdb->update( $wpdb->users, array( 'user_activation_key' => '', ), array( 'ID' => $user_id ) );
+		//clean_user_cache( $user_id );
 	}
 }
