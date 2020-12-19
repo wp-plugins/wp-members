@@ -60,7 +60,7 @@ class WP_Members_Pwd_Reset {
 			$user = get_user_by( 'ID', $arr['user_id'] );
 			
 			// Get the stored key.
-			$key = get_password_reset_key( $user );
+			$key = $this->get_password_reset_key( $user );
 			$query_args = array(
 				'a'     => $this->form_action,
 				'key'   => $key,
@@ -110,13 +110,23 @@ class WP_Members_Pwd_Reset {
 			// Set an error container.
 			$errors = new WP_Error();
 			
-			// Check the reset key.
+			/**
+			 * Validate the key.
+			 *
+			 * WP_Error will be invalid_key or expired_key. Process triggers password_reset_expiration filter
+			 * filtering DAY_IN_SECONDS default. Filter password_reset_key_expired is also triggered filtering
+			 * the return value (which can be used to override the expired/invalid check based on user_id).
+			 *
+			 * WP filter/actions triggered:
+			 * - password_reset_expiration
+			 * - password_reset_key_expired
+			 *
+			 * @see https://developer.wordpress.org/reference/functions/check_password_reset_key/
+			 * @param string Hash to validate sending user's password.
+			 * @param string The user login.
+			 * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys (invalid_key|expired_key).
+			 */
 			$user = check_password_reset_key( $key, $user_login );
-			
-			// Check if there's an error.
-			if ( ! is_wp_error( $user ) ) {
-				$user_id = $user->ID;
-			}
 		
 			// Validate
 			if ( 1 == wpmem_get( 'formsubmit' ) && false !== wpmem_get( 'a', false, $this->form_action ) ) {
@@ -246,5 +256,19 @@ class WP_Members_Pwd_Reset {
 		$args['inputs'][0]['name'] = $wpmem->get_text( 'login_username' );
 		unset( $args['inputs'][1] );
 		return $args;
+	}
+	
+	/**
+	 * Sets and gets the password reset key.
+	 *
+	 * This function is a wrapper for the WP function get_password_reset_key().
+	 *
+	 * @since 3.3.8
+	 *
+	 * @param  object  $user
+	 * @return string  The reset key.
+	 */
+	private function get_password_reset_key( $user ) {
+		return get_password_reset_key( $user );
 	}
 }
