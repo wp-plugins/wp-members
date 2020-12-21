@@ -94,7 +94,7 @@ class WP_Members_Email {
 		$wpmem_fields = wpmem_fields();
 
 		//Determine email to be sent. Stored option is an array with keys 'body' and 'subj'.
-		$tag_array = array( 'newreg', 'newmod', 'appmod', 'repass', 'getuser' );
+		$tag_array = array( 'newreg', 'newmod', 'appmod', 'repass', 'getuser', 'validated' );
 		switch ( $tag ) {
 			case 0: 
 			case 1:
@@ -104,6 +104,10 @@ class WP_Members_Email {
 				$tag = $tag_array[ $tag ];
 				$this->settings = get_option( 'wpmembers_email_' . $tag );
 				$this->settings['tag'] = $tag;
+				break;
+			case 6:
+				$this->settings = get_option( 'wpmembers_email_validated' );
+				$this->settings['tag'] = 'validated';
 				break;
 			default: // case 5:
 				// This is a custom email.

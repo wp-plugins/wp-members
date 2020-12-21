@@ -10,8 +10,6 @@ class WP_Members_Validation_Link {
 	 *
 	 * @since 3.3.5
 	 */
-	public $validation_key_meta  = '_wpmem_validation_key';
-	public $validation_key_exp   = '_wpmem_validation_exp';
 	public $validation_confirm   = '_wpmem_user_confirmed';
 	
 	/**
@@ -22,7 +20,6 @@ class WP_Members_Validation_Link {
 	public $send_welcome = true;
 	public $show_success = true;
 	public $send_notify  = true;
-	public $auto_delete  = true;
 	
 	/**
 	 * Initialize validation link feature.
@@ -31,11 +28,11 @@ class WP_Members_Validation_Link {
 	 */
 	public function __construct() {
 		
-		$this->email_text      = __( 'Click to validate your account: ',       'wp-members' );
-		$this->success_message = __( 'Thank you for validating your account.', 'wp-members' );
-		$this->expired_message = __( 'Validation key was expired or invalid',  'wp-members' );
+		$this->email_text        = __( 'Click to validate your account: ',       'wp-members' );
+		$this->success_message   = __( 'Thank you for validating your account.', 'wp-members' );
+		$this->expired_message   = __( 'Validation key was expired or invalid',  'wp-members' );
+		$this->moderated_message = __( 'Your account is now pending approval',   'wp-members' );
 		
-		//add_action( 'wpmem_after_init',   array( $this, 'default_to_mod'   ) );
 		add_action( 'template_redirect',  array( $this, 'validate_key'       ) );
 		add_filter( 'authenticate',       array( $this, 'check_validated'    ), 99, 3 );
 		add_filter( 'wpmem_email_filter', array( $this, 'add_key_to_email'   ), 10, 3 );
@@ -43,18 +40,6 @@ class WP_Members_Validation_Link {
 		
 		add_action( 'wpmem_account_validation_success', array( $this, 'send_welcome' ) );
 		add_action( 'wpmem_account_validation_success', array( $this, 'notify_admin' ) );
-	}
-	
-	/**
-	 * Default the site to moderated registration.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @todo This may be temporary. Re-evaluate and see if we can/need to make something specific to this feature.
-	 */
-	public function default_to_mod() {
-		global $wpmem;
-		$wpmem->mod_reg = 1;
 	}
 	
 	/**
@@ -71,43 +56,42 @@ class WP_Members_Validation_Link {
 	public function add_key_to_email( $arr, $wpmem_fields, $field_data ) {
 
 		global $wpmem;
-		
-		/**
-		 * Filter the return url
-		 *
-		 * @since 3.3.5
-		 */
-		$url = apply_filters( 'wpmem_validation_link_return_url', trailingslashit( wpmem_profile_url() ) );
 
-		$user = get_user_by( 'ID', $arr['user_id'] );
-		
-		/**
-		 * Gets the user based on the password key.
-		 *
-		 * WP filters/actions triggered:
-		 * - retrieve_password
-		 * - allow_password_reset
-		 * - retrieve_password_key
-		 *
-		 * @see: https://developer.wordpress.org/reference/functions/get_password_reset_key/
-		 * @param WP_User User to retrieve password reset key for.
-		 * @return string|WP_Error Password reset key on success. WP_Error on error.
-		 */
-		$key = get_password_reset_key( $user );
-		
-		$query_args = array(
-			'a'     => 'confirm',
-			'key'   => $key,
-			'login' => $user->user_login,
-		);
-		
-		// Generate confirm link.
-		$link = add_query_arg( $query_args, trailingslashit( $url ) );
-		
 		// Only do this for new registrations.
 		$email_type = ( 1 == $wpmem->mod_reg ) ? 'newmod' : 'newreg';
 		if ( $arr['toggle'] == $email_type ) {
-			// Does email body have the [act_link] shortcode?
+
+			$user = get_user_by( 'ID', $arr['user_id'] );
+
+			/**
+			 * Gets the user based on the password key.
+			 *
+			 * WP filters/actions triggered:
+			 * - retrieve_password
+			 * - allow_password_reset
+			 * - retrieve_password_key
+			 *
+			 * @see: https://developer.wordpress.org/reference/functions/get_password_reset_key/
+			 * @param WP_User User to retrieve password reset key for.
+			 * @return string|WP_Error Password reset key on success. WP_Error on error.
+			 */
+			$key = get_password_reset_key( $user );
+
+			// Generate confirm link.
+			/**
+			 * Filter the return url
+			 *
+			 * @since 3.3.5
+			 */
+			$url = apply_filters( 'wpmem_validation_link_return_url', trailingslashit( wpmem_profile_url() ) );
+			$query_args = array(
+				'a'     => 'confirm',
+				'key'   => $key,
+				'login' => $user->user_login,
+			);
+			$link = add_query_arg( $query_args, trailingslashit( $url ) );
+		
+			// Does email body have the [confirm_link] shortcode?
 			if ( strpos( $arr['body'], '[confirm_link]' ) ) {
 				$arr['body'] = str_replace( '[confirm_link]', $link, $arr['body'] );
 			} else {
@@ -127,6 +111,8 @@ class WP_Members_Validation_Link {
 	 * @since 3.3.5
 	 */
 	public function validate_key() {
+		
+		global $wpmem;
 		
 		// Check for validation key.
 		$key   = ( 'confirm' == wpmem_get( 'a', false, 'get' ) ) ? wpmem_get( 'key',   false, 'get' ) : false;
@@ -159,33 +145,37 @@ class WP_Members_Validation_Link {
 
 				$this->validated = true;
 
-				/**
-				 * Sets the WP auth cookie.
-				 *
-				 * May trigger the following WP filter/actions:
-				 * - auth_cookie_expiration
-				 * - secure_auth_cookie
-				 * - secure_logged_in_cookie
-				 * - set_auth_cookie
-				 * - set_logged_in_cookie
-				 * - send_auth_cookies
-				 *
-				 * @see https://developer.wordpress.org/reference/functions/wp_set_auth_cookie/
-				 */
-				wp_set_auth_cookie( $user->ID, true );
-				
-				/**
-				 * Sets the user as logged in.
-				 *
-				 * May trigger the folloiwng WP filter/actions:
-				 * - set_current_user
-				 *
-				 * @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
-				 */
-				wp_set_current_user( $user->ID );
+				// If registration is not moderated, set the user as logged in.
+				if ( 1 != $wpmem->mod_reg ) {
+					/**
+					 * Sets the WP auth cookie.
+					 *
+					 * May trigger the following WP filter/actions:
+					 * - auth_cookie_expiration
+					 * - secure_auth_cookie
+					 * - secure_logged_in_cookie
+					 * - set_auth_cookie
+					 * - set_logged_in_cookie
+					 * - send_auth_cookies
+					 *
+					 * @see https://developer.wordpress.org/reference/functions/wp_set_auth_cookie/
+					 */
+					wp_set_auth_cookie( $user->ID, true );
+
+					/**
+					 * Sets the user as logged in.
+					 *
+					 * May trigger the folloiwng WP filter/actions:
+					 * - set_current_user
+					 *
+					 * @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
+					 */
+					wp_set_current_user( $user->ID );
+				}
 
 				// Delete validation_key meta and set active.
 				$this->clear_activation_key( $user->ID );
+				$this->set_as_confirmed( $user->ID );
 
 				/**
 				 * Fires when a user has successfully validated their account.
@@ -213,11 +203,17 @@ class WP_Members_Validation_Link {
 	 * @return string  $content
 	 */
 	public function validation_success( $content ) {
+		
+		global $wpmem;
 
 		if ( $this->show_success && 'confirm' == wpmem_get( 'a', false, 'get' ) && isset( $this->validated ) ) {
 
 			if ( true === $this->validated ) {
 				$msg = $this->success_message;
+				
+				if ( 1 == $wpmem->mod_reg ) {
+					$msg = $msg . $this->moderated_message;
+				}
 			} elseif ( false === $this->validated ) {
 				$msg = $this->expired_message;
 			} else {
@@ -248,7 +244,7 @@ class WP_Members_Validation_Link {
 
 		if ( ! $pass ) { 
 			return $user;
-		}
+		} 
 
 		// Validation flag must be confirmed.
 		$validated = get_user_meta( $user->ID, $this->validation_confirm, true );
@@ -260,12 +256,28 @@ class WP_Members_Validation_Link {
 		return $user;
 	}
 	
+	/**
+	 * Sends the welcome email to the user upon validation of their email.
+	 *
+	 * @since 3.3.5
+	 * @since 3.3.8 Sends email specific to email validation (previously was moderated approved email).
+	 *
+	 * @param int $user_id
+	 */
 	public function send_welcome( $user_id ) {
 		if ( $this->send_welcome ) {
-			wpmem_email_to_user( $user_id, '', 2 );
+			$email_to_send = ( get_option( 'wpmembers_email_validated' ) ) ? 6 : 2;
+			wpmem_email_to_user( $user_id, '', $email_to_send  );
 		}
 	}
 	
+	/**
+	 * Sends notification email to the admin upon validation of the user's email.
+	 *
+	 * @since 3.3.5
+	 *
+	 * @param int $user_id
+	 */
 	public function notify_admin( $user_id ) {
 		if ( $this->send_notify ) {
 			// global $wpmem;
@@ -284,5 +296,16 @@ class WP_Members_Validation_Link {
 		global $wpdb;
 		$result = $wpdb->update( $wpdb->users, array( 'user_activation_key' => '', ), array( 'ID' => $user_id ) );
 		//clean_user_cache( $user_id );
+	}
+	
+	/**
+	 * Sets user as having validated their email.
+	 *
+	 * @since 3.3.8
+	 *
+	 * @param int $user_id
+	 */
+	public function set_as_confirmed( $user_id ) {
+		update_user_meta( $user_id, $this->validation_confirm, time() );
 	}
 }
