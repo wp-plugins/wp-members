@@ -597,7 +597,7 @@ function wpmem_user_register( $tag ) {
 		}
 
 		// Inserts to wp_users table.
-		wp_insert_user( $new_user_fields );
+		$user = wp_insert_user( $new_user_fields );
 
 		/**
 		 * Fires after registration is complete.
@@ -606,10 +606,11 @@ function wpmem_user_register( $tag ) {
 		 * @since 3.1.0 Added $fields
 		 * @since 3.1.7 Changed $fields to $this->post_data
 		 * @since 3.3.0 Moved to registration function.
+		 * @since 3.3.8 Added $user parameter.
 		 *
 		 * @param array $wpmem->user->post_data The user's submitted registration data.
 		 */
-		do_action( 'wpmem_register_redirect', $wpmem->user->post_data );
+		do_action( 'wpmem_register_redirect', $wpmem->user->post_data, $user );
 
 		// successful registration message
 		return "success";
