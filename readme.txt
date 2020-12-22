@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.5
-Stable tag: 3.3.7
+Stable tag: 3.3.8
 License: GPLv2
 
 == Description ==
@@ -133,8 +133,14 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 
 = 3.3.8 =
 
+* This update does upgrade the plugin's db version. It adds a new email for user email validation during registration.
 * Revised password reset, now uses WP's user_activation_key instead of custom meta.
-* Revised email validation on registration, now users WP's user_activation_key instead of custom meta.
+* Revised email validation on registration, now users WP's user_activation_key instead of custom meta. 
+* Revised email validation for cleaner use when moderated registration is active. Now, if registration is moderated, user must validate their email before notification is sent to admin. User cannot log in until admin approves the user. (Must enable WP Login Erroe setting in WP-Members options for complete messaging.)
+* Revised email validation now has custom email.
+* When registration runs wp_insert_user(), the resulting $user object is captured and passed to the wpmem_register_redirect action.
+* The default function in the WP-Members user object runs register_redirect() hooked to the wpmem_register_redirect action.  Previously, this was run at the default priority (10). This update moves it to priority 20 (so a custom redirect set at the default priority will run first).
+
 
 = 3.3.7 =
 
