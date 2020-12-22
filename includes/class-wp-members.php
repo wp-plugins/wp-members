@@ -331,6 +331,15 @@ class WP_Members {
 	public $login_error = 0;
 	
 	/**
+	 * Default file upload directory.
+	 *
+	 * @since 3.3.8
+	 * @access public
+	 * @var string
+	 */
+	public $upload_base = 'wpmembers';
+	
+	/**
 	 * Plugin initialization function.
 	 *
 	 * @since 3.0.0
