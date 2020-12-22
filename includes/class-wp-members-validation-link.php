@@ -10,7 +10,7 @@ class WP_Members_Validation_Link {
 	 *
 	 * @since 3.3.5
 	 */
-	public $validation_confirm   = '_wpmem_user_confirmed';
+	public $validation_confirm = '_wpmem_user_confirmed';
 	
 	/**
 	 * Options.
@@ -28,10 +28,25 @@ class WP_Members_Validation_Link {
 	 */
 	public function __construct() {
 		
-		$this->email_text        = __( 'Click to validate your account: ',       'wp-members' );
-		$this->success_message   = __( 'Thank you for validating your account.', 'wp-members' );
-		$this->expired_message   = __( 'Validation key was expired or invalid',  'wp-members' );
-		$this->moderated_message = __( 'Your account is now pending approval',   'wp-members' );
+		$defaults = array(
+			'email_text'        => __( 'Click to validate your account: ',       'wp-members' ),
+			'success_message'   => __( 'Thank you for validating your account.', 'wp-members' ),
+			'invalid_message'   => __( 'Validation key was expired or invalid',  'wp-members' ),
+			'moderated_message' => __( 'Your account is now pending approval',   'wp-members' ),
+		);
+		
+		/**
+		 * Filter default dialogs.
+		 *
+		 * @since 3.3.8
+		 *
+		 * @param array $defaults
+		 */
+		$defaults = apply_filters( 'wpmem_validation_link_default_dialogs', $defaults );
+		
+		foreach ( $defaults as $key => $value ) {
+			$this->{$key} = $value;
+		}
 		
 		add_action( 'template_redirect',  array( $this, 'validate_key'       ) );
 		add_filter( 'authenticate',       array( $this, 'check_validated'    ), 99, 3 );
@@ -215,7 +230,7 @@ class WP_Members_Validation_Link {
 					$msg = $msg . $this->moderated_message;
 				}
 			} elseif ( false === $this->validated ) {
-				$msg = $this->expired_message;
+				$msg = $this->invalid_message;
 			} else {
 				$msg = '';
 			}
