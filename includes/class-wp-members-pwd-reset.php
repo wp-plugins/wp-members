@@ -31,9 +31,24 @@ class WP_Members_Pwd_Reset {
 	 */
 	function __construct() {
 		
-		$this->form_submitted_key_not_found = __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' );
-		$this->form_load_key_not_found      = __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' );
-		$this->key_is_expired               = __( "Sorry, the password reset key is expired.", 'wp-members' );
+		$defaults = array(
+			'form_submitted_key_not_found' => __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' ),
+			'form_load_key_not_found'      => __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' ),
+			'key_is_expired'               => __( "Sorry, the password reset key is expired.", 'wp-members' ),
+		);
+		
+		/**
+		 * Filter default dialogs.
+		 *
+		 * @since 3.3.8
+		 *
+		 * @param array $defaults
+		 */
+		$defaults = apply_filters( 'wpmem_pwd_reset_default_dialogs', $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+			$this->{$key} = $value;
+		}
 		
 		add_filter( 'wpmem_email_filter',                array( $this, 'add_reset_key_to_email' ), 10, 3 );
 		add_filter( 'the_content',                       array( $this, 'display_content'        ), 100 );
