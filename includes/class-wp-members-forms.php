@@ -1057,7 +1057,15 @@ class WP_Members_Forms {
 						
 						$form_has_file = true;
 						
-						$attachment_url = wp_get_attachment_url( $val );
+						// Handle files differently for multisite vs. single install.
+						// @see: https://core.trac.wordpress.org/ticket/32145
+						if ( is_multisite() ) {
+							$attachment = get_post( $val );
+							$attachment_url = $attachment->guid;
+						} else {
+							$attachment_url = wp_get_attachment_url( $val );
+						}
+						
 						$empty_file = '<span class="description">' . __( 'None' ) . '</span>';
 						if ( 'edit' == $tag ) {
 							if ( 'file' == $field['type'] ) {
