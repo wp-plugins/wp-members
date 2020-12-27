@@ -142,6 +142,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * The default function in the WP-Members user object runs register_redirect() hooked to the wpmem_register_redirect action.  Previously, this was run at the default priority (10). This update moves it to priority 20 (so a custom redirect set at the default priority will run first).
 * Can now customize the plugin's upload directory.
 * Fixes issue with attachment URLs in user profile view when used in multisite.
+* Added new feature settings for turning on/off WP-Members fields in WooCommerce My Account page registration and checkout registration.
 
 = 3.3.7 =
 

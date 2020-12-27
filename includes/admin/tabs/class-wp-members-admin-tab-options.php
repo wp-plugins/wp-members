@@ -181,13 +181,15 @@ class WP_Members_Admin_Tab_Options {
 									array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
 								);
 								if ( wpmem_is_woo_active() ) {
-									$rows[] = array(__('WooCommerce Registration', 'wp-members', ),'wpmem_settings_wc_reg',__('Add WP-Members fields to WooCommerce registration','wp-members'),'wc_reg');
+									$rows[] = array(__('WooCommerce My Account', 'wp-members' ),'wpmem_settings_add_my_account_fields',__('Add WP-Members fields to WooCommerce My Account registration','wp-members'),'add_my_account_fields');
+									$rows[] = array(__('WooCommerce Checkout', 'wp-members' ),'wpmem_settings_add_checkout_fields',__('Add WP-Members fields to WooCommerce registration during checkout','wp-members'),'add_checkout_fields');
 								}
 								?><ul><?php
-								foreach ( $rows as $row ) { ?>
+								foreach ( $rows as $key => $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
+									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
+									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } ?>
@@ -515,6 +517,10 @@ class WP_Members_Admin_Tab_Options {
 					'profile'  => ( $msurl  ) ? $msurl  : '',
 					'register' => ( $regurl ) ? $regurl : '',
 					'login'    => ( $logurl ) ? $logurl : '',
+				),
+				'woo' => array(
+					'add_my_account_fields' => filter_var( wpmem_get( 'wpmem_settings_add_my_account_fields', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+					'add_checkout_fields'   => filter_var( wpmem_get( 'wpmem_settings_add_checkout_fields',   0 ), FILTER_SANITIZE_NUMBER_INT ),
 				),
 				'cssurl'       => ( $cssurl ) ? $cssurl : '',
 				'select_style' => $wpmem_settings_style,
