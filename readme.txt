@@ -143,6 +143,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Can now customize the plugin's upload directory.
 * Fixes issue with attachment URLs in user profile view when used in multisite.
 * Added new feature settings for turning on/off WP-Members fields in WooCommerce My Account page registration and checkout registration.
+* Improved handling of User Screen column labels so that if a label is changed in the WP-Members Fields manager, the column is automatically reflected without refreshing the wpmembers_utfields setting.
 
 = 3.3.7 =
 

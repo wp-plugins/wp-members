@@ -344,8 +344,14 @@ class WP_Members_Admin_Users {
 			if ( $wpmem->mod_reg != 1 ) {
 				unset( $wpmem_user_columns['active'] );
 			}
+			
+			// @todo Need to eventually change the wpmembers_utfields setting so we don't have to do it this way.
+			$fields = wpmem_fields();
+			foreach ( $wpmem_user_columns as $key => $value ) {
+				$column_labels[ $key ] = ( isset( $fields[ $key ] ) ) ? $fields[ $key ]['label'] : $value;
+			}
 
-			$columns = array_merge( $columns, $wpmem_user_columns );
+			$columns = array_merge( $columns, $column_labels );
 		}
 
 		// Makes WP-Members columns sortable.
