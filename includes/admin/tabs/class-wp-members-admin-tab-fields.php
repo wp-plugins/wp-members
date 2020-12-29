@@ -443,12 +443,13 @@ Last Row|last_row<?php } } ?></textarea>
 		}
 
 		$extra_user_screen_items = array(
-			'user_registered' => __( 'Registration Date', 'wp-members' ),
-			'active'          => __( 'Active',            'wp-members' ),
-			'wpmem_reg_ip'    => __( 'Registration IP',   'wp-members' ),
-			'exp_type'        => __( 'Subscription Type', 'wp-members' ),
-			'expires'         => __( 'Expires',           'wp-members' ),
-			'user_id'         => __( 'User ID',           'wp-members' ),
+			'user_registered'       => __( 'Registration Date', 'wp-members' ),
+			'_wpmem_user_confirmed' => __( 'Confirmed',         'wp-members' ),
+			'active'                => __( 'Active',            'wp-members' ),
+			'wpmem_reg_ip'          => __( 'Registration IP',   'wp-members' ),
+			'exp_type'              => __( 'Subscription Type', 'wp-members' ),
+			'expires'               => __( 'Expires',           'wp-members' ),
+			'user_id'               => __( 'User ID',           'wp-members' ),
 		);
 
 		foreach ( $extra_user_screen_items as $key => $item ) {
@@ -456,6 +457,7 @@ Last Row|last_row<?php } } ?></textarea>
 			if ( 'user_id' == $key
 				|| 'user_registered' == $key 
 				|| 'wpmem_reg_ip' == $key 
+				|| ( '_wpmem_user_confirmed' == $key && 1 == $wpmem->act_link ) 
 				|| ( 'active' == $key && 1 == $wpmem->mod_reg ) 
 				|| defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && ( 'exp_type' == $key || 'expires' == $key ) ) {
 				$user_screen_items[ $key ] = array( 'label' => __( $item, 'wp-members' ), 'meta' => $key,

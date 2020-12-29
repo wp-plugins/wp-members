@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WP_Members_Fields_Table extends WP_List_Table {
 	
-	private $excludes = array( 'user_registered', 'active', 'wpmem_reg_ip', 'exp_type', 'expires', 'user_id' );
+	private $excludes = array( 'user_registered', '_wpmem_user_confirmed', 'active', 'wpmem_reg_ip', 'exp_type', 'expires', 'user_id' );
 	
 	private $no_delete = array( 'username', 'user_email', 'first_name', 'last_name', 'user_url' );
 	
