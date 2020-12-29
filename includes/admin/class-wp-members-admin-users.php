@@ -45,12 +45,13 @@ class WP_Members_Admin_Users {
 	 *
 	 * @since 2.8.2
 	 * @since 3.3.5 Updated to use wpmem_is_user_activated().
+	 * @since 3.3.8 Added confirmation link, changed from insert_activate_link().
 	 *
 	 * @param  array $actions
 	 * @param  $user_object
 	 * @return array $actions
 	 */
-	static function insert_activate_link( $actions, $user_object ) {
+	static function insert_hover_links( $actions, $user_object ) {
 		global $wpmem;
 		if ( 1 == $wpmem->mod_reg && $user_object->ID != get_current_user_id() ) {
 
