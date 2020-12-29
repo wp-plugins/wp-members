@@ -82,6 +82,7 @@ class WP_Members_Admin_API {
 		
 		include_once( $wpmem->path . 'includes/admin/admin.php' );
 		include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-users.php' );
+		include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-user-tools.php' );
 		include_once( $wpmem->path . 'includes/admin/class-wp-members-admin-posts.php' );
 		include_once( $wpmem->path . 'includes/admin/class-wp-members-products-admin.php' );
 		include_once( $wpmem->path . 'includes/admin/class-wp-members-user-search.php' );

@@ -126,8 +126,12 @@ function wpmem_init() {
  * @since 2.5.2
  */
 function wpmem_admin_options() {
+	global $wpmem;
 	if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
 		$plugin_page = add_options_page ( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
+	}
+	if ( ( 1 == $wpmem->mod_reg || 1 == $wpmem->act_link ) && current_user_can( 'edit_users' ) ) {
+		$activate_hook = add_users_page( 'WP-Members User Utilities', 'Utilities', 'edit_users', 'wpmem-user-utilities', array( "WP_Members_Admin_User_Tools", 'admin_page' ) );
 	}
 }
 
