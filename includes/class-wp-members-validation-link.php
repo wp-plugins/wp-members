@@ -90,7 +90,7 @@ class WP_Members_Validation_Link {
 			 * @param WP_User User to retrieve password reset key for.
 			 * @return string|WP_Error Password reset key on success. WP_Error on error.
 			 */
-			$key = get_password_reset_key( $user );
+			$key = $this->set_validation_key( $user );
 
 			// Generate confirm link.
 			/**
@@ -262,7 +262,7 @@ class WP_Members_Validation_Link {
 		} 
 
 		// Validation flag must be confirmed.
-		$validated = get_user_meta( $user->ID, $this->validation_confirm, true );
+		$validated = get_user_meta( $user->ID, $this->validation_confirm, true ); // @todo Update to use wpmem_is_user_confirmed().
 		if ( false == $validated ) {
 			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not confirmed their account.', 'wp-members' ) );
 		}
@@ -312,6 +312,18 @@ class WP_Members_Validation_Link {
 		$result = $wpdb->update( $wpdb->users, array( 'user_activation_key' => '', ), array( 'ID' => $user_id ) );
 		//clean_user_cache( $user_id );
 	}
+
+	/**
+	 * Sets a user activation key.
+	 *
+	 * @since 3.3.8
+	 *
+	 * @param mixed $user user ID (int)|WP_User (object).
+	 */
+	public function set_validation_key( $user ) {
+		$user = ( is_object( $user ) ) ? $user : get_user_by( 'ID', $user );
+		return get_password_reset_key( $user );
+	}
 	
 	/**
 	 * Sets user as having validated their email.
@@ -322,5 +334,17 @@ class WP_Members_Validation_Link {
 	 */
 	public function set_as_confirmed( $user_id ) {
 		update_user_meta( $user_id, $this->validation_confirm, time() );
+	}
+	
+	/**
+	 * Sets user as NOT having validated their email.
+	 *
+	 * @since 3.3.8
+	 *
+	 * @param int $user_id
+	 */
+	public function set_as_unconfirmed( $user_id ) {
+		delete_user_meta( $user_id, $this->validation_confirm );
+		$this->set_validation_key( $user_id );
 	}
 }

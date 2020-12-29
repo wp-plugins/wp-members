@@ -912,4 +912,32 @@ function wpmem_set_user_as_confirmed( $user_id ) {
 	global $wpmem;
 	$wpmem->act_newreg->set_as_confirmed( $user_id );
 }
+
+/**
+ * Sets user as unconfirmed (not validated).
+ *
+ * @since 3.3.8
+ *
+ * @param  int  $user_id
+ * @return void
+ */
+function wpmem_set_user_as_unconfirmed( $user_id ) {
+	global $wpmem;
+	$wpmem->act_newreg->set_as_unconfirmed( $user_id );
+}
+
+/** 
+ * Checks if a user is confirmed.
+ *
+ * @since 3.3.8
+ *
+ * @global object $wpmem
+ * @param  int    $user_id
+ * @return bool
+ */
+function wpmem_is_user_confirmed( $user_id = false ) {
+	global $wpmem;
+	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
+	return ( get_user_meta( $user_id, $wpmem->act_newreg->validation_confirm, true ) ) ? true : false;
+}
 // End of file.
