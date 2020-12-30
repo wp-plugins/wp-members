@@ -445,7 +445,7 @@ Last Row|last_row<?php } } ?></textarea>
 		$extra_user_screen_items = array(
 			'user_registered'       => __( 'Registration Date', 'wp-members' ),
 			'_wpmem_user_confirmed' => __( 'Confirmed',         'wp-members' ),
-			'active'                => __( 'Active',            'wp-members' ),
+			'active'                => __( 'Activated',         'wp-members' ),
 			'wpmem_reg_ip'          => __( 'Registration IP',   'wp-members' ),
 			'exp_type'              => __( 'Subscription Type', 'wp-members' ),
 			'expires'               => __( 'Expires',           'wp-members' ),

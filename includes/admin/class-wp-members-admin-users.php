@@ -388,8 +388,18 @@ class WP_Members_Admin_Users {
 		$wpmem_user_columns = get_option( 'wpmembers_utfields' );
 
 		if ( $wpmem_user_columns ) {
-			if ( $wpmem->mod_reg != 1 ) {
+			$column_labels = array();
+			if ( 1 != $wpmem->mod_reg ) {
 				unset( $wpmem_user_columns['active'] );
+			}
+			
+			// @todo This is a workaround so that wpmembers_utfields doesn't have to be updated.
+			if ( isset( $wpmem_user_columns['active'] ) ) { 
+				$wpmem_user_columns['active'] = __( 'Activated', 'wp-members' );
+			}
+
+			if ( 1 != $wpmem->act_link ) {
+				unset( $wpmem_user_columns['_wpmem_user_confirmed'] );
 			}
 			
 			// @todo Need to eventually change the wpmembers_utfields setting so we don't have to do it this way.
@@ -441,7 +451,7 @@ class WP_Members_Admin_Users {
 				case 'active':
 					if ( 1 == $wpmem->mod_reg ) {
 					// If the column is "active", then return the value or empty. Returning in here keeps us from displaying another value.
-						return ( get_user_meta( $user_id , 'active', 'true' ) != 1 ) ? __( 'No', 'wp-members' ) : '';
+						return ( get_user_meta( $user_id , 'active', 'true' ) != 1 ) ? '<span class="dashicons dashicons-dismiss" style="color:red;"></span>' : '<span class="dashicons dashicons-yes-alt" style="color:green;"></span>';
 					} else {
 						return;
 					}
@@ -450,11 +460,7 @@ class WP_Members_Admin_Users {
 				case '_wpmem_user_confirmed':
 					if ( 1 == $wpmem->act_link ) {
 						$user_confirmed = get_user_meta( $user_id , '_wpmem_user_confirmed', 'true' );
-						if ( $user_confirmed ) {
-							return date_i18n( get_option( 'date_format' ), $user_confirmed );
-						} else {
-							return __( 'Not confirmed', 'wp-members' );
-						}
+						return ( $user_confirmed ) ? date_i18n( get_option( 'date_format' ), $user_confirmed ) : __( 'Not confirmed', 'wp-members' );
 					} else {
 						return;
 					}
