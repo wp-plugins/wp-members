@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 3.3.8
 License: GPLv2
 
@@ -138,12 +138,14 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Revised email validation on registration, now users WP's user_activation_key instead of custom meta. 
 * Revised email validation for cleaner use when moderated registration is active. Now, if registration is moderated, user must validate their email before notification is sent to admin. User cannot log in until admin approves the user. (Must enable WP Login Erroe setting in WP-Members options for complete messaging.)
 * Revised email validation now has custom email.
+* Added User Screen column for user email validation/confirmation, updated column for activation (uses dashicons instead of text).
+* Improved handling of User Screen column labels so that if a label is changed in the WP-Members Fields manager, the column is automatically reflected without refreshing the wpmembers_utfields setting.
 * When registration runs wp_insert_user(), the resulting $user object is captured and passed to the wpmem_register_redirect action.
 * The default function in the WP-Members user object runs register_redirect() hooked to the wpmem_register_redirect action.  Previously, this was run at the default priority (10). This update moves it to priority 20 (so a custom redirect set at the default priority will run first).
 * Can now customize the plugin's upload directory.
 * Fixes issue with attachment URLs in user profile view when used in multisite.
 * Added new feature settings for turning on/off WP-Members fields in WooCommerce My Account page registration and checkout registration.
-* Improved handling of User Screen column labels so that if a label is changed in the WP-Members Fields manager, the column is automatically reflected without refreshing the wpmembers_utfields setting.
+* Added captcha support to native WP registration form.
 
 = 3.3.7 =
 

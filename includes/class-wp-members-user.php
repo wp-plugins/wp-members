@@ -410,6 +410,14 @@ class WP_Members_User {
 				}
 			}
 		}
+		
+		// Process CAPTCHA.
+		if ( $wpmem->captcha > 0 ) {
+			$check_captcha = WP_Members_Captcha::validate();
+			if ( false === $check_captcha ) {
+				$errors->add( 'wpmem_captcha_error', sprintf( $wpmem->get_text( 'reg_captcha_err' ), __( $field['label'], 'wp-members' ) ) ); 
+			}
+		}
 
 		return $errors;
 	}

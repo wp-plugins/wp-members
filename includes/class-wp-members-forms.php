@@ -1700,6 +1700,36 @@ class WP_Members_Forms {
 					);
 				}
 			}
+			
+			// Do recaptcha if enabled.
+			if ( ! $is_woo && isset( $wpmem->captcha ) && $wpmem->captcha > 0 ) {
+				
+				$row_before = '<p>';
+				$row_after  = '</p>';
+				$label      = '';
+				
+				if ( in_array( $wpmem->captcha, array( 1, 3, 4 ) ) ) {
+					$captcha = WP_Members_Captcha::recaptcha();
+				} elseif ( 5 == $wpmem->captcha ) {
+					$captcha = WP_Members_Captcha::hcaptcha();
+				} elseif ( 2 == $wpmem->captcha ) {
+					$row = WP_Members_Captcha::rs_captcha( 'array' );
+					$label   = $row['label']; //$row['label_text'];
+					$captcha = $row['img'] . $row['hidden'] . $row['field'];
+				}
+				if ( 4 == $wpmem->captcha ) {
+					$row_before = '';
+					$row_after  = '';
+				}
+			}
+	
+			$rows['captcha'] = array(
+				'type' => '',
+				'row_before' => $row_before,
+				'row_after'  => $row_after,
+				'label'      => $label,
+				'field'      => $captcha,
+			);
 
 			if ( isset( $rows ) && is_array( $rows ) ) {
 
