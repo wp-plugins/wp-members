@@ -633,11 +633,11 @@ New Features:
 
 Bug Fix:
 
-* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](https://rocketgeek.com/plugins/wp-members/docs/shortcodes/page-shortcodes/).
+* Fixed a bug where the reCAPTCHA error messages do not display on the [shortcode pages "register" and "members-area"](https://rocketgeek.com/plugins/wp-members/users-guide/shortcodes/page-shortcodes/).
 
 Code Improvement:
 
-* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](https://rocketgeek.com/plugins/wp-members/docs/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
+* Completed a rebuild of the login function wpmem_login.  Updated the cookie process to switch from [wp_setcookie](http://codex.wordpress.org/Function_Reference/wp_setcookie) (which is deprecated) to [wp_set_auth_cookie](http://codex.wordpress.org/Function_Reference/wp_set_auth_cookie). Also, the [wpmem_login_redirect hook](https://rocketgeek.com/plugins/wp-members/users-guide/filter-hooks/wpmem_login_redirect/) was moved to after the login credentials have been validated and the user is logged in.  This allows the hook to access user data without the need to validate the user within the filter.
 
 = 2.7.6 =
 

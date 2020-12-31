@@ -173,8 +173,8 @@ function wpmem_a_meta_box() {
 
 			<p><strong><?php _e( 'Version:', 'wp-members' ); echo "&nbsp;" . $wpmem->version; ?></strong><br />
 				<a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/"><?php _e( 'Quick Start Guide', 'wp-members' ); ?></a><br />
-				<a href="https://rocketgeek.com/plugins/wp-members/docs/"><?php _e( 'Online User Guide', 'wp-members' ); ?></a><br />
-				<a href="https://rocketgeek.com/plugins/wp-members/docs/faqs/"><?php _e( 'FAQs', 'wp-members' ); ?></a>
+				<a href="https://rocketgeek.com/plugins/wp-members/users-guide/"><?php _e( 'Online User Guide', 'wp-members' ); ?></a><br />
+				<a href="https://rocketgeek.com/plugins/wp-members/users-guide/faqs/"><?php _e( 'FAQs', 'wp-members' ); ?></a>
 			<?php if( ! defined( 'WPMEM_REMOVE_ATTR' ) ) { ?>
 				<br /><br /><a href="https://rocketgeek.com/about/site-membership-subscription/">Find out how to get access</a> to WP-Members private members forum, premium code snippets, tutorials, and add-on modules!
 			<?php } ?>

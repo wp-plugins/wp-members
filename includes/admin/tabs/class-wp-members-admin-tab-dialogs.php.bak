@@ -56,7 +56,7 @@ class WP_Members_Admin_Tab_Dialogs {
 				<div class="postbox">
 					<h3><span><?php _e( 'Need help?', 'wp-members' ); ?></span></h3>
 					<div class="inside">
-						<strong><i>See the <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/dialogs/" target="_blank">Users Guide on dialogs</a>.</i></strong>
+						<strong><i>See the <a href="https://rocketgeek.com/plugins/wp-members/users-guide/plugin-settings/dialogs/" target="_blank">Users Guide on dialogs</a>.</i></strong>
 					</div>
 				</div>
 			</div> <!-- .inner-sidebar -->

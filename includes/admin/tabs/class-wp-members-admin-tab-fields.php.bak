@@ -362,7 +362,7 @@ Last Row|last_row<?php } } ?></textarea>
 				</li>
 				<li>
 					<label>&nbsp;</label>
-					<span class="description"><a href="https://rocketgeek.com/plugins/wp-members/docs/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
+					<span class="description"><a href="https://rocketgeek.com/plugins/wp-members/users-guide/registration/choosing-fields/" target="_blank"><?php _e( 'Visit plugin site for more information', 'wp-members' ); ?></a></span>
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 			<?php } ?>
