@@ -146,6 +146,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Fixes issue with attachment URLs in user profile view when used in multisite.
 * Added new feature settings for turning on/off WP-Members fields in WooCommerce My Account page registration and checkout registration.
 * Added captcha support to native WP registration form.
+* Removed jabber, aim, and yim fields from default WP fields for wp_insert_user(). They haven't been native for WP for awhile, and if needed, they can be added as a custom field using the same meta.
 
 = 3.3.7 =
 

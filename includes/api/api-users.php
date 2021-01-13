@@ -586,8 +586,8 @@ function wpmem_user_register( $tag ) {
 		// Get any excluded meta fields.
 		$wpmem->excluded_meta = wpmem_get_excluded_meta( 'register' );
 
-		// Fields for wp_insert_user: user_url, first_name, last_name, description, jabber, aim, yim.
-		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
+		// Fields for wp_insert_user: user_url, first_name, last_name, description.
+		$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description' );
 		foreach ( $wpmem->fields as $meta_key => $field ) {
 			if ( in_array( $meta_key, $new_user_fields_meta ) ) {
 				if ( $field['register'] && ! in_array( $meta_key, $wpmem->excluded_meta ) ) {
@@ -685,9 +685,6 @@ function wpmem_user_register( $tag ) {
 			'last_name',
 			'description',
 			'role',
-			'jabber',
-			'aim',
-			'yim' 
 		);
 		$native_update = array( 'ID' => $wpmem->user->post_data['ID'] );
 

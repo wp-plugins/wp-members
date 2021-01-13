@@ -442,7 +442,7 @@ class WP_Members_User {
 			$this->post_data['ID'] = $user_id;
 
 			// Set remaining fields to wp_usermeta table.
-			$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description', 'jabber', 'aim', 'yim' );
+			$new_user_fields_meta = array( 'user_url', 'first_name', 'last_name', 'description' );
 			foreach ( $wpmem->fields as $meta_key => $field ) {
 				// If the field is not excluded, update accordingly.
 				if ( ! in_array( $meta_key, wpmem_get_excluded_meta( 'register' ) ) && ! in_array( $meta_key, $new_user_fields_meta ) ) {
