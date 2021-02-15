@@ -104,6 +104,10 @@ class WP_Members_Validation_Link {
 				'key'   => $key,
 				'login' => $user->user_login,
 			);
+			
+			// urlencode, primarily for user_login with a space.
+			$query_args = array_map( 'rawurlencode', $query_args );
+			
 			$link = add_query_arg( $query_args, trailingslashit( $url ) );
 		
 			// Does email body have the [confirm_link] shortcode?

@@ -82,6 +82,9 @@ class WP_Members_Pwd_Reset {
 				'login' => $user->user_login,
 			);
 			
+			// urlencode, primarily for user_login with a space.
+			$query_args = array_map( 'rawurlencode', $query_args );
+			
 			// Generate reset link.
 			$link = add_query_arg( $query_args, trailingslashit( wpmem_profile_url() ) );
 			
