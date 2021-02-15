@@ -515,8 +515,8 @@ Last Row|last_row<?php } } ?></textarea>
 					/**$("tr").attr('style', 'cursor:move;');**/
 				});
 			})(jQuery);
-			jQuery('<input id="add_field" name="add_field" class="button action" type="submit" value="<?php _e( 'Add Field', 'wp-members' ); ?>" />').appendTo(".top .bulkactions");
-			jQuery('<input id="add_field" name="add_field" class="button action" type="submit" value="<?php _e( 'Add Field', 'wp-members' ); ?>" />').appendTo(".bottom .bulkactions");
+			jQuery('<input id="add_field"  name="add_field" class="button action" type="submit" value="<?php _e( 'Add Field', 'wp-members' ); ?>" />').appendTo(".top .bulkactions");
+			jQuery('<input id="add_field2" name="add_field" class="button action" type="submit" value="<?php _e( 'Add Field', 'wp-members' ); ?>" />').appendTo(".bottom .bulkactions");
 		</script><?php
 		}
 	}

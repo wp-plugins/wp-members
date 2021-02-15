@@ -136,6 +136,9 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Fixed issue with WooCommerce My Account registration form that caused the last WP-Members field to duplicate the form label.
 * Fixed issue that caused blanking of unused native WP fields when updating the WP-Members user profile.
 * Fixed issue in both user email confirmation and password reset links when username contains a space (space was not url encoded).
+* Fixed lower bulk menu "add field" item for adding a custom field in the Fields tab. 
+
+
 = 3.3.8 =
 
 * This update does upgrade the plugin's db version. It adds a new email for user email validation during registration.
