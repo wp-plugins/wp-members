@@ -696,8 +696,10 @@ function wpmem_user_register( $tag ) {
 	
 					// If the field can be updated by wp_update_user.
 					case( in_array( $meta_key, $native_fields ) ):
-						$wpmem->user->post_data[ $meta_key ] = ( isset( $wpmem->user->post_data[ $meta_key ] ) ) ? $wpmem->user->post_data[ $meta_key ] : '';
-						$native_update[ $meta_key ] = $wpmem->user->post_data[ $meta_key ];
+						if ( 1 == $field['profile'] ) {
+							$wpmem->user->post_data[ $meta_key ] = ( isset( $wpmem->user->post_data[ $meta_key ] ) ) ? $wpmem->user->post_data[ $meta_key ] : '';
+							$native_update[ $meta_key ] = $wpmem->user->post_data[ $meta_key ];
+						}
 						break;
 	
 					// If the field is password.
