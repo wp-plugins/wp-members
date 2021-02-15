@@ -1583,7 +1583,7 @@ class WP_Members_Forms {
 				unset( $wpmem_fields['password'] );
 				unset( $wpmem_fields['confirm_password'] );
 			}
-				
+
 			foreach ( $wpmem_fields as $meta_key => $field ) {
 
 				$req = ( $field['required'] ) ? ( ( $is_woo ) ? ' <span class="required">*</span>' : ' <span class="req">' . __( '(required)' ) . '</span>' ) : '';
@@ -1721,15 +1721,15 @@ class WP_Members_Forms {
 					$row_before = '';
 					$row_after  = '';
 				}
+				
+				$rows['captcha'] = array(
+					'type' => '',
+					'row_before' => $row_before,
+					'row_after'  => $row_after,
+					'label'      => $label,
+					'field'      => $captcha,
+				);
 			}
-	
-			$rows['captcha'] = array(
-				'type' => '',
-				'row_before' => $row_before,
-				'row_after'  => $row_after,
-				'label'      => $label,
-				'field'      => $captcha,
-			);
 
 			if ( isset( $rows ) && is_array( $rows ) ) {
 
