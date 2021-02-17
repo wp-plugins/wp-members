@@ -303,11 +303,17 @@ class WP_Members_Admin_Users {
 				'notactive'    => 'active',
 				'deactivated'  => 'deactivated',
 				'notexported'  => 'exported',
+				'confirmed'    => '_wpmem_user_confirmed',
+				'notconfirmed' => '_wpmem_user_confirmed',
 			);
 
 			// Handle various counts.
 			$user_counts = array();
 			foreach ( $count_metas as $key => $meta_key ) {
+				if ( 'confirmed' == $key || 'notconfirmed' == $key ) {
+					$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value>0", $meta_key ) );
+					$count = ( 'notconfirmed' == $key ) ? $users - $count : $count;
+				}
 				if ( 'active' == $key ) {
 					$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value=1", $meta_key ) );
 				}
@@ -339,6 +345,10 @@ class WP_Members_Admin_Users {
 			$views['active']       = __( 'Activated',          'wp-members' );
 			$views['notactive']    = __( 'Pending Activation', 'wp-members' );
 			$views['deactivated']  = __( 'Deactivated',        'wp-members' );
+		}
+		if ( 1 == $wpmem->act_link ) {
+			$views['confirmed']    = __( 'Confirmed',     'wp-members' );
+			$views['notconfirmed'] = __( 'Not Confirmed', 'wp-members' );
 		}
 		$views['notexported']      = __( 'Not Exported',  'wp-members' );
 		$show = sanitize_text_field( wpmem_get( 'show', false, 'get' ) );
@@ -529,7 +539,15 @@ class WP_Members_Admin_Users {
 					AND STR_TO_DATE( {$wpdb->usermeta}.meta_value, '%m/%d/%Y' ) < CURDATE()
 					AND {$wpdb->usermeta}.meta_value != '01/01/1970' )";
 				break;
-
+				
+			case 'confirmed':
+			case 'notconfirmed':
+				$in  = ( 'confirmed' == $show ) ? 'IN' : 'NOT IN';
+				$replace_query = "WHERE 1=1 AND {$wpdb->users}.ID " . esc_sql( $in ) . " (
+				 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+					WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( '_wpmem_user_confirmed' ) . "\" )";
+				break;
+				
 			case 'active':
 			case 'notactive':
 			case 'notexported':
