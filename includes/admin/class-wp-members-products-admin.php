@@ -44,6 +44,9 @@ class WP_Members_Products_Admin {
 			
 			add_filter( 'wpmem_user_profile_tabs',         array( $this, 'user_profile_tabs' ), 1 );
 			add_action( 'wpmem_user_profile_tabs_content', array( $this, 'user_profile_tab_content' ), 10 );
+			
+			add_filter( 'wpmem_views_users', array( $this, 'user_views'  ), 10, 2 );
+			add_filter( 'wpmem_query_where', array( $this, 'query_where' ), 10, 2 );
 		}
 		
 		$this->default_products = $wpmem->membership->get_default_products();
@@ -725,5 +728,78 @@ class WP_Members_Products_Admin {
 			</script>
 			<?php
 		}
+	}
+
+	/** 
+	 * Adds user view links to Users > All Users for each membership.
+	 *
+	 * @since 3.3.9
+	 *
+	 * @param  array   $views
+	 * @param  string  $show  The slug of the current view.
+	 * @return array   $views
+	 */
+	function user_views( $views, $show ) {
+
+		global $wpdb, $wpmem;
+
+		// Add a view for each membership
+		foreach ( $wpmem->membership->product_by_id as $product_slug ) {
+
+			// Count is stored in a transient (see "if" condition below).
+			$count = get_transient( 'wpmem_user_counts_' . $product_slug );
+			// If the transient is not already set.
+			if ( false === $count ) {
+
+				// Get the count
+				$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value>0", "_wpmem_products_" . $product_slug ) );
+
+				// Save it in a transient
+				$transient_expires = 60; // Value in seconds, 1 day: ( 60 * 60 * 24 );
+				set_transient( 'wpmem_user_counts_' . $product_slug, $count, $transient_expires );
+			}
+
+			// Build the link for the filter view
+			$link          = "users.php?action=show&amp;show=" . $product_slug;
+			$current       = ( $show == $product_slug ) ? ' class="current"' : '';
+			$views[ $product_slug ] = sprintf(
+				'<a href="%s" %s>%s <span class="count">(%d)</span></a>',
+				esc_url( $link ),
+				$current,
+				$wpmem->membership->products[ $product_slug ]['title'],
+				$count
+			);
+		}
+
+		// Return the $views array with the added membership views.
+		return $views;
+	}
+
+	/** 
+	 * Filters the "where" query for user view links in Users > All Users for each membership.
+	 *
+	 * @since 3.3.9
+	 *
+	 * @param  string  $query_where
+	 * @param  string  $show        The slug of the current view.
+	 * @return string  $query_where
+	 */
+	function query_where( $query_where, $show ) {
+
+		global $wpdb, $wpmem;
+
+		// Check for membership views.
+		foreach ( $wpmem->membership->product_by_id as $product_slug ) {
+			// Check if we are viewing ($show) a membership ($prduct_slug).
+			if ( $product_slug == $show ) {
+				// Set appropriate $query_where to filter the view.
+				$query_where = "WHERE 1=1 AND {$wpdb->users}.ID IN (
+					 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
+						WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( "_wpmem_products_" . $product_slug ) . "\"
+						AND {$wpdb->usermeta}.meta_value > 0 )";
+			}
+		}
+
+		return $query_where;
 	}
 }
