@@ -374,9 +374,18 @@ class WP_Members_Captcha {
 					$recaptcha = file_get_contents( $url );
 					$recaptcha = json_decode( $recaptcha );
 
+					/**
+					 * Filters the reCAPTCHA v3 score.
+					 * @link https://developers.google.com/recaptcha/docs/v3
+					 * 
+					 * @since 3.3.9
+					 * 
+					 * @param int $score
+					 */
+					$score = apply_filters( 'wpmem_recaptcha_score', 0.5 );
 					// Take action based on the score returned:
-					if ( $recaptcha->score >= 0.5 ) {
-						// Verified - send email
+					if ( $recaptcha->score >= $score ) {
+						return true;
 					} else {
 						$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
 						return false;
