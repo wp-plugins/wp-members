@@ -616,6 +616,7 @@ class WP_Members_Shortcodes {
 				// Select and radio groups have single selections.
 				case 'select':
 				case 'radio':
+				case 'membership':
 					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : $fields[ $field ]['options'][ $user_info_field ];
 					break;
 					
