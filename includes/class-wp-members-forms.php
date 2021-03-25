@@ -1704,11 +1704,12 @@ class WP_Members_Forms {
 			}
 			
 			// Do recaptcha if enabled.
-			if ( ! $is_woo && isset( $wpmem->captcha ) && $wpmem->captcha > 0 ) {
+			if ( ! $is_woo && isset( $wpmem->captcha ) && $wpmem->captcha != 0 ) {
 				
 				$row_before = '<p>';
 				$row_after  = '</p>';
 				$label      = '';
+				$captcha    = '';
 				
 				if ( in_array( $wpmem->captcha, array( 1, 3, 4 ) ) ) {
 					$captcha = WP_Members_Captcha::recaptcha();
