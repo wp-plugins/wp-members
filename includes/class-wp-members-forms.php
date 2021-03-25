@@ -1604,9 +1604,9 @@ class WP_Members_Forms {
 						$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
 
 						$row_before = '<p class="wpmem-checkbox">';
-						$label = '<label for="' . $meta_key . '">' . $label . $req;
+						$label = '<label for="' . $meta_key . '">' . $label . $req . '</label>';
 						$input = wpmem_form_field( $meta_key, $field['type'], $field['checked_value'], $val );
-						$row_after = '</label></p>';
+						$row_after = '</p>';
 
 					} elseif ( 'hidden' == $field['type'] ) {
 
@@ -1625,7 +1625,8 @@ class WP_Members_Forms {
 					} else {
 
 						$row_before = ( $is_woo ) ? '<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">' : '<p>';
-						$label = '<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '<br />';
+						$label  = '<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '</label>';
+						$label .= ( 'multicheckbox' == $field['type'] ) ? '<br />' : '';
 
 						// determine the field type and generate accordingly...
 
@@ -1687,7 +1688,7 @@ class WP_Members_Forms {
 							break;
 						}
 
-						$row_after = '</label></p>';
+						$row_after = '</p>';
 
 					}
 
