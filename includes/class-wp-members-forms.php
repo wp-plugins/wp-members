@@ -1023,9 +1023,10 @@ class WP_Members_Forms {
 						'compare'  => $val,
 						'required' => $field['required'],
 					) );
-					$input = ( $field['required'] ) ? $input . $args['req_mark'] : $input;
 
 					$input .= ' ' . $this->get_tos_link( $field, $tag );
+					
+					$input = ( $field['required'] ) ? $input . $args['req_mark'] : $input;
 
 					// In previous versions, the div class would end up being the same as the row before.
 					$field_before = ( $args['wrap_inputs'] ) ? '<div class="div_text">' : '';
