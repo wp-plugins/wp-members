@@ -114,10 +114,10 @@ class WP_Members_Validation_Link {
 			if ( strpos( $arr['body'], '[confirm_link]' ) ) {
 				$arr['body'] = str_replace( '[confirm_link]', $link, $arr['body'] );
 			} else {
-			// Add text and link to the email body.
-			$arr['body'] = $arr['body'] . "\r\n"
-				. $this->email_text
-				. $link;
+				// Add text and link to the email body.
+				$arr['body'] = $arr['body'] . "\r\n"
+					. $this->email_text
+					. $link;
 			}
 		}
 
@@ -338,6 +338,15 @@ class WP_Members_Validation_Link {
 	 */
 	public function set_as_confirmed( $user_id ) {
 		update_user_meta( $user_id, $this->validation_confirm, time() );
+		/**
+		 * Fires when user is set as confirmed (either manually or by user).
+		 *
+		 * @since 3.3.9
+		 *
+		 * @param int $user_id
+		 * @param string time()
+		 */
+		do_action( 'wpmem_user_set_as_confirmed', $user_id, time() );
 	}
 	
 	/**
@@ -349,6 +358,16 @@ class WP_Members_Validation_Link {
 	 */
 	public function set_as_unconfirmed( $user_id ) {
 		delete_user_meta( $user_id, $this->validation_confirm );
-		$this->set_validation_key( $user_id );
+		$validation_key = $this->set_validation_key( $user_id );
+		/**
+		 * Fires when user is set as confirmed (either manually or by user).
+		 *
+		 * @since 3.3.9
+		 *
+		 * @param int $user_id
+		 * @param string time()
+		 * @param string $key
+		 */
+		do_action( 'wpmem_user_set_as_unconfirmed', $user_id, time(), $key );
 	}
 }
