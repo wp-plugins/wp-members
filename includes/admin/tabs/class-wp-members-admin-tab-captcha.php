@@ -206,7 +206,8 @@ class WP_Members_Admin_Tab_Captcha {
 
 									} else {
 
-										$show_update_button = false; ?>
+										$show_update_button = true; // @todo Fixes whether the update button shows or not.
+																	//       Could remove that logic altogether? ?>
 										<tr>
 											<td colspan="2">
 												<p><?php _e( 'To use Really Simple CAPTCHA, you must have the Really Simple CAPTCHA plugin installed and activated.', 'wp-members' ); ?></p>
@@ -267,7 +268,7 @@ class WP_Members_Admin_Tab_Captcha {
 		check_admin_referer( 'wpmem-update-captcha' );
 
 		$settings     = get_option( 'wpmembers_captcha' );
-		$update_type  = sanitize_text_field( $_POST['wpmem_recaptcha_type'] );
+		$update_type  = sanitize_text_field( wpmem_get( 'wpmem_recaptcha_type', '' ) );
 		$which        = intval( wpmem_get( 'wpmem_settings_captcha', 0 ) );
 
 		// If there are no current settings.
@@ -285,32 +286,32 @@ class WP_Members_Admin_Tab_Captcha {
 
 		if ( $update_type == 'recaptcha' || $update_type == 'recaptcha2' ) {
 			$settings['recaptcha'] = array(
-				'public'  => sanitize_text_field( $_POST['wpmem_captcha_publickey'] ),
-				'private' => sanitize_text_field( $_POST['wpmem_captcha_privatekey'] ),
+				'public'  => sanitize_text_field( wpmem_get( 'wpmem_captcha_publickey', '' ) ),
+				'private' => sanitize_text_field( wpmem_get( 'wpmem_captcha_privatekey', '' ) ),
 			);
-			if ( $update_type == 'recaptcha' && isset( $_POST['wpmem_captcha_theme'] ) ) {
-				$settings['recaptcha']['theme'] = sanitize_text_field( $_POST['wpmem_captcha_theme'] );
+			if ( 'recaptcha' == wpmem_get( 'wpmem_captcha_theme', false ) ) {
+				$settings['recaptcha']['theme'] = sanitize_text_field( wpmem_get( 'wpmem_captcha_theme', '' ) );
 			}
 		}
 		
 		if ( 'hcaptcha' == $update_type ) {
-			$settings['hcaptcha']['api_key'] = sanitize_text_field( $_POST['wpmem_captcha_publickey'] );
-			$settings['hcaptcha']['secret']  = sanitize_text_field( $_POST['wpmem_captcha_privatekey'] );
+			$settings['hcaptcha']['api_key'] = sanitize_text_field( wpmem_get( 'wpmem_captcha_publickey', '' ) );
+			$settings['hcaptcha']['secret']  = sanitize_text_field( wpmem_get( 'wpmem_captcha_privatekey', '' ) );
 		}
 
 		if ( $update_type == 'really_simple' ) {
-			$font_color = sanitize_text_field( $_POST['font_color_r'] ) . ',' . sanitize_text_field( $_POST['font_color_g'] ) . ',' . sanitize_text_field( $_POST['font_color_b'] );
-			$bg_color   = sanitize_text_field( $_POST['bg_color_r'] )   . ',' . sanitize_text_field( $_POST['bg_color_g'] )   . ',' . sanitize_text_field( $_POST['bg_color_b']   );
+			$font_color = sanitize_text_field( wpmem_get( 'font_color_r', '' ) ) . ',' . sanitize_text_field( wpmem_get( 'font_color_g', '' ) ) . ',' . sanitize_text_field( wpmem_get( 'font_color_b', '' ) );
+			$bg_color   = sanitize_text_field( wpmem_get( 'bg_color_r', '' ) )   . ',' . sanitize_text_field( wpmem_get( 'bg_color_g', '' ) )   . ',' . sanitize_text_field( wpmem_get( 'bg_color_b', '' ) );
 			$settings['really_simple'] = array(
-					'characters'   => sanitize_text_field( $_POST['characters'] ),
-					'num_char'     => sanitize_text_field( $_POST['num_char'] ),
-					'dim_w'        => sanitize_text_field( $_POST['dim_w'] ),
-					'dim_h'        => sanitize_text_field( $_POST['dim_h'] ),
+					'characters'   => sanitize_text_field( wpmem_get( 'characters', '' ) ),
+					'num_char'     => sanitize_text_field( wpmem_get( 'num_char', '' ) ),
+					'dim_w'        => sanitize_text_field( wpmem_get( 'dim_w', '' ) ),
+					'dim_h'        => sanitize_text_field( wpmem_get( 'dim_h', '' ) ),
 					'font_color'   => $font_color,
 					'bg_color'     => $bg_color,
-					'font_size'    => sanitize_text_field( $_POST['font_size'] ),
-					'kerning'      => sanitize_text_field( $_POST['kerning'] ),
-					'img_type'     => sanitize_text_field( $_POST['img_type'] ),
+					'font_size'    => sanitize_text_field( wpmem_get( 'font_size', '' ) ),
+					'kerning'      => sanitize_text_field( wpmem_get( 'kerning', '' ) ),
+					'img_type'     => sanitize_text_field( wpmem_get( 'img_type', '' ) ),
 			);
 		}
 
