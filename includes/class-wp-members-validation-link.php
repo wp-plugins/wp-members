@@ -109,6 +109,17 @@ class WP_Members_Validation_Link {
 			$query_args = array_map( 'rawurlencode', $query_args );
 			
 			$link = add_query_arg( $query_args, trailingslashit( $url ) );
+			
+			/**
+			 * Filter the confirmation link.
+			 *
+			 * @since 3.3.9
+			 *
+			 * @param  string  $link
+			 * @param  string  $url
+			 * @param  array   $query_args
+			 */
+			$link = apply_filters( 'wpmem_validation_link', $link, $url, $query_args );
 		
 			// Does email body have the [confirm_link] shortcode?
 			if ( strpos( $arr['body'], '[confirm_link]' ) ) {
@@ -116,8 +127,7 @@ class WP_Members_Validation_Link {
 			} else {
 				// Add text and link to the email body.
 				$arr['body'] = $arr['body'] . "\r\n"
-					. $this->email_text
-					. $link;
+					. $this->email_text . ' ' . $link;
 			}
 		}
 
