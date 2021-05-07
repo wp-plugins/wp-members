@@ -370,9 +370,9 @@ class WP_Members_User {
 			 * are added, use the $_POST value - otherwise, default to username.
 			 * Value can be filtered with wpmem_register_data.
 			 */
-			foreach( array( 'user_nicename', 'display_name', 'nickname' ) as $user_names ) {
-				$this->post_data[ $user_names ] = sanitize_text_field( wpmem_get( $user_names, $this->post_data['username'] ) );
-			}	
+			$this->post_data['user_nicename']   = sanitize_title( wpmem_get( 'user_nicename', $this->post_data['username'] ) );
+			$this->post_data['display_name']    = sanitize_text_field( wpmem_get( 'display_name', $this->post_data['username'] ) );
+			$this->post_data['nickname']        = sanitize_text_field( wpmem_get( 'nickname', $this->post_data['username'] ) );
 		}
 	}
 
