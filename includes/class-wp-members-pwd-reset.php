@@ -221,6 +221,10 @@ class WP_Members_Pwd_Reset {
 	function get_wpmem_action() {
 		global $wpmem; 
 		if ( 'pwdreset' == $wpmem->action && isset( $_POST['formsubmit'] ) ) {
+			
+			if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdreset_nonce'], 'wpmem_shortform_nonce' ) ) {
+				return "reg_generic";
+			}
 
 			$user_to_check = wpmem_get( 'user', false );
 			$user_to_check = ( strpos( $user_to_check, '@' ) ) ? sanitize_email( $user_to_check ) : sanitize_user( $user_to_check );
