@@ -145,6 +145,10 @@ class WP_Members_Pwd_Reset {
 			 * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys (invalid_key|expired_key).
 			 */
 			$user = check_password_reset_key( $key, $user_login );
+			
+			if ( $user->has_errors() ) {
+				$errors->add( 'user_not_found', $this->form_load_key_not_found );
+			}
 		
 			// Validate
 			if ( 1 == wpmem_get( 'formsubmit' ) && false !== wpmem_get( 'a', false, $this->form_action ) ) {
@@ -177,10 +181,12 @@ class WP_Members_Pwd_Reset {
 
 				if ( 'invalid_key' == $user->get_error_code() ) {
 					// If somehow the form was submitted but the key not found.
-					$msg = wpmem_inc_regmessage( 'invalid_key', $this->form_submitted_key_not_found );
+					$pwd_reset_link = wpmem_profile_url( 'pwdreset' );
+					$msg = wpmem_inc_regmessage( 'invalid_key', $this->form_submitted_key_not_found . '<br /><a href="' . $pwd_reset_link . '">Request a new reset key.</a>' );
+					$form = '';
+				} else {
+					$form = wpmem_change_password_form();
 				}
-				
-				$form = wpmem_change_password_form();
 				
 			}
 			
@@ -236,6 +242,7 @@ class WP_Members_Pwd_Reset {
 
 			$new_pass = '';
 			wpmem_email_to_user( $user->ID, $new_pass, 3 );
+			/** This action is documented in /includes/class-wp-members-user.php */
 			do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
 			$wpmem->action = 'pwdreset_link';
 			global $wpmem_regchk;
