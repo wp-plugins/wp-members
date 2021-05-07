@@ -375,6 +375,7 @@ class WP_Members_Email {
 		 * data from the register function.
 		 *
 		 * @since 2.9.8
+		 * @since 3.3.9 Added $user param.
 		 *
 		 * @param array $this->settings P
 		 *     An array containing email body, subject, user id, and additional settings.
@@ -398,10 +399,11 @@ class WP_Members_Email {
 		 *     @type string  $headers
 		 *     @type string  $admin_email
 		 * }
-		 * @param array $wpmem_fields   An array of the WP-Members fields.
-		 * @param array $field_data     An array of the posted registration data.
+		 * @param array    $wpmem_fields   An array of the WP-Members fields.
+		 * @param array    $field_data     An array of the posted registration data.
+		 * @param stdClass $user           WP user object for the specific user.
 		 */
-		$this->settings = apply_filters( 'wpmem_notify_filter', $this->settings, $wpmem_fields, $field_data );
+		$this->settings = apply_filters( 'wpmem_notify_filter', $this->settings, $wpmem_fields, $field_data, $user );
 
 		// If emails are not disabled, continue the email process.
 		if ( ! $this->settings['disable'] ) {
