@@ -524,6 +524,10 @@ class WP_Members {
 			add_filter( 'wpmem_login_failed_args', array( $this, 'login_error' ) );
 			add_filter( 'lostpassword_url',        array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
+		
+		if ( function_exists( 'wpmem_custom_translation_strings' ) ) {
+			add_filter( 'wpmem_fields', array( $this->forms, 'localize_fields' ), 9 );
+		}
 		/**
 		 * Fires after action and filter hooks load.
 		 *
@@ -1320,157 +1324,6 @@ class WP_Members {
 			}
 		}
 		return $where;
-	}
-
-	/**
-	 * Sets the registration fields.
-	 *
-	 * @since 3.0.0
-	 * @since 3.1.5 Added $form argument.
-	 * @since 3.3.0 Added $tag argument.
-	 *
-	 * @param string $form The form being generated.
-	 */
-	function load_fields( $tag = 'new', $form = 'default' ) {
-		
-		// Get stored fields settings.
-		$fields = get_option( 'wpmembers_fields' );
-		
-		// Validate fields settings.
-		if ( ! isset( $fields ) || empty( $fields ) ) {
-			// Update settings.
-			$fields = array( array( 10, 'Email', 'user_email', 'email', 'y', 'y', 'y', 'profile'=>true ) );
-		}
-		
-		// Add new field array keys
-		foreach ( $fields as $key => $val ) {
-			
-			// Key fields with meta key.
-			$meta_key = $val[2];
-			
-			// Old format, new key.
-			foreach ( $val as $subkey => $subval ) {
-				$this->fields[ $meta_key ][ $subkey ] = $subval;
-			}
-			
-			// Setup field properties.
-			$this->fields[ $meta_key ]['label']    = $val[1];
-			$this->fields[ $meta_key ]['type']     = $val[3];
-			$this->fields[ $meta_key ]['register'] = ( 'y' == $val[4] ) ? true : false;
-			$this->fields[ $meta_key ]['required'] = ( 'y' == $val[5] ) ? true : false;
-			$this->fields[ $meta_key ]['profile']  = ( 'y' == $val[4] ) ? true : false;// ( isset( $val['profile'] ) ) ? $val['profile'] : true ; // // @todo Wait for profile fix
-			$this->fields[ $meta_key ]['native']   = ( 'y' == $val[6] ) ? true : false;
-			
-			// Certain field types have additional properties.
-			switch ( $val[3] ) {
-				
-				case 'checkbox':
-					$this->fields[ $meta_key ]['checked_value']   = $val[7];
-					$this->fields[ $meta_key ]['checked_default'] = ( 'y' == $val[8] ) ? true : false;
-					break;
-
-				case 'select':
-				case 'multiselect':
-				case 'multicheckbox':
-				case 'radio':
-				case 'membership':
-					if ( 'membership' == $val[3] ) {
-						$val[7] = array( __( 'Choose membership', 'wp-members' ) . '|' );
-						foreach( $this->membership->products as $membership_key => $membership_value ) {
-							$val[7][] = $membership_value['title'] . '|' . $membership_key;
-						}
-					}
-					// Correct a malformed value (if last value is empty due to a trailing comma).
-					if ( '' == end( $val[7] ) ) {
-						array_pop( $val[7] );
-						$this->fields[ $meta_key ][7] = $val[7];
-					}
-					$this->fields[ $meta_key ]['values']    = $val[7];
-					$this->fields[ $meta_key ]['delimiter'] = ( isset( $val[8] ) ) ? $val[8] : '|';
-					$this->fields[ $meta_key ]['options']   = array();
-					foreach ( $val[7] as $value ) {
-						$pieces = explode( '|', trim( $value ) );
-						if ( isset( $pieces[1] ) && $pieces[1] != '' ) {
-							$this->fields[ $meta_key ]['options'][ $pieces[1] ] = $pieces[0];
-						}
-					}
-					break;
-
-				case 'file':
-				case 'image':
-					$this->fields[ $meta_key ]['file_types'] = $val[7];
-					break;
-
-				case 'hidden':
-					$this->fields[ $meta_key ]['value'] = $val[7];
-					break;
-					
-			}
-		}
-	}
-	
-	/**
-	 * Get excluded meta fields.
-	 *
-	 * @since 3.0.0
-	 * @since 3.3.3 Update $tag to match wpmem_fields() tags.
-	 *
-	 * @param  string $tag A tag so we know where the function is being used.
-	 * @return array       The excluded fields.
-	 */
-	function excluded_fields( $tag ) {
-
-		// Default excluded fields.
-		$excluded_fields = array( 'password', 'confirm_password', 'confirm_email', 'password_confirm', 'email_confirm' );
-		
-		if ( 'update' == $tag || 'admin-profile' == $tag || 'user-profile' == $tag || 'wp-register' == $tag ) {
-			$excluded_fields[] = 'username';
-		}
-
-		if ( 'admin-profile' == $tag || 'user-profile' == $tag ) {
-			array_push( $excluded_fields, 'first_name', 'last_name', 'nickname', 'display_name', 'user_email', 'description', 'user_url' );
-			
-			// If WooCommerce is used, remove these meta - WC already adds them in their own section.
-			if ( class_exists( 'woocommerce' ) ) {
-				array_push( $excluded_fields,
-					'billing_first_name',
-					'billing_last_name',
-					'billing_company',
-					'billing_address_1',
-					'billing_address_2',
-					'billing_city',
-					'billing_postcode',
-					'billing_country',
-					'billing_state',
-					'billing_email',
-					'billing_phone',
-					'shipping_first_name',
-					'shipping_last_name',
-					'shipping_company',
-					'shipping_address_1',
-					'shipping_address_2',
-					'shipping_city',
-					'shipping_postcode',
-					'shipping_country',
-					'shipping_state'
-				);
-			}
-		}
-
-		/**
-		 * Filter excluded meta fields.
-		 *
-		 * @since 2.9.3
-		 * @since 3.0.0 Moved to new method in WP_Members Class.
-		 * @since 3.3.3 Update $tag to match wpmem_fields() tags.
-		 *
-		 * @param array       An array of the field meta names to exclude.
-		 * @param string $tag A tag so we know where the function is being used.
-		 */
-		$excluded_fields = apply_filters( 'wpmem_exclude_fields', $excluded_fields, $tag );
-
-		// Return excluded fields.
-		return $excluded_fields;
 	}
 	
 	/**
