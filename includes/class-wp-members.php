@@ -1773,7 +1773,7 @@ class WP_Members {
 					 * @param string $post->ID        The post ID.
 					 * @param string $post->post_type The content's post type.					 
 					 */
-					$args = apply_filters( 'wpmem_auto_excerpt_args', '', $post->ID, $post->post_type );
+					$args = apply_filters( 'wpmem_auto_excerpt_args', $defaults, $post->ID, $post->post_type );
 
 					// Merge settings.
 					$args = wp_parse_args( $args, $defaults );
