@@ -44,13 +44,14 @@ endif;
  *
  * @since 2.9.3
  * @since Unknown Now a wrapper for get_excluded_fields().
+ * @since 3.3.9 excluded_fields() moved to forms object class.
  *
  * @param  string $tag A tag so we know where the function is being used.
  * @return array       Array of fields to be excluded from the registration form.
  */
 function wpmem_get_excluded_meta( $tag ) {
 	global $wpmem;
-	return $wpmem->excluded_fields( $tag );
+	return $wpmem->forms->excluded_fields( $tag );
 }
 
 /**

@@ -528,6 +528,7 @@ Last Row|last_row<?php } } ?></textarea>
 	 *
 	 * @since 3.1.8
 	 * @since 3.3.0 Changed from wpmem_admin_fields_update() to update().
+	 * @since 3.3.9 load_fields() moved to forms object class.
 	 *
 	 * @global object $wpmem
 	 * @global string $did_update
@@ -581,7 +582,7 @@ Last Row|last_row<?php } } ?></textarea>
 					}
 				}
 				update_option( 'wpmembers_fields', $wpmem_fields );
-				$wpmem->load_fields();
+				$wpmem->forms->load_fields();
 				$did_update = __( 'WP-Members fields were updated', 'wp-members' );
 				return $did_update;
 
@@ -718,7 +719,7 @@ Last Row|last_row<?php } } ?></textarea>
 				$wpmem_newfields = $wpmem_fields;
 
 				update_option( 'wpmembers_fields', $wpmem_newfields );
-				$wpmem->load_fields();
+				$wpmem->forms->load_fields();
 				return $did_update;		
 			}
 		}
