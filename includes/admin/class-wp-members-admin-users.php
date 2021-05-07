@@ -186,7 +186,7 @@ class WP_Members_Admin_Users {
 			case 'unconfirm-single':
 				
 				// Validate nonce.
-				check_admin_referer( 'activate-user' );
+				check_admin_referer( 'confirm-user' );
 
 				// Get the users.
 				$user_id = filter_var( $_REQUEST['user'], FILTER_VALIDATE_INT );
