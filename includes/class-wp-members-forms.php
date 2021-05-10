@@ -1297,6 +1297,11 @@ class WP_Members_Forms {
 						}
 						$input = wpmem_form_field( $formfield_args );
 
+						// If checkbox label option is enabled.
+						if ( 'checkbox' == $field['type'] && 1 == $field['checkbox_label'] ) {
+							$input = $input . ' <label for="' . $meta_key . '">' . $field['label'] . '</label>';
+							$fields[ $meta_key ]['label'] = $field['label'] = $label = '';
+						}
 					}
 
 					// Determine input wrappers.

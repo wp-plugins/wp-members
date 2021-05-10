@@ -303,6 +303,13 @@ class WP_Members_Admin_Tab_Fields {
 					<input type="checkbox" name="add_checked_default" value="y" <?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? checked( true, $field['checked_default'] ) : false; ?> />
 				</li>
 				<li>
+					<label><?php _e( 'HTML label position', 'wp-members' ); ?></label>
+					<select name="add_checkbox_label">
+						<option value="0" <?php selected( $field['checkbox_label'], 0 ); ?>><?php _e( 'Before the input tag', 'wp-members' ); ?></option>
+						<option value="1" <?php selected( $field['checkbox_label'], 1 ); ?>><?php _e( 'After the input tag', 'wp-members' ); ?></option>
+					</select> <span class="description"><?php _e( 'Selecting "after" will generally display the label to the right of the checkbox', 'wp-members' ); ?></span>
+				</li>
+				<li>
 					<label><?php _e( 'Stored value if checked:', 'wp-members' ); ?> <span class="req"><?php _e( '(required)', 'wp-members' ); ?></span></label>
 					<input type="text" name="add_checked_value" id="add_checked_value" value="<?php echo ( $mode == 'edit' && $field['type'] == 'checkbox' ) ? $field['checked_value'] : false; ?>" />
 				</li>
@@ -664,6 +671,7 @@ Last Row|last_row<?php } } ?></textarea>
 					$add_field_err_msg = ( ! $_POST['add_checked_value'] ) ? __( 'Checked value is required for checkboxes. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
 					$arr[7] = sanitize_text_field( wpmem_get( 'add_checked_value', false ) );
 					$arr[8] = ( 'y' == wpmem_get( 'add_checked_default', 'n'  ) ) ? 'y' : 'n';
+					$arr['checkbox_label'] = intval( wpmem_get( 'add_checkbox_label', 0 ) );
 				}
 
 				if (   $type == 'select' 
