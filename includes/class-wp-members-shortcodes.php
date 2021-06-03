@@ -57,7 +57,7 @@ class WP_Members_Shortcodes {
 	}
 	
 	/**
-	 * Function for forms called by shortcode.
+	 * Renders forms called by [wpmem_form] shortcode.
 	 *
 	 * @since 3.0.0
 	 * @since 3.1.3 Added forgot_username shortcode.
@@ -75,20 +75,21 @@ class WP_Members_Shortcodes {
 	 *     Possible shortcode attributes (some vary by form).
 	 *
 	 *     @type string $id              An ID for the form.
-	 *     @type string $login           Idenifies login form.
-	 *     @type string $password        Idenifies reset/change password form (login state dependent).
-	 *     @type string $user_edit       Idenifies user profile edit form.
-	 *     @type string $forgot_username Idenifies forgot username form.
-	 *     @type string $register        Idenifies register form.
-	 *     @type string $redirect_to     URL to redirect to on form submit.
-	 *     @type string $texturize       Add/fix texturization for the from HTML.
-	 *     @type string $exclude_fields  Fields to exclude (register/user_edit forms only).
-	 *     @type string $include_fields  Fields to include (register/user_edit forms only).
+	 *     @type string $login           Renders a login form.
+	 *     @type string $password        Renders a reset/change password form (login state dependent).
+	 *     @type string $user_edit       Renders a user profile edit form.
+	 *     @type string $forgot_username Renders a forgot username form.
+	 *     @type string $register        Renders a register form.
+	 *     @type string $wp_login        Renders the WP login form.
+	 *     @type string $redirect_to     URL to redirect to on form submit (used for login and register forms).
+	 *     @type string $texturize       Add/fix texturization for the from HTML (usually not necessary).
+	 *     @type string $exclude_fields  Fields to exclude as comma separated meta keys (register/user_edit forms only).
+	 *     @type string $include_fields  Fields to include as comma separated meta keys (register/user_edit forms only).
 	 *     @type string $product         Register for specific product (if products are enabled).
 	 * }
-	 * @param  string $content
-	 * @param  string $tag
-	 * @return string $content
+	 * @param  string $content Nested content displayed if the shortcode is in the logged in state (optional).
+	 * @param  string $tag     The shortcode's tag (wpmem_form).
+	 * @return string          The form HTML (or nested content, if used and the user is logged in).
 	 */
 	function forms( $atts, $content = null, $tag = 'wpmem_form' ) {
 
@@ -126,7 +127,7 @@ class WP_Members_Shortcodes {
 						 * If the user is not logged in, return an error message if a login
 						 * error state exists, or return the login form.
 						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
+						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to, $form_id );
 					}
 					break;
 
@@ -168,7 +169,7 @@ class WP_Members_Shortcodes {
 					break;
 
 				case in_array( 'user_edit', $atts ):
-					$content = wpmem_page_user_edit( $wpmem->regchk, $content );
+					$content = wpmem_page_user_edit( $wpmem->regchk, $content, $atts );
 					break;
 
 				case in_array( 'forgot_username', $atts ):
@@ -206,7 +207,7 @@ class WP_Members_Shortcodes {
 	}
 
 	/**
-	 * Handles the logged in status shortcodes [wpmem_logged_in].
+	 * Restricts content to logged in users using the shortcode [wpmem_logged_in].
 	 *
 	 * There are several attributes that can be used with the shortcode: 
 	 * in|out, sub for subscription only info, id, and role. IDs and roles 
@@ -221,20 +222,21 @@ class WP_Members_Shortcodes {
 	 * @global object $wpmem The WP_Members object.
 	 *
 	 * @param  array  $atts {
-	 *     The shortcode attributes.
+	 *     Attributes of the wpmem_logged_in shortcode.
 	 *
-	 *     @type string $status
-	 *     @type int    $id
-	 *     @type string $role
-	 *     @type string $sub
-	 *     @type string $meta_key
-	 *     @type string $meta_value
-	 *     @type string $product
-	 *     @type string $membership
+	 *     @type string $status      User status to check (in|out) (optional).
+	 *     @type int    $id          The user's ID. Restricts to a specified user by ID (optional).
+	 *     @type string $role        The user's role. Restrictes to a specific role (optional).
+	 *     @type string $sub         If the user is a current subscriber (for use with the PayPal extension) (optional).
+	 *     @type string $meta_key    If the user has a specified meta key (use with meta_value) (optional).
+	 *     @type string $meta_value  If the user has a specific meta key value (use with meta_key) (optional).
+	 *     @tryp string $compare     Can specify a comparison operator when using meta_key/meta_value (optional).
+	 *     @type string $product     If the user has a specific product/membership (optional).
+	 *     @type string $membership  If the user has a specific product/membership (optional).
 	 * }
-	 * @param  string $content
-	 * @param  string $tag
-	 * @return string $content
+	 * @param  string $content Shortcode content.
+	 * @param  string $tag     The shortcode's tag (wpmem_logged_in).
+	 * @return string|void     The restricted content to display if the user meets the criteria.
 	 */
 	function logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) {
 
@@ -350,22 +352,22 @@ class WP_Members_Shortcodes {
 	}
 
 	/**
-	 * Handles the [wpmem_logged_out] shortcode.
+	 * Renders the [wpmem_logged_out] shortcode.
 	 *
 	 * @since 3.0.0
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::logged_out().
 	 *
-	 * @param  array  $atts
-	 * @param  string $content
-	 * @param  string $tag
-	 * @return string $content
+	 * @param  array  $atts    There are no attributes for this shortcode.
+	 * @param  string $content Conent to display if user is logged out.
+	 * @param  string $tag     The shortcode tab (wpmem_logged_out).
+	 * @return string $content The content, if the user is logged out, otherwise an empty string.
 	 */
 	function logged_out( $atts, $content = null, $tag ) {
 		return ( ! is_user_logged_in() ) ? do_shortcode( $content ) : '';
 	}
 
 	/**
-	 * User count shortcode [wpmem_show_count].
+	 * Displays the user count shortcode [wpmem_show_count].
 	 *
 	 * User count displays a total user count or a count of users by specific
 	 * role (role="some_role").  It also accepts attributes for counting users
@@ -380,15 +382,16 @@ class WP_Members_Shortcodes {
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
 	 *
-	 *     @type string $key
-	 *     @type string $value
-	 *     @type string $role
-	 *     @type string $label
+	 *     @type string $key    The user meta key, if displaying count by meta key.
+	 *     @type string $value  The user meta value, if displaying count by meta key.
+	 *     @type string $role   The user role, if displaying count by role.
+	 *     @type string $label  Label to display with the count (optional).
 	 * }
-	 * @param  string $content The shortcode content.
-	 * @return string $content
+ 	 * @param  string $content Does not accept nested content.
+	 * @param  string $tag     The shortcode's tag (wpmem_show_count).
+	 * @return string $content The user count.
 	 */
-	function user_count( $atts, $content = null ) {
+	function user_count( $atts, $content = null, $tag ) {
 		if ( isset( $atts['key'] ) && isset( $atts['value'] ) ) {
 			// If by meta key.
 			global $wpdb;
@@ -609,7 +612,7 @@ class WP_Members_Shortcodes {
 
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
-			
+
 			// Handle each field type.
 			switch ( $field_type ) {
 					
