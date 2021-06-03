@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.6
-Stable tag: 3.3.8
+Tested up to: 5.7
+Stable tag: 3.3.9
 License: GPLv2
 
 == Description ==
@@ -136,8 +136,19 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Fixed issue with WooCommerce My Account registration form that caused the last WP-Members field to duplicate the form label.
 * Fixed issue that caused blanking of unused native WP fields when updating the WP-Members user profile.
 * Fixed issue in both user email confirmation and password reset links when username contains a space (space was not url encoded).
-* Fixed lower bulk menu "add field" item for adding a custom field in the Fields tab. 
-
+* Fixed lower bulk menu "add field" item for adding a custom field in the Fields tab.
+* Fixed issue where update settings button may not show on RS Captcha settings tab if plugin not installed (so couldn't change captcha type without going back to main options tab).
+* Fixed issue in password reset link if user login value is truncated, causing the user ID to not be found.
+* Add "membership" field type to [wpmem_field] accepted field types.
+* Changes the "required" field indicator in the default terms checkbox to display next to the label instead of the input.
+* Added filter for reCAPTCHA v3 validation score. Default value is 0.5, wpmem_recaptcha_score can filter this value.
+* Added additional user views for the Users > All Users screen, can now screen by membership and email confirmed/not confirmed.
+* Added additional actions for the Users > All Users screen.
+* Added wpmem_user_set_as_confirmed action when user has confirmed their email or the admin has manually confirmed.
+* Added wpmem_user_set_as_unconfirmed action when admin has manually unconfirmed a user.
+* Added wpmem_validation_link filter.
+* Added $defaults to be passed to wpmem_auto_excerpt_args filter.
+* Removed jabber, aim, and yim fields from default WP fields for wp_insert_user(). They haven't been native for WP for awhile, and if needed, they can be added as a custom field using the same meta.
 
 = 3.3.8 =
 
@@ -154,7 +165,6 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 * Fixes issue with attachment URLs in user profile view when used in multisite.
 * Added new feature settings for turning on/off WP-Members fields in WooCommerce My Account page registration and checkout registration.
 * Added captcha support to native WP registration form.
-* Removed jabber, aim, and yim fields from default WP fields for wp_insert_user(). They haven't been native for WP for awhile, and if needed, they can be added as a custom field using the same meta.
 
 = 3.3.7 =
 
