@@ -97,8 +97,12 @@ class WP_Members_Validation_Link {
 			 * Filter the return url
 			 *
 			 * @since 3.3.5
+			 * @since 3.3.9 Added $user object
+			 *
+			 * @param string The link URL (trailing slash recommended).
+			 * @param object $user
 			 */
-			$url = apply_filters( 'wpmem_validation_link_return_url', trailingslashit( wpmem_profile_url() ) );
+			$url = apply_filters( 'wpmem_validation_link_return_url', trailingslashit( wpmem_profile_url() ), $user );
 			$query_args = array(
 				'a'     => 'confirm',
 				'key'   => $key,
