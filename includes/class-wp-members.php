@@ -475,7 +475,7 @@ class WP_Members {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
 		}
 		
-		add_filter( 'register_form',               'wpmem_wp_register_form' ); // adds fields to the default wp registration
+		add_action( 'register_form', 'wpmem_wp_register_form' ); // adds fields to the default wp registration
 		
 		if ( wpmem_is_woo_active() ) {
 			
