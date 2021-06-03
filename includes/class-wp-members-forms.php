@@ -1011,6 +1011,13 @@ class WP_Members_Forms {
 	 */
 	function register_form( $mixed = 'new', $redirect_to = null ) {
 		
+		/*
+		 * Removes the action to load form elements for the WP registration 
+		 * form. Otherwise, when the register_form action is fired in this 
+		 * form, we'd get a duplication of all custom fields.
+		 */
+		remove_action( 'register_form', 'wpmem_wp_register_form' );
+		
 		// Handle legacy use.
 		if ( is_array( $mixed ) ) {
 			$id          = ( isset( $mixed['id']          ) ) ? $mixed['id']          : '';
@@ -1065,6 +1072,8 @@ class WP_Members_Forms {
 			'wrap_inputs'      => true,
 			'n'                => "\n",
 			't'                => "\t",
+			
+			'register_form_action' => true,
 
 		);
 
@@ -1089,7 +1098,7 @@ class WP_Members_Forms {
 		
 		// Get fields.
 		$wpmem_fields = wpmem_fields( $tag );
-		
+
 		// Fields to skip for user profile update.
 
 		if ( 'edit' == $tag ) {
@@ -1409,6 +1418,16 @@ class WP_Members_Forms {
 			$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
 			$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
 			$form.= $row;
+		}
+		
+		// Handle outside elements added to the register form with register_form.
+		if ( 'new' == $tag && $args['register_form_action'] ) {
+			ob_start();
+			/** This action is documented in wp-login.php */
+			do_action( 'register_form' );
+			$add_to_form = ob_get_contents();
+			ob_end_clean();
+			$form.= $add_to_form;
 		}
 
 		// Do recaptcha if enabled.
