@@ -75,21 +75,13 @@ class WP_Members_User {
 	 * @since 3.2.3 Removed wpmem_login_fields filter.
 	 * @since 3.2.3 Replaced form collection with WP script to facilitate login with username OR email.
 	 * @since 3.2.3 Changed to wp_safe_redirect().
+	 * @since 3.3.9 Added wpmem_set_as_logged_in() to make sure user is set.
 	 *
 	 * @return string Returns "loginfailed" if failed login.
 	 */
 	function login() {
 		
 		global $wpmem;
-		
-		if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
-			$user_name = sanitize_user( $_POST['log'] );
-			$user = get_user_by( 'login', $user_name );
-
-			if ( ! $user && strpos( $user_name, '@' ) ) {
-				$user = get_user_by( 'email', $user_name );
-			}
-		}
 
 		$user = wp_signon( array(), is_ssl() );
 
@@ -97,6 +89,10 @@ class WP_Members_User {
 			$wpmem->error = $user->get_error_message();
 			return "loginfailed";
 		} else {
+			
+			// Make sure current user is set.
+			wpmem_set_as_logged_in( $user->ID );
+			
 			$redirect_to = wpmem_get( 'redirect_to', false );
 			$redirect_to = ( $redirect_to ) ? esc_url_raw( trim( $redirect_to ) ) : esc_url_raw( wpmem_current_url() );
 			/** This filter defined in wp-login.php */
