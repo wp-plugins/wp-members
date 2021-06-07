@@ -366,6 +366,7 @@ class WP_Members_Forms {
 				} else {
 					$chk = 'not selected';
 				}
+				$pieces[1] = ( isset( $pieces[1] ) ) ? $pieces[1] : ''; // If someone skipped a pipe, treat it as empty.
 				$str = $str . "<option value=\"$pieces[1]\"" . selected( $pieces[1], $chk, false ) . ">" . esc_attr( __( $pieces[0], 'wp-members' ) ) . "</option>\n";
 			}
 			$str = $str . "</select>";
@@ -1024,6 +1025,7 @@ class WP_Members_Forms {
 			$tag         = ( isset( $mixed['tag']         ) ) ? $mixed['tag']         : 'new';
 			$heading     = ( isset( $mixed['heading']     ) ) ? $mixed['heading']     : '';
 			$redirect_to = ( isset( $mixed['redirect_to'] ) ) ? $mixed['redirect_to'] : '';
+			$fields      = ( isset( $mixed['fields']      ) ) ? $mixed['fields']      : false;
 		} else {
 			$id  = 'default';
 			$tag = $mixed;
@@ -1308,7 +1310,7 @@ class WP_Members_Forms {
 
 						// If checkbox label option is enabled.
 						if ( 'checkbox' == $field['type'] && 1 == $field['checkbox_label'] ) {
-							$input = $input . ' <label for="' . $meta_key . '">' . $field['label'] . '</label>';
+							$input = $input . ' <label for="' . $meta_key . '">' . $label . '</label>';
 							$fields[ $meta_key ]['label'] = $field['label'] = $label = '';
 						}
 					}
