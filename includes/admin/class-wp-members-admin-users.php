@@ -65,8 +65,11 @@ class WP_Members_Admin_Users {
 					$term   = __( 'Unconfirm', 'wp-members' );
 				}
 				$url = add_query_arg( array( 'action' => $action . '-single', 'user' => $user_object->ID ), "users.php" );
-				$url = wp_nonce_url( $url, 'activate-user' );
+				$url = wp_nonce_url( $url, 'confirm-user' );
 				$actions[ $action ] = '<a href="' . $url . '">' . $term . '</a>';
+				
+				// Resend welcome email (will contain confirmation link if enabled).
+				//$actions['resend_welcome'] = '<a href="' . wp_nonce_url( add_query_arg( array( 'action' => 'resend_welcome', 'user' => $user_object->ID ), "users.php" ), 'resend-welcome' ) . '">' . __( 'Resend welcome email', 'wp-members' ) . '</a>';
 			}
 			
 			if ( 1 == $wpmem->mod_reg ) {
