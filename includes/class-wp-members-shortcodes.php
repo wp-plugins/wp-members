@@ -98,6 +98,7 @@ class WP_Members_Shortcodes {
 		// Defaults.
 		$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
 		$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
+		$form_id     = ( isset( $atts['form_id']     ) ) ? $atts['form_id']     : null;
 		
 		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
 		
@@ -115,7 +116,7 @@ class WP_Members_Shortcodes {
 					$content = wpmem_wp_login_form( $atts );
 					break;
 					
-				case in_array( 'login', $atts ):		
+				case in_array( 'login', $atts ):
 					if ( is_user_logged_in() && '1' != $customizer ) {
 						/*
 						 * If the user is logged in, return any nested content (if any)
@@ -127,7 +128,7 @@ class WP_Members_Shortcodes {
 						 * If the user is not logged in, return an error message if a login
 						 * error state exists, or return the login form.
 						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to, $form_id );
+						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
 					}
 					break;
 
