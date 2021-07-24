@@ -135,6 +135,7 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	border-radius: 2px;
 	color: rgb(43, 43, 43);
 	margin: 5px 0;
+	background: none repeat scroll 0% 0% #fff;
 }
 
 #wpmem_reg fieldset, 
