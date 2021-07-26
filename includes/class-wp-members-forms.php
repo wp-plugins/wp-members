@@ -766,7 +766,37 @@ class WP_Members_Forms {
 		 * @since 2.9.0
 		 * @since 3.3.0 Passes $defaults as an argument.
 		 *
-		 * @param array  $args          An array of arguments to merge with defaults.
+		 * @param array  $args {
+		 *     An array of arguments to merge with defaults.
+		 *
+		 *     @type string  $heading_before    Default: '<legend>'
+		 *     @type string  $heading_after     Default: '</legend>'
+		 *     @type string  $fieldset_before   Default: '<fieldset>'
+		 *     @type string  $fieldset_after    Default: '</fieldset>'
+		 *     @type string  $main_div_before   Default: '<div id="wpmem_login">'
+		 *     @type string  $main_div_after    Default: '</div>'
+		 *     @type string  $txt_before        Default: '' (considered deprecated)
+		 *     @type string  $txt_after         Default: '' (considered deprecated)
+		 *     @type string  $row_before        Default: ''
+		 *     @type string  $row_after         Default: ''
+		 *     @type string  $buttons_before    Default: '<div class="button_div">'
+		 *     @type string  $buttons_after     Default: '</div>'
+		 *     @type string  $link_before       Default: '<div class="link-text">'
+		 *     @type string  $link_after        Default: '</div>'
+		 *     @type string  $link_span_before  Default: '<span class="link-text-%s">'
+		 *     @type string  $link_span_after   Default: '</span>'
+		 *     @type string  $form_id           Default: 'wpmem_' . $action . '_form' (for example, wpmem_login_form or wpmem_pwdreset_form)
+		 *     @type string  $form_class        Default: 'form'
+		 *     @type string  $button_id         Default: ''
+		 *     @type string  $button_class      Default: buttons'
+		 *     @type boolean $strip_breaks      Default: true (if true, strips all line breaks from the generated HTML)
+		 *     @type boolean $wrap_inputs       Default: true (if true, includes main_div_before/after wrappers around input tags)
+		 *     @type boolean $remember_check    Default: true
+		 *     @type string  $n                 Default: "\n" (the new line character if breaks are not stripped (see $strip_breaks))
+		 *     @type string  $t                 Default: "\t" (the line indent character if breaks are not stripped (see $strip_breaks))
+		 *     @type string  $redirect_to       Default: (the $redirec_to argument passed to the function)
+		 *     @type boolean $login_form_action Default: true (if true, adds the WP login_form action)
+		 * }
 		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
 		$args = apply_filters( 'wpmem_login_form_args', $defaults, $arr['action'] );

@@ -499,6 +499,7 @@ if ( ! function_exists( 'wpmem_page_user_edit' ) ):
  * Creates a user edit page.
  *
  * @since 2.7.6
+ * @since 3.3.9 Added $atts
  *
  * @global object $wpmem
  * @global string $wpmem_a
