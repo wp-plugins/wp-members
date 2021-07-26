@@ -37,11 +37,13 @@ function wpmem_is_user( $user_id ) {
  * @since 3.3.0
  *
  * @param  int     $user_id
+ * @param  boolean $all     If true, all roles as an array; if false, just the current role.
  * @return mixed   If the user is set and has roles, the current user role, otherwise false.
  */
-function wpmem_get_user_role( $user_id = false ) {
+function wpmem_get_user_role( $user_id = false, $all = false ) {
 	$user = ( $user_id ) ? get_userdata( $user_id ) : wp_get_current_user();
-	return ( $user ) ? current( $user->roles ) : false;
+	$role = ( ! $all   ) ? current( $user->roles  ) : $user->roles;
+	return ( $user ) ? $role : false;
 }
 
 /**
