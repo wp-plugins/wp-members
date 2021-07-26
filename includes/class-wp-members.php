@@ -480,12 +480,12 @@ class WP_Members {
 		if ( wpmem_is_woo_active() ) {
 			
 			// Handle "My Account" page registration.
-			if ( 1 == $this->woo['add_my_account_fields'] ) {
+			if ( isset( $this->woo['add_my_account_fields'] ) && 1 == $this->woo['add_my_account_fields'] ) {
 				add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
 				add_action( 'woocommerce_register_post', 'wpmem_woo_reg_validate', 10, 3 );
 			}
 			// Handle Registration checkout
-			if ( 1 == $this->woo['add_checkout_fields'] && ! is_user_logged_in() ) {
+			if ( isset( $this->woo['add_checkout_fields'] ) && 1 == $this->woo['add_checkout_fields'] && ! is_user_logged_in() ) {
 				add_filter( 'woocommerce_checkout_fields', 'wpmem_woo_checkout_form' );
 				add_action( 'woocommerce_checkout_update_order_meta', 'wpmem_woo_checkout_update_meta' );
 				//add_action( 'woocommerce_save_account_details_errors', 'wpmem_woo_reg_validate' );
