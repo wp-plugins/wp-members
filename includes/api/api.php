@@ -327,6 +327,24 @@ function wpmem_loginout( $args = array(), $echo = false ) {
 }
 
 /**
+ * Gets a logout link.
+ *
+ * @since 3.4.0
+ *
+ * @return string Logout link.
+ */
+function wpmem_logout_link() {
+	/**
+	 * Filter the log out link.
+	 *
+	 * @since 2.8.3
+	 *
+	 * @param string The default logout link.
+	 */
+	return apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+}
+
+/**
  * Dispalays requested dialog.
  *
  * @since 3.2.0
