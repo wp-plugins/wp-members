@@ -221,13 +221,31 @@ function wpmem_update_user_role( $user_id, $role, $action = 'set' ) {
  * @since 3.2.0
  * @since 3.2.3 Reversed order of arguments.
  *
- * @param  mixed   $product 
+ * @param  mixed   $product Accepts a single membership slug/meta, or an array of multiple memberships.
  * @param  integer $user_id User ID (optional|default: false).
- * @return boolean $access  If user has access.
+ * @return boolean $access  True if user has access, otherwise false.
  */
 function wpmem_user_has_access( $product, $user_id = false ) {
 	global $wpmem; 
 	return $wpmem->user->has_access( $product, $user_id );
+}
+
+/**
+ * Checks if user expiration is current.
+ *
+ * Similar to wpmem_user_has_access(), but specifically checks the
+ * expiration date for a specified product (must be expiration product).
+ *
+ * @since 3.3.9
+ *
+ * @param  mixed   $product
+ * @param  integer $user_id
+ * @return boolean
+ */
+function wpmem_user_is_current( $product, $user_id = false ) {
+	global $wpmem;
+	// @todo Finish this.
+	return;
 }
 
 /**
@@ -269,6 +287,7 @@ function wpmem_remove_user_product( $product, $user_id = false ) {
  *
  * @global stdClass $wpmem
  * @param  int      $user_id
+ * @return array
  */
 function wpmem_get_user_products( $user_id = false ) {
 	global $wpmem;
@@ -419,11 +438,12 @@ function wpmem_create_membership_number( $args ) {
  * @since 3.2.4 Renamed from wpmem_a_activate_user().
  * @since 3.3.0 Moved to user API.
  * @since 3.3.5 Added $notify argument.
+ * @since 3.4.0 Added $set_pwd argument.
  *
  * @param int   $user_id
  * @param bool  $notify  Send notification to user (optional, default: true).
  */
-function wpmem_activate_user( $user_id, $notify = true ) {
+function wpmem_activate_user( $user_id, $notify = true, $set_pwd = false ) {
 
 	global $wpmem;
 
@@ -431,7 +451,7 @@ function wpmem_activate_user( $user_id, $notify = true ) {
 	$new_pass = '';
 
 	// If passwords are user defined skip this.
-	if ( ! wpmem_user_sets_password() ) {
+	if ( true == $set_pwd || ! wpmem_user_sets_password() ) {
 		$new_pass = wp_generate_password();
 		wp_set_password( $new_pass, $user_id );
 	}
