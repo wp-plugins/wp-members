@@ -193,16 +193,19 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 				WP_CLI::error( 'User does not exist. Try wp user list' );
 			}
 			$all  = ( $assoc_args['all'] ) ? true : false;
-			$this->display_user_detail( $user->ID, $all );
+			$this->display_user_detail( $user, $all );
 		}
 		
 		/**
 		 * Handles user detail display.
 		 *
 		 * @since 3.3.5
+		 *
+		 * @param  object  $user
+		 * @param          $all
 		 */
-		private function display_user_detail( $user_id, $all ) {
-			WP_CLI::line( __( 'User: %s', 'wp-members' ) );
+		private function display_user_detail( $user, $all ) {
+			WP_CLI::line( sprintf( __( 'User: %s', 'wp-members' ), $user->user_login );
 
 			$values = wpmem_user_data( $user_id, $all );
 			foreach ( $values as $key => $meta ) {
@@ -233,6 +236,16 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			if ( true === $validation ) {
 				wpmem_set_user_as_confirmed( $assoc_args['id'] );
 				WP_CLI::success( 'User confirmed' );
+			}
+		}
+		
+		public function get_role( $args, $assoc_args ) {
+			$all = ( isset( $assoc_args['all'] ) ) ? true : false;
+			$role = wpmem_get_user_role( $assoc_args['id'], $all );
+			if ( is_array( $role ) ) {
+				
+			} else {
+				WP_CLI::line( __( 'User role: %s', 'wp-members' ), $role );
 			}
 		}
 	}
