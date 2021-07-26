@@ -101,6 +101,7 @@ function wpmem_get_block_setting( $post_id ) {
  *
  * @since 3.1.1
  * @since 3.1.2 Added redirect_to parameter.
+ * @since 3.4.0 If no login page is set, return the wp_login_url().
  *
  * @global object $wpmem       The WP_Members object.
  * @param  string $redirect_to URL to return to (optional).
@@ -108,10 +109,12 @@ function wpmem_get_block_setting( $post_id ) {
  */
 function wpmem_login_url( $redirect_to = false ) {
 	global $wpmem;
+	// If no login page is set, get WP login url.
+	$login_url = ( isset( $wpmem->user_pages['login'] ) ) ? $wpmem->user_pages['login'] : wp_login_url();
 	if ( $redirect_to ) {
-		$url = add_query_arg( 'redirect_to', urlencode( $redirect_to ), $wpmem->user_pages['login'] );
+		$url = add_query_arg( 'redirect_to', urlencode( $redirect_to ), $login_url );
 	} else {
-		$url = $wpmem->user_pages['login'];
+		$url = $login_url;
 	}
 	return $url;
 }
