@@ -861,7 +861,7 @@ class WP_Members_User {
 	 *       product). Maybe add role checking to the expiration block if both exist.
 	 *
 	 * @global object $wpmem
-	 * @param  mixed  $product
+	 * @param  mixed  $product Accepts a single membership slug/meta, or an array of multiple memberships.
 	 * @param  int    $user_id (optional)
 	 * @return bool   $access
 	 */
@@ -878,7 +878,7 @@ class WP_Members_User {
 		$memberships = ( false == $user_id ) ? $this->access : wpmem_get_user_products( $user_id );
 
 		// Current user or requested user.
-		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
+		$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
 		
 		// Start by assuming no access.
 		$access  = false;
