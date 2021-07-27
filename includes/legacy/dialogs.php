@@ -35,56 +35,14 @@ if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
  * Returns the login failed error message.
  *
  * @since 1.8
+ * @deprecated 3.4.0 Use $wpmem->dialogs->login_failed().
  *
  * @global object $wpmem The WP_Members object.
  * @return string $str   The generated html for the login failed message.
  */
 function wpmem_inc_loginfailed() {
-	
 	global $wpmem;
-
-	// Defaults.
-	$defaults = array(
-		'div_before'     => '<div align="center" id="wpmem_msg">',
-		'div_after'      => '</div>', 
-		'heading_before' => '<h2>',
-		'heading'        => $wpmem->get_text( 'login_failed_heading' ),
-		'heading_after'  => '</h2>',
-		'p_before'       => '<p>',
-		'message'        => $wpmem->get_text( 'login_failed' ), // @todo $wpmem->error
-		'p_after'        => '</p>',
-		'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . $wpmem->get_text( 'login_failed_link' ) . '</a>',
-	);
-	
-	/**
-	 * Filter the login failed dialog arguments.
-	 *
-	 * @since 2.9.0
-	 * @since 3.3.3 Should pass defaults to filter.
-	 *
-	 * @param array An array of arguments to merge with defaults.
-	 */
-	$args = apply_filters( 'wpmem_login_failed_args', $defaults );
-
-	// Merge $args with defaults.
-	$args = wp_parse_args( $args, $defaults );
-	
-	$str = $args['div_before']
-		. $args['heading_before'] . $args['heading'] . $args['heading_after']
-		. $args['p_before'] . $args['message'] . $args['p_after']
-		. $args['p_before'] . $args['link'] . $args['p_after']
-		. $args['div_after'];
-	
-	/**
-	 * Filter the login failed dialog.
-	 *
-	 * @since 2.7.3
-	 *
-	 * @param string $str The login failed dialog.
-	 */
-	$str = apply_filters( 'wpmem_login_failed', $str );
-
-	return $str;
+	return $wpmem->dialogs->login_failed();
 }
 endif;
 
