@@ -73,6 +73,10 @@ class WP_Members_Admin_Tab_Emails {
 										<th scope="row"><?php _e( 'Set a custom email name', 'wp-members' ); ?></th> 
 										<td><input type="text" name="wp_mail_from_name" size="40" value="<?php echo esc_attr( stripslashes( $wpmem->email->from_name ) ); ?>" />&nbsp;<span class="description"><?php _e( '(optional)', 'wp-members' ); ?> John Smith</span></td>
 									</tr>
+									<tr valign="top">
+										<th scope="row"><?php _e( 'Send HTML email', 'wp-members' ); ?></th>
+										<td><input type="checkbox" name="wpmem_email_html" value="1" <?php checked( $wpmem->email->html, 1, true ); ?> /></td>
+									</tr>
 									<tr><td colspan="2"><hr /></td></tr>
 								<?php if ( ! empty ( $wpmem->admin->emails ) ) {	
 										foreach( $wpmem->admin->emails as $email ) {
@@ -126,11 +130,13 @@ class WP_Members_Admin_Tab_Emails {
 		check_admin_referer( 'wpmem-update-emails' );
 
 		// Update the email address (if applicable).
-		if ( $wpmem->email->from    != $_POST['wp_mail_from'] || $wpmem->email->from_name != $_POST['wp_mail_from_name'] ) {
+		if ( $wpmem->email->from    != $_POST['wp_mail_from'] || $wpmem->email->from_name != $_POST['wp_mail_from_name'] || $wpmem->email->html != wpmem_get( 'wpmem_email_html', 0 ) ) {
 			$wpmem->email->from      = sanitize_email( $_POST['wp_mail_from'] );
 			$wpmem->email->from_name = sanitize_text_field( $_POST['wp_mail_from_name'] );
+			$wpmem->email->html      = intval( wpmem_get( 'wpmem_email_html', 0 ) );
 			update_option( 'wpmembers_email_wpfrom', $wpmem->email->from );
 			update_option( 'wpmembers_email_wpname', $wpmem->email->from_name );
+			update_option( 'wpmembers_email_html',   $wpmem->email->html );
 		}
 
 		// Update the various emails being used.

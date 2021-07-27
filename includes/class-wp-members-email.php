@@ -51,6 +51,15 @@ class WP_Members_Email {
 	public $settings;
 	
 	/**
+	 * Setting for HTML email.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 * @var    string
+	 */
+	public $html = 0;
+	
+	/**
 	 * Load custom from address.
 	 *
 	 * @since 3.3.0
@@ -58,6 +67,7 @@ class WP_Members_Email {
 	function load_from() {
 		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
 		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
+		$this->html      = get_option( 'wpmembers_email_html',   0  );
 	}
 	
 	/**
@@ -528,6 +538,17 @@ class WP_Members_Email {
 		global $wpmem;
 		return ( $this->from_name ) ? stripslashes( $this->from_name ) : stripslashes( $name );
 	}
+	
+	/**
+	 * Returns HTML content type for email.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string Always returns "text/html"
+	 */
+	function html_content_type() {
+		return 'text/html';
+	}
 
 	/**
 	 * Sends email.
@@ -556,6 +577,9 @@ class WP_Members_Email {
 		// Apply WP's "from" and "from name" email filters.
 		add_filter( 'wp_mail_from',      array( $this, 'from'      ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'from_name' ) );
+		if ( 1 == $this->html ) {
+			add_filter( 'wp_mail_content_type', array( $this, 'html_content_type' ) );
+		}
 		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'] );
 		return $result;
 	}
