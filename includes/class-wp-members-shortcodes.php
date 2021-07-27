@@ -128,7 +128,7 @@ class WP_Members_Shortcodes {
 						 * If the user is not logged in, return an error message if a login
 						 * error state exists, or return the login form.
 						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? wpmem_inc_loginfailed() : wpmem_inc_login( 'login', $redirect_to );
+						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? $wpmem->dialogs->login_failed() : wpmem_inc_login( 'login', $redirect_to );
 					}
 					break;
 
@@ -148,11 +148,11 @@ class WP_Members_Shortcodes {
 						$content = ( $content ) ? $content : wpmem_inc_memberlinks( 'register' );
 					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
-						$content  = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
+						$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 						$content .= wpmem_register_form( $reg_form_args );
 					} else {
 						if ( $wpmem->regchk == 'loginfailed' ) {
-							$content = wpmem_inc_loginfailed() . wpmem_inc_login( 'login', $redirect_to );
+							$content = $wpmem->dialogs->login_failed() . wpmem_inc_login( 'login', $redirect_to );
 							break;
 						}
 						// @todo Can this be moved into another function? Should $wpmem get an error message handler?
@@ -160,7 +160,7 @@ class WP_Members_Shortcodes {
 							global $wpmem_captcha_err;
 							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
-						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg ) : '';
+						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
 						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( $reg_form_args );
 					}
 					break;
@@ -447,7 +447,7 @@ class WP_Members_Shortcodes {
 		}
 
 		if ( $wpmem->regchk == "loginfailed" ) {
-			return wpmem_inc_loginfailed();
+			return $wpmem->dialogs->login_failed();
 		}
 
 		if ( is_user_logged_in() ) {
@@ -461,11 +461,11 @@ class WP_Members_Shortcodes {
 			case "update":
 				// Determine if there are any errors/empty fields.
 				if ( $wpmem->regchk == "updaterr" || $wpmem->regchk == "email" ) {
-					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
+					$content = $content . wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_register_form( 'edit' );
 				} else {
 					//Case "editsuccess".
-					$content = $content . wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
+					$content = $content . wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_memberlinks();
 				}
 				break;
@@ -495,12 +495,12 @@ class WP_Members_Shortcodes {
 				switch( $wpmem->regchk ) {
 
 				case "success":
-					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
+					$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_login();
 					break;
 
 				default:
-					$content = wpmem_inc_regmessage( $wpmem->regchk, $wpmem_themsg );
+					$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_register_form();
 					break;
 				}
