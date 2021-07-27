@@ -135,7 +135,7 @@ function wpmem_reg_securify( $content ) {
 	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
 		$content = wpmem_display_message( 'success', $wpmem_themsg );
-		$content = $content . wpmem_inc_login();
+		$content = $content . wpmem_login_form();
 	}
 	return $content;
 }
@@ -439,7 +439,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
 	wpmem_write_log( 'wpmem_inc_login() is deprecated as of WP-Members 3.3.0. Use wpmem_login_form() instead.' );
 	global $wpmem;
-	return $wpmem->forms->do_login_form( $page, $redirect_to, $show );
+	return wpmem_login_form( 'login' ); //$wpmem->forms->do_login_form( $page, $redirect_to, $show );
 }
 endif;
 

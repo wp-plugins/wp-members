@@ -696,6 +696,8 @@ class WP_Members_Forms {
 	 * @return string $form  The HTML for the form as a string.
 	 */
 	function login_form( $mixed, $arr = array() ) {
+		
+		global $wpmem;
 
 		// Handle legacy use.
 		if ( is_array( $mixed ) ) {
@@ -704,7 +706,8 @@ class WP_Members_Forms {
 		} else {
 			$page = $mixed;
 		}
-		
+
+$action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		
 		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
 		if ( isset( $_REQUEST['redirect_to'] ) ) {
@@ -717,9 +720,8 @@ class WP_Members_Forms {
 			}
 		}
 
-		global $wpmem;
-
-		// set up default wrappers
+		// Set up default wrappers.
+		// NOTE: DO NOT EDIT! There is a filter hook for this -> wpmem_login_form_args. 
 		$defaults = array(
 
 			// wrappers
@@ -741,7 +743,7 @@ class WP_Members_Forms {
 			'link_span_after'  => '</span>',
 
 			// classes & ids
-			'form_id'         => 'wpmem_' . $arr['action'] . '_form',
+			'form_id'         => 'wpmem_' . $action . '_form',
 			'form_class'      => 'form',
 			'button_id'       => '',
 			'button_class'    => 'buttons',
@@ -797,9 +799,9 @@ class WP_Members_Forms {
 		 *     @type string  $redirect_to       Default: (the $redirec_to argument passed to the function)
 		 *     @type boolean $login_form_action Default: true (if true, adds the WP login_form action)
 		 * }
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$args = apply_filters( 'wpmem_login_form_args', $defaults, $arr['action'] );
+		$args = apply_filters( 'wpmem_login_form_args', $defaults, $action );
 
 		// Merge $args with defaults.
 		$args = wp_parse_args( $args, $defaults );
@@ -835,11 +837,11 @@ class WP_Members_Forms {
 		 * @since 2.9.0
 		 * @since 3.2.6 Added $arr parameter so all settings are passed.
 		 *
-		 * @param array  $rows          An array containing the form rows.
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
-		 * @param array  $arr           An array containing all of the form settings.
+		 * @param array  $rows   An array containing the form rows.
+		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param array  $arr    An array containing all of the form settings.
 		 */
-		$rows = apply_filters( 'wpmem_login_form_rows', $rows, $arr['action'], $arr );
+		$rows = apply_filters( 'wpmem_login_form_rows', $rows, $action, $arr );
 
 		// Put the rows from the array into $form.
 		$form = '';
@@ -851,7 +853,7 @@ class WP_Members_Forms {
 		}
 
 		// Handle outside elements added to the login form (currently ONLY for login).
-		if ( 'login' == $arr['action'] && $args['login_form_action'] ) {
+		if ( 'login' == $action && $args['login_form_action'] ) {
 			ob_start();
 			/** This action is documented in wp-login.php */
 			do_action( 'login_form' );
@@ -862,21 +864,21 @@ class WP_Members_Forms {
 
 		// Build hidden fields, filter, and add to the form.
 		$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', esc_url( $args['redirect_to'] ) ) . $args['n'];
-		$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $arr['action'] ) . $args['n'];
-		$hidden = ( $arr['action'] != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
+		$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $args['n'];
+		$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
 
 		/**
 		 * Filter the hidden field HTML.
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param string $hidden        The generated HTML of hidden fields.
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param string $hidden The generated HTML of hidden fields.
+		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $arr['action'] );
+		$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $action );
 
 		// Build the buttons, filter, and add to the form.
-		if ( $arr['action'] == 'login' ) {
+		if ( $action == 'login' ) {
 			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . '<label for="rememberme">' . $wpmem->get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
 			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		} else {
@@ -890,10 +892,10 @@ class WP_Members_Forms {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param string $buttons        The generated HTML of the form buttons.
-		 * @param string $arr['action']  The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param string $buttons The generated HTML of the form buttons.
+		 * @param string $action  The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $arr['action'] );
+		$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $action );
 
 		$links_array = array(
 			'forgot' => array(
@@ -917,7 +919,7 @@ class WP_Members_Forms {
 		);
 		foreach ( $links_array as $key => $value ) {
 			$tag = $value['tag'];
-			if ( ( $wpmem->user_pages[ $value['page'] ] || 'members' == $page ) && $value['action'] == $arr['action'] ) {
+			if ( ( $wpmem->user_pages[ $value['page'] ] || 'members' == $page ) && $value['action'] == $action ) {
 				/**
 				 * Filters register, forgot password, and forgot username links.
 				 *
@@ -980,13 +982,13 @@ class WP_Members_Forms {
 		$form = $args['fieldset_before'] . $args['n'] . $form . $args['fieldset_after'] . $args['n'];
 		
 		// Apply nonce.
-		$form = wp_nonce_field( 'wpmem_shortform_nonce', '_wpmem_' . $arr['action'] . '_nonce', true, false ) . $args['n'] . $form;
+		$form = wp_nonce_field( 'wpmem_shortform_nonce', '_wpmem_' . $action . '_nonce', true, false ) . $args['n'] . $form;
 
 		// Apply form wrapper.
 		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
 
 		// Apply anchor.
-		$form = '<a id="' . esc_attr( $arr['action'] ) . '"></a>' . $args['n'] . $form;
+		$form = '<a id="' . esc_attr( $action ) . '"></a>' . $args['n'] . $form;
 
 		// Apply main wrapper.
 		$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'];
@@ -1002,10 +1004,10 @@ class WP_Members_Forms {
 		 *
 		 * @since 2.7.4
 		 *
-		 * @param string $form          The HTML of the final generated form.
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param string $form   The HTML of the final generated form.
+		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = apply_filters( 'wpmem_login_form', $form, $arr['action'] );
+		$form = apply_filters( 'wpmem_login_form', $form, $action );
 
 		/**
 		 * Filter before the form.
@@ -1015,10 +1017,10 @@ class WP_Members_Forms {
 		 *
 		 * @since 2.7.4
 		 *
-		 * @param string $str           The HTML to add before the form. Default null.
-		 * @param string $arr['action'] The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 * @param string $str    The HTML to add before the form. Default null.
+		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = apply_filters( 'wpmem_login_form_before', '', $arr['action'] ) . $form;
+		$form = apply_filters( 'wpmem_login_form_before', '', $action ) . $form;
 
 		return $form;
 	} // End login_form.
@@ -1689,104 +1691,6 @@ class WP_Members_Forms {
 			}
 		}
 		return $form;
-	}
-	
-	/**
-	 * Login Dialog.
-	 *
-	 * Loads the login form for user login.
-	 *
-	 * @since 1.8
-	 * @since 3.1.4 Global $wpmem_regchk no longer needed.
-	 * @since 3.2.0 Moved to forms class, renamed do_login_form().
-	 * @todo $show is deprecated, post restricted message ($msg) handled externally.
-	 *
-	 * @global object $post         The WordPress Post object.
-	 * @global object $wpmem        The WP_Members object.
-	 * @param  string $page         If the form is being displayed in place of blocked content. Default: page.
-	 * @param  string $redirect_to  Redirect URL. Default: null.
-	 * @param  string $show         If the form is being displayed in place of blocked content. Default: show.
-	 * @return string $str          The generated html for the login form.
-	 */
-	function do_login_form( $page = "page", $redirect_to = null, $show = 'show' ) {
-
-		global $post, $wpmem;
-
-		$msg = '';
-
-		if ( 'page' == $page ) {
-			$msg = $this->add_restricted_msg();
-		} 
-
-		// Create the default inputs.
-		$default_inputs = array(
-			array(
-				'name'   => $wpmem->get_text( 'login_username' ), 
-				'type'   => 'text', 
-				'tag'    => 'log',
-				'class'  => 'username',
-				'div'    => 'div_text',
-			),
-			array( 
-				'name'   => $wpmem->get_text( 'login_password' ), 
-				'type'   => 'password', 
-				'tag'    => 'pwd', 
-				'class'  => 'password',
-				'div'    => 'div_text',
-			),
-		);
-
-		/**
-		 * Filter the array of login form fields.
-		 *
-		 * @since 2.9.0
-		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
-		 *
-		 * @param array $default_inputs An array matching the elements used by default.
-		 */
-		$default_inputs = apply_filters( 'wpmem_inc_login_inputs', $default_inputs );
-
-		$defaults = array( 
-			'heading'      => $wpmem->get_text( 'login_heading' ), 
-			'action'       => 'login', 
-			'button_text'  => $wpmem->get_text( 'login_button' ),
-			'inputs'       => $default_inputs,
-			'redirect_to'  => $redirect_to,
-		);	
-
-		/**
-		 * Filter the arguments to override login form defaults.
-		 *
-		 * @since 2.9.0
-		 * @deprecated 3.3.0 Use wpmem_login_form_defaults instead.
-		 *
-		 * @param array $args An array of arguments to use. Default null.
-		 */
-		$args = apply_filters( 'wpmem_inc_login_args', '' );
-		$arr  = wp_parse_args( $args, $defaults );
-		
-		/**
-		 * Filter the arguments to override login form defaults.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param array $args {
-		 *     @type string $heading
-		 *     @type string $action
-		 *     @type string $button_text
-		 *     @type string $redirect_to
-		 *     @type array  $inputs {
-		 *          @type string $name
-		 *          @type string $type
-		 *          @type string $tag
-		 *          @type string $class
-		 *          @type string $div
-		 *     }
-		 * }
-		 */
-		$arr = apply_filters( 'wpmem_login_form_defaults', $arr );
-		
-		return ( $show == 'show' ) ? $msg . wpmem_login_form( $page, $arr ) : $msg;
 	}
 
 	/**

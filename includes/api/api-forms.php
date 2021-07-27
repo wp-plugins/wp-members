@@ -26,6 +26,7 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * @since 2.5.1
  * @since 3.1.7 Now a wrapper for $wpmem->forms->login_form()
  * @since 3.3.0 Added to API.
+ * @since 3.4.0 Main API function for displaying login form.
  *
  * @global object $wpmem
  * @param  array  $args {
@@ -59,16 +60,22 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * }
  * @return string $form  The HTML for the form as a string.
  */
-function wpmem_login_form( $args, $arr = false ) {
+function wpmem_login_form( $args = array(), $arr = false ) {
 	global $wpmem;
+	
+	/*
 	// Convert legacy values.
-	if ( ! is_array( $args ) && is_array( $arr ) ) {
+	if ( ( ! is_array( $args ) && is_array( $arr ) ) || ( is_array( $args ) && empty( $args ) ) ) {
 		$page = $args;
 		$args = $arr;
 		$args['page'] = $page;
 	}
+	$args['form'] = ( isset( $args['form'] ) ) ? $args['form'] : 'login';
 	// @todo Work on making this $wpmem->forms->do_login_form( $args );
 	return $wpmem->forms->login_form( $args );
+	*/
+	
+	return $wpmem->forms->do_shortform( 'login' );
 }
 endif;
 

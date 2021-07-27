@@ -926,7 +926,7 @@ class WP_Members {
 
 				case "success":
 					$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_login();
+					$content = $content . wpmem_login_form();
 					break;
 
 				default:
@@ -960,7 +960,7 @@ class WP_Members {
 
 				}
 
-				$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_inc_login() : $content . wpmem_inc_login( 'page', '', 'hide' );
+				$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_login_form() : $content . wpmem_login_form( 'page', '', 'hide' );
 
 				$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_register_form() : $content;
 			}
@@ -1115,7 +1115,7 @@ class WP_Members {
 		$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 		if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
 			$content = wpmem_display_message( 'success', $wpmem_themsg );
-			$content = $content . wpmem_inc_login();
+			$content = $content . wpmem_login_form();
 		}
 		return $content;
 	}

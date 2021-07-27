@@ -118,17 +118,15 @@ class WP_Members_Shortcodes {
 					
 				case in_array( 'login', $atts ):
 					if ( is_user_logged_in() && '1' != $customizer ) {
-						/*
-						 * If the user is logged in, return any nested content (if any)
-						 * or the default bullet links if no nested content.
-						 */
+						// If the user is logged in, return any nested content (if any) or the default bullet links if no nested content.
 						$content = ( $content ) ? $content : $this->render_links( 'login' );
 					} else {
-						/*
-						 * If the user is not logged in, return an error message if a login
-						 * error state exists, or return the login form.
-						 */
-						$content = ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) ? $wpmem->dialogs->login_failed() : wpmem_inc_login( 'login', $redirect_to );
+						$content = '';
+						if ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) {
+							$content = $wpmem->dialogs->login_failed();
+						}
+						$form_args = array( 'form'=>'login', 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$atts['form_id'] );
+						$content .= wpmem_login_form( $form_args );
 					}
 					break;
 
@@ -151,8 +149,9 @@ class WP_Members_Shortcodes {
 						$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 						$content .= wpmem_register_form( $reg_form_args );
 					} else {
+						$form_args = array( $form=>'login', 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
 						if ( $wpmem->regchk == 'loginfailed' ) {
-							$content = $wpmem->dialogs->login_failed() . wpmem_inc_login( 'login', $redirect_to );
+							$content = $wpmem->dialogs->login_failed() . wpmem_login_form( $form_args );
 							break;
 						}
 						// @todo Can this be moved into another function? Should $wpmem get an error message handler?
@@ -161,7 +160,7 @@ class WP_Members_Shortcodes {
 							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
 						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
-						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_inc_login( 'login', $redirect_to ) : wpmem_register_form( $reg_form_args );
+						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form( $form_args ) : wpmem_register_form( $reg_form_args );
 					}
 					break;
 
@@ -178,7 +177,8 @@ class WP_Members_Shortcodes {
 					break;
 					
 				case in_array( 'customizer_login', $atts ):
-					$content = wpmem_inc_login( 'login', $redirect_to );
+					$form_args = array( $form=>'login', 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
+					$content = wpmem_login_form( $form_args );
 					break;
 					
 				case in_array( 'customizer_register', $atts ):
@@ -496,7 +496,7 @@ class WP_Members_Shortcodes {
 
 				case "success":
 					$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_inc_login();
+					$content = $content . wpmem_login_form();
 					break;
 
 				default:
@@ -515,7 +515,7 @@ class WP_Members_Shortcodes {
 
 			} else {
 
-				$content = $content . wpmem_inc_login( 'members' );
+				$content = $content . wpmem_login_form( 'members' );
 				$content = ( ! $hide_register ) ? $content . wpmem_register_form() : $content;
 			}
 		}
@@ -609,7 +609,7 @@ class WP_Members_Shortcodes {
 
 			global $wpmem;
 			$fields = wpmem_fields();
-			$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
+			//$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
