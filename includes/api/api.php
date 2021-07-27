@@ -241,17 +241,58 @@ function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
  * @since 2.0.0
  * @since 3.1.2 Moved to api.php, no longer pluggable.
  * @since 3.1.6 Dependencies now loaded by object.
+ * @since 3.4.0 Added $tag for id'ing useage, to be passed through filter.
  *
- * @param  boolean $echo   Determines whether function should print result or not (default: true).
- * @return string  $status The user status string produced by wpmem_inc_memberlinks().
+ * @global string  $user_login
+ * @param  boolean $echo       Determines whether function should print result or not (default: true).
+ * @return string  $status     The user status string produced by wpmem_inc_memberlinks().
  */
-function wpmem_login_status( $echo = true ) {
+function wpmem_login_status( $echo = true, $tag = false ) {
+	if ( is_user_logged_in() ) {
+		
+		global $user_login;
+		
+		$args = array(
+			'wrapper_before' => '<p>',
+			'wrapper_after'  => '</p>',
+			'user_login'     => $user_login,
+			'welcome'        => wpmem_gettext( 'status_welcome' ),
+			'logout_text'    => wpmem_gettext( 'status_logout' ),
+			'logout_link'    => '<a href="' . esc_url( wpmem_logout_link() ) . '">%s</a>',
+			'separator'      => ' | ',
+		);
+		/**
+		 * Filter the status message parts.
+		 *
+		 * @since 2.9.9
+		 * @since 3.4.0 Added $tag as a parameter (most often will be false).
+		 *
+		 * @param array $args {
+		 *      The components of the links.
+		 *
+		 *      @type string $wrapper_before The wrapper opening tag (default: <p>).
+		 *      @type string $wrapper_after  The wrapper closing tag (default: </p>).
+		 *      @type string $user_login
+		 *      @type string $welcome
+		 *      @type string $logout_text
+		 *      @type string $logout_link
+		 *      @type string $separator
+		 * }
+		 * @param string $tag
+		 */
+		$args = apply_filters( 'wpmem_status_msg_args', $args, $tag );
 
-	if ( is_user_logged_in() ) { 
-		$status = wpmem_inc_memberlinks( 'status' );
-		if ( $echo ) {
-			echo $status; 
-		}
+		// Assemble the message string.
+		$status = $args['wrapper_before']
+			. sprintf( $args['welcome'], $args['user_login'] )
+			. $args['separator']
+			. sprintf( $args['logout_link'], $args['logout_text'] )
+			. $args['wrapper_after'];
+	}
+	
+	if ( $echo ) {
+		echo $status; 
+	} else {
 		return $status;
 	}
 }
