@@ -19,16 +19,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-/**
- * Displays the post restricted message.
- *
- * @since 3.3.5
- *
- * @return string
- */
-function wpmem_restricted_dialog() {
-	global $wpmem;
-	return $wpmem->forms->add_restricted_msg();
-}
-
 // End of file.

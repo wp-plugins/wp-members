@@ -485,4 +485,18 @@ function wpmem_is_reg_type( $type ) {
 	return $wpmem->reg_type[ 'is_' . $type ];
 }
 
+/**
+ * Displays the post restricted message.
+ *
+ * @todo Evaluate - this doesn't seem to be used yet.
+ *
+ * @since 3.3.5
+ *
+ * @return string
+ */
+function wpmem_restricted_dialog() {
+	global $wpmem;
+	return $wpmem->forms->add_restricted_msg();
+}
+
 // End of file.
