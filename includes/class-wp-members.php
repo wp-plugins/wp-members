@@ -395,6 +395,7 @@ class WP_Members {
 		$this->email       = new WP_Members_Email;         // Load email functions
 		$this->user        = new WP_Members_User( $this ); // Load user functions.
 		$this->menus       = new WP_Members_Menus();
+		$this->dialogs     = new WP_Members_Dialogs();
 		if ( $this->clone_menus ) {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
 		}
@@ -622,6 +623,7 @@ class WP_Members {
 		require_once( $this->path . 'includes/class-wp-members-api.php' );
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-captcha.php' );
+		require_once( $this->path . 'includes/class-wp-members-dialogs.php' );
 		require_once( $this->path . 'includes/class-wp-members-email.php' );
 		require_once( $this->path . 'includes/class-wp-members-forms.php' );
 		require_once( $this->path . 'includes/class-wp-members-menus.php' );
