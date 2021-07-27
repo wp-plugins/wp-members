@@ -28,47 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
-/**
- * Login Failed Dialog.
- *
- * Returns the login failed error message.
- *
- * @since 1.8
- * @deprecated 3.4.0 Use $wpmem->dialogs->login_failed().
- *
- * @global object $wpmem The WP_Members object.
- * @return string $str   The generated html for the login failed message.
- */
-function wpmem_inc_loginfailed() {
-	global $wpmem;
-	return $wpmem->dialogs->login_failed();
-}
-endif;
-
-
-if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
-/**
- * Message Dialog.
- *
- * Returns various dialogs and error messages.
- *
- * @since 1.8
- * @since 3.3.0 Changed 'toggles' to 'tags'
- * @deprecated 3.4.0 Use $wpmem->dialogs->message() instead.
- *
- * @global object $wpmem
- * @param  string $tag Error message tag to look for specific error messages.
- * @param  string $msg A message that has no tag that is passed directly to the function.
- * @return string $str The final HTML for the message.
- */
-function wpmem_inc_regmessage( $tag, $msg = '' ) {
-	global $wpmem;
-	return $wpmem->dialogs->message( $tag, $msg );
-}
-endif;
-
-
 if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
 /**
  * Member Links Dialog.

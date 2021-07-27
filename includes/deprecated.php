@@ -437,6 +437,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  * @return string $str          The generated html for the login form.
  */
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
+	wpmem_write_log( 'wpmem_inc_login() is deprecated as of WP-Members 3.3.0. Use wpmem_login_form() instead.' );
 	global $wpmem;
 	return $wpmem->forms->do_login_form( $page, $redirect_to, $show );
 }
@@ -459,8 +460,51 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * @return string $form         The HTML for the entire form as a string.
  */
 function wpmem_inc_registration( $tag = 'new', $heading = '', $redirect_to = null ) {
+	wpmem_write_log( 'wpmem_inc_registration() is deprecated as of WP-Members 3.3.0. Use wpmem_register_form() instead.' );
 	global $wpmem;
 	$args = array( 'tag' => $tag, 'heading' => $heading, 'redirect_to' => $redirect_to );
 	return $wpmem->forms->register_form( $args );
 } // End wpmem_inc_registration.
+endif;
+
+if ( ! function_exists( 'wpmem_inc_loginfailed' ) ):
+/**
+ * Login Failed Dialog.
+ *
+ * Returns the login failed error message.
+ *
+ * @since 1.8
+ * @deprecated 3.4.0 Use $wpmem->dialogs->login_failed().
+ *
+ * @global object $wpmem The WP_Members object.
+ * @return string $str   The generated html for the login failed message.
+ */
+function wpmem_inc_loginfailed() {
+	wpmem_write_log( 'wpmem_inc_loginfailed() is deprecated as of WP-Members 3.4.0. Use $wpmem->dialogs->login_failed() instead.' );
+	global $wpmem;
+	return $wpmem->dialogs->login_failed();
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
+/**
+ * Message Dialog.
+ *
+ * Returns various dialogs and error messages.
+ *
+ * @since 1.8
+ * @since 3.3.0 Changed 'toggles' to 'tags'
+ * @deprecated 3.4.0 Use wpmem_display_message() instead.
+ *
+ * @global object $wpmem
+ * @param  string $tag Error message tag to look for specific error messages.
+ * @param  string $msg A message that has no tag that is passed directly to the function.
+ * @return string $str The final HTML for the message.
+ */
+function wpmem_inc_regmessage( $tag, $msg = '' ) {
+	wpmem_write_log( "wpmem_inc_regmessage() is deprecated as of WP-Members 3.4.0. Use wpmem_display_message() instead." );
+	global $wpmem;
+	return $wpmem->dialogs->message( $tag, $msg );
+}
 endif;
