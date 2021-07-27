@@ -21,24 +21,30 @@ class WP_Members_Export {
 	 * @since 3.2.0 Updated to use fputcsv.
 	 * @since 3.2.1 Added user data filters.
 	 * @since 3.3.0 Moved to new object class as static method.
+	 * @since 3.4.0 Added $tag to identify what export process is being run.
 	 *
 	 * @param array $args
 	 * @param array $users
 	 */
-	static function export_users( $args, $users = array() ) {
+	static function export_users( $args, $users = array(), $tag = 'default' ) {
 
 		global $wpmem;
 		
 		$wpmem_fields = wpmem_fields();
 		
+		// Fields to exclude.
+		$exclude_fields = array( 'user_pass', 'password', 'confirm_password', 'confirm_email' );
+		
 		// Prepare fields, add additional "special" fields.
 		$export_fields = array(
-			'ID'       => __( 'User ID', 'wp-members' ),
-			'username' => __( 'Username', 'wp-members' ),
+			'ID' => __( 'User ID', 'wp-members' ),
 		);
 		foreach( $wpmem_fields as $meta_key => $value ) {
-			$export_fields[ $meta_key ] = $value['label'];
+			if ( ! in_array( $meta_key, $exclude_fields ) ) {
+				$export_fields[ $meta_key ] = $value['label'];
+			}
 		}
+		$export_fields['username'] = __( 'Username', 'wp-members' );
 		if ( 1 == $wpmem->mod_reg ) {
 			$export_fields['active'] = __( 'Activated?', 'wp-members' );
 		}
@@ -48,6 +54,7 @@ class WP_Members_Export {
 		}
 		$export_fields['user_registered'] = __( 'Registered', 'wp-members' );
 		$export_fields['wpmem_reg_ip']    = __( 'IP', 'wp-members' );
+		$export_fields['role']            = __( 'Role', 'wp-members' );
 		if ( 1 == $wpmem->enable_products ) {
 			foreach( $wpmem->membership->products as $product_key => $product ) {
 				$export_fields[ $wpmem->membership->post_stem . $product_key ] = $wpmem->membership->products[ $product_key ]['title'];
@@ -58,9 +65,10 @@ class WP_Members_Export {
 		 * Filter the export fields.
 		 *
 		 * @since 3.2.5
+		 * @since 3.4.0 Added $tag.
 		 *
 		 * @param array $export_fields {
-		 *     The array of export fields is keyed as 'heading value' => 'meta_key'.
+		 *     The array of export fields is keyed as 'meta_key' => 'heading value'.
 		 *     The array will include all fields in the Fields tab, plus the following:
 		 *
 		 *     @type int    $ID               ID from wp_users
@@ -73,9 +81,11 @@ class WP_Members_Export {
 		 *     @type string $expires          If the PayPal extension is installed MM/DD/YYYY (optional)
 		 *     @type string $user_registered  user_registered
 		 *     @type string $user_ip          The IP of the user when they registered.
-		 }
+		 *     @type string $role             The user's role (or roles, if multiple).
+		 * }
+		 * @param string $tag
 		 */
-		$export_fields = apply_filters( 'wpmem_export_fields', $export_fields );
+		$export_fields = apply_filters( 'wpmem_export_fields', $export_fields, $tag );
 
 		$today = date( "Y-m-d" );
 
@@ -84,7 +94,6 @@ class WP_Members_Export {
 			'export'         => 'all',
 			'filename'       => 'wp-members-user-export-' . $today . '.csv',
 			'export_fields'  => $export_fields,
-			'exclude_fields' => array( 'password', 'confirm_password', 'confirm_email' ),
 			'entity_decode'  => false,
 			'date_format'    => 'Y-m-d',
 		);
@@ -93,6 +102,9 @@ class WP_Members_Export {
 		 * Filter the default export arguments.
 		 *
 		 * @since 2.9.7
+		 * @since 3.4.0 Filter all defaults (like other _args changes), then wp_parse_args() in case any are missing.
+		 * @since 3.4.0 Added $tag.
+		 * @since 3.4.0 Deprecated 'exclude_fields' (unset using wpmem_export_fields instead).
 		 *
 		 * @param array $args {
 		 *     Array of defaults for export.
@@ -100,12 +112,16 @@ class WP_Members_Export {
 		 *     @type  string  $export
 		 *     @type  string  $filename
 		 *     @type  array   $export_fields
-		 *     @type  array   $exclude_fields
+		 *     @type  array   $exclude_fields  @deprecated 3.4.0
 		 *     @type  boolean $entity_decode
 		 *     @type  string  $date_format
 		 * }
+		 * @param string $tag
 		 */
-		$args = wp_parse_args( apply_filters( 'wpmem_export_args', $args ), $defaults );
+		$args = apply_filters( 'wpmem_export_args', $defaults, $tag );
+		
+		// Merge args with default (in case any were missing).
+		$args = wp_parse_args( $args, $defaults );
 
 		// Output needs to be buffered, start the buffer.
 		ob_start();
@@ -124,22 +140,23 @@ class WP_Members_Export {
 
 		// Remove excluded fields from $export_fields while setting up $header array.
 		$header = array();
-		foreach ( $export_fields as $meta => $field ) {
-			if ( in_array( $meta, $args['exclude_fields'] ) ) {
-				unset( $export_fields[ $meta ] );
-			} else {
-				$header[ $meta ] = $field;
-			}
+		foreach ( $args['export_fields'] as $meta => $field ) {
+			$header[ $meta ] = $field;
 		}
 
 		/**
 		 * Filters user export header row before assembly.
 		 *
-		 * @since 3.2.1
+		 * As of 3.4.0, this really isn't a necessary filter. You can specify the header
+		 * value in wpmem_export_fields instead and just use one filter.
 		 *
-		 * @param array $header The header column values
+		 * @since 3.2.1
+		 * @since 3.4.0 Added $tag.
+		 *
+		 * @param array  $header The header column values
+		 * @param string $tag
 		 */
-		$header = apply_filters( 'wpmem_user_export_header', $header );
+		$header = apply_filters( 'wpmem_user_export_header', $header, $tag );
 
 		fputcsv( $handle, $header );
 
@@ -149,14 +166,26 @@ class WP_Members_Export {
 
 			$user_info = get_userdata( $user );
 
-			$wp_user_fields = [ 'username', 'user_email', 'user_nicename', 'user_url', 'display_name' ];
-			foreach ( $export_fields as $meta => $field ) {
+			$wp_user_fields = array( 'ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'user_status', 'display_name' );
+			foreach ( $args['export_fields'] as $meta => $field ) {
 				switch ( $meta ) {
 					case 'ID':
-						$row[ $meta ] = $user_info->ID;
+					case 'user_login':
+					case 'user_pass':
+					case 'user_nicename':
+					case 'user_email':
+					case 'user_url':
+					case 'user_registered':
+					case 'user_activation_key':
+					case 'user_status':
+					case 'display_name':
+						$row[ $meta ] = $user_info->{ $meta };
 						break;
 					case 'username':
 						$row[ $meta ] = $user_info->user_login;
+						break;
+					case 'password':
+						$row[ $meta ] = $user_info->user_pass;
 						break;
 					case 'active':
 						$row[ $meta ] = get_user_meta( $user, 'active', 1 ) ? __( 'Yes' ) : __( 'No' );
@@ -167,11 +196,12 @@ class WP_Members_Export {
 					case 'expires':
 						$row['expires'] = get_user_meta( $user, 'expires', true );
 						break;
-					case 'user_registered':
-						$row['user_registered'] = $user_info->user_registered;
-						break;
 					case 'wpmem_reg_ip':
 						$row['wpmem_reg_ip'] = get_user_meta( $user, 'wpmem_reg_ip', true );
+						break;
+					case 'role':
+						$role = wpmem_get_user_role( $user, true ); // As of 3.4, wpmem_get_user_role() can get all roles.
+						$row['role'] = ( is_array( $role ) ) ? implode( ",", $role ) : $role;
 						break;
 					case ( $wpmem->membership->post_stem === substr( $meta, 0, strlen( $wpmem->membership->post_stem ) ) ):
 						$product = str_replace( $wpmem->membership->post_stem, '', $meta );
@@ -197,10 +227,14 @@ class WP_Members_Export {
 			 * Filter the user data before assembly.
 			 *
 			 * @since 3.2.1
+			 * @since 3.4.0 Added user ID (it may not be included in the $row array if the field were filtered out).
+			 * @since 3.4.0 Added $tag.
 			 *
-			 * @param array $row The user data row
+			 * @param array  $row     The user data row.
+			 * @param int    $user_id The user ID.
+			 * @param string $tag
 			 */
-			$row = apply_filters( 'wpmem_user_export_row', $row );
+			$row = apply_filters( 'wpmem_user_export_row', $row, $user_info->ID, $tag );
 
 			fputcsv( $handle, $row );
 
