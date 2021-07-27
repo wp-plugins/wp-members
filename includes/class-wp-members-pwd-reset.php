@@ -162,7 +162,7 @@ class WP_Members_Pwd_Reset {
 				if ( $pass1 !== $pass2 ) {
 					// Legacy WP-Members error.
 					$result = 'pwdchangerr';
-					$msg = wpmem_inc_regmessage( 'pwdchangerr' );
+					$msg = wpmem_display_message( 'pwdchangerr' );
 					// WP Error.
 					$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
 				}
@@ -172,7 +172,7 @@ class WP_Members_Pwd_Reset {
 
 				if ( ( ! $errors->has_errors() ) && isset( $pass1 ) && ! empty( $pass1 ) ) {			
 					reset_password( $user, $pass1 );
-					$msg = wpmem_inc_regmessage( 'pwdchangesuccess' ) . $wpmem->forms->do_login_form( 'pwdreset' );
+					$msg = wpmem_display_message( 'pwdchangesuccess' ) . wpmem_login_form( 'pwdreset' );
 					$result = 'pwdchangesuccess';
 				}
 			}
@@ -182,7 +182,7 @@ class WP_Members_Pwd_Reset {
 				if ( 'invalid_key' == $user->get_error_code() ) {
 					// If somehow the form was submitted but the key not found.
 					$pwd_reset_link = wpmem_profile_url( 'pwdreset' );
-					$msg = wpmem_inc_regmessage( 'invalid_key', $this->form_submitted_key_not_found . '<br /><a href="' . $pwd_reset_link . '">Request a new reset key.</a>' );
+					$msg = wpmem_display_message( 'invalid_key', $this->form_submitted_key_not_found . '<br /><a href="' . $pwd_reset_link . '">Request a new reset key.</a>' );
 					$form = '';
 				} else {
 					$form = wpmem_change_password_form();

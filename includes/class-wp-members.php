@@ -920,16 +920,16 @@ class WP_Members {
 				switch ( $this->regchk ) {
 
 				case "loginfailed":
-					$content = wpmem_inc_loginfailed();
+					$content = $this->dialogs->login_failed();
 					break;
 
 				case "success":
-					$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
+					$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
 					$content = $content . wpmem_inc_login();
 					break;
 
 				default:
-					$content = wpmem_inc_regmessage( $this->regchk, $wpmem_themsg );
+					$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
 					$content = $content . wpmem_register_form();
 					break;
 				}
@@ -1113,7 +1113,7 @@ class WP_Members {
 		global $wpmem, $wpmem_themsg;
 		$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 		if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
-			$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
+			$content = wpmem_display_message( 'success', $wpmem_themsg );
 			$content = $content . wpmem_inc_login();
 		}
 		return $content;

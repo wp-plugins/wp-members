@@ -134,7 +134,7 @@ function wpmem_reg_securify( $content ) {
 	global $wpmem, $wpmem_themsg;
 	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
-		$content = wpmem_inc_regmessage( 'success', $wpmem_themsg );
+		$content = wpmem_display_message( 'success', $wpmem_themsg );
 		$content = $content . wpmem_inc_login();
 	}
 	return $content;

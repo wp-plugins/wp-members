@@ -97,6 +97,7 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  *
  * @since 1.8
  * @since 3.3.0 Changed 'toggles' to 'tags'
+ * @deprecated 3.4.0 Use $wpmem->dialogs->message() instead.
  *
  * @global object $wpmem
  * @param  string $tag Error message tag to look for specific error messages.
@@ -104,99 +105,8 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  * @return string $str The final HTML for the message.
  */
 function wpmem_inc_regmessage( $tag, $msg = '' ) {
-	
 	global $wpmem;
-
-	// defaults
-	$defaults = array(
-		'div_before' => '<div class="wpmem_msg" align="center">',
-		'div_after'  => '</div>', 
-		'p_before'   => '<p>',
-		'p_after'    => '</p>',
-		'tags'       => array(
-			'user',
-			'email',
-			'success',
-			'editsuccess',
-			'pwdchangerr',
-			'pwdchangesuccess',
-			'pwdreseterr',
-			'pwdresetsuccess',
-		),
-	);
-	
-	/**
-	 * Filter the message arguments.
-	 *
-	 * @since 2.9.0
-	 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
-	 *
-	 * @param array An array of arguments to merge with defaults.
-	 */
-	$args = apply_filters( 'wpmem_msg_args', '' );
-
-	/** This filter is documented in /includes/class-wp-members-admin-api.php */
-	$dialogs = apply_filters( 'wpmem_dialogs', get_option( 'wpmembers_dialogs' ) );
-
-	// @todo Temporary(?) workaround for custom dialogs as an array (WP-Members Security).
-	if ( array_key_exists( $tag, $dialogs ) ) {
-		if ( is_array( $dialogs[ $tag ] ) ) {
-			$msg = stripslashes( $dialogs[ $tag ]['value'] );
-		} else {
-			$msg = $wpmem->get_text( $tag );
-			$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
-		}
-	}
-	$defaults['msg'] = $msg;
-	
-	/**
-	 * Filter the message array
-	 *
-	 * @since 2.9.2
-	 * @since 3.1.1 added $dialogs parameter.
-	 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
-	 *
-	 * @param array  $defaults An array of the defaults.
-	 * @param string $tag      The tag that we are on, if any.
-	 * @param array  $dialogs
-	 */
-	$defaults = apply_filters( 'wpmem_msg_dialog_arr', $defaults, $tag, $dialogs );
-	
-	// Merge $args with defaults.
-	$args = wp_parse_args( $args, $defaults );
-	
-	// Backwards compatibility for 'toggles'.
-	if ( isset( $args['toggles'] ) ) {
-		$args['tags'] = $args['toggles'];
-	}
-	
-	/**
-	 * Filter the message settings.
-	 *
-	 * @since 3.3.0
-	 *
-	 * @param array  $defaults An array of the defaults.
-	 * @param string $tag      The tag that we are on, if any.
-	 * @param array  $dialogs
-	 */
-	$args = apply_filters( 'wpmem_msg_defaults', $defaults, $tag, $dialogs );
-	
-	// @todo Temporary(?) workaround for custom dialogs as an array (WP-Members Security).
-	$display_msg = ( is_array( $args['msg'] ) ) ? $args['msg']['value'] : $args['msg'];
-	
-	$str = $args['div_before'] . $args['p_before'] . stripslashes( $display_msg ) . $args['p_after'] . $args['div_after'];
-
-	/**
-	 * Filter the message.
-	 *
-	 * @since 2.7.4
-	 * @since 3.1.0 Added tag.
-	 *
-	 * @param string $str The message.
-	 * @param string $tag The tag of the message being displayed.
-	 */
-	return apply_filters( 'wpmem_msg_dialog', $str, $tag );
-
+	return $wpmem->dialogs->message( $tag, $msg );
 }
 endif;
 
@@ -208,6 +118,7 @@ if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
  * Outputs the links used on the members area.
  *
  * @since 2.0
+ * @since 3.4.0 "status" is technically deprecated. Use wpmem_login_status() instead.
  *
  * @gloabl        $user_login
  * @global object $wpmem
@@ -218,14 +129,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 
 	global $user_login, $wpmem;
 
-	/**
-	 * Filter the log out link.
-	 *
-	 * @since 2.8.3
-	 *
-	 * @param string The default logout link.
-	 */
-	$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
+	$logout = wpmem_logout_link();
 
 	switch ( $page ) {
 
@@ -236,7 +140,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 			'wrapper_before' => '<ul>',
 			'wrapper_after'  => '</ul>',
 			'rows'           => array(
-				'<li><a href="' . esc_url( add_query_arg( 'a', 'edit', remove_query_arg( 'key' ) ) )      . '">' . $wpmem->get_text( 'profile_edit' )     . '</a></li>',
+				'<li><a href="' . esc_url( add_query_arg( 'a', 'edit',      remove_query_arg( 'key' ) ) ) . '">' . $wpmem->get_text( 'profile_edit'     ) . '</a></li>',
 				'<li><a href="' . esc_url( add_query_arg( 'a', 'pwdchange', remove_query_arg( 'key' ) ) ) . '">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
 			),
 			'after_wrapper'  => '',
@@ -382,40 +286,7 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 		break;
 
 	case 'status':
-		$args = array(
-			'wrapper_before' => '<p>',
-			'wrapper_after'  => '</p>',
-			'user_login'     => $user_login,
-			'welcome'        => $wpmem->get_text( 'status_welcome' ),
-			'logout_text'    => $wpmem->get_text( 'status_logout' ),
-			'logout_link'    => '<a href="' . esc_url( $logout ) . '">%s</a>',
-			'separator'      => ' | ',
-		);
-		/**
-		 * Filter the status message parts.
-		 *
-		 * @since 2.9.9
-		 *
-		 * @param array $args {
-		 *      The components of the links.
-		 *
-		 *      @type string $wrapper_before The wrapper opening tag (default: <p>).
-		 *      @type string $wrapper_after  The wrapper closing tag (default: </p>).
-		 *      @type string $user_login
-		 *      @type string $welcome
-		 *      @type string $logout_text
-		 *      @type string $logout_link
-		 *      @type string $separator
-		 * }
-		 */
-		$args = apply_filters( 'wpmem_status_msg_args', $args );
-
-		// Assemble the message string.
-		$str = $args['wrapper_before']
-			. sprintf( $args['welcome'], $args['user_login'] )
-			. $args['separator']
-			. sprintf( $args['logout_link'], $args['logout_text'] )
-			. $args['wrapper_after'];
+		$str = wpmem_login_status();
 		break;
 
 	}
@@ -454,7 +325,7 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 
 			default:
 				if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-					$content .= wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+					$content .= wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 				}
 				$content = $content . wpmem_change_password_form();
 				break;
@@ -472,13 +343,13 @@ function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
 			switch( $wpmem_regchk ) {
 
 				case "pwdresetsuccess":
-					$content = $content . wpmem_inc_regmessage( $wpmem_regchk );
+					$content = $content . wpmem_display_message( $wpmem_regchk );
 					$wpmem_regchk = ''; // Clear regchk.
 					break;
 
 				default:
 					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-						$content = wpmem_inc_regmessage( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+						$content = wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
 					}
 					$content = $content . wpmem_reset_password_form();
 					break;
@@ -521,7 +392,7 @@ function wpmem_page_user_edit( $wpmem_regchk, $content ) {
 	$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
 	
 	if ( $wpmem_a == "update") {
-		$content.= wpmem_inc_regmessage( $wpmem_regchk, $wpmem_themsg );
+		$content.= wpmem_display_message( $wpmem_regchk, $wpmem_themsg );
 	}
 	$content = $content . wpmem_register_form( 'edit', $heading );
 	
@@ -551,7 +422,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 		case "usernamefailed":
 			$msg = $wpmem->get_text( 'usernamefailed' );
 			$content = $content
-				. wpmem_inc_regmessage( 'usernamefailed', $msg ) 
+				. wpmem_display_message( 'usernamefailed', $msg ) 
 				. wpmem_forgot_username_form();
 			$wpmem->regchk = ''; // Clear regchk.
 			break;
@@ -559,7 +430,7 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 		case "usernamesuccess":
 			$email = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
 			$msg = sprintf( $wpmem->get_text( 'usernamesuccess' ), $email );
-			$content = $content . wpmem_inc_regmessage( 'usernamesuccess', $msg );
+			$content = $content . wpmem_display_message( 'usernamesuccess', $msg );
 			$wpmem->regchk = ''; // Clear regchk.
 			break;
 

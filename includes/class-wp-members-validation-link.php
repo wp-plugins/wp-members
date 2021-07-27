@@ -253,7 +253,7 @@ class WP_Members_Validation_Link {
 				$msg = '';
 			}
 			
-			$content = wpmem_inc_regmessage( '', $msg ) . $content;
+			$content = wpmem_display_message( '', $msg ) . $content;
 		}
 
 		return $content;
