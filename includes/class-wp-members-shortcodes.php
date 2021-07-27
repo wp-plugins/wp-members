@@ -166,15 +166,15 @@ class WP_Members_Shortcodes {
 					break;
 
 				case in_array( 'password', $atts ):
-					$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
+					$content = $this->render_pwd_reset( $wpmem->regchk, $content );
 					break;
 
 				case in_array( 'user_edit', $atts ):
-					$content = wpmem_page_user_edit( $wpmem->regchk, $content, $atts );
+					$content = $this->render_user_edit( $wpmem->regchk, $content, $atts );
 					break;
 
 				case in_array( 'forgot_username', $atts ):
-					$content = wpmem_page_forgot_username( $wpmem->regchk, $content );
+					$content = $this->render_forgot_username( $wpmem->regchk, $content );
 					break;
 					
 				case in_array( 'customizer_login', $atts ):
@@ -845,6 +845,159 @@ class WP_Members_Shortcodes {
 		$nonce = ( isset( $atts['form'] ) ) ? $atts['form'] : 'register';
 		$content = wpmem_form_nonce( $nonce, false );
 		return do_shortcode( $content );
+	}
+	
+	/**
+	 * Password reset forms.
+	 *
+	 * This function creates both password reset and forgotten
+	 * password forms for page=password shortcode.
+	 *
+	 * @since 2.7.6
+	 * @since 3.2.6 Added nonce validation.
+	 * @since 3.4.0 Moved to shortcodes as private function, renamed from wpmem_page_pwd_reset().
+	 *
+	 * @global object $wpmem
+	 * @param  string $wpmem_regchk
+	 * @param  string $content
+	 * @return string $content
+	 */
+	function render_pwd_reset( $wpmem_regchk, $content ) {
+
+		global $wpmem;
+
+		if ( is_user_logged_in() ) {
+
+			switch ( $wpmem_regchk ) {
+
+				case "pwdchangesuccess":
+					$content = $content . wpmem_display_message( $wpmem_regchk );
+					break;
+
+				default:
+					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
+						$content .= wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+					}
+					$content = $content . wpmem_change_password_form();
+					break;
+			}
+
+		} else {
+
+			// If the password shortcode page is set as User Profile page.
+			if ( 'getusername' == $wpmem->action ) {
+
+				return wpmem_page_forgot_username( $wpmem_regchk, $content );
+
+			} else {
+
+				switch( $wpmem_regchk ) {
+
+					case "pwdresetsuccess":
+						$content = $content . wpmem_display_message( $wpmem_regchk );
+						$wpmem_regchk = ''; // Clear regchk.
+						break;
+
+					default:
+						if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
+							$content = wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+						}
+						$content = $content . wpmem_reset_password_form();
+						break;
+				}
+
+			}
+
+		}
+
+		return $content;
+
+	}
+	
+	/**
+	 * Creates a user edit page.
+	 *
+	 * @since 2.7.6
+	 * @since 3.3.9 Added $atts
+	 * @since 3.4.0 Moved to shortcodes as private function, renamed from wpmem_page_user_edit
+	 *
+	 * @global object $wpmem
+	 * @global string $wpmem_a
+	 * @global string $wpmem_themsg
+	 * @param  string $wpmem_regchk
+	 * @param  string $content
+	 * @return string $content
+	 */
+	function render_user_edit( $wpmem_regchk, $content, $atts = false ) {
+
+		global $wpmem, $wpmem_a, $wpmem_themsg;
+		/**
+		 * Filter the default User Edit heading for shortcode.
+		 *
+		 * @since 2.7.6
+		 *
+		 * @param string The default edit mode heading.
+		 */	
+		$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
+
+		if ( $wpmem_a == "update") {
+			$content.= wpmem_display_message( $wpmem_regchk, $wpmem_themsg );
+		}
+
+		$args['tag'] = 'edit';
+		$args['heading'] = $heading;
+		if ( false !== $atts && isset( $atts['fields'] ) ) {
+			$args['fields'] = $atts['fields'];
+		}
+
+		$content = $content . wpmem_register_form( $args );
+
+		return $content;
+	}
+
+	/**
+	 * Forgot username form.
+	 *
+	 * This function creates a form for retrieving a forgotten username.
+	 *
+	 * @since 3.0.8
+	 * @since 3.4.0 Moved to shortcodes as private function, renamed from wpmem_page_forgot_username().
+	 *
+	 * @param  string $wpmem_regchk
+	 * @param  string $content
+	 * @return string $content
+	 */
+	function render_forgot_username( $wpmem_regchk, $content ) {
+
+		if ( ! is_user_logged_in() ) {
+
+			global $wpmem;
+			switch( $wpmem->regchk ) {
+
+			case "usernamefailed":
+				$msg = $wpmem->get_text( 'usernamefailed' );
+				$content = $content
+					. wpmem_display_message( 'usernamefailed', $msg ) 
+					. wpmem_forgot_username_form();
+				$wpmem->regchk = ''; // Clear regchk.
+				break;
+
+			case "usernamesuccess":
+				$email = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
+				$msg = sprintf( $wpmem->get_text( 'usernamesuccess' ), $email );
+				$content = $content . wpmem_display_message( 'usernamesuccess', $msg );
+				$wpmem->regchk = ''; // Clear regchk.
+				break;
+
+			default:
+				$content = $content . wpmem_forgot_username_form();
+				break;
+			}
+
+		}
+
+		return $content;
+
 	}
 }
 

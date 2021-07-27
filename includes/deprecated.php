@@ -508,3 +508,74 @@ function wpmem_inc_regmessage( $tag, $msg = '' ) {
 	return $wpmem->dialogs->message( $tag, $msg );
 }
 endif;
+
+
+if ( ! function_exists( 'wpmem_page_pwd_reset' ) ):
+/**
+ * Password reset forms.
+ *
+ * This function creates both password reset and forgotten
+ * password forms for page=password shortcode.
+ *
+ * @since 2.7.6
+ * @since 3.2.6 Added nonce validation.
+ * @deprecated 3.4.0 Use $wpmem->shortcodes->render_pwd_reset() instead.
+ *
+ * @global object $wpmem
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_page_pwd_reset( $wpmem_regchk, $content ) {
+	wpmem_write_log( "wpmem_page_pwd_reset() is deprecated as of WP-Members 3.4.0." );
+	global $wpmem;
+	$content = $wpmem->shortcodes->render_pwd_reset( $wpmem_regchk, $content );
+	return $content;
+
+}
+endif;
+
+
+if ( ! function_exists( 'wpmem_page_user_edit' ) ):
+/**
+ * Creates a user edit page.
+ *
+ * @since 2.7.6
+ * @since 3.3.9 Added $atts
+ * @deprecated 3.4.0 Use $wpmem->shortcodes->render_user_edit() instead.
+ *
+ * @global object $wpmem
+ * @global string $wpmem_a
+ * @global string $wpmem_themsg
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_page_user_edit( $wpmem_regchk, $content, $atts = false ) {
+	wpmem_write_log( "wpmem_page_user_edit() is deprecated as of WP-Members 3.4.0." );
+	global $wpmem, $wpmem_a, $wpmem_themsg;
+	$content = $wpmem->shortcodes->render_user_edit( $wpmem_regchk, $content );
+	return $content;
+}
+endif;
+
+
+/**
+ * Forgot username form.
+ *
+ * This function creates a form for retrieving a forgotten username.
+ *
+ * @since 3.0.8
+ * @deprecated 3.4.0 Use $wpmem->shortcodes->do_forgot_username() instead.
+ *
+ * @param  string $wpmem_regchk
+ * @param  string $content
+ * @return string $content
+ */
+function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
+	wpmem_write_log( "wpmem_page_forgot_username() is deprecated as of WP-Members 3.4.0." );
+	global $wpmem;
+	$content = $wpmem->shortcodes->render_forgot_username( $wpmem_regchk, $content );
+	return $content;
+
+}
