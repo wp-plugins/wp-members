@@ -579,3 +579,37 @@ function wpmem_page_forgot_username( $wpmem_regchk, $content ) {
 	return $content;
 
 }
+
+if ( ! function_exists( 'wpmem_inc_memberlinks' ) ):
+/**
+ * Member Links Dialog.
+ *
+ * Outputs the links used on the members area.
+ *
+ * @since 2.0
+ * @since 3.4.0 "status" is technically deprecated. Use wpmem_login_status() instead.
+ * @deprecated 3.4.0 Use $wpmem->shortocdes->render_links() instead.
+ *
+ * @gloabl        $user_login
+ * @global object $wpmem
+ * @param  string $page
+ * @return string $str
+ */
+function wpmem_inc_memberlinks( $page = 'member' ) {
+	wpmem_write_log( "wpmem_inc_memberlinks() is deprecated as of WP-Members 3.4.0." );
+	global $wpmem;
+	switch ( $page ) {
+
+		case 'member':
+		case 'register':
+		case 'login':
+			$str = $wpmem->shortcodes->render_links( $page );
+			break;
+		case 'status':
+			$str = wpmem_login_status();
+			break;
+
+	}
+	return $str;
+}
+endif;
