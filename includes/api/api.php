@@ -494,7 +494,7 @@ function wpmem_is_reg_type( $type ) {
  *
  * @return string
  */
-function wpmem_restricted_dialog() {
+function wpmem_restricted_message() {
 	global $wpmem;
 	return $wpmem->forms->add_restricted_msg();
 }

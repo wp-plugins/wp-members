@@ -439,7 +439,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
 function wpmem_inc_login( $page = "page", $redirect_to = null, $show = 'show' ) {
 	wpmem_write_log( 'wpmem_inc_login() is deprecated as of WP-Members 3.3.0. Use wpmem_login_form() instead.' );
 	global $wpmem;
-	return wpmem_login_form( 'login' ); //$wpmem->forms->do_login_form( $page, $redirect_to, $show );
+	return wpmem_login_form( 'login', array( 'redirect_to'=>$redirect_to ) ); //$wpmem->forms->do_login_form( $page, $redirect_to, $show );
 }
 endif;
 

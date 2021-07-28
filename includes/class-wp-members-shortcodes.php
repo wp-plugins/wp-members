@@ -96,9 +96,12 @@ class WP_Members_Shortcodes {
 		global $wpmem, $wpmem_themsg;
 
 		// Defaults.
-		$redirect_to = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
-		$texturize   = ( isset( $atts['texturize']   ) ) ? $atts['texturize']   : false;
-		$form_id     = ( isset( $atts['form_id']     ) ) ? $atts['form_id']     : null;
+		$defaults = array(
+			'redirect_to' => null,
+			'texturize'   => false,
+			'id'          => false,
+		);
+		$atts = wp_parse_args( $atts, $defaults );
 		
 		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
 		
@@ -125,8 +128,7 @@ class WP_Members_Shortcodes {
 						if ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) {
 							$content = $wpmem->dialogs->login_failed();
 						}
-						$form_args = array( 'form'=>'login', 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$atts['form_id'] );
-						$content .= wpmem_login_form( $form_args );
+						$content .= wpmem_login_form( array( 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$atts['form_id'] ) );
 					}
 					break;
 
@@ -149,7 +151,7 @@ class WP_Members_Shortcodes {
 						$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
 						$content .= wpmem_register_form( $reg_form_args );
 					} else {
-						$form_args = array( $form=>'login', 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
+						$form_args = array( 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
 						if ( $wpmem->regchk == 'loginfailed' ) {
 							$content = $wpmem->dialogs->login_failed() . wpmem_login_form( $form_args );
 							break;
@@ -177,8 +179,7 @@ class WP_Members_Shortcodes {
 					break;
 					
 				case in_array( 'customizer_login', $atts ):
-					$form_args = array( $form=>'login', 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
-					$content = wpmem_login_form( $form_args );
+					$content = wpmem_login_form( array( 'redirect_to'=>$redirect_to, 'form_id'=>$form_id ) );
 					break;
 					
 				case in_array( 'customizer_register', $atts ):

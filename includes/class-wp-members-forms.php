@@ -710,15 +710,7 @@ class WP_Members_Forms {
 $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		
 		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
-		if ( isset( $_REQUEST['redirect_to'] ) ) {
-			$redirect_to = $_REQUEST['redirect_to'];
-		} else {
-			if ( isset( $arr['redirect_to'] ) ) {
-				$redirect_to = $arr['redirect_to'];
-			} else {
-				$redirect_to = ( isset( $_SERVER['REQUEST_URI'] ) ) ? $_SERVER['REQUEST_URI'] : get_permalink();
-			}
-		}
+		$redirect_to = wpmem_get_redirect_to( $arr );
 
 		// Set up default wrappers.
 		// NOTE: DO NOT EDIT! There is a filter hook for this -> wpmem_login_form_args. 
@@ -2034,17 +2026,12 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 	 * @global  stdClass  $wpmem
 	 *
 	 * @param   string    $form  login|changepassword|resetpassword|forgotusername
+	 * @param   array     $args
 	 * @return  string    $form
 	 */
-	function do_shortform( $form, $page = "page", $redirect_to = null, $show = 'show' ) {
+	function do_shortform( $form, $args = array() ) {
 		
 		global $post, $wpmem;
-
-		$msg = '';
-
-		if ( "login" == $form && "page" == $page ) {
-			$msg = $this->add_restricted_msg();
-		} 
 
 		$input_arrays = array(
 			'login' => array(
@@ -2122,7 +2109,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 				'action'       => 'login', 
 				'button_text'  => $wpmem->get_text( 'login_button' ),
 				'inputs'       => $default_inputs,
-				'redirect_to'  => $redirect_to,
+				'redirect_to'  => $args['redirect_to'],
 			),
 			'changepassword' => array(
 				'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
@@ -2164,7 +2151,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		 */
 		$arr = apply_filters( 'wpmem_' . $form . '_form_defaults', $arr );
 		
-		return ( $show == 'show' ) ? $msg . $this->login_form( $page, $arr ) : $msg;
+		return $this->login_form( $page, $arr );
 	}
 
 	/**
@@ -2176,7 +2163,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 	 *
 	 * @return string $str The generated message.
 	 */
-	private function add_restricted_msg() {
+	public function add_restricted_msg() {
 
 		global $wpmem;
 		

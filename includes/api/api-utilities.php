@@ -351,3 +351,27 @@ function wpmem_get_suffix( $echo = false ) {
 function wpmem_is_woo_active() {
 	return ( class_exists( 'woocommerce' ) ) ? true : false;
 }
+
+/**
+ * A utility to determine a redirect_to param.
+ *
+ * @since 3.4.0
+ *
+ * @param  array  $args
+ * @return string $redirect_to
+ */
+function wpmem_get_redirect_to( $args = array() ) {
+	// redirect_to in the form or URL will override a redirect set in the form args.
+	if ( isset( $_REQUEST['redirect_to'] ) ) {
+		$redirect_to = $_REQUEST['redirect_to'];
+	} else {
+		if ( isset( $args['redirect_to'] ) ) {
+			$raw_redirect_to = $args['redirect_to'];
+			// Is it a URL?
+			$redirect_to = ( false == filter_var( $raw_redirect_to, FILTER_VALIDATE_URL ) ) ? home_url( $raw_redirect_to ) : $raw_redirect_to;
+		} else {
+			$redirect_to = ( isset( $_SERVER['REQUEST_URI'] ) ) ? $_SERVER['REQUEST_URI'] : get_permalink();
+		}
+	}
+	return $redirect_to;
+}

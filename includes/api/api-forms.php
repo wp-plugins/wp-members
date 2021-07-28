@@ -75,7 +75,7 @@ function wpmem_login_form( $args = array(), $arr = false ) {
 	return $wpmem->forms->login_form( $args );
 	*/
 	
-	return $wpmem->forms->do_shortform( 'login' );
+	return $wpmem->forms->do_shortform( 'login', $args );
 }
 endif;
 

@@ -910,7 +910,7 @@ class WP_Members {
 		}
 
 		// Block/unblock Posts.
-		if ( ! is_user_logged_in() && $this->is_blocked() == true ) {
+		if ( ! is_user_logged_in() && true == $this->is_blocked() ) {
 
 			//Show the login and registration forms.
 			if ( $this->regchk ) {
@@ -941,10 +941,10 @@ class WP_Members {
 				global $wp_query;
 				if ( isset( $wp_query->query_vars['page'] ) && $wp_query->query_vars['page'] > 1 ) {
 
-						// Shuts down excerpts on multipage posts if not on first page.
-						$content = '';
+					// Shuts down excerpts on multipage posts if not on first page.
+					$content = '';
 
-				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && $this->show_excerpt[ $post->post_type ] == 1 ) {
+				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && 1 == $this->show_excerpt[ $post->post_type ] ) {
 
 					$len = strpos( $content, '<span id="more' );
 					if ( false === $len ) {
@@ -959,16 +959,16 @@ class WP_Members {
 					$content = '';
 
 				}
-
-				$content = ( isset( $this->show_login[ $post->post_type ] ) && $this->show_login[ $post->post_type ] == 1 ) ? $content . wpmem_login_form() : $content . wpmem_login_form( 'page', '', 'hide' );
-
-				$content = ( isset( $this->show_reg[ $post->post_type ] ) && $this->show_reg[ $post->post_type ] == 1 ) ? $content . wpmem_register_form() : $content;
+				
+				$content = $content . wpmem_restricted_message();
+				$content = ( isset( $this->show_login[ $post->post_type ] ) && 1 == $this->show_login[ $post->post_type ] ) ? $content . wpmem_login_form()    : $content;
+				$content = ( isset( $this->show_reg[   $post->post_type ] ) && 1 == $this->show_reg[   $post->post_type ] ) ? $content . wpmem_register_form() : $content;
 			}
 
 		// Protects comments if expiration module is used and user is expired.
-		} elseif ( is_user_logged_in() && $this->is_blocked() == true ){
+		} elseif ( is_user_logged_in() && true == $this->is_blocked() ) {
 
-			if ( $this->use_exp == 1 && function_exists( 'wpmem_do_expmessage' ) ) {
+			if ( 1 == $this->use_exp && function_exists( 'wpmem_do_expmessage' ) ) {
 				/**
 				 * Filters the user expired message used by the PayPal extension.
 				 *
