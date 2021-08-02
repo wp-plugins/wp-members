@@ -324,33 +324,6 @@ class WP_Members_Admin_Tab_Options {
 				</div><!-- #post-body-content -->
 			</div><!-- #post-body -->
 		</div><!-- .metabox-holder -->
-	<script>
-	jQuery(document).ready(function($){
-		$(function() {
-			$("#dialog-message" ).dialog({
-				autoOpen: false,
-				modal: true,
-				height: "auto",
-				width: 600,
-				buttons: {
-					"<?php _e( 'Close', 'wp-members' ); ?>": function() {
-						$( this ).dialog( "close" );
-					}
-				}
-			});
-			$( "#opener" ).on( "click", function() {
-				$( "#dialog-message" ).dialog( "open" );
-			});
-		} );
-		$("#select_all").click(function(){
-			$("textarea").select();
-			document.execCommand('copy');
-		});
-		$(window).resize(function() {
-			$("#dialog-message").dialog("option", "position", {my: "center", at: "center", of: window});
-		});
-	});
-	</script>
 	<div id="dialog-message" title="<?php _e( 'WP-Members Settings', 'wp-members' ); ?>">
 	<h3><span><?php _e( 'WP-Members Settings', 'wp-members' ); ?></span></h3>
 	<p><?php _e( 'The following is your WP-Members settings information if needed for support.', 'wp-members' ); ?></p>
