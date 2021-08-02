@@ -225,3 +225,33 @@
 		});
 	});
 })(jQuery);
+
+/**
+ * Shows the WP-Members settings.
+ */
+(function($) {
+	$(document).ready(function($){
+		var close_button = wpmem_get_settings_vars.close_btn;
+		$("#dialog-message" ).dialog({
+			autoOpen: false,
+			modal: true,
+			height: "auto",
+			width: 600,
+			buttons: {
+				Close : function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		$( "#opener" ).on( "click", function() {
+			$( "#dialog-message" ).dialog( "open" );
+		});
+		$("#select_all").click(function(){
+			$("textarea").select();
+			document.execCommand('copy');
+		});
+		$(window).resize(function() {
+			$("#dialog-message").dialog("option", "position", {my: "center", at: "center", of: window});
+		});
+	});
+})(jQuery);

@@ -573,7 +573,13 @@ class WP_Members_Admin_API {
 			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin' . wpmem_get_suffix() . '.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
-			wp_enqueue_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin' . wpmem_get_suffix() . '.js', '', $wpmem->version );
+			wp_enqueue_script( 'jquery-ui-dialog' ); // enqueue jQuery UI Dialog dependency
+			wp_register_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin' . wpmem_get_suffix() . '.js', 'jquery', $wpmem->version, true );
+			$translation_array = array(
+				'close_btn' => __( 'Close', 'wp-members' ),
+			);
+			wp_localize_script( 'wpmem-admin', 'wpmem_get_settings_vars', $translation_array );
+			wp_enqueue_script( 'wpmem-admin' );
 		}
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
 			if ( ! wp_script_is( 'select2', 'enqueued' ) ) {
