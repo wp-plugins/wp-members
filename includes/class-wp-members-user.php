@@ -873,13 +873,15 @@ class WP_Members_User {
 		
 		// Product must be an array.
 		$product_array = ( ! is_array( $product ) ) ? array( $product ) : $product;
+
+		$product_array = $this->get_product_children( $product_array );
+		
+		// Current user or requested user.
+		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		
 		// Load user memberships array.
 		$memberships = ( false == $user_id ) ? $this->access : wpmem_get_user_products( $user_id );
 
-		// Current user or requested user.
-		$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
-		
 		// Start by assuming no access.
 		$access  = false;
 		
@@ -927,6 +929,35 @@ class WP_Members_User {
 		 */
 		return apply_filters( 'wpmem_user_has_access', $access, $product_array, $user_id );
 
+	}
+	
+	/**
+	 * Gets product children (if any).
+	 *
+	 * @since 3.4.0
+	 *
+	 * @global stdClass $wpmem
+	 * @param  array    $product_array
+	 * $return array    $product_array Product array with child products added.
+	 */
+	function get_product_children( $product_array ) {
+
+		global $wpmem;
+		$membership_ids = array_flip( $wpmem->membership->product_by_id );
+		foreach ( $product_array as $product ) {
+			$args = array(
+				'post_type'   => $wpmem->membership->post_type,
+				'post_parent' => $membership_ids[ $product ], // Current post's ID
+			);
+			$children = get_children( $args );
+			if ( ! empty( $children ) ) {
+				foreach ( $children as $child ) {
+					$product_array[] = $child->post_name;
+				}
+			}
+		}
+		
+		return $product_array;
 	}
 	
 	/**
