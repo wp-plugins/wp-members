@@ -67,6 +67,14 @@ class WP_Members_Email {
 	function load_from() {
 		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
 		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
+	}
+	
+	/**
+	 * Load plugin HTML email setting.
+	 *
+	 * @since 3.4.0
+	 */
+	function load_format() {
 		$this->html      = get_option( 'wpmembers_email_html',   0  );
 	}
 	
@@ -97,8 +105,9 @@ class WP_Members_Email {
 
 		global $wpmem;
 		
-		// Load from address.
+		// Load settings.
 		$this->load_from();
+		$this->load_format();
 
 		// Handle backward compatibility for customizations that may call the email function directly.
 		$wpmem_fields = wpmem_fields();
@@ -512,13 +521,10 @@ class WP_Members_Email {
 	 * @since 3.1.0 Converted to use email var in object.
 	 * @since 3.2.0 Moved to WP_Members_Email::from().
 	 *
-	 * @global object $wpmem
-	 *
 	 * @param  string $email
 	 * @return string $wpmem_mail_from|$email
 	 */
 	function from( $email ) {
-		global $wpmem;
 		return ( $this->from ) ? $this->from : $email;
 	}
 
@@ -529,13 +535,10 @@ class WP_Members_Email {
 	 * @since 3.1.0 Converted to use email var in object.
 	 * @since 3.2.0 Moved to WP_Members_Email::from_name().
 	 *
-	 * @global object $wpmem
-	 *
 	 * @param  string $name
 	 * @return string $wpmem_mail_from_name|$name
 	 */
 	function from_name( $name ) {
-		global $wpmem;
 		return ( $this->from_name ) ? stripslashes( $this->from_name ) : stripslashes( $name );
 	}
 	
@@ -546,8 +549,8 @@ class WP_Members_Email {
 	 *
 	 * @return string Always returns "text/html"
 	 */
-	function html_content_type() {
-		return 'text/html';
+	function content_type( $content_type ) {
+		return ( 1 == $this->html ) ? 'text/html' : $content_type;
 	}
 
 	/**
@@ -574,13 +577,21 @@ class WP_Members_Email {
 		 * @param array  $this->settings
 		 */
 		$args = apply_filters( 'wpmem_email_send_args', $args, $to, $this->settings );
-		// Apply WP's "from" and "from name" email filters.
-		add_filter( 'wp_mail_from',      array( $this, 'from'      ) );
-		add_filter( 'wp_mail_from_name', array( $this, 'from_name' ) );
-		if ( 1 == $this->html ) {
-			add_filter( 'wp_mail_content_type', array( $this, 'html_content_type' ) );
-		}
-		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'] );
+		
+		// Apply filters.
+		add_filter( 'wp_mail_from',         array( $this, 'from'      ) );
+		add_filter( 'wp_mail_from_name',    array( $this, 'from_name' ) );
+		add_filter( 'wp_mail_content_type', array( $this, 'content_type' ) );
+		
+		// Send message.
+		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ) );
+		
+		// Remove customizations.
+		remove_filter( 'wp_mail_from',         array( $this, 'from'      ) );
+		remove_filter( 'wp_mail_from_name',    array( $this, 'from_name' ) );
+		remove_filter( 'wp_mail_content_type', array( $this, 'content_type' ) );
+		
+		// Return result (does not necessarily indicate message was sent).
 		return $result;
 	}
 }
