@@ -173,12 +173,14 @@ class WP_Members_Admin_Tab_Options {
 								  </li>
 								<?php } 
 								}?></ul>
-								<h3><?php _e( 'Feature Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+								<h3><?php _e( 'New Feature Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
 								<?php
 								$rows = array(
 									array(__('Confirmation Link', 'wp-members'),'wpmem_settings_act_link',__('Send email confirmation link on new registration. (Requires additional configuration)','wp-members'),'act_link'),
-									array(__('Password Reset Link', 'wp-members'),'wpmem_settings_pwd_link',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_link'),
-									array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
+									//array(__('Password Reset Link', 'wp-members'),'wpmem_settings_pwd_link',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_link'),
+									array(__('Legacy Password Reset', 'wp-members'),'wpmem_settings_pwd_link',__('Use legacy password reset. (Requires additional configuration)','wp-members'),'pwd_link'),
+									//array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
+									array(__('Legacy Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use legacy WP-Members login error instead of WP error object.','wp-members'),'login_error'),
 								);
 								if ( wpmem_is_woo_active() ) {
 									$rows[] = array(__('WooCommerce My Account', 'wp-members' ),'wpmem_settings_add_my_account_fields',__('Add WP-Members fields to WooCommerce My Account registration','wp-members'),'add_my_account_fields');
@@ -189,7 +191,11 @@ class WP_Members_Admin_Tab_Options {
 								  <li>
 									<label><?php echo $row[0]; ?></label>
 									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
-									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
+									<?php if ( 2 == $key || 1 == $key ) {
+											echo wpmem_create_formfield( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
+									<?php } else {
+											echo wpmem_create_formfield( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
+									<?php } ?>
 									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } ?>
