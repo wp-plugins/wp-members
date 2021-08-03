@@ -20,6 +20,19 @@ class WP_Members_Dialogs {
 		
 	}
 	
+	/**
+	 * Returns a requested text string.
+	 *
+	 * This function manages all of the front-end facing text.
+	 * All defaults can be filtered using wpmem_default_text_strings.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @global object $wpmem
+	 *
+	 * @param  string $str
+	 * @return string $text
+	 */	
 	function get_text( $str ) {
 		global $wpmem;
 		
@@ -189,6 +202,17 @@ class WP_Members_Dialogs {
 		return $text[ $str ];
 	}
 	
+	/**
+	 * Login Failed Dialog.
+	 *
+	 * Returns the login failed error message.
+	 *
+	 * @since 1.8
+	 * @since 3.4.0 Removed "continue" (return) link (login form now displays by default under the error message).
+	 *
+	 * @global object $wpmem The WP_Members object.
+	 * @return string $str   The generated html for the login failed message.
+	 */
 	function login_failed() {
 
 		// Defaults.
@@ -201,7 +225,7 @@ class WP_Members_Dialogs {
 			'p_before'       => '<p>',
 			'message'        => $this->get_text( 'login_failed' ), // @todo $this->error
 			'p_after'        => '</p>',
-			'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . $this->get_text( 'login_failed_link' ) . '</a>',
+			//'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . $this->get_text( 'login_failed_link' ) . '</a>',
 		);
 
 		/**
@@ -220,7 +244,7 @@ class WP_Members_Dialogs {
 		$str = $args['div_before']
 			. $args['heading_before'] . $args['heading'] . $args['heading_after']
 			. $args['p_before'] . $args['message'] . $args['p_after']
-			. $args['p_before'] . $args['link'] . $args['p_after']
+			//. $args['p_before'] . $args['link'] . $args['p_after']
 			. $args['div_after'];
 
 		/**
