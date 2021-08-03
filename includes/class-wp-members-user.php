@@ -848,7 +848,7 @@ class WP_Members_User {
 	function set_as_logged_in( $user_id ) {
 		$user = get_user_by( 'id', $user_id );
 		wp_set_current_user( $user_id, $user->user_login );
-		wp_set_auth_cookie( $user_id );
+		wp_set_auth_cookie( $user_id, wpmem_get( 'rememberme', false, 'request' ) );
 	}
 	
 	/**
