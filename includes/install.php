@@ -238,19 +238,12 @@ function wpmem_append_email() {
 
 	// Email for a new registration.
 	$subj = 'Your registration info for [blogname]';
-	$body = 'Thank you for registering for [blogname]
+	$body = 'Thank you for registering for [blogname]!
 
-Your registration information is below.
-You may wish to retain a copy for your records.
+Please confirm your email address by following the link below:
+[confirm_link]
 
-username: [username]
-password: [password]
-
-You may log in here:
-[reglink]
-
-You may change your password here:
-[user-profile]
+Once you have confirmed your email address, you will be able to log in using the credentials you created when you registered.
 ';
 
 	$arr = array(
@@ -312,11 +305,12 @@ You originally registered at:
 
 	// Email for password reset.
 	$subj = 'Your password reset for [blogname]';
-	$body = 'Your password for [blogname] has been reset
+	$body = 'A password reset was requested for [blogname].
 
-Your new password is included below. You may wish to retain a copy for your records.
+Follow the link below to reset your password:
+[reset_link]
 
-password: [password]
+If you did not request a password reset for [blogname], simply ignore this message and the reset key will expire.
 ';
 
 	$arr = array(
