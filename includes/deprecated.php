@@ -60,8 +60,8 @@ function wpmem_inc_status() {
 	/** This filter is documented in wp-members/inc/dialogs.php */
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
-	$status = '<p>' . sprintf( $wpmem->get_text( 'sb_login_status' ), $user_login )
-		. ' | <a href="' . $logout . '">' . $wpmem->get_text( 'sb_logout_link' ) . '</a></p>';
+	$status = '<p>' . sprintf( wpmem_get_text( 'sb_login_status' ), $user_login )
+		. ' | <a href="' . $logout . '">' . wpmem_get_text( 'sb_logout_link' ) . '</a></p>';
 
 	return $status;
 }
@@ -613,3 +613,18 @@ function wpmem_inc_memberlinks( $page = 'member' ) {
 	return $str;
 }
 endif;
+
+/**
+ * Wrapper to return a string from the get_text function.
+ *
+ * @since 3.1.1
+ * @since 3.1.2 Added $echo argument.
+ * @depreacted 3.4.0 Use wpmem_get_text() instead.
+ *
+ * @param  string $str   The string to retrieve.
+ * @param  bool   $echo  Print the string (default: false).
+ * @return string $str   The localized string.
+ */
+function wpmem_gettext( $str, $echo = false ) {
+	return wpmem_get_text( $str, $echo );
+}

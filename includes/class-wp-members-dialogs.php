@@ -220,12 +220,12 @@ class WP_Members_Dialogs {
 			'div_before'     => '<div align="center" id="wpmem_msg">',
 			'div_after'      => '</div>', 
 			'heading_before' => '<h2>',
-			'heading'        => $this->get_text( 'login_failed_heading' ),
+			'heading'        => wpmem_get_text( 'login_failed_heading' ),
 			'heading_after'  => '</h2>',
 			'p_before'       => '<p>',
-			'message'        => $this->get_text( 'login_failed' ), // @todo $this->error
+			'message'        => wpmem_get_text( 'login_failed' ), // @todo $this->error
 			'p_after'        => '</p>',
-			//'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . $this->get_text( 'login_failed_link' ) . '</a>',
+			//'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . wpmem_get_text( 'login_failed_link' ) . '</a>',
 		);
 
 		/**
@@ -297,7 +297,7 @@ class WP_Members_Dialogs {
 			if ( is_array( $dialogs[ $tag ] ) ) {
 				$msg = stripslashes( $dialogs[ $tag ]['value'] );
 			} else {
-				$msg = $this->get_text( $tag );
+				$msg = wpmem_get_text( $tag );
 				$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
 			}
 		}

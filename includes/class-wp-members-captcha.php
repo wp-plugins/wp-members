@@ -216,13 +216,13 @@ class WP_Members_Captcha {
 			 * @param array
 			 */
 			$rows = apply_filters( 'wpmem_rs_captcha_rows', array( 
-				'label_text' => $wpmem->get_text( 'register_rscaptcha' ),
+				'label_text' => wpmem_get_text( 'register_rscaptcha' ),
 				'code_size'  => esc_attr( $size ),
 				'prefix'     => $pre,
 				'img_src'    => esc_url( $src ),
 				'img_w'      => esc_attr( $img_w ),
 				'img_h'      => esc_attr( $img_h ),
-				'label'      => '<label class="text" for="captcha">' . $wpmem->get_text( 'register_rscaptcha' ) . '</label>',
+				'label'      => '<label class="text" for="captcha">' . wpmem_get_text( 'register_rscaptcha' ) . '</label>',
 				'field'      => '<input id="captcha_code" name="captcha_code" size="' . esc_attr( $size ) . '" type="text" class="textbox" required />',
 				'hidden'     => '<input id="captcha_prefix" name="captcha_prefix" type="hidden" value="' . esc_attr( $pre ) . '" />',
 				'img'        => '<img src="' . esc_url( $src ) . '" alt="captcha" width="' . esc_attr( $img_w ) . '" height="' . esc_attr( $img_h ) . '" />',
@@ -290,7 +290,7 @@ class WP_Members_Captcha {
 			
 			// If there is no captcha value, return error.
 			if ( false === $captcha ) {
-				$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+				$wpmem_themsg = wpmem_get_text( 'reg_empty_captcha' );
 				return false;
 			}
 
@@ -307,7 +307,7 @@ class WP_Members_Captcha {
 			if ( $response->success ) {
 				// your success code goes here
 			} else {
-				$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+				$wpmem_themsg = wpmem_get_text( 'reg_invalid_captcha' );
 				return false;
 			}			
 
@@ -328,7 +328,7 @@ class WP_Members_Captcha {
 
 				// If there is no captcha value, return error.
 				if ( false === $captcha ) {
-					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+					$wpmem_themsg = wpmem_get_text( 'reg_empty_captcha' );
 					return false;
 				}
 
@@ -347,7 +347,7 @@ class WP_Members_Captcha {
 
 				// If captcha validation was unsuccessful.
 				if ( false == $response['success'] ) {
-					$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+					$wpmem_themsg = wpmem_get_text( 'reg_invalid_captcha' );
 					if ( WP_DEBUG && isset( $response['error-codes'] ) ) {
 						$wpmem_themsg.= '<br /><br />';
 						foreach( $response['error-codes'] as $code ) {
@@ -360,7 +360,7 @@ class WP_Members_Captcha {
 				$captcha = wpmem_get( 'recaptcha_response', false );
 	
 				if ( false === $captcha ) {
-					$wpmem_themsg = $wpmem->get_text( 'reg_empty_captcha' );
+					$wpmem_themsg = wpmem_get_text( 'reg_empty_captcha' );
 					return false;
 				}
 				
@@ -387,7 +387,7 @@ class WP_Members_Captcha {
 					if ( $recaptcha->score >= $score ) {
 						return true;
 					} else {
-						$wpmem_themsg = $wpmem->get_text( 'reg_invalid_captcha' );
+						$wpmem_themsg = wpmem_get_text( 'reg_invalid_captcha' );
 						return false;
 					}
 				} else {

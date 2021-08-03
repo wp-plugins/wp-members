@@ -906,7 +906,7 @@ class WP_Members {
 
 		if ( $this->regchk == "captcha" ) {
 			global $wpmem_captcha_err;
-			$wpmem_themsg = $wpmem->get_text( 'reg_captcha_err' )  . '<br /><br />' . $wpmem_captcha_err;
+			$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' )  . '<br /><br />' . $wpmem_captcha_err;
 		}
 
 		// Block/unblock Posts.

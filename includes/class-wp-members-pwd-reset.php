@@ -155,7 +155,7 @@ class WP_Members_Pwd_Reset {
 				
 				// Verify nonce.
 				if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdchange_nonce'], 'wpmem_shortform_nonce' ) ) {
-					$errors->add( 'reg_generic', $wpmem->get_text( 'reg_generic' ) );
+					$errors->add( 'reg_generic', wpmem_get_text( 'reg_generic' ) );
 				}
 				
 				// Make sure submitted passwords match.
@@ -282,7 +282,7 @@ class WP_Members_Pwd_Reset {
 	 */
 	function reset_password_form( $args ) {
 		global $wpmem;
-		$args['inputs'][0]['name'] = $wpmem->get_text( 'login_username' );
+		$args['inputs'][0]['name'] = wpmem_get_text( 'login_username' );
 		unset( $args['inputs'][1] );
 		return $args;
 	}

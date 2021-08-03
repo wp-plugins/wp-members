@@ -159,7 +159,7 @@ class WP_Members_Shortcodes {
 						// @todo Can this be moved into another function? Should $wpmem get an error message handler?
 						if ( $wpmem->regchk == 'captcha' ) {
 							global $wpmem_captcha_err;
-							$wpmem_themsg = __( 'There was an error with the CAPTCHA form.' ) . '<br /><br />' . $wpmem_captcha_err;
+							$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
 						}
 						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
 						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form( $form_args ) : wpmem_register_form( $reg_form_args );
@@ -324,7 +324,7 @@ class WP_Members_Shortcodes {
 							$do_return = true;
 							$settings = array(
 								'wrapper_before' => '<div class="product_restricted_msg">',
-								'msg'            => sprintf( $wpmem->get_text( 'product_restricted' ), $wpmem->membership->products[ $membership ]['title'] ),
+								'msg'            => sprintf( wpmem_get_text( 'product_restricted' ), $wpmem->membership->products[ $membership ]['title'] ),
 								'wrapper_after'  => '</div>',
 							);
 							/**
@@ -444,7 +444,7 @@ class WP_Members_Shortcodes {
 
 		if ( $wpmem->regchk == "captcha" ) {
 			global $wpmem_captcha_err;
-			$wpmem_themsg = $wpmem->get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
+			$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
 		}
 
 		if ( $wpmem->regchk == "loginfailed" ) {
@@ -877,7 +877,7 @@ class WP_Members_Shortcodes {
 
 				default:
 					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-						$content .= wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+						$content .= wpmem_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
 					}
 					$content = $content . wpmem_change_password_form();
 					break;
@@ -901,7 +901,7 @@ class WP_Members_Shortcodes {
 
 					default:
 						if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-							$content = wpmem_display_message( $wpmem_regchk, $wpmem->get_text( $wpmem_regchk ) );
+							$content = wpmem_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
 						}
 						$content = $content . wpmem_reset_password_form();
 						break;
@@ -939,7 +939,7 @@ class WP_Members_Shortcodes {
 		 *
 		 * @param string The default edit mode heading.
 		 */	
-		$heading = apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
+		$heading = apply_filters( 'wpmem_user_edit_heading', wpmem_get_text( 'profile_heading' ) );
 
 		if ( $wpmem_a == "update") {
 			$content.= wpmem_display_message( $wpmem_regchk, $wpmem_themsg );
@@ -976,7 +976,7 @@ class WP_Members_Shortcodes {
 			switch( $wpmem->regchk ) {
 
 			case "usernamefailed":
-				$msg = $wpmem->get_text( 'usernamefailed' );
+				$msg = wpmem_get_text( 'usernamefailed' );
 				$content = $content
 					. wpmem_display_message( 'usernamefailed', $msg ) 
 					. wpmem_forgot_username_form();
@@ -985,7 +985,7 @@ class WP_Members_Shortcodes {
 
 			case "usernamesuccess":
 				$email = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
-				$msg = sprintf( $wpmem->get_text( 'usernamesuccess' ), $email );
+				$msg = sprintf( wpmem_get_text( 'usernamesuccess' ), $email );
 				$content = $content . wpmem_display_message( 'usernamesuccess', $msg );
 				$wpmem->regchk = ''; // Clear regchk.
 				break;
@@ -1026,13 +1026,14 @@ class WP_Members_Shortcodes {
 
 				$url = ( isset( $wpmem->user_pages['profile'] ) && '' != $wpmem->user_pages['profile'] ) ? $wpmem->user_pages['profile'] : get_option( 'home' );
 
+				// NOTE: DO NOT EDIT THESE. Use the filter below.
 				$arr = array(
-					'before_wrapper' => '<p class="register_status">' . sprintf( $wpmem->get_text( 'register_status' ), $user_login ) . '</p>',
+					'before_wrapper' => '<p class="register_status">' . sprintf( wpmem_get_text( 'register_status' ), $user_login ) . '</p>',
 					'wrapper_before' => '<ul class="register_links">',
 					'wrapper_after'  => '</ul>',
 					'rows'           => array(
-						'<li><a href="' . esc_url( $logout ) . '">' . $wpmem->get_text( 'register_logout' ) . '</a></li>',
-						'<li><a href="' . esc_url( $url ) . '">' . $wpmem->get_text( 'register_continue' ) . '</a></li>',
+						'<li><a href="' . esc_url( $logout ) . '">' . wpmem_get_text( 'register_logout' ) . '</a></li>',
+						'<li><a href="' . esc_url( $url ) . '">' . wpmem_get_text( 'register_continue' ) . '</a></li>',
 					),
 					'after_wrapper'  => '',
 				);
@@ -1076,12 +1077,13 @@ class WP_Members_Shortcodes {
 			case 'login':
 
 				$logout = urldecode( $logout ); // @todo Resolves sprintf issue if url is encoded.
+				// NOTE: DO NOT EDIT. Use the filter below.
 				$args = array(
 					'wrapper_before' => '<p class="login_status">',
 					'wrapper_after'  => '</p>',
 					'user_login'     => $user_login,
-					'welcome'        => $wpmem->get_text( 'login_welcome' ),
-					'logout_text'    => $wpmem->get_text( 'login_logout' ),
+					'welcome'        => wpmem_get_text( 'login_welcome' ),
+					'logout_text'    => wpmem_get_text( 'login_logout' ),
 					'logout_link'    => '<a href="' . esc_url( $logout ) . '">%s</a>',
 					'separator'      => '<br />',
 				);
@@ -1124,13 +1126,14 @@ class WP_Members_Shortcodes {
 			case 'member':
 			default:
 				
+				// NOTE: DO NOT EDIT. Use the filter below.
 				$arr = array(
 					'before_wrapper' => '',
 					'wrapper_before' => '<ul>',
 					'wrapper_after'  => '</ul>',
 					'rows'           => array(
-						'<li><a href="' . esc_url( add_query_arg( 'a', 'edit',      remove_query_arg( 'key' ) ) ) . '">' . $wpmem->get_text( 'profile_edit'     ) . '</a></li>',
-						'<li><a href="' . esc_url( add_query_arg( 'a', 'pwdchange', remove_query_arg( 'key' ) ) ) . '">' . $wpmem->get_text( 'profile_password' ) . '</a></li>',
+						'<li><a href="' . esc_url( add_query_arg( 'a', 'edit',      remove_query_arg( 'key' ) ) ) . '">' . wpmem_get_text( 'profile_edit'     ) . '</a></li>',
+						'<li><a href="' . esc_url( add_query_arg( 'a', 'pwdchange', remove_query_arg( 'key' ) ) ) . '">' . wpmem_get_text( 'profile_password' ) . '</a></li>',
 					),
 					'after_wrapper'  => '',
 				);

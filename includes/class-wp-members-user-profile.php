@@ -142,7 +142,7 @@ class WP_Members_User_Profile {
 								$input = ( $attachment_url ) ? $attachment_url : $empty_file;
 							}
 						}
-						$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
+						$input.= '<br />' . wpmem_get_text( 'profile_upload' ) . '<br />';
 						$input.= wpmem_form_field( array(
 							'name'    => $meta, 
 							'type'    => $field['type'], 

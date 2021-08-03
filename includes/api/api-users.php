@@ -657,7 +657,7 @@ function wpmem_user_register( $tag ) {
 					exit();
 				} 
 				if ( in_array( 'user_email', $wpmem->fields ) && ! is_email( $wpmem->user->post_data['user_email']) ) { 
-					$wpmem_themsg = $wpmem->get_text( 'reg_valid_email' );
+					$wpmem_themsg = wpmem_get_text( 'reg_valid_email' );
 					return "updaterr";
 					exit();
 				}
@@ -666,7 +666,7 @@ function wpmem_user_register( $tag ) {
 
 		// If form includes email confirmation, validate that they match.
 		if ( array_key_exists( 'confirm_email', $wpmem->user->post_data ) && $wpmem->user->post_data['confirm_email'] != $wpmem->user->post_data ['user_email'] ) { 
-			$wpmem_themsg = $wpmem->get_text( 'reg_email_match' );
+			$wpmem_themsg = wpmem_get_text( 'reg_email_match' );
 			return "updaterr";
 			exit();
 		}

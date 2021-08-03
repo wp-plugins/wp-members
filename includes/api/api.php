@@ -203,20 +203,19 @@ function wpmem_current_post_id() {
 /**
  * Wrapper to return a string from the get_text function.
  *
- * @since 3.1.1
- * @since 3.1.2 Added $echo argument.
+ * @since 3.4.0
  *
  * @global object $wpmem The WP_Members object.
  * @param  string $str   The string to retrieve.
  * @param  bool   $echo  Print the string (default: false).
  * @return string $str   The localized string.
  */
-function wpmem_gettext( $str, $echo = false ) {
+function wpmem_get_text( $str, $echo = false ) {
 	global $wpmem;
 	if ( $echo ) {
-		echo $wpmem->get_text( $str );
+		echo $wpmem->dialogs->get_text( $str );
 	} else {
-		return $wpmem->get_text( $str );
+		return $wpmem->dialogs->get_text( $str );
 	}
 }
 

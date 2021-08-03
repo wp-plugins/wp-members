@@ -446,7 +446,7 @@ class WP_Members_Forms {
 		$required   = ( isset( $args['required'] ) ) ? $args['required'] : false;
 		$req_mark   = ( isset( $args['req_mark'] ) ) ? $args['req_mark'] : false;
 		
-		//$req_mark = ( ! $req_mark ) ? $wpmem->get_text( 'register_req_mark' ) : '*';
+		//$req_mark = ( ! $req_mark ) ? wpmem_get_text( 'register_req_mark' ) : '*';
 		
 		if ( ! $class ) {
 			$class = ( $type == 'password' || $type == 'email' || $type == 'url' ) ? 'text' : $type;
@@ -871,7 +871,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 		// Build the buttons, filter, and add to the form.
 		if ( $action == 'login' ) {
-			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . '<label for="rememberme">' . $wpmem->get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
+			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . '<label for="rememberme">' . wpmem_get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
 			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		} else {
 			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
@@ -923,7 +923,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 				 * @param string $tag forgot|reg|pwdreset|username.
 				 */
 				$link = apply_filters( "wpmem_{$tag}_link", $value['link'], $tag );
-				$str  = $wpmem->get_text( "{$key}_link_before" ) . '<a href="' . esc_url( $link ) . '">' . $wpmem->get_text( "{$key}_link" ) . '</a>';
+				$str  = wpmem_get_text( "{$key}_link_before" ) . '<a href="' . esc_url( $link ) . '">' . wpmem_get_text( "{$key}_link" ) . '</a>';
 				$link_str = $args['link_before'];
 				$link_str.= ( '' != $args['link_span_before'] ) ? sprintf( $args['link_span_before'], $key ) : '';
 				/**
@@ -1081,16 +1081,16 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			'button_class'     => 'buttons',
 
 			// Required field tags and text.
-			'req_mark'         => $wpmem->get_text( 'register_req_mark' ),
-			'req_label'        => $wpmem->get_text( 'register_required' ),
+			'req_mark'         => wpmem_get_text( 'register_req_mark' ),
+			'req_label'        => wpmem_get_text( 'register_required' ),
 			'req_label_before' => '<div class="req-text">',
 			'req_label_after'  => '</div>',
 
 			// Buttons.
 			'show_clear_form'  => false,
-			'clear_form'       => $wpmem->get_text( 'register_clear' ),
-			'submit_register'  => $wpmem->get_text( 'register_submit' ),
-			'submit_update'    => $wpmem->get_text( 'profile_submit' ),
+			'clear_form'       => wpmem_get_text( 'register_clear' ),
+			'submit_register'  => wpmem_get_text( 'register_submit' ),
+			'submit_update'    => wpmem_get_text( 'profile_submit' ),
 
 			// Other.
 			'post_to'          => get_permalink(),
@@ -1294,7 +1294,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 							} else {
 								$input = ( $attachment_url ) ? '<img src="' . esc_url( $attachment_url ) . '" id="' . $meta_key . '_img" />' : $empty_file;
 							}
-							$input.= '<br />' . $wpmem->get_text( 'profile_upload' ) . '<br />';
+							$input.= '<br />' . wpmem_get_text( 'profile_upload' ) . '<br />';
 						} else {
 							if ( 'image' == $field['type'] ) {
 								$input = '<img src="" id="' . $meta_key . '_img" />';
@@ -1559,7 +1559,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			 *
 			 * @param string The default edit mode heading.
 			 */
-			$heading = ( isset( $heading ) && '' != $heading ) ? $heading : apply_filters( 'wpmem_user_edit_heading', $wpmem->get_text( 'profile_heading' ) );
+			$heading = ( isset( $heading ) && '' != $heading ) ? $heading : apply_filters( 'wpmem_user_edit_heading', wpmem_get_text( 'profile_heading' ) );
 		} else {
 			/**
 			 * Filter the registration form heading.
@@ -1569,7 +1569,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			 * @param string $str
 			 * @param string $tag Toggle new registration or profile update. new|edit.
 			 */
-			$heading = ( isset( $heading ) && '' != $heading ) ? $heading : apply_filters( 'wpmem_register_heading', $wpmem->get_text( 'register_heading' ), $tag );
+			$heading = ( isset( $heading ) && '' != $heading ) ? $heading : apply_filters( 'wpmem_register_heading', wpmem_get_text( 'register_heading' ), $tag );
 		}
 		$form = $args['heading_before'] . $heading . $args['heading_after'] . $args['n'] . $form;
 
@@ -2021,6 +2021,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 	 * the short forms, combined into a single method.
 	 *
 	 * @since 3.3.0
+	 * @since 3.4.0 Change inputs.
 	 *
 	 * @global  stdClass  $post
 	 * @global  stdClass  $wpmem
@@ -2036,14 +2037,14 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		$input_arrays = array(
 			'login' => array(
 				array(
-					'name'   => $wpmem->get_text( 'login_username' ), 
+					'name'   => wpmem_get_text( 'login_username' ), 
 					'type'   => 'text', 
 					'tag'    => 'log',
 					'class'  => 'username',
 					'div'    => 'div_text',
 				),
 				array( 
-					'name'   => $wpmem->get_text( 'login_password' ), 
+					'name'   => wpmem_get_text( 'login_password' ), 
 					'type'   => 'password', 
 					'tag'    => 'pwd', 
 					'class'  => 'password',
@@ -2052,14 +2053,14 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			),
 			'changepassword' => array(
 				array(
-					'name'   => $wpmem->get_text( 'pwdchg_password1' ), 
+					'name'   => wpmem_get_text( 'pwdchg_password1' ), 
 					'type'   => 'password',
 					'tag'    => 'pass1',
 					'class'  => 'password',
 					'div'    => 'div_text',
 				),
 				array( 
-					'name'   => $wpmem->get_text( 'pwdchg_password2' ), 
+					'name'   => wpmem_get_text( 'pwdchg_password2' ), 
 					'type'   => 'password', 
 					'tag'    => 'pass2',
 					'class'  => 'password',
@@ -2068,14 +2069,14 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			),
 			'resetpassword' => array(
 				array(
-					'name'   => $wpmem->get_text( 'pwdreset_username' ), 
+					'name'   => wpmem_get_text( 'pwdreset_username' ), 
 					'type'   => 'text',
 					'tag'    => 'user', 
 					'class'  => 'username',
 					'div'    => 'div_text',
 				),
 				array( 
-					'name'   => $wpmem->get_text( 'pwdreset_email' ), 
+					'name'   => wpmem_get_text( 'pwdreset_email' ), 
 					'type'   => 'text', 
 					'tag'    => 'email', 
 					'class'  => 'textbox',
@@ -2084,7 +2085,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			),
 			'forgotusername' => array(
 				array(
-					'name'   => $wpmem->get_text( 'username_email' ), 
+					'name'   => wpmem_get_text( 'username_email' ), 
 					'type'   => 'text',
 					'tag'    => 'user_email',
 					'class'  => 'username',
@@ -2105,28 +2106,28 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 		$form_arrays = array(
 			'login' => array( 
-				'heading'      => $wpmem->get_text( 'login_heading' ), 
+				'heading'      => wpmem_get_text( 'login_heading' ), 
 				'action'       => 'login', 
-				'button_text'  => $wpmem->get_text( 'login_button' ),
+				'button_text'  => wpmem_get_text( 'login_button' ),
 				'inputs'       => $default_inputs,
 				'redirect_to'  => $args['redirect_to'],
 			),
 			'changepassword' => array(
-				'heading'      => $wpmem->get_text( 'pwdchg_heading' ), 
+				'heading'      => wpmem_get_text( 'pwdchg_heading' ), 
 				'action'       => 'pwdchange', 
-				'button_text'  => $wpmem->get_text( 'pwdchg_button' ), 
+				'button_text'  => wpmem_get_text( 'pwdchg_button' ), 
 				'inputs'       => $default_inputs,
 			),
 			'resetpassword' => array(
-				'heading'      => $wpmem->get_text( 'pwdreset_heading' ),
+				'heading'      => wpmem_get_text( 'pwdreset_heading' ),
 				'action'       => 'pwdreset', 
-				'button_text'  => $wpmem->get_text( 'pwdreset_button' ), 
+				'button_text'  => wpmem_get_text( 'pwdreset_button' ), 
 				'inputs'       => $default_inputs,
 			),
 			'forgotusername' => array(
-				'heading'      => $wpmem->get_text( 'username_heading' ), 
+				'heading'      => wpmem_get_text( 'username_heading' ), 
 				'action'       => 'getusername', 
-				'button_text'  => $wpmem->get_text( 'username_button' ),
+				'button_text'  => wpmem_get_text( 'username_button' ),
 				'inputs'       => $default_inputs,
 			),
 		);
@@ -2174,7 +2175,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 			$dialogs = get_option( 'wpmembers_dialogs' );
 
 			// This shown above blocked content.
-			$msg = $wpmem->get_text( 'restricted_msg' );
+			$msg = wpmem_get_text( 'restricted_msg' );
 			$msg = ( $dialogs['restricted_msg'] == $msg ) ? $msg : __( stripslashes( $dialogs['restricted_msg'] ), 'wp-members' );
 			$str = '<div id="wpmem_restricted_msg"><p>' . $msg . '</p></div>';
 
@@ -2244,7 +2245,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		 * @param string       The link text.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
 		 */
-		$tos_link_text = apply_filters( 'wpmem_tos_link_txt', $wpmem->get_text( 'register_tos' ), $tag );
+		$tos_link_text = apply_filters( 'wpmem_tos_link_txt', wpmem_get_text( 'register_tos' ), $tag );
 
 		// If filtered value is not the default label, use that, otherwise use label.
 		// @note: if default changes, this check must change.

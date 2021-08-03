@@ -281,14 +281,14 @@ class WP_Members_User {
 					if ( 'register' == $tag ) {
 						// If the required field is a file type.
 						if ( empty( $_FILES[ $meta_key ]['name'] ) ) {
-							$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
+							$wpmem_themsg = sprintf( wpmem_get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 						}
 					}
 				} else {
 					// If the required field is any other field type.
 					if ( ( 'register' == $tag && true == $field['register'] ) || ( 'update' == $tag && true == $field['profile'] ) ) {
 						if ( null == $this->post_data[ $meta_key ] ) {
-							$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
+							$wpmem_themsg = sprintf( wpmem_get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) );
 						}
 					}
 				}
@@ -304,7 +304,7 @@ class WP_Members_User {
 				if ( ! empty( $_FILES[ $meta_key ]['name'] ) ) {
 					$extension = pathinfo( $_FILES[ $meta_key ]['name'], PATHINFO_EXTENSION );
 					if ( ! in_array( $extension, $allowed_file_types ) ) {
-						$wpmem_themsg = sprintf( $wpmem->get_text( 'reg_file_type' ), __( $field['label'], 'wp-members' ), str_replace( '|', ',', $msg_types ) );
+						$wpmem_themsg = sprintf( wpmem_get_text( 'reg_file_type' ), __( $field['label'], 'wp-members' ), str_replace( '|', ',', $msg_types ) );
 					}
 				}
 			}
@@ -325,9 +325,9 @@ class WP_Members_User {
 				// Validate username and email fields.
 				$wpmem_themsg = ( email_exists( $this->post_data['user_email'] ) ) ? "email" : $wpmem_themsg;
 				$wpmem_themsg = ( username_exists( $this->post_data['username'] ) ) ? "user" : $wpmem_themsg;
-				$wpmem_themsg = ( ! is_email( $this->post_data['user_email']) ) ? $wpmem->get_text( 'reg_valid_email' ) : $wpmem_themsg;
-				$wpmem_themsg = ( ! validate_username( $this->post_data['username'] ) ) ? $wpmem->get_text( 'reg_non_alphanumeric' ) : $wpmem_themsg;
-				$wpmem_themsg = ( ! $this->post_data['username'] ) ? $wpmem->get_text( 'reg_empty_username' ) : $wpmem_themsg;
+				$wpmem_themsg = ( ! is_email( $this->post_data['user_email']) ) ? wpmem_get_text( 'reg_valid_email' ) : $wpmem_themsg;
+				$wpmem_themsg = ( ! validate_username( $this->post_data['username'] ) ) ? wpmem_get_text( 'reg_non_alphanumeric' ) : $wpmem_themsg;
+				$wpmem_themsg = ( ! $this->post_data['username'] ) ? wpmem_get_text( 'reg_empty_username' ) : $wpmem_themsg;
 
 				// If there is an error from username, email, or required field validation, stop registration and return the error.
 				if ( $wpmem_themsg ) {
@@ -338,10 +338,10 @@ class WP_Members_User {
 
 			// If form contains password and email confirmation, validate that they match.
 			if ( array_key_exists( 'confirm_password', $this->post_data ) && $this->post_data['confirm_password'] != $this->post_data ['password'] ) { 
-				$wpmem_themsg = $wpmem->get_text( 'reg_password_match' );
+				$wpmem_themsg = wpmem_get_text( 'reg_password_match' );
 			}
 			if ( array_key_exists( 'confirm_email', $this->post_data ) && $this->post_data['confirm_email'] != $this->post_data ['user_email'] ) { 
-				$wpmem_themsg = $wpmem->get_text( 'reg_email_match' ); 
+				$wpmem_themsg = wpmem_get_text( 'reg_email_match' ); 
 			}
 
 			// Process CAPTCHA.
@@ -402,7 +402,7 @@ class WP_Members_User {
 					$is_error = true;
 				}
 				if ( $is_error ) {
-					$errors->add( 'wpmem_error', sprintf( $wpmem->get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) ) ); 
+					$errors->add( 'wpmem_error', sprintf( wpmem_get_text( 'reg_empty_field' ), __( $field['label'], 'wp-members' ) ) ); 
 				}
 			}
 		}
@@ -411,7 +411,7 @@ class WP_Members_User {
 		if ( $wpmem->captcha > 0 ) {
 			$check_captcha = WP_Members_Captcha::validate();
 			if ( false === $check_captcha ) {
-				$errors->add( 'wpmem_captcha_error', sprintf( $wpmem->get_text( 'reg_captcha_err' ), __( $field['label'], 'wp-members' ) ) ); 
+				$errors->add( 'wpmem_captcha_error', sprintf( wpmem_get_text( 'reg_captcha_err' ), __( $field['label'], 'wp-members' ) ) ); 
 			}
 		}
 
