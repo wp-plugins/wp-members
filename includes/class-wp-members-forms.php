@@ -273,7 +273,7 @@ class WP_Members_Forms {
 		case "email":
 		case "number":
 		case "date":
-			$class = ( 'textbox' == $class ) ? "textbox" : $this->sanitize_class( $class );
+			$class = ( 'textbox' == $class ) ? "textbox" : wpmem_sanitize_class( $class );
 			switch ( $type ) {
 				case 'url':
 					$value = esc_url( $value );
@@ -295,7 +295,7 @@ class WP_Members_Forms {
 			break;
 		
 		case "password":
-			$class = $this->sanitize_class( $class );
+			$class = wpmem_sanitize_class( $class );
 			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( __( $placeholder, 'wp-members' ) ) . '"' : '';
 			$pattern     = ( $pattern     ) ? ' pattern="' . esc_attr( $pattern ) . '"' : '';
 			$title       = ( $title       ) ? ' title="' . esc_attr( __( $title, 'wp-members' ) ) . '"' : '';
@@ -313,18 +313,18 @@ class WP_Members_Forms {
 			} else {
 				$accept = '';
 			}
-			$class  = ( 'textbox' == $class ) ? "file" : $this->sanitize_class( $class );
+			$class  = ( 'textbox' == $class ) ? "file" : wpmem_sanitize_class( $class );
 			$str = "<input name=\"$name\" type=\"file\" id=\"$id\" value=\"" . esc_attr( $value ) . "\" class=\"$class\"$accept" . ( ( $required ) ? " required " : "" ) . ( ( 'image' == $type ) ? ' onchange="loadFile(event, this.id)"' : '' ) . ' />';
 			break;
 	
 		case "checkbox":
-			$class = ( 'textbox' == $class ) ? "checkbox" : $this->sanitize_class( $class );
+			$class = ( 'textbox' == $class ) ? "checkbox" : wpmem_sanitize_class( $class );
 			$str = "<input name=\"$name\" type=\"$type\" id=\"$id\" value=\"" . esc_attr( $value ) . "\"" . checked( $value, $compare, false ) . ( ( $required ) ? " required " : "" ) . " />";
 			break;
 	
 		case "textarea":
 			$value = esc_textarea( stripslashes( $value ) ); // stripslashes( esc_textarea( $value ) );
-			$class = ( 'textbox' == $class ) ? "textarea" : $this->sanitize_class( $class );
+			$class = ( 'textbox' == $class ) ? "textarea" : wpmem_sanitize_class( $class );
 			$placeholder = ( $placeholder ) ? ' placeholder="' . esc_attr( __( $placeholder, 'wp-members' ) ) . '"' : '';
 			$rows  = ( isset( $args['rows'] ) && $args['rows'] ) ? esc_attr( $args['rows'] ) : '5';
 			$cols  = ( isset( $args['cols'] ) && $args['cols'] ) ? esc_attr( $args['cols'] ) : '20';
@@ -397,7 +397,7 @@ class WP_Members_Forms {
 			break;
 			
 		case "radio":
-			$class = ( 'textbox' == $class ) ? "radio" : $this->sanitize_class( $class );
+			$class = ( 'textbox' == $class ) ? "radio" : wpmem_sanitize_class( $class );
 			$str = '';
 			$num = 1;
 			foreach ( $value as $option ) {
@@ -454,7 +454,7 @@ class WP_Members_Forms {
 		
 		$id = ( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
 
-		$label = '<label for="' . esc_attr( $meta_key ) . '"' . $id . ' class="' . $this->sanitize_class( $class ) . '">' . __( $label, 'wp-members' );
+		$label = '<label for="' . esc_attr( $meta_key ) . '"' . $id . ' class="' . wpmem_sanitize_class( $class ) . '">' . __( $label, 'wp-members' );
 		$label = ( $required ) ? $label . $req_mark : $label;
 		$label = $label . '</label>';
 		
@@ -807,7 +807,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 				'class'    => $input['class'],
 				'required' => true,
 			) );
-			$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . $this->sanitize_class( $input['div'] ) . '">' : '';
+			$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . wpmem_sanitize_class( $input['div'] ) . '">' : '';
 			$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
 			$rows[] = array( 
 				'row_before'   => $args['row_before'],
@@ -977,7 +977,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		$form = wp_nonce_field( 'wpmem_shortform_nonce', '_wpmem_' . $action . '_nonce', true, false ) . $args['n'] . $form;
 
 		// Apply form wrapper.
-		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
+		$form = '<form action="' . esc_url( get_permalink() ) . '" method="POST" id="' . wpmem_sanitize_class( $args['form_id'] ) . '" class="' . wpmem_sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . '</form>';
 
 		// Apply anchor.
 		$form = '<a id="' . esc_attr( $action ) . '"></a>' . $args['n'] . $form;
@@ -1524,8 +1524,8 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		// Create buttons and wrapper.
 		$button_text = ( $tag == 'edit' ) ? $args['submit_update'] : $args['submit_register'];
 		$button_html = array(
-			'reset' =>  ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" /> ' : '',
-			'submit' => '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />',
+			'reset' =>  ( $args['show_clear_form'] ) ? '<input name="reset" type="reset" value="' . esc_attr( $args['clear_form'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" /> ' : '',
+			'submit' => '<input name="submit" type="submit" value="' . esc_attr( $button_text ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />',
 		);
 		$buttons = $button_html['reset'] . $args['n'] . $button_html['submit'] . $args['n'];
 
@@ -1585,7 +1585,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 		// Apply form wrapper.
 		$enctype = ( $enctype == 'multipart/form-data' ) ? ' enctype="multipart/form-data"' : '';
-		$form = '<form name="form" method="post"' . $enctype . ' action="' . esc_attr( $args['post_to'] ) . '" id="' . $this->sanitize_class( $args['form_id'] ) . '" class="' . $this->sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
+		$form = '<form name="form" method="post"' . $enctype . ' action="' . esc_attr( $args['post_to'] ) . '" id="' . wpmem_sanitize_class( $args['form_id'] ) . '" class="' . wpmem_sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 		// Apply anchor.
 		$form = '<a id="register"></a>' . $args['n'] . $form;
