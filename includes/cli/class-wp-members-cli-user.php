@@ -205,7 +205,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		 * @param          $all
 		 */
 		private function display_user_detail( $user, $all ) {
-			WP_CLI::line( sprintf( __( 'User: %s', 'wp-members' ), $user->user_login );
+			WP_CLI::line( sprintf( __( 'User: %s', 'wp-members' ), $user->user_login ) );
 
 			$values = wpmem_user_data( $user_id, $all );
 			foreach ( $values as $key => $meta ) {
