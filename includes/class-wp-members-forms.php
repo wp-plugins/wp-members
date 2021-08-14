@@ -871,10 +871,10 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 		// Build the buttons, filter, and add to the form.
 		if ( $action == 'login' ) {
-			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_create_formfield( 'rememberme', 'checkbox', 'forever' ) . '&nbsp;' . '<label for="rememberme">' . wpmem_get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
-			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_form_field( array( 'name' => 'rememberme', 'type' => 'checkbox', 'value' => 'forever' ) ) . '&nbsp;' . '<label for="rememberme">' . wpmem_get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
+			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		} else {
-			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . $this->sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		}
 
 		/**
@@ -1918,49 +1918,58 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 				$req = ( $field['required'] ) ? ' <span class="description">' . __( '(required)' ) . '</span>' : '';
 
-				echo '<tr>
+				$class = ( 'radio'    == $field['type'] 
+					    || 'checkbox' == $field['type']
+						|| 'date'     == $field['type'] ) ? '' : ' class="form-field" ';
+				echo '<tr' . $class . '>
 					<th scope="row">
 						<label for="' . $meta_key . '">' . __( $field['label'], 'wp-members' ) . $req . '</label>
 					</th>
 					<td>';
 
 				// determine the field type and generate accordingly.
+				
+				// All fields use the following:
+				$args['name']     = $meta_key;
+				$args['type']     = $field['type'];
+				$args['required'] = $field['required'];
+				
+				$args['placeholder'] = ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '';
+				$args['pattern']     = ( isset( $field['pattern']     ) ) ? $field['pattern']     : '';
+				$args['title']       = ( isset( $field['title']       ) ) ? $field['title']       : '';
 
 				switch ( $field['type'] ) {
 
 				case( 'select' ):
 					$val = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
-					echo wpmem_create_formfield( $meta_key, $field['type'], $field['values'], $val );
+					$args['value']   = $field['values'];
+					$args['compare'] = $val;
+					echo wpmem_form_field( $args );
 					break;
 
 				case( 'textarea' ):
-					echo '<textarea name="' . $meta_key . '" id="' . $meta_key . '" class="textarea">';
-					echo ( isset( $_POST[ $meta_key ] ) ) ? esc_textarea( $_POST[ $meta_key ] ) : '';
-					echo '</textarea>';
+					$args['value'] = ( isset( $_POST[ $meta_key ] ) ) ? esc_textarea( $_POST[ $meta_key ] ) : '';
+					echo wpmem_form_field( $args );
 					break;
 
 				case( 'checkbox' ):
 					$val = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 					$val = ( ! $_POST && $field['checked_default'] ) ? $field['checked_value'] : $val;
-					echo wpmem_create_formfield( $meta_key, $field['type'], $field['checked_value'], $val );
+					$args['value']   = $field['checked_value'];
+					$args['compare'] = $val;
+					echo wpmem_form_field( $args );
 					break;
 
 				case( 'multiselect' ):
 				case( 'multicheckbox' ):
 				case( 'radio' ):
 				case( 'membership' );
-					$valtochk = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
-					$formfield_args = array( 
-						'name'     => $meta_key,
-						'type'     => $field['type'],
-						'value'    => $field['values'],
-						'compare'  => $valtochk,
-						'required' => $field['required'],
-					);
+					$args['value']   = $field['values'];
+					$args['compare'] = ( isset( $_POST[ $meta_key ] ) ) ? sanitize_text_field( $_POST[ $meta_key ] ) : '';
 					if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
-						$formfield_args['delimiter'] = $field['delimiter'];
+						$args['delimiter'] = $field['delimiter'];
 					}
-					echo $this->create_form_field( $formfield_args );
+					echo wpmem_form_field( $args );
 					break;
 
 				case( 'file' ):
@@ -1968,8 +1977,8 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 					break;
 
 				default:
-					$value = ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '';
-					echo '<input type="' . $field['type'] . '" name="' . $meta_key . '" id="' . $meta_key . '" class="input" value="' . $value . '" size="25" />';
+					$args['value'] = ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : '';
+					echo wpmem_form_field( $args );
 					break;
 				}
 
@@ -1985,7 +1994,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 					<th scope="row">
 						<label for="activate_user">' . __( 'Activate this user?', 'wp-members' ) . '</label>
 					</th>
-					<td>' . $this->create_form_field( array( 'name' => 'activate_user', 'type' => 'checkbox', 'value' => 1, 'compare' => '' ) ) . '</td>
+					<td>' . wpmem_form_field( array( 'name' => 'activate_user', 'type' => 'checkbox', 'value' => 1, 'compare' => '' ) ) . '</td>
 				  </tr>';
 		}
 

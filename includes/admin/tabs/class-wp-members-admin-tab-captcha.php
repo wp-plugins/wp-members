@@ -97,7 +97,7 @@ class WP_Members_Admin_Tab_Captcha {
 											$captcha[] = __( 'reCAPTCHA v3', 'wp-members' ) . '|4';
 											$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
 											$captcha[] = __( 'hCaptcha', 'wp-members' ) . '|5';
-											echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
+											echo wpmem_form_field( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 										</td>
 									</tr>
 									<?php if ( isset( $updated_captcha_type ) ) { ?>

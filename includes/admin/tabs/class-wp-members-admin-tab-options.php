@@ -110,7 +110,7 @@ class WP_Members_Admin_Tab_Options {
 											__( 'Block', 'wp-members' ) . '|1',
 											// @todo Future development. __( 'Hide', 'wp-members' ) . '|2',
 										);
-										echo wpmem_create_formfield( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
+										echo wpmem_form_field( 'wpmem_block_' . $key, 'select', $values, $block ); ?>
 										<span><?php echo $val; ?></span><?php // @todo - this needs to be translatable. ?>
 									</li>
 									<?php $i++;
@@ -144,12 +144,12 @@ class WP_Members_Admin_Tab_Options {
 												$ex_len  = '';
 												$ex_text = ''; 
 											}
-											echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+											echo wpmem_form_field( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
 											<span><?php _e( 'Number of words in excerpt:', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_len" type="text" size="5" value="<?php echo $ex_len; ?>" />&nbsp;&nbsp;&nbsp;&nbsp;
 											<span><?php _e( 'Custom read more link (optional):', 'wp-members' ); ?> </span><input name="wpmem_autoex_<?php echo $key; ?>_text" type="text" size="5" value="<?php echo $ex_text; ?>" />
 										<?php } else {
 											$setting = ( isset( $wpmem->{$item_key}[ $key ] ) ) ? $wpmem->{$item_key}[ $key ] : 0; 
-											echo wpmem_create_formfield( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>
+											echo wpmem_form_field( 'wpmem_' . $item_key . '_' . $key, 'checkbox', '1', $setting ); ?> <span><?php echo $val; ?></span>
 										<?php } ?>
 										</li>
 										<?php $i++;
@@ -168,7 +168,7 @@ class WP_Members_Admin_Tab_Options {
 								foreach ( $rows as $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
+									<?php echo wpmem_form_field( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
 									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } 
@@ -192,9 +192,9 @@ class WP_Members_Admin_Tab_Options {
 									<label><?php echo $row[0]; ?></label>
 									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
 									<?php if ( 2 == $key || 1 == $key ) {
-											echo wpmem_create_formfield( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
+											echo wpmem_form_field( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php } else {
-											echo wpmem_create_formfield( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
+											echo wpmem_form_field( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php } ?>
 									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
@@ -216,13 +216,13 @@ class WP_Members_Admin_Tab_Options {
 								foreach ( $rows as $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php echo wpmem_create_formfield( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
+									<?php echo wpmem_form_field( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
 									<?php if ( $row[2] ) { ?><span class="description"><?php echo $row[2]; ?></span><?php } ?>
 								  </li>
 								<?php } ?>
 								  <li>
 									<label><?php _e( 'Attribution', 'wp-members' ); ?></label>
-									<?php echo wpmem_create_formfield( 'attribution', 'checkbox', '1', $wpmem->attrib ); ?>&nbsp;&nbsp;
+									<?php echo wpmem_form_field( 'attribution', 'checkbox', '1', $wpmem->attrib ); ?>&nbsp;&nbsp;
 									<span class="description"><?php _e( 'Attribution is appreciated!  Display "powered by" link on register form?', 'wp-members' ); ?></span>
 								  </li>
 								  <li>
@@ -235,7 +235,7 @@ class WP_Members_Admin_Tab_Options {
 									$captcha[] = __( 'reCAPTCHA v3', 'wp-members' ) . '|4';
 									$captcha[] = __( 'Really Simple CAPTCHA', 'wp-members' ) . '|2';
 									$captcha[] = __( 'hCaptcha', 'wp-members' ) . '|5';
-									echo wpmem_create_formfield( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
+									echo wpmem_form_field( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 								  </li>
 								<h3><?php _e( 'Pages' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#pages" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
 								  <?php $wpmem_logurl = $wpmem->user_pages['login'];

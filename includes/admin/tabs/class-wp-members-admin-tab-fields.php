@@ -438,11 +438,11 @@ Last Row|last_row<?php } } ?></textarea>
 					'label'    => $field[1],
 					'meta'     => $meta,
 					'type'     => $field[3],
-					'display'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
-					'req'      => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
-					'profile'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_create_formfield( $meta . "_profile",  'checkbox', 'y', $profile ) : '',
-					'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_create_formfield( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
-					'usearch'  => ( ! in_array( $meta, $wpmem_us_fields_skip ) ) ? wpmem_create_formfield( 'us_fields[' . $meta . ']', 'checkbox', $field[1], $us_checked ) : '',
+					'display'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_form_field( $meta . "_display",  'checkbox', 'y', $field[4] ) : '',
+					'req'      => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_form_field( $meta . "_required", 'checkbox', 'y', $field[5] ) : '',
+					'profile'  => ( 'user_email' != $meta && 'username' != $meta ) ? wpmem_form_field( $meta . "_profile",  'checkbox', 'y', $profile ) : '',
+					'userscrn' => ( ! in_array( $meta, $wpmem_ut_fields_skip ) ) ? wpmem_form_field( 'ut_fields[' . $meta . ']', 'checkbox', $field[1], $ut_checked ) : '',
+					'usearch'  => ( ! in_array( $meta, $wpmem_us_fields_skip ) ) ? wpmem_form_field( 'us_fields[' . $meta . ']', 'checkbox', $field[1], $us_checked ) : '',
 					'edit'     => self::do_edit_link( $meta ),
 					'sort'     => '<span class="dashicons dashicons-sort" title="' . __( 'Drag and drop to reorder fields', 'wp-members' ) . '"></span>',
 				);
@@ -468,7 +468,7 @@ Last Row|last_row<?php } } ?></textarea>
 				|| ( 'active' == $key && 1 == $wpmem->mod_reg ) 
 				|| defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 && ( 'exp_type' == $key || 'expires' == $key ) ) {
 				$user_screen_items[ $key ] = array( 'label' => __( $item, 'wp-members' ), 'meta' => $key,
-					'userscrn' => wpmem_create_formfield( "ut_fields[{$key}]", 'checkbox', $item, $ut_checked ),
+					'userscrn' => wpmem_form_field( "ut_fields[{$key}]", 'checkbox', $item, $ut_checked ),
 				);
 			}
 		}
