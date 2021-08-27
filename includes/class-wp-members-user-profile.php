@@ -163,6 +163,7 @@ class WP_Members_User_Profile {
 								'value'    => $val,
 								'compare'  => $valtochk,
 								'required' => $field['required'],
+								'class'    => 'regular-text',
 								'placeholder' => ( isset( $field['placeholder'] ) ) ? $field['placeholder'] : '',
 								'pattern'     => ( isset( $field['pattern']     ) ) ? $field['pattern']     : false,
 								'title'       => ( isset( $field['title']       ) ) ? $field['title']       : false,
