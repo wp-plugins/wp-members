@@ -91,7 +91,7 @@ class WP_Members_Shortcodes {
 	 * @param  string $tag     The shortcode's tag (wpmem_form).
 	 * @return string          The form HTML (or nested content, if used and the user is logged in).
 	 */
-	function forms( $atts, $content = null, $tag = 'wpmem_form' ) {
+	function forms( $atts, $content, $tag ) {
 
 		global $wpmem, $wpmem_themsg;
 
@@ -240,7 +240,7 @@ class WP_Members_Shortcodes {
 	 * @param  string $tag     The shortcode's tag (wpmem_logged_in).
 	 * @return string|void     The restricted content to display if the user meets the criteria.
 	 */
-	function logged_in( $atts, $content = null, $tag = 'wpmem_logged_in' ) {
+	function logged_in( $atts, $content, $tag ) {
 
 		global $wpmem;
 
@@ -364,7 +364,7 @@ class WP_Members_Shortcodes {
 	 * @param  string $tag     The shortcode tab (wpmem_logged_out).
 	 * @return string $content The content, if the user is logged out, otherwise an empty string.
 	 */
-	function logged_out( $atts, $content = null, $tag ) {
+	function logged_out( $atts, $content, $tag ) {
 		return ( ! is_user_logged_in() ) ? do_shortcode( $content ) : '';
 	}
 
@@ -393,7 +393,7 @@ class WP_Members_Shortcodes {
 	 * @param  string $tag     The shortcode's tag (wpmem_show_count).
 	 * @return string $content The user count.
 	 */
-	function user_count( $atts, $content = null, $tag ) {
+	function user_count( $atts, $content, $tag ) {
 		if ( isset( $atts['key'] ) && isset( $atts['value'] ) ) {
 			// If by meta key.
 			global $wpdb;
@@ -592,7 +592,7 @@ class WP_Members_Shortcodes {
 	 * @param  string $tag     The shortcode tag (wpmem_form).
 	 * @return string $content Content to return.
 	 */
-	function fields( $atts, $content = null, $tag ) {
+	function fields( $atts, $content, $tag ) {
 
 		// What field?
 		$field = ( isset( $atts[0] ) ) ? $atts[0] : $atts['field'];
