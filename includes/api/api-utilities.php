@@ -55,42 +55,28 @@ function wpmem_get_excluded_meta( $tag ) {
 }
 
 /**
- * Returns http:// or https:// depending on ssl.
- *
- * @since 2.9.8
- * @deprecated 3.2.3 Use wpmem_force_ssl() instead.
- *
- * @return string https://|http:// depending on whether ssl is being used.
- */
-function wpmem_use_ssl() {
-	return ( is_ssl() ) ? 'https://' : 'http://';
-}
-
-/**
  * Forces a URL to be secure (ssl).
  *
  * @since 3.2.3
+ * @since 3.4.0 Now an alias for rktgk_force_ssl()
  *
  * @param  string $url URL to be make secure.
  * @return string      The secure URL.
  */
 function wpmem_force_ssl( $url ) {
-	return ( is_ssl() ) ? preg_replace( "/^http:/i", "https:", $url ) : $url;
+	return rktgk_force_ssl( $url );
 }
 
 /**
  * Log debugging errors.
  *
  * @since 3.1.2
+ * @since 3.4.0 Now an alias for rktgk_write_log().
  * 
  * @param mixed (string|array|object) $log Information to write in the WP debug file.
  */
-function wpmem_write_log ( $log ) {
-	if ( is_array( $log ) || is_object( $log ) ) {
-		error_log( print_r( $log, true ) );
-	} else {
-		error_log( $log );
-	}
+function wpmem_write_log( $log ) {
+	rktgk_write_log( $log );
 }
 
 /**
@@ -103,6 +89,7 @@ function wpmem_write_log ( $log ) {
  * the parts before, after, and the "needle" are returned.
  *
  * @since 3.2.0
+ * @since 3.4.0 Now an alias for rktgk_get_sub_str().
  *
  * @param  string       $needle
  * @param  string       $haystack
@@ -117,27 +104,7 @@ function wpmem_write_log ( $log ) {
  * }
  */
 function wpmem_get_sub_str( $needle, $haystack, $position = 'after', $keep_needle = true ) {
-	$pos = strpos( $haystack, $needle );
-	if ( false === $pos ) {
-		return $haystack;
-	} else {
-		if ( 'before' == $position ) {
-			$new = ( substr( $haystack, 0, $pos ) );
-			$new = ( $keep_needle ) ? $string . $needle : $new;
-		} elseif ( 'after' == $position ) {
-			$new = ( substr( $haystack, $pos+strlen( $needle ) ) );
-			$new = ( $keep_needle ) ? $needle . $string : $new;
-		} elseif ( 'split' == $position ) {
-			$before = ( substr( $haystack, 0, $pos ) );
-			$after  = ( substr( $haystack, $pos+strlen( $needle ) ) );
-			$new    = array(
-				'before' => $before,
-				'after'  => $after,
-				'needle' => $needle,
-			);
-		}
-	}
-	return $new;
+	return rktgk_get_sub_str( $needle, $haystack, $position, $keep_needle );
 }
 
 if ( ! function_exists( 'wpmem_do_excerpt' ) ):
@@ -185,6 +152,7 @@ endif;
  *
  * @since 3.1.6
  * @since 3.2.3 Moved to utilities api.
+ * @since 3.4.0 Now an alias for rktgk_array_insert()
  *
  * @param  array  $array Original array.
  * @param  array  $new   Array of new items to insert into $array.
@@ -193,14 +161,7 @@ endif;
  * @return array         Original array with new items inserted.
  */
 function wpmem_array_insert( array $array, array $new, $key, $loc = 'after' ) {
-	$keys = array_keys( $array );
-	if ( 'before' == $loc ) {
-		$pos = (int) array_search( $key, $keys );
-	} else {
-		$index = array_search( $key, $keys );
-		$pos = ( false === $index ) ? count( $array ) : $index + 1;
-	}
-	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+	return rktgk_array_insert( $array, $new, $key, $loc );
 }
 
 /**
@@ -220,34 +181,22 @@ function wpmem_load_dropins() {
  * Display a localized date based on the WP date format setting.
  *
  * @since 3.2.4
+ * @since 3.4.0 Now an alias for rktgk_format_date().
  *
  * @param mixed $args
  * @return date $date
  */
 function wpmem_format_date( $args ) {
-	if ( ! is_array( $args ) ) {
-		$args = array( 'date' => $args );
-	}
-	
-	$defaults = array( 
-		'date_format' => get_option( 'date_format' ),
-		'localize'    => true,
-		'timestamp'   => false,
-	);
-	
-	$args = wp_parse_args( $args, $deafults );
-	
 	/**
 	 * Filter the date display and format settings.
 	 *
 	 * @since 3.2.4
+	 * @deprecated 3.4.0 Use rktgk_format_date instead.
 	 *
 	 * @param arrag $args
 	 */
 	$args = apply_filters( 'wpmem_format_date_args', $args );
-	$date = ( true === $args['timestamp'] ) ? $args['date'] : strtotime( $args['date'] );
-	$date = ( true === $args['localize']  ) ? date_i18n( $args['date_format'], $date ) : date( $args['date_format'], $date );
-	return $date;
+	return rktgk_format_date( $args );
 }
 
 /**
@@ -266,6 +215,7 @@ function wpmem_format_date( $args ) {
  * @link https://codesymphony.co/dont-do_shortcode/
  *
  * @since 3.2.5
+ * @since 3.4.0 Now an alias for rktgk_do_shortcode().
  *
  * @param string $tag     The shortcode whose function to call.
  * @param array  $atts    The attributes to pass to the shortcode function. Optional.
@@ -273,15 +223,8 @@ function wpmem_format_date( $args ) {
  *
  * @return string|bool False on failure, the result of the shortcode on success.
  */
-function wpmem_do_shortcode( $tag, array $atts = array(), $content = null ) {
- 
-	global $shortcode_tags;
-
-	if ( ! isset( $shortcode_tags[ $tag ] ) ) {
-		return false;
-	}
-
-	return call_user_func( $shortcode_tags[ $tag ], $atts, $content, $tag );
+function rktgk_do_shortcode( $tag, array $atts = array(), $content = null ) {
+	return rktgk_do_shortcode( $tag, $atts, $content );
 }
 
 /**
@@ -313,43 +256,37 @@ function wpmem_user_sets_password() {
  * sanitizes each individual array element.
  *
  * @since 3.3.0
+ * @since 3.4.0 Now an alias for rktgk_maybe_unserialize().
  *
  * @param  mixed  $original
  * @return mixed  $original
  */
 function wpmem_maybe_unserialize( $original ) {
-	if ( is_serialized( $original ) ) { // don't attempt to unserialize data that wasn't serialized going in
-		$original = unserialize( $original );
-	}
-	return ( is_array( $original ) ) ? wpmem_sanitize_array( $original ) : $original;
+	return rktgk_maybe_unserialize( $original );
 }
 
 /**
  * Determines whether to use a .min suffix for a script/style file.
  *
  * @since 3.3.0
+ * @since 3.4.0 Now an alias for rktgk_get_suffix().
  *
  * @param boolean $echo
  */
 function wpmem_get_suffix( $echo = false ) {
-	$suffix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-	if ( true === $echo ) {
-		echo $suffix;
-		return;
-	} else {
-		return $suffix;
-	}
+	return rktgk_get_suffix( $echo );
 }
 
 /**
  * Checks if WooCommerce is active.
  *
  * @since 3.3.7
+ * @since 3.4.0 Now an alias for rktgk_is_woo_active().
  *
  * @return boolean
  */
 function wpmem_is_woo_active() {
-	return ( class_exists( 'woocommerce' ) ) ? true : false;
+	return rktgk_is_woo_active();
 }
 
 /**

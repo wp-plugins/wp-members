@@ -628,3 +628,16 @@ endif;
 function wpmem_gettext( $str, $echo = false ) {
 	return wpmem_get_text( $str, $echo );
 }
+
+/**
+ * Returns http:// or https:// depending on ssl.
+ *
+ * @since 2.9.8
+ * @deprecated 3.2.3 Use wpmem_force_ssl() instead.
+ *
+ * @return string https://|http:// depending on whether ssl is being used.
+ */
+function wpmem_use_ssl() {
+	wpmem_write_log( 'wpmem_use_ssl() is deprecated. Use wpmem_force_ssl() instead' );
+	return ( is_ssl() ) ? 'https://' : 'http://';
+}

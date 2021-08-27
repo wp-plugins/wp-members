@@ -313,6 +313,7 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
  * This is an API wrapper for WP_Members_Forms::sanitize_class().
  *
  * @since 3.2.9
+ * @since 3.4.0 Now an alias for rktgk_sanitize_class().
  *
  * @global  object $wpmem
  *
@@ -320,8 +321,7 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
  * @return	string sanitized_class
  */
 function wpmem_sanitize_class( $class ) {
-	global $wpmem;
-	return $wpmem->forms->sanitize_class( $class );
+	return rktgk_sanitize_class( $class );
 }
 
 /**
@@ -331,6 +331,7 @@ function wpmem_sanitize_class( $class ) {
  *
  * @since 3.2.9
  * @since 3.3.7 Added optional $type
+ * @since 3.4.0 Now an alias for rktgk_sanitize_array().
  *
  * @global  object $wpmem
  *
@@ -339,8 +340,7 @@ function wpmem_sanitize_class( $class ) {
  * @return array  $data
  */
 function wpmem_sanitize_array( $data, $type = false ) {
-	global $wpmem;
-	return $wpmem->forms->sanitize_array( $data, $type );
+	return rktgk_sanitize_array( $data, $type );
 }
 
 /**

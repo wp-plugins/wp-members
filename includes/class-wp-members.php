@@ -649,6 +649,8 @@ class WP_Members {
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-settings.php' );
 		}
+		
+		require_once( $this->path . 'includes/libraries/rocketgeek-utilities/loader.php' );
 	}
 
 	/**

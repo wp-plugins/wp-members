@@ -462,54 +462,6 @@ class WP_Members_Forms {
 	}
 	
 	/**
-	 * Sanitizes classes passed to the WP-Members form building functions.
-	 *
-	 * This generally uses just sanitize_html_class() but allows for 
-	 * whitespace so multiple classes can be passed (such as "regular-text code").
-	 *
-	 * @since 3.2.0
-	 *
-	 * @param	string $class
-	 * @return	string sanitized_class
-	 */
-	function sanitize_class( $class ) {
-		// If no whitespace, just return WP sanitized class.
-		if ( ! strpos( $class, ' ' ) ) {
-			return sanitize_html_class( $class );
-		} else {
-			// Break string by whitespace, sanitize individual class names.
-			$class_array = explode( ' ', $class );
-			$len = count( $class_array ); $i = 0;
-			$sanitized_class = '';
-			foreach ( $class_array as $single_class ) {
-				$sanitized_class .= sanitize_html_class( $single_class );
-				$sanitized_class .= ( $i == $len - 1 ) ? '' : ' ';
-				$i++;
-			}
-			return $sanitized_class;
-		}
-	}
-	
-	/**
-	 * Sanitizes the text in an array.
-	 *
-	 * @since 3.2.9
-	 * @since 3.3.7 Added optional $type
-	 *
-	 * @param  array  $data
-	 * @param  string $type The data type integer|int (default: false)
-	 * @return array  $data
-	 */
-	function sanitize_array( $data, $type = false ) {
-		if ( is_array( $data ) ) {
-			foreach( $data as $key => $val ) {
-				$data[ $key ] = ( 'integer' == $type || 'int' == $type ) ? intval( $val ) : sanitize_text_field( $val );
-			}
-		}
-		return $data;
-	}
-	
-	/**
 	 * Sanitizes field based on field type.
 	 *
 	 * Obviously, this isn't an all inclusive function of every WordPress

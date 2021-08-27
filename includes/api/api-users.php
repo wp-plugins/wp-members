@@ -769,19 +769,11 @@ function wpmem_user_register( $tag ) {
  * @link https://gist.github.com/pippinsplugins/9641841
  *
  * @since 3.3.0
+ * @since 3.4.0 Now an alias for rktgk_get_user_ip();
  *
  * @return string $ip.
  */
 function wpmem_get_user_ip() {
-	if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-		//check ip from share internet
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
-	} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-		//to check ip is pass from proxy
-		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	} else {
-		$ip = $_SERVER['REMOTE_ADDR'];
-	}
 	/**
 	 * Filter the IP result.
 	 *
@@ -789,7 +781,7 @@ function wpmem_get_user_ip() {
 	 *
 	 * @param string $ip
 	 */
-	return apply_filters( 'wpmem_get_ip', $ip );
+	return apply_filters( 'wpmem_get_ip', rktgk_get_user_ip( $ip ) );
 }
 
 /**
