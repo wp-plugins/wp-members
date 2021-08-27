@@ -193,7 +193,7 @@ class WP_Members_User {
 		
 		// Check the nonce.
 		if ( empty( $_POST ) || ! wp_verify_nonce( $_REQUEST[ '_wpmem_' . $tag . '_nonce' ], 'wpmem_longform_nonce' ) ) {
-			$wpmem_themsg = __( 'There was an error processing the form.', 'wp-members' );
+			$wpmem_themsg = wpmem_get_text( 'reg_generic' );
 			return;
 		}
 
@@ -498,21 +498,19 @@ class WP_Members_User {
 	 *
 	 * @since 3.3.2
 	 *
-	 * @global stdClass $wpmem
-	 * @param  int      $user_id
+	 * @param  int  $user_id
 	 */
 	function post_register_data( $user_id ) {
-		global $wpmem;
-		$wpmem->user->post_data['ID'] = $user_id;
+		$this->post_data['ID'] = $user_id;
 		/**
 		 * Fires after user insertion but before email.
 		 *
 		 * @since 2.7.2
 		 * @since 3.3.2 Hooked to user_register.
 		 *
-		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 * @param array $this->post_data The user's submitted registration data.
 		 */
-		do_action( 'wpmem_post_register_data', $wpmem->user->post_data );
+		do_action( 'wpmem_post_register_data', $this->post_data );
 	}
 	
 	/**
@@ -1200,5 +1198,4 @@ class WP_Members_User {
 			wpmem_set_user_product( $product, $user_id );
 		}
 	}
-
 }
