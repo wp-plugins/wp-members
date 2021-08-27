@@ -178,7 +178,8 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .div_file,
 #wpmem_reg .div_url,
 #wpmem_reg .div_number,
-#wpmem_reg .div_date { 
+#wpmem_reg .div_date,
+#wpmem_reg .div_membership { 
 	width:74%;
 	margin:0 0 14px 0;
 }
