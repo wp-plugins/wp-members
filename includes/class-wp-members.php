@@ -1076,20 +1076,22 @@ class WP_Members {
 					 * Filters restricted content message.
 					 *
 					 * @since 3.3.2
+					 * @since 3.3.4 Added $response, $post, and $request
 					 *
 					 * @param string $message
 					 */
-					$response->data['content']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_content", __( "You must be logged in to view this content.", 'wp-members' ) );
+					$response->data['content']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_content", __( "You must be logged in to view this content.", 'wp-members' ), $response, $post, $request );
 				}
 				if ( isset( $response->data['excerpt']['rendered'] ) ) {
 					/**
 					 * Filters restricted excerpt message.
 					 *
 					 * @since 3.3.2
+					 * @since 3.3.4 Added $response, $post, and $request
 					 *
 					 * @param string $message
 					 */
-					$response->data['excerpt']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_excerpt", __( "You must be logged in to view this content.", 'wp-members' ) );
+					$response->data['excerpt']['rendered'] = apply_filters( "wpmem_securify_rest_{$post->post_type}_excerpt", __( "You must be logged in to view this content.", 'wp-members' ), $response, $post, $request );
 				}
 			}
 
