@@ -353,7 +353,7 @@ class WP_Members_Admin_API {
 				'label' => $args['label'],
 				//'input' => $args['name'] . '_dialog',
 				'value' => $args['value'],
-				//'value' => ( $args['value'] ) ? $args['value'] : $wpmem->get_text( $key ),
+				//'value' => ( $args['value'] ) ? $args['value'] : wpmem_get_text( $key ),
 			);
 
 			// Merge args with settings.

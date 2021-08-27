@@ -201,7 +201,7 @@ function wpmem_woo_register_form() {
 }
 
 /**
- * Wrapper for $wpmem->create_form_field().
+ * Alias for $wpmem->create_form_field().
  *
  * @since 3.1.2
  * @since 3.2.0 Accepts wpmem_create_formfield() arguments.

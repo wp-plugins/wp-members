@@ -383,7 +383,7 @@ class WP_Members_Forms {
 				if ( isset( $pieces[1] ) && '' != $pieces[1] ) {
 					$id_value = esc_attr( $id . '[' . $pieces[1] . ']' );
 					$label = wpmem_form_label( array( 'meta_key'=>$id_value, 'label'=>esc_html( __( $pieces[0], 'wp-members' ) ), 'type'=>'multicheckbox', 'id'=>$id_value ) );
-					$str = $str . $this->create_form_field( array(
+					$str = $str . wpmem_form_field( array(
 						'id'      => $id_value,
 						'name'    => $name . '[]',
 						'type'    => 'checkbox',
@@ -1974,6 +1974,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 
 				case( 'file' ):
 				case( 'image' ):
+					echo 'Not currently supported for this form';
 					break;
 
 				default:
