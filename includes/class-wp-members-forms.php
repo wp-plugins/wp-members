@@ -484,7 +484,7 @@ class WP_Members_Forms {
 
 			case 'multiselect':
 			case 'multicheckbox':
-				$sanitized_data = $this->sanitize_array( $data );
+				$sanitized_data = wpmem_sanitize_array( $data );
 				break;
 
 			case 'textarea':

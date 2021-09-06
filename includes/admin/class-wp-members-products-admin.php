@@ -675,7 +675,7 @@ class WP_Members_Products_Admin {
 			 * logged in when checking profiles.
 			 */
 			$user_id = ( 'profile' == $pagenow && current_user_can( 'edit_users' ) ) ? get_current_user_id() : sanitize_text_field( wpmem_get( 'user_id', false, 'get' ) );
-			$user_products = $wpmem->user->get_user_products( $user_id );
+			$user_products = wpmem_get_user_products( $user_id );
 			echo '<h3>' . __( 'Membership Access', 'wp-members' ) . '</h3>';
 			if ( ! empty( $wpmem->membership->products ) ) {
 				echo '<table>

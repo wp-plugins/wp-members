@@ -223,7 +223,7 @@ function wpmem_format_date( $args ) {
  *
  * @return string|bool False on failure, the result of the shortcode on success.
  */
-function rktgk_do_shortcode( $tag, array $atts = array(), $content = null ) {
+function wpmem_do_shortcode( $tag, array $atts = array(), $content = null ) {
 	return rktgk_do_shortcode( $tag, $atts, $content );
 }
 
