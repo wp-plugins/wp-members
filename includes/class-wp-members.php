@@ -470,6 +470,7 @@ class WP_Members {
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ), 20 );
 		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
 		add_action( 'admin_menu',            'wpmem_admin_options' ); // adds admin menu
+		add_action( 'wp_footer',             array( $this, 'invisible_captcha' ) );
 		
 		if ( is_user_logged_in() ) {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_password' ), 9, 2 );
@@ -1819,5 +1820,17 @@ class WP_Members {
 			$args['message'] = $this->error;
 		}
 		return $args;		
+	}
+	
+	/**
+	 * Google recaptcha v3 (invisible) gives more accurate user scores
+	 * if it is loaded on all pages.
+	 *
+	 * @since 3.4.0
+	 */
+	function invisible_captcha() {
+		if ( 4 == $this->captcha && true !== wpmem_is_reg_form_showing() ) {
+			echo WP_Members_Captcha::show();
+		}
 	}
 } // End of WP_Members class.
