@@ -1605,6 +1605,8 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		 */
 		$form = apply_filters( 'wpmem_register_form_before', '', $tag ) . $form;
 
+		$wpmem->reg_form_showing = true;
+		
 		// Return the generated form.
 		return $form;
 	} // End register_form().
