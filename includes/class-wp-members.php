@@ -1430,6 +1430,7 @@ class WP_Members {
 	 */
 	public function do_loginout_script() {
 		global $wpmem;
+		/** This filter is defined in /includes/api/api.php */
 		$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
 		?><script type="text/javascript">
 			jQuery('.wpmem_loginout').html('<a class="login_button" href="<?php echo esc_url( $logout ); ?>"><?php echo $this->get_text( 'menu_logout' ); ?></a>');
@@ -1782,7 +1783,7 @@ class WP_Members {
 		$redirect = ( is_user_logged_in() ) ? $args['logout_redirect_to'] : $args['login_redirect_to'];
 		$text     = ( is_user_logged_in() ) ? $args['logout_text']        : $args['login_text'];
 		if ( is_user_logged_in() ) {
-			/** This filter is defined in /inc/dialogs.php */
+			/** This filter is defined in /includes/api/api.php */
 			$link = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout' ) );
 		} else {
 			$link = wpmem_login_url( $redirect );

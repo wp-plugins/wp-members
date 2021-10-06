@@ -22,10 +22,10 @@ if ( ! function_exists( 'wpmem_securify' ) ):
  *
  * This is the primary function that picks up where wpmem() leaves off.
  * Determines whether content is shown or hidden for both post and pages.
- * Since 3.0, this function is a wrapper for $wpmem->do_securify().
+ * Since 3.0, this function is an alias for $wpmem->do_securify().
  *
  * @since 2.0.0
- * @since 3.0.0 Now a wrapper for $wpmem->do_securify().
+ * @since 3.0.0 Now an alias for $wpmem->do_securify().
  * @since 3.2.4 Moved to utility API (could be deprecated).
  *
  * @global object $wpmem The WP-Members object class.
@@ -43,7 +43,7 @@ endif;
  * Sets an array of user meta fields to be excluded from update/insert.
  *
  * @since 2.9.3
- * @since Unknown Now a wrapper for get_excluded_fields().
+ * @since Unknown Now an alias for get_excluded_fields().
  * @since 3.3.9 excluded_fields() moved to forms object class.
  *
  * @param  string $tag A tag so we know where the function is being used.
@@ -112,7 +112,7 @@ if ( ! function_exists( 'wpmem_do_excerpt' ) ):
  * Creates an excerpt on the fly if there is no 'more' tag.
  *
  * @since 2.6
- * @since 3.2.3 Now a wrapper for WP_Members::do_excerpt().
+ * @since 3.2.3 Now an alias for WP_Members::do_excerpt().
  *
  * @global object $wpmem The WP_Members object.
  *
@@ -133,7 +133,7 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  * Currently only used for the login form to remove the <br> tag that WP puts in after the "Remember Me".
  *
  * @since 2.6.4
- * @since 3.2.3 Now a wrapper for WP_Members::texturize().
+ * @since 3.2.3 Now an alias for WP_Members::texturize().
  *
  * @todo Possibly deprecate or severely alter this process as its need may be obsolete.
  *

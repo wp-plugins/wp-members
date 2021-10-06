@@ -24,7 +24,7 @@ if ( ! function_exists( 'wpmem_login_form' ) ):
  * to the current function documentation.
  *
  * @since 2.5.1
- * @since 3.1.7 Now a wrapper for $wpmem->forms->login_form()
+ * @since 3.1.7 Now an alias for $wpmem->forms->login_form()
  * @since 3.3.0 Added to API.
  * @since 3.4.0 Main API function for displaying login form.
  *

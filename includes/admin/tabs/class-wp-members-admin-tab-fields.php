@@ -87,7 +87,7 @@ class WP_Members_Admin_Tab_Fields {
 
 		if ( 'delete' == $delete_action ) {
 
-			$delete_fields = wpmem_get( 'delete' ); ?>
+			$delete_fields = wpmem_sanitize_array( wpmem_get( 'delete' ) );?>
 
 			<?php if ( empty( $delete_fields ) ) { ?>
 				<p><?php _e( 'No fields selected for deletion', 'wp-members' ); ?></p>

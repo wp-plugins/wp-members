@@ -34,14 +34,14 @@ class widget_wpmemwidget extends WP_Widget {
 	 */
 	function form( $instance ) {
 	
-		/* Default widget settings. */
+		// Default widget settings.
 		$defaults = array( 
 			'title'       => __( 'Login Status', 'wp-members' ),
 			'redirect_to' => '',
 		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults );
 		
-		/* Title input */ ?>
+		// Title input. ?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-members' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />

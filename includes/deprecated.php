@@ -57,7 +57,7 @@ function wpmem_inc_status() {
 	
 	global $user_login, $wpmem;
 	
-	/** This filter is documented in wp-members/inc/dialogs.php */
+	/** This filter is defined in /includes/api/api.php */
 	$logout = apply_filters( 'wpmem_logout_link', $url . '/?a=logout' );
 
 	$status = '<p>' . sprintf( wpmem_get_text( 'sb_login_status' ), $user_login )
@@ -233,7 +233,7 @@ if ( ! function_exists( 'wpmem_inc_changepassword' ) ):
  * Loads the form for changing password.
  *
  * @since 2.0.0
- * @since 3.2.0 Now a wrapper for $wpmem->forms->do_changepassword_form()
+ * @since 3.2.0 Now an alias for $wpmem->forms->do_changepassword_form()
  * @deprecated 3.3.0 Use wpmem_change_password_form() instead.
  *
  * @global object $wpmem The WP_Members object.
@@ -253,7 +253,7 @@ if ( ! function_exists( 'wpmem_inc_resetpassword' ) ):
  * Loads the form for resetting password.
  *
  * @since 2.1.0
- * @since 3.2.0 Now a wrapper for $wpmem->forms->do_resetpassword_form()
+ * @since 3.2.0 Now an alias for $wpmem->forms->do_resetpassword_form()
  * @deprecated 3.3.0 Use wpmem_reset_password_form() instead.
  *
  * @global object $wpmem The WP_Members object.
@@ -426,7 +426,7 @@ if ( ! function_exists( 'wpmem_inc_login' ) ):
  *
  * @since 1.8
  * @since 3.1.4 Global $wpmem_regchk no longer needed.
- * @since 3.2.0 Now a wrapper for $wpmem->forms->do_login_form().
+ * @since 3.2.0 Now an alias for $wpmem->forms->do_login_form().
  * @deprecated 3.3.0 Use wpmem_login_form() instead.
  *
  * @global object $post         The WordPress Post object.
@@ -450,7 +450,7 @@ if ( ! function_exists( 'wpmem_inc_registration' ) ):
  * Outputs the form for new user registration and existing user edits.
  *
  * @since 2.5.1
- * @since 3.1.7 Now a wrapper for $wpmem->forms->register_form()
+ * @since 3.1.7 Now an alias for $wpmem->forms->register_form()
  * @since 3.2.0 Preparing for deprecation, use wpmem_register_form() instead.
  * @deprecated 3.3.0 Use wpmem_register_form() instead.
  *

@@ -166,7 +166,7 @@ function wpmem_user_has_meta( $meta, $value = false, $user_id = false ) {
  * Checks if a user is activated.
  *
  * @since 3.1.7
- * @since 3.2.3 Now a wrapper for WP_Members_Users::is_user_activated().
+ * @since 3.2.3 Now an alias for WP_Members_Users::is_user_activated().
  *
  * @global object $wpmem
  * @param  int    $user_id
@@ -199,7 +199,7 @@ function wpmem_user_data( $user_id = false, $all = false ) {
 /**
  * Updates a user's role.
  *
- * This is a wrapper for $wpmem->update_user_role(). It can add a role to a
+ * This is an alias for $wpmem->update_user_role(). It can add a role to a
  * user, change or remove the user's role. If no action is specified it will
  * change the role.
  *
@@ -319,7 +319,7 @@ if ( ! function_exists( 'wpmem_login' ) ):
  * @since 2.5.2 Now uses wp_signon().
  * @since 2.7.7 Sets cookie using wp_set_auth_cookie().
  * @since 3.0.0 Removed wp_set_auth_cookie(), this already happens in wp_signon().
- * @since 3.1.7 Now a wrapper for login() in WP_Members_Users Class.
+ * @since 3.1.7 Now an alias for login() in WP_Members_Users Class.
  * @since 3.2.4 Moved to user API (could be deprecated).
  *
  * @global object $wpmem
@@ -337,7 +337,7 @@ if ( ! function_exists( 'wpmem_logout' ) ):
  *
  * @since 2.0.0
  * @since 3.1.6 Added wp_destroy_current_session(), removed nocache_headers().
- * @since 3.1.7 Now a wrapper for logout() in WP_Members_Users Class.
+ * @since 3.1.7 Now an alias for logout() in WP_Members_Users Class.
  * @since 3.2.4 Moved to user API (could be deprecated).
  *
  * @global object $wpmem
@@ -354,7 +354,7 @@ if ( ! function_exists( 'wpmem_change_password' ) ):
  * Handles user password change (not reset).
  *
  * @since 2.1.0
- * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
+ * @since 3.1.7 Now an alias for password_update() in WP_Members_Users Class.
  * @since 3.2.4 Moved to user API (could be deprecated).
  *
  * @global int $user_ID The WordPress user ID.
@@ -372,7 +372,7 @@ if ( ! function_exists( 'wpmem_reset_password' ) ):
  * Resets a forgotten password.
  *
  * @since 2.1.0
- * @since 3.1.7 Now a wrapper for password_update() in WP_Members_Users Class.
+ * @since 3.1.7 Now an alias for password_update() in WP_Members_Users Class.
  * @since 3.2.4 Moved to user API (could be deprecated).
  *
  * @global object $wpmem The WP-Members object class.
@@ -390,7 +390,7 @@ endif;
  *
  * @since 3.0.8
  * @since 3.1.6 Dependencies now loaded by object.
- * @since 3.1.8 Now a wrapper for $wpmem->retrieve_username() in WP_Members_Users Class.
+ * @since 3.1.8 Now an alias for $wpmem->retrieve_username() in WP_Members_Users Class.
  * @since 3.2.4 Moved to user API (could be deprecated).
  *
  * @global object $wpmem The WP-Members object class.

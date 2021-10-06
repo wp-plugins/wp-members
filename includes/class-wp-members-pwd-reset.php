@@ -290,7 +290,7 @@ class WP_Members_Pwd_Reset {
 	/**
 	 * Sets and gets the password reset key.
 	 *
-	 * This function is a wrapper for the WP function get_password_reset_key().
+	 * This function is an alias for the WP function get_password_reset_key().
 	 *
 	 * @since 3.3.8
 	 *

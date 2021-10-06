@@ -203,7 +203,7 @@ class WP_Members_Admin_Tab_Options {
 								<h3><?php _e( 'Other Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#other" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
 								<ul>
 								<?php 
-								/** This filter is defined in class-wp-members.php */
+								/** This filter is defined in includes/class-wp-members.php */
 								$dropin_dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
 								$rows = array(
 									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products','wp-members'),'enable_products'),
