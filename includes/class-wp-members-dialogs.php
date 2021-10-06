@@ -146,15 +146,15 @@ class WP_Members_Dialogs {
 			'menu_logout'          => __( 'Log Out', 'wp-members' ),
 			
 			// Widget.
-			'sb_status'            => __( 'You are logged in as %s', 'wp-members' ),
-			'sb_logout'            => __( 'click here to log out', 'wp-members' ),
-			'sb_login_failed'      => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
-			'sb_not_logged_in'     => '',
-			'sb_login_username'    => __( 'Username or Email', 'wp-members' ),
-			'sb_login_password'    => __( 'Password', 'wp-members' ),
-			'sb_login_button'      => __( 'log in', 'wp-members' ),
-			'sb_login_forgot'      => __( 'Forgot?', 'wp-members' ),
-			'sb_login_register'    => __( 'Register', 'wp-members' ),
+			'widget_status'         => __( 'You are logged in as %s', 'wp-members' ),
+			'widget_logout'         => __( 'click here to log out', 'wp-members' ),
+			'widget_login_failed'   => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
+			'widget_not_logged_in'  => '',
+			'widget_login_username' => __( 'Username or Email', 'wp-members' ),
+			'widget_login_password' => __( 'Password', 'wp-members' ),
+			'widget_login_button'   => __( 'log in', 'wp-members' ),
+			'widget_login_forgot'   => __( 'Forgot?', 'wp-members' ),
+			'widget_login_register' => __( 'Register', 'wp-members' ),
 			
 			// Default Dialogs.
 			'restricted_msg'       => __( "This content is restricted to site members.  If you are an existing user, please log in.  New users may register below.", 'wp-members' ),
@@ -197,6 +197,14 @@ class WP_Members_Dialogs {
 		 * @since 3.2.7
 		 */
 		$text = apply_filters( 'wpmem_default_text', $text );
+		
+		// Manage legacy keys (i.e. sb_ to widget_ ).
+		foreach ( $text as $key => $value ) {
+			if ( false !== strpos( $key, 'sb_' ) ) {
+				$new_key = str_replace( 'sb_', 'widget_', $key );
+				$text[ $new_key ] = $text[ $key ];
+			}
+		}
 		
 		// Return the requested text string.
 		return $text[ $str ];

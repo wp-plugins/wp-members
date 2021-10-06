@@ -124,13 +124,14 @@ class widget_wpmemwidget extends WP_Widget {
 	 * @since 3.0.0 Added $post_to argument.
 	 * @since 3.1.0 Changed $post_to to $redirect_to.
 	 * @since 3.2.0 Moved to widget_wpmemwidget class as do_sidebar().
+	 * @since 3.4.0 Revise form for consitency with main body form.
 	 *
 	 * @param  string $redirect_to  A URL to redirect to upon login, default null.
 	 * @param  bool   $customizer   Whether to show the form for the customizer.
 	 * @global string $wpmem_regchk
 	 * @global string $user_login
 	 */
-	static function do_sidebar( $redirect_to = null, $customizer = false ) {
+	function do_sidebar( $redirect_to = null, $customizer = false ) {
 
 		global $wpmem, $wpmem_regchk;
 
@@ -167,15 +168,22 @@ class widget_wpmemwidget extends WP_Widget {
 				'error_after'     => '</p>',
 				'fieldset_before' => '<fieldset>',
 				'fieldset_after'  => '</fieldset>',
+				'row_before'      => '',
+				'row_after'       => '',
 				'inputs_before'   => '<div class="div_texbox">',
 				'inputs_after'    => '</div>',
 				'buttons_before'  => '<div class="button_div">',
 				'buttons_after'   => '</div>',
 
 				// Messages.
-				'error_msg'  => $wpmem->get_text( 'sb_login_failed' ),
-				'status_msg' => $wpmem->get_text( 'sb_not_logged_in' ) . '<br />',
+				'error_msg'  => wpmem_get_text( 'widget_login_failed' ),
+				'status_msg' => wpmem_get_text( 'widget_not_logged_in' ) . '<br />',
 
+				'form_id'         => 'wpmem_login_widget_form',
+				'form_class'      => 'widget_form',
+				'button_id'       => '',
+				'button_class'    => 'buttons',
+				
 				// Other.
 				'strip_breaks'    => true,
 				'wrap_inputs'     => true,
@@ -206,21 +214,61 @@ class widget_wpmemwidget extends WP_Widget {
 			 */
 			$args = apply_filters( 'wpmem_login_widget_args', $args );
 
+			$inputs = array(
+				array(
+					'name'  => wpmem_get_text( 'widget_login_username' ),
+					'type'  => 'text',
+					'tag'   => 'log',
+					'class' => 'username',
+					'div'   => 'div_text'
+				),
+				array(
+					'name'  => wpmem_get_text( 'widget_login_password' ),
+					'type'  => 'password',
+					'tag'   => 'pwd',
+					'class' => 'password',
+					'div'   => 'div_text',
+				),
+			);
+			
+			// Build the input rows.
+			foreach ( $inputs as $input ) {
+				$label = '<label for="' . esc_attr( $input['tag'] ) . '">' . $input['name'] . '</label>';
+				$field = wpmem_form_field( array(
+					'name'     => $input['tag'], 
+					'type'     => $input['type'],
+					'class'    => $input['class'],
+					'required' => true,
+				) );
+				$field_before = ( $args['wrap_inputs'] ) ? '<div class="' . wpmem_sanitize_class( $input['div'] ) . '">' : '';
+				$field_after  = ( $args['wrap_inputs'] ) ? '</div>' : '';
+				$rows[] = array( 
+					'row_before'   => $args['row_before'],
+					'label'        => $label,
+					'field_before' => $field_before,
+					'field'        => $field,
+					'field_after'  => $field_after,
+					'row_after'    => $args['row_after'],
+				);
+			}
+			
+			/**
+			 * Filter the array of form rows. Works like wpmem_login_form_rows.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param array  $rows  An array containing the form rows.
+			 */
+			$rows = apply_filters( 'wpmem_login_widget_form_rows', $rows );
+
+			// Put the rows from the array into $form.
 			$form = '';
-
-			$label = '<label for="username">' . $wpmem->get_text( 'sb_login_username' ) . '</label>';
-			$input = '<input type="text" name="log" class="username" id="username" />';
-
-			$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
-			$row1  = $label . $args['n'] . $input . $args['n'];
-
-			$label = '<label for="password">' . $wpmem->get_text( 'sb_login_password' ) . '</label>';
-			$input = '<input type="password" name="pwd" class="password" id="password" />';
-
-			$input = ( $args['wrap_inputs'] ) ? $args['inputs_before'] . $input . $args['inputs_after'] : $input;
-			$row2  = $label . $args['n'] . $input . $args['n'];
-
-			$form = $row1 . $row2;
+			foreach ( $rows as $row_item ) {
+				$row  = ( $row_item['row_before']   != '' ) ? $row_item['row_before'] . $args['n'] . $row_item['label'] . $args['n'] : $row_item['label'] . $args['n'];
+				$row .= ( $row_item['field_before'] != '' ) ? $row_item['field_before'] . $args['n'] . $args['t'] . $row_item['field'] . $args['n'] . $row_item['field_after'] . $args['n'] : $row_item['field'] . $args['n'];
+				$row .= ( $row_item['row_after']    != '' ) ? $row_item['row_after'] . $args['n'] : '';
+				$form.= $row;
+			}
 
 			// Handle outside elements added to the login form (currently ONLY for login).
 			if ( $args['login_form_action'] ) {
@@ -239,42 +287,71 @@ class widget_wpmemwidget extends WP_Widget {
 			 * Filter sidebar login form hidden fields.
 			 *
 			 * @since 2.9.0
+			 * @deprecated 3.4.0 Use wpmem_login_widget_hidden_fields instead.
 			 *
 			 * @param string $hidden The HTML for the hidden fields.
 			 */
-			$form = $form . apply_filters( 'wpmem_sb_hidden_fields', $hidden );
+			$hidden = apply_filters( 'wpmem_sb_hidden_fields', $hidden );
+			/**
+			 * Filter sidebar login form hidden fields.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param string $hidden The HTML for the hidden fields.
+			 */
+			$form = $form . apply_filters( 'wpmem_login_widget_hidden_fields', $hidden );
 
-			$buttons = '<input type="submit" name="Submit" class="buttons" value="' . $wpmem->get_text( 'sb_login_button' ) . '" />';
+			$buttons = '<input type="submit" name="Submit" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" value="' . wpmem_get_text( 'widget_login_button' ) . '" />';
 
 			if ( $wpmem->user_pages['profile'] != null ) { 
-				/** This filter is documented in wp-members/inc/forms.php */
+				/** This filter is documented in wp-members/includes/class-wp-members-forms.php */
 				$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
-				$link_html = ' <a href="' . $link . '">' . $wpmem->get_text( 'sb_login_forgot' ) . '</a>&nbsp;';
+				$link_html = ' <a href="' . $link . '">' . wpmem_get_text( 'widget_login_forgot' ) . '</a>&nbsp;';
 				/**
 				 * Filter the sidebar forgot password.
 				 *
 				 * @since 3.0.9
+				 * @deprecated 3.4.0 Use wpmem_login_widget_forgot_link_str instead.
 				 *
 				 * @param string $link_html
 				 * @param string $link
 				 */
 				$link_html = apply_filters( 'wpmem_sb_forgot_link_str', $link_html, $link );
+				/**
+				 * Filter the sidebar forgot password.
+				 *
+				 * @since 3.4.0
+				 *
+				 * @param string $link_html
+				 * @param string $link
+				 */
+				$link_html = apply_filters( 'wpmem_login_widget_forgot_link_str', $link_html, $link );
 				$buttons.= $link_html;
 			} 			
 
 			if ( $wpmem->user_pages['register'] != null ) {
-				/** This filter is documented in wp-members/inc/forms.php */
+				/** This filter is documented in wp-members/includes/class-wp-members-forms.php */
 				$link = apply_filters( 'wpmem_reg_link', $wpmem->user_pages['register'] );
-				$link_html = ' <a href="' . $link . '">' . $wpmem->get_text( 'sb_login_register' ) . '</a>';
+				$link_html = ' <a href="' . $link . '">' . wpmem_get_text( 'widget_login_register' ) . '</a>';
 				/**
 				 * Filter the sidebar register link.
 				 *
 				 * @since 3.0.9
+				 * @deprecated 3.4.0 Use wpmem_login_widget_reg_link_str instead.
 				 *
 				 * @param string $link_html
 				 * @param string $link
 				 */
 				$link_html = apply_filters( 'wpmem_sb_reg_link_str', $link_html, $link );
+				/**
+				 * Filter the sidebar register link.
+				 *
+				 * @since 3.4.0
+				 *
+				 * @param string $link_html
+				 * @param string $link
+				 */
+				$link_html = apply_filters( 'wpmem_login_widget_reg_link_str', $link_html, $link );
 				$buttons.= $link_html;
 			}
 
@@ -282,7 +359,7 @@ class widget_wpmemwidget extends WP_Widget {
 
 			$form = $args['fieldset_before'] . $args['n'] . $form . $args['n'] . $args['fieldset_after'];
 
-			$form = '<form name="form" method="post" action="' . $post_to . '">' . $args['n'] . $form . $args['n'] . '</form>';
+			$form = '<form name="form" method="post" action="' . $post_to . '" id="' . wpmem_sanitize_class( $args['form_id'] ) . '" class="' . wpmem_sanitize_class( $args['form_class'] ) . '">' . $args['n'] . $form . $args['n'] . '</form>';
 
 			// Add status message, if one exists.
 			if ( '' == $args['status_msg'] ) {
@@ -296,10 +373,19 @@ class widget_wpmemwidget extends WP_Widget {
 			 * Filter the sidebar form.
 			 *
 			 * @since unknown
+			 * @deprecated 3.3.9 Use wpmem_login_widget_form instead.
 			 *
 			 * @param string $form The HTML for the sidebar login form.
 			 */
 			$form = apply_filters( 'wpmem_sidebar_form', $form );
+			/**
+			 * Filter the sidebar form.
+			 *
+			 * @since 3.3.9
+			 *
+			 * @param string $form The HTML for the sidebar login form.
+			 */
+			$form = apply_filters( 'wpmem_login_widget_form', $form );
 
 			$do_error_msg = '';
 			$error_msg = $args['error_before'] . $args['error_msg'] . $args['error_after'];
@@ -315,10 +401,19 @@ class widget_wpmemwidget extends WP_Widget {
 				 * Filter the sidebar login failed message.
 				 *
 				 * @since unknown
+				 * @deprecated 3.4.0 Use wpmem_login_widget_login_failed instead.
 				 *
 				 * @param string $error_msg The error message.
 				 */
 				$error_msg = apply_filters( 'wpmem_login_failed_sb', $error_msg );
+				/**
+				 * Filter the sidebar login failed message.
+				 *
+				 * @since 3.4.0
+				 *
+				 * @param string $error_msg The error message.
+				 */
+				$error_msg = apply_filters( 'wpmem_login_widget_login_failed', $error_msg );
 				$form = $error_msg . $form;
 			}
 
@@ -328,15 +423,15 @@ class widget_wpmemwidget extends WP_Widget {
 
 			global $user_login; 
 
-			/** This filter is documented in wp-members/inc/dialogs.php */
+			/** This filter is defined in /includes/api/api.php */
 			$logout = apply_filters( 'wpmem_logout_link', add_query_arg( 'a', 'logout', $url ) );
 
 			// Defaults.
 			$defaults = array(
 				'user_login'     => $user_login,
-				'wrapper_before' => '<p>',
-				'status_text'    => sprintf( $wpmem->get_text( 'sb_status' ), $user_login ) . '<br />',
-				'link_text'      => $wpmem->get_text( 'sb_logout' ),
+				'wrapper_before' => '<p class="login_widget_status">',
+				'status_text'    => sprintf( wpmem_get_text( 'widget_status' ), $user_login ) . '<br />',
+				'link_text'      => wpmem_get_text( 'widget_logout' ),
 				'wrapper_after'  => '</p>',
 			);
 
@@ -345,11 +440,21 @@ class widget_wpmemwidget extends WP_Widget {
 			 *
 			 * @since 3.1.0
 			 * @since 3.1.2 Pass default args.
+			 * @deprecated 3.4.0 Use wpmem_login_widget_status_args instead.
 			 *
 			 * @param  array $defaults
 			 * @return array
 			 */
 			$args = apply_filters( 'wpmem_sidebar_status_args', $defaults );
+			/**
+			 * Filter sidebar login status arguments.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param  array $defaults
+			 * @return array
+			 */
+			$args = apply_filters( 'wpmem_login_widget_status_args', $defaults );
 
 			// Merge $args with $defaults.
 			$args = wp_parse_args( $args, $defaults );
@@ -361,10 +466,19 @@ class widget_wpmemwidget extends WP_Widget {
 			 * Filter the sidebar user login status.
 			 *
 			 * @since unknown
+			 * @deprecated 3.4.0 Use wpmem_login_widget_status instead.
 			 *
 			 * @param string $str The login status for the user.
 			 */
 			$str = apply_filters( 'wpmem_sidebar_status', $str );
+			/**
+			 * Filter the sidebar user login status.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param string $str The login status for the user.
+			 */
+			$str = apply_filters( 'wpmem_login_widget_status', $str );
 
 			echo $str;
 		}
