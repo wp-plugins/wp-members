@@ -105,7 +105,7 @@ function wpmem_wp_reserved_terms() {
  * @param  string  $option  Name of the option to update.
  * @param  string  $key     Which key to update. Update a subkey as primary_key/subkey.
  * @param  string  $value   New value.
- * @return void
+ * @return bool             True if the value was updated, otherwise false.
  */
 function wpmem_update_option( $option, $key, $value ) {
 	$settings = get_option( $option );
@@ -115,5 +115,5 @@ function wpmem_update_option( $option, $key, $value ) {
 	} else {
 		$settings[ $key ] = $value;
 	}
-	update_option( $option, $settings );
+	return update_option( $option, $settings );
 }
