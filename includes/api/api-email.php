@@ -81,11 +81,11 @@ function wpmem_email_to_user( $args, $password = null, $tag = null, $wpmem_field
 	global $wpmem;
 	if ( is_array( $args ) ) {
 		$user_id      = $args['user_id'];
-		$password     = $args['password'];
 		$tag          = $args['tag'];
-		$wpmem_fields = $args['wpmem_fields'];
-		$field_data   = $args['field_data'];
-		$custom       = $args['custom'];
+		$password     = ( isset( $args['password']     ) ) ? $args['password']     : '';
+		$wpmem_fields = ( isset( $args['wpmem_fields'] ) ) ? $args['wpmem_fields'] : '';
+		$field_data   = ( isset( $args['field_data']   ) ) ? $args['field_data']   : '';
+		$custom       = ( isset( $args['custom']       ) ) ? $args['custom']       : '';
 	} else {
 		$user_id = $args;
 	}
