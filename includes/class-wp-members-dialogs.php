@@ -284,6 +284,7 @@ class WP_Members_Dialogs {
 				'pwdchangesuccess',
 				'pwdreseterr',
 				'pwdresetsuccess',
+				'loginfailed',
 			),
 		);
 
