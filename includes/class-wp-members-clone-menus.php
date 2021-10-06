@@ -16,9 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_Members_Clone_Menus {
 
 	function __construct() {
-		add_action( 'init',                      array( $this, 'register_menus' ), 99 );
-		add_filter( 'wp_nav_menu_args',          array( $this, 'serve_menu' ) );
-		add_filter( 'jetpack_mobile_theme_menu', array( $this, 'jetpack_mobile_theme_menu' ) );
+		add_action( 'init',             array( $this, 'register_menus' ), 99 );
+		add_filter( 'wp_nav_menu_args', array( $this, 'serve_menu' ) );
 	}
 	
 	/**
@@ -93,26 +92,6 @@ class WP_Members_Clone_Menus {
 		}
 
 		return $args;
-	}
-
-	/**
-	 * Handles Jetpack mobile theme, if enabled.
-	 *
-	 * Jetpack mobile theme uses a custom mobile theme called Minileven. This theme uses
-	 * the default primary menu for the main menu. If this is enabled, the Logged-in
-	 * Menus extension uses the jetpack_mobile_theme_menu filter hook to apply the default
-	 * primary menu if the user is not logged in or the logged in primary menu if they are.
-	 *
-	 * @since 3.2.0
-	 */
-	function jetpack_mobile_theme_menu() {
-		// Get menus
-		$menu_locs = get_nav_menu_locations();
-		if ( is_user_logged_in() ) {
-			return $menu_locs['primary_wpmem_loggedin'];
-		} else {
-			return $menu_locs['primary'];
-		}
 	}
 
 }
