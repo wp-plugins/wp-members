@@ -43,6 +43,9 @@ class WP_Members_User {
 	 * @param object $settings The WP_Members Object
 	 */
 	function __construct( $settings ) {
+		
+		add_action( 'wpmem_after_init', array( $this, 'load_user_products' ) );
+		
 		add_action( 'user_register', array( $this, 'set_reg_type'            ), 1 );
 		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
 		add_action( 'user_register', array( $this, 'post_register_data'      ), 9 ); // Changed this to 9 so custom user meta is saved before the default (10) priority.
@@ -57,10 +60,17 @@ class WP_Members_User {
 		// Load anything the user as access to.
 		if ( 1 == $settings->enable_products ) {
 			add_action( 'user_register', array( $this, 'set_default_product' ), 6 );
-			
-			if ( is_user_logged_in() ) {
-				$this->access = $this->get_user_products( false, $settings );
-			}
+		}
+	}
+	
+	/**
+	 * Loads the current user's membership products on init.
+	 *
+	 * @since 3.4.0
+	 */
+	function load_user_products() {
+		if ( is_user_logged_in() ) {
+			$this->access = wpmem_get_user_products( get_current_user_id() );
 		}
 	}
 	
