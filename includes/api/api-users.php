@@ -800,10 +800,10 @@ function wpmem_get_user_ip() {
  * @param array $args
  * @param array $users
  */
-function wpmem_export_users( $args, $users = array() ) {
+function wpmem_export_users( $args = array(), $users = array() ) {
 	global $wpmem;
-	include_once( $wpmem->path . 'includes/admin/class-wp-members-export.php' );
-	WP_Members_Export::export_users( $args, $users );
+	include_once( $wpmem->path . 'includes/admin/class-wp-members-user-export.php' );
+	WP_Members_User_Export::export_users( $args, $users );
 }
 
 /**

@@ -107,9 +107,9 @@ class WP_Members_Admin_Users {
 		}
 
 		// If exporting all users, do it, then exit.
-		if ( wpmem_get( 'export_all', false, 'request' ) ) {
+		if ( current_user_can( 'list_users' ) && wpmem_get( 'export_all', false, 'request' ) ) {
 			$today = date( "Y-m-d" ); 
-			wpmem_export_users( array( 'export'=>'all', 'filename'=>'user-export-' . $today . '.csv' ) );
+			wpmem_export_users();
 			exit();
 		}
 
