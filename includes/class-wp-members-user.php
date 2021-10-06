@@ -128,10 +128,15 @@ class WP_Members_User {
 	 *
 	 * @since 3.1.7
 	 * @since 3.2.0 Added logout_redirect filter
+	 * @since 3.4.0 Added $user_id for wp_logout action (to match WP, which added this in 5.5.0).
 	 *
 	 * @param string $redirect_to URL to redirect the user to (default: false).
 	 */
 	function logout( $redirect_to = false ) {
+		
+		// Get the user ID for when the action is fired.
+		$user_id = get_current_user_id();
+		
 		// Default redirect URL.
 		$redirect_to = ( $redirect_to ) ? $redirect_to : home_url();
 
@@ -142,16 +147,18 @@ class WP_Members_User {
 		 *
 		 * @since 2.7.1
 		 * @since 3.1.7 Moved to WP_Members_Users Class.
+		 * @since 3.4.0 Added $user_id param.
 		 *
 		 * @param string The blog home page.
 		 */
-		$redirect_to = apply_filters( 'wpmem_logout_redirect', $redirect_to );
+		$redirect_to = apply_filters( 'wpmem_logout_redirect', $redirect_to, $user_id );
 
 		wp_destroy_current_session();
 		wp_clear_auth_cookie();
+		wp_set_current_user( 0 );
 
 		/** This action is defined in /wp-includes/pluggable.php. */
-		do_action( 'wp_logout' );
+		do_action( 'wp_logout', $user_id );
 
 		wp_safe_redirect( $redirect_to );
 		exit();
