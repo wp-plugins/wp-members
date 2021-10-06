@@ -1144,7 +1144,7 @@ class WP_Members {
 	 */
 	function hidden_posts() {
 		global $wpdb;
-		$hidden = get_transient( '_wpmem_hidden_posts' );
+		$hidden = get_option( 'wpmem_hidden_posts' );
 		if ( false === $hidden ) {
 			$hidden = $this->update_hidden_posts();
 		}
@@ -1180,7 +1180,7 @@ class WP_Members {
 				$hidden[] = $result->id;
 			}
 		}
-		set_transient( '_wpmem_hidden_posts', $hidden, 60*5 );
+		update_option( 'wpmem_hidden_posts', $hidden );
 		return $hidden;
 	}
 	

@@ -79,6 +79,11 @@ function wpmem_do_install() {
 			wpmem_upgrade_validation_email();
 			wpmem_upgrade_woo_reg();
 		}
+		
+		// Only run this if DB version < 2.3.0
+		if ( version_compare( $existing_settings['db_version'], '2.3.0', '<' ) ) {
+			wpmem_upgrade_hidden_transient();
+		}
 	}
 	
 	return $wpmem_settings;
@@ -753,5 +758,11 @@ function wpmem_upgrade_woo_reg() {
 		);
 		update_option( 'wpmembers_settings', $wpmem_settings );
 	}
+}
+
+function wpmem_upgrade_hidden_transient() {
+	$temp_obj = new WP_Members;
+	$temp_obj->update_hidden_posts();
+	delete_transient( '_wpmem_hidden_posts' );
 }
 // End of file.
