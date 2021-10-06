@@ -356,8 +356,16 @@ class WP_Members_Products_Admin {
 		 * @since 3.3.5
 		 */
 		do_action( 'wpmem_membership_product_message_meta_before' );
-		echo '<label for="product_message">' . __( 'Restricted Message (displays when a user does not have access to a membership)', 'wp-members' ) . '</label>';
-		echo '<textarea name="product_message" id="product_message" rows="3" cols="50" id="" class="large-text code">' . $message . '</textarea>';
+		
+		echo '<p>' . __( 'Restricted Message (displays when a user does not have access to a membership)', 'wp-members' ) . '</p>';
+		
+		$args = array(
+			'media_buttons' => false,
+			'textarea_rows' => 10,
+		);
+
+        wp_editor( $message, 'product_message', $args );
+		
 		/**
 		 * Fires after membership product messate meta box.
 		 *
