@@ -40,3 +40,26 @@ function wpmem_get_post_products( $post_id ) {
 	global $wpmem;
 	return $wpmem->membership->get_post_products( $post_id );
 }
+
+/**
+ * Gets access message if user does not have required membership.
+ *
+ * @since 3.4.0
+ *
+ * @global  stdClass  $wpmem
+ * @param   array     $post_products
+ * @return  string    $message
+ */
+function wpmem_get_access_message( $post_products ) {
+	global $wpmem;
+	return $wpmem->membership->get_access_message( $post_products );
+}
+
+function wpmem_get_products() {
+	return wpmem_get_memberships();
+}
+
+function wpmem_get_memberships() {
+	global $wpmem;
+	return ( ! empty( $wpmem->membership->products ) ) ? $wpmem->membership->products : false;
+}
