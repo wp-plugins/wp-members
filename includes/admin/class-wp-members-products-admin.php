@@ -33,6 +33,7 @@ class WP_Members_Products_Admin {
 			add_action( 'admin_footer',                 array( $this, 'enqueue_select2' ) );
 			add_filter( 'manage_users_columns',         array( $this, 'user_columns' ) );
 			add_filter( 'manage_users_custom_column',   array( $this, 'user_columns_content' ), 10, 3 );
+			add_action( 'admin_head',                   array( $this, 'post_columns_width' ) );
 			add_filter( 'manage_posts_columns',         array( $this, 'post_columns' ) );
 			add_action( 'manage_posts_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
 			add_filter( 'manage_pages_columns',         array( $this, 'post_columns' ) );
@@ -536,6 +537,17 @@ class WP_Members_Products_Admin {
 					});
 				})(jQuery);
 			</script><?php
+		}
+	}
+	
+	/**
+	 * Styles the width for membership post column.
+	 *
+	 * @since 3.4.0
+	 */
+	function post_columns_width() {
+		if ( isset( $_REQUEST['post_type'] ) ) {
+			echo '<style>.column-wpmem_product{ min-width:140px; width: 12%;}</style>';
 		}
 	}
 	
