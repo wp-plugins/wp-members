@@ -653,13 +653,13 @@ class WP_Members_Forms {
 
 		// Handle legacy use.
 		if ( is_array( $mixed ) ) {
-			$page = $mixed['page'];
+			$page = ( isset( $mixed['page'] ) ) ? $mixed['page'] : 'login';
 			$arr  = $mixed;
 		} else {
 			$page = $mixed;
 		}
 
-$action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
+		$action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		
 		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
 		$redirect_to = wpmem_get_redirect_to( $arr );
@@ -807,9 +807,26 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		}
 
 		// Build hidden fields, filter, and add to the form.
-		$hidden = wpmem_create_formfield( 'redirect_to', 'hidden', esc_url( $args['redirect_to'] ) ) . $args['n'];
-		$hidden = $hidden . wpmem_create_formfield( 'a', 'hidden', $action ) . $args['n'];
-		$hidden = ( $action != 'login' ) ? $hidden . wpmem_create_formfield( 'formsubmit', 'hidden', '1' ) : $hidden;
+		$hidden[] = wpmem_form_field( array( 'name' => 'redirect_to', 'type' => 'hidden', 'value' => esc_url( $args['redirect_to'] ) ) ) . $args['n'];
+		$hidden[] = wpmem_form_field( array( 'name' => 'a', 'type' => 'hidden', 'value' => $action ) ) . $args['n'];
+		if ( $action != 'login' ) {
+			$hidden[] = wpmem_form_field( array( 'name' => 'formsubmit', 'type' => 'hidden', 'value' => '1' ) );
+		}
+		
+		/**
+		 * Filter hidden fields array.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param  array  $hidden
+		 * @param  string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
+		 */
+		$hidden = apply_filters( 'wpmem_login_hidden_field_rows', $hidden, $action  );
+		
+		$hidden_field_string = '';
+		foreach ( $hidden as $field ) {
+			$hidden_field_string .= $field;
+		}
 
 		/**
 		 * Filter the hidden field HTML.
@@ -819,7 +836,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		 * @param string $hidden The generated HTML of hidden fields.
 		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden, $action );
+		$form = $form . apply_filters( 'wpmem_login_hidden_fields', $hidden_field_string, $action );
 
 		// Build the buttons, filter, and add to the form.
 		if ( $action == 'login' ) {
@@ -863,7 +880,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		);
 		foreach ( $links_array as $key => $value ) {
 			$tag = $value['tag'];
-			if ( ( $wpmem->user_pages[ $value['page'] ] || 'members' == $page ) && $value['action'] == $action ) {
+			if ( ( $wpmem->user_pages[ $value['page'] ] || 'profile' == $page ) && $value['action'] == $action ) {
 				/**
 				 * Filters register, forgot password, and forgot username links.
 				 *
@@ -2074,7 +2091,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 				'action'       => 'login', 
 				'button_text'  => wpmem_get_text( 'login_button' ),
 				'inputs'       => $default_inputs,
-				'redirect_to'  => $args['redirect_to'],
+				'redirect_to'  => ( isset( $args['redirect_to'] ) ) ? $args['redirect_to'] : get_permalink(),
 			),
 			'changepassword' => array(
 				'heading'      => wpmem_get_text( 'pwdchg_heading' ), 
@@ -2116,7 +2133,7 @@ $action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		 */
 		$arr = apply_filters( 'wpmem_' . $form . '_form_defaults', $arr );
 		
-		return $this->login_form( $page, $arr );
+		return $this->login_form( '', $arr );
 	}
 
 	/**
