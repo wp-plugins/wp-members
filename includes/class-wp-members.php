@@ -795,6 +795,7 @@ class WP_Members {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Added $post_id
+	 * @since 3.4.0 Added $is_post_check to allow for individual post checking.
 	 *
 	 * @global object $post The WordPress Post object.
 	 *
@@ -805,10 +806,12 @@ class WP_Members {
 	
 		global $post;
 		
+		$is_post_check = ( false === $post_id ) ? false : true;
+		
 		if ( $post || $post_id ) {
 		
 			$the_post = ( false === $post_id ) ? $post : get_post( $post_id );
-
+ 
 			$meta = wpmem_get_block_setting( $the_post->ID );
 			
 			// Backward compatibility for old block/unblock meta.
@@ -843,7 +846,7 @@ class WP_Members {
 			// Merge $args with defaults.
 			$args = ( wp_parse_args( $args, $defaults ) );
 	
-			if ( is_single() || is_page() || wpmem_is_rest() ) {	
+			if ( $is_post_check || is_single() || is_page() || wpmem_is_rest() ) {	
 				switch( $args['block_type'] ) {
 					case 1: // If content is blocked by default.
 						$args['block'] = ( $args['block_meta'] == '0' ) ? false : $args['block'];
