@@ -907,6 +907,8 @@ class WP_Members {
 	function do_securify( $content = null ) {
 
 		global $post, $wpmem, $wpmem_themsg;
+		
+		$orig_content = $content;
 
 		$content = ( is_single() || is_page() ) ? $content : wpmem_do_excerpt( $content );
 
@@ -992,10 +994,11 @@ class WP_Members {
 		 *
 		 * @since 2.7.7
 		 * @since 3.0.0 Moved to new method in WP_Members Class.
+		 * @since 3.4.0 Added $orig_content param.
 		 *
 		 * @param string $content The content after securify has run.
 		 */
-		$content = apply_filters( 'wpmem_securify', $content );
+		$content = apply_filters( 'wpmem_securify', $content, $orig_content );
 
 		if ( 1 == $this->texturize && strstr( $content, '[wpmem_txt]' ) ) {
 			// Fix the wptexturize.
