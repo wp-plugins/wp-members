@@ -78,15 +78,20 @@ class WP_Members_Admin_Tab_Emails {
 										<td><input type="checkbox" name="wpmem_email_html" value="1" <?php checked( $wpmem->email->html, 1, true ); ?> /></td>
 									</tr>
 									<tr><td colspan="2"><hr /></td></tr>
-								<?php if ( ! empty ( $wpmem->admin->emails ) ) {	
+								<?php // Here is where we handle all emails, both standard and custom.
+									if ( ! empty ( $wpmem->admin->emails ) ) {	
 										foreach( $wpmem->admin->emails as $email ) {
-											$wpmem->admin->do_email_input( $email );
+											self::do_email_input( $email );
 										}
 									}
-									$arr = get_option( 'wpmembers_email_footer' ); ?>
+									$arr = get_option( 'wpmembers_email_footer' ); 
+									$footer_args = array(
+										'body_input' => 'wpmembers_email_footer_body',
+										'body_value' => $arr,
+									); ?>
 									<tr valign="top">
 										<th scope="row"><strong><?php echo __( "Email Signature", 'wp-members' ); ?></strong> <span class="description"><?php _e( '(optional)', 'wp-members' ); ?></span></th>
-										<td><textarea name="<?php echo 'wpmembers_email_footer_body'; ?>" rows="10" cols="50" id="" class="large-text code"><?php echo esc_textarea( stripslashes( $arr ) ); ?></textarea></td>
+										<td><?php self::do_email_editor( $footer_args ); ?></td>
 									</tr>
 									<tr><td colspan="2"><hr /></td></tr>
 									<tr valign="top">
@@ -160,7 +165,7 @@ class WP_Members_Admin_Tab_Emails {
 
 		if ( ! empty ( $wpmem->admin->emails ) ) {
 			foreach( $wpmem->admin->emails as $email ) {
-				$wpmem->admin->email_update( $email );
+				self::email_update( $email );
 			}
 		}
 
@@ -168,4 +173,57 @@ class WP_Members_Admin_Tab_Emails {
 
 	}
 
+	/**
+	 * Adds custom email dialog to the Emails tab.
+	 *
+	 * @since 3.1.0
+	 * @since 3.4.0 Moved to emails tab class.
+	 *
+	 * @param array $args Settings array for the email.
+	 */
+	static private function do_email_input( $args ) { ?>
+        <tr valign="top"><td colspan="2"><strong><?php echo esc_html( $args['heading'] ); ?></strong></td></tr>
+        <tr valign="top">
+            <th scope="row"><?php echo esc_html( $args['subject_label'] ); ?></th>
+            <td><input type="text" name="<?php echo esc_attr( $args['subject_input'] ); ?>" size="80" value="<?php echo esc_attr( wp_unslash( $args['subject_value'] ) ); ?>"></td> 
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php echo esc_html( $args['body_label'] ); ?></th>
+            <td><?php self::do_email_editor( $args ); ?></td>
+        </tr>
+        <tr><td colspan="2"><hr /></td></tr><?php
+	}
+
+	static private function do_email_editor( $args ) {
+		global $wpmem;
+		if ( 1 == $wpmem->email->html ) { 
+			$editor_args = array(
+				'media_buttons' => false,
+				'textarea_rows' => 10,
+			);
+			wp_editor( $args['body_value'], esc_attr( $args['body_input'] ), $editor_args );
+		} else { ?>
+			<textarea name="<?php echo esc_attr( $args['body_input'] ); ?>" rows="12" cols="50" id="" class="large-text code"><?php echo esc_textarea( wp_unslash( $args['body_value'] ) ); ?></textarea>
+        <?php }
+	}
+
+	/**
+	 * Saves custom email settings.
+	 *
+	 * @since 3.1.0
+	 * @since 3.4.0 Moved to emails tab class.
+	 *
+	 * @param array $args Settings array for the email.
+	 */
+	static private function email_update( $args ) {
+		global $wpmem;
+		$settings = array(
+			'subj' => sanitize_text_field( wpmem_get( $args['subject_input'] ) ),
+			'body' => wp_kses( wpmem_get( $args['body_input'] ), 'post' ),
+		);
+		update_option( $args['name'], $settings, true );
+		$wpmem->admin->emails[ $args['name'] ]['subject_value'] = $settings['subj'];
+		$wpmem->admin->emails[ $args['name'] ]['body_value']    = $settings['body'];
+		return;
+	}
 } // End of file.

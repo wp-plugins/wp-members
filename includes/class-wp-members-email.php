@@ -67,6 +67,7 @@ class WP_Members_Email {
 	function load_from() {
 		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
 		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
+		$this->html      = get_option( 'wpmembers_email_html',   '' );
 	}
 	
 	/**
@@ -135,6 +136,11 @@ class WP_Members_Email {
 				$this->settings['tag']  = ( isset( $custom['tag'] ) ) ? $custom['tag'] : '';
 				break;
 		}
+		
+		// wpautop() the content if we are doing HTML email.
+		if ( 1 == $this->html ) {
+			$this->settings['body'] = wpautop( $this->settings['body'] );
+		}
 
 		// Get the user ID.
 		$user = new WP_User( $user_id );
@@ -152,7 +158,7 @@ class WP_Members_Email {
 		$this->settings['reg_link']      = esc_url( get_user_meta( $user_id, 'wpmem_reg_url', true ) );
 		$this->settings['do_shortcodes'] = true;
 		$this->settings['add_footer']    = true;
-		$this->settings['footer']        = get_option( 'wpmembers_email_footer' );
+		$this->settings['footer']        = ( 1 == $this->html ) ? wpautop( get_option( 'wpmembers_email_footer' ) ) : get_option( 'wpmembers_email_footer' );
 		$this->settings['disable']       = false;
 		$this->settings['toggle']        = $this->settings['tag']; // Deprecated since 3.2.0, but remains in the array for legacy reasons.
 		$this->settings['reset_link']    = esc_url_raw( add_query_arg( array( 'a' => 'pwdreset', 'key' => $password, 'id' => $user_id ), wpmem_profile_url() ) );

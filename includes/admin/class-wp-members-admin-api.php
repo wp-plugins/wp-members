@@ -236,44 +236,6 @@ class WP_Members_Admin_API {
 	}
 
 	/**
-	 * Adds custom email dialog to the Emails tab.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @param array $args Settings array for the email.
-	 */
-	function do_email_input( $args ) { ?>
-        <tr valign="top"><td colspan="2"><strong><?php echo esc_html( $args['heading'] ); ?></strong></td></tr>
-        <tr valign="top">
-            <th scope="row"><?php echo esc_html( $args['subject_label'] ); ?></th>
-            <td><input type="text" name="<?php echo esc_attr( $args['subject_input'] ); ?>" size="80" value="<?php echo esc_attr( wp_unslash( $args['subject_value'] ) ); ?>"></td> 
-        </tr>
-        <tr valign="top">
-            <th scope="row"><?php echo esc_html( $args['body_label'] ); ?></th>
-            <td><textarea name="<?php echo esc_attr( $args['body_input'] ); ?>" rows="12" cols="50" id="" class="large-text code"><?php echo esc_textarea( wp_unslash( $args['body_value'] ) ); ?></textarea></td>
-        </tr>
-        <tr><td colspan="2"><hr /></td></tr><?php
-	}
-
-	/**
-	 * Saves custom email settings.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @param array $args Settings array for the email.
-	 */
-	function email_update( $args ) {
-		$settings = array(
-			'subj' => sanitize_text_field( wpmem_get( $args['subject_input'] ) ),
-			'body' => wp_kses( wpmem_get( $args['body_input'] ), 'post' ),
-		);
-		update_option( $args['name'], $settings, true );
-		$this->emails[ $args['name'] ]['subject_value'] = $settings['subj'];
-		$this->emails[ $args['name'] ]['body_value']    = $settings['body'];
-		return;
-	}
-
-	/**
 	 * Handles custom email settings.
 	 *
 	 * @since 3.1.0
