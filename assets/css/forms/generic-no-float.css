@@ -27,23 +27,24 @@ For information how to load custom stylesheets with wp_enqueue_style,
 see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 */
 
-
 /* Error and Dialog Messages */
 
 #wpmem_msg, 
 .wpmem_msg {
+	text-align: center;
 	background: #F9F9F9;
 	border:1px solid lightGrey;
 	border-radius: 3px;
 	padding: 20px 0 0 0;
 }
-#wpmem_msg {
-	width: 100%;
-}
-.wpmem_msg {
-	width: 74%;
-}
 
+/* Messages and forms should (ideally) be the same width */
+#wpmem_msg,
+.wpmem_msg,
+#wpmem_reg, 
+#wpmem_login {
+	width: 75%;
+}
 
 /* Sidebar Login Widget */
 
@@ -76,8 +77,8 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	border-radius: 3px;
 }
 
-
 /* Login Form and Registration Form */
+
 #wpmem_reg, 
 #wpmem_login {
 	color: rgb(43, 43, 43);
@@ -180,7 +181,6 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 #wpmem_reg .div_number,
 #wpmem_reg .div_date,
 #wpmem_reg .div_membership { 
-	width:74%;
 	margin:0 0 14px 0;
 }
 #wpmem_login input[type="checkbox"] {
@@ -222,7 +222,6 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 
 #wpmem_reg .captcha { 
-	width: 74%;
 	margin: 5px 0px; 
 }
 #wpmem_reg .captcha table{
@@ -230,7 +229,6 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 }
 #wpmem_login .link-text {
 	padding: 4px 0;
-	width: 74%;
 	text-align:right;
 }
 
@@ -242,7 +240,6 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 /* Buttons */
 
 #wpmem_reg .button_div, #wpmem_login .button_div {
-	width:74%;
 	/* height:55px; */
 	padding: 6px 0;
 	text-align: right;
