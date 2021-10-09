@@ -137,6 +137,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 = 3.4.0 =
 
 * Rebuilds the lgoin widget functions so there are filter hooks that more closely mimic the main body login filters. Every attempt was made to provide an HTML result that is the same as previous versions, as well as providing support for legacy dialog tags.
+* Rebuilt and revised user export functionality.  Now includes an api function that can be used to customize user exports for a variety of uses.
 
 New Feature Settings:
 * The default password reset process is now the reset link. New installs will automatically have this setting.  Existing installs can change to this by toggling the setting to use the legacy option in Settings > WP-Members > Options > New Features.
@@ -154,9 +155,12 @@ New Feature Settings:
 * HTML email for WP-Members emails can be enabled as an option in the Emails tab.
 
 * Login failed dialog now displays login form below the error. Removed "continue" (return) link from default message.
+* Login failed dialog (#wpmem_msg) text centered in stylesheet instead of applying in the div tag. Best way to customize is using the WP Customizer.
 
 * Updates to export function.
   - deprecated 'export_fields', use 'fields' instead.
+
+* Clone menus is deprecated. The setting remains in place for users who have it enabled.  But if it is not enabled, the setting is no longer available.
   
 New API functions:
 * wpmem_is_reg_form_showing()
@@ -173,6 +177,7 @@ Deprecated functions:
 
 Bug fixes:
 * Fixes a bug in the signon process that causes the "rememberme" option to be ignored.
+* Fixes a bug in wpmem_is_blocked() that returns false when checking a specific post ID.
 
 = 3.3.9 =
 

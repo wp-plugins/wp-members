@@ -84,6 +84,7 @@ class WP_Members_Dialogs {
 			'pwdchg_password1'     => __( 'New password', 'wp-members' ),
 			'pwdchg_password2'     => __( 'Confirm new password', 'wp-members' ),
 			'pwdchg_button'        => __( 'Update Password', 'wp-members' ),
+			'pwdchg_update'        => __( 'Password successfully changed!', 'wp-members' ),
 			
 			// Password reset form.
 			'pwdreset_heading'     => __( 'Reset Forgotten Password', 'wp-members' ),
@@ -125,6 +126,8 @@ class WP_Members_Dialogs {
 			'reg_valid_email'      => __( 'You must enter a valid email address.', 'wp-members' ),
 			'reg_non_alphanumeric' => __( 'The username cannot include non-alphanumeric characters.', 'wp-members' ),
 			'reg_empty_username'   => __( 'Sorry, username is a required field', 'wp-members' ),
+			'reg_username_taken'   => __( 'Sorry, that username is taken, Please try another.', 'wp-members' ),
+			'reg_email_taken'      => __( 'Sorry, that email address already has an account. Please try another.', 'wp-members' ),
 			'reg_password_match'   => __( 'Passwords did not match.', 'wp-members' ),
 			'reg_email_match'      => __( 'Emails did not match.', 'wp-members' ),
 			'reg_empty_captcha'    => __( 'You must complete the CAPTCHA form.', 'wp-members' ),
@@ -132,6 +135,7 @@ class WP_Members_Dialogs {
 			'reg_generic'          => __( 'There was an error processing the form.', 'wp-members' ),
 			'reg_captcha_err'      => __( 'There was an error with the CAPTCHA form.', 'wp-members' ),
 			'reg_file_type'        => __( 'Sorry, you can only upload the following file types for the %s field: %s.', 'wp-members' ),
+			'profile_update'       => __( 'Your information was updated!', 'wp-members' ),
 			
 			// Links.
 			'profile_edit'         => __( 'Edit My Information', 'wp-members' ),
@@ -225,7 +229,7 @@ class WP_Members_Dialogs {
 
 		// Defaults.
 		$defaults = array(
-			'div_before'     => '<div align="center" id="wpmem_msg">',
+			'div_before'     => '<div id="wpmem_msg">',
 			'div_after'      => '</div>', 
 			'heading_before' => '<h2>',
 			'heading'        => wpmem_get_text( 'login_failed_heading' ),

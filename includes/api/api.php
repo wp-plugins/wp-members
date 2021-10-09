@@ -11,22 +11,6 @@
  * @subpackage WP-Members API Functions
  * @author Chad Butler 
  * @copyright 2006-2021
- *
- * Functions included:
- * - wpmem_redirect_to_login
- * - wpmem_is_blocked
- * - wpmem_login_url
- * - wpmem_register_url
- * - wpmem_profile_url
- * - wpmem_current_url
- * - wpmem_current_post_id
- * - wpmem_gettext
- * - wpmem_use_custom_dialog
- * - wpmem_login_status
- * - wpmem_get
- * - wpmem_is_reg_page
- * - wpmem_loginout
- * - wpmem_display_message
  */
 
 // Exit if accessed directly.
