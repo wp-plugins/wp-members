@@ -97,114 +97,112 @@ class WP_Members_Shortcodes {
 
 		// Defaults.
 		$defaults = array(
+			'form'        => '',
 			'redirect_to' => null,
 			'texturize'   => false,
-			'id'          => false,
+			'form_id'     => false,
 		);
 		$atts = wp_parse_args( $atts, $defaults );
 		
-		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
+		$atts['form'] = ( isset( $atts[0] ) ) ? $atts[0] : 'login';
+		unset( $atts[0] );
 		
-		/*
-		 * The [wpmem_form] shortcode requires additional tags (login, register, etc) that
-		 * will be in the $atts array. If $atts is not an array, no additional tags were
-		 * given, so there is nothing to render.
-		 */
-		if ( is_array( $atts ) ) {
+		$customizer = ( is_customize_preview() ) ? get_theme_mod( 'wpmem_show_logged_out_state', false ) : false;
 
-			// If $atts is an array, get the tag from the array so we know what form to render.
-			switch ( $atts ) {
+		// If $atts is an array, get the tag from the array so we know what form to render.
+		switch ( $atts['form'] ) {
 
-				case in_array( 'wp_login', $atts ):
-					$content = wpmem_wp_login_form( $atts );
-					break;
-					
-				case in_array( 'login', $atts ):
-					if ( is_user_logged_in() && '1' != $customizer ) {
-						// If the user is logged in, return any nested content (if any) or the default bullet links if no nested content.
-						$content = ( $content ) ? $content : $this->render_links( 'login' );
-					} else {
-						$content = '';
-						if ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) {
-							$content = $wpmem->dialogs->login_failed();
-						}
-						$content .= wpmem_login_form( array( 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$atts['form_id'] ) );
-					}
-					break;
+			case 'wp_login':
+				$content = wpmem_wp_login_form( $atts );
+				break;
 
-				case in_array( 'register', $atts ):
-					
-					// Set up register form args.
-					$reg_form_args = array( 'tag' => 'new' );
-					if ( isset( $redirect_to ) ) {
-						$reg_form_args['redirect_to'] = $redirect_to;
-					}
-					
-					if ( is_user_logged_in()  && '1' != $customizer ) {
-						/*
-						 * If the user is logged in, return any nested content (if any)
-						 * or the default bullet links if no nested content.
-						 */
-						$content = ( $content ) ? $content : $this->render_links( 'register' );
-					} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
-						$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
-						$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
-						$content .= wpmem_register_form( $reg_form_args );
-					} else {
-						$form_args = array( 'redirect_to'=>$redirect_to, 'form_id'=>$form_id );
-						if ( $wpmem->regchk == 'loginfailed' ) {
-							$content = $wpmem->dialogs->login_failed() . wpmem_login_form( $form_args );
-							break;
-						}
-						// @todo Can this be moved into another function? Should $wpmem get an error message handler?
-						if ( $wpmem->regchk == 'captcha' ) {
-							global $wpmem_captcha_err;
-							$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
-						}
-						$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
-						$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form( $form_args ) : wpmem_register_form( $reg_form_args );
-					}
-					break;
+			case 'register':
 
-				case in_array( 'password', $atts ):
-					$content = $this->render_pwd_reset( $wpmem->regchk, $content );
-					break;
-
-				case in_array( 'user_edit', $atts ):
-					$content = $this->render_user_edit( $wpmem->regchk, $content, $atts );
-					break;
-
-				case in_array( 'forgot_username', $atts ):
-					$content = $this->render_forgot_username( $wpmem->regchk, $content );
-					break;
-					
-				case in_array( 'customizer_login', $atts ):
-					$content = wpmem_login_form( array( 'redirect_to'=>$redirect_to, 'form_id'=>$form_id ) );
-					break;
-					
-				case in_array( 'customizer_register', $atts ):
-					$content = wpmem_register_form( 'new', $redirect_to );
-					break;
-
-			}
-
-			/*
-			 * This is for texturizing. Need to work it into an argument in the function call as to whether the 
-			 * [wpmem_txt] shortcode is even included.  @todo - Is this a temporary solution or is there something
-			 * cleaner that can be worked out?
-			 */
-			if ( 1 == $wpmem->texturize ) {
-				if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
-					$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
+				// Set up register form args.
+				$reg_form_args = array( 'tag' => 'new' );
+				if ( isset( $redirect_to ) ) {
+					$reg_form_args['redirect_to'] = $redirect_to;
 				}
-				if ( strstr( $content, '[wpmem_txt]' ) ) {
-					// Fixes the wptexturize.
-					remove_filter( 'the_content', 'wpautop' );
-					remove_filter( 'the_content', 'wptexturize' );
-					add_filter( 'the_content', array( 'WP_Members', 'texturize' ), 999 );
+
+				if ( is_user_logged_in()  && '1' != $customizer ) {
+					/*
+					 * If the user is logged in, return any nested content (if any)
+					 * or the default bullet links if no nested content.
+					 */
+					$content = ( $content ) ? $content : $this->render_links( 'register' );
+				} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
+					$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
+					$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+					$content .= wpmem_register_form( $reg_form_args );
+				} else {
+					if ( $wpmem->regchk == 'loginfailed' ) {
+						$content = $wpmem->dialogs->login_failed() . wpmem_login_form();
+						break;
+					}
+					// @todo Can this be moved into another function? Should $wpmem get an error message handler?
+					if ( $wpmem->regchk == 'captcha' ) {
+						global $wpmem_captcha_err;
+						$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
+					}
+					$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
+					$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form() : wpmem_register_form( $reg_form_args );
 				}
-			} // End texturize functions
+				break;
+
+			case 'password':
+				$content = $this->render_pwd_reset( $wpmem->regchk, $content );
+				break;
+
+			case 'user_edit':
+				$content = $this->render_user_edit( $wpmem->regchk, $content, $atts );
+				break;
+
+			case 'forgot_username':
+				$content = $this->render_forgot_username( $wpmem->regchk, $content );
+				break;
+
+			case 'customizer_login':
+				$content = wpmem_login_form();
+				break;
+
+			case 'customizer_register':
+				$content = wpmem_register_form( 'new' );
+				break;
+				
+			case 'login':
+			default:
+				if ( is_user_logged_in() && '1' != $customizer ) {
+					// If the user is logged in, return any nested content (if any) or the default bullet links if no nested content.
+					$content = ( $content ) ? $content : $this->render_links( 'login' );
+				} else {
+					$content = '';
+					if ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) {
+						$content = $wpmem->dialogs->login_failed();
+					}
+					$form_id = ( $atts['form_id'] ) ? $atts['form_id'] : 'wpmem_login_form';
+					$content .= wpmem_login_form( array( 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$form_id ) );
+				}
+				break;
+
 		}
+
+		/*
+		 * This is for texturizing. Need to work it into an argument in the function call as to whether the 
+		 * [wpmem_txt] shortcode is even included.  @todo - Is this a temporary solution or is there something
+		 * cleaner that can be worked out?
+		 */
+		if ( 1 == $wpmem->texturize ) {
+			if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
+				$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
+			}
+			if ( strstr( $content, '[wpmem_txt]' ) ) {
+				// Fixes the wptexturize.
+				remove_filter( 'the_content', 'wpautop' );
+				remove_filter( 'the_content', 'wptexturize' );
+				add_filter( 'the_content', array( 'WP_Members', 'texturize' ), 999 );
+			}
+		} // End texturize functions
+
 		return do_shortcode( $content );
 	}
 
@@ -516,7 +514,7 @@ class WP_Members_Shortcodes {
 
 			} else {
 
-				$content = $content . wpmem_login_form( 'members' );
+				$content = $content . wpmem_login_form( 'profile' );
 				$content = ( ! $hide_register ) ? $content . wpmem_register_form() : $content;
 			}
 		}
@@ -1180,6 +1178,10 @@ class WP_Members_Shortcodes {
 		}
 
 		return $str;
+	}
+	
+	function render_links_filter_args( $page, $args ) {
+		
 	}
 }
 
