@@ -6,6 +6,7 @@
  * @subpackage WP_Members Clone Menus Object Class
  * @since 3.2.0
  * @since 3.3.0 Renamed WP_Members_Clone_Menus
+ * @deprecated 3.4.0 No longer supported.
  */
 
 // Exit if accessed directly.

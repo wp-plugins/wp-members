@@ -213,7 +213,10 @@ class WP_Members_Admin_Tab_Options {
 									array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
 									//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_dir),'dropins'),
 								);
-								foreach ( $rows as $row ) { ?>
+								foreach ( $rows as $row ) { 
+									if ( $row[0] == __('Clone menus','wp-members') && 1 != $wpmem->clone_menus ) {
+										continue;
+									}?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
 									<?php echo wpmem_form_field( $row[1], 'checkbox', '1', $wpmem->{$row[3]} ); ?>&nbsp;&nbsp;
