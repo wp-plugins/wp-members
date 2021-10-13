@@ -594,7 +594,6 @@ class WP_Members_Shortcodes {
 
 			global $wpmem;
 			$fields = wpmem_fields();
-			//$field_type = ( isset( $fields[ $field ]['type'] ) ) ? $fields[ $field ]['type'] : 'native'; // @todo Is this needed? It seems to set the type to "native" if not set.
 
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
@@ -1060,8 +1059,8 @@ class WP_Members_Shortcodes {
 
 			case 'login':
 
-				$logout = urldecode( $logout ); // @todo Resolves sprintf issue if url is encoded.
-				// NOTE: DO NOT EDIT. Use the filter below.
+				$logout = urldecode( $logout );
+				// NOTE: DO NOT EDIT THESE. Use the filter hook below.
 				$args = array(
 					'wrapper_before' => '<p class="login_status">',
 					'wrapper_after'  => '</p>',

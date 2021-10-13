@@ -47,11 +47,11 @@ class WP_Members_User {
 		add_action( 'wpmem_after_init', array( $this, 'load_user_products' ) );
 		
 		add_action( 'user_register', array( $this, 'set_reg_type'            ), 1 );
-		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 ); // @todo This needs rigorous testing, especially front end processing such as WC.
+		add_action( 'user_register', array( $this, 'register_finalize'       ), 5 );
 		add_action( 'user_register', array( $this, 'post_register_data'      ), 9 ); // Changed this to 9 so custom user meta is saved before the default (10) priority.
 		add_action( 'user_register', array( $this, 'set_user_exp'            ), 25 );
-		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.
-		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 25 ); // @todo This needs rigorous testing for integration with WC or WP native.register_email_to_admin
+		add_action( 'user_register', array( $this, 'register_email_to_user'  ), 25 );
+		add_action( 'user_register', array( $this, 'register_email_to_admin' ), 25 );
 		
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ), 20 ); // Adds a nonce to the redirect if there is a "redirect_to" attribute in the reg form.
 		

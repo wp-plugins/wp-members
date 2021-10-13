@@ -367,7 +367,6 @@ class WP_Members_Email {
 						} else {
 							$val = ( is_array( $field_data ) ) ? esc_html( $field_data[ $meta_key ] ) : esc_html( get_user_meta( $user_id, $meta_key, true ) );
 						}
-						// $field_arr[ $field['label'] ] = $val; // @todo Consider (1) if this should be implemented, and (2) if it should be done here or location "B".
 						$field_arr[ __( $field['label'], 'wp-members' ) ] = $val;
 					}
 				}
@@ -437,8 +436,6 @@ class WP_Members_Email {
 			$field_str = '';
 			foreach ( $this->settings['field_arr'] as $key => $val ) {
 				$field_str.= $key . ': ' . $val . "\r\n"; 
-				// @todo Location "B" to to label translation. Could be as follows:
-				// $field_str.= __( $key, 'wp-members' ) . ": " . $val . "\r\n";
 			}
 
 			// Get the email footer if needed.
@@ -502,12 +499,6 @@ class WP_Members_Email {
 
 			/**
 			 * Filters the admin notification email.
-			 *
-			 * This is the last chance to filter the message body. At this point
-			 * it is just the text that will be in the message.
-			 * @todo Consider deprecating this filter as it could be accomplished
-			 *       by the wp_mail filter, or a universal filter could be added
-			 *       to the new email send function.
 			 *
 			 * @since 2.8.2
 			 *

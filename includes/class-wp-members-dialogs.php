@@ -224,6 +224,8 @@ class WP_Members_Dialogs {
 	 * @since 1.8
 	 * @since 3.4.0 Removed "continue" (return) link (login form now displays by default under the error message).
 	 *
+	 * @todo 3.5.0 will fold this into the main message function and this functions associated filters will be obsolete.
+	 *
 	 * @global object $wpmem The WP_Members object.
 	 * @return string $str   The generated html for the login failed message.
 	 */
@@ -247,6 +249,7 @@ class WP_Members_Dialogs {
 		 *
 		 * @since 2.9.0
 		 * @since 3.3.3 Should pass defaults to filter.
+		 * @deprecated 3.4.0
 		 *
 		 * @param array An array of arguments to merge with defaults.
 		 */
@@ -299,6 +302,7 @@ class WP_Members_Dialogs {
 		 *
 		 * @since 2.9.0
 		 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
+		 * @todo Obsolete in 3.5.0
 		 *
 		 * @param array An array of arguments to merge with defaults.
 		 */
@@ -327,6 +331,7 @@ class WP_Members_Dialogs {
 		 * @since 2.9.2
 		 * @since 3.1.1 added $dialogs parameter.
 		 * @deprecated 3.3.0 Use wpmem_msg_defaults instead.
+		 * @todo Obsolete in 3.5.0
 		 *
 		 * @param array  $defaults An array of the defaults.
 		 * @param string $tag      The tag that we are on, if any.
