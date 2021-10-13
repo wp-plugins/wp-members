@@ -920,28 +920,11 @@ class WP_Members {
 		// Block/unblock Posts.
 		if ( ! is_user_logged_in() && true == $this->is_blocked() ) {
 
-			//Show the login and registration forms.
+			// If there is a regchk action, show the login and/or registration forms.
 			if ( $this->regchk ) {
 
-				// Empty content in any of these scenarios.
-				$content = '';
-
-				switch ( $this->regchk ) {
-
-				case "loginfailed":
-					$content = $this->dialogs->login_failed();
-					break;
-
-				case "success":
-					$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
-					$content = $content . wpmem_login_form();
-					break;
-
-				default:
-					$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
-					$content = $content . wpmem_register_form();
-					break;
-				}
+				$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
+				$content .= ( 'loginfailed' == $this->regchk || 'success' == $this->regchk ) ? wpmem_login_form() : wpmem_register_form();
 
 			} else {
 
@@ -954,6 +937,7 @@ class WP_Members {
 
 				} elseif ( isset( $this->show_excerpt[ $post->post_type ] ) && 1 == $this->show_excerpt[ $post->post_type ] ) {
 
+					// @todo Can this be condensed or eliminated?
 					$len = strpos( $content, '<span id="more' );
 					if ( false === $len ) {
 						$content = wpmem_do_excerpt( $content );
@@ -968,6 +952,7 @@ class WP_Members {
 
 				}
 				
+				// Build up default view based on settings.
 				$content = $content . wpmem_restricted_message();
 				$content = ( isset( $this->show_login[ $post->post_type ] ) && 1 == $this->show_login[ $post->post_type ] ) ? $content . wpmem_login_form()    : $content;
 				$content = ( isset( $this->show_reg[   $post->post_type ] ) && 1 == $this->show_reg[   $post->post_type ] ) ? $content . wpmem_register_form() : $content;

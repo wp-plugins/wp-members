@@ -445,10 +445,6 @@ class WP_Members_Shortcodes {
 			$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
 		}
 
-		if ( $wpmem->regchk == "loginfailed" ) {
-			return $wpmem->dialogs->login_failed();
-		}
-
 		if ( is_user_logged_in() ) {
 
 			switch( $wpmem->action ) {
@@ -489,21 +485,11 @@ class WP_Members_Shortcodes {
 
 		} else {
 
-			if ( $wpmem->action == 'register' && ! $hide_register ) {
-
-				switch( $wpmem->regchk ) {
-
-				case "success":
-					$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_login_form();
-					break;
-
-				default:
-					$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
-					$content = $content . wpmem_register_form();
-					break;
-				}
-
+			if (  ( 'login' == $wpmem->action ) || ( 'register' == $wpmem->action && ! $hide_register ) ) {
+				
+ 				$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+				$content.= ( 'loginfailed' == $wpmem->regchk || 'success' == $wpmem->regchk ) ? wpmem_login_form() : wpmem_register_form();
+				
 			} elseif ( $wpmem->action == 'pwdreset' ) {
 
 				$content = $this->render_pwd_reset( $wpmem->regchk, $content );
