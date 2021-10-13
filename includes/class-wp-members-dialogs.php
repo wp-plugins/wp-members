@@ -116,9 +116,9 @@ class WP_Members_Dialogs {
 			'profile_upload'       => __( 'Update this file', 'wp-members' ),
 			
 			// Error messages and dialogs.
-			'login_failed_heading' => __( 'Login Failed!', 'wp-members' ),
+			'login_failed_heading' => __( 'Login Failed!', 'wp-members' ), // @deprecated 3.4.0
 			'login_failed'         => __( 'You entered an invalid username or password.', 'wp-members' ),
-			'login_failed_link'    => __( 'Click here to continue.', 'wp-members' ),
+			'login_failed_link'    => __( 'Click here to continue.', 'wp-members' ), // @deprecated 3.4.0
 			'pwdchangempty'        => __( 'Password fields cannot be empty', 'wp-members' ),
 			'usernamefailed'       => __( 'Sorry, that email address was not found.', 'wp-members' ),
 			'usernamesuccess'      => __( 'An email was sent to %s with your username.', 'wp-members' ),
@@ -153,6 +153,7 @@ class WP_Members_Dialogs {
 			'widget_status'         => __( 'You are logged in as %s', 'wp-members' ),
 			'widget_logout'         => __( 'click here to log out', 'wp-members' ),
 			'widget_login_failed'   => __( 'Login Failed!<br />You entered an invalid username or password.', 'wp-members' ),
+			'widget_login_failed_new' => __( 'Invalid username or password.', 'wp-members' ), // @todo New string replacement. Replace widget_login_failed when translated.
 			'widget_not_logged_in'  => '',
 			'widget_login_username' => __( 'Username or Email', 'wp-members' ),
 			'widget_login_password' => __( 'Password', 'wp-members' ),
@@ -170,10 +171,11 @@ class WP_Members_Dialogs {
 			'editsuccess'          => __( "Your information was updated!", 'wp-members' ),
 			
 			// @todo These are defaults and are under consideration for removal from the dialogs tab, possibly as we change the password reset to a link based process.
-			'pwdchangerr'          => __( "Passwords did not match.<br /><br />Please try again.", 'wp-members' ),
-			'pwdchangesuccess'     => __( "Password successfully changed!", 'wp-members' ),
-			'pwdreseterr'          => __( "Either the username or email address do not exist in our records.", 'wp-members' ),
-			'pwdresetsuccess'      => __( "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
+			'pwdchangerr'          => __( "Passwords did not match.", 'wp-members' ),
+			'pwdchangesuccess'     => __( "Password successfully changed.", 'wp-members' ),
+			'pwdreseterr'          => __( "Invalid username or email address.", 'wp-members' ),
+			'pwdresetsuccess'      => __( "Password successfully reset! An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
+			'pwdresetsuccess_alt'  => __( "Reset request received. An email with instructions to complete the password reset has been sent.", 'wp-members' ),
 			
 			'product_restricted_single'    => __( "This content requires the following membership: ", 'wp-members' ),
 			'product_restricted_multiple'  => __( "This content requires one of the following memberships: ", 'wp-members' ),
