@@ -1394,18 +1394,15 @@ class WP_Members_Forms {
 		 */
 		$rows = apply_filters( 'wpmem_register_form_rows', $rows, $tag );
 		
-		// Make sure all keys are set just in case someone didn't return a proper array through the filter.
-		// @todo Merge this with the next foreach loop so we only have to foreach one time.
-		$row_keys = array( 'meta', 'type', 'value', 'values', 'label_text', 'row_before', 'label', 'field_before', 'field', 'field_after', 'row_after' );
-		foreach ( $rows as $meta_key => $row ) {
-			foreach ( $row_keys as $check_key ) {
-				$rows[ $meta_key ][ $check_key ] = ( isset( $rows[ $meta_key ][ $check_key ] ) ) ? $rows[ $meta_key ][ $check_key ] : '';
-			}
-		}
-
 		// Put the rows from the array into $form.
 		$form = ''; $enctype = '';
-		foreach ( $rows as $row_item ) {
+		foreach ( $rows as $meta_key => $row_item ) {
+			// Make sure all keys are set just in case someone didn't return a proper array through the filter.
+			foreach ( $this->get_reg_row_keys as $check_key ) {
+				if ( ! isset( $rows[ $meta_key ][ $check_key ] ) ) {
+					$rows[ $meta_key ][ $check_key ] = '';
+				}
+			}
 			// Check form to see if we need multipart enctype.
 			$enctype = ( $row_item['type'] == 'file' ||  $row_item['type'] == 'image' ) ? "multipart/form-data" : $enctype;
 			// Assemble row pieces.
@@ -2242,5 +2239,9 @@ class WP_Members_Forms {
 		}
 		
 		return sprintf( $tos_link_text, $tos_link_tag, '</a>' );
+	}
+	
+	function get_reg_row_keys() {
+		return array( 'meta', 'type', 'value', 'values', 'label_text', 'row_before', 'label', 'field_before', 'field', 'field_after', 'row_after' );
 	}
 } // End of WP_Members_Forms class.
