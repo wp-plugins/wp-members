@@ -231,14 +231,14 @@ class WP_Members_Dialogs {
 
 		// Defaults.
 		$defaults = array(
-			'div_before'     => '<div id="wpmem_msg">',
-			'div_after'      => '</div>', 
-			'heading_before' => '<h2>',
-			'heading'        => wpmem_get_text( 'login_failed_heading' ),
-			'heading_after'  => '</h2>',
-			'p_before'       => '<p>',
+			'div_before'     => '',
+			'div_after'      => '', 
+			'heading_before' => '',
+			'heading'        => '', //wpmem_get_text( 'login_failed_heading' ),
+			'heading_after'  => '',
+			'p_before'       => '',
 			'message'        => wpmem_get_text( 'login_failed' ), // @todo $this->error
-			'p_after'        => '</p>',
+			'p_after'        => '',
 			//'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . wpmem_get_text( 'login_failed_link' ) . '</a>',
 		);
 
@@ -315,7 +315,10 @@ class WP_Members_Dialogs {
 				$msg = wpmem_get_text( $tag );
 				$msg = ( $dialogs[ $tag ] == $msg ) ? $msg : __( stripslashes( $dialogs[ $tag ] ), 'wp-members' );
 			}
+		} elseif ( 'loginfailed' == $tag ) {
+			$msg = $this->login_failed();
 		}
+		
 		$defaults['msg'] = $msg;
 
 		/**
