@@ -231,8 +231,8 @@ class WP_Members_Products {
 				 * }
 				 */
 				$product_restricted = apply_filters( 'wpmem_product_restricted_args', array(
-					'wrapper_before' => '<div class="wpmem_msg" align="center">',
-					'message'        => '<p>' . $message . '</p>',
+					'wrapper_before' => '<div class="wpmem_msg">',
+					'message'        => $message,
 					'wrapper_after'  => '</div>',
 				), $post_products );
 				

@@ -277,10 +277,10 @@ class WP_Members_Dialogs {
 
 		// defaults
 		$defaults = array(
-			'div_before' => '<div class="wpmem_msg" align="center">',
+			'div_before' => '<div class="wpmem_msg">',
 			'div_after'  => '</div>', 
-			'p_before'   => '<p>',
-			'p_after'    => '</p>',
+			'p_before'   => '', // @deprecated 3.4.0
+			'p_after'    => '', // @deprecated 3.4.0
 			'tags'       => array(
 				'user',
 				'email',
@@ -356,7 +356,7 @@ class WP_Members_Dialogs {
 		// @todo Temporary(?) workaround for custom dialogs as an array (WP-Members Security).
 		$display_msg = ( is_array( $args['msg'] ) ) ? $args['msg']['value'] : $args['msg'];
 
-		$str = $args['div_before'] . $args['p_before'] . stripslashes( $display_msg ) . $args['p_after'] . $args['div_after'];
+		$str = $args['div_before'] . stripslashes( $display_msg ) . $args['div_after'];
 
 		/**
 		 * Filter the message.
