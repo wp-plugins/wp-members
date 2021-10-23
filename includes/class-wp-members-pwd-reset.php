@@ -249,7 +249,6 @@ class WP_Members_Pwd_Reset {
 			/** This action is documented in /includes/class-wp-members-user.php */
 			do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
 			$wpmem->action = 'pwdreset_link';
-			global $wpmem_regchk;
 			$wpmem->regchk = 'pwdresetsuccess';
 			return "pwdresetsuccess";
 		}
