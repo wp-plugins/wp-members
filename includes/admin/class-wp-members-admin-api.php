@@ -116,8 +116,9 @@ class WP_Members_Admin_API {
 		global $wpmem;
 		
 		add_action( 'admin_enqueue_scripts',          array( $this, 'dashboard_enqueue_scripts' ) );
-		add_action( 'user_new_form',                  'wpmem_admin_add_new_user' );
 		add_filter( 'plugin_action_links',            array( $this, 'plugin_links' ), 10, 2 );
+		
+		add_action( 'user_new_form',                  array( $wpmem->forms, 'wp_newuser_form' ) );
 		// add_filter( 'wpmem_admin_tabs',              'wpmem_add_about_tab'       );
 		
 		add_action( 'wp_ajax_wpmem_do_field_reorder',  array( 'WP_Members_Admin_Tab_Fields', 'do_field_reorder' ) );
