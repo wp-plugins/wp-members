@@ -149,6 +149,7 @@ New Feature Settings:
 
 * Improved redirect_to handling in login and register forms.  Can now specify a page by slug alone in the shortcode param for portability.
 * Improved Google reCAPTCHA v3 ("invisible captcha") to optionally display on all pages (recommended by Google to improve user "score").
+* Improved forms display in Customizer, now can view forms on blocked content (not just shortcode pages).
 
 * Membership products now support hierarchy. This can be used for "levels" or for multiple expiration periods yet still only have to assign one membership to content for all child memberships.
 
