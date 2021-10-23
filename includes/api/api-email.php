@@ -41,6 +41,19 @@ function wpmem_mail_from_name() {
 	return $wpmem->email->from_name;
 }
 
+/** 
+ * Returns the wp_mail content type (if set).
+ *
+ * @since 3.4.0
+ *
+ * @global object $wpmem
+ * @return string $wpmem_mail_content_type
+ */
+function wpmem_mail_content_type() {
+	global $wpmem;
+	return $wpmem->email->content_type();
+}
+
 /**
  * Builds emails for the user.
  *
