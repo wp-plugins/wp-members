@@ -308,7 +308,7 @@ class WP_Members_Email {
 	 * @param  array  $wpmem_fields         Array of the WP-Members fields (defaults to null).
 	 * @param  array  $field_data           Array of the registration data (defaults to null).
 	 */
-	function notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
+	public function notify_admin( $user_id, $wpmem_fields = null, $field_data = null ) {
 
 		global $wpmem;
 
@@ -521,7 +521,7 @@ class WP_Members_Email {
 	 * @param  string $email
 	 * @return string $wpmem_mail_from|$email
 	 */
-	function from( $email ) {
+	public function from( $email ) {
 		return ( $this->from ) ? $this->from : $email;
 	}
 
@@ -535,7 +535,7 @@ class WP_Members_Email {
 	 * @param  string $name
 	 * @return string $wpmem_mail_from_name|$name
 	 */
-	function from_name( $name ) {
+	public function from_name( $name ) {
 		return ( $this->from_name ) ? stripslashes( $this->from_name ) : stripslashes( $name );
 	}
 	
@@ -546,7 +546,7 @@ class WP_Members_Email {
 	 *
 	 * @return string Always returns "text/html"
 	 */
-	function content_type( $content_type ) {
+	public function content_type( $content_type ) {
 		return ( 1 == $this->html ) ? 'text/html' : $content_type;
 	}
 
@@ -558,7 +558,7 @@ class WP_Members_Email {
 	 * @param  string  $to
 	 * @return bool    $result
 	 */
-	function send( $to ) {
+	private function send( $to ) {
 		$args['to'] = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
 		$args['subject'] = $this->settings['subj'];
 		$args['message'] = $this->settings['body'];
