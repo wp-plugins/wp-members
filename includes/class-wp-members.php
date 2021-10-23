@@ -985,13 +985,6 @@ class WP_Members {
 		 */
 		$content = apply_filters( 'wpmem_securify', $content, $orig_content );
 
-		if ( 1 == $this->texturize && strstr( $content, '[wpmem_txt]' ) ) {
-			// Fix the wptexturize.
-			remove_filter( 'the_content', 'wpautop' );
-			remove_filter( 'the_content', 'wptexturize' );
-			add_filter( 'the_content', array( $this, 'texturize' ), 999 );
-		}
-
 		return $content;
 		
 	}
