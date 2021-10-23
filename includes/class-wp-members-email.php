@@ -64,7 +64,7 @@ class WP_Members_Email {
 	 *
 	 * @since 3.3.0
 	 */
-	function load_from() {
+	public function load_from() {
 		$this->from      = get_option( 'wpmembers_email_wpfrom', '' );
 		$this->from_name = get_option( 'wpmembers_email_wpname', '' );
 		$this->html      = get_option( 'wpmembers_email_html',   '' );
@@ -75,8 +75,8 @@ class WP_Members_Email {
 	 *
 	 * @since 3.4.0
 	 */
-	function load_format() {
-		$this->html      = get_option( 'wpmembers_email_html',   0  );
+	private function load_format() {
+		$this->html = get_option( 'wpmembers_email_html', 0 );
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class WP_Members_Email {
 	 * @param  array  $fields               Array of the registration data (defaults to null).
 	 * @param  array  $custom               Array of custom email information (defaults to null).
 	 */
-	function to_user( $user_id, $password, $tag, $wpmem_fields = null, $field_data = null, $custom = null ) {
+	public function to_user( $user_id, $password, $tag, $wpmem_fields = null, $field_data = null, $custom = null ) {
 
 		global $wpmem;
 		
