@@ -957,20 +957,35 @@ class WP_Members {
 				$content = ( isset( $this->show_login[ $post->post_type ] ) && 1 == $this->show_login[ $post->post_type ] ) ? $content . wpmem_login_form()    : $content;
 				$content = ( isset( $this->show_reg[   $post->post_type ] ) && 1 == $this->show_reg[   $post->post_type ] ) ? $content . wpmem_register_form() : $content;
 			}
-
+			
 		// Protects comments if expiration module is used and user is expired.
 		} elseif ( is_user_logged_in() && true == $this->is_blocked() ) {
+			
+			if ( is_customize_preview() ) {
+			
+				if ( get_theme_mod( 'wpmem_show_logged_out_state', false ) ) {
+					$content = '';
+					if ( get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
+						$content = $this->dialogs->login_failed();
+					} else {
+						$content = wpmem_restricted_message();
+					}
+					$content = ( isset( $this->show_login[ $post->post_type ] ) && 1 == $this->show_login[ $post->post_type ] ) ? $content . wpmem_login_form()    : $content;
+					$content = ( isset( $this->show_reg[   $post->post_type ] ) && 1 == $this->show_reg[   $post->post_type ] ) ? $content . wpmem_register_form() : $content;
+				}
+			} else {
 
-			if ( 1 == $this->use_exp && function_exists( 'wpmem_do_expmessage' ) ) {
-				/**
-				 * Filters the user expired message used by the PayPal extension.
-				 *
-				 * @since 3.2.0
-				 *
-				 * @param string $message
-				 * @param string $content
-				 */
-				$content = apply_filters( 'wpmem_do_expmessage', wpmem_do_expmessage( $content ), $content );
+				if ( 1 == $this->use_exp && function_exists( 'wpmem_do_expmessage' ) ) {
+					/**
+					 * Filters the user expired message used by the PayPal extension.
+					 *
+					 * @since 3.2.0
+					 *
+					 * @param string $message
+					 * @param string $content
+					 */
+					$content = apply_filters( 'wpmem_do_expmessage', wpmem_do_expmessage( $content ), $content );
+				}
 			}
 		}
 
