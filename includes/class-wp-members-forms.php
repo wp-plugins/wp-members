@@ -675,8 +675,6 @@ class WP_Members_Forms {
 			'fieldset_after'  => '</fieldset>',
 			'main_div_before' => '<div id="wpmem_login">',
 			'main_div_after'  => '</div>',
-			'txt_before'      => '',
-			'txt_after'       => '',
 			'row_before'      => '',
 			'row_after'       => '',
 			'buttons_before'  => '<div class="button_div">',
@@ -721,8 +719,6 @@ class WP_Members_Forms {
 		 *     @type string  $fieldset_after    Default: '</fieldset>'
 		 *     @type string  $main_div_before   Default: '<div id="wpmem_login">'
 		 *     @type string  $main_div_after    Default: '</div>'
-		 *     @type string  $txt_before        Default: '' (considered deprecated)
-		 *     @type string  $txt_after         Default: '' (considered deprecated)
 		 *     @type string  $row_before        Default: ''
 		 *     @type string  $row_after         Default: ''
 		 *     @type string  $buttons_before    Default: '<div class="button_div">'
@@ -954,9 +950,6 @@ class WP_Members_Forms {
 		// Apply main wrapper.
 		$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'];
 
-		// Apply wpmem_txt wrapper.
-		$form = $args['txt_before'] . $form . $args['txt_after'];
-
 		// Remove line breaks.
 		$form = ( $args['strip_breaks'] ) ? str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;
 
@@ -998,7 +991,6 @@ class WP_Members_Forms {
 	 * @since 3.3.3 Image field type now shows the preview image when "choose file" is clicked.
 	 *
 	 * @global object $wpmem        The WP_Members object.
-	 * @global string $wpmem_regchk Used to determine if the form is in an error state.
 	 * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
 	 * @param  mixed  $mixed        (optional) String toggles between new registration ('new') and user profile edit ('edit'), or array containing settings arguments.
 	 * @return string $form         The HTML for the entire form as a string.
@@ -1024,7 +1016,7 @@ class WP_Members_Forms {
 			$tag = $mixed;
 		}
 
-		global $wpmem, $wpmem_regchk, $userdata; 
+		global $wpmem, $userdata; 
 
 		// Set up default wrappers.
 		$defaults = array(
@@ -1036,8 +1028,6 @@ class WP_Members_Forms {
 			'fieldset_after'   => '</fieldset>',
 			'main_div_before'  => '<div id="wpmem_reg">',
 			'main_div_after'   => '</div>',
-			'txt_before'       => '',
-			'txt_after'        => '',
 			'row_before'       => '',
 			'row_after'        => '',
 			'buttons_before'   => '<div class="button_div">',
@@ -1558,9 +1548,6 @@ class WP_Members_Forms {
 
 		// Apply main div wrapper.
 		$form = $args['main_div_before'] . $args['n'] . $form . $args['n'] . $args['main_div_after'] . $args['n'];
-
-		// Apply wpmem_txt wrapper.
-		$form = $args['txt_before'] . $form . $args['txt_after'];
 
 		// Remove line breaks if enabled for easier filtering later.
 		$form = ( $args['strip_breaks'] ) ? $this->strip_breaks( $form, $rows ) : $form; //str_replace( array( "\n", "\r", "\t" ), array( '','','' ), $form ) : $form;

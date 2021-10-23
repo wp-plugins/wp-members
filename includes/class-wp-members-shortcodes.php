@@ -186,23 +186,6 @@ class WP_Members_Shortcodes {
 
 		}
 
-		/*
-		 * This is for texturizing. Need to work it into an argument in the function call as to whether the 
-		 * [wpmem_txt] shortcode is even included.  @todo - Is this a temporary solution or is there something
-		 * cleaner that can be worked out?
-		 */
-		if ( 1 == $wpmem->texturize ) {
-			if ( array_key_exists( 'texturize', $atts ) && $atts['texturize'] == 'false' ) { 
-				$content = str_replace( array( '[wpmem_txt]', '[/wpmem_txt]' ), array( '', '' ), $content );
-			}
-			if ( strstr( $content, '[wpmem_txt]' ) ) {
-				// Fixes the wptexturize.
-				remove_filter( 'the_content', 'wpautop' );
-				remove_filter( 'the_content', 'wptexturize' );
-				add_filter( 'the_content', array( 'WP_Members', 'texturize' ), 999 );
-			}
-		} // End texturize functions
-
 		return do_shortcode( $content );
 	}
 

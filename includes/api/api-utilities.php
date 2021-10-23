@@ -134,6 +134,7 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  *
  * @since 2.6.4
  * @since 3.2.3 Now an alias for WP_Members::texturize().
+ * @deprecated 3.4.0. No replacement available.
  *
  * @todo Possibly deprecate or severely alter this process as its need may be obsolete.
  *
@@ -143,7 +144,8 @@ if ( ! function_exists( 'wpmem_texturize' ) ):
  */
 function wpmem_texturize( $content ) {
 	global $wpmem;
-	return $wpmem->texturize( $content );
+	//return $wpmem->texturize( $content );
+	return $content;
 }
 endif;
 
