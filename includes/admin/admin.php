@@ -112,21 +112,6 @@ function wpmem_admin_action( $action ) {
 	return $did_update;
 }
 
-
-/**
- * Adds WP-Members custom fields to the WP Add New User form.
- *
- * @since 2.9.1
- *
- * @global stdClass $wpmem
- */
-function wpmem_admin_add_new_user() {
-	global $wpmem;
-	// Output the custom registration fields.
-	echo $wpmem->forms->wp_newuser_form();
-	return;
-}
-
 /**
  * Wrapper for WP_Members_Admin_Tab_Options::page_list()
  *

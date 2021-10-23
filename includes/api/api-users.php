@@ -953,4 +953,19 @@ function wpmem_is_user_confirmed( $user_id = false ) {
 	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
 	return ( get_user_meta( $user_id, $wpmem->act_newreg->validation_confirm, true ) ) ? true : false;
 }
+
+/**
+ * Adds WP-Members custom fields to the WP Add New User form.
+ *
+ * @since 2.9.1
+ * @since 3.4.0 Moved from admin.php
+ *
+ * @global stdClass $wpmem
+ */
+function wpmem_admin_add_new_user() {
+	global $wpmem;
+	// Output the custom registration fields.
+	echo $wpmem->forms->wp_newuser_form();
+	return;
+}
 // End of file.
