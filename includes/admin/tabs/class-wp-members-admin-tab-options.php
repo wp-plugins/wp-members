@@ -344,6 +344,13 @@ class WP_Members_Admin_Tab_Options {
 	echo "MySQL Version: " . $wpdb->db_version() . "\r\n";
 	wpmem_fields();
 	print_r( $wpmem );
+	
+	/**
+	 * Action to add before other plugin info.
+	 *
+	 * @since 3.4.0
+	 */
+	do_action( 'wpmem_settings_for_support' );
 
 	echo '***************** Plugin Info *******************' . "\r\n";
 	$all_plugins    = get_plugins();
