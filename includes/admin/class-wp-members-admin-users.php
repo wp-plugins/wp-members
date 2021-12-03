@@ -286,8 +286,8 @@ class WP_Members_Admin_Users {
 		// check to see if data was successfully retrieved from the cache
 		if ( false === $user_counts ) {
 
-			// @todo For now, 30 seconds.  We'll see how things go.
-			$transient_expires = 30; // Value in seconds, 1 day: ( 60 * 60 * 24 );
+			// @todo For now, 5 minutes.  We'll see how things go.
+			$transient_expires = 300; // Value in seconds, 1 day: ( 60 * 60 * 24 );
 
 			global $wpdb;
 
