@@ -1635,7 +1635,7 @@ class WP_Members {
 					}
 
 					if ( true === $do_excerpt ) {
-						$content = wp_trim_words( $content, $args['length'], $args['more_link'] );
+						$content = ( $args['length'] > 0 ) ? wp_trim_words( $content, $args['length'], $args['more_link'] ) : '';
 						// Check if the more link was added (note: singular has no more_link):
 						if ( ! $is_singular && ! strpos( $content, $args['more_link'] ) ) {
 							$content = $content . $args['more_link'];
