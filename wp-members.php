@@ -5,10 +5,10 @@ Plugin URI:  https://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="https://rocketgeek.com/plugins/wp-members/docs/">the online Users Guide</a>. A <a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
 Version:     3.4.0
 Author:      Chad Butler
-Author URI:  http://butlerblog.com/
+Author URI:  https://butlerblog.com/
 Text Domain: wp-members
 Domain Path: /i18n/languages/
-License:     GPLv2
+License:     GPLv3
 */
 
 /*  
@@ -17,7 +17,7 @@ License:     GPLv2
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as
+	it under the terms of the GNU General Public License, version 3, as
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
@@ -36,13 +36,13 @@ License:     GPLv2
 /*
 	A NOTE ABOUT LICENSE:
 
-	While this plugin is freely available and open-source under the GPL2
+	While this plugin is freely available and open-source under the GPL3
 	license, that does not mean it is "public domain." You are free to modify
 	and redistribute as long as you comply with the license. Any derivative 
 	work MUST be GPL licensed and available as open source.  You also MUST give 
 	proper attribution to the original author, copyright holder, and trademark
 	owner.  This means you cannot change two lines of code and claim copyright 
-	of the entire work as your own.  The GPL2 license requires that if you
+	of the entire work as your own.  The GPL3 license requires that if you
 	modify this code, you must clearly indicate what section(s) you have
 	modified and you may only claim copyright of your modifications and not
 	the body of work.  If you are unsure or have questions about how a 

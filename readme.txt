@@ -5,7 +5,7 @@ Requires at least: 4.0
 Tested up to: 5.8
 Stable tag: 3.3.9.3
 
-License: GPLv2
+License: GPLv3
 
 == Description ==
 
@@ -150,6 +150,8 @@ New Feature Settings:
 * Improved redirect_to handling in login and register forms.  Can now specify a page by slug alone in the shortcode param for portability.
 * Improved Google reCAPTCHA v3 ("invisible captcha") to optionally display on all pages (recommended by Google to improve user "score").
 * Improved forms display in Customizer, now can view forms on blocked content (not just shortcode pages).
+* Improved functionality of hidden posts. Now saved in WP settings (options) instead of as a transient.
+* Improved user count transient. Now expires in 5 minutes instead of 30 seconds (will result in fewer loads of the query).
 
 * Membership products now support hierarchy. This can be used for "levels" or for multiple expiration periods yet still only have to assign one membership to content for all child memberships.
 
