@@ -593,3 +593,43 @@ function wpmem_is_reg_form_showing() {
 	global $wpmem;
 	return ( true === $wpmem->reg_form_showing ) ? true : false;
 }
+
+function wpmem_field_display_value( $field, $type, $value, $echo = false ) {
+	$fields = wpmem_fields();
+	/**
+	 * Filter the value.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param  string  $display_value
+	 * @param  string  $field
+	 * @param  string  $type
+	 */
+	$display_value = apply_filters( 'wpmem_' . $type . '_field_display', $fields[ $field ]['options'][ $value ], $field, $type );
+	if ( $echo ) {
+		echo $display_value;
+	} else {
+		return $display_value;
+	}
+}
+
+function wpmem_checkbox_field_display( $field, $value, $echo = false ) {
+	wpmem_field_display_value( $field, 'checkbox', $value, $echo );
+}
+
+function wpmem_select_field_display( $field, $value, $echo = false ) {
+	wpmem_field_display_value( $field, 'select', $value, $echo );
+}
+
+function wpmem_get_user_meta_select( $user_id, $field ) {
+	$value = wpmem_get_user_meta( $user_id, $field );
+	return wpmem_select_field_display( $field, $value );
+}
+
+function wpmem_get_user_meta_radio( $user_id, $field ) {
+	return wpmem_get_user_meta_select( $user_id, $field );
+}
+
+function wpmem_get_user_meta_multi( $user_id, $field ) {
+	
+}

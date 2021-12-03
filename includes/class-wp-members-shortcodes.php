@@ -161,10 +161,12 @@ class WP_Members_Shortcodes {
 				$content = $this->render_forgot_username( $wpmem->regchk, $content );
 				break;
 
+			// @todo Review - is this actually ever triggered?
 			case 'customizer_login':
 				$content = wpmem_login_form();
 				break;
 
+			// @todo Review - is this actually ever triggered?
 			case 'customizer_register':
 				$content = wpmem_register_form( 'new' );
 				break;
@@ -577,7 +579,8 @@ class WP_Members_Shortcodes {
 
 			global $wpmem;
 			$fields = wpmem_fields();
-
+			
+			$field_type = ( 'user_login' == $field ) ? 'text' : $fields[ $field ]['type'];
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
 
@@ -588,7 +591,7 @@ class WP_Members_Shortcodes {
 				case 'select':
 				case 'radio':
 				case 'membership':
-					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : $fields[ $field ]['options'][ $user_info_field ];
+					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : wpmem_select_field_display( $field, $user_info_field );
 					break;
 					
 				// Multiple select and multiple checkbox have multiple selections.
@@ -601,7 +604,7 @@ class WP_Members_Shortcodes {
 						$result = ''; $x = 1;
 						foreach ( $saved_vals as $value ) {
 							$result.= ( $x > 1 ) ? ', ' : ''; $x++;
-							$result.= $fields[ $field ]['options'][ $value ];
+							$result.= wpmem_select_field_display( $field, $value );;
 						}
 					}
 					break;
