@@ -585,13 +585,14 @@ class WP_Members_User_Profile {
 			 */
 			$tabs = apply_filters( 'wpmem_user_profile_tabs', array() ); 
 
-			if ( ! empty( $tabs ) ) { ?>
-				<script>
-					jQuery(document).ready(function($){
-						$("#wpmem_user_profile_tabs").tabs();
-					});
-				</script>
-				<?php
+			if ( ! empty( $tabs ) ) { 
+?>
+<script>
+	jQuery(document).ready(function($){
+		$("#wpmem_user_profile_tabs").tabs();
+	});
+</script>
+<?php
 				echo '<div id="wpmem_user_profile_tabs">';
 				echo '<ul>';
 				foreach ( $tabs as $key => $value ) {
