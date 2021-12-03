@@ -1388,7 +1388,7 @@ class WP_Members_Forms {
 		$form = ''; $enctype = '';
 		foreach ( $rows as $meta_key => $row_item ) {
 			// Make sure all keys are set just in case someone didn't return a proper array through the filter.
-			foreach ( $this->get_reg_row_keys as $check_key ) {
+			foreach ( $this->get_reg_row_keys() as $check_key ) {
 				if ( ! isset( $rows[ $meta_key ][ $check_key ] ) ) {
 					$rows[ $meta_key ][ $check_key ] = '';
 				}
