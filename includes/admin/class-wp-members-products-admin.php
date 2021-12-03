@@ -698,12 +698,16 @@ class WP_Members_Products_Admin {
 			$user_products = wpmem_get_user_products( $user_id );
 			echo '<h3>' . __( 'Membership Access', 'wp-members' ) . '</h3>';
 			if ( ! empty( $wpmem->membership->products ) ) {
+				$expires_heading = "&nbsp;";
+				foreach( $wpmem->membership->products as $key => $value ) {
+					$expires_heading = ( ! empty( $value['expires'] ) ) ? __( 'Expires', 'wp-members' ) : $expires_heading;
+				}
 				echo '<table>
 					<tr>
-						<th>' . __( 'Status',     'wp-members' ) . '</th>
+						<th>' . __( 'Action',     'wp-members' ) . '</th>
 						<th>' . __( 'Membership', 'wp-members' ) . '</th>
 						<th>' . __( 'Enabled?',   'wp-members' ) . '</th>
-						<th>' . __( 'Expires',    'wp-members' ) . '</th>
+						<th>' . $expires_heading . '</th>
 					</tr>'; ?>	
 				<?php
 
@@ -713,8 +717,9 @@ class WP_Members_Products_Admin {
 					echo '<td style="padding:5px 5px;">
 					<select name="_wpmem_membership_product[' . $key . ']">
 						<option value="">----</option>
-						<option value="enable">'  . __( 'Enable', 'wp-members'  ) . '</option>
+						<option value="enable">'  . __( 'Enable',  'wp-members' ) . '</option>
 						<option value="disable">' . __( 'Disable', 'wp-members' ) . '</option>
+						<option value="enable">'  . __( 'Update',  'wp-members' ) . '</option>
 					</select></td><td style="padding:0px 0px;">' . $value['title'] . '</td>';
 
 					// If user has date, display that; otherwise placeholder
