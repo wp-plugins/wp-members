@@ -500,7 +500,7 @@ class WP_Members_Products_Admin {
 			'type' => 'multiselect',
 			'value' => $values,
 			'compare' => $product,
-			'class' => 'wpmem-product-select2',
+			'class' => 'wpmem-product-select2 populate placeholder',
 		) );
 	}
 
@@ -541,7 +541,7 @@ class WP_Members_Products_Admin {
 			<script language="javascript">
 				(function($) {
 					$(document).ready(function() {
-						$('.wpmem-product-select2').select2();
+						$('.wpmem-product-select2').select2({width:"100%"});
 					});
 				})(jQuery);
 			</script><?php
