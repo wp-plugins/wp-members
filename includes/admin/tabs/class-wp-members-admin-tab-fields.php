@@ -156,6 +156,8 @@ class WP_Members_Admin_Tab_Fields {
 		$fields = wpmem_fields();
 		if ( $mode == 'edit' ) {
 			$field = $fields[ $meta_key ];	
+		} else {
+			$field['checkbox_label'] = ''; // fixes unset variable at 308/309 since $field would not be set.
 		}
 		$form_action = ( $mode == 'edit' ) ? 'editfieldform' : 'addfieldform'; 
 		$span_optional = '<span class="description">' . __( '(optional)', 'wp-members' ) . '</span>';
