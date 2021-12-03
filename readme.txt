@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.7
-Stable tag: 3.4.0
+Tested up to: 5.8
+Stable tag: 3.3.9.3
 
 License: GPLv2
 
@@ -110,7 +110,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -136,7 +136,7 @@ WP-Members 3.3.0 is a major update. WP-Members 3.3.8 is an improvement release. 
 
 = 3.4.0 =
 
-* Rebuilds the lgoin widget functions so there are filter hooks that more closely mimic the main body login filters. Every attempt was made to provide an HTML result that is the same as previous versions, as well as providing support for legacy dialog tags.
+* Rebuilds the login widget functions so there are filter hooks that more closely mimic the main body login filters. Every attempt was made to provide an HTML result that is the same as previous versions, as well as providing support for legacy dialog tags.
 * Rebuilt and revised user export functionality.  Now includes an api function that can be used to customize user exports for a variety of uses.
 
 New Feature Settings:
@@ -162,6 +162,8 @@ New Feature Settings:
   - deprecated 'export_fields', use 'fields' instead.
 
 * Clone menus is deprecated. The setting remains in place for users who have it enabled.  But if it is not enabled, the setting is no longer available.
+
+* Expands Customizer functionality so logged out forms show on blocked content (not just shortcodes).
   
 New API functions:
 * wpmem_is_reg_form_showing()
@@ -175,10 +177,12 @@ Deprecated functions:
 * wpmem_page_forgot_username()
 * wpmem_inc_memberlinks()
 * wpmem_gettext() - use wpmem_get_text() instead.
+* $wpmem->texturize()
 
 Bug fixes:
 * Fixes a bug in the signon process that causes the "rememberme" option to be ignored.
 * Fixes a bug in wpmem_is_blocked() that returns false when checking a specific post ID.
+* Fixes a bug in the autoexcerpt function that caused a double "read more" link when excerpt length was set to zero.
 
 = 3.3.9 =
 

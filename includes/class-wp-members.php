@@ -960,9 +960,10 @@ class WP_Members {
 			
 		// Protects comments if expiration module is used and user is expired.
 		} elseif ( is_user_logged_in() && true == $this->is_blocked() ) {
-			
+
+			// Allows for a view of the forms in the Customizer.
 			if ( is_customize_preview() ) {
-			
+
 				if ( get_theme_mod( 'wpmem_show_logged_out_state', false ) ) {
 					$content = '';
 					if ( get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
@@ -975,6 +976,7 @@ class WP_Members {
 				}
 			} else {
 
+				// @todo Test with expired membership.
 				if ( 1 == $this->use_exp && function_exists( 'wpmem_do_expmessage' ) ) {
 					/**
 					 * Filters the user expired message used by the PayPal extension.
