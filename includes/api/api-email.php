@@ -48,11 +48,17 @@ function wpmem_mail_from_name() {
  *
  * @global object $wpmem
  * @return string $wpmem_mail_content_type
+ *
+ * @note Currently checks for existing function. Advanced Options set up for
+ *       backward compatibility could potentially load first if wp-members directory
+ *       is named something other than "wp-members".
  */
+if ( ! function_exists( 'wpmem_mail_content_type' ) ):
 function wpmem_mail_content_type() {
 	global $wpmem;
 	return $wpmem->email->content_type();
 }
+endif;
 
 /**
  * Builds emails for the user.
