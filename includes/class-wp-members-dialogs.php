@@ -321,8 +321,11 @@ class WP_Members_Dialogs {
 			}
 		} elseif ( 'loginfailed' == $tag ) {
 			$msg = $this->login_failed();
+		} else {
+			// It must be a custom message ("custom" in that it is not included in the dialogs array).
+			$msg = $tag;
 		}
-		
+	
 		$defaults['msg'] = $msg;
 
 		/**
