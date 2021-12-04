@@ -1,4 +1,34 @@
 <?php
+/**
+ * This file is part of the RocketGeek Utility Functions library.
+ *
+ * This library is open source and Apache-2.0 licensed. I hope you find it useful
+ * for your project(s). Attribution is appreciated ;-)
+ *
+ * @package    RocketGeek_Utilities
+ * @subpackage RocketGeek_Utilities_Utilities
+ * @version    1.0.0
+ *
+ * @link       https://github.com/rocketgeek/rocketgeek-utilities/
+ * @author     Chad Butler <https://butlerblog.com>
+ * @author     RocketGeek <https://rocketgeek.com>
+ * @copyright  Copyright (c) 2021 Chad Butler
+ * @license    Apache-2.0
+ *
+ * Copyright [2021] Chad Butler, RocketGeek
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 if ( ! function_exists( 'rktgk_force_ssl' ) ):
 /**
@@ -54,6 +84,61 @@ function rktgk_maybe_unserialize( $original ) {
 }
 endif;
 
+if ( ! function_exists( 'rktgk_maybe_wpautop' ) ):
+/**
+ * Run wpautop on content. Defaults to true.
+ *
+ * Useful for shortcodes that don't autop on their own.
+ * Toggle boolean can be passed as a string without pre-filtering
+ * since it runs rktgk_str_to_bool().
+ * 
+ * @since 1.0.0
+ * 
+ * @param  string  $content
+ * @param  mixed   $do_autop
+ * @return string  $content either autop'ed or not.
+ */
+function rktgk_maybe_wpautop( $content, $do_autop = true ) {
+	return ( true === rktgk_str_to_bool( $do_autop ) ) ? wpautop( $content ) : $content;
+}
+endif;
+
+if ( ! function_exists( 'rktgk_string_to_boolean' ) ):
+function rktgk_string_to_boolean( $str ) {
+	return rktgk_str_to_bool( $str );
+}
+endif;
+
+if ( ! function_exists( 'rktgk_str_to_bool' ) ):
+/**
+ * Converts a true/false string to a boolean.
+ * Useful for shortcodes that receive args as strings
+ * but need a true/false or 1/0 boolean.
+ */
+function rktgk_str_to_bool( $str ) {
+	switch ( $str ) {
+		case ( is_bool( $str ) ):
+			// If the value is already cast as a boolean.
+			return $str;
+			break;
+		case ( "true" == $str ):
+		case ( 1 == $str ):
+			// If the value is "true" or 1 as a string or integer.
+			return true;
+			break;
+		case ( "false" == $str ):
+		case ( 0 == $str ):
+			// If the value is "false" or 0 as a string or integer.
+			return false;
+			break;
+		default:
+			// If it doesn't fit anything, return false.
+			return false;
+			break;
+	}
+}
+endif;
+
 if ( ! function_exists( 'rktgk_do_shortcode' ) ):
 /**
  * Call a shortcode function by tag name.
@@ -103,23 +188,6 @@ function rktgk_is_woo_active() {
 }
 endif;
 
-if ( ! function_exists( 'rktgk_write_log' ) ):
-/**
- * Log debugging errors.
- *
- * @since 3.1.2
- * 
- * @param mixed (string|array|object) $log Information to write in the WP debug file.
- */
-function rktgk_write_log( $log ) {
-	if ( is_array( $log ) || is_object( $log ) ) {
-		error_log( print_r( $log, true ) );
-	} else {
-		error_log( $log );
-	}
-}
-endif;
-
 if ( ! function_exists( 'rktgk_get_user_ip' ) ):
 /**
  * Get user IP address.
@@ -144,7 +212,7 @@ function rktgk_get_user_ip() {
 	/**
 	 * Filter the IP result.
 	 *
-	 * @since 3.3.0
+	 * @since 1.0.0
 	 *
 	 * @param string $ip
 	 */
