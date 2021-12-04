@@ -621,6 +621,7 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
+		require_once( $this->path . 'includes/libraries/rocketgeek-utilities/loader.php' );
 		require_once( $this->path . 'includes/class-wp-members-api.php' );
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-captcha.php' );
@@ -650,8 +651,6 @@ class WP_Members {
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-settings.php' );
 		}
-		
-		require_once( $this->path . 'includes/libraries/rocketgeek-utilities/loader.php' );
 	}
 
 	/**
