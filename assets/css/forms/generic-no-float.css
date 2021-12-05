@@ -35,7 +35,8 @@ see https://rocketgeek.com/tips-and-tricks/load-a-custom-stylesheet/
 	background: #F9F9F9;
 	border:1px solid lightGrey;
 	border-radius: 3px;
-	padding: 20px 0 0 0;
+	padding: 20px 0;
+	margin: 15px 0;
 }
 
 /* Messages and forms should (ideally) be the same width */
