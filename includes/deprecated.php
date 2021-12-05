@@ -134,7 +134,7 @@ function wpmem_reg_securify( $content ) {
 	global $wpmem, $wpmem_themsg;
 	$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 	if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
-		$content = wpmem_display_message( 'success', $wpmem_themsg );
+		$content = wpmem_get_display_message( 'success', $wpmem_themsg );
 		$content = $content . wpmem_login_form();
 	}
 	return $content;
@@ -495,7 +495,7 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  *
  * @since 1.8
  * @since 3.3.0 Changed 'toggles' to 'tags'
- * @deprecated 3.4.0 Use wpmem_display_message() instead.
+ * @deprecated 3.4.0 Use wpmem_get_display_message() instead.
  *
  * @global object $wpmem
  * @param  string $tag Error message tag to look for specific error messages.
@@ -503,9 +503,9 @@ if ( ! function_exists( 'wpmem_inc_regmessage' ) ):
  * @return string $str The final HTML for the message.
  */
 function wpmem_inc_regmessage( $tag, $msg = '' ) {
-	wpmem_write_log( "wpmem_inc_regmessage() is deprecated as of WP-Members 3.4.0. Use wpmem_display_message() instead." );
+	wpmem_write_log( "wpmem_inc_regmessage() is deprecated as of WP-Members 3.4.0. Use wpmem_get_display_message() instead." );
 	global $wpmem;
-	return $wpmem->dialogs->message( $tag, $msg );
+	return $wpmem->dialogs->get_message( $tag, $msg );
 }
 endif;
 

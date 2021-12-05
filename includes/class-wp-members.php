@@ -523,7 +523,9 @@ class WP_Members {
 
 		// Replace login error object.
 		if ( 1 == $this->login_error ) {
-			add_filter( 'wpmem_login_failed_args', array( $this, 'login_error' ) );
+			// @todo I think we can do this without the filter now that 
+			// the main messaging function has been updated.
+			//	add_filter( 'wpmem_login_failed_args', array( $this->dialogs, 'login_error' ) );
 			add_filter( 'lostpassword_url',        array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
 		
@@ -922,7 +924,7 @@ class WP_Members {
 			// If there is a regchk action, show the login and/or registration forms.
 			if ( $this->regchk ) {
 
-				$content = wpmem_display_message( $this->regchk, $wpmem_themsg );
+				$content = wpmem_get_display_message( $this->regchk, $wpmem_themsg );
 				$content .= ( 'loginfailed' == $this->regchk || 'success' == $this->regchk ) ? wpmem_login_form() : wpmem_register_form();
 
 			} else {
@@ -1119,7 +1121,7 @@ class WP_Members {
 		global $wpmem, $wpmem_themsg;
 		$nonce = wpmem_get( 'reg_nonce', false, 'get' );
 		if ( $nonce && wp_verify_nonce( $nonce, 'register_redirect' ) ) {
-			$content = wpmem_display_message( 'success', $wpmem_themsg );
+			$content = wpmem_get_display_message( 'success', $wpmem_themsg );
 			$content = $content . wpmem_login_form();
 		}
 		return $content;
@@ -1775,21 +1777,6 @@ class WP_Members {
 	 */
 	function lost_pwd_url( $lostpwd_url, $redirect ) {
 		return wpmem_profile_url( 'pwdreset' );
-	}
-	
-	/** 
-	 * Filters the login error message to display the WP login error.
-	 *
-	 * @since 3.3.5
-	 */
-	function login_error( $args = array() ) {
-		if ( $this->error ) {
-			$args['heading_before'] = '';
-			$args['heading'] = '';
-			$args['heading_after'] = '';
-			$args['message'] = $this->error;
-		}
-		return $args;		
 	}
 	
 	/**

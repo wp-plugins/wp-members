@@ -132,7 +132,7 @@ class WP_Members_Shortcodes {
 					$content = ( $content ) ? $content : $this->render_links( 'register' );
 				} elseif ( is_user_logged_in() && is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) {
 					$wpmem_themsg = __( "This is a generic message to display the form message dialog in the Customizer.", 'wp-members' );
-					$content  = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+					$content  = wpmem_get_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content .= wpmem_register_form( $reg_form_args );
 				} else {
 					if ( $wpmem->regchk == 'loginfailed' ) {
@@ -144,7 +144,7 @@ class WP_Members_Shortcodes {
 						global $wpmem_captcha_err;
 						$wpmem_themsg = wpmem_get_text( 'reg_captcha_err' ) . '<br /><br />' . $wpmem_captcha_err;
 					}
-					$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
+					$content  = ( $wpmem_themsg || $wpmem->regchk == 'success' ) ? wpmem_get_display_message( $wpmem->regchk, $wpmem_themsg ) : '';
 					$content .= ( $wpmem->regchk == 'success' ) ? wpmem_login_form() : wpmem_register_form( $reg_form_args );
 				}
 				break;
@@ -179,7 +179,7 @@ class WP_Members_Shortcodes {
 				} else {
 					$content = '';
 					if ( $wpmem->regchk == 'loginfailed' || ( is_customize_preview() && get_theme_mod( 'wpmem_show_form_message_dialog', false ) ) ) {
-						$content = $wpmem->dialogs->login_failed();
+						$content = wpmem_get_display_message( 'loginfailed' );
 					}
 					$form_id = ( $atts['form_id'] ) ? $atts['form_id'] : 'wpmem_login_form';
 					$content .= wpmem_login_form( array( 'redirect_to'=>$atts['redirect_to'], 'form_id'=>$form_id ) );
@@ -441,11 +441,11 @@ class WP_Members_Shortcodes {
 			case "update":
 				// Determine if there are any errors/empty fields.
 				if ( $wpmem->regchk == "updaterr" || $wpmem->regchk == "email" ) {
-					$content = $content . wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+					$content = $content . wpmem_get_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . wpmem_register_form( 'edit' );
 				} else {
 					//Case "editsuccess".
-					$content = $content . wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+					$content = $content . wpmem_get_display_message( $wpmem->regchk, $wpmem_themsg );
 					$content = $content . $this->render_links();
 				}
 				break;
@@ -472,7 +472,7 @@ class WP_Members_Shortcodes {
 
 			if (  ( 'login' == $wpmem->action ) || ( 'register' == $wpmem->action && ! $hide_register ) ) {
 				
- 				$content = wpmem_display_message( $wpmem->regchk, $wpmem_themsg );
+ 				$content = wpmem_get_display_message( $wpmem->regchk, $wpmem_themsg );
 				$content.= ( 'loginfailed' == $wpmem->regchk || 'success' == $wpmem->regchk ) ? wpmem_login_form() : wpmem_register_form();
 				
 			} elseif ( $wpmem->action == 'pwdreset' ) {
@@ -841,12 +841,12 @@ class WP_Members_Shortcodes {
 			switch ( $wpmem_regchk ) {
 
 				case "pwdchangesuccess":
-					$content = $content . wpmem_display_message( $wpmem_regchk );
+					$content = $content . wpmem_get_display_message( $wpmem_regchk );
 					break;
 
 				default:
 					if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-						$content .= wpmem_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
+						$content .= wpmem_get_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
 					}
 					$content = $content . wpmem_change_password_form();
 					break;
@@ -864,13 +864,13 @@ class WP_Members_Shortcodes {
 				switch( $wpmem_regchk ) {
 
 					case "pwdresetsuccess":
-						$content = $content . wpmem_display_message( $wpmem_regchk );
+						$content = $content . wpmem_get_display_message( $wpmem_regchk );
 						$wpmem_regchk = ''; // Clear regchk.
 						break;
 
 					default:
 						if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
-							$content = wpmem_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
+							$content = wpmem_get_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
 						}
 						$content = $content . wpmem_reset_password_form();
 						break;
@@ -911,7 +911,7 @@ class WP_Members_Shortcodes {
 		$heading = apply_filters( 'wpmem_user_edit_heading', wpmem_get_text( 'profile_heading' ) );
 
 		if ( $wpmem_a == "update") {
-			$content.= wpmem_display_message( $wpmem_regchk, $wpmem_themsg );
+			$content.= wpmem_get_display_message( $wpmem_regchk, $wpmem_themsg );
 		}
 
 		$args['tag'] = 'edit';
@@ -947,7 +947,7 @@ class WP_Members_Shortcodes {
 			case "usernamefailed":
 				$msg = wpmem_get_text( 'usernamefailed' );
 				$content = $content
-					. wpmem_display_message( 'usernamefailed', $msg ) 
+					. wpmem_get_display_message( 'usernamefailed', $msg ) 
 					. wpmem_forgot_username_form();
 				$wpmem->regchk = ''; // Clear regchk.
 				break;
@@ -955,7 +955,7 @@ class WP_Members_Shortcodes {
 			case "usernamesuccess":
 				$email = ( isset( $_POST['user_email'] ) ) ? sanitize_email( $_POST['user_email'] ) : '';
 				$msg = sprintf( wpmem_get_text( 'usernamesuccess' ), $email );
-				$content = $content . wpmem_display_message( 'usernamesuccess', $msg );
+				$content = $content . wpmem_get_display_message( 'usernamesuccess', $msg );
 				$wpmem->regchk = ''; // Clear regchk.
 				break;
 

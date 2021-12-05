@@ -363,26 +363,43 @@ function wpmem_logout_link() {
 }
 
 /**
- * Dispalays requested dialog.
+ * Gets requested dialog.
  *
- * @since 3.2.0
- * @since 3.4.0 Added $custom argument
+ * @since 3.4.0
+ * 
+ * @note It is being relased now as tentative.
+ *       There may be some changes to how this is applied.
  *
  * @todo What about wpmem_use_custom_dialog()?
  *
  * @global stdClass $wpmem
  * @param  string   $tag
- * @param  boolean  $echo
  * @param  string   $custom
  * @return
  */
-function wpmem_display_message( $tag, $echo = false, $custom = false ) {
+function wpmem_get_display_message( $tag, $custom = false ) {
 	global $wpmem;
-	if ( $echo ) {
-		echo $wpmem->dialogs->message( $tag, $custom );
-	} else {
-		return $wpmem->dialogs->message( $tag, $custom );
-	}
+	return $wpmem->dialogs->get_message( $tag, $custom );
+}
+
+/**
+ * Dispalays requested dialog.
+ * 
+ * @note It is being relased now as tentative.
+ *       There may be some changes to how this is applied.
+ *
+ * @since 3.2.0
+ * @since 3.4.0 Now echos the message. Added $custom argument
+ *
+ * @todo What about wpmem_use_custom_dialog()?
+ *
+ * @global stdClass $wpmem
+ * @param  string   $tag
+ * @param  string   $custom
+ * @return
+ */
+function wpmem_display_message( $tag, $custom = false ) {
+	echo wpmem_get_display_message( $tag, $custom );
 }
 
 /**

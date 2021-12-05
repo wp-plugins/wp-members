@@ -231,6 +231,8 @@ class WP_Members_Dialogs {
 	 */
 	function login_failed() {
 
+		global $wpmem;
+
 		// Defaults.
 		$defaults = array(
 			'div_before'     => '',
@@ -239,7 +241,7 @@ class WP_Members_Dialogs {
 			'heading'        => '', //wpmem_get_text( 'login_failed_heading' ),
 			'heading_after'  => '',
 			'p_before'       => '',
-			'message'        => wpmem_get_text( 'login_failed' ), // @todo $this->error
+			'message'        => ( $wpmem->error ) ? $wpmem->error : wpmem_get_text( 'login_failed' ), // @todo $this->error
 			'p_after'        => '',
 			//'link'           => '<a href="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">' . wpmem_get_text( 'login_failed_link' ) . '</a>',
 		);
@@ -275,8 +277,20 @@ class WP_Members_Dialogs {
 
 		return $str;
 	}
-	
-	function message( $tag, $custom ) {
+
+	/**
+	 * Gets the message to display.
+	 * 
+	 * @since 3.4.0
+	 * 
+	 * @todo This replaces some other functions and usage seems to be inconsistent.
+	 *       Review and replace useage as needed.
+	 * 
+	 * @param  $tag     string
+	 * @param  $custom  string
+	 * @return $message string
+	 */
+	function get_message( $tag, $custom = false ) {
 
 		// defaults
 		$defaults = array(
@@ -321,6 +335,8 @@ class WP_Members_Dialogs {
 			}
 		} elseif ( 'loginfailed' == $tag ) {
 			$msg = $this->login_failed();
+		} elseif ( $custom ) {
+			$msg = $custom;
 		} else {
 			// It must be a custom message ("custom" in that it is not included in the dialogs array).
 			$msg = $tag;
