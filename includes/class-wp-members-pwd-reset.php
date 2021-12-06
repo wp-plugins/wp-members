@@ -207,7 +207,7 @@ class WP_Members_Pwd_Reset {
 	function add_hidden_form_field( $hidden_fields, $action ) {
 		if ( $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
 			$hidden_fields = str_replace( 'pwdchange', $this->form_action, $hidden_fields );
-			$hidden_fields.= wpmem_form_field( array( 'name' => 'key',   'type' => 'hidden', 'value' => sanitize_text( wpmem_get( 'key',   null, 'request' ) ) ) );
+			$hidden_fields.= wpmem_form_field( array( 'name' => 'key',   'type' => 'hidden', 'value' => sanitize_text_field( wpmem_get( 'key',   null, 'request' ) ) ) );
 			$hidden_fields.= wpmem_form_field( array( 'name' => 'login', 'type' => 'hidden', 'value' => sanitize_user( wpmem_get( 'login', null, 'request' ) ) ) );
 		}
 		return $hidden_fields;
