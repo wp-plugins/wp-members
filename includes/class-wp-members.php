@@ -318,7 +318,7 @@ class WP_Members {
 	 * @access public
 	 * @var string
 	 */
-	public $pwd_link = 0;
+	public $pwd_link = 1;
 	
 	/**
 	 * Temporary settings for login errors.
@@ -328,7 +328,7 @@ class WP_Members {
 	 * @access public
 	 * @var string
 	 */
-	public $login_error = 0;
+	public $login_error = 1;
 	
 	/**
 	 * Default file upload directory.
@@ -1672,8 +1672,6 @@ class WP_Members {
 	 * @since 3.2.5 Moved to main object, dropped wpmem_ stem.
 	 */
 	function load_textdomain() {
-
-		// @see: https://ulrich.pogson.ch/load-theme-plugin-translations for notes on changes.
 
 		// Plugin textdomain.
 		$domain = 'wp-members';

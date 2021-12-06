@@ -585,7 +585,7 @@ function wpmem_install_dialogs() {
 		'pwdchangerr'      => "Passwords did not match.<br /><br />Please try again.",
 		'pwdchangesuccess' => "Password successfully changed!",
 		'pwdreseterr'      => "Either the username or email address do not exist in our records.",
-		'pwdresetsuccess'  => "Password successfully reset!<br /><br />An email containing a new password has been sent to the email address on file for your account.",
+		'pwdresetsuccess'  => "An email with instructions to update your password has been sent to the email address on file for your account.",
 	);
 	// Insert TOS dialog placeholder.
 	$dummy_tos = "Put your TOS (Terms of Service) text here.  You can use HTML markup.";
