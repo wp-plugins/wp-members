@@ -355,8 +355,7 @@ function wpmem_sanitize_array( $data, $type = false ) {
  * @return  string  $sanitized_data
  */
 function wpmem_sanitize_field( $data, $type = 'text' ) {
-	global $wpmem;
-	return $wpmem->forms->sanitize_field( $data, $type );
+	return rktgk_sanitize_field( $data, $type );
 }
 
 /**

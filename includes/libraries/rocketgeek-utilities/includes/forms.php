@@ -124,7 +124,7 @@ if ( ! function_exists( 'rktgk_sanitize_field' ) ):
  * @since 1.0.0
  *
  * @param  string $data
- * @param  string $type
+ * @param  string $type (multiselect|multicheckbox|textarea|email|file|image|int|integer|number)
  * @return string $sanitized_data
  */
 function rktgk_sanitize_field( $data, $type = '' ) {
