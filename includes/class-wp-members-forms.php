@@ -462,59 +462,6 @@ class WP_Members_Forms {
 	}
 	
 	/**
-	 * Sanitizes field based on field type.
-	 *
-	 * Obviously, this isn't an all inclusive function of every WordPress
-	 * sanitization function. It is intended to handle sanitization of 
-	 * WP-Members form input and therefore includes the necessary methods
-	 * that would relate to the WP-Members custom field types and can thus
-	 * be used by looping through form data when the WP-Members fields are
-	 * handled and validated.
-	 *
-	 * @since 3.2.9
-	 * @since 3.3.0 Added email, file, and image.
-	 *
-	 * @param  string $data
-	 * @param  string $type
-	 * @return string $sanitized_data
-	 */
-	function sanitize_field( $data, $type ) {
-		
-		switch ( $type ) {
-
-			case 'multiselect':
-			case 'multicheckbox':
-				$sanitized_data = wpmem_sanitize_array( $data );
-				break;
-
-			case 'textarea':
-				$sanitized_data = sanitize_textarea_field( $data );
-				break;
-
-			case 'email':
-				$sanitized_data = sanitize_email( $data );
-				break;
-
-			case 'file':
-			case 'image':
-				$sanitized_data = sanitize_file_name( $data );
-				break;
-
-			case 'int':
-			case 'integer':
-			case 'number':
-				$sanitized_data = intval( $data );
-				break;
-
-			default:
-				$sanitized_data = sanitize_text_field( $data );
-				break;	
-		}
-		
-		return $sanitized_data;
-	}
-	
-	/**
 	 * Uploads file from the user.
 	 *
 	 * @since 3.1.0
@@ -1184,7 +1131,7 @@ class WP_Members_Forms {
 					if ( 'file' == $field['type'] ) {
 						$val = ( isset( $_FILES[ $meta_key ]['name'] ) ) ? sanitize_file_name( $_FILES[ $meta_key ]['name'] ) : '' ;
 					} else {
-						$val = ( isset( $_POST[ $meta_key ] ) ) ? $this->sanitize_field( $_POST[ $meta_key ], $field['type'] ) : '';
+						$val = ( isset( $_POST[ $meta_key ] ) ) ? wpmem_sanitize_field( $_POST[ $meta_key ], $field['type'] ) : '';
 					}
 				}
 
@@ -1762,7 +1709,7 @@ class WP_Members_Forms {
 							$formfield_args = array( 
 								'name'     => $meta_key,
 								'type'     => $field['type'],
-								'value'    => $this->sanitize_field( wpmem_get( $meta_key, '' ), $field['type'] ),
+								'value'    => wpmem_sanitize_field( wpmem_get( $meta_key, '' ), $field['type'] ),
 								'compare'  => ( isset( $field['compare'] ) ) ? $field['compare'] : '',
 								'required' => $field['required'],
 								'class'    => $class,

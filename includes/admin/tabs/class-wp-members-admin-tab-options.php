@@ -459,7 +459,7 @@ class WP_Members_Admin_Tab_Options {
 			check_admin_referer( 'wpmem-update-settings' );
 
 			$wpmem_settings_msurl  = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_msurl'] ) : '';
-			$wpmem_settings_mspage = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? '' : filter_var( $_POST['wpmem_settings_mspage'], FILTER_SANITIZE_NUMBER_INT );
+			$wpmem_settings_mspage = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_mspage'], 'int' );
 			if ( $wpmem_settings_msurl != wpmem_use_ssl() && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
 				$msurl = trim( $wpmem_settings_msurl );
 			} else {
@@ -467,7 +467,7 @@ class WP_Members_Admin_Tab_Options {
 			}
 
 			$wpmem_settings_regurl  = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_regurl'] ) : '';
-			$wpmem_settings_regpage = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? '' : filter_var( $_POST['wpmem_settings_regpage'], FILTER_SANITIZE_NUMBER_INT );
+			$wpmem_settings_regpage = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_regpage'], 'int' );
 			if ( $wpmem_settings_regurl != wpmem_use_ssl() && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
 				$regurl = trim( $wpmem_settings_regurl );
 			} else {
@@ -475,7 +475,7 @@ class WP_Members_Admin_Tab_Options {
 			}
 
 			$wpmem_settings_logurl  = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_logurl'] ) : '';
-			$wpmem_settings_logpage = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? '' : filter_var( $_POST['wpmem_settings_logpage'], FILTER_SANITIZE_NUMBER_INT );
+			$wpmem_settings_logpage = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_logpage'], 'int' );
 			if ( $wpmem_settings_logurl != wpmem_use_ssl() && $wpmem_settings_logurl != 'use_custom' && ! $wpmem_settings_logpage ) {
 				$logurl = trim( $wpmem_settings_logurl );
 			} else {
@@ -489,31 +489,31 @@ class WP_Members_Admin_Tab_Options {
 
 			$wpmem_newsettings = array(
 				'version' => $wpmem->version,
-				'db_version' => $wpmem->db_version,
-				'act_link' => filter_var( wpmem_get( 'wpmem_settings_act_link', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'pwd_link' => filter_var( wpmem_get( 'wpmem_settings_pwd_link', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'login_error' => filter_var( wpmem_get( 'wpmem_settings_login_error', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'enable_products' => filter_var( wpmem_get( 'wpmem_settings_products', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'clone_menus' => filter_var( wpmem_get( 'wpmem_settings_menus', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'notify'    => filter_var( wpmem_get( 'wpmem_settings_notify', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'mod_reg'   => filter_var( wpmem_get( 'wpmem_settings_moderate', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'captcha'   => filter_var( wpmem_get( 'wpmem_settings_captcha', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'use_exp'   => filter_var( wpmem_get( 'wpmem_settings_time_exp', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'use_trial' => filter_var( wpmem_get( 'wpmem_settings_trial', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'warnings'  => filter_var( wpmem_get( 'wpmem_settings_ignore_warnings', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'dropins'   => filter_var( wpmem_get( 'wpmem_settings_enable_dropins', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-				'user_pages' => array(
+				'db_version'      => $wpmem->db_version,
+				'act_link'        => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_act_link',        0 ), 'int' ),
+				'pwd_link'        => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_pwd_link',        1 ), 'int' ),
+				'login_error'     => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_login_error',     1 ), 'int' ),
+				'enable_products' => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_products',        0 ), 'int' ),
+				'clone_menus'     => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_menus',           0 ), 'int' ),
+				'notify'          => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_notify',          0 ), 'int' ),
+				'mod_reg'         => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_moderate',        0 ), 'int' ),
+				'captcha'         => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_captcha',         0 ), 'int' ),
+				'use_exp'         => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_time_exp',        0 ), 'int' ),
+				'use_trial'       => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_trial',           0 ), 'int' ),
+				'warnings'        => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_ignore_warnings', 0 ), 'int' ),
+				'dropins'         => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_enable_dropins',  0 ), 'int' ),
+				'user_pages'      => array(
 					'profile'  => ( $msurl  ) ? $msurl  : '',
 					'register' => ( $regurl ) ? $regurl : '',
 					'login'    => ( $logurl ) ? $logurl : '',
 				),
 				'woo' => array(
-					'add_my_account_fields' => filter_var( wpmem_get( 'wpmem_settings_add_my_account_fields', 0 ), FILTER_SANITIZE_NUMBER_INT ),
-					'add_checkout_fields'   => filter_var( wpmem_get( 'wpmem_settings_add_checkout_fields',   0 ), FILTER_SANITIZE_NUMBER_INT ),
+					'add_my_account_fields' => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_my_account_fields', 0 ), 'int' ),
+					'add_checkout_fields'   => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_checkout_fields',   0 ), 'int' ),
 				),
 				'cssurl'       => ( $cssurl ) ? $cssurl : '',
 				'select_style' => $wpmem_settings_style,
-				'attrib'       => filter_var( wpmem_get( 'attribution', 0 ), FILTER_SANITIZE_NUMBER_INT ),
+				'attrib'       => wpmem_sanitize_field( wpmem_get( 'attribution', 0 ), 'int' ),
 			);
 
 			// Build an array of post types
@@ -543,12 +543,12 @@ class WP_Members_Admin_Tab_Options {
 					$post_var = 'wpmem_' . $option_group_item . '_' . $post_type;
 					if ( $option_group_item == 'autoex' ) {
 						// Auto excerpt is an array.
-						$arr[ $post_type ]['enabled'] = ( isset( $_POST[ $post_var ]           ) ) ? filter_var( $_POST[ $post_var ], FILTER_SANITIZE_NUMBER_INT ) : 0;
-						$arr[ $post_type ]['length']  = ( isset( $_POST[ $post_var . '_len'  ] ) ) ? ( ( $_POST[ $post_var . '_len' ] == '' ) ? 0 : filter_var( $_POST[ $post_var . '_len' ], FILTER_SANITIZE_NUMBER_INT ) ) : '';
+						$arr[ $post_type ]['enabled'] = ( isset( $_POST[ $post_var ]           ) ) ? wpmem_sanitize_field( $_POST[ $post_var ], 'int' ) : 0;
+						$arr[ $post_type ]['length']  = ( isset( $_POST[ $post_var . '_len'  ] ) ) ? ( ( $_POST[ $post_var . '_len' ] == '' ) ? 0 : wpmem_sanitize_field( $_POST[ $post_var . '_len' ], 'int' ) ) : '';
 						$arr[ $post_type ]['text']    = ( isset( $_POST[ $post_var . '_text' ] ) ) ? sanitize_text_field( $_POST[ $post_var . '_text' ] ) : '';
 					} else {
 						// All other settings are 0|1.
-						$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? filter_var( $_POST[ $post_var ], FILTER_SANITIZE_NUMBER_INT ) : 0;
+						$arr[ $post_type ] = ( isset( $_POST[ $post_var ] ) ) ? wpmem_sanitize_field( $_POST[ $post_var ], 'int' ) : 0;
 					}
 				}
 				$wpmem_newsettings[ $option_group_item ] = $arr;
