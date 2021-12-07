@@ -532,7 +532,13 @@ class WP_Members_Admin_API {
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
 		global $current_screen, $wpmem;
-		if ( 'edit.php' == $hook || 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook || 'user-edit.php' == $hook || 'profile.php' == $hook ) {
+		if ( 'edit.php' == $hook 
+		   || 'settings_page_wpmem-settings' == $hook 
+		   || 'post.php' == $hook 
+		   || 'post-new.php' == $hook 
+		   || 'user-edit.php' == $hook 
+		   || 'profile.php' == $hook 
+		   || 'users.php' ) {
 			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin' . wpmem_get_suffix() . '.css', '', $wpmem->version );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {

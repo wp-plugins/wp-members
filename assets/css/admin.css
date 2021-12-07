@@ -135,3 +135,7 @@ updatesettings a:hover {
 #createuser .form-field input[type="checkbox"] {
 	width: initial;
 }
+
+.wpmem-user-table-membership {
+	border-bottom:1px solid #999;
+}

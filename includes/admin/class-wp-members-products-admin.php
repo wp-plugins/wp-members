@@ -640,8 +640,8 @@ class WP_Members_Products_Admin {
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
 					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
-						$expires = ( $user_products[ $meta ] > 1 ) ? ' expires: ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
-						$display[] = $wpmem->membership->products[ $meta ]['title'] . $expires;
+						$expires = ( $user_products[ $meta ] > 1 ) ? '<br />expires: ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
+						$display[] = '<div class="wpmem-user-table-membership">' . $wpmem->membership->products[ $meta ]['title'] . $expires . '</div>';
 					}
 				}
 			}
@@ -655,7 +655,7 @@ class WP_Members_Products_Admin {
 			 * @param int    $user_id
 			 * @param array  $user_products
 			 */
-			return apply_filters( 'wpmem_user_columns_membership_value', implode( "<br />", $display ), $display, $user_id, $user_products );
+			return apply_filters( 'wpmem_user_columns_membership_value', implode( " ", $display ), $display, $user_id, $user_products );
 		}
 		return $val;
 	}
