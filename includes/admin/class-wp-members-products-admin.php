@@ -633,6 +633,20 @@ class WP_Members_Products_Admin {
 	 * @return array  $display
 	 */
 	function user_columns_content( $val, $column_name, $user_id ) {
+		/**
+		 * Filter the users > all users screen membership column default html.
+		 * 
+		 * @since 3.4.0
+		 * 
+		 * @param  array  $defaults
+		 * @param  array  $val
+		 * @param  array  $column_name
+		 * @param  array  $user_id
+		 */
+		$defaults = apply_filters( 'wpmem_user_columns_membership_defaults', array(
+			'item_wrap_before' => '<div class="wpmem-user-table-membership">',
+			'item_wrap_after'  => '</div>',
+		), $val, $column_name, $user_id );
 		if ( 'wpmem_product' == $column_name ) {
 			global $wpmem;
 			$display = array();
@@ -640,8 +654,8 @@ class WP_Members_Products_Admin {
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
 					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
-						$expires = ( $user_products[ $meta ] > 1 ) ? '<br />expires: ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
-						$display[] = '<div class="wpmem-user-table-membership">' . $wpmem->membership->products[ $meta ]['title'] . $expires . '</div>';
+						$expires = ( $user_products[ $meta ] > 1 ) ? '<br />' . __( 'expires:', 'wp-members' ) . ' ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
+						$display[] = $defaults['item_wrap_before'] . $wpmem->membership->products[ $meta ]['title'] . $expires . $defaults['item_wrap_after'];
 					}
 				}
 			}
