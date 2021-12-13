@@ -56,8 +56,7 @@ class WP_Members_Admin_Users {
 		if ( $user_object->ID != get_current_user_id() ) {
 			
 			if ( 1 == $wpmem->act_link ) {
-				$is_user_confirmed = wpmem_is_user_confirmed( $user_object->ID );
-				if ( false === $is_user_confirmed ) {
+				if ( false === wpmem_is_user_confirmed( $user_object->ID ) ) {
 					$action = 'confirm';
 					$term   = __( 'Confirm', 'wp-members' );
 				} else {
