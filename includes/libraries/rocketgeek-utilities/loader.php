@@ -5,8 +5,8 @@
  * plugins, but useage is not limited to those plugins. They are useful in any
  * WordPress application.
  *
- * This library is open source and Apache-2.0 licensed. I hope you find it useful
- * for your project(s). Attribution is appreciated ;-)
+ * This library is open source and Apache-2.0 licensed. I hope you find it 
+ * useful for your project(s). Attribution is appreciated ;-)
  *
  * @package    RocketGeek_Utilities
  * @version    1.0.0

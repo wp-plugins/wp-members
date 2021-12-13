@@ -2,8 +2,8 @@
 /**
  * This file is part of the RocketGeek Utility Functions library.
  *
- * This library is open source and Apache-2.0 licensed. I hope you find it useful
- * for your project(s). Attribution is appreciated ;-)
+ * This library is open source and Apache-2.0 licensed. I hope you find it 
+ * useful for your project(s). Attribution is appreciated ;-)
  *
  * @package    RocketGeek_Utilities
  * @subpackage RocketGeek_Utilities_Arrays

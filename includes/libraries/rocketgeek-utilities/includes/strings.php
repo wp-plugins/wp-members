@@ -2,8 +2,8 @@
 /**
  * This file is part of the RocketGeek Utility Functions library.
  *
- * This library is open source and Apache-2.0 licensed. I hope you find it useful
- * for your project(s). Attribution is appreciated ;-)
+ * This library is open source and Apache-2.0 licensed. I hope you find it 
+ * useful for your project(s). Attribution is appreciated ;-)
  *
  * @package    RocketGeek_Utilities
  * @subpackage RocketGeek_Utilities_Strings
@@ -29,6 +29,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
+if ( ! function_exists( 'rktgk_string_to_boolean' ) ):
+function rktgk_string_to_boolean( $str, $return_string = true ) {
+	return rktgk_str_to_bool( $str, $return_string );
+}
+endif;
+
+if ( ! function_exists( 'rktgk_str_to_bool' ) ):
+/**
+ * Converts a true/false string to a boolean.
+ * Useful for shortcodes that receive args as strings
+ * but need a true/false or 1/0 boolean.
+ */
+function rktgk_str_to_bool( $str, $return_string = true ) {
+	switch ( $str ) {
+		case ( is_bool( $str ) ):
+			// If the value is already cast as a boolean.
+			return (bool)$str;
+			break;
+		case ( is_string( $str ) && 'true' === $str ):
+		case ( 1 === $str ):
+			// If the value is "true" or 1 as a string or integer.
+			return true;
+			break;
+		case ( is_string( $str ) && 'false' === $str ):
+		case ( 0 === $str ):
+			// If the value is "false" or 0 as a string or integer.
+			return false;
+			break;
+		default:
+			// If it doesn't fit anything, return false.
+			return ( true === $return_string ) ? $str : false;
+			break;
+	}
+}
+endif;
 
 if ( ! function_exists( 'rktgk_get_sub_str' ) ):
 /**

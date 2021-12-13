@@ -2,8 +2,8 @@
 /**
  * This file is part of the RocketGeek Utility Functions library.
  *
- * This library is open source and Apache-2.0 licensed. I hope you find it useful
- * for your project(s). Attribution is appreciated ;-)
+ * This library is open source and Apache-2.0 licensed. I hope you find it 
+ * useful for your project(s). Attribution is appreciated ;-)
  *
  * @package    RocketGeek_Utilities
  * @subpackage RocketGeek_Utilities_Dates
@@ -84,7 +84,8 @@ function rktgk_date_format_map() {
 		'EUROPEAN'   => 'j F Y',
 		'AMERICAN'   => 'F j, Y',
 		'MM/DD/YYYY' => 'm/d/Y',
-		'DD/MM/YYYY' => 'd/m/Y',
+		'DD-MM-YYYY' => 'd-m-Y',
+		'MYSQL'      => 'Y-m-d H:i:s',		
 	);
 }
 endif;
@@ -95,14 +96,16 @@ if ( ! function_exists( 'rktgk_date_format' ) ):
  *
  * If no format is matched, it returns the original format.
  *
+ * @see https://www.php.net/manual/en/datetime.format.php#refsect1-datetime.format-parameters
+ *
  * @since 1.0.0
  *
  * @param  string  $format
  * @return string  
  */
 function rktgk_date_format( $format ) {
-	$format = strtoupper( $format );
 	$convert = rktgk_date_format_map();
-	return ( ! isset( $convert[ $format ] ) ) ? $format : $convert[ $format ];
+	$format_upper = strtoupper( $format );
+	return ( isset( $convert[ $format_upper ] ) ) ? $convert[ $format ] : $format;
 }
 endif;

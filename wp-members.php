@@ -50,12 +50,6 @@ License:     GPLv3
 	trademark, or if you do not understand the difference between
 	open source and public domain, contact the original author at:
 	https://rocketgeek.com/contact/.
-
-
-	INSTALLATION PROCEDURE:
-	
-	For complete installation and usage instructions,
-	visit https://rocketgeek.com
 */
 
 // Exit if accessed directly.
