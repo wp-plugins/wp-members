@@ -204,7 +204,9 @@ class WP_Members_Dialogs {
 		 */
 		$text = apply_filters( 'wpmem_default_text', $text );
 		
-		// Manage legacy keys (i.e. sb_ to widget_ ).
+		// Manage legacy keys (i.e. sb_ to widget_ ). 
+		// @todo Legacy keys to be obsolete by 3.5.0
+		$str = ( false !== strpos( $str, 'sb_' ) ) ? str_replace( 'sb_', 'widget_', $str ) : $str;
 		foreach ( $text as $key => $value ) {
 			if ( false !== strpos( $key, 'sb_' ) ) {
 				$new_key = str_replace( 'sb_', 'widget_', $key );
