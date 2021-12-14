@@ -175,10 +175,11 @@ class WP_Members_Admin_Tab_Options {
 								}?></ul>
 								<h3><?php _e( 'New Feature Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
 								<?php
+								$reset_link_start = '<a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank">';
+								$reset_link_end   = '</a>';
 								$rows = array(
-									array(__('Confirmation Link', 'wp-members'),'wpmem_settings_act_link',__('Send email confirmation link on new registration. (Requires additional configuration)','wp-members'),'act_link'),
 									//array(__('Password Reset Link', 'wp-members'),'wpmem_settings_pwd_link',__('Send password reset link instead of new password. (Requires additional configuration)','wp-members'),'pwd_link'),
-									array(__('Legacy Password Reset', 'wp-members'),'wpmem_settings_pwd_link',__('Use legacy password reset. (Requires additional configuration)','wp-members'),'pwd_link'),
+									array(__('Legacy Password Reset', 'wp-members'),'wpmem_settings_pwd_link',sprintf(__('Use legacy password reset. %s(Requires additional configuration)%s','wp-members'),$reset_link_start,$reset_link_end),'pwd_link'),
 									//array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
 									array(__('Legacy Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use legacy WP-Members login error instead of WP error object.','wp-members'),'login_error'),
 								);
@@ -205,11 +206,16 @@ class WP_Members_Admin_Tab_Options {
 								<?php 
 								/** This filter is defined in includes/class-wp-members.php */
 								$dropin_dir = apply_filters( 'wpmem_dropin_dir', $wpmem->dropin_dir );
+								$mem_link_start = '<a href="https://rocketgeek.com/plugins/wp-members/docs/membership-products/" target="_blank">';
+								$mem_link_end   = '</a>';
+								$conf_link_start = '<a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#confirm" target="_blank">';
+								$conf_link_end   = '</a>';
 								$rows = array(
-									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',__('Enables creation of different membership products','wp-members'),'enable_products'),
+									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',sprintf(__('Enables creation of different %s membership products %s','wp-members'),$mem_link_start,$mem_link_end),'enable_products'),
 									array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 									array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 									array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
+									array(__('Confirmation Link', 'wp-members'),'wpmem_settings_act_link',sprintf(__('Send email confirmation link on new registration. %s(Requires additional configuration)%s','wp-members'),$conf_link_start,$conf_link_end),'act_link'),
 									array(__('Ignore warning messages','wp-members'),'wpmem_settings_ignore_warnings',__('Ignores WP-Members warning messages in the admin panel','wp-members'),'warnings'),
 									//array(__('Enable dropins', 'wp-members'),'wpmem_settings_enable_dropins',sprintf(__('Enables dropins in %s', 'wp-members'), $dropin_dir),'dropins'),
 								);

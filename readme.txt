@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.3.9.3
+Stable tag: 3.4.0
 
 License: GPLv3
 
@@ -135,6 +135,8 @@ WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. Se
 == Changelog ==
 
 = 3.4.0 =
+
+Here is a list of changes in 3.4.0, but for a more detailed look at the impact of some of these items, be sure to review https://rocketgeek.com/release-announcements/wp-members-3-4-0-wow/
 
 * Rebuilds the login widget functions so there are filter hooks that more closely mimic the main body login filters. Every attempt was made to provide an HTML result that is the same as previous versions, as well as providing support for legacy dialog tags.
 * Rebuilt and revised user export functionality.  Now includes an api function that can be used to customize user exports for a variety of uses.
