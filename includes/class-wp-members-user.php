@@ -55,7 +55,7 @@ class WP_Members_User {
 		
 		add_action( 'wpmem_register_redirect', array( $this, 'register_redirect' ), 20 ); // Adds a nonce to the redirect if there is a "redirect_to" attribute in the reg form.
 		
-		add_filter( 'registration_errors',       array( $this, 'wp_register_validate' ), 10, 3 );  // native registration validation
+		add_filter( 'registration_errors', array( $this, 'wp_register_validate' ), 10, 3 );  // native registration validation
 	
 		// Load anything the user as access to.
 		if ( 1 == $settings->enable_products ) {
@@ -281,6 +281,17 @@ class WP_Members_User {
 		 * @param string $tag
 		 */
 		$this->post_data = apply_filters( 'wpmem_pre_validate_form', $this->post_data, $tag );
+
+		// Adds integration for custom error codes triggered by "register_post" or contained in "registration_errors"
+		// @todo This will move towards integrating all WP-Members registration errors into the "registration_errors" filter
+		//       and allow for more standardized custom validation.
+		$errors = new WP_Error();
+		do_action( 'register_post', $sanitized_user_login, $user_email, $errors );
+		$errors = apply_filters( 'registration_errors', $errors, $this->post_data['username'], $this->post_data['user_email'] );
+		if ( count( $errors->get_error_messages() ) > 0 ) {
+			$wpmem_themsg = $errors->get_error_message();
+			return;
+		}
 
 		if ( 'update' == $tag ) {
 			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );

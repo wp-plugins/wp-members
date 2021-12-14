@@ -545,7 +545,7 @@ function wpmem_set_user_status( $user_id, $status ) {
  * @global string $wpmem_themsg
  * @global array  $userdata
  *
- * @param  string $tag           Identifies 'register' or 'update'.
+ * @param  string $tag Identifies 'register' or 'update'.
  * @return string $wpmem_themsg|success|editsuccess
  */
 function wpmem_user_register( $tag ) {

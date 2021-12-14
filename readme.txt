@@ -166,6 +166,8 @@ New Feature Settings:
 * Clone menus is deprecated. The setting remains in place for users who have it enabled.  But if it is not enabled, the setting is no longer available.
 
 * Expands Customizer functionality so logged out forms show on blocked content (not just shortcodes).
+
+* Adds integration for WP's "registration_errors" filter hook, allowing for standarized custom validation and integration with other plugins.
   
 New API functions:
 * wpmem_is_reg_form_showing()
