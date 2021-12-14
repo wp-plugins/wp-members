@@ -191,8 +191,8 @@ class WP_Members_Admin_Tab_Options {
 								foreach ( $rows as $key => $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
-									<?php if ( 2 == $key || 1 == $key ) {
+									<?php $checkbox_value = ( 2 == $key || 3 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
+									<?php if ( 1 == $key || 0 == $key ) {
 											echo wpmem_form_field( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php } else {
 											echo wpmem_form_field( $row[1], 'checkbox', '1', $checkbox_value ); ?>&nbsp;&nbsp;
