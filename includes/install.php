@@ -761,6 +761,9 @@ function wpmem_upgrade_woo_reg() {
 }
 
 function wpmem_upgrade_hidden_transient() {
+	if ( ! class_exists( 'WP_Members' ) ) {
+		require_once( 'class-wp-members.php' );
+	}
 	$temp_obj = new WP_Members;
 	$temp_obj->update_hidden_posts();
 	delete_transient( '_wpmem_hidden_posts' );
