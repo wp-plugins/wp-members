@@ -251,6 +251,9 @@ class WP_Members_User {
 						case 'textarea':
 							$this->post_data[ $meta_key ] = sanitize_textarea_field( $_POST[ $meta_key ] );
 							break;
+						case 'email':
+							$this->post_data[ $meta_key ] = sanitize_email( $_POST[ $meta_key ] );
+							break;
 						default:
 							$this->post_data[ $meta_key ] = sanitize_text_field( $_POST[ $meta_key ] );
 							break;
@@ -261,7 +264,7 @@ class WP_Members_User {
 				} else {
 					// We do have password as part of the registration form.
 					if ( isset( $_POST['password'] ) ) {
-						$this->post_data['password'] = $_POST['password'];
+						$this->post_data['password'] = $_POST['password']; // wp_insert_user() hashes this, so sanitizing is unnessary (and undesirable).
 					}
 					if ( isset( $_POST['confirm_password'] ) ) {
 						$this->post_data['confirm_password'] = $_POST['confirm_password'];
@@ -285,13 +288,13 @@ class WP_Members_User {
 		// Adds integration for custom error codes triggered by "register_post" or contained in "registration_errors"
 		// @todo This will move towards integrating all WP-Members registration errors into the "registration_errors" filter
 		//       and allow for more standardized custom validation.
-		$errors = new WP_Error();
+		/* $errors = new WP_Error();
 		do_action( 'register_post', $sanitized_user_login, $user_email, $errors );
 		$errors = apply_filters( 'registration_errors', $errors, $this->post_data['username'], $this->post_data['user_email'] );
 		if ( count( $errors->get_error_messages() ) > 0 ) {
 			$wpmem_themsg = $errors->get_error_message();
 			return;
-		}
+		} */
 
 		if ( 'update' == $tag ) {
 			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
