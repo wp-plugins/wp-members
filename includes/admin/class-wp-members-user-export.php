@@ -15,6 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_Members_User_Export {
 
 	/**
+	 * Used instead of getting global.
+	 * 
+	 * @since 3.4.1
+	 * @todo May change how this is used. (Currently just replaces minor use of $wpmem global object for this one thing.)
+	 */
+	public static $membership_product_stem = "_wpmem_products_";
+
+	/**
 	 * New export function to export all or selected users
 	 *
 	 * @since 2.9.7
@@ -51,9 +59,7 @@ class WP_Members_User_Export {
 	 * @param array  $users Array of user IDs to export.
 	 * @param string $tag
 	 */
-	static function export_users( $args = array(), $users = array(), $tag = 'default' ) {
-
-		global $wpmem;
+	public static function export_users( $args = array(), $users = array(), $tag = 'default' ) {
 		
 		$export_fields = ( ! isset( $args['fields'] ) ) ? self::get_export_fields() : $args['fields'];
 
@@ -208,8 +214,8 @@ class WP_Members_User_Export {
 							$role = wpmem_get_user_role( $user, true ); // As of 3.4, wpmem_get_user_role() can get all roles.
 							$row['role'] = ( is_array( $role ) ) ? implode( ",", $role ) : $role;
 							break;
-						case ( $wpmem->membership->post_stem === substr( $meta, 0, strlen( $wpmem->membership->post_stem ) ) ):
-							$product = str_replace( $wpmem->membership->post_stem, '', $meta );
+						case ( self::$membership_product_stem === substr( $meta, 0, strlen( self::$membership_product_stem ) ) ):
+							$product = str_replace( self::$membership_product_stem, '', $meta );
 							$row[ $meta ] = wpmem_get_user_meta( $user, $meta );
 							// If value is a date and false is not the format_date option...
 							if ( false !== $args['date_format'] && '' != $row[ $meta ] && $row[ $meta ] > 2 ) {
@@ -276,19 +282,20 @@ class WP_Members_User_Export {
 			}
 		}
 		$export_fields['username'] = __( 'Username', 'wp-members' );
-		if ( 1 == $wpmem->mod_reg ) {
+		if ( wpmem_is_enabled( 'mod_reg' ) ) {
 			$export_fields['active'] = __( 'Activated?', 'wp-members' );
 		}
-		if ( defined( 'WPMEM_EXP_MODULE' ) && 1 == $wpmem->use_exp ) {
+		if ( defined( 'WPMEM_EXP_MODULE' ) && wpmem_is_enabled( 'use_exp' ) ) {
 			$export_fields['exp_type'] = __( 'Subscription', 'wp-members' );
 			$export_fields['expires']  = __( 'Expires', 'wp-members' );
 		}
 		$export_fields['user_registered'] = __( 'Registered', 'wp-members' );
 		$export_fields['wpmem_reg_ip']    = __( 'IP', 'wp-members' );
 		$export_fields['role']            = __( 'Role', 'wp-members' );
-		if ( 1 == $wpmem->enable_products ) {
-			foreach( $wpmem->membership->products as $product_key => $product ) {
-				$export_fields[ $wpmem->membership->post_stem . $product_key ] = $wpmem->membership->products[ $product_key ]['title'];
+		if ( wpmem_is_enabled( 'enable_products' ) ) {
+			$membership_products = wpmem_get_memberships();
+			foreach( $membership_products as $product_key => $product ) {
+				$export_fields[ self::$membership_product_stem . $product_key ] = $membership_products[ $product_key ]['title'];
 			}
 		}
 	

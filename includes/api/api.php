@@ -488,4 +488,17 @@ function wpmem_restricted_message() {
 	return $wpmem->forms->add_restricted_msg();
 }
 
+/**
+ * Checks if requested setting is enabled.
+ * 
+ * @since 3.4.1
+ * 
+ * @param  string  $option
+ * @return boolean
+ */
+function wpmem_is_enabled( $option ) {
+	global $wpmem;
+	return ( 1 == $wpmem->{$option} ) ? true : false;
+}
+
 // End of file.
