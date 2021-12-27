@@ -242,10 +242,11 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * @param  integer $user_id
  * @return boolean
  */
-function wpmem_user_is_current( $product, $user_id = false ) {
+function wpmem_is_user_current( $product, $user_id = false ) {
 	global $wpmem;
-	// @todo Finish this.
-	return;
+	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
+	$memberships = wpmem_get_user_products( $user_id );
+	return ( $wpmem->user->is_current( $memberships[ $product ] ) ) ? true : false;
 }
 
 /**

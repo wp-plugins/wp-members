@@ -136,6 +136,7 @@ WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. Se
 
 = 3.4.1 =
 
+* Added wpmem_is_user_current() api function.
 * Added attachements to email function.
 * Moves external libraries to "vendor" directory.
 * Fixes a bug in the user api for undefined variable when checking the user ip.
