@@ -781,7 +781,7 @@ function wpmem_get_user_ip() {
 	 *
 	 * @param string $ip
 	 */
-	return apply_filters( 'wpmem_get_ip', rktgk_get_user_ip( $ip ) );
+	return apply_filters( 'wpmem_get_ip', rktgk_get_user_ip() );
 }
 
 /**
