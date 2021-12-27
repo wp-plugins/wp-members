@@ -1025,7 +1025,7 @@ class WP_Members_User {
 	 * @since 3.2.0
 	 * @since 3.2.6 Added $date to set a specific expiration date.
 	 * @since 3.3.0 Updated to new single meta, keeps legacy array for rollback.
-	 * @since 3.3.1 Added no gap renewal option, @todo Needs some possible condensing.
+	 * @since 3.3.1 Added no gap renewal option.
 	 *
 	 * @param string $product
 	 * @param int    $user_id

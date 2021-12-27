@@ -525,9 +525,6 @@ class WP_Members {
 
 		// Replace login error object.
 		if ( 1 == $this->login_error ) {
-			// @todo I think we can do this without the filter now that 
-			// the main messaging function has been updated.
-			//	add_filter( 'wpmem_login_failed_args', array( $this->dialogs, 'login_error' ) );
 			add_filter( 'lostpassword_url',  array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
 		

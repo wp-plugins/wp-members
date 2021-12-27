@@ -608,7 +608,7 @@ class WP_Members_Forms {
 
 		$action = ( ! isset( $arr['action'] ) ) ? 'login' : $arr['action'];
 		
-		// Set up redirect_to @todo This could be done in a separate method usable by both login & reg.
+		// Set up redirect_to
 		$redirect_to = wpmem_get_redirect_to( $arr );
 
 		// Set up default wrappers.
