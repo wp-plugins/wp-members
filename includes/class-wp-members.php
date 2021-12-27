@@ -458,18 +458,20 @@ class WP_Members {
 
 		// Add actions.
 		
-		add_action( 'init',                  array( $this, 'load_textdomain' ) ); //add_action( 'plugins_loaded', 'wpmem_load_textdomain' );
+		add_action( 'init',                  array( $this, 'load_textdomain' ) );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
-		add_action( 'widgets_init',          array( $this, 'widget_init' ) ); // initializes the widget
-		add_action( 'admin_init',            array( $this, 'load_admin'  ) ); // check user role to load correct dashboard
+		add_action( 'widgets_init',          array( $this, 'widget_init' ) );            // initializes the widget
+		add_action( 'admin_init',            array( $this, 'load_admin'  ) );            // check user role to load correct dashboard
 		add_action( 'rest_api_init',         array( $this, 'rest_init'   ) );
 		add_action( 'template_redirect',     array( $this, 'get_action'  ) );
+		
 		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style_wp_login' ) ); // styles the native registration
-		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );  // Enqueues the stylesheet.
+		add_action( 'wp_enqueue_scripts',    array( $this, 'enqueue_style' ) );          // Enqueues the stylesheet.
 		add_action( 'wp_enqueue_scripts',    array( $this, 'loginout_script' ) );
+		
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ), 20 );
 		add_action( 'customize_register',    array( $this, 'customizer_settings' ) );
-		add_action( 'admin_menu',            'wpmem_admin_options' ); // adds admin menu
+		add_action( 'admin_menu',            'wpmem_admin_options' );                    // Adds admin menu
 		add_action( 'wp_footer',             array( $this, 'invisible_captcha' ) );
 		
 		if ( is_user_logged_in() ) {
@@ -477,7 +479,7 @@ class WP_Members {
 			add_action( 'wpmem_pwd_change',  array( $this->user, 'set_as_logged_in' ), 10 );
 		}
 		
-		add_action( 'register_form', 'wpmem_wp_register_form' ); // adds fields to the default wp registration
+		add_action( 'register_form', 'wpmem_wp_register_form' ); // Adds fields to the default wp registration
 		
 		if ( wpmem_is_woo_active() ) {
 			
@@ -526,7 +528,7 @@ class WP_Members {
 			// @todo I think we can do this without the filter now that 
 			// the main messaging function has been updated.
 			//	add_filter( 'wpmem_login_failed_args', array( $this->dialogs, 'login_error' ) );
-			add_filter( 'lostpassword_url',        array( $this, 'lost_pwd_url' ), 10, 2 );
+			add_filter( 'lostpassword_url',  array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
 		
 		if ( function_exists( 'wpmem_custom_translation_strings' ) ) {
