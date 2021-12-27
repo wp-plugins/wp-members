@@ -501,4 +501,29 @@ function wpmem_is_enabled( $option ) {
 	return ( 1 == $wpmem->{$option} ) ? true : false;
 }
 
+/**
+ * Gets plugin url.
+ * 
+ * @since 3.4.1
+ * 
+ * @global stdClass $wpmem
+ * @return string   $wpmem->url
+ */
+function wpmem_get_plugin_url() {
+	global $wpmem;
+	return $wpmem->url;
+}
+
+/**
+ * Gets plugin version.
+ * 
+ * @since 3.4.1
+ * 
+ * @global stdClass $wpmem
+ * @return string   $wpmem->version
+ */
+function wpmem_get_plugin_version() {
+	global $wpmem;
+	return $wpmem->version;
+}
 // End of file.
