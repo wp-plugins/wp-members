@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 
 License: GPLv3
 
@@ -133,6 +133,13 @@ WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. Se
 
 
 == Changelog ==
+
+= 3.4.1 =
+
+* Fixes a bug in the user api for undefined variable when checking the user ip.
+* Fixes a bug in 3.4.0 that causes an error in user export.
+* Sanitize email as email, not text.
+* Fixes a bug in 3.4.0 that causes the captcha validation to be run twice, resulting in failed captcha during registration.
 
 = 3.4.0 =
 
