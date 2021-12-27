@@ -52,7 +52,7 @@
 .req {
 	color: #f00;
 }
-
+/** This needs to change where it loads - it should only load on the fields table for drag/drop */
 #the-list {
 	cursor: move;
 }
@@ -111,7 +111,7 @@
 }
 #wpmem_user_profile_tabs .ui-state-active {
 	border: 1px solid #006799; 
-	background: #008ec2;
+	background: #135e96;
 }
 #wpmem_user_profile_tabs .ui-state-active a {
 	color: #fff;
