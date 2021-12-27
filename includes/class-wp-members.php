@@ -625,7 +625,7 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		require_once( $this->path . 'includes/libraries/rocketgeek-utilities/loader.php' );
+		require_once( $this->path . 'includes/vendor/rocketgeek-utilities/loader.php' );
 		require_once( $this->path . 'includes/class-wp-members-api.php' );
 		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
 		require_once( $this->path . 'includes/class-wp-members-captcha.php' );

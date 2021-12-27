@@ -527,30 +527,29 @@ class WP_Members_Admin_API {
 	 * @since 3.3.0 Everything loads from /assets/ folder.
 	 *
 	 * @global object $current_screen
-	 * @global object $wpmem
 	 * @param  string $hook The admin screen hook being loaded.
 	 */
 	function dashboard_enqueue_scripts( $hook ) {
-		global $current_screen, $wpmem;
-		if ( 'edit.php' == $hook 
-		   || 'settings_page_wpmem-settings' == $hook 
-		   || 'post.php' == $hook 
-		   || 'post-new.php' == $hook 
+		global $current_screen;
+		if ( 'edit.php'       == $hook 
+		   || 'post.php'      == $hook 
+		   || 'post-new.php'  == $hook 
 		   || 'user-edit.php' == $hook 
-		   || 'profile.php' == $hook 
-		   || 'users.php' ) {
-			wp_enqueue_style( 'wpmem-admin', $wpmem->url . 'assets/css/admin' . wpmem_get_suffix() . '.css', '', $wpmem->version );
+		   || 'profile.php'   == $hook 
+		   || 'users.php'     == $hook
+		   || 'settings_page_wpmem-settings' == $hook ) {
+			wp_enqueue_style( 'wpmem-admin', wpmem_get_plugin_url() . 'assets/css/admin' . wpmem_get_suffix() . '.css', '', wpmem_get_plugin_version() );
 		} 
 		if ( 'settings_page_wpmem-settings' == $hook || 'post.php' == $hook || 'post-new.php' == $hook  ) {
 			wp_enqueue_script( 'jquery-ui-dialog' ); // enqueue jQuery UI Dialog dependency
-			wp_register_script( 'wpmem-admin', $wpmem->url . 'assets/js/admin' . wpmem_get_suffix() . '.js', 'jquery', $wpmem->version, true );
+			wp_register_script( 'wpmem-admin', wpmem_get_plugin_url() . 'assets/js/admin' . wpmem_get_suffix() . '.js', 'jquery', wpmem_get_plugin_version(), true );
 			$translation_array = array(
 				'close_btn' => __( 'Close', 'wp-members' ),
 			);
 			wp_localize_script( 'wpmem-admin', 'wpmem_get_settings_vars', $translation_array );
 			wp_enqueue_script( 'wpmem-admin' );
 		}
-		if ( ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) 
+		if ( ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && wpmem_is_enabled( 'enable_products' ) ) 
 		   || ( 'wpmem_product' == get_post_type() )
 		   || ( 'user-edit' == $current_screen->id || 'profile' == $current_screen->id )
 		   || ( 'settings_page_wpmem-settings' == $hook ) ) {
@@ -558,14 +557,14 @@ class WP_Members_Admin_API {
 			wp_enqueue_script( 'jquery-ui-core' );       // enqueue jQuery UI Core
 			wp_enqueue_script( 'jquery-ui-datepicker' ); // enqueue jQuery UI Datepicker
 			if ( ! wp_style_is( 'jquery-ui-style', 'enqueued' ) ) {
-				wp_register_style( 'jquery-ui-style', $wpmem->url . 'assets/css/jquery-ui' . wpmem_get_suffix() . '.css' );
+				wp_register_style( 'jquery-ui-style', wpmem_get_plugin_url() . 'includes/vendor/jquery-ui/css/jquery-ui' . wpmem_get_suffix() . '.css' );
 			}
 			wp_enqueue_style( 'jquery-ui-style' ); 
 		}
-		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && 1 == $wpmem->enable_products ) {
+		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) && wpmem_is_enabled( 'enable_products' ) ) {
 			if ( ! wp_script_is( 'select2', 'enqueued' ) ) {
-				wp_register_style( 'select2-style', $wpmem->url . 'assets/css/select2' . wpmem_get_suffix() . '.css', false, '4.0.5', 'all' );
-				wp_register_script( 'select2',   $wpmem->url . 'assets/js/select2' . wpmem_get_suffix() . '.js', array( 'jquery' ), '4.0.5', true );
+				wp_register_style( 'select2-style', wpmem_get_plugin_url() . 'includes/vendor/select2/css/select2' . wpmem_get_suffix() . '.css', false, '4.0.5', 'all' );
+				wp_register_script( 'select2',   wpmem_get_plugin_url() . 'includes/vendor/select2/js/select2' . wpmem_get_suffix() . '.js', array( 'jquery' ), '4.0.5', true );
 				wp_enqueue_style( 'select2-style' );
 				wp_enqueue_script( 'select2' );
 			}
