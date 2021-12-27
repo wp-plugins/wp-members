@@ -178,6 +178,16 @@ class WP_Members_Email {
 		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $this->settings['tag'] );
 
 		/**
+		 * Filters attachments.
+		 * 
+		 * @since 3.4.1
+		 * 
+		 * @param  mixed  $attachments           Any file attachments as a string or array. (default per wp_mail() documentation is empty array).
+		 * @param  string $this->settings['tag'] Tag to determine what email is being generated (newreg|newmod|appmod|repass|admin).
+		 */
+		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), $this->settings['tag'] );
+
+		/**
 		 * Filter the email.
 		 *
 		 * This filter passes the email subject, body, user ID, and several other
@@ -380,6 +390,9 @@ class WP_Members_Email {
 		/** This filter is documented in class-wp-members-email.php */
 		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
 
+		/** This filter is documented in class-wp-members-email.php */
+		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), 'admin' );
+
 		/**
 		 * Filters the address the admin notification is sent to.
 		 *
@@ -560,10 +573,11 @@ class WP_Members_Email {
 	 */
 	private function send( $to ) {
 		$args['to'] = ( 'user' == $to ) ? $this->settings['user_email'] : $this->settings['admin_email'];
-		$args['subject'] = $this->settings['subj'];
-		$args['message'] = $this->settings['body'];
-		$args['headers'] = $this->settings['headers'];
-		// @todo Add attachments to arguments and email send (and probably in the original function).
+		$args['subject']     = $this->settings['subj'];
+		$args['message']     = $this->settings['body'];
+		$args['headers']     = $this->settings['headers'];
+		$args['attachments'] = $this->settings['attachments'];
+
 		/**
 		 * Filter email send arguments.
 		 *
@@ -581,7 +595,7 @@ class WP_Members_Email {
 		add_filter( 'wp_mail_content_type', array( $this, 'content_type' ) );
 		
 		// Send message.
-		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ) );
+		$result = wp_mail( $args['to'], stripslashes( $args['subject'] ), stripslashes( $args['message'] ), $args['headers'], $args['attachments'] );
 		
 		// Remove customizations.
 		remove_filter( 'wp_mail_from',         array( $this, 'from'      ) );
