@@ -514,7 +514,7 @@ class WP_Members_Products_Admin {
 		
 		echo wpmem_form_label( array( 
 			'meta_key'=>$wpmem->membership->post_meta,
-			'label'=>__( 'Limit access to:', 'wp-members' ),
+			'label'=>__( 'Restrict access by membership:', 'wp-members' ),
 			'type'=> 'multiselect'
 		) );
 		echo "<br />";

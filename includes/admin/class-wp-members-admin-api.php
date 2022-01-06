@@ -625,7 +625,7 @@ class WP_Members_Admin_API {
 	function settings( $which ) {
 		switch ( $which ) {
 			case 'content':
-				return array( 'block' => 'Content Blocking', 'show_excerpt' => 'Show Excerpts', 'show_login' => 'Show Login Form', 'show_reg' => 'Show Registration Form', 'autoex' => 'Auto Excerpt' );
+				return array( 'block' => 'Content Restriction', 'show_excerpt' => 'Show Excerpts', 'show_login' => 'Show Login Form', 'show_reg' => 'Show Registration Form', 'autoex' => 'Auto Excerpt' );
 				break;
 			case 'options':
 				return array( 'notify' => 'Notify admin', 'mod_reg' => 'Moderate registration', 'captcha' => 'Enable registration CAPTCHA', 'warnings' => 'Ignore warning messages', 'dropins' => 'Enable dropins', 'enable_products' => 'Enable membership products', 'clone_menus' => 'Clone menus' );

@@ -102,12 +102,12 @@ class WP_Members_Admin_Tab_Options {
 									if ( $key == 'post' || $key == 'page' || ( isset( $wpmem->post_types ) && array_key_exists( $key, $wpmem->post_types ) ) ) {
 									?>
 									<li<?php echo ( $i == $len - 1 ) ? ' style="border-bottom:1px solid #eee;"' : ''; ?>>
-										<label><?php echo ( $i == 0 ) ? __( 'Content Blocking', 'wp-members' ) : '&nbsp;'; ?></label>
+										<label><?php echo ( $i == 0 ) ? __( 'Content Restriction', 'wp-members' ) : '&nbsp;'; ?></label>
 										 <?php
 										$block  = ( isset( $wpmem->block[ $key ] ) ) ? $wpmem->block[ $key ] : '';
 										$values = array(
-											__( 'Do not block', 'wp-members' ) . '|0',
-											__( 'Block', 'wp-members' ) . '|1',
+											__( 'Do not restrict', 'wp-members' ) . '|0',
+											__( 'Restrict', 'wp-members' ) . '|1',
 											// @todo Future development. __( 'Hide', 'wp-members' ) . '|2',
 										);
 										echo wpmem_form_field( 'wpmem_block_' . $key, 'select', $values, $block ); ?>

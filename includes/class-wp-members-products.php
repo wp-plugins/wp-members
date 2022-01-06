@@ -332,8 +332,8 @@ class WP_Members_Products {
 		 */
 		$args = apply_filters( 'wpmem_membership_cpt_args', $args );
 		
-		$singular = __( 'Product', 'wp-members' );
-		$plural   = __( 'Products', 'wp-members' );
+		$singular = __( 'Membership', 'wp-members' );
+		$plural   = __( 'Memberships', 'wp-members' );
 
 		$labels = array(
 			'name'                  => $plural,
@@ -352,6 +352,7 @@ class WP_Members_Products {
 			'not_found_in_trash'    => __( 'Not found in Trash', 'wp-members' ),
 			'insert_into_item'      => __( 'Insert into item', 'wp-members' ),
 			'publish'               => sprintf( __( 'Save %s Details', 'wp-members' ), $singular ),
+			'attributes'            => __( 'Membership Attributes', 'wp-members' ),
 		);
 		$args = array(
 			'label'                 => __( 'Membership Product', 'wp-members' ),
