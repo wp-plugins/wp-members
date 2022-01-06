@@ -27,6 +27,7 @@ class WP_Members_Products_Admin {
 			add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
 			add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
 			add_action( 'add_meta_boxes',               array( $this, 'meta_boxes' ) );
+			add_action( 'page_attributes_misc_attributes', array( $this, 'membership_attributes' ) );
 			add_action( 'save_post',                    array( $this, 'save_details' ) );
 			add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
 			add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
@@ -153,6 +154,21 @@ class WP_Members_Products_Admin {
 			array( $this, 'message_meta_box_detail' ),
 			'wpmem_product'
 		);
+	}
+	
+	/**
+	 * Adds child membership access option to Membership Attributes meta box.
+	 *
+	 * @since 3.4.1
+	 */
+	function membership_attributes( $post ) {
+		if ( 'wpmem_product' == $post->post_type ) {
+			$checked = get_post_meta( $post->ID, 'wpmem_product_child_access', true );
+			echo '<p class="post-attributes-label-wrapper">
+				<input name="wpmem_product_child_access" type="checkbox" value="1" ' .  checked( $checked, 1, false ) . ' />
+				<label>' . __( 'Access by child membership', 'wp-members' ) . '</label><br />
+			</p>';
+		}
 	}
 
 	/**
@@ -455,6 +471,13 @@ class WP_Members_Products_Admin {
 				delete_post_meta( $post_id, 'wpmem_product_message' );
 			}
 		}
+		
+		$child_access = intval( wpmem_get( 'wpmem_product_child_access', 0 ) );
+		if ( 1 == $child_access ) {
+			update_post_meta( $post_id, 'wpmem_product_child_access', $child_access );
+		} else {
+			delete_post_meta( $post_id, 'wpmem_product_child_access' );
+		}		
 	}
 
 	/**

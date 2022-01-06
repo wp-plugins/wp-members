@@ -903,7 +903,7 @@ class WP_Members_User {
 		// Product must be an array.
 		$product_array = ( ! is_array( $product ) ) ? array( $product ) : $product;
 
-		$product_array = $this->get_product_ancestors( $product_array );
+		$product_array = $this->get_membership_stack( $product_array );
 
 		// Current user or requested user.
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
@@ -913,7 +913,7 @@ class WP_Members_User {
 
 		// Start by assuming no access.
 		$access  = false;
-		
+
 		foreach ( $product_array as $prod ) {
 			$expiration_product = false;
 			$role_product = false;
@@ -961,7 +961,7 @@ class WP_Members_User {
 	}
 	
 	/**
-	 * Gets product ancestors (if any).
+	 * Gets membership hierarchy (if any).
 	 *
 	 * Replaces original get_product_children() from 3.4.0 which was not as scalable.
 	 *
@@ -971,11 +971,26 @@ class WP_Members_User {
 	 * @param  array    $product_array
 	 * $return array    $product_array Product array with child products added.
 	 */
-	function get_product_ancestors( $product_array ) {
+	function get_membership_stack( $product_array ) {
 
 		global $wpmem;
-		$membership_ids = array_flip( $wpmem->membership->product_by_id );
+		$membership_ids = wpmem_get_memberships_ids();
 		foreach ( $product_array as $product ) {
+			// Do we need child access?
+			$child_access = get_post_meta( $membership_ids[ $product ], 'wpmem_product_child_access', true );
+			if ( 1 == $child_access ) {
+				$args = array(
+					'post_type'   => $wpmem->membership->post_type,
+					'post_parent' => $membership_ids[ $product ], // Current post's ID
+				);
+				$children = get_children( $args );
+				if ( ! empty( $children ) ) {
+					foreach ( $children as $child ) {
+						$product_array[] = $child->post_name;
+					}
+				}
+			} 
+			// Ancestor access is by default.
 			$ancestors = get_post_ancestors( $membership_ids[ $product ] );
 			if ( ! empty( $ancestors ) ) {
 				foreach ( $ancestors as $ancestor ) {

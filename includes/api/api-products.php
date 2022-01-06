@@ -63,3 +63,8 @@ function wpmem_get_memberships() {
 	global $wpmem;
 	return ( ! empty( $wpmem->membership->products ) ) ? $wpmem->membership->products : false;
 }
+
+function wpmem_get_memberships_ids() {
+	global $wpmem;
+	return array_flip( $wpmem->membership->product_by_id );
+}
