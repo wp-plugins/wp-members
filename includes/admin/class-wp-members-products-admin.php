@@ -439,12 +439,12 @@ class WP_Members_Products_Admin {
 			if ( $fixed_period ) {
 				
 				// Start and end.
-				$period_start = wpmem_get( 'wpmem_product_fixed_period_start' );
-				$period_end   = wpmem_get( 'wpmem_product_fixed_period_end' );
+				$period_start = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_start' ) );
+				$period_end   = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_end' ) );
 				
 				// Is there an entry grace period?
-				$grace_number = wpmem_get( 'wpmem_product_fixed_period_grace_number', false );
-				$grace_period = wpmem_get( 'wpmem_product_fixed_period_grace_period', false );
+				$grace_number = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_number', false ) );
+				$grace_period = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_period', false ) );
 				$save_fixed_period = $period_start . '-' . $period_end;
 				if ( $grace_number && $grace_period ) {
 					$save_fixed_period .= '-' . $grace_number . '-' . $grace_period;
@@ -463,7 +463,7 @@ class WP_Members_Products_Admin {
 			}
 		}
 
-		$product_message = wpmem_get( 'product_message', false );
+		$product_message =  wp_kses_post( wpmem_get( 'product_message', false ) );
 		if ( false !== $product_message ) {
 			if ( '' != $product_message ) {
 				update_post_meta( $post_id, 'wpmem_product_message', $product_message );
@@ -537,7 +537,7 @@ class WP_Members_Products_Admin {
 	 */
 	function save_product_to_post( $post ) {
 		global $wpmem;
-		$products = wpmem_get( $wpmem->membership->post_meta );
+		$products = wpmem_sanitize_array( wpmem_get( $wpmem->membership->post_meta ) );
 		$products = ( $products ) ? $products : array();
 		if ( empty( $products ) || ( 1 == count( $products ) && '' == $products[0] ) ) {
 			delete_post_meta( $post->ID, $wpmem->membership->post_meta );
