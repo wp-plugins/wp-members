@@ -226,7 +226,8 @@ function wpmem_update_user_role( $user_id, $role, $action = 'set' ) {
  * @return boolean $access  True if user has access, otherwise false.
  */
 function wpmem_user_has_access( $product, $user_id = false ) {
-	global $wpmem; 
+	global $wpmem;
+	$user_id = ( false == $user_id ) ? get_current_user_id() : $user_id;
 	return $wpmem->user->has_access( $product, $user_id );
 }
 

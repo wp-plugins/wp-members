@@ -896,15 +896,15 @@ class WP_Members_User {
 	 */
 	function has_access( $product, $user_id = false ) {
 		global $wpmem;
-		if ( false === $user_id && ! is_user_logged_in() ) {
+		if ( ! is_user_logged_in() ) {
 			return false;
 		}
 		
 		// Product must be an array.
 		$product_array = ( ! is_array( $product ) ) ? array( $product ) : $product;
 
-		$product_array = $this->get_product_children( $product_array );
-		
+		$product_array = $this->get_product_ancestors( $product_array );
+
 		// Current user or requested user.
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		
@@ -961,32 +961,30 @@ class WP_Members_User {
 	}
 	
 	/**
-	 * Gets product children (if any).
+	 * Gets product ancestors (if any).
 	 *
-	 * @since 3.4.0
+	 * Replaces original get_product_children() from 3.4.0 which was not as scalable.
+	 *
+	 * @since 3.4.1
 	 *
 	 * @global stdClass $wpmem
 	 * @param  array    $product_array
 	 * $return array    $product_array Product array with child products added.
 	 */
-	function get_product_children( $product_array ) {
+	function get_product_ancestors( $product_array ) {
 
 		global $wpmem;
 		$membership_ids = array_flip( $wpmem->membership->product_by_id );
 		foreach ( $product_array as $product ) {
-			$args = array(
-				'post_type'   => $wpmem->membership->post_type,
-				'post_parent' => $membership_ids[ $product ], // Current post's ID
-			);
-			$children = get_children( $args );
-			if ( ! empty( $children ) ) {
-				foreach ( $children as $child ) {
-					$product_array[] = $child->post_name;
+			$ancestors = get_post_ancestors( $membership_ids[ $product ] );
+			if ( ! empty( $ancestors ) ) {
+				foreach ( $ancestors as $ancestor ) {
+					$product_array[] = get_post_field( 'post_name', $ancestor );;
 				}
 			}
 		}
 		
-		return $product_array;
+		return $product_array;		
 	}
 	
 	/**
