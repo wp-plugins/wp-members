@@ -1696,7 +1696,7 @@ class WP_Members {
 		$file = apply_filters( 'wpmem_localization_file', trailingslashit( WP_LANG_DIR ) . 'plugins/' . $domain . '-' . $locale . '.mo', $locale );
 
 		$loaded = load_textdomain( $domain, $file );
-		if ( true === $loaded ) {
+		if ( true == $loaded ) {
 			return $loaded;
 		} else {
 			/**

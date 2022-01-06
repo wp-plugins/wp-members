@@ -90,7 +90,7 @@ function rktgk_date_format_map() {
 }
 endif;
 
-if ( ! function_exists( 'rktgk_date_format' ) ):
+if ( ! function_exists( 'rktgk_get_php_date_format' ) ):
 /**
  * Converts certain date formats to PHP.
  *
@@ -103,9 +103,18 @@ if ( ! function_exists( 'rktgk_date_format' ) ):
  * @param  string  $format
  * @return string  
  */
-function rktgk_date_format( $format ) {
+function rktgk_get_php_date_format( $format ) {
 	$convert = rktgk_date_format_map();
 	$format_upper = strtoupper( $format );
 	return ( isset( $convert[ $format_upper ] ) ) ? $convert[ $format ] : $format;
+}
+endif;
+
+if ( ! function_exists( 'rktgk_date_format' ) ):
+/**
+ * Replaced by rktgk_get_php_date_format()
+ */
+function rktgk_date_format( $format ) {
+	return rktgk_get_php_date_format( $format );
 }
 endif;

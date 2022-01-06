@@ -110,7 +110,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. See changelog for important details. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -136,13 +136,17 @@ WP-Members 3.4.0 is a major update. Backup prior to upgrading is recommended. Se
 
 = 3.4.1 =
 
+* 
 * Added wpmem_is_user_current() api function.
 * Added attachements to email function.
 * Moves external libraries to "vendor" directory.
+* Removes a overlooked use of wpmem_page_pwd_reset() which was deprecated as of 3.4.0.
+* Sanitize email as email, not text.
 * Fixes a bug in the user api for undefined variable when checking the user ip.
 * Fixes a bug in 3.4.0 that causes an error in user export.
-* Sanitize email as email, not text.
 * Fixes a bug in 3.4.0 that causes the captcha validation to be run twice, resulting in failed captcha during registration.
+* Fixes css issue that caused cursor change on all list table screens for drag-and-drop; should only show on Fields tab.
+
 
 = 3.4.0 =
 
