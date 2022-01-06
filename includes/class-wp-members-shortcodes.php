@@ -451,7 +451,7 @@ class WP_Members_Shortcodes {
 				break;
 
 			case "pwdchange":
-				$content = wpmem_page_pwd_reset( $wpmem->regchk, $content );
+				$content = $this->render_pwd_reset()( $wpmem->regchk, $content );
 				$content = ( 'pwdchangesuccess' == $wpmem->regchk ) ? $content . $this->render_links() : $content;
 				break;
 
