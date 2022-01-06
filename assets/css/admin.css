@@ -52,8 +52,8 @@
 .req {
 	color: #f00;
 }
-/** This needs to change where it loads - it should only load on the fields table for drag/drop */
-#the-list {
+
+.settings_page_wpmem-settings #the-list {
 	cursor: move;
 }
 #sort, #edit {
