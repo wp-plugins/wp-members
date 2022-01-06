@@ -136,7 +136,9 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 
 = 3.4.1 =
 
-* 
+* Revise the membership hierarchy logic (see release announcement for details).
+* Changing "Product" text to "Membership" for clarity (was planned for 3.4.0).
+* Changing "Block" text to "Restricted" for clarity (was planned for 3.4.0).
 * Added wpmem_is_user_current() api function.
 * Added attachements to email function.
 * Moves external libraries to "vendor" directory.
@@ -146,7 +148,6 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 * Fixes a bug in 3.4.0 that causes an error in user export.
 * Fixes a bug in 3.4.0 that causes the captcha validation to be run twice, resulting in failed captcha during registration.
 * Fixes css issue that caused cursor change on all list table screens for drag-and-drop; should only show on Fields tab.
-
 
 = 3.4.0 =
 

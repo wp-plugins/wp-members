@@ -211,7 +211,7 @@ class WP_Members_Admin_Tab_Options {
 								$conf_link_start = '<a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#confirm" target="_blank">';
 								$conf_link_end   = '</a>';
 								$rows = array(
-									array(__('Enable Products', 'wp-members'),'wpmem_settings_products',sprintf(__('Enables creation of different %s membership products %s','wp-members'),$mem_link_start,$mem_link_end),'enable_products'),
+									array(__('Enable memberships', 'wp-members'),'wpmem_settings_products',sprintf(__('Enables creation of different %s membership products %s','wp-members'),$mem_link_start,$mem_link_end),'enable_products'),
 									array(__('Clone menus','wp-members'),'wpmem_settings_menus',__('Enables logged in menus','wp-members'),'clone_menus'),
 									array(__('Notify admin','wp-members'),'wpmem_settings_notify',sprintf(__('Notify %s for each new registration? %s','wp-members'),$admin_email,$chg_email),'notify'),
 									array(__('Moderate registration','wp-members'),'wpmem_settings_moderate',__('Holds new registrations for admin approval','wp-members'),'mod_reg'),
