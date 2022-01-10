@@ -8,12 +8,12 @@
  * 
  * This file is part of the WP-Members plugin by Chad Butler
  * You can find out more about this plugin at https://rocketgeek.com
- * Copyright (c) 2006-2021  Chad Butler
+ * Copyright (c) 2006-2022  Chad Butler
  * WP-Members(tm) is a trademark of butlerblog.com
  *
  * @package   WP-Members
  * @author    Chad Butler 
- * @copyright 2006-2021
+ * @copyright 2006-2022
  */
 
 // Exit if accessed directly.

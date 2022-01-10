@@ -12,10 +12,10 @@
  * @link       https://github.com/rocketgeek/rocketgeek-utilities/
  * @author     Chad Butler <https://butlerblog.com>
  * @author     RocketGeek <https://rocketgeek.com>
- * @copyright  Copyright (c) 2021 Chad Butler
+ * @copyright  Copyright (c) 2022 Chad Butler
  * @license    Apache-2.0
  *
- * Copyright [2021] Chad Butler, RocketGeek
+ * Copyright [2022] Chad Butler, RocketGeek
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
