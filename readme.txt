@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.4.1
+Stable tag: 3.4.1.1
 
 License: GPLv3
 
@@ -134,6 +134,11 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 
 == Changelog ==
 
+= 3.4.1.1 =
+
+* Fixes a bug in the password change shortcode that causes a "too few arguments" error.
+* Changes wpmem_is_user_current() to wpmem_user_is_current() for backwards compatibility with the plugin's premium PayPal extension.
+
 = 3.4.1 =
 
 * Revise the membership hierarchy logic (see release announcement for details).
@@ -141,6 +146,7 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 * Changing "Block" text to "Restricted" for clarity (was planned for 3.4.0).
 * Added wpmem_is_user_current() api function.
 * Added attachements to email function.
+* Added wpmem_email_attachments filter.
 * Moves external libraries to "vendor" directory.
 * Removes a overlooked use of wpmem_page_pwd_reset() which was deprecated as of 3.4.0.
 * Sanitize email as email, not text.
