@@ -236,6 +236,8 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  *
  * Similar to wpmem_user_has_access(), but specifically checks the
  * expiration date for a specified product (must be expiration product).
+ * 
+ * Must be named _user_is_current() as _is_user_current() exists in PayPal extension.
  *
  * @since 3.3.9
  *
@@ -243,7 +245,7 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * @param  integer $user_id
  * @return boolean
  */
-function wpmem_is_user_current( $product, $user_id = false ) {
+function wpmem_user_is_current( $product, $user_id = false ) {
 	global $wpmem;
 	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
 	$memberships = wpmem_get_user_products( $user_id );
