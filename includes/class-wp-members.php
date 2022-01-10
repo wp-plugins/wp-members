@@ -523,8 +523,11 @@ class WP_Members {
 			add_filter( 'authenticate', array( $this->user, 'check_activated' ), 99, 3 ); 
 		}
 
-		// Replace login error object.
-		if ( 1 == $this->login_error ) {
+		// Replace login error object, if profile page is set, AND it is not the wp-login.php page.
+		if ( 1 == $this->login_error 
+			&& isset( $this->user_pages['profile'] ) 
+			&& '' != $this->user_pages['profile']
+			&& 'wp-login.php' !== $GLOBALS['pagenow'] ) {
 			add_filter( 'lostpassword_url',  array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
 		
