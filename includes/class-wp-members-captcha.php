@@ -101,17 +101,27 @@ class WP_Members_Captcha {
 	 */
 	static function recaptcha( $key = false ) {
 		
+		global $wpmem;
+		
 		if ( false == $key ) {
 			$opts = get_option( 'wpmembers_captcha' );
 			$key  = $opts['recaptcha']['public'];
 		}
 		
-		global $wpmem;
+		/**
+		 * Filters the URL used for google recaptcha API.
+		 *
+		 * @since 3.4.2
+		 *
+		 * @param string $url
+		 */
+		$wpmem_recaptcha_url = apply_filters( 'wpmem_recaptcha_url', 'https://www.google.com/recaptcha/api.js' );
+		
 		if ( 3 == $wpmem->captcha ) {
-			$html = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+			$html = '<script src="' . $wpmem_recaptcha_url . '" async defer></script>
 			<div class="g-recaptcha" data-sitekey="' . $key . '"></div>';
 		} else {
-			$html = '<script src="https://www.google.com/recaptcha/api.js?render=' . $key . '"></script>';
+			$html = '<script src="' . $wpmem_recaptcha_url . '?render=' . $key . '"></script>';
 			$html.= "<script>
 						grecaptcha.ready(function () {
 							grecaptcha.execute('" . $key . "', { action: 'contact' }).then(function (token) {
