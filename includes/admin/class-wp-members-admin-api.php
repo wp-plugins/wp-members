@@ -533,8 +533,9 @@ class WP_Members_Admin_API {
 		global $current_screen;
 		if ( 'edit.php'       == $hook 
 		   || 'post.php'      == $hook 
-		   || 'post-new.php'  == $hook 
-		   || 'user-edit.php' == $hook 
+		   || 'post-new.php'  == $hook
+		   || 'user-new.php'  == $hook
+		   || 'user-edit.php' == $hook
 		   || 'profile.php'   == $hook 
 		   || 'users.php'     == $hook
 		   || 'settings_page_wpmem-settings' == $hook ) {

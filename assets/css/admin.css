@@ -132,6 +132,7 @@ updatesettings a:hover {
 	color: black;
 }
 
+#adduser .form-field input[type="checkbox"],
 #createuser .form-field input[type="checkbox"] {
 	width: initial;
 }
