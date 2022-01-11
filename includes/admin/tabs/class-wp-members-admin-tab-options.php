@@ -247,42 +247,36 @@ class WP_Members_Admin_Tab_Options {
 									echo wpmem_form_field( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 								  </li>
 								<h3><?php _e( 'Pages' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#pages" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
-								  <?php $wpmem_logurl = $wpmem->user_pages['login'];
-								  if ( ! $wpmem_logurl ) { $wpmem_logurl = wpmem_use_ssl(); } ?>
-								  <li>
-									<label><?php _e( 'Login Page:', 'wp-members' ); ?></label>
-									<select name="wpmem_settings_logpage" id="wpmem_logpage_select">
-									<?php WP_Members_Admin_Tab_Options::page_list( $wpmem_logurl ); ?>
-									</select>&nbsp;<span class="description"><?php _e( 'Specify a login page (optional)', 'wp-members' ); ?></span><br />
-									<div id="wpmem_logpage_custom">
-										<label>&nbsp;</label>
-										<input class="regular-text code" type="text" name="wpmem_settings_logurl" value="<?php echo $wpmem_logurl; ?>" size="50" />
-									</div>
-								  </li>
-								  <?php $wpmem_regurl = $wpmem->user_pages['register'];
-								  if ( ! $wpmem_regurl ) { $wpmem_regurl = wpmem_use_ssl(); } ?>
-								  <li>
-									<label><?php _e( 'Register Page:', 'wp-members' ); ?></label>
-									<select name="wpmem_settings_regpage" id="wpmem_regpage_select">
-										<?php WP_Members_Admin_Tab_Options::page_list( $wpmem_regurl ); ?>
-									</select>&nbsp;<span class="description"><?php _e( 'For creating a register link in the login form', 'wp-members' ); ?></span><br />
-									<div id="wpmem_regpage_custom">
-										<label>&nbsp;</label>
-										<input class="regular-text code" type="text" name="wpmem_settings_regurl" value="<?php echo $wpmem_regurl; ?>" size="50" />
-									</div>
-								  </li>
-								  <?php $wpmem_msurl = $wpmem->user_pages['profile'];
-								  if ( ! $wpmem_msurl ) { $wpmem_msurl = wpmem_use_ssl(); } ?>
-								  <li>
-									<label><?php _e( 'User Profile Page:', 'wp-members' ); ?></label>
-									<select name="wpmem_settings_mspage" id="wpmem_mspage_select">
-									<?php WP_Members_Admin_Tab_Options::page_list( $wpmem_msurl ); ?>
-									</select>&nbsp;<span class="description"><?php _e( 'For creating a forgot password link in the login form', 'wp-members' ); ?></span><br />
-									<div id="wpmem_mspage_custom">
-										<label>&nbsp;</label>
-										<input class="regular-text code" type="text" name="wpmem_settings_msurl" value="<?php echo $wpmem_msurl; ?>" size="50" />
-									</div>
-								  </li>
+								  <?php
+									$user_pages = array(
+										'log' => array(
+											'url' => $wpmem->user_pages['login'],
+											'label' => __( 'Login Page:', 'wp-members' ),
+											'description' => __( 'Specify a login page (optional)', 'wp-members' ),
+										),
+										'reg' => array(
+											'url' => $wpmem->user_pages['register'],
+											'label' => __( 'Register Page:', 'wp-members' ),
+											'description' => __( 'For creating a register link in the login form', 'wp-members' ),
+										),
+										'ms' => array(
+											'url' => $wpmem->user_pages['profile'],
+											'label' => __( 'User Profile Page:', 'wp-members' ),
+											'description' => __( 'For creating a forgot password link in the login form', 'wp-members' ),
+										),
+									);
+								foreach ( $user_pages as $key => $setting ) { ?>
+									<li>
+										<label><?php echo $setting['label'] ?></label>
+										<select name="wpmem_settings_<?php echo $key; ?>page" id="wpmem_<?php echo $key; ?>page_select">
+										<?php WP_Members_Admin_Tab_Options::page_list( $setting['url'] ); ?>
+										</select>&nbsp;<span class="description"><?php echo $setting['description']; ?></span><br />
+										<div id="wpmem_<?php echo $key; ?>page_custom">
+											<label>&nbsp;</label>
+											<input class="regular-text code" type="text" name="wpmem_settings_<?php echo $key; ?>url" value="<?php echo $setting['url']; ?>" placeholder="https://" size="50" />
+										</div>
+									</li><?php
+								} ?>
 								<h3><?php _e( 'Stylesheet' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#styles" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
 								  <li>
 									<label><?php _e( 'Stylesheet' ); ?>:</label>
@@ -290,12 +284,11 @@ class WP_Members_Admin_Tab_Options {
 									<?php WP_Members_Admin_Tab_Options::style_list( $wpmem->select_style ); ?>
 									</select>
 								  </li>
-								  <?php $wpmem_cssurl = $wpmem->cssurl;
-								  if ( ! $wpmem_cssurl ) { $wpmem_cssurl = wpmem_use_ssl(); } ?>
+								  <?php $wpmem_cssurl = $wpmem->cssurl; ?>
 								  <div id="wpmem_stylesheet_custom">
 									  <li>
 										<label><?php _e( 'Custom Stylesheet:', 'wp-members' ); ?></label>
-										<input class="regular-text code" type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" size="50" />
+										<input class="regular-text code" type="text" name="wpmem_settings_cssurl" value="<?php echo $wpmem_cssurl; ?>" placeholder="https://" size="50" />
 									  </li>
 								  </div>
 									<input type="hidden" name="wpmem_admin_a" value="update_settings">
@@ -466,7 +459,7 @@ class WP_Members_Admin_Tab_Options {
 
 			$wpmem_settings_msurl  = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_msurl'] ) : '';
 			$wpmem_settings_mspage = ( $_POST['wpmem_settings_mspage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_mspage'], 'int' );
-			if ( $wpmem_settings_msurl != wpmem_use_ssl() && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
+			if ( $wpmem_settings_msurl != '' && $wpmem_settings_msurl != 'use_custom' && ! $wpmem_settings_mspage ) {
 				$msurl = trim( $wpmem_settings_msurl );
 			} else {
 				$msurl = $wpmem_settings_mspage;
@@ -474,7 +467,7 @@ class WP_Members_Admin_Tab_Options {
 
 			$wpmem_settings_regurl  = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_regurl'] ) : '';
 			$wpmem_settings_regpage = ( $_POST['wpmem_settings_regpage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_regpage'], 'int' );
-			if ( $wpmem_settings_regurl != wpmem_use_ssl() && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
+			if ( $wpmem_settings_regurl != '' && $wpmem_settings_regurl != 'use_custom' && ! $wpmem_settings_regpage ) {
 				$regurl = trim( $wpmem_settings_regurl );
 			} else {
 				$regurl = $wpmem_settings_regpage;
@@ -482,14 +475,14 @@ class WP_Members_Admin_Tab_Options {
 
 			$wpmem_settings_logurl  = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? esc_url( $_POST['wpmem_settings_logurl'] ) : '';
 			$wpmem_settings_logpage = ( $_POST['wpmem_settings_logpage'] == 'use_custom' ) ? '' : wpmem_sanitize_field( $_POST['wpmem_settings_logpage'], 'int' );
-			if ( $wpmem_settings_logurl != wpmem_use_ssl() && $wpmem_settings_logurl != 'use_custom' && ! $wpmem_settings_logpage ) {
+			if ( '' != $wpmem_settings_logurl && 'use_custom' != $wpmem_settings_logurl && ! $wpmem_settings_logpage ) {
 				$logurl = trim( $wpmem_settings_logurl );
 			} else {
 				$logurl = $wpmem_settings_logpage;
 			}
 
 			$wpmem_settings_cssurl = esc_url( $_POST['wpmem_settings_cssurl'] );
-			$cssurl = ( $wpmem_settings_cssurl != wpmem_use_ssl() ) ? trim( $wpmem_settings_cssurl ) : '';
+			$cssurl = ( '' != $wpmem_settings_cssurl ) ? trim( $wpmem_settings_cssurl ) : '';
 
 			$wpmem_settings_style = ( isset( $_POST['wpmem_settings_style'] ) ) ? sanitize_text_field( $_POST['wpmem_settings_style'] ) : false;
 
@@ -665,10 +658,10 @@ class WP_Members_Admin_Tab_Options {
 	 */
 	static function page_list( $val, $show_custom_url = true ) {
 
-		$selected = ( $val == 'http://' || $val == 'https://' ) ? 'select a page' : false;
+		$selected = ( '' == $val ) ? 'select a page' : false;
 		$pages    = get_pages();
 
-		echo '<option value=""'; echo ( $selected == 'select a page' ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page', 'wp-members' ) ); echo '</option>';
+		echo '<option value=""'; echo ( 'select a page' == $selected ) ? ' selected' : ''; echo '>'; echo esc_attr( __( 'Select a page', 'wp-members' ) ); echo '</option>';
 
 		foreach ( $pages as $page ) {
 			$selected = ( get_page_link( $page->ID ) == $val ) ? true : $selected; //echo "VAL: " . $val . ' PAGE LINK: ' . get_page_link( $page->ID );
