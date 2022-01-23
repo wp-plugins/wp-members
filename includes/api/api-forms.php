@@ -590,7 +590,7 @@ function wpmem_woo_reg_validate( $username, $email, $errors ) {
 
 function wpmem_is_reg_form_showing() {
 	global $wpmem;
-	return ( true === $wpmem->reg_form_showing ) ? true : false;
+	return ( isset( $wpmem->reg_form_showing ) && true == $wpmem->reg_form_showing ) ? true : false;
 }
 
 function wpmem_field_display_value( $field, $type, $value, $echo = false ) {
