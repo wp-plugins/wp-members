@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.4.1.1
+Stable tag: 3.4.1.2
 
 License: GPLv3
 
@@ -133,6 +133,14 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 
 
 == Changelog ==
+
+= 3.4.1.2 =
+
+* Applies checkbox CSS in add new user form.
+* Code consolidation in admin options tab file (remove final use of wpmem_use_ssl()).
+* Add wpmem_recaptcha_url filter to allow for changing the URL of the recaptcha script.
+* Only apply pwd reset override on frontend (for login error).
+* Fixes undefined $wpmem->reg_form_showing.
 
 = 3.4.1.1 =
 
