@@ -414,7 +414,7 @@ class WP_Members_Email {
 		 * @since 2.9.8
 		 * @since 3.3.9 Added $user param.
 		 *
-		 * @param array $this->settings P
+		 * @param array $this->settings
 		 *     An array containing email body, subject, user id, and additional settings.
 		 *
 		 *     @type string  $subj
