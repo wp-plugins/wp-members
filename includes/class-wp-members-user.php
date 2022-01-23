@@ -901,7 +901,7 @@ class WP_Members_User {
 		}
 		
 		// Product must be an array.
-		$product_array = ( ! is_array( $product ) ) ? array( $product ) : $product;
+		$product_array = ( ! is_array( $product ) ) ? explode( ",", $product ) : $product;
 
 		$product_array = $this->get_membership_stack( $product_array );
 
