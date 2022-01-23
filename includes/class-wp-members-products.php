@@ -95,8 +95,8 @@ class WP_Members_Products {
 		$this->load_products();
 		
 		add_filter( 'wpmem_securify',               array( $this, 'product_access' ) );
-		add_filter( 'wpmem_product_restricted_msg', array( $this, 'apply_custom_access_message' ) );
-		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ) );
+		add_filter( 'wpmem_product_restricted_msg', array( $this, 'apply_custom_access_message' ), 10, 2 );
+		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ), 10, 2 );
 	}
 	
 	/**
@@ -293,19 +293,18 @@ class WP_Members_Products {
 	 * @param  string   $msg
 	 * @return string   $msg
 	 */
-	function apply_custom_access_message( $msg ) {
+	function apply_custom_access_message( $msg, $post_products ) {
 		global $post;
-		$post_products = $this->get_post_products( $post->ID );
 		if ( $post_products ) {
 			foreach( $post_products as $post_product ) {
 				$membership_id = array_search( $post_product, $this->product_by_id );
-				$message = wpautop( get_post_meta( $membership_id, 'wpmem_product_message', true ) );
+				$message = get_post_meta( $membership_id, 'wpmem_product_message', true );
 				if ( $message ) {
 					$product_message = ( isset( $product_message ) ) ? $product_message . $message : $message;
 				}
 			}
 			if ( isset( $product_message ) ) {
-				$msg = $product_message;
+				$msg = wpautop( $product_message );
 			}
 		}
 		return $msg;
