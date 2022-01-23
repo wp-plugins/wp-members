@@ -527,7 +527,8 @@ class WP_Members {
 		if ( 1 == $this->login_error 
 			&& isset( $this->user_pages['profile'] ) 
 			&& '' != $this->user_pages['profile']
-			&& 'wp-login.php' !== $GLOBALS['pagenow'] ) {
+			&& 'wp-login.php' !== $GLOBALS['pagenow']
+		    && ! wpmem_is_woo_active() ) {
 			add_filter( 'lostpassword_url',  array( $this, 'lost_pwd_url' ), 10, 2 );
 		}
 		
