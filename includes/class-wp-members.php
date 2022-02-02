@@ -1766,7 +1766,7 @@ class WP_Members {
 			$html.= ( is_user_logged_in() ) ? '<input type="hidden" name="a" value="logout" />' : '';
 			$html.= '<input type="submit" value="' . $text . '" /></form>';
 		} else {
-			$html = sprintf( '<a href="%s" id="%" class="%s">%s</a>', $link, $args['id'], $args['class'], $text );
+			$html = sprintf( '<a href="%s" id="%s" class="%s">%s</a>', $link, $args['id'], $args['class'], $text );
 		}
 		return $html;
 	}
