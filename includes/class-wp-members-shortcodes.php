@@ -857,7 +857,7 @@ class WP_Members_Shortcodes {
 			// If the password shortcode page is set as User Profile page.
 			if ( 'getusername' == $wpmem->action ) {
 
-				return wpmem_page_forgot_username( $wpmem_regchk, $content );
+				return $this->render_forgot_username( $wpmem_regchk, $content );
 
 			} else {
 
