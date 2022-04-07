@@ -162,6 +162,7 @@ class WP_Members_Email {
 		$this->settings['disable']       = false;
 		$this->settings['toggle']        = $this->settings['tag']; // Deprecated since 3.2.0, but remains in the array for legacy reasons.
 		$this->settings['reset_link']    = esc_url_raw( add_query_arg( array( 'a' => 'pwdreset', 'key' => $password, 'id' => $user_id ), wpmem_profile_url() ) );
+		$this->settings['line_break']    = ( 1 == $this->html ) ? "<br>" : "\r\n";
 
 		// Apply filters (if set) for the sending email address.
 		$default_header = ( $this->from && $this->from_name ) ? 'From: "' . $this->from_name . '" <' . $this->from . '>' : '';
@@ -199,6 +200,7 @@ class WP_Members_Email {
 		 * @since 3.1.0 Added footer content to the array.
 		 * @since 3.2.0 Changed wpmem_msurl key to wpmem_profile.
 		 * @since 3.2.0 Change toggle to tag.
+		 * @since 3.4.2 Added line_break optional param.
 		 *
 		 * @param array $this->settings {
 		 *     An array containing email body, subject, user id, and additional settings.
@@ -220,6 +222,7 @@ class WP_Members_Email {
 		 *     @type bool   disable
 		 *     @type mixed  headers
 		 *     @type string toggle Deprecated since 3.2.0
+		 *     @type string line_break
 		 * }
 		 * @param array $wpmem_fields An array of the WP-Members fields.
 		 * @param array $field_data   An array of the posted registration data.
@@ -295,7 +298,7 @@ class WP_Members_Email {
 			}
 
 			// Append footer if needed.
-			$this->settings['body'] = ( $this->settings['add_footer'] ) ? $this->settings['body'] . "\r\n" . $foot : $this->settings['body'];
+			$this->settings['body'] = ( $this->settings['add_footer'] ) ? $this->settings['body'] . $this->settings['line_break'] . $foot : $this->settings['body'];
 
 			// Send message.
 			$this->send( 'user' );
@@ -347,6 +350,11 @@ class WP_Members_Email {
 		// Get the email stored values.
 		$this->settings  = get_option( 'wpmembers_email_notify' );
 
+		// wpautop() the content if we are doing HTML email.
+		if ( 1 == $this->html ) {
+			$this->settings['body'] = wpautop( $this->settings['body'] );
+		}
+
 		// Userdata for default shortcodes.
 		$this->settings['user_id']       = $user_id;
 		$this->settings['user_login']    = stripslashes( $user->user_login );
@@ -359,8 +367,9 @@ class WP_Members_Email {
 		$this->settings['exp_date']      = ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) ? get_user_meta( $user_id, 'expires',  true ) : '';
 		$this->settings['do_shortcodes'] = true;
 		$this->settings['add_footer']    = true;
-		$this->settings['footer']        = get_option( 'wpmembers_email_footer' );
+		$this->settings['footer']        = ( 1 == $this->html ) ? wpautop( get_option( 'wpmembers_email_footer' ) ) : get_option( 'wpmembers_email_footer' );
 		$this->settings['disable']       = false;
+		$this->settings['line_break']    = ( 1 == $this->html ) ? "<br>" : "\r\n";
 
 		// Builds an array of the user data fields.
 		$field_arr = array();
@@ -413,6 +422,7 @@ class WP_Members_Email {
 		 *
 		 * @since 2.9.8
 		 * @since 3.3.9 Added $user param.
+		 * @since 3.4.2 Added optional line_break param.
 		 *
 		 * @param array $this->settings
 		 *     An array containing email body, subject, user id, and additional settings.
@@ -435,6 +445,7 @@ class WP_Members_Email {
 		 *     @type array   $field_arr
 		 *     @type string  $headers
 		 *     @type string  $admin_email
+		 *     @type string  $line_break
 		 * }
 		 * @param array    $wpmem_fields   An array of the WP-Members fields.
 		 * @param array    $field_data     An array of the posted registration data.
@@ -448,7 +459,7 @@ class WP_Members_Email {
 			// Split field_arr into field_str.
 			$field_str = '';
 			foreach ( $this->settings['field_arr'] as $key => $val ) {
-				$field_str.= $key . ': ' . $val . "\r\n"; 
+				$field_str.= $key . ': ' . $val . $this->settings['line_break']; 
 			}
 
 			// Get the email footer if needed.
@@ -508,7 +519,7 @@ class WP_Members_Email {
 			}
 
 			// Append footer if needed.
-			$this->settings['body'] = ( $this->settings['add_footer'] ) ? $this->settings['body'] . "\r\n" . $foot : $this->settings['body'];
+			$this->settings['body'] = ( $this->settings['add_footer'] ) ? $this->settings['body'] . $this->settings['line_break'] . $foot : $this->settings['body'];
 
 			/**
 			 * Filters the admin notification email.
