@@ -22,15 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_Members_Admin_User_Search {
 	
 	/**
-	 * Container for tabs.
-	 *
-	 * @since  3.1.9
-	 * @access public
-	 * @var    array
-	 */
-	public $tabs = array();
-	
-	/**
 	 * Container for user search meta keys.
 	 *
 	 * @since  3.1.9

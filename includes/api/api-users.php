@@ -239,9 +239,9 @@ function wpmem_user_has_access( $product, $user_id = false ) {
  * 
  * Must be named _user_is_current() as _is_user_current() exists in PayPal extension.
  *
- * @since 3.3.9
+ * @since 3.4.0
  *
- * @param  mixed   $product
+ * @param  string  $product
  * @param  integer $user_id
  * @return boolean
  */

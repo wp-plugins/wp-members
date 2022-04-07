@@ -2109,12 +2109,11 @@ class WP_Members_Forms {
 	}
 	
 	/**
-	 * Wrapper for handing the default WP login form.
+	 * Alias for handing the default WP login form.
 	 *
 	 * @since 3.3.2
 	 */
 	function wp_login_form( $args ) {
-		
 		return wp_login_form( $args );
 	}
 	
