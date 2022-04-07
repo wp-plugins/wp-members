@@ -96,7 +96,7 @@ class WP_Members_Products {
 		
 		add_filter( 'wpmem_securify',               array( $this, 'product_access' ) );
 		add_filter( 'wpmem_product_restricted_msg', array( $this, 'apply_custom_access_message' ), 10, 2 );
-		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ), 10, 2 );
+		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ), 10, 4 );
 	}
 	
 	/**
@@ -293,18 +293,24 @@ class WP_Members_Products {
 	 * @param  string   $msg
 	 * @return string   $msg
 	 */
-	function apply_custom_access_message( $msg, $post_products ) {
+	function apply_custom_access_message( $msg, $mixed, $before = false, $after = false ) {
 		global $post;
+		// If this is "wpmem_restricted_msg", second arg is the raw msg string, not post products
+		$post_products =  ( ! is_array( $mixed ) && false != $before && false != $after ) ? $this->get_post_products( $post->ID ) : $mixed;
 		if ( $post_products ) {
+			$product_message = false;
+			$count = count( $post_products );
 			foreach( $post_products as $post_product ) {
 				$membership_id = array_search( $post_product, $this->product_by_id );
 				$message = get_post_meta( $membership_id, 'wpmem_product_message', true );
 				if ( $message ) {
-					$product_message = ( isset( $product_message ) ) ? $product_message . $message : $message;
+					$product_message = ( isset( $product_message ) ) ? $product_message . wpautop( $message ) : wpautop( $message );
 				}
 			}
-			if ( isset( $product_message ) ) {
-				$msg = wpautop( $product_message );
+			if ( false !== $product_message ) {
+				$msg = ( $before ) ? '<div id="wpmem_restricted_msg">' : '';
+				$msg.= do_shortcode( $product_message );
+				$msg.= ( $after  ) ? '</div>' : '';
 			}
 		}
 		return $msg;
