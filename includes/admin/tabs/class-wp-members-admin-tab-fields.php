@@ -233,8 +233,8 @@ class WP_Members_Admin_Tab_Fields {
 				</li>
 				<!--<div id="wpmem_allowhtml">
 				<li>
-					<label><?php _e( 'Allow HTML?', 'wp-members' ); ?></label>
-					<input type="checkbox" name="add_html" value="y" <?php echo ( $mode == 'edit' ) ? checked( true, $field['html'] ) : false; ?> />
+					<label><?php //_e( 'Allow HTML?', 'wp-members' ); ?></label>
+					<input type="checkbox" name="add_html" value="y" <?php //echo ( $mode == 'edit' ) ? checked( true, $field['html'] ) : false; ?> />
 				</li>
 				</div>-->
 			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date', 'textarea' ) ) ) ) ) { ?>
