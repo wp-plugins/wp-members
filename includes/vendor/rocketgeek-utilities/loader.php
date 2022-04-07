@@ -9,7 +9,7 @@
  * useful for your project(s). Attribution is appreciated ;-)
  *
  * @package    RocketGeek_Utilities
- * @version    1.0.0
+ * @version    1.0.1
  *
  * @link       https://github.com/rocketgeek/rocketgeek-utilities/
  * @author     Chad Butler <https://butlerblog.com>

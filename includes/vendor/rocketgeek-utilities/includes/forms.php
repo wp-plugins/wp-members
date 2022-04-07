@@ -122,15 +122,17 @@ if ( ! function_exists( 'rktgk_sanitize_field' ) ):
  * handled and validated.
  *
  * @since 1.0.0
+ * @since 1.0.1 Added text, url, array, class as accepted $type
  *
  * @param  string $data
- * @param  string $type (multiselect|multicheckbox|textarea|email|file|image|int|integer|number)
+ * @param  string $type (text|array|multiselect|multicheckbox|textarea|email|file|image|int|integer|number|url|class) Default:text
  * @return string $sanitized_data
  */
 function rktgk_sanitize_field( $data, $type = '' ) {
 
 	switch ( $type ) {
 
+		case 'array':
 		case 'multiselect':
 		case 'multicheckbox':
 		case 'multipleselect':
@@ -156,7 +158,16 @@ function rktgk_sanitize_field( $data, $type = '' ) {
 		case 'number':
 			$sanitized_data = intval( $data );
 			break;
+			
+		case 'url':
+			$sanitized_data = sanitize_url( $data );
+			break;
+		
+		case 'class':
+			$sanitized_data = rktgk_sanitize_class( $data );
+			break;
 
+		case 'text':
 		default:
 			$sanitized_data = sanitize_text_field( $data );
 			break;	
