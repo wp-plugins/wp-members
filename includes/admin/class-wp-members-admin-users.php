@@ -194,7 +194,7 @@ class WP_Members_Admin_Users {
 				$user_id = filter_var( $_REQUEST['user'], FILTER_VALIDATE_INT );
 
 				// Check to see if the user is already activated, if not, activate.
-				if ( $users == get_current_user_id() ) {
+				if ( $user_id == get_current_user_id() ) {
 					$msg = urlencode( sprintf( esc_html__( 'You cannot confirm or unconfirm yourself', 'wp-members' ) ) );
 
 				} elseif ( 'confirm-single' == $action && false === wpmem_is_user_confirmed( $user_id ) ) {
