@@ -83,12 +83,14 @@ endif;
  * Use the WP login form.
  *
  * @since 3.3.2
+ * @since 3.4.2 echo set to false by default.
  *
  * @global stdClass $wpmem
  * @param  array    $args
  */
 function wpmem_wp_login_form( $args ) {
 	global $wpmem;
+	$args['echo'] = ( ! isset( $args['echo'] ) ) ? false : $args['echo'];
 	return $wpmem->forms->wp_login_form( $args );
 }
 
