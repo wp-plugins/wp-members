@@ -554,7 +554,7 @@ endif;
  * This function creates a form for retrieving a forgotten username.
  *
  * @since 3.0.8
- * @deprecated 3.4.0 Use $wpmem->shortcodes->do_forgot_username() instead.
+ * @deprecated 3.4.0 Use $wpmem->shortcodes->render_forgot_username() instead.
  *
  * @param  string $wpmem_regchk
  * @param  string $content
