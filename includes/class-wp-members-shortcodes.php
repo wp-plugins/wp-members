@@ -93,6 +93,10 @@ class WP_Members_Shortcodes {
 	 */
 	function forms( $atts, $content, $tag ) {
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		global $wpmem, $wpmem_themsg;
 
 		// Defaults.
@@ -113,7 +117,14 @@ class WP_Members_Shortcodes {
 		switch ( $atts['form'] ) {
 
 			case 'wp_login':
-				$content = wpmem_wp_login_form( $atts );
+				if ( is_user_logged_in() && '1' != $customizer ) {
+					// If the user is logged in, return any nested content (if any) or the default bullet links if no nested content.
+					$content = ( $content ) ? $content : $this->render_links( 'login' );
+				} else {
+					$atts['echo'] = false;
+					$atts['redirect'] = ( isset( $atts['redirect'] ) ) ? $atts['redirect'] : ( ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : wpmem_current_url() );
+					$content = wpmem_wp_login_form( $atts );
+				}
 				break;
 
 			case 'register':
