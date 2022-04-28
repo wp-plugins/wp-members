@@ -1171,7 +1171,7 @@ class WP_Members_User {
 	 */ 
 	function check_activated( $user, $username, $password ) {
 		// Password must be validated.
-		$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
+		$pass = ( ! is_wp_error( $user ) && ! is_null( $user ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
 
 		if ( ! $pass ) { 
 			return $user;
