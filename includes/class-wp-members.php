@@ -356,6 +356,18 @@ class WP_Members {
 		// Load dependent files.
 		$this->load_dependencies();
 	
+		// Validate that v3 settings are loaded.
+		if ( ! isset( $settings['version'] ) 
+			|| $settings['version'] != $this->version
+			|| ! isset( $settings['db_version'] ) 
+			|| $settings['db_version'] != $this->db_version ) {
+			// Load installation routine and pdate settings.
+			require_once( $this->path . 'includes/install.php' );
+			$settings = wpmem_do_install();
+		} else {
+			$settings = get_option( 'wpmembers_settings' );
+		}
+
 		/**
 		 * Filter the options before they are loaded into constants.
 		 *
