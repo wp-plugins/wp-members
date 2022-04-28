@@ -711,8 +711,9 @@ class WP_Members {
 		 * Fires when the wpmem action is retrieved.
 		 *
 		 * @since 3.1.7
+		 * @since 3.4.2 Added action as a param.
 		 */
-		do_action( 'wpmem_get_action' );
+		do_action( 'wpmem_get_action', $this->action );
 
 		// Get the regchk value (if any).
 		$this->regchk = $this->get_regchk( $this->action );
