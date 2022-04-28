@@ -175,7 +175,7 @@ class WP_Members_Dialogs {
 			'pwdchangesuccess'     => __( "Password successfully changed.", 'wp-members' ),
 			'pwdreseterr'          => __( "Invalid username or email address.", 'wp-members' ),
 			'pwdresetsuccess'      => __( "Password successfully reset! An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
-			'pwdresetsuccess_alt'  => __( "Reset request received. An email with instructions to complete the password reset has been sent.", 'wp-members' ),
+			'pwdresetsuccess_alt'  => __( "An email with instructions to update your password has been sent to the email address on file for your account.", 'wp-members' ),
 			
 			'product_restricted_single'    => __( "This content requires the following membership: ", 'wp-members' ),
 			'product_restricted_multiple'  => __( "This content requires one of the following memberships: ", 'wp-members' ),
