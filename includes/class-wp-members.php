@@ -376,22 +376,8 @@ class WP_Members {
 		 *
 		 * @param array $this->settings An array of the WP-Members settings.
 		 */
-		$settings = apply_filters( 'wpmem_settings', get_option( 'wpmembers_settings' ) );
+		$settings = apply_filters( 'wpmem_settings', $settings );
 
-		// Validate that v3 settings are loaded.
-		if ( ! isset( $settings['version'] ) 
-			|| $settings['version'] != $this->version
-			|| ! isset( $settings['db_version'] ) 
-			|| $settings['db_version'] != $this->db_version ) {
-			/**
-			 * Load installation routine.
-			 */
-			require_once( $this->path . 'includes/install.php' );
-			// Update settings.
-			/** This filter is documented in /inc/class-wp-members.php */
-			$settings = apply_filters( 'wpmem_settings', wpmem_do_install() );
-		}
-		
 		// Assemble settings.
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
