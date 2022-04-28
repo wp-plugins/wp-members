@@ -381,6 +381,6 @@ class WP_Members_Validation_Link {
 		 * @param string time()
 		 * @param string $key
 		 */
-		do_action( 'wpmem_user_set_as_unconfirmed', $user_id, time(), $key );
+		do_action( 'wpmem_user_set_as_unconfirmed', $user_id, time(), $validation_key );
 	}
 }
