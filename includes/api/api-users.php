@@ -107,6 +107,75 @@ function wpmem_get_user_meta( $user_id, $meta_key ) {
 }
 
 /**
+ * Get a user meta checkbox label as value if checked.
+ *
+ * @since 3.4.2
+ *
+ * @param  int    $user_id
+ * @param  string $meta_key
+ * @return string $result
+ */
+function wpmem_get_user_meta_checkbox( $user_id, $meta_key ) {
+	$value = wpmem_get_user_meta( $user_id, $meta_key );
+	return wpmem_checkbox_field_display( $value );
+}
+
+/**
+ * Get a user meta select (dropdown) value.
+ *
+ * @since 3.4.2
+ *
+ * @param  int    $user_id
+ * @param  string $meta_key
+ * @return string $result
+ */
+function wpmem_get_user_meta_select( $user_id, $meta_key ) {
+	$value = wpmem_get_user_meta( $user_id, $meta_key );
+	return wpmem_select_field_display( $meta_key, $value );
+}
+
+/**
+ * Get a user meta radio value.
+ * Alias of wpmem_get_user_meta_select() for radio field type.
+ *
+ * @since 3.4.2
+ *
+ * @param  int    $user_id
+ * @param  string $meta_key
+ * @return string $result
+ */
+function wpmem_get_user_meta_radio( $user_id, $meta_key ) {
+	return wpmem_get_user_meta_select( $user_id, $meta_key );
+}
+
+/**
+ * Returns the meta value for a requested mutli-checkbox or multi-select
+ * field for a requested user ID.
+ *
+ * @since 3.4.2
+ *
+ * @param  int     $user_id
+ * @param  string  $field_meta
+ * @param  string  $return_type (string|array default:string)
+ * @return string
+ */
+function wpmem_get_user_meta_multi( $user_id, $field_meta, $return_type = "string" ) {
+	$fields = wpmem_fields();
+	$value  = wpmem_get_user_meta( $user_id, $field_meta );
+	$array  = ( '' != $value && false != $value ) ? explode( $fields[ $field_meta ]['delimiter'], $value ) : array();
+	if ( ! empty( $array ) && count( $array ) > 1 ) {
+		foreach ( $array as $val ) {
+			$display_values[] = wpmem_field_display_value( $field_meta, $val );
+		}
+		$return_value = ( "array" == $return_type ) ? $display_values : implode( ", ", $display_values );
+	} else {
+		$display_value = wpmem_field_display_value( $field_meta, $value );
+		$return_value  = ( "array" == $return_type ) ? array( $display_value ) : $display_value;
+	}
+	return $return_value;
+}
+
+/**
  * Checks if a user has a given meta value.
  *
  * @since 3.1.8
@@ -253,10 +322,38 @@ function wpmem_user_is_current( $product, $user_id = false ) {
 }
 
 /**
+ * An alias for wpmem_set_user_product().
+ * 
+ * @since 3.4.2
+ */
+function wpmem_set_user_membership( $membership, $user_id = false, $date = false ) {
+	return wpmem_set_user_product( $membership, $user_id, $date );
+}
+
+/**
+ * An alias for wpmem_remove_user_product().
+ * 
+ * @since 3.4.2
+ */
+function wpmem_remove_user_membership( $membership, $user_id = false ) {
+	return wpmem_remove_user_product( $membership, $user_id );
+}
+
+/**
+ * An alias for wpmem_get_user_products().
+ * 
+ * @since 3.4.2
+ */
+function wpmem_get_user_memberships( $user_id = false ) {
+	return wpmem_get_user_products( $user_id );
+}
+
+/**
  * Sets product access for a user.
  *
  * @since 3.2.3
  * @since 3.2.6 Added $date to set a specific expiration date.
+ * @since 3.4.2 Use wpmem_set_user_membership() instead.
  *
  * @global object $wpmem
  * @param  string $product The meta key of the product.
@@ -273,6 +370,7 @@ function wpmem_set_user_product( $product, $user_id = false, $date = false ) {
  * Removes product access for a user.
  *
  * @since 3.2.3
+ * @since 3.4.2 Use wpmem_remove_user_membership() instead.
  *
  * @global object $wpmem
  * @param  string $product
@@ -288,6 +386,7 @@ function wpmem_remove_user_product( $product, $user_id = false ) {
  * Gets memberships a user has.
  *
  * @since 3.3.0
+ * @since 3.4.2 Use wpmem_get_user_memberships() instead.
  *
  * @global stdClass $wpmem
  * @param  int      $user_id
@@ -296,6 +395,24 @@ function wpmem_remove_user_product( $product, $user_id = false ) {
 function wpmem_get_user_products( $user_id = false ) {
 	global $wpmem;
 	return ( $user_id ) ? $wpmem->user->get_user_products( $user_id ) : $wpmem->user->access;
+}
+
+/**
+ * Get user expiration date
+ * 
+ * @since 3.4.2
+ * 
+ * @param  $product_key The membership slug being requested (optional: defaults to first membership in the array).
+ * @param  $user_id     The user ID (optional: defaults to current user).
+ * @param  $format      The date format to return (optional: defaults to raw epoch timestamp).
+ * @return $exp_date    The expiration date (false if no date or membership does not exist for user).
+ */
+function wpmem_get_user_expiration( $product_key = false, $user_id = false, $format = false ) {
+	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
+    $memberships = wpmem_get_user_memberships( $user_id );
+	$product_key = ( false == $product_key ) ? key( $memberships ) : $product_key;
+    $exp_date = ( is_numeric( $memberships[ $product_key ] ) ) ? $memberships[ $product_key ] : strtotime( $memberships[ $product_key ] );
+    return $exp_date;
 }
 
 /**

@@ -298,11 +298,13 @@ function wpmem_fields( $tag = '', $form = 'default' ) {
 	 *
 	 * @since 3.1.7
 	 * @since 3.3.2 Change object var and return.
+	 * @since 3.4.2 Added $form parameter.
 	 *
 	 * @param  array  $wpmem->fields
-	 * @param  string $tag (optional)
+	 * @param  string $tag  (optional)
+	 * @param  string $form (optional)
 	 */
-	$wpmem->fields = apply_filters( 'wpmem_fields', $wpmem->fields, $tag );
+	$wpmem->fields = apply_filters( 'wpmem_fields', $wpmem->fields, $tag, $form );
 	
 	return $wpmem->fields;
 }
@@ -349,12 +351,13 @@ function wpmem_sanitize_array( $data, $type = false ) {
  * A multi use sanitization function.
  *
  * @since 3.3.0
+ * @since 3.4.2 Added text, url, array, class as accepted $type
  *
  * @global  object  $wpmem
  *
- * @param   string  $data
- * @param   string  $type (multiselect|multicheckbox|textarea|email|file|image|int|integer|number)
- * @return  string  $sanitized_data
+ * @param  string $data
+ * @param  string $type (text|array|multiselect|multicheckbox|textarea|email|file|image|int|integer|number|url|class) Default:text
+ * @return string $sanitized_data
  */
 function wpmem_sanitize_field( $data, $type = 'text' ) {
 	return rktgk_sanitize_field( $data, $type );
@@ -595,18 +598,37 @@ function wpmem_is_reg_form_showing() {
 	return ( isset( $wpmem->reg_form_showing ) && true == $wpmem->reg_form_showing ) ? true : false;
 }
 
-function wpmem_field_display_value( $field, $type, $value, $echo = false ) {
+/**
+ * Returns the display value of certain field types.
+ *
+ * Some WP-Members field types may have a different "saved" value and
+ * "displayed" value. This function provides a simple way to get the displayed
+ * value for a field based on the saved value.
+ *
+ * @since 3.4.0
+ * @since 3.4.2 Cleanup, completed support for all field types.
+ *
+ * @param  string  $field_meta  The meta key for the requested field.
+ * @param  string  $value       The value to convert (empty for checkbox).
+ * @param  boolean $echo        Whether to echo or return the value (default: false).
+ * @return string
+ */
+function wpmem_field_display_value( $field_meta, $value = '', $echo = false ) {
 	$fields = wpmem_fields();
+	$type   = $fields[ $field_meta ]['type'];
+	
+	$display_value = ( 'checkbox' == $type ) ? $fields[ $field_meta ]['label'] : $fields[ $field_meta ]['options'][ $value ];
+	
 	/**
 	 * Filter the value.
 	 *
 	 * @since 3.4.0
 	 *
 	 * @param  string  $display_value
-	 * @param  string  $field
+	 * @param  string  $field_meta
 	 * @param  string  $type
 	 */
-	$display_value = apply_filters( 'wpmem_' . $type . '_field_display', $fields[ $field ]['options'][ $value ], $field, $type );
+	$display_value = apply_filters( 'wpmem_' . $type . '_field_display', $display_value, $field_meta, $type );
 	if ( $echo ) {
 		echo $display_value;
 	} else {
@@ -614,23 +636,10 @@ function wpmem_field_display_value( $field, $type, $value, $echo = false ) {
 	}
 }
 
-function wpmem_checkbox_field_display( $field, $value, $echo = false ) {
-	wpmem_field_display_value( $field, 'checkbox', $value, $echo );
+function wpmem_checkbox_field_display( $field_meta, $echo = false ) {
+	return wpmem_field_display_value( $field_meta, '', $echo );
 }
 
-function wpmem_select_field_display( $field, $value, $echo = false ) {
-	wpmem_field_display_value( $field, 'select', $value, $echo );
-}
-
-function wpmem_get_user_meta_select( $user_id, $field ) {
-	$value = wpmem_get_user_meta( $user_id, $field );
-	return wpmem_select_field_display( $field, $value );
-}
-
-function wpmem_get_user_meta_radio( $user_id, $field ) {
-	return wpmem_get_user_meta_select( $user_id, $field );
-}
-
-function wpmem_get_user_meta_multi( $user_id, $field ) {
-	
+function wpmem_select_field_display( $field_meta, $value, $echo = false ) {
+	return wpmem_field_display_value( $field_meta, $value, $echo );
 }
