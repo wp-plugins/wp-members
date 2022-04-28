@@ -172,21 +172,25 @@ class WP_Members_Email {
 		 *
 		 * @since 2.7.4
 		 * @since 3.2.0 Changed toggle to tag.
+		 * @since 3.4.2 Added user ID.
 		 *
 		 * @param mixed  $default_header        The email headers.
 		 * @param string $this->settings['tag'] Tag to determine what email is being generated (newreg|newmod|appmod|repass|admin).
+		 * @param int    $user_id
 		 */
-		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $this->settings['tag'] );
+		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, $this->settings['tag'], $this->settings['user_id'] );
 
 		/**
 		 * Filters attachments.
 		 * 
 		 * @since 3.4.1
+		 * @since 3.4.2 Added user ID.
 		 * 
 		 * @param  mixed  $attachments           Any file attachments as a string or array. (default per wp_mail() documentation is empty array).
 		 * @param  string $this->settings['tag'] Tag to determine what email is being generated (newreg|newmod|appmod|repass|admin).
+		 * @param  int    $user_id
 		 */
-		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), $this->settings['tag'] );
+		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), $this->settings['tag'], $this->settings['user_id'] );
 
 		/**
 		 * Filter the email.
@@ -239,6 +243,7 @@ class WP_Members_Email {
 			 * @deprecated 3.2.0 Use wpmem_email_filter instead.
 			 *
 			 * @param string $this->settings['body'] The body content of the new registration email.
+			 * @param int    $user_id
 			 */
 			$this->settings['body'] = apply_filters( 'wpmem_email_' . $this->settings['tag'], $this->settings['body'] );
 
@@ -276,11 +281,13 @@ class WP_Members_Email {
 				 * Filter available email shortcodes.
 				 *
 				 * @since 3.1.0
+				 * @since 3.4.2 Added user ID.
 				 *
 				 * @param array  $shortcodes
 				 * @param string $tag
+				 * @param int    $user_id
 				 */
-				$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, $this->settings['tag'] );
+				$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, $this->settings['tag'], $this->settings['user_id'] );
 
 				$shortcd = array();
 				$replace = array();
@@ -397,19 +404,20 @@ class WP_Members_Email {
 		$default_header = ( $this->from && $this->from_name ) ? 'From: "' . $this->from_name . '" <' . $this->from . '>' : '';
 
 		/** This filter is documented in class-wp-members-email.php */
-		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin' );
+		$this->settings['headers'] = apply_filters( 'wpmem_email_headers', $default_header, 'admin', $this->settings['user_id'] );
 
 		/** This filter is documented in class-wp-members-email.php */
-		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), 'admin' );
+		$this->settings['attachments'] = apply_filters( 'wpmem_email_attachments', array(), 'admin', $this->settings['user_id'] );
 
 		/**
 		 * Filters the address the admin notification is sent to.
 		 *
 		 * @since 2.7.5
+		 * @since 3.4.2 Added user ID.
 		 *
 		 * @param string The email address of the admin to send to.
 		 */
-		$this->settings['admin_email'] = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ) );
+		$this->settings['admin_email'] = apply_filters( 'wpmem_notify_addr', get_option( 'admin_email' ), $this->settings['user_id'] );
 
 		/**
 		 * Filter the email.
@@ -491,11 +499,12 @@ class WP_Members_Email {
 				 * Filter available email shortcodes.
 				 *
 				 * @since 3.1.0
+				 * @since 3.4.2 Added user ID.
 				 *
 				 * @param array  $shortcodes
 				 * @param string $toggle
 				 */
-				$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, 'notify' );
+				$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, 'notify', $this->settings['user_id'] );
 
 				$shortcd = array();
 				$replace = array();
@@ -525,10 +534,11 @@ class WP_Members_Email {
 			 * Filters the admin notification email.
 			 *
 			 * @since 2.8.2
+			 * @since 3.4.2 Added user ID.
 			 *
 			 * @param string $this->settings['body'] The admin notification email body.
 			 */
-			$this->settings['body'] = apply_filters( 'wpmem_email_notify', $this->settings['body'] );
+			$this->settings['body'] = apply_filters( 'wpmem_email_notify', $this->settings['body'], $this->settings['user_id'] );
 
 			// Send the message.
 			$this->send( 'admin' );
