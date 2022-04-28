@@ -768,7 +768,7 @@ class WP_Members_Forms {
 		
 		$hidden_field_string = '';
 		foreach ( $hidden as $field ) {
-			$hidden_field_string .= $field;
+			$hidden_field_string .= $field . $args['n'];
 		}
 
 		/**
@@ -1571,7 +1571,7 @@ class WP_Members_Forms {
 	 * @param  array  $rows
 	 * @return string $form
 	 */
-	function strip_breaks( $form, $rows ) {
+	private function strip_breaks( $form, $rows ) {
 		foreach( $rows as $key => $row ) {
 			if ( 'textarea' == $row['type'] ) {
 				$textareas[ $key ] = $row['field'];

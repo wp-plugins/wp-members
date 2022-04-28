@@ -1012,7 +1012,15 @@ class WP_Members_User {
 	 * @global object $wpmem
 	 *
 	 * @param  int    $user_id
-	 * @return array  $products
+	 * @return array  $products {
+	 *     Memberships the user has as an array keyed by the membership slug.
+	 *     Memberships the user does not have enabled are not in the array.
+	 *     If a memberships is an expiration product, the expiration is the  
+	 *     value as a timestamp (epoch time). Note that access can be checked
+	 *     with wpmem_user_has_access() or wpmem_user_is_expired().
+	 *
+	 *     @type mixed 1|timestamp
+	 * }
 	 */
 	function get_user_products( $user_id = false, $obj = false ) {
 		global $wpmem;
@@ -1081,6 +1089,9 @@ class WP_Members_User {
 		 *
 		 * @param  int    $user_id
 		 * @param  string $product
+		 * @param  mixed  $new_value
+		 * @param  string $prev_value
+		 * @param  bool   $renew
 		 */
 		do_action( 'wpmem_user_product_set', $user_id, $product, $new_value, $prev_value, $renew );
  
