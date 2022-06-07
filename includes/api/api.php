@@ -473,7 +473,7 @@ function wpmem_is_rest() {
  */
 function wpmem_is_reg_type( $type ) {
 	global $wpmem;
-	return $wpmem->reg_type[ 'is_' . $type ];
+	return $wpmem->user->reg_type[ 'is_' . $type ];
 }
 
 /**
