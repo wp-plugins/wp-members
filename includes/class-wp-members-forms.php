@@ -683,7 +683,7 @@ class WP_Members_Forms {
 		 *     @type boolean $remember_check    Default: true
 		 *     @type string  $n                 Default: "\n" (the new line character if breaks are not stripped (see $strip_breaks))
 		 *     @type string  $t                 Default: "\t" (the line indent character if breaks are not stripped (see $strip_breaks))
-		 *     @type string  $redirect_to       Default: (the $redirec_to argument passed to the function)
+		 *     @type string  $redirect_to       Default: (the $redirect_to argument passed to the function)
 		 *     @type boolean $login_form_action Default: true (if true, adds the WP login_form action)
 		 * }
 		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -750,10 +750,17 @@ class WP_Members_Forms {
 		}
 
 		// Build hidden fields, filter, and add to the form.
-		$hidden[] = wpmem_form_field( array( 'name' => 'redirect_to', 'type' => 'hidden', 'value' => esc_url( $args['redirect_to'] ) ) ) . $args['n'];
-		$hidden[] = wpmem_form_field( array( 'name' => 'a', 'type' => 'hidden', 'value' => $action ) ) . $args['n'];
+		if ( 'set_password_from_key' == wpmem_get( 'a', false, 'request' ) && false == wpmem_get( 'formsubmit', false ) ) {
+			$hidden['action'] = wpmem_form_field( array( 'name' => 'a', 'type' => 'hidden', 'value' => 'set_password_from_key' ) );
+			$hidden['key']    = wpmem_form_field( array( 'name' => 'key',   'type' => 'hidden', 'value' => sanitize_text_field( wpmem_get( 'key',   null, 'request' ) ) ) );
+			$hidden['login']  = wpmem_form_field( array( 'name' => 'login', 'type' => 'hidden', 'value' => sanitize_user( wpmem_get( 'login', null, 'request' ) ) ) );
+		} else {
+			$hidden['action'] = wpmem_form_field( array( 'name' => 'a', 'type' => 'hidden', 'value' => $action ) );
+			$hidden['redirect_to'] = wpmem_form_field( array( 'name' => 'redirect_to', 'type' => 'hidden', 'value' => esc_url( $args['redirect_to'] ) ) );
+		}
+		
 		if ( $action != 'login' ) {
-			$hidden[] = wpmem_form_field( array( 'name' => 'formsubmit', 'type' => 'hidden', 'value' => '1' ) );
+			$hidden['formsubmit'] = wpmem_form_field( array( 'name' => 'formsubmit', 'type' => 'hidden', 'value' => '1' ) );
 		}
 		
 		/**
@@ -904,6 +911,7 @@ class WP_Members_Forms {
 		 * Filter the generated HTML of the entire form.
 		 *
 		 * @since 2.7.4
+		 * @since 2.9.1 Added $action argument
 		 *
 		 * @param string $form   The HTML of the final generated form.
 		 * @param string $action The action being performed by the form. login|pwdreset|pwdchange|getusername.
@@ -1981,17 +1989,10 @@ class WP_Members_Forms {
 			),
 			'resetpassword' => array(
 				array(
-					'name'   => wpmem_get_text( 'pwdreset_username' ), 
+					'name'   => wpmem_get_text( 'login_username' ), 
 					'type'   => 'text',
 					'tag'    => 'user', 
 					'class'  => 'username',
-					'div'    => 'div_text',
-				),
-				array( 
-					'name'   => wpmem_get_text( 'pwdreset_email' ), 
-					'type'   => 'text', 
-					'tag'    => 'email', 
-					'class'  => 'textbox',
 					'div'    => 'div_text',
 				),
 			),
@@ -2005,6 +2006,26 @@ class WP_Members_Forms {
 				),
 			),
 		);
+
+		// @todo Temp until 3.5.0 removes old password reset.
+		if ( 1 != $wpmem->pwd_link ) {
+			$input_arrays['resetpassword'] = array(
+				array(
+					'name'   => wpmem_get_text( 'pwdreset_username' ), 
+					'type'   => 'text',
+					'tag'    => 'user', 
+					'class'  => 'username',
+					'div'    => 'div_text',
+				),
+				array( 
+					'name'   => wpmem_get_text( 'pwdreset_email' ), 
+					'type'   => 'text', 
+					'tag'    => 'email', 
+					'class'  => 'textbox',
+					'div'    => 'div_text',
+				),
+			);
+		}
 		
 		/**
 		 * Filter the array of change password form fields.

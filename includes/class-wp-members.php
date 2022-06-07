@@ -746,11 +746,17 @@ class WP_Members {
 				break;
 			
 			case 'pwdchange':
+			case 'set_password_from_key':
 				$regchk = $this->user->password_update( 'change' );
 				break;
 
 			case 'pwdreset':
-				$regchk = $this->user->password_update( 'reset' );
+				global $wpmem;
+				if ( 1 == $wpmem->pwd_link ) {
+					$regchk = $this->user->password_update( 'link' );
+				} else {
+					$regchk = $this->user->password_update( 'reset' );
+				}
 				break;
 			
 			case 'getusername':

@@ -12,9 +12,10 @@ class WP_Members_Pwd_Reset {
 	 *
 	 * @since 3.3.5
 	 */
-	public $form_submitted_key_not_found;
-	public $form_load_key_not_found;
-	public $key_is_expired;
+	public  $form_submitted_key_not_found;
+	public  $form_load_key_not_found;
+	public  $key_is_expired;
+	private $reset_key;
 	
 	/**
 	 * Meta containers
@@ -35,6 +36,7 @@ class WP_Members_Pwd_Reset {
 			'form_submitted_key_not_found' => __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' ),
 			'form_load_key_not_found'      => __( "Sorry, no password reset key was found. Please check your email and try again.", 'wp-members' ),
 			'key_is_expired'               => __( "Sorry, the password reset key is expired.", 'wp-members' ),
+			'request_new_key'              => __( "Request a new reset key.", 'wp-members' ),
 		);
 		
 		/**
@@ -42,7 +44,9 @@ class WP_Members_Pwd_Reset {
 		 *
 		 * @since 3.3.8
 		 *
-		 * @param array $defaults
+		 * @param array $defaults {
+		 *  
+		 * }
 		 */
 		$defaults = apply_filters( 'wpmem_pwd_reset_default_dialogs', $defaults );
 
@@ -50,12 +54,8 @@ class WP_Members_Pwd_Reset {
 			$this->{$key} = $value;
 		}
 		
-		add_filter( 'wpmem_email_filter',                array( $this, 'add_reset_key_to_email' ), 10, 3 );
-		add_filter( 'the_content',                       array( $this, 'display_content'        ), 100 );
-		add_filter( 'wpmem_login_hidden_fields',         array( $this, 'add_hidden_form_field'  ), 10, 2 );
-		add_action( 'wpmem_get_action',                  array( $this, 'get_wpmem_action'       ) );
-		add_filter( 'wpmem_regchk',                      array( $this, 'change_regchk'          ), 10, 2 );
-		add_filter( 'wpmem_resetpassword_form_defaults', array( $this, 'reset_password_form'    ) );
+		add_filter( 'wpmem_email_filter', array( $this, 'add_reset_key_to_email' ), 10, 3 );
+		add_filter( 'the_content',        array( $this, 'display_content'        ), 100 );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class WP_Members_Pwd_Reset {
 			$user = get_user_by( 'ID', $arr['user_id'] );
 			
 			// Get the stored key.
-			$key = $this->get_password_reset_key( $user );
+			$key = get_password_reset_key( $user );
 			$query_args = array(
 				'a'     => $this->form_action,
 				'key'   => $key,
@@ -112,7 +112,7 @@ class WP_Members_Pwd_Reset {
 		
 		global $wpmem;
 		
-		if ( ! is_user_logged_in() && in_the_loop() && $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
+		if ( ! is_user_logged_in() && $this->form_action == wpmem_get( 'a', false, 'request' ) && ! is_admin() ) {
 			// Define variables
 			$result  = '';
 			$user_id = false;
@@ -182,7 +182,7 @@ class WP_Members_Pwd_Reset {
 				if ( 'invalid_key' == $user->get_error_code() ) {
 					// If somehow the form was submitted but the key not found.
 					$pwd_reset_link = wpmem_profile_url( 'pwdreset' );
-					$msg = wpmem_get_display_message( 'invalid_key', $this->form_submitted_key_not_found . '<br /><a href="' . $pwd_reset_link . '">Request a new reset key.</a>' );
+					$msg = wpmem_get_display_message( 'invalid_key', $this->form_submitted_key_not_found . '<br /><a href="' . $pwd_reset_link . '">' . $this->request_new_key . '</a>' );
 					$form = '';
 				} else {
 					$form = wpmem_change_password_form();
@@ -194,109 +194,5 @@ class WP_Members_Pwd_Reset {
 		}
 		
 		return $content;
-	}
-
-	/**
-	 * Add hidden form field for form action.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  string  $hidden_fields
-	 * @return string  $hidden_fields
-	 */
-	function add_hidden_form_field( $hidden_fields, $action ) {
-		if ( $this->form_action == wpmem_get( 'a', false, 'request' ) ) {
-			$hidden_fields = str_replace( 'pwdchange', $this->form_action, $hidden_fields );
-			$hidden_fields.= wpmem_form_field( array( 'name' => 'key',   'type' => 'hidden', 'value' => sanitize_text_field( wpmem_get( 'key',   null, 'request' ) ) ) );
-			$hidden_fields.= wpmem_form_field( array( 'name' => 'login', 'type' => 'hidden', 'value' => sanitize_user( wpmem_get( 'login', null, 'request' ) ) ) );
-		}
-		return $hidden_fields;
-	}
-	
-	/**
-	 * Get the wpmem action variable.
-	 *
-	 * @since 3.3.5
-	 */
-	function get_wpmem_action() {
-		global $wpmem; 
-		if ( 'pwdreset' == $wpmem->action && isset( $_POST['formsubmit'] ) ) {
-			
-			if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdreset_nonce'], 'wpmem_shortform_nonce' ) ) {
-				return "reg_generic";
-			}
-
-			$user_to_check = wpmem_get( 'user', false );
-			$user_to_check = ( strpos( $user_to_check, '@' ) ) ? sanitize_email( $user_to_check ) : sanitize_user( $user_to_check );
-		
-			if ( username_exists( $user_to_check ) ) {
-				$user = get_user_by( 'login', $user_to_check );
-				if ( ( 1 == $wpmem->mod_reg ) && ( 1 != get_user_meta( $user->ID, 'active', true ) ) ) {
-					$user = false;
-				}
-			} elseif ( email_exists( $user_to_check ) ) {
-				$user = get_user_by( 'email', $user_to_check );
-			} else {
-				$user = false;
-			}
-			
-			if ( false === $user ) {
-				return "pwdreseterr";
-			}
-
-			$new_pass = '';
-			wpmem_email_to_user( $user->ID, $new_pass, 3 );
-			/** This action is documented in /includes/class-wp-members-user.php */
-			do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
-			$wpmem->action = 'pwdreset_link';
-			$wpmem->regchk = 'pwdresetsuccess';
-			return "pwdresetsuccess";
-		}
-		return;
-	}
-
-	/**
-	 * Changes the wpmem_regchk value.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  string  $regchk
-	 */
-	function change_regchk( $regchk, $action ) {
-		global $wpmem;
-		if ( 'pwdreset_link' == $action && 'pwdresetsuccess' == $wpmem->regchk ) {
-			global $wpmem;
-			$wpmem->action = 'pwdreset';
-			return 'pwdresetsuccess';
-		}
-		return $regchk;
-	}
-
-	/**
-	 * Filter the reset password form.
-	 *
-	 * @since 3.3.5
-	 *
-	 * @param  array  $args
-	 */
-	function reset_password_form( $args ) {
-		global $wpmem;
-		$args['inputs'][0]['name'] = wpmem_get_text( 'login_username' );
-		unset( $args['inputs'][1] );
-		return $args;
-	}
-	
-	/**
-	 * Sets and gets the password reset key.
-	 *
-	 * This function is an alias for the WP function get_password_reset_key().
-	 *
-	 * @since 3.3.8
-	 *
-	 * @param  object  $user
-	 * @return string  The reset key.
-	 */
-	private function get_password_reset_key( $user ) {
-		return get_password_reset_key( $user );
 	}
 }

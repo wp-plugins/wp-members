@@ -611,13 +611,19 @@ class WP_Members_User {
 					'user'  => sanitize_user(  wpmem_get( 'user', false ) ),
 					'email' => sanitize_email( wpmem_get( 'email', false ) ),
 				);
+				return $this->password_reset( $args );
+			} elseif( 'link' == $action ) {
+				$user = wpmem_get( 'user', false );
+				$user = ( strpos( $user, '@' ) ) ? sanitize_email( $user ) : sanitize_user( $user );
+				$args = array( 'user' => $user );
+				return $this->password_link( $args );
 			} else {
 				$args = array(
 					'pass1' => wpmem_get( 'pass1', false ),
 					'pass2' => wpmem_get( 'pass2', false ),
 				);
+				return $this->password_change( $args );
 			}
-			return ( 'reset' == $action ) ? $this->password_reset( $args ) : $this->password_change( $args );
 		}
 		return;
 	}
@@ -719,6 +725,53 @@ class WP_Members_User {
 					do_action( 'wpmem_pwd_reset', $user->ID, $new_pass );
 					return "pwdresetsuccess";
 				}
+			} else {
+				// Username did not exist.
+				return "pwdreseterr";
+			}
+		}
+		return;
+	}
+
+	function password_link( $args ) {
+		global $wpmem;
+		/**
+		 * Filter the password reset arguments.
+		 *
+		 * @since 3.4.2
+		 *
+		 * @param array The username or email.
+		 */
+		$arr = apply_filters( 'wpmem_pwdreset_args', $args );
+		if ( ! isset( $arr['user'] ) || '' == $arr['user'] ) { 
+			// There was an empty field.
+			return "pwdreseterr";
+
+		} else {
+
+			if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdreset_nonce'], 'wpmem_shortform_nonce' ) ) {
+				return "reg_generic";
+			}
+
+			$user_to_check = ( strpos( $user_to_check, '@' ) ) ? sanitize_email( $arr['user'] ) : sanitize_user( $arr['user'] );
+
+			if ( username_exists( $user_to_check ) ) {
+				$user = get_user_by( 'login', $user_to_check );
+				if ( ( 1 == $wpmem->mod_reg ) && ( 1 != get_user_meta( $user->ID, 'active', true ) ) ) {
+					$user = false;
+				}
+			} elseif ( email_exists( $user_to_check ) ) {
+				$user = get_user_by( 'email', $user_to_check );
+			} else {
+				$user = false;
+			}
+
+			if ( $user ) {
+				wpmem_email_to_user( $user->ID, '', 3 );
+				/** This action is documented in /includes/class-wp-members-user.php */
+				do_action( 'wpmem_pwd_reset', $user->ID, '' );
+				return "pwdresetsuccess";
+
 			} else {
 				// Username did not exist.
 				return "pwdreseterr";
