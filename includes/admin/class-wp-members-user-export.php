@@ -53,8 +53,8 @@ class WP_Members_User_Export {
 	 *         @type string $role             The user's role (or roles, if multiple).
 	 *     }
 	 *     @type  array   $exclude_fields  @deprecated 3.4.0
-	 *     @type  boolean $entity_decode
-	 *     @type  string  $date_format
+	 *     @type  boolean $entity_decode   Whether HTML entities should be decoded (default: false)
+	 *     @type  string  $date_format     A PHP readable date format (default: Y-m-d which results in YYYY-MM-DD)
 	 * }
 	 * @param array  $users Array of user IDs to export.
 	 * @param string $tag
