@@ -405,7 +405,7 @@ function wpmem_get_user_products( $user_id = false ) {
  * @param  $product_key The membership slug being requested (optional: defaults to first membership in the array).
  * @param  $user_id     The user ID (optional: defaults to current user).
  * @param  $format      The date format to return (optional: defaults to raw epoch timestamp).
- * @return $exp_date    The expiration date (false if no date or membership does not exist for user).
+ * @return $exp_date    The expiration date unformatted (i.e. unix/epoch timestamp) (false if no date or membership does not exist for user).
  */
 function wpmem_get_user_expiration( $product_key = false, $user_id = false, $format = false ) {
 	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
@@ -740,7 +740,7 @@ function wpmem_user_register( $tag ) {
 		}
 
 		// Inserts to wp_users table.
-		$user = wp_insert_user( $new_user_fields );
+		$user_id = wp_insert_user( $new_user_fields );
 
 		/**
 		 * Fires after registration is complete.
@@ -752,8 +752,9 @@ function wpmem_user_register( $tag ) {
 		 * @since 3.3.8 Added $user parameter.
 		 *
 		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 * @param int   $user_id
 		 */
-		do_action( 'wpmem_register_redirect', $wpmem->user->post_data, $user );
+		do_action( 'wpmem_register_redirect', $wpmem->user->post_data, $user_id );
 
 		// successful registration message
 		return "success";
@@ -875,8 +876,9 @@ function wpmem_user_register( $tag ) {
 		 * @since 2.7.2
 		 *
 		 * @param array $wpmem->user->post_data The user's submitted registration data.
+		 * @param int   $user_id
 		 */
-		do_action( 'wpmem_post_update_data', $wpmem->user->post_data );
+		do_action( 'wpmem_post_update_data', $wpmem->user->post_data, $wpmem->user->post_data['ID'] );
 
 		return "editsuccess"; exit();
 		break;
@@ -918,8 +920,32 @@ function wpmem_get_user_ip() {
  *
  * @global object $wpmem
  *
- * @param array $args
- * @param array $users
+ * @param array $args array {
+ *     Array of defaults for export.
+ *
+ *     @type  string  $export          The type of export (all|selected)
+ *     @type  string  $filename
+ *     @type  array   $fields {
+ *         The array of export fields is keyed as 'meta_key' => 'heading value'.
+ *         The array can include fields in the Fields tab, plus the following:
+ *
+ *         @type int    $ID               ID from wp_users
+ *         @type string $username         user_login from wp_users
+ *         @type string $user_nicename    user_nicename
+ *         @type string $user_url         user_url
+ *         @type string $display_name     display_name
+ *         @type int    $active           Whether the user is active/deactivated.
+ *         @type string $exp_type         If the PayPal extension is installed pending|subscrption (optional)
+ *         @type string $expires          If the PayPal extension is installed MM/DD/YYYY (optional)
+ *         @type string $user_registered  user_registered
+ *         @type string $user_ip          The IP of the user when they registered.
+ *         @type string $role             The user's role (or roles, if multiple).
+ *     }
+ *     @type  array   $exclude_fields  @deprecated 3.4.0
+ *     @type  boolean $entity_decode   Whether HTML entities should be decoded (default: false)
+ *     @type  string  $date_format     A PHP readable date format (default: Y-m-d which results in YYYY-MM-DD)
+ * }
+ * @param array  $users Array of user IDs to export.
  */
 function wpmem_export_users( $args = array(), $users = array() ) {
 	global $wpmem;
