@@ -84,11 +84,21 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );
 	delete_option( 'wpmembers_attrib'   );
+
+	delete_option( 'wpmembers_install_state' );
+
 	delete_transient( 'wpmem_user_counts' );
 	
 	// Drop user meta key search table.
 	global $wpdb;
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wpmembers_user_search_keys" );
+
+	$optin = get_option( 'wpmembers_optin' );
+	if ( 1 == $optin ) {
+		include_once( plugin_dir_path( __FILE__ ) . 'includes/vendor/rocketgeek-tools/class-rocketgeek-satellite.php' );
+		$uninstall = new RocketGeek_Satellite_Beta( 'wp-members', plugin_dir_path( __FILE__ ) . 'wp-members.php', 'delete', 'plugin' );
+	}
+	delete_option( 'wpmembers_optin' );
 }
 
 // End of file.

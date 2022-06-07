@@ -1,0 +1,36 @@
+#wpmem_onboarding .wrapper {
+    width:760px;
+    margin:100px auto 0;
+    padding: 20px;
+    border: 1px solid;
+    background-color: #fff;
+}
+
+#wpmem_onboarding .section_lead {
+    font-size: 18px;
+    line-height: 1.75;
+    margin: 40px 0;
+}
+
+#wpmem_onboarding h3 {
+    margin:60px 0 0 0;
+}
+
+#wpmem_onboarding .setting {
+    margin: 0 0 40px 0;
+}
+
+#wpmem_onboarding .dashicons-yes {
+    color: green;
+    font-size: 30px;
+    vertical-align: text-bottom;
+    margin: 0 10px;
+}
+
+#wpmem_onboarding .setting_match {
+    font-weight: bold;
+}
+
+#wpmem_onboarding .current {
+    color: green;
+}

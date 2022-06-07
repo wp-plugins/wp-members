@@ -68,8 +68,8 @@ add_action( 'after_setup_theme', 'wpmem_init', 10 );
 // Install the plugin.
 register_activation_hook( __FILE__, 'wpmem_install' );
 
-// Downgrade settings on deactivation.
-//register_deactivation_hook( __FILE__, 'wpmem_downgrade' );
+// Run deactivation.
+register_deactivation_hook( __FILE__, 'wpmem_deactivate' );
 
 
 /**
@@ -177,8 +177,9 @@ function wpmem_install() {
  *
  * @since 3.1.1
  */
-function wpmem_downgrade() {
-	//wpmem_install( 'downgrade' );
+function wpmem_deactivate() {
+	include_once( 'includes/install.php' );
+	wpmem_plugin_deactivate();
 }
 
 

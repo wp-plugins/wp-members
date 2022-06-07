@@ -47,7 +47,7 @@ function wpmem_do_install() {
 
 	$existing_settings = get_option( 'wpmembers_settings' );
 	
-	if ( false === $existing_settings || $chk_force == true ) {
+	if ( false == $existing_settings || $chk_force == true ) {
 
 		// New install.
 		$wpmem_settings = wpmem_install_settings();
@@ -84,6 +84,9 @@ function wpmem_do_install() {
 		if ( version_compare( $existing_settings['db_version'], '2.3.0', '<' ) ) {
 			wpmem_upgrade_hidden_transient();
 		}
+
+		// If this is an upgrade, check for correct onboarding.
+		update_option( 'wpmembers_install_state', 'update_pending' );
 	}
 	
 	return $wpmem_settings;
@@ -523,6 +526,9 @@ function wpmem_install_settings() {
 	
 	// Using update_option to allow for forced update.
 	update_option( 'wpmembers_settings', $wpmem_settings, '', 'yes' );
+
+	// This is a new install.
+	update_option( 'wpmembers_install_state', 'new_install' );
 	
 	return $wpmem_settings;
 }
@@ -767,5 +773,69 @@ function wpmem_upgrade_hidden_transient() {
 	$temp_obj = new WP_Members;
 	$temp_obj->update_hidden_posts();
 	delete_transient( '_wpmem_hidden_posts' );
+}
+
+function wpmem_onboarding_init( $action ) {
+	global $wpmem, $wpmem_onboarding;
+    include_once( 'vendor/rocketgeek-tools/class-rocketgeek-onboarding.php' );
+    $settings = array(
+        'page_title'      => 'WP-Members Onboarding', 
+        'menu_title'      => 'WP-Members Onboarding',
+        'capability'      => 'manage_options',
+        'menu_slug'       => 'wp-members-onboarding',
+        'product_slug'    => 'wp-members',
+        'product_file'    => $wpmem->path . 'wp-members.php',
+        'product_action'  => $action,
+        'product_type'    => 'plugin',
+        'opt_in_callback' => 'wpmem_onboarding_opt_in',
+        'opt_in_callback_args' => array(),
+    );
+    $wpmem_onboarding = new RocketGeek_Onboarding_Beta( $settings );
+}
+
+function wpmem_onboarding_new_install( $path, $version ) {
+	global $wpmem_onboarding;
+	wpmem_onboarding_init( 'install' );
+}
+
+function wpmem_onboarding_pending_update( $path, $version ) {
+	global $wpmem_onboarding;
+	wpmem_onboarding_init( 'update' );
+}
+
+function wpmem_onboarding_opt_in() {
+    global $wpmem, $wpmem_onboarding;
+    // $onboarding_title = ( 'upgrade' == $args['param1'] ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
+	$install_state = get_option( 'wpmembers_install_state' );
+	$onboarding_title = ( 'update_pending' == $install_state ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
+    $onboarding_release_notes = "https://rocketgeek.com/release-notes/wp-members-3-4-2/";
+    $onboarding_version = $wpmem->version;
+
+    $page = ( ! isset( $_POST['step'] ) ) ? 'step_1' : $_POST['step'];
+    if ( 'finalize' == $page ) {
+        if ( isset( $_POST['optin'] ) ) {
+			if ( 'update_pending' == $install_state ) {
+				$wpmem_onboarding->record_plugin_upgrade( 'wp-members', $wpmem->path . 'wp-members.php' );
+			} else {
+				$wpmem_onboarding->record_plugin_activation( 'wp-members', $wpmem->path . 'wp-members.php' );
+			}
+			update_option( 'wpmembers_optin', 1 );
+        } else {
+			update_option( 'wpmembers_optin', 0 );
+		}
+
+		update_option( 'wpmembers_install_state', 'install_complete_' . $wpmem->version . '_' . time() );
+        include_once( $wpmem->path . 'includes/admin/partials/onboarding_finalize.php' );
+    }
+	exit();
+}
+
+function wpmem_plugin_deactivate() {
+    global $wpmem, $wpmem_onboarding;
+	$optin = get_option( 'wpmembers_optin' );
+	if ( 1 == $optin ) {
+		wpmem_onboarding_init( 'deactivate' );
+		$wpmem_onboarding->record_plugin_deactivation( 'wp-members', $wpmem->path . 'wp-members.php' );
+	}
 }
 // End of file.
