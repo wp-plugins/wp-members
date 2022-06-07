@@ -2,8 +2,8 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 5.8
-Stable tag: 3.4.1.2
+Tested up to: 6.0
+Stable tag: 3.4.2
 
 License: GPLv3
 
@@ -110,7 +110,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. See changelog for important details. Minimum WP version is 4.0.
+WP-Members 3.4.2 is a minor update. Backup prior to upgrading is recommended, but rollback is possible. See changelog for a list of updates. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -134,18 +134,35 @@ WP-Members 3.4.1 is a minor update. Backup prior to upgrading is recommended. Se
 
 == Changelog ==
 
-= 3.4.1.2 =
+= 3.5.0 @todos ==
 
+* WP-Members pluggable deprecated for use in theme functions.php (init wpmem when plugins are loaded).
+
+= 3.4.2 =
+
+Includes all updates from 3.4.1.x:
 * Applies checkbox CSS in add new user form.
 * Code consolidation in admin options tab file (remove final use of wpmem_use_ssl()).
 * Add wpmem_recaptcha_url filter to allow for changing the URL of the recaptcha script.
 * Only apply pwd reset override on frontend (for login error).
 * Fixes undefined $wpmem->reg_form_showing.
-
-= 3.4.1.1 =
-
 * Fixes a bug in the password change shortcode that causes a "too few arguments" error.
 * Changes wpmem_is_user_current() to wpmem_user_is_current() for backwards compatibility with the plugin's premium PayPal extension.
+
+* Added the action being done as a parameter passed to the wpmem_get_action action hook.
+* Added support for arrays, urls, and classes to wpmem_sanitize_field() (alias of rktgk_sanitize_field()). This is in addition to the sanitization already supported.
+* apply_custom_product_message() now runs do_shortcode() to natively support shortcodes in custom membership product messages.
+* Fixed an issue that did not display the custom product message if the user was not logged in.
+* Improved custom product message for non-logged in state (same function is used by both logged in and logged out processes, so cleaned up to handle both states the same).
+* Bug fix in password reset that potentially truncates the reset link.
+* Bug fix in admin notification email for HTML formatted email (wpautop() was not being applied to email content).
+* Bug fix in wpmem_is_reg_type() that returned invalid object var.
+* Added email arg for default linebreak.
+* Added user ID to email filters.
+* Added id, class, and wrapper attributes to [wpmem_logged_in] shortcode (wrapper defaults to "div" but can be changed to "span" or "p" or something else).
+* Added user confirmed field to default export fields (if confirmation link setting is enabled).
+* Added wpmem_set_user_membership(), wpmem_remove_user_membership(), and wpmem_get_user_memberships() API functions.
+* Introduces new installer/onboarding for both new installs and upgrades.
 
 = 3.4.1 =
 
