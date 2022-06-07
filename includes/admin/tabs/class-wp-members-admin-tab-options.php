@@ -160,8 +160,8 @@ class WP_Members_Admin_Tab_Options {
 								<?php
 								if ( WPMEM_EXP_MODULE == true ) {
 									$rows = array( 
-										array(__('Time-based expiration','wp-members'),'wpmem_settings_time_exp',__('Allows for access to expire','wp-members'),'use_exp'),
-										array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period','wp-members'),'use_trial'),
+										array(__('Enable PayPal','wp-members'),'wpmem_settings_time_exp',__('Requires payment through PayPal following registration','wp-members'),'use_exp'),
+										array(__('Trial period','wp-members'),'wpmem_settings_trial',__('Allows for a trial period before PayPal payment is required','wp-members'),'use_trial'),
 									); ?>
 								<h3><?php _e( 'Subscription Settings', 'wp-members' ); ?></h3>	
 								<ul><?php
