@@ -61,6 +61,7 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_utfields' );
 	delete_option( 'wpmembers_usfields' );
 	delete_option( 'wpmembers_dropins'  );
+	delete_option( 'wpmem_hidden_posts' );
 
 	delete_option( 'wpmembers_email_newreg'  );
 	delete_option( 'wpmembers_email_newmod'  );
@@ -83,6 +84,7 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_style'    );
 	delete_option( 'wpmembers_autoex'   );
 	delete_option( 'wpmembers_attrib'   );
+	delete_transient( 'wpmem_user_counts' );
 	
 	// Drop user meta key search table.
 	global $wpdb;
