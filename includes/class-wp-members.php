@@ -356,6 +356,8 @@ class WP_Members {
 		// Load dependent files.
 		$this->load_dependencies();
 	
+		$settings = get_option( 'wpmembers_settings' );
+		
 		// Validate that v3 settings are loaded.
 		if ( ! isset( $settings['version'] ) 
 			|| $settings['version'] != $this->version
@@ -364,8 +366,6 @@ class WP_Members {
 			// Load installation routine and pdate settings.
 			require_once( $this->path . 'includes/install.php' );
 			$settings = wpmem_do_install();
-		} else {
-			$settings = get_option( 'wpmembers_settings' );
 		}
 
 		/**
@@ -457,8 +457,8 @@ class WP_Members {
 		// Add actions.
 		
 		add_action( 'init',                  array( $this, 'load_textdomain' ) );
-		add_action( 'init',                  array( $this, 'load_admin'  ) );            // @todo Check user role to load correct dashboard
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
+		add_action( 'init',                  array( $this, 'load_admin'  ) );            // @todo Check user role to load correct dashboard
 		add_action( 'widgets_init',          array( $this, 'widget_init' ) );            // initializes the widget
 		add_action( 'rest_api_init',         array( $this, 'rest_init'   ) );
 		add_action( 'admin_menu',            'wpmem_admin_options' );                    // Adds admin menu
