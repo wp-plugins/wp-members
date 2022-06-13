@@ -635,8 +635,17 @@ class WP_Members_Shortcodes {
 					
 				case 'file':
 				case 'image':
-					if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
-						$result = $user_info_field;
+					if ( isset( $atts['display'] ) ) {
+						switch ( $atts['display'] ) {
+							case "url":
+								$result = wp_get_attachment_url( $user_info_field );
+								break;
+							case "raw":
+							default:
+								$result = $user_info_field;
+								break;
+						}
+						
 					} else {
 						if ( 'file' == $field_type ) {
 							$attachment_url = wp_get_attachment_url( $user_info_field );
