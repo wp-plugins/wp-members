@@ -182,6 +182,7 @@ class WP_Members_Admin_Tab_Options {
 									array(__('Legacy Password Reset', 'wp-members'),'wpmem_settings_pwd_link',sprintf(__('Use legacy password reset. %s(Requires additional configuration)%s','wp-members'),$reset_link_start,$reset_link_end),'pwd_link'),
 									//array(__('Enable WP Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use WP login error object instead of WP-Members default login error','wp-members'),'login_error'),
 									array(__('Legacy Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use legacy WP-Members login error instead of WP error object.','wp-members'),'login_error'),
+									array(__('Notifications & Diagnostics', 'wp-members' ),'wpmem_settings_optin',__('Opt in to security and updates notifications and non-sensitive diagnostics tracking', 'wp-members'),'optin'),
 								);
 								if ( wpmem_is_woo_active() ) {
 									$rows[] = array(__('WooCommerce My Account', 'wp-members' ),'wpmem_settings_add_my_account_fields',__('Add WP-Members fields to WooCommerce My Account registration','wp-members'),'add_my_account_fields');
@@ -191,7 +192,7 @@ class WP_Members_Admin_Tab_Options {
 								foreach ( $rows as $key => $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php $checkbox_value = ( 2 == $key || 3 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
+									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
 									<?php if ( 1 == $key || 0 == $key ) {
 											echo wpmem_form_field( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php } else {
@@ -597,6 +598,14 @@ class WP_Members_Admin_Tab_Options {
 				}
 			}
 			$wpmem->{$key} = $val;
+		}
+
+		if ( isset( $_POST['wpmem_settings_optin'] ) && 0 == $wpmem->optin ) {
+			update_option( 'wpmembers_optin', 1 );
+			$wpmem->optin = 1;
+		} elseif ( ! isset( $_POST['wpmem_settings_optin'] ) && 1 == $wpmem->optin ) {
+			update_option( 'wpmembers_optin', 0 );
+			$wpmem->optin = 0;
 		}
 	}
 

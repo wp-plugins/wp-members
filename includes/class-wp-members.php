@@ -338,6 +338,13 @@ class WP_Members {
 	 * @var string
 	 */
 	public $upload_base = 'wpmembers';
+
+	/**
+	 * Opt in to update and security notifications.
+	 * 
+	 * @since 3.4.2
+	 */
+	public $optin;
 	
 	/**
 	 * Plugin initialization function.
@@ -382,6 +389,9 @@ class WP_Members {
 		foreach ( $settings as $key => $val ) {
 			$this->$key = $val;
 		}
+
+		// @todo Until I think of a better place to put this.
+		$this->optin = get_option( 'wpmembers_optin' );
 		
 		$this->load_user_pages();
 		$this->set_style();
