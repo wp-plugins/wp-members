@@ -272,20 +272,19 @@ class WP_Members_Validation_Link {
 	 * @return object $user     The WordPress User object.
 	 */ 
 	function check_validated( $user, $username, $password ) {
-		// Password must be validated.
-		$pass = ( ( ! is_wp_error( $user ) ) && $password ) ? wp_check_password( $password, $user->user_pass, $user->ID ) : false;
-
-		if ( ! $pass ) { 
-			return $user;
-		} 
-
-		// Validation flag must be confirmed.
-		if ( false == wpmem_is_user_confirmed( $user->ID ) ) {
-			return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not confirmed their account.', 'wp-members' ) );
+		if ( ! is_wp_error( $user ) && ! is_null( $user ) && false == wpmem_is_user_confirmed( $user->ID ) ) {
+			$user = new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: User has not confirmed their account.', 'wp-members' ) );
 		}
-
-		// If the user is validated, return the $user object.
-		return $user;
+		/**
+		 * Filters the check_validated result.
+		 * 
+		 * @since 3.4.2
+		 * 
+		 * @param  mixed  $user
+		 * @param  string $username
+		 * @param  string $password
+		 */
+		return apply_filters( 'wpmem_check_validated', $user, $username, $password );
 	}
 	
 	/**
