@@ -32,8 +32,8 @@ $action_complete = ( 'update_pending' == $install_state ) ? __( 'Plugin update c
         <p>&nbsp;</p>
         <ul>
             <li>&raquo; <a href="<?php echo admin_url() . 'options-general.php?page=wpmem-settings'; ?>"><?php _e( 'Go to WP-Members settings', 'wp-members' ); ?></a></li>
-            <li>&raquo; <a href="<?php echo admin_url() . 'wp-admin/plugins.php'; ?>"><?php _e( 'Go to Plugins page', 'wp-members' ); ?></a></li>
-            <li>&raquo; <a href="<?php echo admin_url() . 'wp-admin/update-core.php'; ?>"><?php _e( 'Go to WordPress Updates page', 'wp-members' ); ?></a></li>
+            <li>&raquo; <a href="<?php echo admin_url() . 'plugins.php'; ?>"><?php _e( 'Go to Plugins page', 'wp-members' ); ?></a></li>
+            <li>&raquo; <a href="<?php echo admin_url() . 'update-core.php'; ?>"><?php _e( 'Go to WordPress Updates page', 'wp-members' ); ?></a></li>
         </ul>
     </div>
 </div>

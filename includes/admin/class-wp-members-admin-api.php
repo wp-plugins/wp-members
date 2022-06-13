@@ -66,7 +66,7 @@ class WP_Members_Admin_API {
 		$this->load_dependencies();
 		
 		// Load admin hooks.
-		$this->load_hooks( $install_state );
+		$this->load_hooks();
 
 		// The following is only needed if we are on the WP-Members settings screen.
 		$is_wpmem_admin = wpmem_get( 'page', false, 'get' );
@@ -124,7 +124,7 @@ class WP_Members_Admin_API {
 	 *
 	 * @global object $wpmem
 	 */
-	function load_hooks( $install_state ) {
+	function load_hooks() {
 		
 		global $wpmem;
 		
@@ -196,14 +196,6 @@ class WP_Members_Admin_API {
 		
 		if ( current_user_can( 'manage_options' ) ) {
 			add_action( 'admin_notices', array( $this, 'do_admin_notices' ) );
-		}
-
-		if ( 'new_install' == $install_state && 'wp-members-onboarding' != wpmem_get( 'page', false, 'get' ) ) {
-			add_action( 'admin_notices', array( $this, 'new_install_notice' ) );
-		}
-
-		if ( 'update_pending' == $install_state && 'wp-members-onboarding' != wpmem_get( 'page', false, 'get' ) ) {
-			add_action( 'admin_notices', array( $this, 'upgrade_notice' ) );
 		}
 	} // End of load_hooks()
 
@@ -657,40 +649,6 @@ class WP_Members_Admin_API {
 	
 	function post_types() {
 		return get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
-	}
-
-	function new_install_notice() {
-		echo '<div class="notice notice-info">
-			<form action="index.php?page=wp-members-onboarding" method="post">
-			<p style="font-weight:bold;">' . __( 'Thank you for installing WP-Members, the original WordPress membership plugin.', 'wp-members' ) . '</p>
-			<h3>' . __( 'Never miss an important update!', 'wp-members' ) . '</h3>
-			<p><input type="checkbox" name="optin" value="1" checked />' . __( 'Opt-in to our security and feature updates notifications and non-sensitive diagnostic tracking.', 'wp-members' ) . '</p>
-			<p class="description">
-				' . __( 'This is only so we know how the plugin is being used so we can make it better and more secure.', 'wp-members' ) . '<br />
-				' . __( 'We do not track any personal information, and no data is ever shared with third parties!', 'wp-members' ) . '
-			</p>
-			<input type="hidden" name="page" value="wp-members-onboarding" />
-			<input type="hidden" name="step" value="finalize">
-			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Complete plugin setup', 'wp-members' ) . ' &raquo;"></p>
-		</div>';
-	}
-
-	function upgrade_notice() {
-		$onboarding_release_notes = "https://rocketgeek.com/release-notes/wp-members-3-4-2/";
-		echo '<div class="notice notice-info">
-			<form action="index.php?page=wp-members-onboarding" method="post">
-			<h3>' . __( 'Thank you for updating WP-Members, the original WordPress membership plugin.', 'wp-members' ) . '</h3>
-			<p class="description"><a href="' . $onboarding_release_notes . '" target="_blank">' . __( 'Read the release notes', 'wp-members' ) . '</a></p>
-			<h3>' . __( 'Never miss an important update!', 'wp-members' ) . '</h3>
-			<p><input type="checkbox" name="optin" value="1" checked />' . __( 'Opt-in to our security and feature updates notifications and non-sensitive diagnostics.', 'wp-members' ) . '</p>
-			<p class="description">
-				' . __( 'This is only so we know how the plugin is being used so we can make it better and more secure.', 'wp-members' ) . '<br />
-				' . __( 'We do not track any personal information, and no data is ever shared with third parties!', 'wp-members' ) . '
-			</p>
-			<input type="hidden" name="page" value="wp-members-onboarding" />
-			<input type="hidden" name="step" value="finalize">
-			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Complete the update', 'wp-members' ) . ' &raquo;"></p>
-		</div>';
 	}
 
 } // End of WP_Members_Admin_API class.

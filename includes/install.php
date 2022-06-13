@@ -789,6 +789,23 @@ function wpmem_onboarding_init( $action ) {
         'product_type'    => 'plugin',
         'opt_in_callback' => 'wpmem_onboarding_opt_in',
         'opt_in_callback_args' => array(),
+
+		'install_state_option' => 'wpmembers_install_state',
+		'finalize_template' => $wpmem->path . 'includes/admin/partials/onboarding_finalize.php',
+		'notice_template' => $wpmem->path . 'includes/admin/partials/onboarding_notice.php',
+
+		'new_install_notice_args' => array(
+			'notice_heading' => __( 'Thank you for installing WP-Members, the original WordPress membership plugin.', 'wp-members' ),
+			'notice_button'  => __( 'Complete plugin setup', 'wp-members' ),
+			'show_release_notes' => false,
+			'release_notes_link' => "",
+		),
+		'update_pending_notice_args' => array(
+			'notice_heading' => __( 'Thank you for updating WP-Members, the original WordPress membership plugin.', 'wp-members' ),
+			'notice_button'  => __( 'Complete the update', 'wp-members' ),
+			'show_release_notes' => true,
+			'release_notes_link' => "https://rocketgeek.com/release-announcements/wp-members-3-4-2/",
+		),
     );
     $wpmem_onboarding = new RocketGeek_Onboarding_Beta( $settings );
 }
