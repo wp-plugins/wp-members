@@ -185,40 +185,6 @@ function wpmem_current_post_id() {
 }
 
 /**
- * Wrapper to return a string from the get_text function.
- *
- * @since 3.4.0
- *
- * @global object $wpmem The WP_Members object.
- * @param  string $str   The string to retrieve.
- * @param  bool   $echo  Print the string (default: false).
- * @return string $str   The localized string.
- */
-function wpmem_get_text( $str, $echo = false ) {
-	global $wpmem;
-	if ( $echo ) {
-		echo $wpmem->dialogs->get_text( $str );
-	} else {
-		return $wpmem->dialogs->get_text( $str );
-	}
-}
-
-/**
- * Wrapper to use custom dialog.
- *
- * @since 3.1.1
- *
- * @param  array  $defaults Dialog message defaults from the wpmem_msg_dialog_arr filter.
- * @param  string $tag      The dialog tag/name.
- * @param  array  $dialogs  The dialog settings array (passed through filter).
- * @return array  $dialogs  The dialog settings array (filtered).
- */
-function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
-	$defaults['msg'] = __( $dialogs[ $tag ], 'wp-members' );
-	return $defaults;
-}
-
-/**
  * Returns or displays the user's login status.
  *
  * @since 2.0.0
@@ -363,6 +329,25 @@ function wpmem_logout_link() {
 }
 
 /**
+ * Wrapper to return a string from the get_text function.
+ *
+ * @since 3.4.0
+ *
+ * @global object $wpmem The WP_Members object.
+ * @param  string $str   The string to retrieve.
+ * @param  bool   $echo  Print the string (default: false).
+ * @return string $str   The localized string.
+ */
+function wpmem_get_text( $str, $echo = false ) {
+	global $wpmem;
+	if ( $echo ) {
+		echo $wpmem->dialogs->get_text( $str );
+	} else {
+		return $wpmem->dialogs->get_text( $str );
+	}
+}
+
+/**
  * Gets requested dialog.
  *
  * @since 3.4.0
@@ -400,6 +385,21 @@ function wpmem_get_display_message( $tag, $custom = false ) {
  */
 function wpmem_display_message( $tag, $custom = false ) {
 	echo wpmem_get_display_message( $tag, $custom );
+}
+
+/**
+ * Wrapper to use custom dialog.
+ *
+ * @since 3.1.1
+ *
+ * @param  array  $defaults Dialog message defaults from the wpmem_msg_dialog_arr filter.
+ * @param  string $tag      The dialog tag/name.
+ * @param  array  $dialogs  The dialog settings array (passed through filter).
+ * @return array  $dialogs  The dialog settings array (filtered).
+ */
+function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
+	$defaults['msg'] = __( $dialogs[ $tag ], 'wp-members' );
+	return $defaults;
 }
 
 /**
