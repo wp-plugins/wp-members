@@ -358,9 +358,6 @@ class WP_Members {
 		$this->name = $this->path . 'wp-members.php';
 		$this->slug = substr( basename( $this->name ), 0, -4 );
 		$this->url  = plugin_dir_url ( __DIR__ );
-		
-		// Load dependent files.
-		$this->load_dependencies();
 	
 		$settings = get_option( 'wpmembers_settings' );
 		
@@ -389,6 +386,9 @@ class WP_Members {
 			$this->$key = $val;
 		}
 
+		// Load dependent files.
+		$this->load_dependencies();
+				
 		// @todo Until I think of a better place to put this.
 		$this->optin = get_option( 'wpmembers_optin' );
 		
@@ -478,7 +478,7 @@ class WP_Members {
 		add_action( 'wp_footer',             array( $this, 'invisible_captcha' ) );
 
 		if ( is_admin() ) {
-			add_action( 'init',        array( $this, 'load_admin'  ) ); // @todo Check user role to load correct dashboard
+			add_action( 'init', array( $this, 'load_admin'  ) ); // @todo Check user role to load correct dashboard
 		}
 		
 		if ( is_user_logged_in() ) {
