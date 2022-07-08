@@ -479,7 +479,6 @@ class WP_Members {
 
 		if ( is_admin() ) {
 			add_action( 'init',        array( $this, 'load_admin'  ) ); // @todo Check user role to load correct dashboard
-			add_action( 'admin_menu', 'wpmem_admin_options' );          // Adds admin menu
 		}
 		
 		if ( is_user_logged_in() ) {

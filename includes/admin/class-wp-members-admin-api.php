@@ -130,7 +130,8 @@ class WP_Members_Admin_API {
 	function load_hooks() {
 		
 		global $wpmem;
-		
+
+		add_action( 'admin_menu',                     array( $this, 'add_options_page' ) ); // Adds admin menu
 		add_action( 'admin_enqueue_scripts',          array( $this, 'dashboard_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links',            array( $this, 'plugin_links' ), 10, 2 );
 		
@@ -201,6 +202,19 @@ class WP_Members_Admin_API {
 			add_action( 'admin_notices', array( $this, 'do_admin_notices' ) );
 		}
 	} // End of load_hooks()
+
+	/**
+	 * Adds the plugin options page and JavaScript.
+	 *
+	 * @since 2.5.2
+	 * @since 3.4.4 Moved from wp-members.php/wpmem_admin_options() to main admin object.
+	 */
+	function add_options_page() {
+		global $wpmem;
+		if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
+			$plugin_page = add_options_page( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
+		}
+	}
 
 	/**
 	 * Add admin notices.

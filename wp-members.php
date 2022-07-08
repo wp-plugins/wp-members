@@ -113,20 +113,6 @@ function wpmem_init() {
 	do_action( 'wpmem_after_init' );
 }
 
-
-/**
- * Adds the plugin options page and JavaScript.
- *
- * @since 2.5.2
- */
-function wpmem_admin_options() {
-	global $wpmem;
-	if ( ! is_multisite() || ( is_multisite() && current_user_can( 'edit_theme_options' ) ) ) {
-		$plugin_page = add_options_page( 'WP-Members', 'WP-Members', 'manage_options', 'wpmem-settings', 'wpmem_admin' );
-	}
-}
-
-
 /**
  * Install the plugin options.
  *
