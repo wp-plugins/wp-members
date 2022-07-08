@@ -398,11 +398,14 @@ class WP_Members {
 		$this->forms       = new WP_Members_Forms;         // Load forms.
 		$this->api         = new WP_Members_API;           // Load api.
 		$this->shortcodes  = new WP_Members_Shortcodes();  // Load shortcodes.
-		$this->membership  = new WP_Members_Products();    // Load membership plans
 		$this->email       = new WP_Members_Email;         // Load email functions
 		$this->user        = new WP_Members_User( $this ); // Load user functions.
 		$this->menus       = new WP_Members_Menus();
 		$this->dialogs     = new WP_Members_Dialogs();
+
+		if ( 1 == $this->enable_products ) {
+			$this->membership  = new WP_Members_Products();    // Load membership plans
+		}
 		if ( $this->clone_menus ) {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
 		}
@@ -466,7 +469,6 @@ class WP_Members {
 		// Add actions.
 		
 		add_action( 'init',                  array( $this, 'load_textdomain' ) );
-		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
 		add_action( 'widgets_init',          array( $this, 'widget_init' ) );            // initializes the widget
 		add_action( 'rest_api_init',         array( $this, 'rest_init'   ) );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ), 20 );
@@ -525,6 +527,11 @@ class WP_Members {
 		add_filter( 'get_next_post_where',     array( $this, 'filter_get_adjacent_post_where' ) );
 		add_filter( 'allow_password_reset',    array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
 
+		// If memberships are enabled.
+		if ( 1 == $this->enable_products ) {
+			add_action( 'init', array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
+		}
+		
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
 		if ( 1 == $this->mod_reg ) { 
 			add_filter( 'authenticate', array( $this->user, 'check_activated' ), 99, 3 ); 
@@ -641,7 +648,6 @@ class WP_Members {
 		require_once( $this->path . 'includes/class-wp-members-email.php' );
 		require_once( $this->path . 'includes/class-wp-members-forms.php' );
 		require_once( $this->path . 'includes/class-wp-members-menus.php' );
-		require_once( $this->path . 'includes/class-wp-members-products.php' );
 		require_once( $this->path . 'includes/class-wp-members-pwd-reset.php' );
 		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
 		require_once( $this->path . 'includes/class-wp-members-user.php' );
@@ -651,18 +657,22 @@ class WP_Members {
 		require_once( $this->path . 'includes/api/api.php' );
 		require_once( $this->path . 'includes/api/api-email.php' );
 		require_once( $this->path . 'includes/api/api-forms.php' );
-		require_once( $this->path . 'includes/api/api-products.php' );
 		require_once( $this->path . 'includes/api/api-users.php' );
 		require_once( $this->path . 'includes/api/api-utilities.php' );
-		require_once( $this->path . 'includes/deprecated.php' );
-		
-		require_once( $this->path . 'includes/legacy/dialogs.php' ); // File is totally deprecated at this point; eval for removal.
+
+		if ( 1 == $this->enable_products ) {
+			require_once( $this->path . 'includes/class-wp-members-products.php' );
+			require_once( $this->path . 'includes/api/api-products.php' );
+		}
 		
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once( $this->path . 'includes/cli/class-wp-members-cli.php' );
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
 			require_once( $this->path . 'includes/cli/class-wp-members-cli-settings.php' );
 		}
+
+		require_once( $this->path . 'includes/deprecated.php' );
+		require_once( $this->path . 'includes/legacy/dialogs.php' ); // File is totally deprecated at this point; eval for removal.
 	}
 
 	/**

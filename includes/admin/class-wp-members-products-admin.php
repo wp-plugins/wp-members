@@ -23,33 +23,32 @@ class WP_Members_Products_Admin {
 	 */
 	function __construct() {
 		global $wpmem;
-		if ( 1 == $wpmem->enable_products ) {
-			add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
-			add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
-			add_action( 'add_meta_boxes',               array( $this, 'meta_boxes' ) );
-			add_action( 'page_attributes_misc_attributes', array( $this, 'membership_attributes' ) );
-			add_action( 'save_post',                    array( $this, 'save_details' ) );
-			add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
-			add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
-			add_action( 'admin_footer',                 array( $this, 'enqueue_select2' ) );
-			add_filter( 'manage_users_columns',         array( $this, 'user_columns' ) );
-			add_filter( 'manage_users_custom_column',   array( $this, 'user_columns_content' ), 10, 3 );
-			add_action( 'admin_head',                   array( $this, 'post_columns_width' ) );
-			add_filter( 'manage_posts_columns',         array( $this, 'post_columns' ) );
-			add_action( 'manage_posts_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
-			add_filter( 'manage_pages_columns',         array( $this, 'post_columns' ) );
-			add_action( 'manage_pages_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
-			foreach( $wpmem->post_types as $key => $val ) {
-				add_filter( 'manage_' . $key . '_posts_columns',       array( $this, 'post_columns' ) );
-				add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
-			}
-			
-			add_filter( 'wpmem_user_profile_tabs',         array( $this, 'user_profile_tabs' ), 1 );
-			add_action( 'wpmem_user_profile_tabs_content', array( $this, 'user_profile_tab_content' ), 10 );
-			
-			add_filter( 'wpmem_views_users', array( $this, 'user_views'  ), 10, 2 );
-			add_filter( 'wpmem_query_where', array( $this, 'query_where' ), 10, 2 );
+
+		add_filter( 'manage_wpmem_product_posts_columns',       array( $this, 'columns_heading' ) );
+		add_action( 'manage_wpmem_product_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
+		add_action( 'add_meta_boxes',               array( $this, 'meta_boxes' ) );
+		add_action( 'page_attributes_misc_attributes', array( $this, 'membership_attributes' ) );
+		add_action( 'save_post',                    array( $this, 'save_details' ) );
+		add_action( 'wpmem_admin_after_block_meta', array( $this, 'add_product_to_post' ), 10, 2 );
+		add_action( 'wpmem_admin_block_meta_save',  array( $this, 'save_product_to_post' ), 10, 3 );
+		add_action( 'admin_footer',                 array( $this, 'enqueue_select2' ) );
+		add_filter( 'manage_users_columns',         array( $this, 'user_columns' ) );
+		add_filter( 'manage_users_custom_column',   array( $this, 'user_columns_content' ), 10, 3 );
+		add_action( 'admin_head',                   array( $this, 'post_columns_width' ) );
+		add_filter( 'manage_posts_columns',         array( $this, 'post_columns' ) );
+		add_action( 'manage_posts_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
+		add_filter( 'manage_pages_columns',         array( $this, 'post_columns' ) );
+		add_action( 'manage_pages_custom_column',   array( $this, 'post_columns_content' ), 10, 2 );
+		foreach( $wpmem->post_types as $key => $val ) {
+			add_filter( 'manage_' . $key . '_posts_columns',       array( $this, 'post_columns' ) );
+			add_action( 'manage_' . $key . '_posts_custom_column', array( $this, 'post_columns_content' ), 10, 2 );
 		}
+		
+		add_filter( 'wpmem_user_profile_tabs',         array( $this, 'user_profile_tabs' ), 1 );
+		add_action( 'wpmem_user_profile_tabs_content', array( $this, 'user_profile_tab_content' ), 10 );
+		
+		add_filter( 'wpmem_views_users', array( $this, 'user_views'  ), 10, 2 );
+		add_filter( 'wpmem_query_where', array( $this, 'query_where' ), 10, 2 );
 		
 		$this->default_products = $wpmem->membership->get_default_products();
 	}

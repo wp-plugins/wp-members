@@ -1077,7 +1077,7 @@ class WP_Members_User {
 	 */
 	function get_user_products( $user_id = false, $obj = false ) {
 		global $wpmem;
-		$product_array = ( $obj ) ? $obj->membership->products : $wpmem->membership->products;
+		$product_array = ( $obj ) ? $obj->membership->products : ( ( isset( $wpmem->membership->products ) ) ? $wpmem->membership->products : array() );
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		foreach ( $product_array as $product_meta => $product ) {
 			$user_product = get_user_meta( $user_id, '_wpmem_products_' . $product_meta, true );
