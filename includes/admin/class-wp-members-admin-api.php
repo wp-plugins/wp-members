@@ -114,6 +114,9 @@ class WP_Members_Admin_API {
 			}
 			include_once( $wpmem->path . 'includes/admin/tabs/class-wp-members-fields-table.php' );
 		}
+		if ( current_user_can( 'list_users' ) ) {
+		//	include_once( $wpmem->path . 'includes/admin/class-wp-members-bulk-edit-users.php' );
+		}
 	}
 
 	/**
