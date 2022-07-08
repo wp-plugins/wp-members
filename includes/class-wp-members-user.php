@@ -753,7 +753,7 @@ class WP_Members_User {
 				return "reg_generic";
 			}
 
-			$user_to_check = ( strpos( $user_to_check, '@' ) ) ? sanitize_email( $arr['user'] ) : sanitize_user( $arr['user'] );
+			$user_to_check = ( strpos( $arr['user'], '@' ) ) ? sanitize_email( $arr['user'] ) : sanitize_user( $arr['user'] );
 
 			if ( username_exists( $user_to_check ) ) {
 				$user = get_user_by( 'login', $user_to_check );
