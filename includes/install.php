@@ -825,7 +825,7 @@ function wpmem_onboarding_opt_in() {
     // $onboarding_title = ( 'upgrade' == $args['param1'] ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
 	$install_state = get_option( 'wpmembers_install_state' );
 	$onboarding_title = ( 'update_pending' == $install_state ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
-    $onboarding_release_notes = "https://rocketgeek.com/release-notes/wp-members-3-4-2/";
+    $onboarding_release_notes = "https://rocketgeek.com/release-notes/wp-members-3-4-4/";
     $onboarding_version = $wpmem->version;
 
     $page = ( ! isset( $_POST['step'] ) ) ? 'step_1' : $_POST['step'];
