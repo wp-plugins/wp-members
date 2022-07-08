@@ -2069,7 +2069,7 @@ class WP_Members_Forms {
 		 * Filter the arguments to override form defaults.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.3.0 Use wpmem_inc_{$form}_defaults instead.
+		 * @deprecated 3.3.0 Use wpmem_{$form}_form_defaults instead.
 		 *
 		 * @param array $args An array of arguments to use. Default null. (login|changepassword|resetpassword|forgotusername)
 		 */

@@ -16,7 +16,7 @@ class WP_Members_Pwd_Reset {
 	public  $invalid_user;
 	public  $key_is_expired;
 	private $reset_key;
-	private $content = false;
+	public  $content = false;
 	
 	/**
 	 * Meta containers
@@ -57,7 +57,7 @@ class WP_Members_Pwd_Reset {
 		
 		add_filter( 'wpmem_email_filter', array( $this, 'add_reset_key_to_email' ), 10, 3 );
 		add_action( 'template_redirect',  array( $this, 'handle_reset'           ), 20  );
-		add_filter( 'the_content',        array( $this, 'display_content'        ), 100 );
+		//add_filter( 'the_content',        array( $this, 'display_content'        ), 100 );
 	}
 
 	function handle_reset() {
