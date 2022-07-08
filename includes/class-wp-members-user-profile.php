@@ -295,6 +295,11 @@ class WP_Members_User_Profile {
 	 * @return
 	 */
 	static function update( $user_id ) {
+
+		// Prevent from firing on front end use (i.e. password reset).
+		if ( ! is_admin() ) {
+			return;
+		}
 		
 		global $current_screen, $user_id, $wpmem;
 		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin';
