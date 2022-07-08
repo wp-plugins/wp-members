@@ -604,7 +604,7 @@ class WP_Members_Shortcodes {
 			global $wpmem;
 			$fields = wpmem_fields();
 			
-			$field_type = ( 'user_login' == $field ) ? 'text' : $fields[ $field ]['type'];
+			$field_type = ( 'user_login' == $field || ! isset( $fields[ $field ] ) ) ? 'text' : $fields[ $field ]['type'];
 			$user_info_field = ( isset( $field ) && is_object( $user_info ) ) ? $user_info->{$field} : '';
 			$result = false;
 
