@@ -192,7 +192,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			if ( empty( $user ) || ! $user ) {
 				WP_CLI::error( 'User does not exist. Try wp user list' );
 			}
-			$all  = ( $assoc_args['all'] ) ? true : false;
+			$all  = ( isset( $assoc_args['all'] ) ) ? true : false;
 			$this->display_user_detail( $user, $all );
 		}
 		
@@ -207,7 +207,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		private function display_user_detail( $user, $all ) {
 			WP_CLI::line( sprintf( __( 'User: %s', 'wp-members' ), $user->user_login ) );
 
-			$values = wpmem_user_data( $user_id, $all );
+			$values = wpmem_user_data( $user->ID, $all );
 			foreach ( $values as $key => $meta ) {
 				 $list[] = array(
 					 'meta' => $key,
