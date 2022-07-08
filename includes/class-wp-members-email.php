@@ -503,6 +503,7 @@ class WP_Members_Email {
 				 *
 				 * @param array  $shortcodes
 				 * @param string $toggle
+				 * @param string $user_id
 				 */
 				$shortcodes = apply_filters( 'wpmem_email_shortcodes', $shortcodes, 'notify', $this->settings['user_id'] );
 

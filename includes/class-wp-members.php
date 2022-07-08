@@ -72,7 +72,6 @@ class WP_Members {
 	 */
 	public $url;
 	
-	
 	/**
 	 * Content block settings.
 	 *
@@ -526,9 +525,9 @@ class WP_Members {
 		add_filter( 'get_previous_post_where', array( $this, 'filter_get_adjacent_post_where' ) );
 		add_filter( 'get_next_post_where',     array( $this, 'filter_get_adjacent_post_where' ) );
 		add_filter( 'allow_password_reset',    array( $this->user, 'no_reset' ) );           // no password reset for non-activated users
-		
+
 		// If registration is moderated, check for activation (blocks backend login by non-activated users).
-		if ( $this->mod_reg == 1 ) { 
+		if ( 1 == $this->mod_reg ) { 
 			add_filter( 'authenticate', array( $this->user, 'check_activated' ), 99, 3 ); 
 		}
 
