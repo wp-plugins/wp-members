@@ -97,6 +97,7 @@ class WP_Members_Products {
 		add_filter( 'wpmem_securify',               array( $this, 'product_access' ) );
 		add_filter( 'wpmem_product_restricted_msg', array( $this, 'apply_custom_access_message' ), 10, 2 );
 		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ), 10, 4 );
+		add_filter( 'wpmem_email_shortcodes',       array( $this, 'email_shortcodes' ), 10, 3 );
 	}
 	
 	/**
@@ -543,5 +544,31 @@ class WP_Members_Products {
 		}
 		
 		return $new_value;
+	}
+
+	/**
+	 * Adds [user_memberships] shortcode for use in the admin email
+	 * 
+	 * @since 3.4.4
+	 * 
+	 * @param  array  $shortcodes
+	 * @param  string $tag
+	 * @param  int    $user_id
+	 * @return array  $shortcodes
+	 */
+	function email_shortcodes( $shortcodes, $tag, $user_id ) {
+		global $wpmem;
+		if ( 'notify' == $tag ) {
+			$user_memberships  = wpmem_get_user_memberships( $user_id );
+			$site_memberships  = wpmem_get_memberships();
+			$email_memberships = ( $wpmem->email->html ) ? '<p><ul>' : "";
+			foreach ( $user_memberships as $meta_key => $membership ) {
+				$email_memberships .= ( $wpmem->email->html ) ? "<li>" . $site_memberships[ $meta_key ]['title'] . '</li>' : $site_memberships[ $meta_key ]['title'] . "\r\n";
+			}
+			$email_memberships .= ( $wpmem->email->html ) ? '</ul>' : "";
+
+			$shortcodes['memberships'] = $email_memberships;
+		}
+		return $shortcodes;
 	}
 }
