@@ -750,7 +750,7 @@ class WP_Members_Forms {
 		}
 
 		// Build hidden fields, filter, and add to the form.
-		if ( 'set_password_from_key' == wpmem_get( 'a', false, 'request' ) && false == wpmem_get( 'formsubmit', false ) ) {
+		if ( 'set_password_from_key' == wpmem_get( 'a', false, 'request' ) && 'login' != $action ) {
 			$hidden['action'] = wpmem_form_field( array( 'name' => 'a', 'type' => 'hidden', 'value' => 'set_password_from_key' ) );
 			$hidden['key']    = wpmem_form_field( array( 'name' => 'key',   'type' => 'hidden', 'value' => sanitize_text_field( wpmem_get( 'key',   null, 'request' ) ) ) );
 			$hidden['login']  = wpmem_form_field( array( 'name' => 'login', 'type' => 'hidden', 'value' => sanitize_user( wpmem_get( 'login', null, 'request' ) ) ) );
