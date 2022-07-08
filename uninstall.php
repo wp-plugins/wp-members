@@ -85,8 +85,6 @@ function wpmem_uninstall_options() {
 	delete_option( 'wpmembers_autoex'   );
 	delete_option( 'wpmembers_attrib'   );
 
-	delete_option( 'wpmembers_install_state' );
-
 	delete_transient( 'wpmem_user_counts' );
 	
 	// Drop user meta key search table.
@@ -99,6 +97,7 @@ function wpmem_uninstall_options() {
 		$uninstall = new RocketGeek_Satellite_Beta( 'wp-members', plugin_dir_path( __FILE__ ) . 'wp-members.php', 'delete', 'plugin' );
 	}
 	delete_option( 'wpmembers_optin' );
+	delete_option( 'wpmembers_install_state' );
 }
 
 // End of file.
