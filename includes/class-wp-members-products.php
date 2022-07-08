@@ -212,6 +212,19 @@ class WP_Members_Products {
 			// Only produce the product restricted message if access is false.
 			if ( false === $access ) {
 
+				// Set up excerpt if excerpts are set to display.
+				$excerpt = '';
+				if ( isset( $wpmem->show_excerpt[ $post->post_type ] ) && 1 == $wpmem->show_excerpt[ $post->post_type ] ) {
+
+					// @todo Can this be condensed or eliminated?
+					$len = strpos( $content, '<span id="more' );
+					if ( false === $len ) {
+						$excerpt = wpmem_do_excerpt( $content );
+					} else {
+						$excerpt = substr( $content, 0, $len );
+					}
+				}
+
 				$message = wpmem_get_access_message( $post_products );
 
 				/**
@@ -219,6 +232,7 @@ class WP_Members_Products {
 				 *
 				 * @since 3.3.3
 				 * @since 3.3.4 Added $post_products
+				 * @since 3.4.4 Added $excerpt
 				 *
 				 * @param array  $product_restricted {
 				 *     $type string $wrapper_before
@@ -232,12 +246,13 @@ class WP_Members_Products {
 				 * }
 				 */
 				$product_restricted = apply_filters( 'wpmem_product_restricted_args', array(
+					'excerpt'        => $excerpt,
 					'wrapper_before' => '<div class="wpmem_msg">',
 					'message'        => $message,
 					'wrapper_after'  => '</div>',
 				), $post_products );
 				
-				$content = $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
+				$content = $product_restricted['excerpt'] . $product_restricted['wrapper_before'] . $product_restricted['message'] . $product_restricted['wrapper_after'];
 			
 				// Handle comments.
 				add_filter( 'wpmem_securify_comments', '__return_false' );
