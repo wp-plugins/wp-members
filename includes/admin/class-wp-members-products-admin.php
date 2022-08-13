@@ -545,9 +545,9 @@ class WP_Members_Products_Admin {
 		}
 		foreach ( $wpmem->membership->products as $key => $value ) {
 			if ( in_array( $key, $products ) ) {
-				update_post_meta( $post->ID, $wpmem->membership->post_stem . $key, 1 );
+				update_post_meta( $post->ID, wpmem_get_membership_meta( $key ), 1 );
 			} else {
-				delete_post_meta( $post->ID, $wpmem->membership->post_stem . $key );
+				delete_post_meta( $post->ID, wpmem_get_membership_meta( $key ) );
 			}
 		}
 	}
@@ -615,8 +615,8 @@ class WP_Members_Products_Admin {
 			$post_products = $wpmem->membership->get_post_products( $post_id );
 			if ( $post_products ) {
 				foreach ( $post_products as $meta ) {
-					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
-						$display[] = $wpmem->membership->products[ $meta ]['title'];
+					if ( isset( wpmem_get_membership_name( $meta ) ) ) {
+						$display[] = wpmem_get_membership_name( $meta );
 					}
 				}
 				echo implode( ", ", $display );
@@ -675,9 +675,9 @@ class WP_Members_Products_Admin {
 			$user_products = $wpmem->user->get_user_products( $user_id );
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
-					if ( isset( $wpmem->membership->products[ $meta ]['title'] ) ) {
+					if ( isset( wpmem_get_membership_name( $meta ) ) ) {
 						$expires = ( $user_products[ $meta ] > 1 ) ? '<br />' . __( 'expires:', 'wp-members' ) . ' ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
-						$display[] = $defaults['item_wrap_before'] . $wpmem->membership->products[ $meta ]['title'] . $expires . $defaults['item_wrap_after'];
+						$display[] = $defaults['item_wrap_before'] . wpmem_get_membership_name( $meta ) . $expires . $defaults['item_wrap_after'];
 					}
 				}
 			}
@@ -810,30 +810,14 @@ class WP_Members_Products_Admin {
 		global $wpdb, $wpmem;
 
 		// Add a view for each membership
-		foreach ( $wpmem->membership->product_by_id as $product_slug ) {
-
-			// Count is stored in a transient (see "if" condition below).
-			$count = get_transient( 'wpmem_user_counts_' . $product_slug );
-			// If the transient is not already set.
-			if ( false === $count ) {
-
-				// Get the count
-				$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value>0", "_wpmem_products_" . $product_slug ) );
-
-				// Save it in a transient
-				$transient_expires = 60; // Value in seconds, 1 day: ( 60 * 60 * 24 );
-				set_transient( 'wpmem_user_counts_' . $product_slug, $count, $transient_expires );
-			}
-
-			// Build the link for the filter view
-			$link          = "users.php?action=show&amp;show=" . $product_slug;
-			$current       = ( $show == $product_slug ) ? ' class="current"' : '';
-			$views[ $product_slug ] = sprintf(
-				'<a href="%s" %s>%s <span class="count">(%d)</span></a>',
-				esc_url( $link ),
-				$current,
-				$wpmem->membership->products[ $product_slug ]['title'],
-				$count
+		foreach ( $wpmem->membership->product_by_id as $membership_slug ) {
+			$views = wpmem_add_user_view_link( 
+				$views, 
+				wpmem_get_membership_name( $membership_slug ), // $wpmem->membership->products[ $product_slug ]['title'],
+				$membership_slug,
+				wpmem_get_membership_meta( $membership_slug ), // "_wpmem_products_" . $product_slug,
+				0,
+				">"
 			);
 		}
 
@@ -855,15 +839,9 @@ class WP_Members_Products_Admin {
 		global $wpdb, $wpmem;
 
 		// Check for membership views.
-		foreach ( $wpmem->membership->product_by_id as $product_slug ) {
+		foreach ( $wpmem->membership->product_by_id as $membership_slug ) {
 			// Check if we are viewing ($show) a membership ($prduct_slug).
-			if ( $product_slug == $show ) {
-				// Set appropriate $query_where to filter the view.
-				$query_where = "WHERE 1=1 AND {$wpdb->users}.ID IN (
-					 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta 
-						WHERE {$wpdb->usermeta}.meta_key = \"" . esc_sql( "_wpmem_products_" . $product_slug ) . "\"
-						AND {$wpdb->usermeta}.meta_value > 0 )";
-			}
+			$query_where = wpmem_add_query_where( $query_where, $membership_slug, wpmem_get_membership_meta( $membership_slug ), 0, $compare = '>' );
 		}
 
 		return $query_where;

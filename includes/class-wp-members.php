@@ -1243,7 +1243,7 @@ class WP_Members {
 				foreach ( $this->membership->products as $key => $value ) {
 					if ( isset( $this->user->access[ $key ] ) && ( true == $this->user->access[ $key ] || $this->user->is_current( $this->user->access[ $key ] ) ) ) {
 						foreach ( $hidden as $post_id ) {
-							if ( 1 == get_post_meta( $post_id, $this->membership->post_stem . $key, true ) ) {
+							if ( 1 == get_post_meta( $post_id, wpmem_get_membership_meta( $key ), true ) ) {
 								$hidden_key = array_search( $post_id, $hidden );
 								unset( $hidden[ $hidden_key ] );	
 							}
