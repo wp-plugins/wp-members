@@ -305,7 +305,7 @@ class widget_wpmemwidget extends WP_Widget {
 
 			if ( $wpmem->user_pages['profile'] != null ) { 
 				/** This filter is documented in wp-members/includes/class-wp-members-forms.php */
-				$link = apply_filters( 'wpmem_forgot_link', add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ) );
+				$link = apply_filters( 'wpmem_forgot_link', wpmem_profile_url( 'pwdreset' ) );
 				$link_html = ' <a href="' . $link . '">' . wpmem_get_text( 'widget_login_forgot' ) . '</a>&nbsp;';
 				/**
 				 * Filter the sidebar forgot password.

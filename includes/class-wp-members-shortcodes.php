@@ -321,7 +321,7 @@ class WP_Members_Shortcodes {
 							$do_return = true;
 							$settings = array(
 								'wrapper_before' => '<div class="product_restricted_msg">',
-								'msg'            => sprintf( wpmem_get_text( 'product_restricted' ), $wpmem->membership->products[ $membership ]['title'] ),
+								'msg'            => sprintf( wpmem_get_text( 'product_restricted' ), wpmem_get_membership_name( $membership ) ),
 								'wrapper_after'  => '</div>',
 							);
 							/**

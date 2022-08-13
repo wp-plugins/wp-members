@@ -275,11 +275,11 @@ class WP_Members_Products {
 		// Singular message if post only has one membership, otherwise multiple.
 		if ( 1 == count( $post_products ) ) {
 			$message = wpmem_get_text( 'product_restricted_single' )
-				. "<br />" . $this->products[ $post_products[0] ]['title'];
+				. "<br />" . wpmem_get_membership_name( $post_products[0] );
 		} else {
 			$message = wpmem_get_text( 'product_restricted_multiple' ) . "<br />";
 			foreach ( $post_products as $post_product ) {
-				$message .= $this->products[ $post_product ]['title'] . "<br />";
+				$message .= wpmem_get_membership_name( $post_product ) . "<br />";
 			}
 		}
 		/**
