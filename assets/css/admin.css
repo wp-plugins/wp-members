@@ -140,3 +140,14 @@ updatesettings a:hover {
 .wpmem-user-table-membership {
 	border-bottom:1px solid #999;
 }
+
+#wpmem-fields .column-display,
+#wpmem-fields .column-req,
+#wpmem-fields .column-userscrn,
+#wpmem-fields .column-usearch {
+	width: 110px;
+}
+#wpmem-fields .column-edit,
+#wpmem-fields .column-sort {
+	width: 70px;
+}
