@@ -790,10 +790,26 @@ class WP_Members_Forms {
 
 		// Build the buttons, filter, and add to the form.
 		if ( $action == 'login' ) {
-			$args['remember_check'] = ( $args['remember_check'] ) ? $args['t'] . wpmem_form_field( array( 'name' => 'rememberme', 'type' => 'checkbox', 'value' => 'forever' ) ) . '&nbsp;' . '<label for="rememberme">' . wpmem_get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
-			$buttons =  $args['remember_check'] . $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+			$buttons[] = ( $args['remember_check'] ) ? $args['t'] . wpmem_form_field( array( 'name' => 'rememberme', 'type' => 'checkbox', 'value' => 'forever' ) ) . '&nbsp;' . '<label for="rememberme">' . wpmem_get_text( 'remember_me' ) . '</label>&nbsp;&nbsp;' . $args['n'] : '';
+			$buttons[] = $args['t'] . '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
 		} else {
-			$buttons = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+			$buttons[] = '<input type="submit" name="Submit" value="' . esc_attr( $arr['button_text'] ) . '" class="' . wpmem_sanitize_class( $args['button_class'] ) . '" />' . $args['n'];
+		}
+
+		/**
+		 * Filter the button parts.
+		 * 
+		 * @since 3.4.5
+		 * 
+		 * @param  array   $rows
+		 * @param  string  $action
+		 */
+		$buttons = apply_filters( 'wpmem_login_form_button_rows', $buttons, $action );
+
+		// HTML assembly for buttons.
+		$button_html = '';
+		foreach ( $buttons as $button_row ) {
+			$button_html .= $button_row;
 		}
 
 		/**
@@ -806,25 +822,25 @@ class WP_Members_Forms {
 		 * @param string $buttons The generated HTML of the form buttons.
 		 * @param string $action  The action being performed by the form. login|pwdreset|pwdchange|getusername.
 		 */
-		$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $buttons . $args['buttons_after'] . $args['n'], $action );
+		$form = $form . apply_filters( 'wpmem_login_form_buttons', $args['buttons_before'] . $args['n'] . $button_html . $args['buttons_after'] . $args['n'], $action );
 
 		$links_array = array(
 			'forgot' => array(
-				'tag'  => 'forgot',
-				'link' => add_query_arg( 'a', 'pwdreset', $wpmem->user_pages['profile'] ),
-				'page' => 'profile',
+				'tag'    => 'forgot',
+				'link'   => wpmem_pwd_reset_url(),
+				'page'   => 'profile',
 				'action' => 'login',
 			),
 			'register' => array(
-				'tag'  => 'reg',
-				'link' => $wpmem->user_pages['register'],
-				'page' => 'register',
+				'tag'    => 'reg',
+				'link'   => wpmem_register_url(),
+				'page'   => 'register',
 				'action' => 'login',
 			),
 			'username' => array(
-				'tag'  => 'username',
-				'link' => add_query_arg( 'a', 'getusername', $wpmem->user_pages['profile'] ),
-				'page' => 'profile',
+				'tag'    => 'username',
+				'link'   => wpmem_forgot_username_url(),
+				'page'   => 'profile',
 				'action' => 'pwdreset',
 			),
 		);
