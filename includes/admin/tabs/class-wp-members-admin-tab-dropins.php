@@ -58,7 +58,7 @@ class WP_Members_Admin_Tab_Dropins {
 				if ( $post_vals ) {
 					foreach ( $post_vals as $key => $val ) {
 						// Check against default strings. Only save if different.
-						if ( html_entity_decode( wpmem_gettext( $key ) ) != html_entity_decode( $val ) ) {
+						if ( html_entity_decode( wpmem_get_text( $key ) ) != html_entity_decode( $val ) ) {
 							$settings['text'][ $key ] = $val;
 						} else {
 							if ( ! empty( $old_settings['text'] ) && array_key_exists( $key, $old_settings['text'] ) ) {
@@ -68,7 +68,7 @@ class WP_Members_Admin_Tab_Dropins {
 					}
 					// Double check settings for defaults.
 					foreach ( $settings['text'] as $k => $v ) {
-						if ( wpmem_gettext( $k ) == $v ) {
+						if ( wpmem_get_text( $k ) == $v ) {
 							unset( $settings['text'][ $k ] );
 						}
 					}
