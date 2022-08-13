@@ -480,7 +480,7 @@ class WP_Members {
 		add_action( 'wp_footer',             array( $this, 'invisible_captcha' ) );
 
 		if ( is_admin() ) {
-			add_action( 'init', array( $this, 'load_admin'  ) ); // @todo Check user role to load correct dashboard
+			add_action( 'init', array( $this, 'load_admin' ) ); // @todo Check user role to load correct dashboard
 		}
 		
 		if ( is_user_logged_in() ) {

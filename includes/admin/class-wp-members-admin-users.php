@@ -373,11 +373,13 @@ class WP_Members_Admin_Users {
 		 * Filters all views before returning to the WP 'views_users' filter.
 		 *
 		 * @since 3.3.0
+		 * @since unknown Added $show
 		 *
-		 * @param array $views {
+		 * @param array  $views {
 		 *
 		 *     @type string The HTML for the view.
 		 * }
+		 * @param string $show
 		 */
 		$views = apply_filters( 'wpmem_views_users', $views, $show );
 		
