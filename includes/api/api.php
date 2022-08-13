@@ -128,7 +128,15 @@ function wpmem_register_url() {
  */
 function wpmem_profile_url( $a = false ) {
 	global $wpmem;
-	return ( $a ) ? add_query_arg( 'a', $a, $wpmem->user_pages['profile'] ) : $wpmem->user_pages['profile'];
+	return ( $a ) ? add_query_arg( 'a', $a, trailingslashit( $wpmem->user_pages['profile'] ) ) : $wpmem->user_pages['profile'];
+}
+
+function wpmem_pwd_reset_url() {
+	return wpmem_profile_url( 'pwdreset' );
+}
+
+function wpmem_forgot_username_url() {
+	return wpmem_profile_url( 'getusername' );
 }
 
 /**
@@ -205,8 +213,8 @@ function wpmem_login_status( $echo = true, $tag = false ) {
 			'wrapper_before' => '<p>',
 			'wrapper_after'  => '</p>',
 			'user_login'     => $user_login,
-			'welcome'        => wpmem_gettext( 'status_welcome' ),
-			'logout_text'    => wpmem_gettext( 'status_logout' ),
+			'welcome'        => wpmem_get_text( 'status_welcome' ),
+			'logout_text'    => wpmem_get_text( 'status_logout' ),
 			'logout_link'    => '<a href="' . esc_url( wpmem_logout_link() ) . '">%s</a>',
 			'separator'      => ' | ',
 		);

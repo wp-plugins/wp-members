@@ -117,3 +117,113 @@ function wpmem_update_option( $option, $key, $value ) {
 	}
 	return update_option( $option, $settings );
 }
+
+/**
+ * Returns a custom "query_where" if the current view is selected.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $query_where  $query_where value from the filter (required)
+ * @param  string  $view         Custom view slug
+ * @param  string  $meta_key     Meta key the view is filtered by (needed for count)
+ * @param  string  $meta_value   Value of the meta key for the view (needed for count)
+ * @param  string  $compare      Comparison operator (optional, default "=")
+ */
+function wpmem_add_query_where( $query_where, $view, $meta_key, $meta_value, $compare = '=' ) {
+	$show = sanitize_text_field( wpmem_get( 'show', false, 'get' ) );
+	if ( $view == $show ) {
+		$query_where = wpmem_get_query_where( $meta_key, $meta_value, $compare );
+	}
+	return $query_where;
+}
+
+/**
+ * Builds a "query_where" for custom user views in Users > All Users.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $meta_key     Meta key the view is filtered by (needed for count)
+ * @param  string  $meta_value   Value of the meta key for the view (needed for count)
+ * @param  string  $compare      Comparison operator (optional, default "=")
+ */
+function wpmem_get_query_where( $meta_key, $meta_value, $compare = '=' ) {
+	global $wpdb;
+	$query_where = 'WHERE 1=1 AND ' . $wpdb->users . '.ID IN (
+		SELECT ' . $wpdb->usermeta . '.user_id FROM ' . $wpdb->usermeta . '
+		WHERE ' . $wpdb->usermeta . '.meta_key = "' . esc_sql( $meta_key ) . '"
+		AND ' . $wpdb->usermeta . '.meta_value ' . $compare . ' "' . esc_sql( $meta_value ) . '" )';
+	return $query_where;
+}
+
+/**
+ * Adds a custom user view link for Users > All Users to the existing views array.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  array   $views        The $views value from the "wpmem_views_users" filter (required)
+ * @param  string  $name         Text for the view link
+ * @param  string  $view         Custom view slug
+ * @param  string  $meta_key     Meta key the view is filtered by (needed for count)
+ * @param  string  $meta_value   Value of the meta key for the view (needed for count)
+ * @param  string  $compare      Comparison operator (optional, default "=")
+ * @param  int     $expires      Expiration of the count transient in seconds (optional, default = 60)
+ */
+function wpmem_add_user_view_link( $views, $link_text, $view_slug, $meta_key, $meta_value, $compare = "=", $expires = 60 ) {
+	$views[ $view_slug ] = wpmem_get_user_view_link( $link_text, $view_slug, $meta_key, $meta_value, $compare, $expires );
+	return $views;
+}
+
+/**
+ * Returns a custom user view link for Users > All Users.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $name         Text for the view link
+ * @param  string  $view         Custom view slug
+ * @param  string  $meta_key     Meta key the view is filtered by (needed for count)
+ * @param  string  $meta_value   Value of the meta key for the view (needed for count)
+ * @param  string  $compare      Comparison operator (optional, default "=")
+ * @param  int     $expires      Expiration of the count transient in seconds (optional, default = 60)
+ */
+function wpmem_get_user_view_link( $name, $view, $meta_key, $meta_value, $compare = "=", $expires = 60 ) {
+	$show = sanitize_text_field( wpmem_get( 'show', '', 'get' ) );
+	$url = 'users.php?action=show&show=' . $view;
+	$class = ( $show == $view ) ? ' class="current"' : ''; 
+	$count = wpmem_get_user_view_count( $view, $meta_key, $meta_value, $compare, $expires );
+	return sprintf(
+		'<a href="%s" %s>%s <span class="count">(%d)</span></a>',
+		esc_url( $url ),
+		$class,
+		$name,
+		$count
+	);
+}
+
+/**
+ * Returns a count for custom user view for Users > All Users.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $view         Custom view slug
+ * @param  string  $meta_key     Meta key the view is filtered by (needed for count)
+ * @param  string  $meta_value   Value of the meta key for the view (needed for count)
+ * @param  string  $compare      Comparison operator (optional, default "=")
+ * @param  int     $expires      Expiration of the count transient in seconds (optional, default = 60)
+ */
+function wpmem_get_user_view_count( $view, $meta_key, $meta_value, $compare = '=', $expires = 60 ) {
+	global $wpdb;
+	// Count is stored in a transient (see "if" condition below).
+	$count = get_transient( 'wpmem_user_counts_' . $view );
+	// If the transient is not already set.
+	if ( false === $count ) {
+
+		// Get the count
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->usermeta . " WHERE meta_key=%s AND meta_value " . $compare . " \"%s\"", $meta_key, $meta_value ) );
+
+		// Save it in a transient
+		$transient_expires = $expires; // Value in seconds, 1 day: ( 60 * 60 * 24 );
+		set_transient( 'wpmem_user_counts_' . $view, $count, $transient_expires );
+	}
+	// Return the count, either new or transient.
+	return $count;
+}

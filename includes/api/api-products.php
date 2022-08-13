@@ -17,26 +17,54 @@
  * Gets all posts by product key.
  *
  * @since Unknown
+ * @since 3.4.5 Alias of wpmem_get_membership_post_list().
  *
  * @global  stdClass  $wpmem
  * @param   string    $product_key
  * @return  array
  */
 function wpmem_get_product_post_list( $product_key ) {
+	return wpmem_get_membership_post_list( $product_key );
+}
+
+/**
+ * Gets all posts by product key.
+ *
+ * @since 3.4.5
+ *
+ * @global  stdClass  $wpmem
+ * @param   string    $membership_key
+ * @return  array
+ */
+function wpmem_get_membership_post_list( $membership_key ) {
 	global $wpmem;
-	return $wpmem->membership->get_all_posts( $product_key );
+	return $wpmem->membership->get_all_posts( $membership_key );
 }
 
 /**
  * Gets the membership products for a given post.
  *
  * @since 3.3.7
+ * @since 3.4.5 Alias of wpmem_get_post_memberships().
  *
  * @global  stdClass  $wpmem
  * @param   integer   $post_id
  * @return  array
  */
 function wpmem_get_post_products( $post_id ) {
+	return wpmem_get_post_memberships( $post_id );
+}
+
+/**
+ * Gets the membership products for a given post.
+ *
+ * @since 3.4.5
+ *
+ * @global  stdClass  $wpmem
+ * @param   integer   $post_id
+ * @return  array
+ */
+function wpmem_get_post_memberships( $post_id ) {
 	global $wpmem;
 	return $wpmem->membership->get_post_products( $post_id );
 }
@@ -55,16 +83,64 @@ function wpmem_get_access_message( $post_products ) {
 	return $wpmem->membership->get_access_message( $post_products );
 }
 
+/**
+ * Gets all memberships for the site.
+ * Alias of wpmem_get_memberships().
+ * 
+ * @since Unknown
+ * 
+ * @return array
+ */
 function wpmem_get_products() {
 	return wpmem_get_memberships();
 }
 
+/**
+ * Gets all memberships for the site.
+ * 
+ * @since Unknown
+ * 
+ * @return array
+ */
 function wpmem_get_memberships() {
 	global $wpmem;
 	return ( ! empty( $wpmem->membership->products ) ) ? $wpmem->membership->products : false;
 }
 
+/**
+ * Get array of memberships keyed by ID.
+ * 
+ * @since Unknown
+ * 
+ * return array
+ */
 function wpmem_get_memberships_ids() {
 	global $wpmem;
 	return array_flip( $wpmem->membership->product_by_id );
+}
+
+/**
+ * Get membership display title by slug.
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $membership_slug
+ * @return string
+ */
+function wpmem_get_membership_name( $membership_slug ) {
+	global $wpmem;
+	return $wpmem->membership->products[ $membership_slug ]['title'];
+}
+
+/**
+ * Get meta key for membership (with stem).
+ * 
+ * @since 3.4.5
+ * 
+ * @param  string  $membership_slug
+ * @return string
+ */
+function wpmem_get_membership_meta( $membership_slug ) {
+	global $wpmem;
+	return $wpmem->membership->post_stem . $membership_slug;
 }
