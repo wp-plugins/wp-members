@@ -59,8 +59,8 @@ function wpmem_get_user_role( $user_id = false, $all = false ) {
  * @since 3.1.6 Include accepting an array of roles to check.
  * @since 3.1.9 Return false if user is not logged in.
  * @since 3.2.0 Change return false to not logged in AND no user id.
+ * @since 3.4.5 $current_user no longer necessary.
  *
- * @global object        $current_user Current user object.
  * @global object        $wpmem        WP_Members object.
  * @param  string|array  $role         Slug or array of slugs of the role being checked.
  * @param  int           $user_id      ID of the user being checked (optional).
@@ -70,13 +70,9 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 	if ( ! is_user_logged_in() && ! $user_id ) {
 		return false;
 	}
-	global $current_user, $wpmem;
+	global $wpmem;
 	$has_role = false;
-	if ( $user_id ) {
-		$user = get_userdata( $user_id );
-	} else {
-		$user = ( isset( $current_user ) ) ? $current_user : wp_get_current_user();
-	}
+	$user = ( $user_id ) ? get_userdata( $user_id ) : wp_get_current_user();
 	if ( is_array( $role ) ) {
 		foreach ( $role as $r ) {
 			if ( in_array( $r, $user->roles ) ) {
