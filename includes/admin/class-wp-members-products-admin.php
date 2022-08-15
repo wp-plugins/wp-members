@@ -616,9 +616,7 @@ class WP_Members_Products_Admin {
 			$post_products = $wpmem->membership->get_post_products( $post_id );
 			if ( $post_products ) {
 				foreach ( $post_products as $meta ) {
-					if ( isset( wpmem_get_membership_name( $meta ) ) ) {
-						$display[] = wpmem_get_membership_name( $meta );
-					}
+					$display[] = wpmem_get_membership_name( $meta );
 				}
 				echo implode( ", ", $display );
 			}
@@ -676,10 +674,8 @@ class WP_Members_Products_Admin {
 			$user_products = $wpmem->user->get_user_products( $user_id );
 			if ( $user_products ) {
 				foreach ( $user_products as $meta => $value ) {
-					if ( isset( wpmem_get_membership_name( $meta ) ) ) {
-						$expires = ( $user_products[ $meta ] > 1 ) ? '<br />' . __( 'expires:', 'wp-members' ) . ' ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
-						$display[] = $defaults['item_wrap_before'] . wpmem_get_membership_name( $meta ) . $expires . $defaults['item_wrap_after'];
-					}
+					$expires = ( $user_products[ $meta ] > 1 ) ? '<br />' . __( 'expires:', 'wp-members' ) . ' ' . date_i18n( get_option( 'date_format' ), $user_products[ $meta ] ) : '';
+					$display[] = $defaults['item_wrap_before'] . wpmem_get_membership_name( $meta ) . $expires . $defaults['item_wrap_after'];
 				}
 			}
 			/**
