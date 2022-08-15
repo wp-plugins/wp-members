@@ -125,11 +125,11 @@ function wpmem_get_memberships_ids() {
  * @since 3.4.5
  * 
  * @param  string  $membership_slug
- * @return string
+ * @return string  Valud of $wpmem->membership->products[ $membership_slug ]['title'] if set, otherwise, $membership_slug.
  */
 function wpmem_get_membership_name( $membership_slug ) {
 	global $wpmem;
-	return $wpmem->membership->products[ $membership_slug ]['title'];
+	return ( isset( $wpmem->membership->products[ $membership_slug ]['title'] ) ) ? $wpmem->membership->products[ $membership_slug ]['title'] : $membership_slug;
 }
 
 /**
