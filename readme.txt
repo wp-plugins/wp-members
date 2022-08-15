@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 6.0
-Stable tag: 3.4.4
+Stable tag: 3.4.4.2
 
 License: GPLv3
 
@@ -108,7 +108,7 @@ The FAQs are maintained at https://rocketgeek.com/plugins/wp-members/docs/faqs/
 
 == Upgrade Notice ==
 
-WP-Members 3.4.4 is a minor update. Backup prior to upgrading is recommended, but rollback is possible. See changelog for a list of updates. Minimum WP version is 4.0.
+WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users of WP-Members Advanced Options. Backup prior to upgrading is recommended, but rollback is possible. See changelog for a list of updates. Minimum WP version is 4.0.
 
 
 == Screenshots ==
@@ -135,6 +135,19 @@ WP-Members 3.4.4 is a minor update. Backup prior to upgrading is recommended, bu
 = 3.5.0 =
 
 * @todo WP-Members pluggable deprecated for use in theme functions.php (wpmem will be initialized when plugins are loaded).  If you have any WP-Members pluggable functions that load in the theme functions.php, you'll need to move these to another location, such as a custom plugin file.  Keep in mind, pluggable functions are no longer the preferred way of customizing (and have not been for many years) as most customizations, if not all, can be handled by using the plugin's filter and action hooks.
+
+= 3.4.5 =
+
+* 3.4.4 is not compatible with [WP-Members Advanced Options](https://rocketgeek.com/plugins/wp-members-advanced-options/) when redirect to login is used.  This version corrects that issue by rolling back the change to only load membership restriction functions when the membership products setting is enabled.
+* Adds wpmem_login_form_button_rows filter hook.
+* Adds wpmem_pwd_reset_email_link filter hook
+* Adds API functions wpmem_profile_url(), wpmem_pwd_reset_url(), wpmem_register_url(), wpmem_forgot_username_url(). 
+* Adds API functions wpmem_get_membership_name(), wpmem_get_membership_meta(), wpmem_get_membership_post_list(), wpmem_get_post_memberships(), wpmem_get_memberships().
+* Adds API functions wpmem_add_query_where(), wpmem_get_query_where(), wpmem_add_user_view_link(), wpmem_get_user_view_link(), wpmem_get_user_view_count().
+* Updates user views to use new API functions and adds capability to more easily customize user views.
+* Code improvement: update instances of deprecated function wpmem_gettext() to use wpmem_get_text().
+* Code improvement: update wpmem_user_has_role(), $current_user global no longer necessary.
+* CSS update: defines columns widths for Settings > WP-Members > Fields table.
 
 = 3.4.4 =
 
