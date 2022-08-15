@@ -178,6 +178,17 @@ class WP_Members_Pwd_Reset {
 			
 			// Generate reset link.
 			$link = add_query_arg( $query_args, trailingslashit( wpmem_profile_url() ) );
+
+			/**
+			 * Filter the password reset URL in the email.
+			 * 
+			 * @since 3.4.5
+			 * 
+			 * @param  string  $link
+			 * @param  array   $query_args
+			 * @param  object  $user
+			 */
+			$link = apply_filters( 'wpmem_pwd_reset_email_link', $link, $query_args, $user );
 			
 			// Does email body have the [reset_link] shortcode?
 			if ( strpos( $arr['body'], '[reset_link]' ) ) {
