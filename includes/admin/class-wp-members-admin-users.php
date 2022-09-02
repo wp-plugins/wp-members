@@ -269,6 +269,8 @@ class WP_Members_Admin_Users {
 	 *
 	 * @since 2.8.2
 	 * @since 3.1.2 Added user view counts as transient.
+	 * 
+	 * @todo Could revise to use wpmem_add_user_view_link().
 	 *
 	 * @global object $wpdb
 	 * @global object $wpmem
@@ -518,6 +520,8 @@ class WP_Members_Admin_Users {
 	 * @todo Currently, not activated query returns users who are deactivated. This
 	 *       may be confusing for admins, so work on a query that displays only
 	 *       users who have never been activated.
+	 * 
+	 * @todo Do theses using wpmem_add_query_where().
 	 *
 	 * @param $user_search
 	 */

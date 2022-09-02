@@ -131,10 +131,24 @@ function wpmem_profile_url( $a = false ) {
 	return ( $a ) ? add_query_arg( 'a', $a, trailingslashit( $wpmem->user_pages['profile'] ) ) : $wpmem->user_pages['profile'];
 }
 
+/**
+ * Alias of wpmem_profile_url() to return the password reset URL.
+ * 
+ * @since 3.4.5
+ * 
+ * @return string The password reset url.
+ */
 function wpmem_pwd_reset_url() {
 	return wpmem_profile_url( 'pwdreset' );
 }
 
+/**
+ * Alias of wpmem_profile_url() to return the forgot username URL.
+ * 
+ * @since 3.4.5
+ * 
+ * @return string The pforgot username url.
+ */
 function wpmem_forgot_username_url() {
 	return wpmem_profile_url( 'getusername' );
 }
@@ -319,7 +333,7 @@ function wpmem_loginout( $args = array(), $echo = false ) {
 }
 
 /**
- * Gets a logout link.
+ * Returns a URL to log a user out.
  *
  * @since 3.4.0
  *
