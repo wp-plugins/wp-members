@@ -183,3 +183,54 @@ function rktgk_get_user_ip() {
 	return apply_filters( 'rktgk_get_user_ip', $ip );
 }
 endif;
+
+if ( ! function_exists( 'rktgk_build_html_tag' ) ) :
+/**
+ * Builds an HTML tag from provided attributes.
+ * 
+ * @since 1.1.0
+ * 
+ * @param  array  $args {
+ *     An array of attributes to build the html tag.
+ * 
+ *     @type string  $tag              HTML tag to build.
+ *     @type array   $attributes|$atts Array of attributes of the tag, keyed as the attribute name.
+ *     @type string  $content          Content inside the wrapped tag (omit for self-closing tags).
+ * }
+ */
+function rktgk_build_html_tag( $args ) {
+	
+	// A list of self-closing tags (so $content is not used).
+	$self_closing_tags = array( 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr' );
+
+	// Check for attributes and allow for shorthand "atts"
+	if ( isset( $args['attributes'] ) ) {
+		$attributes = $args['attributes'];
+	} elseif ( isset( $args['atts'] ) ) {
+		$attributes = $args['atts'];
+	} else {
+		$attributes = false;
+	}
+
+	// Assemble tag and attributes.
+	$tag = '<' . $args['tag'];
+	if ( false != $attributes ) {
+		foreach ( $attributes as $attribute => $value ) {
+			// Sanitize classes.
+			$value = ( 'class' == $attribute || 'id' == $attribute ) ? rktgk_sanitize_class( $value ) : $value;
+			
+			$tag .= ' ' . $attribute . '="' . esc_attr( $value ) . '"';
+		}
+	}
+
+	// If tag is self closing.
+	if ( in_array( $args['tag'], $self_closing_tags ) ) {
+		$tag .= ' />';
+	} else {
+		// If tag is a wrapped tag.
+		$tag .= '>' . $args['content'] . '</' . $args['tag'] . '>';
+	}
+
+	return $tag;
+}
+endif;
