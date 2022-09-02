@@ -596,7 +596,7 @@ class WP_Members_Shortcodes {
 
 		// What user?
 		if ( isset( $atts['id'] ) ) {
-			$the_ID = ( $atts['id'] == 'get' ) ? filter_var( wpmem_get( 'uid', '', 'get' ), FILTER_SANITIZE_NUMBER_INT ) : $atts['id']; // Ultimately, the_ID will be checked to determine if it is numeric by WP_User::get_data_by().
+			$the_ID = ( $atts['id'] == 'get' ) ? filter_var( wpmem_get( 'uid', '', 'get' ), FILTER_SANITIZE_NUMBER_INT ) : $atts['id']; // @todo Ultimately, the_ID will be checked to determine if it is numeric by WP_User::get_data_by().
 		} else {
 			$the_ID = get_current_user_id();
 		}
@@ -618,23 +618,130 @@ class WP_Members_Shortcodes {
 				// Select and radio groups have single selections.
 				case 'select':
 				case 'radio':
-				case 'membership':
 					$result = ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) ? $user_info_field : wpmem_select_field_display( $field, $user_info_field );
 					break;
 					
 				// Multiple select and multiple checkbox have multiple selections.
 				case 'multiselect':
 				case 'multicheckbox':
+				case 'membership':
 					if ( isset( $atts['display'] ) && 'raw' == $atts['display'] ) {
 						$result = $user_info_field;
 					} else {
 						$saved_vals = explode( $fields[ $field ]['delimiter'], $user_info_field );
 						$result = ''; $x = 1;
-						foreach ( $saved_vals as $value ) {
-							$result.= ( $x > 1 ) ? ', ' : ''; $x++;
-							$result.= wpmem_select_field_display( $field, $value );;
+						if ( 'list' == $atts['display'] ) {
+							/**
+							 * Filter list multi field list display HTML parts.
+							 * 
+							 * @since 3.4.5
+							 * 
+							 * @param  array  {
+							 *     The HTML parts (defaults as a bulleted list)
+							 * 
+							 *     @type string $wrapper_before
+							 *     @type string $item_before
+							 *     @type string $item_after
+							 *     @type string $wrapper_after
+							 * }
+							 * @param  string  $field
+							 * /
+							$multi_args = apply_filters( 'wpmem_field_shortcode_multi_args', array(
+								'wrapper_before' => '<ul id="wpmem_sc_field_' . $field . '">',
+								'item_id'        => 'wpmem-sc-multi-' . $field,
+								'item_class'     => 'wpmem-sc-multi',
+								'item_before'    => '<li id="%s" class="%s">',
+								'item_after'     => '</li>',
+								'wrapper_after'  => '</ul>',
+							), $field );
+
+							foreach ( $saved_vals as $value ) {
+								$rows[ $value ] = array(
+									'item_before' => $multi_args['item_before'],
+									'id'     => $multi_args['item_id'] . '-' . $value,
+									'class'  => $multi_args['item_class'],
+									'value'  => $value,
+									'title'  => $value,
+									'item_after'  => $multi_args['item_after'],
+								);
+							}
+							/**
+							 * Filter the row parts
+							 * 
+							 * @since 3.4.5
+							 * 
+							 * @param  array  $rows 
+							 * @param  string $field
+							 * /
+							$rows = apply_filters( 'wpmem_field_shortcode_multi_rows', $rows, $field );
+							$row_items = '';
+							foreach ( $rows as $value => $row ) {
+								$row_items .= sprintf( $row['item_before'], esc_attr( $row['id'] . '-' . $row['value'] ), esc_attr( $row['class'] ) ) . esc_attr( $row['title'] ) . $row['item_after'];
+							}
+
+							$result = $multi_args['wrapper_before'] . $row_items . $multi_args['wrapper_after'];
+						*/
+
+							$args = array(
+								'wrapper' => array(
+									'tag'  => ( isset( $atts['wrapper_tag'] ) ) ? $atts['wrapper_tag'] : 'ul',
+									'atts' => array(
+										'id'    => ( isset( $atts['wrapper_id']    ) ) ? $atts['wrapper_id']    : 'wpmem_field_' . $field,
+										'class' => ( isset( $atts['wrapper_class'] ) ) ? $atts['wrapper_class'] : 'wpmem-field-multi-list',
+									),
+								),
+							);
+							foreach ( $saved_vals as $value ) {
+								$args['item'][ $value ] = array(
+									'tag'  => ( isset( $atts['item_tag'] ) ) ? $atts['item_tag'] : 'li',
+									'atts' => array(
+										'id' => 'wpmem_field_' . $field . '_' . $value,
+										'class' => 'wpmem-field-' . $field . '-item-' . $value,
+									),
+									'content' => $value
+								);
+							}
+							/**
+							 * Filter list multi field list display HTML parts.
+							 * 
+							 * @since 3.4.5
+							 * 
+							 * @param  array  {
+							 *     The HTML parts (defaults as a bulleted list)
+							 * 
+							 *     @type array  $wrapper {
+							 *          The wrapper parts.
+							 * 
+							 *          @type string $tag     The HTML tag (default: ul)
+							 *          @type array  $atts    The HTML tag attributes
+							 *          @type string $content The content wrapped by the tag (default: list items)
+							 *     }
+							 *     @type array  $item {
+							 *          An item for each list item.
+							 * 
+							 *          @type string $tag     The HTML tag (default: li)
+							 *          @type array  $atts    The HTML tag attributes
+							 *          @type string $content The list item value
+							 *     }
+							 * }
+							 * @param  string  $field
+							 */
+							$multi_args = apply_filters( 'wpmem_field_sc_multi_html', $args, $field );
+
+							$list = '';
+							foreach ( $multi_args['item'] as $item ) {
+								$list .= rktgk_build_html_tag( $item );
+							}
+							$multi_args['wrapper']['content'] = $list;
+							$result = rktgk_build_html_tag( $multi_args['wrapper'] );
+
+						} else {
+							foreach ( $saved_vals as $value ) {
+								$result.= ( $x > 1 ) ? ', ' : ''; $x++;
+								$result.= wpmem_select_field_display( $field, $value );;
+							}
 						}
-					}
+					} 
 					break;
 					
 				case 'file':
@@ -653,7 +760,24 @@ class WP_Members_Shortcodes {
 					} else {
 						if ( 'file' == $field_type ) {
 							$attachment_url = wp_get_attachment_url( $user_info_field );
-							$result = ( $attachment_url ) ? '<a href="' . esc_url( $attachment_url ) . '">' .  get_the_title( $user_info_field ) . '</a>' : '';
+							/**
+							 * Filter the file html tag parts.
+							 * 
+							 * @since 3.4.5
+							 * 
+							 * @param  array  $args
+							 * @param  string $field
+							 */
+							$html_args = apply_filters( 'wpmem_field_sc_file_html', array(
+								'tag'  => 'a',
+								'atts' => array(
+									'href'  => esc_url( $attachment_url ),
+									'id'    => ( isset( $atts['id']    ) ) ? esc_attr( $atts['id']    ) : esc_attr( 'wpmem_field_file_' . $field ),
+									'class' => ( isset( $atts['class'] ) ) ? esc_attr( $atts['class'] ) : esc_attr( 'wpmem-field-file-' . $field ),
+								),
+								'content' => get_the_title( $user_info_field ),
+							), $field );
+							$result = ( $attachment_url ) ? rktgk_build_html_tag( $html_args ) : '';
 						} else {
 							$size = 'thumbnail';
 							if ( isset( $atts['size'] ) ) {
@@ -661,7 +785,25 @@ class WP_Members_Shortcodes {
 								$size  = ( ! in_array( $atts['size'], $sizes ) ) ? explode( ",", $atts['size'] ) : $atts['size'];
 							}
 							$image = wp_get_attachment_image_src( $user_info_field, $size );
-							$result = ( $image ) ? '<img src="' . esc_url( $image[0] ) . '" width="' . esc_attr( $image[1] ) . '" height="' . esc_attr( $image[2] ) . '" />' : '';
+							/**
+							 * Filter the image html tag parts.
+							 * 
+							 * @since 3.4.5
+							 * 
+							 * @param  array  $args
+							 * @param  string $field
+							 */
+							$html_args = apply_filters( 'wpmem_field_sc_image_html', array(
+								'tag' => 'img',
+								'atts' => array(
+									'src'    => esc_url( $image[0] ),
+									'width'  => esc_attr( $image[1] ),
+									'height' => esc_attr( $image[2] ),
+									'id'     => ( isset( $atts['id']    ) ) ? esc_attr( $atts['id']    ) : esc_attr( 'wpmem_field_img_' . $field ),
+									'class'  => ( isset( $atts['class'] ) ) ? esc_attr( $atts['class'] ) : esc_attr( 'wpmem-field-img-' . $field )
+								),
+							), $field );
+							$result = ( $image ) ? rktgk_build_html_tag( $html_args ) : '';
 						}
 					}
 					break;
@@ -705,11 +847,13 @@ class WP_Members_Shortcodes {
 		 * Filters the field shortcode before returning value.
 		 *
 		 * @since 3.2.5
+		 * @since 3.4.5 Added $field
 		 *
 		 * @param string $content
 		 * @param array  $atts
+		 * @param string $field
 		 */
-		$content = apply_filters( 'wpmem_field_shortcode', $content, $atts );
+		$content = apply_filters( 'wpmem_field_shortcode', $content, $atts, $field );
 
 		return do_shortcode( $content );
 	}
