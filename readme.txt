@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 6.0
-Stable tag: 3.4.4.2
+Stable tag: 3.4.5
 
 License: GPLv3
 
@@ -147,6 +147,7 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Updates user views to use new API functions and adds capability to more easily customize user views.
 * Code improvement: update instances of deprecated function wpmem_gettext() to use wpmem_get_text().
 * Code improvement: update wpmem_user_has_role(), $current_user global no longer necessary.
+* Code improvement: update select2 library to version 4.1.0.
 * CSS update: defines columns widths for Settings > WP-Members > Fields table.
 
 = 3.4.4 =
