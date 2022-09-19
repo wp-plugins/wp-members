@@ -281,7 +281,7 @@ class WP_Members_Shortcodes {
 				// If there is a status attribute of "sub" and the user is logged in.
 				if ( ( isset( $atts['status'] ) ) && $atts['status'] == 'sub' ) {
 					if ( defined( 'WPMEM_EXP_MODULE' ) && $wpmem->use_exp == 1 ) {	
-						if ( ! wpmem_chk_exp() ) {
+						if ( ! wpmem_is_user_current() ) {
 							$do_return = true;
 						} elseif ( $atts['msg'] == "true" ) {
 							$do_return = true;
