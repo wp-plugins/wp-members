@@ -592,7 +592,13 @@ class WP_Members_Shortcodes {
 	function fields( $atts, $content, $tag ) {
 
 		// What field?
-		$field = ( isset( $atts[0] ) ) ? $atts[0] : $atts['field'];
+		if ( isset( $atts[0] ) ) {
+			$field = $atts[0];
+		} elseif ( isset( $atts['field'] ) ) {
+			$field = $atts['field'];
+		} else {
+			return; // If the field is not directly set in the attributes array, or keyed as "field", then it's not used correctly so return void.
+		}
 
 		// What user?
 		if ( isset( $atts['id'] ) ) {
