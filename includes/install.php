@@ -804,7 +804,7 @@ function wpmem_onboarding_init( $action ) {
 			'notice_heading' => __( 'Thank you for updating WP-Members, the original WordPress membership plugin.', 'wp-members' ),
 			'notice_button'  => __( 'Complete the update', 'wp-members' ),
 			'show_release_notes' => true,
-			'release_notes_link' => "https://rocketgeek.com/release-announcements/wp-members-3-4-4/",
+			'release_notes_link' => "https://rocketgeek.com/release-announcements/wp-members-3-4-5/",
 		),
     );
     $wpmem_onboarding = new RocketGeek_Onboarding_Beta( $settings );
