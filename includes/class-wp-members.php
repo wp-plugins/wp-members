@@ -367,7 +367,7 @@ class WP_Members {
 			|| ! isset( $settings['db_version'] ) 
 			|| $settings['db_version'] != $this->db_version ) {
 			// Load installation routine and pdate settings.
-			require_once( $this->path . 'includes/install.php' );
+			require_once $this->path . 'includes/install.php';
 			$settings = wpmem_do_install();
 		}
 
@@ -585,7 +585,7 @@ class WP_Members {
 			foreach ( $this->dropins_enabled as $filename ) {
 				$dropin = $dir . $filename;
 				if ( file_exists( $dropin ) ) {
-					include_once( $dropin );
+					include_once $dropin;
 				}
 			}
 		}
@@ -633,36 +633,38 @@ class WP_Members {
 			include( $wpmem_pluggable );
 		}
 		
-		require_once( $this->path . 'includes/vendor/rocketgeek-utilities/loader.php' );
-		require_once( $this->path . 'includes/class-wp-members-api.php' );
-		require_once( $this->path . 'includes/class-wp-members-clone-menus.php' );
-		require_once( $this->path . 'includes/class-wp-members-captcha.php' );
-		require_once( $this->path . 'includes/class-wp-members-dialogs.php' );
-		require_once( $this->path . 'includes/class-wp-members-email.php' );
-		require_once( $this->path . 'includes/class-wp-members-forms.php' );
-		require_once( $this->path . 'includes/class-wp-members-menus.php' );
-		require_once( $this->path . 'includes/class-wp-members-products.php' );
-		require_once( $this->path . 'includes/class-wp-members-pwd-reset.php' );
-		require_once( $this->path . 'includes/class-wp-members-shortcodes.php' );
-		require_once( $this->path . 'includes/class-wp-members-user.php' );
-		require_once( $this->path . 'includes/class-wp-members-user-profile.php' );
-		require_once( $this->path . 'includes/class-wp-members-validation-link.php' );
-		require_once( $this->path . 'includes/class-wp-members-widget.php' );	
-		require_once( $this->path . 'includes/api/api.php' );
-		require_once( $this->path . 'includes/api/api-email.php' );
-		require_once( $this->path . 'includes/api/api-forms.php' );
-		require_once( $this->path . 'includes/api/api-products.php' );
-		require_once( $this->path . 'includes/api/api-users.php' );
-		require_once( $this->path . 'includes/api/api-utilities.php' );
+		require_once $this->path . 'includes/vendor/rocketgeek-utilities/loader.php';
+		require_once $this->path . 'includes/class-wp-members-api.php';
+		require_once $this->path . 'includes/class-wp-members-clone-menus.php';
+		require_once $this->path . 'includes/class-wp-members-captcha.php';
+		require_once $this->path . 'includes/class-wp-members-dialogs.php';
+		require_once $this->path . 'includes/class-wp-members-email.php';
+		require_once $this->path . 'includes/class-wp-members-forms.php';
+		require_once $this->path . 'includes/class-wp-members-menus.php';
+		require_once $this->path . 'includes/class-wp-members-products.php';
+		require_once $this->path . 'includes/class-wp-members-pwd-reset.php';
+		require_once $this->path . 'includes/class-wp-members-shortcodes.php';
+		require_once $this->path . 'includes/class-wp-members-user.php';
+		require_once $this->path . 'includes/class-wp-members-user-profile.php';
+		require_once $this->path . 'includes/class-wp-members-validation-link.php';
+		require_once $this->path . 'includes/class-wp-members-widget.php';	
+		require_once $this->path . 'includes/api/api.php';
+		require_once $this->path . 'includes/api/api-email.php';
+		require_once $this->path . 'includes/api/api-forms.php';
+		require_once $this->path . 'includes/api/api-products.php';
+		require_once $this->path . 'includes/api/api-users.php';
+		require_once $this->path . 'includes/api/api-utilities.php';
+
+		require_once $this->path . 'includes/blocks/class-wp-members-blocks.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once( $this->path . 'includes/cli/class-wp-members-cli.php' );
-			require_once( $this->path . 'includes/cli/class-wp-members-cli-user.php' );
-			require_once( $this->path . 'includes/cli/class-wp-members-cli-settings.php' );
+			require_once $this->path . 'includes/cli/class-wp-members-cli.php';
+			require_once $this->path . 'includes/cli/class-wp-members-cli-user.php';
+			require_once $this->path . 'includes/cli/class-wp-members-cli-settings.php';
 		}
 
-		require_once( $this->path . 'includes/deprecated.php' );
-		require_once( $this->path . 'includes/legacy/dialogs.php' ); // File is totally deprecated at this point; eval for removal.
+		require_once $this->path . 'includes/deprecated.php';
+		require_once $this->path . 'includes/legacy/dialogs.php'; // File is totally deprecated at this point; eval for removal.
 	}
 
 	/**
@@ -689,7 +691,7 @@ class WP_Members {
 		 *
 		 * @since 3.1.0
 		 */	
-		include_once( $this->path . 'includes/admin/class-wp-members-admin-api.php' );
+		require_once $this->path . 'includes/admin/class-wp-members-admin-api.php';
 		$this->admin = new WP_Members_Admin_API;
 
 		/**
@@ -1741,9 +1743,9 @@ class WP_Members {
 		// Check for custom template or load default.
 		$custom_template = get_stylesheet_directory() . '/wp-members/templates/tos.php';
 		if ( file_exists( $custom_template ) ) {
-			require_once( $custom_template );
+			require_once $custom_template;
 		} else {
-			require_once( $this->path . 'templates/tos.php' );
+			require_once $this->path . 'templates/tos.php';
 		}
 	}
 
