@@ -81,6 +81,90 @@ function wpmem_get_block_setting( $post_id ) {
 }
 
 /**
+ * Gets a link to the login page with a return link redirect_to value.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  array  $args {
+ *     Additional attributes to be merged with defaults.
+ * 
+ *     @type  string  $tag  The HTML tag to be used (default: a)
+ *     @type  array   $attributes {
+ *         Any valid attributes for the HTML <a> tag.
+ * 
+ *         @type  string  $id
+ *         @type  string  $class
+ *         @type  string  $href
+ *     }
+ *     @type  string  $content  The text used with the <a href> tag
+ * }
+ */
+function wpmem_get_login_link( $args = array() ) {
+	$defaults = array(
+		'tag' => 'a',
+		'attributes' => array(
+			'id'    => 'wpmem_login_link',
+			'class' => 'wpmem-login-link',
+			'href'  => wpmem_login_url( wpmem_current_url() ),
+		),
+		'content' => __( 'Log In' )
+	);
+	$args = rktgk_wp_parse_args( $args, $defaults );
+	return rktgk_build_html_tag( $args );
+}
+
+/**
+ * Echos a login link using wpmem_get_login_link().
+ * 
+ * @since 3.5.6
+ */
+function wpmem_login_link( $args = array() ) {
+	echo wpmem_get_login_link( $args );
+}
+
+/**
+ * Gets a link to the register page with a return link redirect_to value.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  array  $args {
+ *     Additional attributes to be merged with defaults.
+ * 
+ *     @type  string  $tag  The HTML tag to be used (default: a)
+ *     @type  array   $attributes {
+ *         Any valid attributes for the HTML <a> tag.
+ * 
+ *         @type  string  $id
+ *         @type  string  $class
+ *         @type  string  $href
+ *     }
+ *     @type  string  $content  The text used with the <a href> tag
+ * }
+ */
+function wpmem_get_reg_link( $args = array() ) {
+	$defaults = array(
+		'tag' => 'a',
+		'attributes' => array(
+			'id'    => 'wpmem_reg_link',
+			'class' => 'wpmem-reg-link',
+			'href'  => add_query_arg( 'redirect_to', wpmem_current_url(), wpmem_register_url() ),
+		),
+		'content' => __( 'Register' )
+	);
+	$args = rktgk_wp_parse_args( $args, $defaults );
+	return rktgk_build_html_tag( $args );
+}
+
+/**
+ * Echos a login link using wpmem_get_reg_link().
+ * 
+ * @since 3.5.6
+ */
+function wpmem_reg_link( $args = array() ) {
+	echo wpmem_get_reg_link( $args );
+}
+
+/**
  * Wrapper to get the login page location.
  *
  * @since 3.1.1
