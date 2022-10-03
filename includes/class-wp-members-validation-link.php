@@ -245,7 +245,7 @@ class WP_Members_Validation_Link {
 				$msg = $this->success_message;
 				
 				if ( 1 == $wpmem->mod_reg ) {
-					$msg = $msg . $this->moderated_message;
+					$msg = $msg . ' ' . $this->moderated_message;
 				}
 			} elseif ( false === $this->validated ) {
 				$msg = $this->invalid_message;
