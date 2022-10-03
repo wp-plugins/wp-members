@@ -109,7 +109,6 @@ if ( ! function_exists( 'wpmem_create_formfield' ) ):
  * @return string $str      The field returned as a string.
  */
 function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='textbox' ) {
-	global $wpmem;
 	$args = array(
 		'name'     => $name,
 		'type'     => $type,
@@ -117,7 +116,7 @@ function wpmem_create_formfield( $name, $type, $value, $valtochk=null, $class='t
 		'compare'  => $valtochk,
 		'class'    => $class,
 	);
-	return $wpmem->forms->create_form_field( $args );
+	return wpmem_form_field( $args );
 }
 endif;
 
