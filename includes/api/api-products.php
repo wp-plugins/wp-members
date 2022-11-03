@@ -144,3 +144,103 @@ function wpmem_get_membership_meta( $membership_slug ) {
 	global $wpmem;
 	return $wpmem->membership->post_stem . $membership_slug;
 }
+
+function wpmem_add_membership_to_post( $membership ) {
+
+}
+
+function wpmem_create_membership( $args ) {
+
+	$default_args = array(
+		'post_title' => 'Test',
+		'post_name' => '', // sanitized title
+		'post_status' => 'publish',
+		'post_author' => '', // should get the admin user
+		'post_type' => 'wpmem_product',
+		'meta_input' => array(
+			'wpmem_product_name' => '',
+			'wpmem_product_default' => '',
+			'wpmem_product_role' => '',
+			'wpmem_product_expires' => '',
+			'wpmem_product_no_gap' => '',
+			'wpmem_product_fixed_period' => '',
+			'wpmem_product_message' => '',
+			'wpmem_product_child_access' => '',
+		),
+	);
+
+	$post = get_post( $post_id );
+	
+	$product_name = wpmem_get( 'wpmem_product_name', false );
+	$product_name = ( $product_name ) ? $product_name : $post->post_name;
+	update_post_meta( $post_id, 'wpmem_product_name', sanitize_text_field( $product_name ) );
+	
+	$product_default = wpmem_get( 'wpmem_product_default', false );
+	update_post_meta( $post_id, 'wpmem_product_default', ( ( $product_default ) ? true : false ) );
+	
+	$role_required = wpmem_get( 'wpmem_product_role_required', false );
+	if ( ! $role_required ) {
+		update_post_meta( $post_id, 'wpmem_product_role', false );
+	} else {
+		update_post_meta( $post_id, 'wpmem_product_role', sanitize_text_field( wpmem_get( 'wpmem_product_role' ) ) );
+	}
+	
+	$expires = wpmem_get( 'wpmem_product_expires', false );
+	if ( ! $expires ) {
+		update_post_meta( $post_id, 'wpmem_product_expires', false );
+	} else {
+		$number  = sanitize_text_field( wpmem_get( 'wpmem_product_number_of_periods' ) );
+		$period  = sanitize_text_field( wpmem_get( 'wpmem_product_time_period' ) );
+		$no_gap  = sanitize_text_field( wpmem_get( 'wpmem_product_no_gap' ) );
+		$expires_array = array( $number . "|" . $period );
+		update_post_meta( $post_id, 'wpmem_product_expires', $expires_array );
+		if ( $no_gap ) {
+			update_post_meta( $post_id, 'wpmem_product_no_gap', 1 );
+		} else {
+			delete_post_meta( $post_id, 'wpmem_product_no_gap' );
+		}
+		
+		$fixed_period = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period' ) );
+		if ( $fixed_period ) {
+			
+			// Start and end.
+			$period_start = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_start' ) );
+			$period_end   = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_end' ) );
+			
+			// Is there an entry grace period?
+			$grace_number = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_number', false ) );
+			$grace_period = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_period', false ) );
+			$save_fixed_period = $period_start . '-' . $period_end;
+			if ( $grace_number && $grace_period ) {
+				$save_fixed_period .= '-' . $grace_number . '-' . $grace_period;
+			}
+			update_post_meta( $post_id, 'wpmem_product_fixed_period', $save_fixed_period );
+		} else {
+			delete_post_meta( $post_id, 'wpmem_product_fixed_period' );
+		}
+	}
+	
+	foreach( $this->get_post_types() as $key => $post_type ) {
+		if ( false !== wpmem_get( 'wpmem_product_set_default_' . $key, false ) ) {
+			update_post_meta( $post_id, 'wpmem_product_set_default_' . $key, 1 );
+		} else {
+			delete_post_meta( $post_id, 'wpmem_product_set_default_' . $key );
+		}
+	}
+
+	$product_message =  wp_kses_post( wpmem_get( 'product_message', false ) );
+	if ( false !== $product_message ) {
+		if ( '' != $product_message ) {
+			update_post_meta( $post_id, 'wpmem_product_message', $product_message );
+		} else {
+			delete_post_meta( $post_id, 'wpmem_product_message' );
+		}
+	}
+	
+	$child_access = intval( wpmem_get( 'wpmem_product_child_access', 0 ) );
+	if ( 1 == $child_access ) {
+		update_post_meta( $post_id, 'wpmem_product_child_access', $child_access );
+	} else {
+		delete_post_meta( $post_id, 'wpmem_product_child_access' );
+	}		
+}

@@ -60,8 +60,8 @@ function wpmem_get_user_role( $user_id = false, $all = false ) {
  * @since 3.1.9 Return false if user is not logged in.
  * @since 3.2.0 Change return false to not logged in AND no user id.
  * @since 3.4.5 $current_user no longer necessary.
+ * @since 3.4.6 $wpmem global is no longer necessary.
  *
- * @global object        $wpmem        WP_Members object.
  * @param  string|array  $role         Slug or array of slugs of the role being checked.
  * @param  int           $user_id      ID of the user being checked (optional).
  * @return boolean       $has_role     True if user has the role, otherwise false.
@@ -70,7 +70,6 @@ function wpmem_user_has_role( $role, $user_id = false ) {
 	if ( ! is_user_logged_in() && ! $user_id ) {
 		return false;
 	}
-	global $wpmem;
 	$has_role = false;
 	$user = ( $user_id ) ? get_userdata( $user_id ) : wp_get_current_user();
 	if ( is_array( $role ) ) {
@@ -1110,5 +1109,39 @@ function wpmem_admin_add_new_user() {
 	// Output the custom registration fields.
 	echo $wpmem->forms->wp_newuser_form();
 	return;
+}
+
+/**
+ * Creates a username "placeholder" for the db from 
+ * the user's email.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  string  $email
+ * @param  array   $fields   Array of fields
+ * @return string  $username
+ */
+function wpmem_create_username_from_email( $email, $fields = array() ) {
+	// If the WooCommerce function exists, use that.
+	if ( function_exists( 'wc_create_new_customer_username' ) ) {
+		return wc_create_new_customer_username( $email, $fields );
+	}
+	if ( ! is_email( $email ) ) {
+		return false;
+	}
+	// Extract beginning of email for username
+	$parts = explode( "@", $email );
+	$temp_user = $parts[0];
+	
+	// Make sure it's a unique value.  If not, add a number and retest.
+	if ( username_exists( $temp_user ) ) {
+		$i = 0;
+		do {
+			$i++;
+			$temp_user = $temp_user . $i;
+		} while ( username_exists( $temp_user ) );
+	}
+	
+	return $temp_user;
 }
 // End of file.

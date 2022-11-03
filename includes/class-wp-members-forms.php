@@ -960,9 +960,9 @@ class WP_Members_Forms {
 	 * @since 3.2.5 use_nonce now obsolete (nonce is added automatically).
 	 * @since 3.3.0 $heading argument obsolete.
 	 * @since 3.3.3 Image field type now shows the preview image when "choose file" is clicked.
+	 * @since 3.4.6 Added $user object as a filterable arg.
 	 *
 	 * @global object $wpmem        The WP_Members object.
-	 * @global array  $userdata     Used to get the user's registration data if they are logged in (user profile edit).
 	 * @param  mixed  $mixed        (optional) String toggles between new registration ('new') and user profile edit ('edit'), or array containing settings arguments.
 	 * @return string $form         The HTML for the entire form as a string.
 	 */
@@ -987,7 +987,10 @@ class WP_Members_Forms {
 			$tag = $mixed;
 		}
 
-		global $wpmem, $userdata; 
+		global $wpmem;
+
+		// If editing, the user object of the user being edit.
+		$user = ( 'edit' == $tag ) ? get_user_by( 'ID', get_current_user_id() ) : false;
 
 		// Set up default wrappers.
 		$defaults = array(
@@ -1031,6 +1034,8 @@ class WP_Members_Forms {
 			
 			'register_form_action' => true,
 
+			'user'             => $user,
+
 		);
 
 		/**
@@ -1042,6 +1047,7 @@ class WP_Members_Forms {
 		 * @since 2.9.0
 		 * @since 3.2.5 Added $id
 		 * @since 3.3.0 Passes $defaults as an argument.
+		 * @since 3.4.6 Added $user as an argument.
 		 *
 		 * @param array        An array of arguments to merge with defaults. Default null.
 		 * @param string $tag  Toggle new registration or profile update. new|edit.
@@ -1056,11 +1062,11 @@ class WP_Members_Forms {
 		$wpmem_fields = wpmem_fields( $tag );
 
 		// Fields to skip for user profile update.
-
 		if ( 'edit' == $tag ) {
 			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
 			// Skips tos on user edit page, unless they haven't got a value for tos.
-			if ( isset( $wpmem_fields['tos'] ) && ( $wpmem_fields['tos']['checked_value'] == get_user_meta( $userdata->ID, 'tos', true ) ) ) { 
+			$user_tos_val = ( is_object( $user ) ) ? get_user_meta( $user->ID, 'tos', true ) : false;
+			if ( isset( $wpmem_fields['tos'] ) && ( $wpmem_fields['tos']['checked_value'] == $user_tos_val ) { 
 				$pass_arr[] = 'tos';
 			}
 			foreach ( $pass_arr as $pass ) {
@@ -1130,24 +1136,24 @@ class WP_Members_Forms {
 					switch ( $meta_key ) {
 						case( 'description' ):
 						case( 'textarea' == $field['type'] ):
-							$val = get_user_meta( $userdata->ID, $meta_key, 'true' ); // esc_textarea() is run when field is created.
+							$val = ( is_object( $user ) ) ? get_user_meta( $user->ID, $meta_key, 'true' ) : ''; // esc_textarea() is run when field is created.
 							break;
 
 						case 'user_email':
 						case 'confirm_email':
-							$val = sanitize_email( $userdata->user_email );
+							$val = ( is_object( $user ) ) ? sanitize_email( $user->user_email ) : '';
 							break;
 
 						case 'user_url':
-							$val = $userdata->user_url; // esc_url() is run when the field is created.
+							$val = ( is_object( $user ) ) ? $user->user_url : ''; // esc_url() is run when the field is created.
 							break;
 
 						case 'display_name':
-							$val = sanitize_text_field( $userdata->display_name );
+							$val = ( is_object( $user ) ) ? sanitize_text_field( $user->display_name ) : '';
 							break; 
 
 						default:
-							$val = sanitize_text_field( get_user_meta( $userdata->ID, $meta_key, 'true' ) );
+							$val = ( is_object( $user ) ) ? sanitize_text_field( get_user_meta( $user->ID, $meta_key, 'true' ) ) : '';
 							break;
 					}
 
@@ -2096,10 +2102,12 @@ class WP_Members_Forms {
 		 * Filter the arguments to override change password form defaults.
 		 *
 		 * @since 3.3.0
+		 * @since 3.4.6 Added $form of the filter being used.
 		 *
-		 * @param array $args An array of arguments to use. Default null. (login|changepassword|resetpassword|forgotusername)
+		 * @param array   $args  An array of arguments to use. 
+		 * @param string  $form  Tag of the form being used (login|changepassword|resetpassword|forgotusername)
 		 */
-		$arr = apply_filters( 'wpmem_' . $form . '_form_defaults', $arr );
+		$arr = apply_filters( 'wpmem_' . $form . '_form_defaults', $arr, $form );
 		
 		return $this->login_form( '', $arr );
 	}

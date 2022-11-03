@@ -3,7 +3,7 @@ if ( ! class_exists( 'RocketGeek_Satellite_Beta' ) ) :
 class RocketGeek_Satellite_Beta {
 
 	var $version = "1.0.2";
-	var $api_domain = 'https://rocketgeek.com';
+	var $api_domain = 'https://test.rocketgeek.com';
 	var $theme_fields  = array( 'Name','URI','Author','AuthorURI','Version' );
 	var $plugin_fields = array( 'Name','URI','Author','AuthorURI','Version','RequiresWP','RequiresPHP' );
 	

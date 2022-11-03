@@ -944,6 +944,7 @@ class WP_Members_Shortcodes {
 	 *
 	 * @since 3.1.7
 	 * @since 3.2.0 Moved to WP_Members_Shortcodes::login_link().
+	 * @since 3.4.6 Using wpmem_get_login_link() and wpmem_get_reg_link() adds id and class attributes to HTML tag.
 	 *
 	 * @param  array  $atts {
 	 *     The shortcode attributes.
@@ -953,15 +954,16 @@ class WP_Members_Shortcodes {
 	 * @return string $content
 	 */
 	function login_link( $atts, $content, $tag ) {
-		if ( 'wpmem_reg_link' == $tag ) {
-			$text = ( $content ) ? $content : __( 'Register' );
-			$link = add_query_arg( 'redirect_to', wpmem_current_url(), wpmem_register_url() );
-		} else {
-			$text = ( $content ) ? $content : __( 'Log In' );
-			$link = wpmem_login_url( wpmem_current_url() );
+		if ( isset( $atts ) ) {
+			$args['attributes'] = $atts;
 		}
-		$content = '<a href="' . $link . '">' . $text . '</a>';
-		return do_shortcode( $content );
+		if ( 'wpmem_reg_link' == $tag ) {
+			$args['content'] = ( isset( $content ) && '' != $content ) ? $content : __( 'Register' );
+			return do_shortcode( wpmem_get_reg_link( $args ) );
+		} else {
+			$args['content'] = ( isset( $content ) && '' != $content ) ? $content : __( 'Log In' );
+			return do_shortcode( wpmem_get_login_link( $args ) );
+		}
 	}
 	
 	/**

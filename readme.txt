@@ -136,6 +136,10 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 
 * @todo WP-Members pluggable deprecated for use in theme functions.php (wpmem will be initialized when plugins are loaded).  If you have any WP-Members pluggable functions that load in the theme functions.php, you'll need to move these to another location, such as a custom plugin file.  Keep in mind, pluggable functions are no longer the preferred way of customizing (and have not been for many years) as most customizations, if not all, can be handled by using the plugin's filter and action hooks.
 
+= 3.4.6 =
+
+
+
 = 3.4.5 =
 
 * 3.4.4 is not compatible with [WP-Members Advanced Options](https://rocketgeek.com/plugins/wp-members-advanced-options/) when redirect to login is used.  This version corrects that issue by rolling back the change to only load membership restriction functions when the membership products setting is enabled.

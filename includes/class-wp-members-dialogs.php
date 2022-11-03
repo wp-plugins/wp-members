@@ -177,6 +177,9 @@ class WP_Members_Dialogs {
 			'pwdresetsuccess'      => __( "Password successfully reset! An email containing a new password has been sent to the email address on file for your account.", 'wp-members' ),
 			'pwdresetsuccess_alt'  => __( "Reset request received. An email with instructions to complete the password reset has been sent.", 'wp-members' ),
 			
+			'acct_not_approved'    => __( "Your account request is still pending", 'wp-members' ),
+			'acct_not_validated'   => __( "You have not completed account validation. Check your inbox for valdation email.", 'wp-members' ),
+			
 			'product_restricted_single'    => __( "This content requires the following membership: ", 'wp-members' ),
 			'product_restricted_multiple'  => __( "This content requires one of the following memberships: ", 'wp-members' ),
 		
