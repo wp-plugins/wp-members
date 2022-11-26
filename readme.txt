@@ -2,7 +2,7 @@
 Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: 3.4.5
 
 License: GPLv3
@@ -138,7 +138,22 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 
 = 3.4.6 =
 
-
+* Fixes a bug in the user profile update object class that prevented non-admin users from updating WP-Members custom fields in the dashboard profile view.
+* Fixes some logic in the registration/profile update to check for a valid $user object (if it's a profile). It is rare that it wouldn't be, but this is a "just in case" to avoid unnecessary php notice errors.
+* Adds wpmem_get_user_by_meta() API function to retrieve a $user object by user meta (WP's get_user_by() only does username, email, and ID).
+* Adds wpmem_add_membership_to_post() API function to programmatically add a membership to a post.  Can be used for bulk and on-the-fly post restriction.
+* Adds wpmem_add_membership_to_posts() API functions to programmatically add a membership to a group of posts (an array of IDs or comma separated IDs).  Can be used for bulk and on-the-fly post restriction.
+* Adds wpmem_create_membership() API function to programmatically create a membership.  Can be used to create new memberships when hooked to other actions.
+* Adds wpmem_create_username_from_email() API function.  If WooCommerce is installed, it will use the WC process, otherwise it uses a email user + number process until it finds a unique value.
+* Adds wpmem_login_link(), wpmem_get_login_link(), wpmem_reg_link(), and wpmem_get_reg_link() for getting and displaying links to these identified pages (based on plugin's settings).
+* Adds rktgk_wp_parse_args() to general plugin API. This is a utility function that functions like WP's wp_parse_args(), but is fully recursive (which wp_parse_args() is not).
+* Adds rktgk_get_row() to the general plugin API. This is a utility that functions like WP's wpdb::get_row(), but incrporates wpdb::prepare() by default (saving a necessary step).
+* Updates rktgk_build_html_tag() in the general plugin API to include an "echo" parameter to automatically print result to screen (false by default).
+* Adds two new dialog message strings for acct_not_approved & acct_not_validated.
+* Adds $tag for the form being generated in the wpmem_{$form}_defaults set of filters (login|changepassword|resetpassword|forgotusername).
+* Adds author ID support for [wpmem_field] shortcode to display user meta data based on the post/page author ID (rather than the current user or querystring user).
+* Adds filter support for "shortcode_atts_wpmem_profile"
+* Improve message handling for password reset when moderated registration and confirmation link settings are enabled (and the user is not activated or confirmed).
 
 = 3.4.5 =
 
