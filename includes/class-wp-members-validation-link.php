@@ -20,6 +20,7 @@ class WP_Members_Validation_Link {
 	public $send_welcome = true;
 	public $show_success = true;
 	public $send_notify  = true;
+	public $validated = false;
 	
 	/**
 	 * Initialize validation link feature.
@@ -236,16 +237,17 @@ class WP_Members_Validation_Link {
 	 * @return string  $content
 	 */
 	public function validation_success( $content ) {
-		
-		global $wpmem;
 
 		if ( $this->show_success && 'confirm' == wpmem_get( 'a', false, 'get' ) && isset( $this->validated ) ) {
 
 			if ( true === $this->validated ) {
 				$msg = $this->success_message;
 				
-				if ( 1 == $wpmem->mod_reg ) {
-					$msg = $msg . ' ' . $this->moderated_message;
+				if ( wpmem_is_mod_reg() ) {
+					$user = get_user_by( 'login', sanitize_user( wpmem_get( 'login', false, 'get' ) ) );
+					if ( ! wpmem_is_user_activated( $user->ID ) ) {
+						$msg = $msg . ' ' . $this->moderated_message;
+					}
 				}
 			} elseif ( false === $this->validated ) {
 				$msg = $this->invalid_message;
