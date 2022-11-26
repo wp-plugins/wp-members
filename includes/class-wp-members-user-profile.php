@@ -357,14 +357,10 @@ class WP_Members_User_Profile {
 				( isset( $_POST[ $meta ] ) && 'password' != $field['type'] ) ? $fields[ $meta ] = sanitize_text_field( $_POST[ $meta ] ) : false;
 				
 				// For user profile (not admin).
-				$chk = false;
 				if ( 'admin' != $display ) {
 					// Check for required fields.
-					if ( ! $field['required'] ) {
-						$chk = 'ok';
-					}
-					if ( $field['required'] && $_POST[ $meta ] != '' ) {
-						$chk = 'ok';
+					if ( ! $field['required'] || ( $field['required'] && $_POST[ $meta ] != '' ) ) {
+						$fields[ $meta ] = sanitize_text_field( wpmem_get( $meta ) );
 					}
 				}
 			} elseif ( $field['type'] == 'checkbox' ) {
@@ -393,9 +389,7 @@ class WP_Members_User_Profile {
 		// Handle meta update, skip excluded fields.
 		foreach ( $fields as $key => $val ) {
 			if ( ! in_array( $key, $exclude ) ) {
-				if ( ( 'admin' != $display && 'ok' == $chk ) || 'admin' == $display ) {
-					update_user_meta( $user_id, $key, $val );
-				}
+				update_user_meta( $user_id, $key, $val );
 			}
 		}
 
