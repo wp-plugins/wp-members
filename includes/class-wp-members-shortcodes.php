@@ -1062,7 +1062,18 @@ class WP_Members_Shortcodes {
 						break;
 
 					default:
-						if ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
+						if ( $wpmem->error->has_errors() ) {
+							$errors = $wpmem->error->get_error_messages();
+							if ( sizeof( $errors ) > 1 ) {
+								$error_string = "";
+								foreach ( $errors as $error ) {
+									$error_string .= $error . '<br />';
+								}
+							} else {
+								$error_string = $errors[0];
+							}
+							$content = wpmem_get_display_message( $error_string );
+						} elseif ( isset( $wpmem_regchk ) && '' != $wpmem_regchk ) {
 							$content = wpmem_get_display_message( $wpmem_regchk, wpmem_get_text( $wpmem_regchk ) );
 						}
 						$content = $content . wpmem_reset_password_form();

@@ -743,6 +743,9 @@ class WP_Members_User {
 		 * @param array The username or email.
 		 */
 		$arr = apply_filters( 'wpmem_pwdreset_args', $args );
+
+		$errors = new WP_Error();
+
 		if ( ! isset( $arr['user'] ) || '' == $arr['user'] ) { 
 			// There was an empty field.
 			return "pwdreseterr";
@@ -757,13 +760,30 @@ class WP_Members_User {
 
 			if ( username_exists( $user_to_check ) ) {
 				$user = get_user_by( 'login', $user_to_check );
-				if ( ( 1 == $wpmem->mod_reg ) && ( 1 != get_user_meta( $user->ID, 'active', true ) ) ) {
-					$user = false;
-				}
 			} elseif ( email_exists( $user_to_check ) ) {
 				$user = get_user_by( 'email', $user_to_check );
 			} else {
 				$user = false;
+			}
+
+			if ( $user ) {
+
+				$has_error = false;
+
+				// Check if user is approved.
+				if ( ( wpmem_is_mod_reg() ) && ( ! wpmem_is_user_activated( $user->ID ) ) ) {
+					$errors->add( 'acct_not_approved', wpmem_get_text( 'acct_not_approved' ) );
+					$has_error = true;
+				}
+
+				// Check if user is validated.
+				if ( ( wpmem_is_act_link() ) && ( ! wpmem_is_user_confirmed( $user->ID ) ) ) {
+					$errors->add( 'acct_not_validated', wpmem_get_text( 'acct_not_validated' ) );
+					$has_error = true;
+				}
+
+				// If either of these are an error, dump the user object.
+				$user = ( $has_error ) ? false : $user;
 			}
 
 			if ( $user ) {
@@ -773,7 +793,10 @@ class WP_Members_User {
 				return "pwdresetsuccess";
 
 			} else {
-				// Username did not exist.
+				// Username did not exist, or cannot reset password.
+				if ( $errors->has_errors() ) {
+					$wpmem->error = $errors;
+				}
 				return "pwdreseterr";
 			}
 		}
