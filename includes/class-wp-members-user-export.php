@@ -55,6 +55,7 @@ class WP_Members_User_Export {
 	 *     @type  array   $exclude_fields  @deprecated 3.4.0
 	 *     @type  boolean $entity_decode   Whether HTML entities should be decoded (default: false)
 	 *     @type  string  $date_format     A PHP readable date format (default: Y-m-d which results in YYYY-MM-DD)
+	 *     @type  string  $required_caps   The user capability required to export.
 	 * }
 	 * @param array  $users Array of user IDs to export.
 	 * @param string $tag
@@ -121,6 +122,7 @@ class WP_Members_User_Export {
 		 *     @type  array   $exclude_fields  @deprecated 3.4.0
 		 *     @type  boolean $entity_decode
 		 *     @type  string  $date_format
+		 *     @type  string  $required_caps
 		 * }
 		 * @param string $tag
 		 */

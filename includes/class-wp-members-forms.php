@@ -1066,7 +1066,7 @@ class WP_Members_Forms {
 			$pass_arr = array( 'username', 'password', 'confirm_password', 'password_confirm' );
 			// Skips tos on user edit page, unless they haven't got a value for tos.
 			$user_tos_val = ( is_object( $user ) ) ? get_user_meta( $user->ID, 'tos', true ) : false;
-			if ( isset( $wpmem_fields['tos'] ) && ( $wpmem_fields['tos']['checked_value'] == $user_tos_val ) { 
+			if ( isset( $wpmem_fields['tos'] ) && ( $wpmem_fields['tos']['checked_value'] == $user_tos_val ) ) { 
 				$pass_arr[] = 'tos';
 			}
 			foreach ( $pass_arr as $pass ) {
