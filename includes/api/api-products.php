@@ -145,102 +145,155 @@ function wpmem_get_membership_meta( $membership_slug ) {
 	return $wpmem->membership->post_stem . $membership_slug;
 }
 
-function wpmem_add_membership_to_post( $membership ) {
+/**
+ * Adds a membership to a post.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  string  $membership_meta
+ * @param  int     $post_id
+ */
+function wpmem_add_membership_to_post( $membership_meta, $post_id ) {
+	// Handle single or array.
+	if ( is_array( $membership_meta ) ) {
+		$products = wpmem_sanitize_array( $membership_meta );
+	} else {
+		$products = array( $membership_meta );
+	}
 
+	// Update post meta with restriction info.
+	update_post_meta( $post_id, $membership_meta, $products );
+
+	// Set meta for each individual membership.
+	foreach ( wpmem_get_memberships() as $key => $value ) {
+		if ( in_array( $key, $products ) ) {
+			update_post_meta( $post_id, wpmem_get_membership_meta( $key ), 1 );
+		}
+	}
 }
 
+/**
+ * Adds a membership to an array of post IDs.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  string         $membership_meta
+ * @param  string|array   $post_ids
+ */
+function wpmem_add_membership_to_posts( $membership_meta, $post_ids ) {
+	// Make sure $post_ids is an array (prepare comma separated values)
+	$posts_array = ( ! is_array( $post_ids ) ) ? explode( ",", $post_ids ) : $post_ids;
+	
+	// Run wpmem_add_membership_to_post() for each ID.
+	foreach ( $posts_array as $ID ) {
+		wpmem_add_membership_to_post( $membership_meta, $ID );
+	}
+}
+
+/**
+ * Create a membership.
+ * 
+ * @since 3.4.6
+ * 
+ * @param  array  $args {
+ *     Parameters for creating the membership CPT.
+ * 
+ *     @type string $title      User readable name of membership.
+ *     @type string $name       Sanitized title of the membership to be used as the meta key.
+ *     @type string $status     Published status: publish|draft (default: publish)
+ *     @type int    $author     User ID of membership author, Optional, defaults to site admin.
+ *     @type array  $meta_input
+ *         Meta fields for membership CPT (not all are required).
+ * 
+ *         @type string $name         The sanitized title of the membership.
+ *         @type string $default
+ *         @type string $role         Roles if a role is required.
+ *         @type string $expires      Expiration period if used (num|per).
+ *         @type int    $no_gap       If renewal is "no gap" renewal.
+ *         @type string $fixed_period (start|end|grace_num|grace_per)
+ *         @type int    $set_default_{$key}
+ *         @type string $message      Custom message for restriction.
+ *         @type int    $child_access If membership hierarchy is used.
+ *     }
+ * }
+ * @return mixed  $post_id|WP_Error
+ */
 function wpmem_create_membership( $args ) {
 
+	// Get the admin user for default post_author.
+	$admin_email = get_option( 'admin_email' );
+	$admin_user  = get_user_by( 'email', $admin_email );
+
+	// Set up post args.
+	$pre_postarr = array();
+	foreach ( $args as $key => $value ) {
+		if ( 'meta_input' == $key ) {
+			foreach( $value as $meta_key => $meta_value ) {
+				$pre_postarr['meta_input'][ 'wpmem_product_' . $meta_key ] = $meta_value;
+			}
+		} else {
+			$pre_postarr[ 'post_' . $key ] = $value;
+		}
+	}
+
+	// Setup defaults.
 	$default_args = array(
-		'post_title' => 'Test',
-		'post_name' => '', // sanitized title
+		'post_title'  => '',
+		'post_name'   => ( isset( $pre_postarr['post_name'] ) ) ? sanitize_title( $pre_postarr['post_name'] ) : sanitize_title( $pre_postarr['post_title'] ),
 		'post_status' => 'publish',
-		'post_author' => '', // should get the admin user
-		'post_type' => 'wpmem_product',
-		'meta_input' => array(
-			'wpmem_product_name' => '',
-			'wpmem_product_default' => '',
-			'wpmem_product_role' => '',
-			'wpmem_product_expires' => '',
-			'wpmem_product_no_gap' => '',
-			'wpmem_product_fixed_period' => '',
-			'wpmem_product_message' => '',
-			'wpmem_product_child_access' => '',
+		'post_author' => $admin_user->ID,
+		'post_type'   => 'wpmem_product',
+		'meta_input'  => array(
+			'wpmem_product_name'    =>  ( isset( $pre_postarr['meta_input']['wpmem_product_name'] ) ) ? sanitize_title( $pre_postarr['meta_input']['wpmem_product_name'] ) : ( ( isset( $pre_postarr['post_name'] ) ) ? sanitize_title( $pre_postarr['post_name'] ) : sanitize_title( $pre_postarr['post_title'] ) ),
+			'wpmem_product_default' => false,
+			'wpmem_product_role'    => false,
+			'wpmem_product_expires' => false,
 		),
 	);
 
-	$post = get_post( $post_id );
-	
-	$product_name = wpmem_get( 'wpmem_product_name', false );
-	$product_name = ( $product_name ) ? $product_name : $post->post_name;
-	update_post_meta( $post_id, 'wpmem_product_name', sanitize_text_field( $product_name ) );
-	
-	$product_default = wpmem_get( 'wpmem_product_default', false );
-	update_post_meta( $post_id, 'wpmem_product_default', ( ( $product_default ) ? true : false ) );
-	
-	$role_required = wpmem_get( 'wpmem_product_role_required', false );
-	if ( ! $role_required ) {
-		update_post_meta( $post_id, 'wpmem_product_role', false );
-	} else {
-		update_post_meta( $post_id, 'wpmem_product_role', sanitize_text_field( wpmem_get( 'wpmem_product_role' ) ) );
-	}
-	
-	$expires = wpmem_get( 'wpmem_product_expires', false );
-	if ( ! $expires ) {
-		update_post_meta( $post_id, 'wpmem_product_expires', false );
-	} else {
-		$number  = sanitize_text_field( wpmem_get( 'wpmem_product_number_of_periods' ) );
-		$period  = sanitize_text_field( wpmem_get( 'wpmem_product_time_period' ) );
-		$no_gap  = sanitize_text_field( wpmem_get( 'wpmem_product_no_gap' ) );
-		$expires_array = array( $number . "|" . $period );
-		update_post_meta( $post_id, 'wpmem_product_expires', $expires_array );
-		if ( $no_gap ) {
-			update_post_meta( $post_id, 'wpmem_product_no_gap', 1 );
-		} else {
-			delete_post_meta( $post_id, 'wpmem_product_no_gap' );
-		}
-		
-		$fixed_period = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period' ) );
-		if ( $fixed_period ) {
-			
-			// Start and end.
-			$period_start = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_start' ) );
-			$period_end   = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_end' ) );
-			
-			// Is there an entry grace period?
-			$grace_number = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_number', false ) );
-			$grace_period = sanitize_text_field( wpmem_get( 'wpmem_product_fixed_period_grace_period', false ) );
-			$save_fixed_period = $period_start . '-' . $period_end;
-			if ( $grace_number && $grace_period ) {
-				$save_fixed_period .= '-' . $grace_number . '-' . $grace_period;
-			}
-			update_post_meta( $post_id, 'wpmem_product_fixed_period', $save_fixed_period );
-		} else {
-			delete_post_meta( $post_id, 'wpmem_product_fixed_period' );
-		}
-	}
-	
-	foreach( $this->get_post_types() as $key => $post_type ) {
-		if ( false !== wpmem_get( 'wpmem_product_set_default_' . $key, false ) ) {
-			update_post_meta( $post_id, 'wpmem_product_set_default_' . $key, 1 );
-		} else {
-			delete_post_meta( $post_id, 'wpmem_product_set_default_' . $key );
-		}
+	/**
+	 * Filter the defaults.
+	 * 
+	 * @since 3.4.6
+	 * 
+	 * @param array $default_args {
+	 *     Mmembership CPT params for wp_insert_post().
+	 * 
+	 *     @type string $post_title      User readable name of membership.
+	 *     @type string $post_name       Sanitized title of the membership to be used as the meta key.
+	 *     @type string $post_status     Published status: publish|draft (default: publish)
+	 *     @type int    $post_author     User ID of membership author, Optional, defaults to site admin.
+	 *     @type string $post_type       Should not change this: default: wpmem_product.
+	 *     @type array  $meta_input
+	 *         Meta fields for membership CPT (not all are required).
+	 * 
+	 *         @type string $wpmem_product_name         The sanitized title of the membership.
+	 *         @type string $wpmem_product_default
+	 *         @type string $wpmem_product_role         Roles if a role is required.
+	 *         @type string $wpmem_product_expires      Expiration period if used (num|per).
+	 * 
+	 *         The following are optional and are not passed in the default args but could be returned by filter.
+	 * 
+	 *         @type int    $wpmem_product_no_gap       If renewal is "no gap" renewal.
+	 *         @type string $wpmem_product_fixed_period (start|end|grace_num|grace_per)
+	 *         @type int    $wpmem_product_set_default_{$wpmem_product_key}
+	 *         @type string $wpmem_product_message      Custom message for restriction.
+	 *         @type int    $wpmem_product_child_access If membership hierarchy is used.
+	 *     }
+	 * }
+	 */
+	$default_args = apply_filters( 'wpmem_create_membership_defaults', $default_args );
+
+	if ( isset( $pre_postarr['meta_input']['wpmem_product_message'] ) ) {
+		$pre_postarr['meta_input']['wpmem_product_message'] = wp_kses_post( $pre_postarr['meta_input']['wpmem_product_message'] );
 	}
 
-	$product_message =  wp_kses_post( wpmem_get( 'product_message', false ) );
-	if ( false !== $product_message ) {
-		if ( '' != $product_message ) {
-			update_post_meta( $post_id, 'wpmem_product_message', $product_message );
-		} else {
-			delete_post_meta( $post_id, 'wpmem_product_message' );
-		}
-	}
-	
-	$child_access = intval( wpmem_get( 'wpmem_product_child_access', 0 ) );
-	if ( 1 == $child_access ) {
-		update_post_meta( $post_id, 'wpmem_product_child_access', $child_access );
-	} else {
-		delete_post_meta( $post_id, 'wpmem_product_child_access' );
-	}		
+	// Merge with defaults.
+	$postarr = rktgk_wp_parse_args( $pre_postarr, $default_args );
+
+	// Insert the new membership as a CPT.
+	$post_id = wp_insert_post( $postarr );
+
+	// wp_insert_post() returns post ID on success, WP_Error on fail.
+	return $post_id;
 }
