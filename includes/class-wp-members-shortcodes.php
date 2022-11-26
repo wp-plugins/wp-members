@@ -430,7 +430,7 @@ class WP_Members_Shortcodes {
 	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_themsg The WP-Members message container.
 	 * @param  string $atts {
-	 *     The shortcode attributes.
+	 *     The shortcode attributes (filter with 'shortcode_atts_wpmem_profile').
 	 *
 	 *     @type string $redirect_to
 	 *     @type string $register    "hide" removes registration form, any other value is false.
@@ -441,11 +441,18 @@ class WP_Members_Shortcodes {
 	 */
 	function user_profile( $atts, $content, $tag ) {
 
-		// @todo $redirect_to is not currently used in the user profile.
-		$redirect_to   = ( isset( $atts['redirect_to'] ) ) ? $atts['redirect_to'] : null;
-		$hide_register = ( isset( $atts['register'] ) && 'hide' == $atts['register'] ) ? true : false;
-
 		global $wpmem, $wpmem_themsg;
+
+		$pairs = array(
+			'register'    => 'show',
+			'redirect_to' => '',
+		);
+
+		$args = shortcode_atts( $pairs, $atts, $tag );
+
+		// @todo $redirect_to is not currently used in the user profile.
+		$redirect_to   = $args['redirect_to'];
+		$hide_register = ( isset( $args['register'] ) && 'hide' == $args['register'] ) ? true : false;
 
 		$content = '';
 
