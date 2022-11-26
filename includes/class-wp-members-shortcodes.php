@@ -602,11 +602,24 @@ class WP_Members_Shortcodes {
 
 		// What user?
 		if ( isset( $atts['id'] ) ) {
-			$the_ID = ( $atts['id'] == 'get' ) ? filter_var( wpmem_get( 'uid', '', 'get' ), FILTER_SANITIZE_NUMBER_INT ) : $atts['id']; // @todo Ultimately, the_ID will be checked to determine if it is numeric by WP_User::get_data_by().
+			if ( 'author' == $atts['id'] ) {
+				global $post;
+				$field_user_id = get_post_field( 'post_author', $post->ID );
+
+				// Alternate method:
+				// $field_user_id = get_the_author_meta( 'ID' );
+			} else {
+				$field_user_id = ( $atts['id'] == 'get' ) ? wpmem_get( 'uid', '', 'get' ) : $atts['id'];
+			}
 		} else {
-			$the_ID = get_current_user_id();
+			$field_user_id = get_current_user_id();
 		}
-		$user_info = get_userdata( $the_ID );
+
+		// Sanitize the result.
+		$sanitized_user_id = intval( $field_user_id );
+
+		// Get the user data.
+		$user_info = get_userdata( $sanitized_user_id );
 
 		// If there is userdata.
 		if ( $user_info && isset( $user_info->{$field} ) ) {
