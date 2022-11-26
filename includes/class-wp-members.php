@@ -652,10 +652,11 @@ class WP_Members {
 		require_once $this->path . 'includes/api/api-email.php';
 		require_once $this->path . 'includes/api/api-forms.php';
 		require_once $this->path . 'includes/api/api-products.php';
+		require_once $this->path . 'includes/api/api-settings.php';
 		require_once $this->path . 'includes/api/api-users.php';
 		require_once $this->path . 'includes/api/api-utilities.php';
 
-		require_once $this->path . 'includes/blocks/class-wp-members-blocks.php';
+		//require_once $this->path . 'includes/blocks/class-wp-members-blocks.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once $this->path . 'includes/cli/class-wp-members-cli.php';
