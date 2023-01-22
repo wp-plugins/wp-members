@@ -15,9 +15,12 @@
  
  
  /**
-  * JS for forms field table drag-and-drop.
+  * JS for forms field table.
+  * Enables drag-and-drop resorting
+  * and select/deslect all.
   *
   * @since 3.1.2
+  * @since 3.4.7 Adds select/deselect all support.
   */
 (function($) {
 	$(document).ready(function($) {
@@ -36,6 +39,14 @@
 					$(this).attr('list_item', i + 1); // updates the attribute
 				});
 			}
+		});
+	});
+
+	$(function() {
+		$('[id^="wpmem_all_fields_"]').on('change', function() {
+			var type = this.id.split('_')[3];
+
+			$('[id^="wpmem_fields_'+type+'[]"]').prop('checked', this.checked);
 		});
 	});
 })(jQuery);
@@ -110,6 +121,7 @@
 		$("#wpmem_file_info").hide();
 		$("#wpmem_delimiter_info").hide();
 		$("#wpmem_hidden_info").hide();
+		$("#wpmem_date_format").hide();
 	});
 	$(document).ready(function() {
 		$("#wpmem_field_type_select").change(function() {
@@ -119,7 +131,8 @@
 				|| $("#wpmem_field_type_select").val() == 'url'
 				|| $("#wpmem_field_type_select").val() == 'number' 
 				|| $("#wpmem_field_type_select").val() == 'date'
-				|| $("#wpmem_field_type_select").val() == 'textarea' )
+				|| $("#wpmem_field_type_select").val() == 'textarea'
+				|| $("#wpmem_field_type_select").val() == 'timestamp' )
 				$("#wpmem_placeholder").show();
 			else
 				$("#wpmem_placeholder").hide();
@@ -127,7 +140,8 @@
 				|| $("#wpmem_field_type_select").val() == 'password' 
 				|| $("#wpmem_field_type_select").val() == 'email' 
 				|| $("#wpmem_field_type_select").val() == 'url'
-				|| $("#wpmem_field_type_select").val() == 'date' ) {
+				|| $("#wpmem_field_type_select").val() == 'date'
+				|| $("#wpmem_field_type_select").val() == 'timestamp' ) {
 				$("#wpmem_pattern").show();
 				$("#wpmem_title").show();
 			} else {
@@ -179,6 +193,10 @@
 				$("#wpmem_hidden_info").hide();
 				$("#add_hidden_value").prop('required',false);
 			}
+			if ($("#wpmem_field_type_select").val() == 'timestamp' )
+				$("#wpmem_date_format").show();
+			else
+				$("#wpmem_date_format").hide();
 		});
 	});
 })(jQuery);

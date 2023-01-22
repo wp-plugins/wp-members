@@ -985,7 +985,7 @@ class WP_Members_User {
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 		
 		// Load user memberships array.
-		$memberships = ( false == $user_id ) ? $this->access : wpmem_get_user_products( $user_id );
+		$memberships = ( false == $user_id ) ? $this->access : wpmem_get_user_memberships( $user_id );
 
 		// Start by assuming no access.
 		$access  = false;

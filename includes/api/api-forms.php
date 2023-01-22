@@ -520,6 +520,44 @@ function wpmem_woo_checkout_update_meta( $order_id ) {
 	}
 }
 
+/**
+ * Adds WP-Members custom fields to woo profile update.
+ *
+ * @since 3.5.0
+ *
+ * @param array $checkout_fields
+ */
+function wpmem_woo_edit_account_form() {
+	$fields = wpmem_woo_edit_account_fields();
+	foreach ( $fields as $meta_key => $field ) { ?>
+		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+			<label for="<?php echo $meta_key; ?>"><?php _e( $field['label'], 'wp-members' ); ?></label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="<?php echo $meta_key; ?>" id="<?php echo $meta_key; ?>" value="<?php echo wpmem_get_user_meta( get_current_user_id(), $meta_key ); ?>" />
+		</p>
+	<?php }
+}
+
+function wpmem_woo_edit_account_fields() {
+	$fields = wpmem_fields();
+	foreach ( $fields as $meta => $settings ) {
+		if ( isset( $settings['wcupdate'] ) && true == $settings['wcupdate'] ) {
+			$return_fields[ $meta ] = $settings;
+		}
+	}
+	return $return_fields;
+}
+
+/**
+ * Handle custom fields for WooCommerce.
+ * 
+ * @since Unknown
+ * 
+ * @param  string  $field
+ * @param  string  $key    The field's meta key.
+ * @param  array   $args
+ * @param  string  $value
+ * @param  string  $field
+ */
 function wpmem_form_field_wc_custom_field_types( $field, $key, $args, $value ) {
 
 	$wpmem_fields = wpmem_fields();

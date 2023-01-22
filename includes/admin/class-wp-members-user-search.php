@@ -34,10 +34,12 @@ class WP_Members_Admin_User_Search {
 	 * Table name.
 	 *
 	 * @since  3.2.6
+	 * @since  3.4.7 New table name wpmembers_user_search_keys => wpmembers_user_search_crud
+	 * 
 	 * @access private
 	 * @var    string
 	 */
-	private $table = "wpmembers_user_search_keys";
+	private $table = "wpmembers_user_search_crud";
 
 	/**
 	 * Constructor function.
@@ -95,11 +97,11 @@ class WP_Members_Admin_User_Search {
 				$terms = array_values( $terms );
 			}
 
-			// Use a permanent table because you cannot reference MySQL temporary tables more than once per query.
+			// Need a permanent crud table because you cannot reference MySQL temporary tables more than once per query.
 			$mktable = $wpdb->prefix . $this->table;
 
 			// If the table does not exist, create the table to store the meta keys.
-			$wpdb->query( "CREATE TABLE IF NOT EXISTS {$mktable} (meta_key VARCHAR(255) NOT NULL);" );
+			$wpdb->query( "CREATE TABLE IF NOT EXISTS {$mktable} (meta_key VARCHAR(255) NOT NULL) " . $wpdb->get_charset_collate() . ";" );
 
 			// Empty the table to ensure that we have an accurate set of meta keys.
 			$wpdb->query( "TRUNCATE TABLE {$mktable};" );

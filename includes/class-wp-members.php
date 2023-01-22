@@ -403,9 +403,12 @@ class WP_Members {
 		$this->user        = new WP_Members_User( $this ); // Load user functions.
 		$this->menus       = new WP_Members_Menus();
 		$this->dialogs     = new WP_Members_Dialogs();
+		
+		// @deprecated Clone menus are technically deprecated, but kept in the plugin for legacy users.
 		if ( $this->clone_menus ) {
 			$this->menus_clone = new WP_Members_Clone_Menus(); // Load clone menus.
 		}
+
 		if ( 1 == $this->pwd_link ) {
 			$this->pwd_reset  = new WP_Members_Pwd_Reset;
 		}
@@ -467,6 +470,7 @@ class WP_Members {
 		
 		add_action( 'init',                  array( $this, 'load_textdomain' ) );
 		add_action( 'init',                  array( $this->membership, 'add_cpt' ), 0 ); // Adds membership plans custom post type.
+		add_action( 'init',                  array( $this, 'load_dependent_classes' ) );
 		add_action( 'widgets_init',          array( $this, 'widget_init' ) );            // initializes the widget
 		add_action( 'rest_api_init',         array( $this, 'rest_init'   ) );
 		add_action( 'pre_get_posts',         array( $this, 'do_hide_posts' ), 20 );
@@ -666,6 +670,17 @@ class WP_Members {
 
 		require_once $this->path . 'includes/deprecated.php';
 		require_once $this->path . 'includes/legacy/dialogs.php'; // File is totally deprecated at this point; eval for removal.
+	}
+
+	/**
+	 * Load classes that depend on the $wpmem object class to be fully loaded.
+	 * 
+	 * @since 3.4.7
+	 */
+	public function load_dependent_classes() {
+		if ( wpmem_is_woo_active() ) {
+			$this->woo = new WP_Members_WooCommerce_Integration( $this );
+		}
 	}
 
 	/**
@@ -1096,6 +1111,23 @@ class WP_Members {
 			// Response for restricted content
 			$block_value = wpmem_is_blocked( $response->data['id'] );
 			if ( $block_value ) {
+
+				/**
+				 * 
+				 * 
+				 * @since 3.4.7
+				 * 
+				 * @param 
+				 * @param WP_REST_Response $response The response object.
+				 * @param WP_Post          $post     Post object.
+				 * @param WP_REST_Request  $request  Request object. 
+				 */
+				$drop = apply_filters( "wpmem_securify_rest_{$post->post_type}_drop_response_data", array(), $response, $post, $request );
+
+				foreach ( $drop as $dropped_key ) {
+					$response->data[ $dropped_key ] = array();
+				}
+
 				if ( isset( $response->data['content']['rendered'] ) ) {
 					/**
 					 * Filters restricted content message.
@@ -1276,7 +1308,7 @@ class WP_Members {
 		$hidden_posts = $this->get_hidden_posts();
 		if ( ! empty( $hidden_posts ) ) {
 			// Add hidden posts to post__not_in while maintaining any existing exclusions.
-			$post__not_in = array_merge( $query->query_vars['post__not_in'], $hidden_posts );
+			$post__not_in = ( ! isset( $query->query_vars['post__not_in'] ) ) ? $hidden_posts : array_merge( $query->query_vars['post__not_in'], $hidden_posts );
 			/**
 			 * Filter post__not_in.
 			 *
@@ -1807,5 +1839,14 @@ class WP_Members {
 		if ( 4 == $this->captcha && true !== wpmem_is_reg_form_showing() ) {
 			echo WP_Members_Captcha::show();
 		}
+	}
+
+	/**
+	 * Check for errors.
+	 * 
+	 * @since 3.4.6
+	 */
+	public function has_errors() {
+		return ( isset( $this->error ) && $this->error->has_errors() ) ? true : false;
 	}
 } // End of WP_Members class.

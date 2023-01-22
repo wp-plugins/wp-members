@@ -120,6 +120,19 @@ function wpmem_get_memberships_ids() {
 }
 
 /**
+ * Get membership id by slug.
+ * 
+ * @since 3.4.7
+ * 
+ * @param   string  $membership_slug
+ * @return  int     $ID
+ */
+function wpmem_get_membership_id( $membership_slug ) {
+	$membership = get_page_by_path( $membership_slug );
+	return ( $membership ) ? $membership->ID: false;
+}
+
+/**
  * Get membership display title by slug.
  * 
  * @since 3.4.5
@@ -130,6 +143,18 @@ function wpmem_get_memberships_ids() {
 function wpmem_get_membership_name( $membership_slug ) {
 	global $wpmem;
 	return ( isset( $wpmem->membership->products[ $membership_slug ]['title'] ) ) ? $wpmem->membership->products[ $membership_slug ]['title'] : $membership_slug;
+}
+
+/**
+ * Get the membership name (slug) by membership ID.
+ * 
+ * @since 3.4.7
+ * 
+ * @param  int    $membership_id  The membership ID
+ * @return string                 The membership name/slug
+ */
+function wpmem_get_membership_slug( $membership_id ) {
+	return get_post_field( 'post_name', $membership_id );
 }
 
 /**
@@ -232,6 +257,12 @@ function wpmem_create_membership( $args ) {
 				$pre_postarr['meta_input'][ 'wpmem_product_' . $meta_key ] = $meta_value;
 			}
 		} else {
+
+			// If parent is identified by slug.
+			if ( 'parent' == $key && ! is_int( $value ) ) {
+				$value = wpmem_get_membership_id( $value );
+			}
+
 			$pre_postarr[ 'post_' . $key ] = $value;
 		}
 	}

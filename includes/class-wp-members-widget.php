@@ -90,7 +90,9 @@ class widget_wpmemwidget extends WP_Widget {
 		 * @since Unknown
 		 * @since 3.2.0 Added instance and id_base params.
 		 *
-		 * @param string $title The widget title.
+		 * @param  string  $title     The widget title.
+		 * @param  array   $instance  Array of settings for the current widget.
+		 * @param  mixed   $id_base   The widget ID.
 		 */
 		$title = apply_filters( 'wpmem_widget_title', $title, $instance, $this->id_base );
 		
@@ -100,7 +102,9 @@ class widget_wpmemwidget extends WP_Widget {
 		 * @since Unknown
 		 * @since 3.2.0 Added instance and id_base params.
 		 *
-		 * @param string The ID for the sidebar widget.
+		 * @param  string             The ID for the sidebar widget.
+		 * @param  array   $instance  Array of settings for the current widget.
+		 * @param  mixed   $id_base   The widget ID.
 		 */
 		$id = apply_filters( 'wpmem_widget_id', 'wp-members', $instance, $this->id_base  );
 		

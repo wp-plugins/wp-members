@@ -258,6 +258,7 @@ class WP_Members_Forms {
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
 		$file_types  = ( isset( $args['file_types']  ) ) ? $args['file_types']  : false;
+		$timestamp   = ( isset( $args['timestamp_display'] ) ) ? $args['timestamp_display'] : 'y-m-d';
 	
 		// Handle field creation by type.
 		switch ( $type ) { 
@@ -273,16 +274,17 @@ class WP_Members_Forms {
 		case "email":
 		case "number":
 		case "date":
+		case "timestamp":
 			$class = ( 'textbox' == $class ) ? "textbox" : wpmem_sanitize_class( $class );
 			switch ( $type ) {
 				case 'url':
 					$value = esc_url( $value );
 					break;
-				case 'email':
-					$value = esc_attr( wp_unslash( $value ) );
+				case 'timestamp':
+					$value = ( '' != $value ) ? date( $timestamp, intval( $value ) ) : intval( $value );
 					break;
 				default:
-					$value = stripslashes( esc_attr( $value ) ); // @todo Could email and default be combined? Both seem to unslash and esc_attr().
+					$value = wp_unslash( esc_attr( $value ) );
 					break;
 			}
 			$required    = ( $required    ) ? ' required' : '';

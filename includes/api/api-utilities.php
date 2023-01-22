@@ -280,18 +280,6 @@ function wpmem_get_suffix( $echo = false ) {
 }
 
 /**
- * Checks if WooCommerce is active.
- *
- * @since 3.3.7
- * @since 3.4.0 Now an alias for rktgk_is_woo_active().
- *
- * @return boolean
- */
-function wpmem_is_woo_active() {
-	return rktgk_is_woo_active();
-}
-
-/**
  * A utility to determine a redirect_to param.
  *
  * @since 3.4.0

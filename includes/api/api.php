@@ -498,13 +498,14 @@ function wpmem_display_message( $tag, $custom = false ) {
  *
  * @since 3.1.1
  *
- * @param  array  $defaults Dialog message defaults from the wpmem_msg_dialog_arr filter.
+ * @param  array  $defaults Dialog message defaults from the wpmem_msg_defaults filter.
  * @param  string $tag      The dialog tag/name.
  * @param  array  $dialogs  The dialog settings array (passed through filter).
  * @return array  $dialogs  The dialog settings array (filtered).
  */
 function wpmem_use_custom_dialog( $defaults, $tag, $dialogs ) {
-	$defaults['msg'] = __( $dialogs[ $tag ], 'wp-members' );
+	$msg_string = ( is_array( $dialogs[ $tag ] ) ) ? $dialogs[ $tag ]['value'] : $dialogs[ $tag ];
+	$defaults['msg'] = __( $msg_string, 'wp-members' );
 	return $defaults;
 }
 
@@ -595,19 +596,6 @@ function wpmem_restricted_message() {
 }
 
 /**
- * Checks if requested setting is enabled.
- * 
- * @since 3.4.1
- * 
- * @param  string  $option
- * @return boolean
- */
-function wpmem_is_enabled( $option ) {
-	global $wpmem;
-	return ( 1 == $wpmem->{$option} ) ? true : false;
-}
-
-/**
  * Gets plugin url.
  * 
  * @since 3.4.1
@@ -631,5 +619,32 @@ function wpmem_get_plugin_url() {
 function wpmem_get_plugin_version() {
 	global $wpmem;
 	return $wpmem->version;
+}
+
+/**
+ * Checks whether a WooCommerce product is purchasable.
+ * 
+ * If a product is blocked or requires a membership, this function
+ * will return false if the user lacks the wpmem criteria to access.
+ * 
+ * @since 3.4.7
+ * 
+ * @param  boolean  $is_purchasable
+ * @param  object   $product         The WooCommerce product object.
+ */
+function wpmem_woo_is_purchasable( $is_purchasable, $product ) {
+
+	// If product is blocked and or membership required,
+	// check access and return appropriate boolean.
+
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+
+	if ( ! wpmem_user_has_access( wpmem_get_post_memberships( $product->get_id() ) ) ) {
+		return false;
+	}
+
+	return $is_purchasable;
 }
 // End of file.

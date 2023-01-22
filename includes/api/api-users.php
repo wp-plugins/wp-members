@@ -856,7 +856,11 @@ function wpmem_user_register( $tag ) {
 					// If the field can be updated by wp_update_user.
 					case( in_array( $meta_key, $native_fields ) ):
 						if ( 1 == $field['profile'] ) {
+							// Prev value in prev_data array.
+							$wpmem->user->prev_data[ $meta_key ] = $current_user->{$meta_key};
+							// Add to post_data array.
 							$wpmem->user->post_data[ $meta_key ] = ( isset( $wpmem->user->post_data[ $meta_key ] ) ) ? $wpmem->user->post_data[ $meta_key ] : '';
+							// Add to native update for settings.
 							$native_update[ $meta_key ] = $wpmem->user->post_data[ $meta_key ];
 						}
 						break;
@@ -869,6 +873,9 @@ function wpmem_user_register( $tag ) {
 					// Everything else goes into wp_usermeta.
 					default:
 						if ( ( 'register' == $tag && true == $field['register'] ) || ( 'update' == $tag && true == $field['profile'] ) ) {
+							// Get existing value for prev_data array.
+							$wpmem->user->prev_data[ $meta_key ] = get_user_meta( $wpmem->user->post_data['ID'], $meta_key, true );
+							// Update the value.
 							update_user_meta( $wpmem->user->post_data['ID'], $meta_key, $wpmem->user->post_data[ $meta_key ] );
 						}
 						break;
@@ -892,8 +899,9 @@ function wpmem_user_register( $tag ) {
 		 *
 		 * @param array $wpmem->user->post_data The user's submitted registration data.
 		 * @param int   $user_id
+		 * @param array $wpmem->user->prev_data The data for the user prior to update (does not support file and image fields).
 		 */
-		do_action( 'wpmem_post_update_data', $wpmem->user->post_data, $wpmem->user->post_data['ID'] );
+		do_action( 'wpmem_post_update_data', $wpmem->user->post_data, $wpmem->user->post_data['ID'], $wpmem->user->prev_data );
 
 		return "editsuccess"; exit();
 		break;

@@ -1082,7 +1082,7 @@ class WP_Members_Shortcodes {
 						break;
 
 					default:
-						if ( $wpmem->error->has_errors() ) {
+						if ( $wpmem->has_errors() ) {
 							$errors = $wpmem->error->get_error_messages();
 							if ( sizeof( $errors ) > 1 ) {
 								$error_string = "";

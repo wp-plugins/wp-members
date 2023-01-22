@@ -60,6 +60,9 @@ function wpmem_do_install() {
 		
 		// Upgrade.
 		$wpmem_settings = wpmem_upgrade_settings();
+
+		// 3.4.7 fixes(?) a db collation issue with the user search CRUD table
+		wpmem_upgrade_user_search_crud_table();
 		
 		// Not 100% certain where we needed to add wpmem_append_email(), but it was likely before 3.1.0.
 		if ( version_compare( $existing_settings['version'], '3.1.1', '<' ) ) {
@@ -804,7 +807,7 @@ function wpmem_onboarding_init( $action ) {
 			'notice_heading' => __( 'Thank you for updating WP-Members, the original WordPress membership plugin.', 'wp-members' ),
 			'notice_button'  => __( 'Complete the update', 'wp-members' ),
 			'show_release_notes' => true,
-			'release_notes_link' => "https://rocketgeek.com/release-announcements/wp-members-3-4-5/",
+			'release_notes_link' => "https://rocketgeek.com/release-announcements/wp-members-3-4-6/",
 		),
     );
     $wpmem_onboarding = new RocketGeek_Onboarding_Beta( $settings );
@@ -825,7 +828,7 @@ function wpmem_onboarding_opt_in() {
     // $onboarding_title = ( 'upgrade' == $args['param1'] ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
 	$install_state = get_option( 'wpmembers_install_state' );
 	$onboarding_title = ( 'update_pending' == $install_state ) ? __( 'WP-Members Upgrade', 'wp-members' ) : __( "WP-Members New Install", 'wp-members' );
-    $onboarding_release_notes = "https://rocketgeek.com/release-notes/wp-members-3-4-4/";
+    $onboarding_release_notes = "https://rocketgeek.com/release-announcements/wp-members-3-4-6/";
     $onboarding_version = $wpmem->version;
 
     $page = ( ! isset( $_POST['step'] ) ) ? 'step_1' : $_POST['step'];
@@ -854,5 +857,15 @@ function wpmem_plugin_deactivate() {
 		wpmem_onboarding_init( 'deactivate' );
 		$wpmem_onboarding->record_plugin_deactivation( 'wp-members', $wpmem->path . 'wp-members.php' );
 	}
+}
+
+function wpmem_upgrade_user_search_crud_table() {
+	global $wpdb;
+	// Drop old table if it exists.
+	$wpdb->query( "DROP TABLE IF EXISTS " . $wpdb->prefix . "wpmembers_user_search_keys;" );
+	// Check collation to make sure we use what WP is using.
+	$charset_collate = $wpdb->get_charset_collate();
+	// If the table does not exist, create the table to store the meta keys.
+	$wpdb->query( "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . "wpmembers_user_search_crud (meta_key VARCHAR(255) NOT NULL) " . $charset_collate . ";" );
 }
 // End of file.

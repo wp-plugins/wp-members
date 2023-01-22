@@ -105,6 +105,7 @@ class WP_Members_Pwd_Reset {
 
 			if ( $user->has_errors() ) {
 				$this->content = $this->error_msg( 'invalid_key', $this->invalid_key );
+				$errors->add( 'invalid_key', $this->error_msg( 'invalid_key', $this->invalid_key ) );
 			}
 	
 			// Validate

@@ -136,6 +136,19 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 
 * @todo WP-Members pluggable deprecated for use in theme functions.php (wpmem will be initialized when plugins are loaded).  If you have any WP-Members pluggable functions that load in the theme functions.php, you'll need to move these to another location, such as a custom plugin file.  Keep in mind, pluggable functions are no longer the preferred way of customizing (and have not been for many years) as most customizations, if not all, can be handled by using the plugin's filter and action hooks.
 
+= 3.4.7 =
+
+* Code improvement in the password reset function for situations where an error may result in an empty user object.
+* Code improvement in REST API filtering of blocked content for situations where there may be additional (i.e. custom) values (such as those created by page builders).
+* Code improvement in hidden posts checking in case the "post__not_in" query_var is not set.
+* Added timestamp field type.
+* Added wpmem_get_membership_id() API function.
+* Added wpmem_get_membership_slug() API function.
+* Added wpmem_is_enabled() API function for checking if specific settings are enabled.
+* Added "select all" option to several fields columns in the Fields tab.
+* Added previous data array when updating user fields, can be used in filters to check for changes.
+* Added ability to make WooCommerce products not purchaseable.
+
 = 3.4.6 =
 
 * Fixes a bug in the user profile update object class that prevented non-admin users from updating WP-Members custom fields in the dashboard profile view.

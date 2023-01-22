@@ -116,19 +116,19 @@ function wpmem_a_warning_msg( $msg ) {
 	case 'users_can_register':
 		$strong_msg = __( 'Your WP settings allow anyone to register - this is not the recommended setting.', 'wp-members' );
 		$remain_msg = sprintf( __( 'You can %s change this here %s making sure the box next to "Anyone can register" is unchecked.', 'wp-members'), '<a href="options-general.php">', '</a>' );
-		$span_msg   = __( 'This setting allows a link on the /wp-login.php page to register using the WP native registration process thus circumventing any registration you are using with WP-Members. In some cases, this may suit the users wants/needs, but most users should uncheck this option. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings.', 'wp-members' );
+		$span_msg   = __( 'If you do not want users to register through wp-login.php, uncheck this option.', 'wp-members' );
 		break;
 
 	case 'comment_registration':
 		$strong_msg = __( 'Your WP settings allow anyone to comment - this is not the recommended setting.', 'wp-members' );
 		$remain_msg = sprintf( __( 'You can %s change this here %s by checking the box next to "Users must be registered and logged in to comment."', 'wp-members' ), '<a href="options-discussion.php">', '</a>' );
-		$span_msg   = __( 'This setting allows any users to comment, whether or not they are registered. Depending on how you are using WP-Members will determine whether you should change this setting or not. If you do not change this setting, you can choose to ignore these warning messages under WP-Members Settings.', 'wp-members' );
+		$span_msg   = __( 'If you do not want non-registered users to comment, change this setting.', 'wp-members' );
 		break;
 
 	case 'rss_use_excerpt':
 		$strong_msg = __( 'Your WP settings allow full text rss feeds - this is not the recommended setting.', 'wp-members' );
 		$remain_msg = sprintf( __( 'You can %s change this here %s by changing "For each article in a feed, show" to "Summary."', 'wp-members' ), '<a href="options-reading.php">' , '</a>' );
-		$span_msg   = __( 'Leaving this set to full text allows anyone to read your protected content in an RSS reader. Changing this to Summary prevents this as your feeds will only show summary text.', 'wp-members' );
+		$span_msg   = __( 'Full text feeds allow your protected content in an RSS reader.', 'wp-members' );
 		break;
 
 	case 'success':
@@ -149,7 +149,7 @@ function wpmem_a_warning_msg( $msg ) {
 	}
 
 	if ( $span_msg ) {
-		$span_msg = ' [<span title="' . $span_msg . '">why is this?</span>]';
+		$span_msg = ' [<span data-tooltip="' . $span_msg . '">why is this?</span>]';
 	}
 	echo '<div class="error"><p><strong>' . $strong_msg . '</strong> ' . $remain_msg . $span_msg . '</p></div>';
 

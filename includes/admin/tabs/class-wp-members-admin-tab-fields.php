@@ -549,7 +549,7 @@ Last Row|last_row<?php } } ?></textarea>
 
 		if ( 'wpmem-settings' == wpmem_get( 'page', false, 'get' ) && 'fields' == wpmem_get( 'tab', false, 'get' ) ) {
 			// Get the current fields.
-			$wpmem_fields    = get_option( 'wpmembers_fields' );
+			$wpmem_fields = get_option( 'wpmembers_fields' );
 
 			$action = sanitize_text_field( wpmem_get( 'action', false ) );
 			$action = ( -1 == $action ) ? sanitize_text_field( wpmem_get( 'action2' ) ) : $action;
@@ -579,7 +579,11 @@ Last Row|last_row<?php } } ?></textarea>
 
 				// Update display/required settings
 				foreach ( $wpmem_fields as $key => $field ) {
+					
+					// What is the field?
 					$meta_key = $field[2];
+					
+					// Main settings (display, required, profile).
 					if ( 'username' == $meta_key || 'user_email' == $meta_key ) {
 						$wpmem_fields[ $key ][4] = 'y';
 						$wpmem_fields[ $key ][5] = 'y';
@@ -590,9 +594,15 @@ Last Row|last_row<?php } } ?></textarea>
 						$wpmem_fields[ $key ]['profile'] = ( wpmem_get( $meta_key . '_profile' ) ) ? true : false;
 					}
 				}
+
+				// Save updates.
 				update_option( 'wpmembers_fields', $wpmem_fields );
 				$wpmem->forms->load_fields();
+				
+				// Set update message.
 				$did_update = __( 'WP-Members fields were updated', 'wp-members' );
+				
+				// Return.
 				return $did_update;
 
 			} elseif ( 'delete' == $action ) {

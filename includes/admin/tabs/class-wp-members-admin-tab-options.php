@@ -91,7 +91,7 @@ class WP_Members_Admin_Tab_Options {
 						<div class="inside">
 							<form name="updatesettings" id="updatesettings" method="post" action="<?php echo wpmem_admin_form_post_url(); ?>">
 							<?php wp_nonce_field( 'wpmem-update-settings' ); ?>
-								<h3><?php _e( 'Content', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#content" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+								<h3><?php _e( 'Content', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#content" target="_blank" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
 								<ul>
 								<?php
 
@@ -173,7 +173,7 @@ class WP_Members_Admin_Tab_Options {
 								  </li>
 								<?php } 
 								}?></ul>
-								<h3><?php _e( 'New Feature Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+								<h3><?php _e( 'New Feature Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank" title="info" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
 								<?php
 								$reset_link_start = '<a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/new-feature-settings/" target="_blank">';
 								$reset_link_end   = '</a>';
@@ -247,7 +247,7 @@ class WP_Members_Admin_Tab_Options {
 									$captcha[] = __( 'hCaptcha', 'wp-members' ) . '|5';
 									echo wpmem_form_field( 'wpmem_settings_captcha', 'select', $captcha, $wpmem->captcha ); ?>
 								  </li>
-								<h3><?php _e( 'Pages' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#pages" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+								<h3><?php _e( 'Pages' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#pages" target="_blank" title="info" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
 								  <?php
 									$user_pages = array(
 										'log' => array(
@@ -278,7 +278,7 @@ class WP_Members_Admin_Tab_Options {
 										</div>
 									</li><?php
 								} ?>
-								<h3><?php _e( 'Stylesheet' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#styles" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+								<h3><?php _e( 'Stylesheet' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#styles" target="_blank" title="info" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
 								  <li>
 									<label><?php _e( 'Stylesheet' ); ?>:</label>
 									<select name="wpmem_settings_style" id="wpmem_stylesheet_select">

@@ -44,6 +44,21 @@ class WP_Members_Fields_Table extends WP_List_Table {
 		}
 	}
 
+	function column_meta( $item ) {
+		if ( '' == $item['edit'] ) {
+			return $item['meta'];
+		} else {
+			$link = add_query_arg( array(
+				'page'  => 'wpmem-settings',
+				'tab'   => 'fields',
+				'mode'  => 'edit',
+				'edit'  => 'field',
+				'field' => $item['meta'],
+			), admin_url( 'options-general.php' ) );
+			return '<a href="' . $link . '"><span class="dashicons dashicons-edit"></span></a> <a href="' . $link . '" data-tooltip="' . __( 'Edit this field', 'wp-members' ) . '">' . $item['meta'] . '</a>';
+		}
+	}
+
 	/**
 	 * Returns table columns.
 	 *
@@ -52,19 +67,33 @@ class WP_Members_Fields_Table extends WP_List_Table {
 	 * @return array
 	 */
 	function get_columns() {
-		return array(
-			'cb'   =>  '<input type="checkbox" />',
+		$columns = array(
+			'cb'   =>  '<input type="checkbox"  data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '" />',
 			'label'    => __( 'Display Label', 'wp-members' ),
 			'meta'     => __( 'Meta Key',      'wp-members' ),
 			'type'     => __( 'Field Type',    'wp-members' ),
-			'display'  => __( 'Display?', 'wp-members' ), // __( 'Registration',  'wp-members' ), @todo Wait until fix
-			'req'      => __( 'Required',      'wp-members' ),
-			//'profile'  => __( 'Profile',       'wp-members' ), @todo Wait until fix
-			'userscrn' => __( 'Users Screen',  'wp-members' ),
-			'usearch'  => __( 'Users Search',  'wp-members' ),
-			'edit'     => __( 'Edit',          'wp-members' ),
-			'sort'     => __( 'Sort',          'wp-members' ),
+			'display'  => '<input name="wpmem_all_fields_display" type="checkbox" id="wpmem_all_fields_display" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Registration', 'wp-members' ), // __( 'Registration',  'wp-members' ), @todo Wait until fix
+			'req'      => '<input name="wpmem_all_fields_required" type="checkbox" id="wpmem_all_fields_required" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'Required',     'wp-members' ),
+			'profile'  => '<input name="wpmem_all_fields_profile" type="checkbox" id="wpmem_all_fields_profile" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Profile',      'wp-members' ),
+			'userscrn' => '<input name="wpmem_all_fields_uscreen" type="checkbox" id="wpmem_all_fields_uscreen" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Users',        'wp-members' ),
+			'usearch'  => '<input name="wpmem_all_fields_usearch" type="checkbox" id="wpmem_all_fields_usearch" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Search',       'wp-members' ),
 		);
+
+		if ( wpmem_is_woo_active() ) {
+			if ( wpmem_is_enabled( 'woo/add_checkout_fields' ) ) {
+				$columns['wcchkout'] = '<input name="wpmem_all_fields_wcchkout" type="checkbox" id="wpmem_all_fields_wcchkout" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'WC Chkout', 'wp-members' );
+			}
+			if ( wpmem_is_enabled( 'woo/add_my_account_fields' ) ) {
+				$columns['wcaccount'] = '<input name="wpmem_all_fields_wcaccount" type="checkbox" id="wpmem_all_fields_wcaccount" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'WC My Acct', 'wp-members' );
+			}
+			if ( wpmem_is_enabled( 'woo/add_update_fields' ) ) {
+				$columns['wcupdate'] = '<input name="wpmem_all_fields_wcupdate" type="checkbox" id="wpmem_all_fields_wcupdate" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'WC Update', 'wp-members' );
+			}
+		}
+		
+		$columns['edit'] = '';
+
+		return $columns;
 	}
 
 	/**
