@@ -184,15 +184,11 @@ class WP_Members_Admin_Tab_Options {
 									array(__('Legacy Login Error', 'wp-members' ),'wpmem_settings_login_error',__('Use legacy WP-Members login error instead of WP error object.','wp-members'),'login_error'),
 									array(__('Notifications & Diagnostics', 'wp-members' ),'wpmem_settings_optin',__('Opt in to security and updates notifications and non-sensitive diagnostics tracking', 'wp-members'),'optin'),
 								);
-								if ( wpmem_is_woo_active() ) {
-									$rows[] = array(__('WooCommerce My Account', 'wp-members' ),'wpmem_settings_add_my_account_fields',__('Add WP-Members fields to WooCommerce My Account registration','wp-members'),'add_my_account_fields');
-									$rows[] = array(__('WooCommerce Checkout', 'wp-members' ),'wpmem_settings_add_checkout_fields',__('Add WP-Members fields to WooCommerce registration during checkout','wp-members'),'add_checkout_fields');
-								}
 								?><ul><?php
 								foreach ( $rows as $key => $row ) { ?>
 								  <li>
 									<label><?php echo $row[0]; ?></label>
-									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo[ $row[3] ] : $wpmem->{$row[3]}; ?>
+									<?php $checkbox_value = ( 3 == $key || 4 == $key ) ? $wpmem->woo->{$row[3]} : $wpmem->{$row[3]}; ?>
 									<?php if ( 1 == $key || 0 == $key ) {
 											echo wpmem_form_field( $row[1], 'checkbox', '0', $checkbox_value ); ?>&nbsp;&nbsp;
 									<?php } else {
@@ -202,7 +198,30 @@ class WP_Members_Admin_Tab_Options {
 								  </li>
 								<?php } ?>
 								</ul>
-								<h3><?php _e( 'Other Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#other" target="_blank" title="info"><span class="dashicons dashicons-info"></span></a></h3>
+
+								<?php if ( wpmem_is_woo_active() ) { ?>
+								<h3><?php _e( 'WooCommerce Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/woocommerce-settings/" target="_blank" title="info" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
+								<?php
+									$woo_options[] = array(__('WooCommerce Checkout', 'wp-members' ),'wpmem_settings_add_woo_checkout_fields',__('Add WP-Members fields to WooCommerce registration during checkout','wp-members'),'add_checkout_fields');
+									$woo_options[] = array(__('WooCommerce My Account', 'wp-members' ),'wpmem_settings_add_woo_my_account_fields',__('Add WP-Members fields to WooCommerce My Account registration','wp-members'),'add_my_account_fields');
+									$woo_options[] = array(__('WooCommerce Update', 'wp-members' ),'wpmem_settings_add_woo_update_fields',__('Add WP-Members fields to WooCommerce My Account user profile update','wp-members'),'add_update_fields');
+									$woo_options[] = array(__('Restrict Product Purchase', 'wp-members' ),'wpmem_settings_add_restrict_woo_products',__('If a WooCommerce product is restricted, it will not be purchasable','wp-members'),'product_restrict');
+								?>
+								<ul><?php
+								foreach ( $woo_options as $key => $row ) { ?>
+								  <li>
+									<label><?php echo $row[0]; ?></label>
+									<?php 
+										$checkbox_value = ( isset( $wpmem->woo->{$row[3]} ) ) ? $wpmem->woo->{$row[3]} : 0;
+										echo wpmem_form_field( $row[1], 'checkbox', '1', $checkbox_value );
+									?>&nbsp;&nbsp;
+									<span class="description"><?php echo $row[2]; ?></span>
+								  </li>
+								<?php } ?>
+								</ul>
+								<?php } ?>
+
+								<h3><?php _e( 'Other Settings', 'wp-members' ); ?> <a href="https://rocketgeek.com/plugins/wp-members/docs/plugin-settings/options/#other" target="_blank" title="info" data-tooltip="<?php _e( 'Click the icon for documentation', 'wp-members' ); ?>"><span class="dashicons dashicons-info"></span></a></h3>
 								<ul>
 								<?php 
 								/** This filter is defined in includes/class-wp-members.php */
@@ -508,8 +527,9 @@ class WP_Members_Admin_Tab_Options {
 					'login'    => ( $logurl ) ? $logurl : '',
 				),
 				'woo' => array(
-					'add_my_account_fields' => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_my_account_fields', 0 ), 'int' ),
-					'add_checkout_fields'   => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_checkout_fields',   0 ), 'int' ),
+					'add_checkout_fields'   => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_checkout_fields',   0 ), 'int' ),
+					'add_my_account_fields' => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_my_account_fields', 0 ), 'int' ),
+					'add_update_fields'     => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_update_fields',     0 ), 'int' ),
 				),
 				'cssurl'       => ( $cssurl ) ? $cssurl : '',
 				'select_style' => $wpmem_settings_style,

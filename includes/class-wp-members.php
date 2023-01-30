@@ -492,26 +492,6 @@ class WP_Members {
 		
 		add_action( 'register_form', 'wpmem_wp_register_form' ); // Adds fields to the default wp registration
 		
-		if ( wpmem_is_woo_active() ) {
-			
-			// Handle "My Account" page registration.
-			if ( isset( $this->woo['add_my_account_fields'] ) && 1 == $this->woo['add_my_account_fields'] ) {
-				add_action( 'woocommerce_register_form', 'wpmem_woo_register_form' );
-				add_action( 'woocommerce_register_post', 'wpmem_woo_reg_validate', 10, 3 );
-			}
-			// Handle Registration checkout
-			if ( isset( $this->woo['add_checkout_fields'] ) && 1 == $this->woo['add_checkout_fields'] && ! is_user_logged_in() ) {
-				add_filter( 'woocommerce_checkout_fields', 'wpmem_woo_checkout_form' );
-				add_action( 'woocommerce_checkout_update_order_meta', 'wpmem_woo_checkout_update_meta' );
-				//add_action( 'woocommerce_save_account_details_errors', 'wpmem_woo_reg_validate' );
-				add_action( 'woocommerce_form_field_multicheckbox', 'wpmem_form_field_wc_custom_field_types', 10, 4 );
-				add_action( 'woocommerce_form_field_multiselect',   'wpmem_form_field_wc_custom_field_types', 10, 4 );
-				add_action( 'woocommerce_form_field_radio',         'wpmem_form_field_wc_custom_field_types', 10, 4 );
-				add_action( 'woocommerce_form_field_select',        'wpmem_form_field_wc_custom_field_types', 10, 4 );
-				add_action( 'woocommerce_form_field_checkbox',      'wpmem_form_field_wc_custom_field_types', 10, 4 );
-			}
-		}
-		
 		// Add filters.
 		add_filter( 'the_content',             array( $this, 'do_securify' ), 99 );
 		add_filter( 'comments_open',           array( $this, 'do_securify_comments' ), 99, 2 ); // securifies the comments
@@ -651,7 +631,8 @@ class WP_Members {
 		require_once $this->path . 'includes/class-wp-members-user.php';
 		require_once $this->path . 'includes/class-wp-members-user-profile.php';
 		require_once $this->path . 'includes/class-wp-members-validation-link.php';
-		require_once $this->path . 'includes/class-wp-members-widget.php';	
+		require_once $this->path . 'includes/class-wp-members-widget.php';
+		require_once $this->path . 'includes/class-wp-members-woocommerce-integration.php';
 		require_once $this->path . 'includes/api/api.php';
 		require_once $this->path . 'includes/api/api-email.php';
 		require_once $this->path . 'includes/api/api-forms.php';
