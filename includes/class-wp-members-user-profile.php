@@ -302,7 +302,8 @@ class WP_Members_User_Profile {
 		}
 		
 		global $current_screen, $user_id, $wpmem;
-		$display = ( 'profile' == $current_screen->base ) ? 'user' : 'admin';
+		// @todo Check this as a possible inclusion for front-end use.
+		$display = ( ! isset( $current_screen ) || 'profile' == $current_screen->base ) ? 'user' : 'admin';
 	
 		if ( ! $user_id ) {
 			$user_id = filter_var( wpmem_get( 'user_id', -1, 'request' ), FILTER_SANITIZE_NUMBER_INT );
