@@ -148,6 +148,8 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Added "select all" option to several fields columns in the Fields tab.
 * Added previous data array when updating user fields, can be used in filters to check for changes.
 * Added ability to make WooCommerce products not purchaseable.
+* Added wpmem_user_memberships shortcode to display a user's memberships.
+* Added wpmem_user_membership_posts shortcode to display a list of membership restricted posts available to a user.
 
 = 3.4.6 =
 

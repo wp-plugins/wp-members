@@ -258,7 +258,7 @@ class WP_Members_Forms {
 		$pattern     = ( isset( $args['pattern']     ) ) ? $args['pattern']     : false;
 		$title       = ( isset( $args['title']       ) ) ? $args['title']       : false;
 		$file_types  = ( isset( $args['file_types']  ) ) ? $args['file_types']  : false;
-		$timestamp   = ( isset( $args['timestamp_display'] ) ) ? $args['timestamp_display'] : 'y-m-d';
+		$timestamp   = ( isset( $args['timestamp_display'] ) ) ? $args['timestamp_display'] : 'Y-m-d';
 	
 		// Handle field creation by type.
 		switch ( $type ) { 
@@ -281,7 +281,7 @@ class WP_Members_Forms {
 					$value = esc_url( $value );
 					break;
 				case 'timestamp':
-					$value = ( '' != $value ) ? date( $timestamp, intval( $value ) ) : intval( $value );
+					$value = ( '' != $value ) ? date( $timestamp, intval( $value ) ) : '';
 					break;
 				default:
 					$value = wp_unslash( esc_attr( $value ) );
@@ -1268,6 +1268,10 @@ class WP_Members_Forms {
 						if ( 'multicheckbox' == $field['type'] || 'multiselect' == $field['type'] ) {
 							$formfield_args['delimiter'] = $field['delimiter'];
 						}
+						// Add timestamp support.
+						if ( 'timestamp' == $field['type'] ) {
+							$formfield_args['timestamp_display'] = $field['timestamp_display'];
+						}
 						$input = wpmem_form_field( $formfield_args );
 
 						// If checkbox label option is enabled.
@@ -1753,6 +1757,13 @@ class WP_Members_Forms {
 								'rows'        => ( isset( $field['rows']        ) ) ? $field['rows']        : false,
 								'cols'        => ( isset( $field['cols']        ) ) ? $field['cols']        : false,
 							);
+
+							// Add timestamp support.
+							if ( 'timestamp' == $field['type'] ) {
+								rktgk_what_is($field, true);
+								$formfield_args['timestamp_display'] = $field['timestamp_display'];
+							}
+
 							$input = wpmem_form_field( $formfield_args );
 							//$input.= ( isset( $_POST[ $meta_key ] ) ) ? esc_attr( $_POST[ $meta_key ] ) : ''; 
 							//$input.= '" size="25" />';
