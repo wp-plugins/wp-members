@@ -254,6 +254,9 @@ class WP_Members_User {
 						case 'email':
 							$this->post_data[ $meta_key ] = sanitize_email( $_POST[ $meta_key ] );
 							break;
+						case 'timestamp':
+							$this->post_data[ $meta_key ] = strtotime( $_POST[ $meta_key ] );
+							break;
 						default:
 							$this->post_data[ $meta_key ] = sanitize_text_field( $_POST[ $meta_key ] );
 							break;

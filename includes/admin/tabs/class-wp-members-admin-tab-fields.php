@@ -206,6 +206,7 @@ class WP_Members_Admin_Tab_Fields {
 							<option value="url"><?php           _e( 'url',               'wp-members' ); ?></option>
 							<option value="number"><?php        _e( 'number',            'wp-members' ); ?></option>
 							<option value="date"><?php          _e( 'date',              'wp-members' ); ?></option>
+							<option value="timestamp"><?php     _e( 'timestamp',         'wp-members' ); ?></option>
 							<option value="hidden"><?php        _e( 'hidden',            'wp-members' ); ?></option>
 						<?php if ( $wpmem->enable_products ) { ?>
 							<option value="membership"><?php    _e( 'membership',        'wp-members' ); ?></option>
@@ -237,7 +238,7 @@ class WP_Members_Admin_Tab_Fields {
 					<input type="checkbox" name="add_html" value="y" <?php //echo ( $mode == 'edit' ) ? checked( true, $field['html'] ) : false; ?> />
 				</li>
 				</div>-->
-			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date', 'textarea' ) ) ) ) ) { ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date', 'textarea', 'timestamp' ) ) ) ) ) { ?>
 			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_placeholder">' : ''; ?>
 				<li>
 					<label><?php _e( 'Placeholder', 'wp-members' ); ?></label>
@@ -245,7 +246,7 @@ class WP_Members_Admin_Tab_Fields {
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 			<?php } ?>
-			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'date' ) ) ) ) ) { ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'date', 'timestamp' ) ) ) ) ) { ?>
 			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_pattern">' : ''; ?>
 				<li>
 					<label><?php _e( 'Pattern', 'wp-members' ); ?></label>
@@ -253,11 +254,19 @@ class WP_Members_Admin_Tab_Fields {
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 			<?php } ?>
-			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date' ) ) ) ) ) { ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'text', 'password', 'email', 'url', 'number', 'date', 'timestamp' ) ) ) ) ) { ?>
 			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_title">' : ''; ?>
 				<li>
 					<label><?php _e( 'Title', 'wp-members' ); ?></label>
 					<input type="text" name="add_title" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['title'] ) ? $field['title'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
+				</li>
+			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
+			<?php } ?>
+			<?php if ( $mode == 'add' || ( $mode == 'edit' && ( in_array( $field['type'], array( 'timestamp' ) ) ) ) ) { ?>
+			<?php echo ( $mode == 'add' ) ? '<div id="wpmem_date_format">' : ''; ?>
+				<li>
+					<label><?php _e( 'PHP Date Format', 'wp-members' ); ?></label>
+					<input type="text" name="add_timestamp_display" value="<?php echo ( $mode == 'edit' ) ? ( isset( $field['timestamp_display'] ) ? $field['timestamp_display'] : false ) : false; ?>" /> <?php echo $span_optional; ?>
 				</li>
 			<?php echo ( $mode == 'add' ) ? '</div>' : ''; ?>
 			<?php } ?>
@@ -427,7 +436,7 @@ Last Row|last_row<?php } } ?></textarea>
 			if ( is_numeric( $key ) ) {
 				// Adjust for profile @todo - temporary until new array keys.
 				if ( isset( $field['profile'] ) ) {
-					$profile = ( true === $field['profile'] ) ? 'y' : 'n';
+					$profile = ( true == $field['profile'] ) ? 'y' : 'n';
 				} else {
 					$profile = $field[4];
 				}
@@ -660,11 +669,11 @@ Last Row|last_row<?php } } ?></textarea>
 				$native_fields = array( 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name', 'first_name', 'last_name', 'nickname', 'description' );
 				$arr[6] = ( in_array( $us_option, $native_fields ) ) ? 'y' : 'n';
 
-				if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
+				if ( 'text' == $type || 'email' == $type || 'textarea' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type || 'timestamp' == $type ) {
 					$arr['placeholder'] = sanitize_text_field( stripslashes( wpmem_get( 'add_placeholder' ) ) );
 				}
 
-				if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type ) {
+				if ( 'text' == $type || 'email' == $type || 'password' == $type || 'url' == $type || 'number' == $type || 'date' == $type || 'timestamp' == $type ) {
 					$arr['pattern'] = sanitize_text_field( stripslashes( wpmem_get( 'add_pattern' ) ) );
 					$arr['title']   = sanitize_text_field( stripslashes( wpmem_get( 'add_title' ) ) );
 				}
@@ -714,6 +723,10 @@ Last Row|last_row<?php } } ?></textarea>
 				if ( wpmem_get( 'add_type' ) == 'hidden' ) { 
 					$add_field_err_msg = ( ! $_POST['add_hidden_value'] ) ? __( 'A value is required for hidden fields. Nothing was updated.', 'wp-members' ) : $add_field_err_msg;
 					$arr[7] = ( isset( $_POST['add_hidden_value'] ) ) ? sanitize_text_field( stripslashes( $_POST['add_hidden_value'] ) ) : '';
+				}
+
+				if ( 'timestamp' == wpmem_get( 'add_type' ) ) {
+					$arr['timestamp_display'] = sanitize_text_field( wpmem_get( 'add_timestamp_display', 'Y-m-d', 'post' ) );
 				}
 
 				if ( $action == 'add_field' ) {
