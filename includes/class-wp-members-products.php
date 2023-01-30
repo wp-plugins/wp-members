@@ -98,6 +98,9 @@ class WP_Members_Products {
 		add_filter( 'wpmem_product_restricted_msg', array( $this, 'apply_custom_access_message' ), 10, 2 );
 		add_filter( 'wpmem_restricted_msg',         array( $this, 'apply_custom_access_message' ), 10, 4 );
 		add_filter( 'wpmem_email_shortcodes',       array( $this, 'email_shortcodes' ), 10, 3 );
+
+		add_shortcode( 'wpmem_user_memberships',      array( $this, 'sc_show_memberships'       ) );
+		add_shortcode( 'wpmem_user_membership_posts', array( $this, 'sc_sshow_membership_posts' ) );
 	}
 	
 	/**
@@ -414,10 +417,10 @@ class WP_Members_Products {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @global  stdClass  $wpdb
+	 * @global  stdClass      $wpdb
 	 *
-	 * @param   string    $product_meta
-	 * @return  array     $post_ids
+	 * @param   string        $product_meta
+	 * @return  array|boolean $post_ids if not empty, otherwise false
 	 */
 	function get_all_posts( $product_meta ) {
 		global $wpdb;
@@ -429,7 +432,7 @@ class WP_Members_Products {
 		foreach ( $results as $result ) {
 			$post_ids[] = $result[0];
 		}
-		return $post_ids;
+		return ( ! empty( $post_ids ) ) ? $post_ids : false;
 	}
 	
 	/**
@@ -585,5 +588,77 @@ class WP_Members_Products {
 			$shortcodes['memberships'] = $email_memberships;
 		}
 		return $shortcodes;
+	}
+
+	public function sc_show_memberships( $atts, $content, $tag ) {
+
+		$pairs = array(
+			'title_before' => '<h2>',
+			'title_after'  => '</h2>',
+			'title'        => __( 'Memberships', 'wp-members' ),
+			'list_before'  => '<ul>',
+			'list_after'   => '</ul>',
+			'item_before'  => '<li>',
+			'item_after'   => '</li>',
+			'date_format'  => 'default',
+			'no_expire'    => __( 'Does not expire', 'wp-members' ),
+		);
+
+		$args = shortcode_atts( $pairs, $atts, $tag );
+
+		$content  = $args['title_before'] . $args['title'] . $args['title_after'];
+		$content .= $args['list_before'];
+		foreach ( wpmem_get_user_memberships() as $key => $value ) {
+			
+			$exp_date = wpmem_get_user_expiration( $key );
+			if ( $exp_date > 1 ) {
+				$exp_formatted = ( 'default' == $args['date_format'] ) ? wpmem_format_date( $exp_date ) : date( $args['date_format'], $exp_date );
+			} else {
+				$exp_formatted = $args['no_expire'];
+			}
+
+			if ( $value ) {
+				$content .= $args['item_before'] . wpmem_get_membership_name( $key ) . " - " . $exp_formatted . $args['item_after'];
+			}
+		}
+		$content .= $args['list_after'];
+		return $content;
+	}
+
+	public function sc_show_membership_posts( $atts, $content, $tag ) {
+
+		$pairs = array(
+			'title_before' => '<h2>',
+			'title_after'  => '</h2>',
+			'list_before'  => '<ul>',
+			'list_after'   => '</ul>',
+			'item_before'  => '<li>',
+			'item_after'   => '</li>',
+		);
+
+		$args = shortcode_atts( $pairs, $atts, $tag );
+
+		// Go through each membership the user has.
+		foreach ( wpmem_get_user_memberships() as $key => $value ) {
+			
+			// Get a list of content for this membership.
+			$ids = wpmem_get_membership_post_list( $key );
+			
+			if ( $ids ) {
+
+				$title = $args['title_before'] . wpmem_get_membership_name( $key ) . $args['title_after'];
+				$post_list = $args['list_before'];
+				foreach ( $ids as $id ) {
+					$title = get_the_title( $id );
+					$link  = '<a href="' . get_permalink( $id ) . '">' . $title . '</a>';
+					$post_list .= $args['item_before'] . $link . $args['item_after'];
+				}
+				$post_list .= $args['list_after'];
+				
+				$content .= $title . $post_list;
+			}
+		}
+	
+		return $content;
 	}
 }
