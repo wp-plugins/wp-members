@@ -28,7 +28,7 @@ function wpmem_get_product_post_list( $product_key ) {
 }
 
 /**
- * Gets all posts by product key.
+ * Gets all posts by membership key.
  *
  * @since 3.4.5
  *

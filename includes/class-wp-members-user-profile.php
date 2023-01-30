@@ -232,7 +232,7 @@ class WP_Members_User_Profile {
 					$row['row_before'] . 
 						$row['label'] .
 						$row['field_before'] . $row['field'] . $row['field_after'] .
-					$row['field_after'];
+					$row['row_after'];
 
 				/**
 				 * Filter the profile field.
