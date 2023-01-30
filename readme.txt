@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 6.1
-Stable tag: 3.4.5
+Stable tag: 3.4.6
 
 License: GPLv3
 
@@ -141,6 +141,7 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Code improvement in the password reset function for situations where an error may result in an empty user object.
 * Code improvement in REST API filtering of blocked content for situations where there may be additional (i.e. custom) values (such as those created by page builders).
 * Code improvement in hidden posts checking in case the "post__not_in" query_var is not set.
+* Code improvement to make sure required fields are required for the wp user profile, but allowable to be skipped by an admin.
 * Added timestamp field type.
 * Added wpmem_get_membership_id() API function.
 * Added wpmem_get_membership_slug() API function.
@@ -150,6 +151,9 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Added ability to make WooCommerce products not purchaseable.
 * Added wpmem_user_memberships shortcode to display a user's memberships.
 * Added wpmem_user_membership_posts shortcode to display a list of membership restricted posts available to a user.
+* Moved WooCommerce options out of "new feature" settings and expanded options.
+* Added option to add WP-Members fields to the WooCommerce My Account user profile update.
+* Added option to restrict WooCommerce product purchase if the product is set as restricted (requires that WC "product" custom post type be enabled for WP-Members).
 
 = 3.4.6 =
 

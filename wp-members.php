@@ -3,7 +3,7 @@
 Plugin Name: WP-Members
 Plugin URI:  https://rocketgeek.com
 Description: WP access restriction and user registration.  For more information on plugin features, refer to <a href="https://rocketgeek.com/plugins/wp-members/docs/">the online Users Guide</a>. A <a href="https://rocketgeek.com/plugins/wp-members/quick-start-guide/">Quick Start Guide</a> is also available. WP-Members(tm) is a trademark of butlerblog.com.
-Version:     3.4.6 Beta Release Candidate 3
+Version:     3.4.7 Beta Release Candidate 1
 Author:      Chad Butler
 Author URI:  https://butlerblog.com/
 Text Domain: wp-members
