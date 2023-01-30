@@ -74,11 +74,12 @@ class WP_Members_Fields_Table extends WP_List_Table {
 			'type'     => __( 'Field Type',    'wp-members' ),
 			'display'  => '<input name="wpmem_all_fields_display" type="checkbox" id="wpmem_all_fields_display" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Registration', 'wp-members' ), // __( 'Registration',  'wp-members' ), @todo Wait until fix
 			'req'      => '<input name="wpmem_all_fields_required" type="checkbox" id="wpmem_all_fields_required" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'Required',     'wp-members' ),
-			'profile'  => '<input name="wpmem_all_fields_profile" type="checkbox" id="wpmem_all_fields_profile" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Profile',      'wp-members' ),
+			//'profile'  => '<input name="wpmem_all_fields_profile" type="checkbox" id="wpmem_all_fields_profile" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Profile',      'wp-members' ),
 			'userscrn' => '<input name="wpmem_all_fields_uscreen" type="checkbox" id="wpmem_all_fields_uscreen" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Users',        'wp-members' ),
 			'usearch'  => '<input name="wpmem_all_fields_usearch" type="checkbox" id="wpmem_all_fields_usearch" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> '   . __( 'Search',       'wp-members' ),
 		);
 
+		/*
 		if ( wpmem_is_woo_active() ) {
 			if ( wpmem_is_enabled( 'woo/add_checkout_fields' ) ) {
 				$columns['wcchkout'] = '<input name="wpmem_all_fields_wcchkout" type="checkbox" id="wpmem_all_fields_wcchkout" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'WC Chkout', 'wp-members' );
@@ -90,6 +91,7 @@ class WP_Members_Fields_Table extends WP_List_Table {
 				$columns['wcupdate'] = '<input name="wpmem_all_fields_wcupdate" type="checkbox" id="wpmem_all_fields_wcupdate" value="1" data-tooltip="' . __( 'Click to check all', 'wp-members' ) . '"> ' . __( 'WC Update', 'wp-members' );
 			}
 		}
+		*/
 		
 		$columns['edit'] = '';
 
