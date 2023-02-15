@@ -1760,7 +1760,6 @@ class WP_Members_Forms {
 
 							// Add timestamp support.
 							if ( 'timestamp' == $field['type'] ) {
-								rktgk_what_is($field, true);
 								$formfield_args['timestamp_display'] = $field['timestamp_display'];
 							}
 
