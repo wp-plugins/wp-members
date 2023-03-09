@@ -823,11 +823,11 @@ class WP_Members {
 	
 		global $post;
 		
-		$is_post_check = ( false === $post_id ) ? false : true;
+		$is_post_check = ( false == $post_id ) ? false : true;
 		
 		if ( $post || $post_id ) {
 		
-			$the_post = ( false === $post_id ) ? $post : get_post( $post_id );
+			$the_post = ( false == $post_id ) ? $post : get_post( $post_id );
  
 			$meta = wpmem_get_block_setting( $the_post->ID );
 			
