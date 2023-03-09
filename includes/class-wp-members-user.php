@@ -863,8 +863,18 @@ class WP_Members_User {
 					$file_post_id = $wpmem->forms->do_file_upload( $_FILES[ $meta_key ], $user_id );
 					// Save the attachment ID as user meta.
 					update_user_meta( $user_id, $meta_key, $file_post_id );
-					// Add attachement ID to post data array.
+					// Add attachment ID to post data array.
 					$this->post_data[ $meta_key ] = $file_post_id;
+					/**
+					 * User uploaded file.
+					 * 
+					 * @since 3.4.7
+					 * 
+					 * @param int    $user_id
+					 * @param string $meta_key
+					 * @param string $file_post_id
+					 */
+					do_action( 'wpmem_file_uploaded', $user_id, $meta_key, $file_post_id );
 				}
 			}
 		}
