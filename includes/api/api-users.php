@@ -305,35 +305,35 @@ function wpmem_update_user_role( $user_id, $role, $action = 'set' ) {
  * @since 3.2.0
  * @since 3.2.3 Reversed order of arguments.
  *
- * @param  mixed   $product Accepts a single membership slug/meta, or an array of multiple memberships.
- * @param  integer $user_id User ID (optional|default: false).
- * @return boolean $access  True if user has access, otherwise false.
+ * @param  mixed   $membership Accepts a single membership slug/meta, or an array of multiple memberships.
+ * @param  integer $user_id    User ID (optional|default: false).
+ * @return boolean $access     True if user has access, otherwise false.
  */
-function wpmem_user_has_access( $product, $user_id = false ) {
+function wpmem_user_has_access( $membership, $user_id = false ) {
 	global $wpmem;
 	$user_id = ( false == $user_id ) ? get_current_user_id() : $user_id;
-	return $wpmem->user->has_access( $product, $user_id );
+	return $wpmem->user->has_access( $membership, $user_id );
 }
 
 /**
  * Checks if user expiration is current.
  *
  * Similar to wpmem_user_has_access(), but specifically checks the
- * expiration date for a specified product (must be expiration product).
+ * expiration date for a specified membership (must be expiration product).
  * 
  * Must be named _user_is_current() as _is_user_current() exists in PayPal extension.
  *
  * @since 3.4.0
  *
- * @param  string  $product
- * @param  integer $user_id
- * @return boolean
+ * @param  string  $membership  The meta key of the 
+ * @param  integer $user_id     The user ID to check. Optional. If not passed, the currently logged in user will be checked.
+ * @return boolean              True if user is current (i.e. not expired), otherwise false.
  */
-function wpmem_user_is_current( $product, $user_id = false ) {
+function wpmem_user_is_current( $membership, $user_id = false ) {
 	global $wpmem;
 	$user_id = ( false === $user_id ) ? get_current_user_id() : $user_id;
-	$memberships = wpmem_get_user_products( $user_id );
-	return ( $wpmem->user->is_current( $memberships[ $product ] ) ) ? true : false;
+	$memberships = wpmem_get_user_memberships( $user_id );
+	return ( $wpmem->user->is_current( $memberships[ $membership ] ) ) ? true : false;
 }
 
 /**

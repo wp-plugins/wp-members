@@ -100,7 +100,7 @@ class WP_Members_Products {
 		add_filter( 'wpmem_email_shortcodes',       array( $this, 'email_shortcodes' ), 10, 3 );
 
 		add_shortcode( 'wpmem_user_memberships',      array( $this, 'sc_show_memberships'       ) );
-		add_shortcode( 'wpmem_user_membership_posts', array( $this, 'sc_sshow_membership_posts' ) );
+		add_shortcode( 'wpmem_user_membership_posts', array( $this, 'sc_show_membership_posts' ) );
 	}
 	
 	/**

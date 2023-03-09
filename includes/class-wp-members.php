@@ -856,7 +856,7 @@ class WP_Members {
 			 * @since 3.3.0 Passes $defaults, second argument deprecated.
 			 *
 			 * @param array $args     $defaults.
-			 * @param array $defaults Deprecated 3.3.0.
+			 * @param array $defaults Deprecated 3.3.0. @todo Obsolete in 3.5.0
 			 */
 			$args = apply_filters( 'wpmem_block_args', $defaults, $defaults );
 	
@@ -1027,7 +1027,7 @@ class WP_Members {
 	 * Securifies the comments.
 	 *
 	 * If the user is not logged in and the content is blocked
-	 * (i.e. wpmem->is_blocked() returns true), function loads a
+	 * (i.e. $wpmem->is_blocked() returns true), function loads a
 	 * dummy/empty comments template.
 	 *
 	 * @since 2.9.9
@@ -1072,6 +1072,7 @@ class WP_Members {
 	 * @return array $comments The comments array.
 	 */
 	function do_securify_comments_array( $comments , $post_id ) {
+		// @todo This logic is checked in do_securify_comments() before the filter is added. Is it needed here?
 		$comments = ( ! is_user_logged_in() && wpmem_is_blocked( $post_id ) ) ? array() : $comments;
 		return $comments;
 	}

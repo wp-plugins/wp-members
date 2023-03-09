@@ -1090,8 +1090,9 @@ class WP_Members_User {
 	 *
 	 * @global object $wpmem
 	 *
-	 * @param  int    $user_id
-	 * @return array  $products {
+	 * @param  int      $user_id
+	 * @param  stdClass $obj
+	 * @return array    $products {
 	 *     Memberships the user has as an array keyed by the membership slug.
 	 *     Memberships the user does not have enabled are not in the array.
 	 *     If a memberships is an expiration product, the expiration is the  

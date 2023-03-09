@@ -2,6 +2,9 @@
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
+	/**
+	 * Manage WP-Members via WP-CLI
+	 */
 	class WP_Members_CLI {
 
 		public function __construct() {}
