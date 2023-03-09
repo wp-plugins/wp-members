@@ -128,7 +128,7 @@
 #updatesettings a {
 	text-decoration:none;
 }
-updatesettings a:hover {
+#updatesettings a:hover {
 	color: black;
 }
 
