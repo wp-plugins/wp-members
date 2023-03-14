@@ -23,8 +23,7 @@ class WP_Members_Pwd_Reset {
 	 *
 	 * @since 3.3.5
 	 */
-	public $reset_key_nonce = "_wpmem_pwd_reset";
-	public $form_action     = 'set_password_from_key';
+	public $action = 'set_password_from_key';
 	
 	/**
 	 * Initialize the class.
@@ -61,29 +60,24 @@ class WP_Members_Pwd_Reset {
 	}
 
 	function handle_reset() {
-		global $wpmem;
-		
-		if ( ! is_user_logged_in() && $this->form_action == wpmem_get( 'a', false, 'request' ) && ! is_admin() ) {
-			// Define variables
-			$result  = false;
-			$user_id = false;
-			$msg     = '';
-			$form    = '';
+	
+		// User has to be not logged in and action needs to be 'set_password_from_key'
+		if ( ! is_user_logged_in() && $this->action == wpmem_get( 'a', false, 'request' ) && ! is_admin() ) {
 			
-			// Check for key.
 			$key   = sanitize_text_field( wpmem_get( 'key',   false, 'request' ) );
 			$login = sanitize_text_field( wpmem_get( 'login', false, 'request' ) );
 			$pass1 = wpmem_get( 'pass1', false );
-			$pass2 = wpmem_get( 'pass2', false );
+			
+			$form_submitted = ( 1 == wpmem_get( 'formsubmit' ) && $this->action == wpmem_get( 'a', false ) ) ? true : false;
+
+			// Set an error container.
+			$errors = new WP_Error();
 
 			// Check the user. get_user_by() will return false if user_login does not exist.
 			$is_user = get_user_by( 'login', $login );
 			if ( false == $is_user ) {
-				$this->content = $this->error_msg( 'invalid_user', $this->invalid_user );
+				$errors->add( 'invalid_user', $this->error_msg( 'invalid_user', $this->invalid_user ) );
 			}
-
-			// Set an error container.
-			$errors = new WP_Error();
 
 			/**
 			 * Validate the key.
@@ -104,49 +98,58 @@ class WP_Members_Pwd_Reset {
 			$user = check_password_reset_key( $key, $login );
 
 			if ( $user->has_errors() ) {
-				$this->content = $this->error_msg( 'invalid_key', $this->invalid_key );
 				$errors->add( 'invalid_key', $this->error_msg( 'invalid_key', $this->invalid_key ) );
 			}
 	
-			// Validate
-			if ( 1 == wpmem_get( 'formsubmit' ) && false !== wpmem_get( 'a', false, $this->form_action ) ) {
+			// If the password change form was submitted, validate the result.
+			if ( $form_submitted ) {
 				
 				// Verify nonce.
 				if ( ! wp_verify_nonce( $_REQUEST['_wpmem_pwdchange_nonce'], 'wpmem_shortform_nonce' ) ) {
-					$errors->add( 'reg_generic', wpmem_get_text( 'reg_generic' ) );
+					$errors->add( 'reg_generic', $this->error_msg( 'reg_generic', wpmem_get_text( 'reg_generic' ) ) );
+				}
+
+				// Can't have an empty pass1.
+				if ( '' == $pass1 || false == $pass1 ) {
+					$errors->add( 'password_empty', $this->error_msg( 'password_empty', wpmem_get_text( 'pwdchangempty' ) ) );
 				}
 				
-				// Make sure submitted passwords match.
-				if ( $pass1 !== $pass2 ) {
-					// Legacy WP-Members error.
-					$result = 'pwdchangerr';
-					$msg = wpmem_get_display_message( 'pwdchangerr' );
-					// WP Error.
-					$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+				// Make sure submitted passwords match.  
+				if ( $pass1 != wpmem_get( 'pass2', false ) ) {
+					$errors->add( 'password_reset_mismatch', $this->error_msg( 'password_reset_mismatch', wpmem_get_text( 'pwdchangerr' ) ) );
 				}
 				
 				/** This action is documented in wp-login.php */
 				// do_action( 'validate_password_reset', $errors, $user );
+			}
 
-				if ( ( ! $errors->has_errors() ) && isset( $pass1 ) && ! empty( $pass1 ) ) {			
+			/**
+			 * Filter validation result.
+			 * 
+			 * @since 3.4.7
+			 * 
+			 * @param  stdClass  $errors
+			 * @param  stdClass  $user
+			 * @param  boolean   $form_submitted
+			 */
+			$errors = apply_filters( 'wpmem_validate_password_reset', $errors, $user, $form_submitted );
+
+			// If form was submitted.
+			if ( $form_submitted ) {
+				if ( ! $errors->has_errors() ) {
 					reset_password( $user, $pass1 );
-					$msg = wpmem_get_display_message( 'pwdchangesuccess' ) . wpmem_login_form( 'pwdreset' );
-					$result = 'pwdchangesuccess';
-				}
-			}
-			
-			if ( $result != 'pwdchangesuccess' ) {
-
-				if ( 'invalid_key' == $user->get_error_code() ) {
-					// If somehow the form was submitted but the key not found.
-					$this->content = $this->error_msg( 'invalid_key', $this->invalid_key );
+					$this->content = wpmem_get_display_message( 'pwdchangesuccess', $this->error_msg( 'pwdchangesuccess' ) ) . wpmem_login_form( 'pwdreset' );
 				} else {
-					$form = wpmem_change_password_form();
+					$this->content = $errors->get_error_message() .  wpmem_change_password_form();
 				}
-				
+			} else {
+				// Password change form has not been submitted yet.
+				if ( ! $errors->has_errors() ) {
+					$this->content = wpmem_change_password_form();
+				} else {
+					$this->content = $errors->get_error_message();
+				}
 			}
-			
-			$this->content = $msg . $form;
 		}
 	}
 
@@ -169,7 +172,7 @@ class WP_Members_Pwd_Reset {
 			// Get the stored key.
 			$key = get_password_reset_key( $user );
 			$query_args = array(
-				'a'     => $this->form_action,
+				'a'     => $this->action,
 				'key'   => $key,
 				'login' => $user->user_login,
 			);
@@ -216,8 +219,12 @@ class WP_Members_Pwd_Reset {
 	}
 
 	
-	function error_msg( $code, $message ) {
-		$error = wpmem_get_display_message( $code, $message . '<br /><a href="' . wpmem_profile_url( 'pwdreset' ) . '">' . $this->request_new_key . '</a>' );
+	function error_msg( $code, $message = false ) {
+		if ( $message ) {
+			$error = wpmem_get_display_message( $code, $message . '<br /><a href="' . wpmem_profile_url( 'pwdreset' ) . '">' . $this->request_new_key . '</a>' );
+		} else {
+			$error = wpmem_get_display_message( $code );
+		}
 		/**
 		 * Filters the password reset error message.
 		 * 

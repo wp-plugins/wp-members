@@ -174,11 +174,13 @@ function wpmem_get_membership_meta( $membership_slug ) {
  * Adds a membership to a post.
  * 
  * @since 3.4.6
+ * @since 3.4.7 Added $action param
  * 
  * @param  string  $membership_meta
  * @param  int     $post_id
+ * @param  string         $action          Action to run (add|remove default:add)
  */
-function wpmem_add_membership_to_post( $membership_meta, $post_id ) {
+function wpmem_add_membership_to_post( $membership_meta, $post_id, $action = 'add' ) {
 	// Handle single or array.
 	if ( is_array( $membership_meta ) ) {
 		$products = wpmem_sanitize_array( $membership_meta );
@@ -198,21 +200,54 @@ function wpmem_add_membership_to_post( $membership_meta, $post_id ) {
 }
 
 /**
+ * Removes a membership from a post.
+ * 
+ * @since 3.4.7
+ * 
+ * @param  string  $membership_meta
+ * @param  int     $post_id
+ */
+function wpmem_remove_membership_from_post( $membership_meta, $post_id ) {
+	wpmem_add_membership_to_post( $membership_meta, $post_id, 'remove' );
+}
+
+/**
  * Adds a membership to an array of post IDs.
  * 
  * @since 3.4.6
+ * @since 3.4.7 Added $action param
+ * 
+ * @param  string         $membership_meta
+ * @param  string|array   $post_ids
+ * @param  string         $action          Action to run (add|remove default:add)
+ */
+function wpmem_add_membership_to_posts( $membership_meta, $post_ids, $action = 'add' ) {
+	// Make sure $post_ids is an array (prepare comma separated values)
+	$posts_array = ( ! is_array( $post_ids ) ) ? explode( ",", $post_ids ) : $post_ids;
+	
+	if ( 'remove' == $action ) {
+		// Run wpmem_remove_membership_from_post() for each ID.
+		foreach ( $posts_array as $ID ) {
+			wpmem_remove_membership_from_post( $membership_meta, $ID );
+		}
+	} else {
+		// Run wpmem_add_membership_to_post() for each ID.
+		foreach ( $posts_array as $ID ) {
+			wpmem_add_membership_to_post( $membership_meta, $ID );
+		}
+	}
+}
+
+/**
+ * Removes a membership from an array of post IDs.
+ * 
+ * @since 3.4.7
  * 
  * @param  string         $membership_meta
  * @param  string|array   $post_ids
  */
-function wpmem_add_membership_to_posts( $membership_meta, $post_ids ) {
-	// Make sure $post_ids is an array (prepare comma separated values)
-	$posts_array = ( ! is_array( $post_ids ) ) ? explode( ",", $post_ids ) : $post_ids;
-	
-	// Run wpmem_add_membership_to_post() for each ID.
-	foreach ( $posts_array as $ID ) {
-		wpmem_add_membership_to_post( $membership_meta, $ID );
-	}
+function wpmem_remove_membership_from_posts( $membership_meta, $post_ids ) {
+	wpmem_add_membership_to_posts( $membership_meta, $post_ids, 'remove' );
 }
 
 /**
