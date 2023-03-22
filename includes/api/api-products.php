@@ -178,24 +178,40 @@ function wpmem_get_membership_meta( $membership_slug ) {
  * 
  * @param  string  $membership_meta
  * @param  int     $post_id
- * @param  string         $action          Action to run (add|remove default:add)
+ * @param  string  $action          Action to run (add|remove default:add)
  */
 function wpmem_add_membership_to_post( $membership_meta, $post_id, $action = 'add' ) {
-	// Handle single or array.
-	if ( is_array( $membership_meta ) ) {
-		$products = wpmem_sanitize_array( $membership_meta );
+
+	global $wpmem;
+	
+	// Get existing post meta.
+	$post_memberships = get_post_meta( $post_id, $wpmem->membership->post_meta, true );
+
+	if ( 'remove' == $action ) {
+		// If we are removing, remove the meta key from the array.
+		if ( is_array( $post_memberships ) ) {
+			if ( ( $key = array_search( $membership_meta, $post_memberships ) ) !== false ) {
+				unset( $post_memberships[ $key ] );
+			}
+		}
 	} else {
-		$products = array( $membership_meta );
+		// If the post has membership restrictions already, add new membership requirement.
+		if ( is_array( $post_memberships ) ) {
+			if ( ! in_array( $membership_meta, $post_memberships ) ) {
+				$post_memberships[] = $membership_meta;
+			}
+		} else {
+			$post_memberships = array( $membership_meta );
+		}
 	}
 
 	// Update post meta with restriction info.
-	update_post_meta( $post_id, $membership_meta, $products );
+	update_post_meta( $post_id, $wpmem->membership->post_meta, $post_memberships );
 
-	// Set meta for each individual membership.
-	foreach ( wpmem_get_memberships() as $key => $value ) {
-		if ( in_array( $key, $products ) ) {
-			update_post_meta( $post_id, wpmem_get_membership_meta( $key ), 1 );
-		}
+	if ( 'remove' == $action ) {
+		delete_post_meta( $post_id, wpmem_get_membership_meta( $membership_meta ) );
+	} else {
+		update_post_meta( $post_id, wpmem_get_membership_meta( $membership_meta ), 1 );
 	}
 }
 

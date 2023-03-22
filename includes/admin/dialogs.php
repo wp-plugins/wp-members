@@ -12,14 +12,6 @@
  * @package WP-Members
  * @author Chad Butler
  * @copyright 2006-2022
- *
- * Functions included:
- * - wpmem_a_do_warnings
- * - wpmem_a_warning_msg
- * - wpmem_a_meta_box
- * - wpmem_a_rss_box
- * - butlerblog_dashboard_widget
- * - butlerblog_feed_output
  */
 
 // Exit if accessed directly.
@@ -47,37 +39,33 @@ function wpmem_a_do_warnings( $did_update ) {
 	}
 
 	/*
-	 * Warning messages
+	 * Configuration warnings.
  	 */
 
 	// Are warnings turned off?
 	$warnings_on = ( $wpmem->warnings == 0 ) ? true : false;
 	
 	// Is there an active warning?
-	$warning_active = false;
+	$active_warnings = array();
 
 	// Settings allow anyone to register.
 	if ( get_option( 'users_can_register' ) != 0 && $warnings_on ) {
-		wpmem_a_warning_msg( 'users_can_register' );
-		$warning_active = true;
+		$active_warnings[] = wpmem_a_warning_msg( 'users_can_register' );
 	}
 
 	// Settings allow anyone to comment.
 	if ( get_option( 'comment_registration' ) !=1 && $warnings_on ) {
-		wpmem_a_warning_msg( 'comment_registration' );
-		$warning_active = true;
+		$active_warnings[] = wpmem_a_warning_msg( 'comment_registration' );
 	}
 
 	// Rss set to full text feeds.
 	if ( get_option( 'rss_use_excerpt' ) !=1 && $warnings_on ) {
-		wpmem_a_warning_msg( 'rss_use_excerpt' );
-		$warning_active = true;
+		$active_warnings[] = wpmem_a_warning_msg( 'rss_use_excerpt' );
 	}
 
 	// Holding registrations but haven't changed default successful registration message.
 	if ( $warnings_on && $wpmem->mod_reg == 1 && $dialogs['success'] == wpmem_get_text( 'success' ) ) {
-		wpmem_a_warning_msg( 'success' );
-		$warning_active = true;
+		$active_warnings[] = wpmem_a_warning_msg( 'success' );
 	}
 
 	// Haven't entered recaptcha api keys.
@@ -85,15 +73,22 @@ function wpmem_a_do_warnings( $did_update ) {
 		$wpmem_captcha = get_option( 'wpmembers_captcha' );
 		if ( 1 == $wpmem->captcha || 3 == $wpmem->captcha ) {
 			if ( ! $wpmem_captcha['recaptcha']['public'] || ! $wpmem_captcha['recaptcha']['private'] ) {
-				wpmem_a_warning_msg( 'wpmembers_captcha' );
-				$warning_active = true;
+				$active_warnings[] = wpmem_a_warning_msg( 'wpmembers_captcha' );
 			}
 		}
 	}
 	
 	// If there is an active warning, display message about warnings.
-	if ( $warning_active ) {
-		wpmem_a_warning_msg( 'warning_active' );
+	if ( ! empty( $active_warnings ) ) {
+		$strong_msg = __( 'WP-Members Options', 'wp-members' ) . ': ' . __( 'You have active settings that are not recommended.', 'wp-members' );
+		$remain_msg = __( 'If you will not be changing these settings, you can turn off this warning message by checking the "Ignore warning messages" in the settings below.', 'wp-members' );
+
+		echo '<div class="error"><p><strong>' . $strong_msg . '</strong></p><ul style="list-style:initial; margin:5px 20px">';
+		foreach ( $active_warnings as $warning ) {
+			echo $warning;
+		}
+		echo '</ul>';
+		echo '<p>' . $remain_msg  . '</p></div>';
 	}
 
 }
@@ -115,19 +110,19 @@ function wpmem_a_warning_msg( $msg ) {
 
 	case 'users_can_register':
 		$strong_msg = __( 'Your WP settings allow anyone to register - this is not the recommended setting.', 'wp-members' );
-		$remain_msg = sprintf( __( 'You can %s change this here %s making sure the box next to "Anyone can register" is unchecked.', 'wp-members'), '<a href="options-general.php">', '</a>' );
+		$remain_msg = sprintf( __( 'You can %s change this here %s making sure the box next to "Anyone can register" is unchecked.', 'wp-members'), '<a href="options-general.php" target="_blank">', '</a>' );
 		$span_msg   = __( 'If you do not want users to register through wp-login.php, uncheck this option.', 'wp-members' );
 		break;
 
 	case 'comment_registration':
 		$strong_msg = __( 'Your WP settings allow anyone to comment - this is not the recommended setting.', 'wp-members' );
-		$remain_msg = sprintf( __( 'You can %s change this here %s by checking the box next to "Users must be registered and logged in to comment."', 'wp-members' ), '<a href="options-discussion.php">', '</a>' );
+		$remain_msg = sprintf( __( 'You can %s change this here %s by checking the box next to "Users must be registered and logged in to comment."', 'wp-members' ), '<a href="options-discussion.php" target="_blank">', '</a>' );
 		$span_msg   = __( 'If you do not want non-registered users to comment, change this setting.', 'wp-members' );
 		break;
 
 	case 'rss_use_excerpt':
 		$strong_msg = __( 'Your WP settings allow full text rss feeds - this is not the recommended setting.', 'wp-members' );
-		$remain_msg = sprintf( __( 'You can %s change this here %s by changing "For each article in a feed, show" to "Summary."', 'wp-members' ), '<a href="options-reading.php">' , '</a>' );
+		$remain_msg = sprintf( __( 'You can %s change this here %s by changing "For each article in a feed, show" to "Summary."', 'wp-members' ), '<a href="options-reading.php" target="_blank">' , '</a>' );
 		$span_msg   = __( 'Full text feeds allow your protected content in an RSS reader.', 'wp-members' );
 		break;
 
@@ -140,18 +135,14 @@ function wpmem_a_warning_msg( $msg ) {
 		$strong_msg = __( 'You have turned on reCAPTCHA', 'wp-members');
 		$remain_msg = __( 'but you have not entered API keys.  You will need both a public and private key.  The CAPTCHA will not display unless a valid API key is included.', 'wp-members' );
 		break;
-		
-	case 'warning_active':
-		$strong_msg = __( 'You have active settings that are not recommended.', 'wp-members' );
-		$remain_msg = __( 'If you will not be changing these settings, you can turn off these warning messages by checking the "Ignore warning messages" in the settings below.', 'wp-members' );
-		break;
 
 	}
 
 	if ( $span_msg ) {
 		$span_msg = ' [<span data-tooltip="' . $span_msg . '">why is this?</span>]';
 	}
-	echo '<div class="error"><p><strong>' . $strong_msg . '</strong> ' . $remain_msg . $span_msg . '</p></div>';
+	
+	return '<li><strong>' . $strong_msg . '</strong> ' . $remain_msg . $span_msg . '</li>';
 
 }
 

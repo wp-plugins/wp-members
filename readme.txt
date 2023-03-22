@@ -154,6 +154,8 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Moved WooCommerce options out of "new feature" settings and expanded options.
 * Added option to add WP-Members fields to the WooCommerce My Account user profile update.
 * Added option to restrict WooCommerce product purchase if the product is set as restricted (requires that WC "product" custom post type be enabled for WP-Members).
+* Fix bug in wpmem_add_membership_to_post().
+* Added wpmem_remove_membership_from_post() to the API.
 
 = 3.4.6 =
 

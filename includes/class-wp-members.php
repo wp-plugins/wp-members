@@ -916,14 +916,13 @@ class WP_Members {
 	 * @since 3.0.0
 	 *
 	 * @global object $post         The WordPress Post object.
-	 * @global object $wpmem        The WP_Members object.
 	 * @global string $wpmem_themsg Contains messages to be output.
 	 * @param  string $content
 	 * @return string $content
 	 */
 	function do_securify( $content = null ) {
 
-		global $post, $wpmem, $wpmem_themsg;
+		global $post, $wpmem_themsg;
 		
 		$orig_content = $content;
 
