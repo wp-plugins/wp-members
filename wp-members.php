@@ -12,7 +12,7 @@ License:     GPLv3
 */
 
 /*  
-	Copyright (c) 2006-2022  Chad Butler
+	Copyright (c) 2006-2023  Chad Butler
 
 	The name WP-Members(tm) is a trademark of butlerblog.com
 
