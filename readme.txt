@@ -3,7 +3,7 @@ Contributors: cbutlerjr
 Tags: access, authentication, content, login, member, membership, password, protect, register, registration, restriction, subscriber
 Requires at least: 4.0
 Tested up to: 6.1
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 
 License: GPLv3
 
@@ -142,6 +142,7 @@ WP-Members 3.4.4 is a minor update. 3.4.4.2 is a compatibility release for users
 * Code improvement in REST API filtering of blocked content for situations where there may be additional (i.e. custom) values (such as those created by page builders).
 * Code improvement in hidden posts checking in case the "post__not_in" query_var is not set.
 * Code improvement to make sure required fields are required for the wp user profile, but allowable to be skipped by an admin.
+* Code improvement to make sure all object variables are declared for php 8.2.
 * Added timestamp field type.
 * Added wpmem_get_membership_id() API function.
 * Added wpmem_get_membership_slug() API function.
