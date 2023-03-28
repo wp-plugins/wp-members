@@ -530,6 +530,7 @@ class WP_Members_Admin_Tab_Options {
 					'add_checkout_fields'   => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_checkout_fields',   0 ), 'int' ),
 					'add_my_account_fields' => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_my_account_fields', 0 ), 'int' ),
 					'add_update_fields'     => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_woo_update_fields',     0 ), 'int' ),
+					'product_restrict'      => wpmem_sanitize_field( wpmem_get( 'wpmem_settings_add_restrict_woo_products', 0 ), 'int' ),
 				),
 				'cssurl'       => ( $cssurl ) ? $cssurl : '',
 				'select_style' => $wpmem_settings_style,
