@@ -3,6 +3,23 @@
 if ( ! class_exists( 'RocketGeek_Onboarding_Beta' ) ) :
 class RocketGeek_Onboarding_Beta {
 
+    public $settings;
+    public $page_title;
+    public $menu_title;
+    public $capability;
+    public $menu_slug;
+    public $product_slug;
+    public $product_file;
+    public $product_action;
+    public $product_type;
+    public $opt_in_callback;
+    public $opt_in_callback_args;
+    public $install_state_option;
+	public $finalize_template;
+	public $notice_template;
+	public $new_install_notice_args;
+	public $update_pending_notice_args;
+
     public function __construct( $settings ) {
         $this->settings = $settings;
 

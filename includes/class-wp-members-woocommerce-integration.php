@@ -1,10 +1,15 @@
 <?php
 class WP_Members_WooCommerce_Integration {
 
+    public $add_my_account_fields;
+    public $add_checkout_fields;
+    public $add_update_fields;
+    public $product_restrict;
+
     public function __construct( $wpmem ) {
 
         foreach ( $wpmem->woo as $key => $value ) {
-            $this->$key = $value;
+            $this->{$key} = $value;
         }
 
         // Handle "My Account" page registration.

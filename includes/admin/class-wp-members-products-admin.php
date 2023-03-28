@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WP_Members_Products_Admin {
 
+	public $default_products;
+
 	/**
 	 * Class constructor.
 	 *

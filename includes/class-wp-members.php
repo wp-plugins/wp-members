@@ -278,6 +278,34 @@ class WP_Members {
 	 * @var    string
 	 */
 	public $select_style;
+
+	/**
+	 * Container for the CSS URL.
+	 * 
+	 * @since  Unknown
+	 * @access public
+	 * @var    string
+	 */
+	public $cssurl;
+
+	/**
+	 * The attribution setting.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var string
+	 */
+	public $attrib;
+
+	/**
+	 * Container for form tags.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var array
+	 * @todo verify @var
+	 */
+	public $form_tags;
 	
 	/**
 	 * Container for dropin folder location.
@@ -299,8 +327,8 @@ class WP_Members {
 
 	/**
 	 * Temporary setting for activation link.
-	 * Will default to 0 until 3.4.0, then 1 until 3.5.0
-	 * at which point we'll remove the old process.
+	 * 
+	 * @todo Will default to 0 until 3.4.0, then 1 until 3.5.0 at which point we'll remove the old process.
 	 *
 	 * @since 3.3.5
 	 * @access public
@@ -310,8 +338,8 @@ class WP_Members {
 	
 	/**
 	 * Temporary setting for password reset.
-	 * Will default to 0 until 3.4.0, then 1 until 3.5.0
-	 * at which point we'll remove the old process.
+	 * 
+	 * @todo Will default to 0 until 3.4.0, then 1 until 3.5.0 at which point we'll remove the old process.
 	 *
 	 * @since 3.3.5
 	 * @access public
@@ -320,8 +348,9 @@ class WP_Members {
 	public $pwd_link = 1;
 	
 	/**
-	 * Temporary settings for login errors.
-	 * Will default to 0 until 3.4.0.
+	 * Setting for login error option.
+	 * 
+	 * @todo Will be deprecated in 3.5.0 when the WP login error is the only error.
 	 *
 	 * @since 3.3.5
 	 * @access public
@@ -344,7 +373,150 @@ class WP_Members {
 	 * @since 3.4.2
 	 */
 	public $optin;
+
+	/**
+	 * Container for WooCommerce-specific settings.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var array
+	 */
+	public $woo;
+
+	/**
+	 * The forms object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $forms;
+
+	/**
+	 * The fields object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $fields;
+
+	/**
+	 * The API object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $api;
+
+	/**
+	 * The shortcodes object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $shortcodes;
+
+	/**
+	 * The membership object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $membership;
 	
+	/**
+	 * The email object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $email;
+
+	/**
+	 * The user object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $user;
+
+	/**
+	 * The menus object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $menus;
+
+	/**
+	 * The dialogs object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $dialogs;
+
+	/**
+	 * The clone menus object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $menus_clone;
+
+	/**
+	 * The password reset object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $pwd_reset;
+
+	/**
+	 * The new account email activation object.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $act_newreg;
+
+	/**
+	 * The admin object class.
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $admin;
+
+	/**
+	 * Objects for premium extensions.
+	 * 
+	 * @access public
+	 * @var    object
+	 */
+	public $advanced;
+	public $downloads;
+	public $editor;
+	public $invite_codes;
+	public $mailchimp;
+	public $salesforce;
+	public $security;
+	public $stop_spam;
+	public $usertrack;
+	public $user_list;
+
 	/**
 	 * Plugin initialization function.
 	 *

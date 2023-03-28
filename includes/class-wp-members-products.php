@@ -46,6 +46,15 @@ class WP_Members_Products {
 	public $post_stem = '_wpmem_products_';
 
 	/**
+	 * The admin object. 
+	 * 
+	 * @since Unknown
+	 * @access public
+	 * @var object
+	 */
+	public $admin;
+	
+	/**
 	 * Product details.
 	 *
 	 * @since  3.2.0

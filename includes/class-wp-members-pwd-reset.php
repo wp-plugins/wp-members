@@ -15,6 +15,7 @@ class WP_Members_Pwd_Reset {
 	public  $invalid_key;
 	public  $invalid_user;
 	public  $key_is_expired;
+	public  $request_new_key;
 	private $reset_key;
 	public  $content = false;
 	

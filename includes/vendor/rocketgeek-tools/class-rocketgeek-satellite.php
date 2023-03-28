@@ -2,11 +2,15 @@
 if ( ! class_exists( 'RocketGeek_Satellite_Beta' ) ) :
 class RocketGeek_Satellite_Beta {
 
-	var $version = "1.0.2";
-	var $api_domain = 'https://rocketgeek.com';
-	var $theme_fields  = array( 'Name','URI','Author','AuthorURI','Version' );
-	var $plugin_fields = array( 'Name','URI','Author','AuthorURI','Version','RequiresWP','RequiresPHP' );
-	
+	public $version = "1.0.3";
+	public $api_domain = 'https://rocketgeek.com';
+	public $theme_fields  = array( 'Name','URI','Author','AuthorURI','Version' );
+	public $plugin_fields = array( 'Name','URI','Author','AuthorURI','Version','RequiresWP','RequiresPHP' );
+	public $slug;
+	public $type;
+	public $url;
+	public $product_version;
+
 	public function __construct( $slug, $product_file, $action, $type ) {
 		$this->slug = $slug;
 		$this->type = $type;
